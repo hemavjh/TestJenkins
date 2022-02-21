@@ -164,12 +164,17 @@ PatientApproval.controller("PatientApprovalController", ['$scope', '$http', '$ro
         };
 
         $scope.splitMobileNumber = function (string, nb) {
-            var array = string.split('~');
-            var cc = array[0];
-            var number = array[1];
-            var mNumber = typeof (number) == "undefined" ? string : number;
-            //return array[nb];
-            return mNumber;
+            if (string != null) {
+                var array = string.split('~');
+                var cc = array[0];
+                var number;
+                if (array.length > 1) {
+                    number = array[1];
+                }
+                var mNumber = typeof (number) == "undefined" ? string : number;
+                //return array[nb];
+                return mNumber;
+            }
         }
 
         $scope.searchquery = "";

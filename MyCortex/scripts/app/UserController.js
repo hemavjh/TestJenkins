@@ -142,6 +142,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.filter_Email2 = "";
         $scope.filter_MOBILE_NO2 = "";
         $scope.Filter_MRN2 = "";
+        $scope.filter_SearchFieldId = "0";
         $scope.Filter_PatientNo = "";
         $scope.Filter_FirstName = "";
         $scope.Filter_LastName = "";
@@ -151,7 +152,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.filter_HomePhoneNo = "";
         $scope.filter_Email = "";
         $scope.Filter_GenderId = "0";
-        $scope.filter_NationalityId = "0";
+        $scope.filter_NationalityId = "";
         $scope.filter_EthinicGroupId = "0";
         $scope.filter_MaritalStatus = "0";
         $scope.filter_CountryId = "0";
@@ -675,6 +676,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         reader1.onload = function (e) {
                             $scope.uploadmes = e.target.result;
                             $scope.uploadme1 = $scope.uploadmes;
+                            $scope.uploadme2 = $scope.uploadmes;
                             $scope.$apply();
                         };
                     };
@@ -690,7 +692,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $scope.uploadmes = e.target.result;
                             $scope.uploadme = $scope.uploadmes;
                            // $scope.uploadme1 = $scope.uploadmes;
-                            $scope.uploadme2 = $scope.uploadmes;
+                            //$scope.uploadme2 = $scope.uploadmes;
                             $scope.$apply();
                         };
                     };
@@ -1387,7 +1389,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $scope.inputPageNo = PageNo;
 
             $scope.current_page = PageNo;
-            if ($scope.Patientsearchquery == "" && $scope.Filter_PatientNo == "" && $scope.filter_InsuranceId == "" && $scope.filter_NationalityId == "0" && $scope.filter_MOBILE_NO == "" && $scope.filter_Email == "" && $scope.Filter_FirstName == "" && $scope.Filter_LastName == "" && $scope.Filter_MRN == "") {
+            if ($scope.Patientsearchquery == "" && $scope.Filter_PatientNo == "" && $scope.filter_InsuranceId == "" && $scope.filter_NationalityId == "" && $scope.filter_MOBILE_NO == "" && $scope.filter_Email == "" && $scope.Filter_FirstName == "" && $scope.Filter_LastName == "" && $scope.Filter_MRN == "") {
                 $scope.Patient_List(3);
             }
             else {
@@ -3334,7 +3336,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $("#chatLoaderPV").show();
                     $scope.PhotoFullpath = $('#item-img-output').attr('src');
                     $scope.NationalPhotoFullpath = $('#item-img-output1').attr('src');
-                    $scope.InsurancePhotoFullpath = $('#item-img-output2').attr('src');
+                    $scope.InsurancePhotoFullpath = $('#item-img-output1').attr('src'); //$('#item-img-output2').attr('src');
                     $scope.UserInstitutionDetails_List = [];
                     angular.forEach($scope.SelectedInstitution, function (value, index) {
                         var Institutionobj = {
@@ -4479,7 +4481,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.Filter_PatientNo = "";
             $scope.filter_InsuranceId = "";
             $scope.Filter_GenderId = "0";
-            $scope.filter_NationalityId = "0";
+            $scope.filter_NationalityId = "";
             $scope.filter_SearchFieldId = "0";
             $scope.filter_EthinicGroupId = "0";
             $scope.filter_MOBILE_NO = "";
