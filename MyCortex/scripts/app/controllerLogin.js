@@ -9,21 +9,21 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
     var baseUrl = $("base").first().attr("href");
 
     $routeProvider.
-    when('/login', {
-        templateUrl: baseUrl + 'Login/Views/Login.html',
-        controller: 'LoginController'
-    }).
-    when('/signup/:InstitutionCode', {
-        templateUrl: baseUrl + 'Login/Views/Signup.html',
-        controller: 'SignupController'
-    }).
-    when('/ChangePassword/:no/:Id/:str/:pwd', {
-        templateUrl: baseUrl + 'Login/Views/ChangePassword.html',
-        controller: 'PasswordController'
-    }).
-    otherwise({
-        redirectTo: '/login'
-    });
+        when('/login', {
+            templateUrl: baseUrl + 'Login/Views/Login.html',
+            controller: 'LoginController'
+        }).
+        when('/signup/:InstitutionCode', {
+            templateUrl: baseUrl + 'Login/Views/Signup.html',
+            controller: 'SignupController'
+        }).
+        when('/ChangePassword/:no/:Id/:str/:pwd', {
+            templateUrl: baseUrl + 'Login/Views/ChangePassword.html',
+            controller: 'PasswordController'
+        }).
+        otherwise({
+            redirectTo: '/login'
+        });
 
 }]);
 
@@ -50,54 +50,54 @@ if (baseUrl == "/") {
 
 
 MyCortexControllers.run(['$rootScope', '$window',
-  function ($rootScope, $window) {
-      $rootScope.user = {};
-      $window.onload = function () {
-          if (!localStorage.justOnce) {
-              localStorage.setItem("justOnce", "true");
-              window.location.reload();
-              console.log('page reloaded');
-          }
-      };
-       
-      jQuery.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=FB_CONFIG&Institution_Id=-1')
-          .done(function (data) { 
-                  var jsonobj = jQuery.parseJSON(data[0].ConfigValue);
-                  $window.fbAsyncInit = function () {
-                      console.log('FB API called');
-                      FB.init({
-                          //appId: '907938093354960',
-                          //appId: '114164749908714',
-                          appId: jsonobj.appId,
-                          channelUrl: jsonobj.channelUrl,
-                          status: jsonobj.status,
-                          cookie: jsonobj.cookie,
-                          xfbml: jsonobj.xfbml,
-                          version: jsonobj.version
-                      });
-                      console.log('sync it function is over');
-                  };
-               
-          });
+    function ($rootScope, $window) {
+        $rootScope.user = {};
+        $window.onload = function () {
+            if (!localStorage.justOnce) {
+                localStorage.setItem("justOnce", "true");
+                window.location.reload();
+                console.log('page reloaded');
+            }
+        };
+
+        jQuery.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=FB_CONFIG&Institution_Id=-1')
+            .done(function (data) {
+                var jsonobj = jQuery.parseJSON(data[0].ConfigValue);
+                $window.fbAsyncInit = function () {
+                    console.log('FB API called');
+                    FB.init({
+                        //appId: '907938093354960',
+                        //appId: '114164749908714',
+                        appId: jsonobj.appId,
+                        channelUrl: jsonobj.channelUrl,
+                        status: jsonobj.status,
+                        cookie: jsonobj.cookie,
+                        xfbml: jsonobj.xfbml,
+                        version: jsonobj.version
+                    });
+                    console.log('sync it function is over');
+                };
+
+            });
 
 
-      (function (d) {
-          var js,
-          id = 'facebook-jssdk',
-          ref = d.getElementsByTagName('script')[0];
+        (function (d) {
+            var js,
+                id = 'facebook-jssdk',
+                ref = d.getElementsByTagName('script')[0];
 
-          if (d.getElementById(id)) {
-              return;
-          }
+            if (d.getElementById(id)) {
+                return;
+            }
 
-          js = d.createElement('script');
-          js.id = id;
-          js.async = true;
-          js.src = "https://connect.facebook.net/en_US/sdk.js"; 
-          ref.parentNode.insertBefore(js, ref);
+            js = d.createElement('script');
+            js.id = id;
+            js.async = true;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            ref.parentNode.insertBefore(js, ref);
 
-      }(document));  
-  }]);
+        }(document));
+    }]);
 
 MyCortexControllers.factory('rememberMe', function () {
     function fetchValue(name) {
@@ -156,205 +156,8 @@ MyCortexControllers.service('browser', ['$window', function ($window) {
 /* THIS IS FOR LOGIN CONTROLLER FUNCTION */
 MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', '$rootScope', '$timeout', 'rememberMe', 'toastr',
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $rootScope, $timeout, $rememberMeService, toastr) {
-    //Declaration and initialization of Scope Variables.          
-    $scope.Id = "0";
-    $scope.FirstName = "";
-    $scope.MiddleName = "";
-    $scope.LastName = "";
-    $scope.MNR_No = "";
-    $scope.PatientNo = "";
-    $scope.NationalId = "";
-    $scope.InsuranceId = "";
-    $scope.GenderId = "0";
-    $scope.NationalityId = "0";
-    $scope.EmailId = "";
-    $scope.MobileNo = "";
-    $scope.UserTypeId = 2;
-    $scope.NationalityList = [];
-    $scope.GenderList = [];
-    $scope.ProductName = "";
-    $scope.Productlogin = "";
-    $window.localStorage['UserId'] = "0";
-    $scope.ProductName1 = "";
-
-    // for Remember Me
-    $scope.Username = ($rememberMeService('dXNlcm5hbWVocm1z'));
-    $scope.Password = ($rememberMeService('cGFzc3dvcmRocm1z'));
-    $scope.remember = ($rememberMeService('cmVtZW1iZXJocm1z'));
-    // end
-    $scope.forgotPasswordEmail = "";
-        $scope.forgotPasswordValidate = function () {
-            $("#chatLoaderPV").show();
-        if (typeof ($scope.forgotPasswordEmail) == "undefined" || $scope.forgotPasswordEmail == "") {
-            //alert("Please enter Email");
-            toastr.warning("Please enter Email","warning");
-            return false;
-        }
-
-        else if (EmailFormate($scope.forgotPasswordEmail) == false) {
-            //alert("Invalid Email format");
-            toastr.info("Invalid Email format","info");
-            return false;
-        }
-        $http.get(baseUrl + '/api/Login/ForgotPassword/?EmailId=' + $scope.forgotPasswordEmail).success(function (data) {
-            if (data != null) {
-                //alert(data.Message)
-                if (data.ReturnFlag == "1") {
-                    toastr.success(data.Message, "success");
-                    $("#chatLoaderPV").hide();
-                    angular.element('#forgotPasswordModal').modal('hide');
-                    $scope.forgotPasswordEmail = "";
-                }
-                else if (data.ReturnFlag == "0") {
-                    toastr.info(data.Message, "info");
-                }
-            }
-            else {
-                //alert("This Email is not registered, Invalid Email")
-                toastr.info("This Email is not registered, Invalid Email", "info");
-            }
-        }).error(function (data) {
-            //alert("This Email is not registered, Invalid Email")
-            toastr.info("This Email is not registered, Invalid Email", "info");
-            $scope.error = "An error has occurred while deleting reset password details" + data;
-        });
-    }
-
-    
-
-    /*This is th eValidation for sign Up page 
-    The validations are FirstName,Last Name,MRN No,Gender,Nationality,DOB,Email and Mobile No.*/
-    $scope.SignupLogin_AddEdit_Validations = function () {
-        if (typeof ($scope.FirstName) == "undefined" || $scope.FirstName == "") {
-            alert("Please enter First Name");
-            return false;
-        }
-        else if (typeof ($scope.LastName) == "undefined" || $scope.LastName == "") {
-            alert("Please enter Last Name");
-            return false;
-        }
-        else if (typeof ($scope.MNR_No) == "undefined" || $scope.MNR_No == "") {
-            alert("Please enter MRN No.");
-            return false;
-        }
-        else if (typeof ($scope.GenderId) == "undefined" || $scope.GenderId == "0") {
-            alert("Please select Sex");
-            return false;
-        }
-        else if (typeof ($scope.NationalityId) == "undefined" || $scope.NationalityId == "0") {
-            alert("Please select Nationality");
-            return false;
-        }
-        else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "") {
-            alert("Please select Date of Birth");
-            return false;
-        }
-        //else if (isDate($scope.DOB) == false) {
-        //    alert("Date of Birth is in Invalid format, please enter dd-mm-yyyy");
-        //    return false;
-        //}
-        else if (typeof ($scope.EmailId) == "undefined" || $scope.EmailId == "") {
-            alert("Please enter Email");
-            return false;
-        }
-        else if (EmailFormate($scope.EmailId) == false) {
-            //alert("Invalid Email format");
-            toastr.warning("Invalid Email format","warning");
-            return false;
-        }
-        else if (typeof ($scope.MobileNo) == "undefined" || $scope.MobileNo == "") {
-            alert("Please enter Mobile No.");
-            return false;
-        }
-        return true;
-    };
-    $http.get(baseUrl + '/api/Login/GetProduct_Details/').success(function (data) {
-        $scope.ProductName1 = data[0].ProductName;
-        var chk = $window.localStorage['inactivity_logout'];
-        if (chk === '1') {
-            $scope.errorlist = 'Your session has expired, please provide your credentials to login again.';
-            $window.localStorage['inactivity_logout'] = '0';
-        }
-        if ($scope.ProductName1 == 'MyCortex') {
-            $scope.Productlogin = 0;
-        } else {
-            $scope.Productlogin = 1;
-        }
-    });
-    $http.get(baseUrl + '/api/Login/getProductName/').success(function (data) {
-        var ProductName = data;
-        $('#productname').val(ProductName["instanceId"]);
-        if ($('#productname').val() == "1") {
-            $scope.prdName = "MyHealth";
-            $scope.prductName = " MyHealth?";
-        } else if ($('#productname').val() == "2") {
-            $scope.prdName = "STC MyCortex";
-            $scope.prductName = " STC MyCortex?";
-        } else {
-            $scope.prdName = "MyCortex  ";
-            $scope.prductName = " MyCortex?";
-        }
-    });
-            
-        
-
-    /*This is Insert Function for SignUp */
-    $scope.SignupLogin_AddEdit = function () {
-        if ($scope.SignupLogin_AddEdit_Validations() == true) {
-            // window.location.href = baseUrl + "/Home/Index#;
-            $("#chatLoaderPV").show();
-            var tokendata = "UserName=admin&Password=admin&grant_type=password"
-            $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
-                $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
-
-                var data = {
-                    Id: $scope.Id,
-                    FirstName: $scope.FirstName,
-                    MiddleName: $scope.MiddleName,
-                    LastName: $scope.LastName,
-                    NATIONALID: $scope.NationalId,
-                    INSURANCEID: $scope.InsuranceId,
-                    MNR_NO: $scope.MNR_No,
-                    GENDER_ID: $scope.GenderId == 0 ? null : $scope.GenderId,
-                    NATIONALITY_ID: $scope.NationalityId == 0 ? null : $scope.NationalityId,
-                    DOB: moment($scope.DOB).format('DD-MMM-YYYY'),
-                    EMAILID: $scope.EmailId,
-                    MOBILE_NO: $scope.MobileNo,
-                    UserType_Id: $scope.UserTypeId,
-                    ApprovalFlag: 0,
-                    //, INSTITUTION_ID: 1
-                }
-                var config = {
-                    headers: {
-                        'Authorization': 'Bearer ' + $window.localStorage['dFhNCjOpdzPNNHxx54e+0w==']
-                    }
-                };
-                //$http({
-                //    method: 'POST',
-                //    url: baseUrl + 'api/User/User_InsertUpdate/',
-                //    headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': 'Bearer ' + $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] },
-                //    data: data
-                //}).success(function (data) {
-                $http.post(baseUrl + 'api/User/User_InsertUpdate?Login_Session_Id={00000000-0000-0000-0000-000000000000}', data, config).success(function (data) {
-                    //alert(data.Message);
-                    toastr.info(data.Message, "info");
-                    $scope.CancelSignUpPopup();
-                    if ($scope.MenuTypeId == 3) {
-                        $scope.ListRedirect();
-                    }
-                });
-                $("#chatLoaderPV").hide();
-            }).error(function (err) {
-                //console.log(err);
-                toastr.warning(err, "warning");
-                $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
-                //alert('error');
-                toastr.info("error", "info");
-            });
-        }
-    };
-    //This is for Clear the values
-    $scope.CancelSignUpPopup = function () {
+        //Declaration and initialization of Scope Variables.          
+        $scope.Id = "0";
         $scope.FirstName = "";
         $scope.MiddleName = "";
         $scope.LastName = "";
@@ -366,53 +169,264 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
         $scope.NationalityId = "0";
         $scope.EmailId = "";
         $scope.MobileNo = "";
-        $scope.HideSignUpModal();
-    }
+        $scope.UserTypeId = 2;
+        $scope.NationalityList = [];
+        $scope.GenderList = [];
+        $scope.ProductName = "";
+        $scope.Productlogin = "";
+        $window.localStorage['UserId'] = "0";
+        $scope.ProductName1 = "";
 
-    $('#signupModal').on('show.bs.modal', function () {
-        if ($scope.NationalityList.length == 0) {
-            // This is for to get Nationality List 
-            $http.get(baseUrl + 'api/Common/NationalityList/').success(function (data) {
-                $scope.NationalityList = data;
+        // for Remember Me
+        $scope.Username = ($rememberMeService('dXNlcm5hbWVocm1z'));
+        $scope.Password = ($rememberMeService('cGFzc3dvcmRocm1z'));
+        $scope.remember = ($rememberMeService('cmVtZW1iZXJocm1z'));
+        // end
+        $scope.usernamekeypress = "";
+        //Only '. special characters & numbers  // special characters & characters not allowed.(Candidate Name.)
+        $scope.usernamekeypress = function (e) {
+            var charCode = e.charCode || e.keyCode || e.which;
+            if ((charCode >= 33 && charCode <= 39) || (charCode >= 40 && charCode <= 45) || (charCode >= 47 && charCode <= 43) || (charCode >= 58 && charCode <= 63) || (charCode >= 91 && charCode <= 96) || (charCode >= 123 && charCode <= 126)) {
+                toastr.warning("Numbers & Special characters are not allowed except @ and dot.", "warning");
+                //swal.fire("Numbers & Special characters are not allowed.");
+                if (e.preventDefault) {
+                    e.preventDefault();
+                } else if (typeof e.returnValue !== "undefined") {
+                    e.returnValue = false;
+                }
+            }
+        }
+        $scope.forgotPasswordEmail = "";
+        $scope.forgotPasswordValidate = function () {
+            $("#chatLoaderPV").show();
+            if (typeof ($scope.forgotPasswordEmail) == "undefined" || $scope.forgotPasswordEmail == "") {
+                //alert("Please enter Email");
+                toastr.warning("Please enter Email", "warning");
+                return false;
+            }
+
+            else if (EmailFormate($scope.forgotPasswordEmail) == false) {
+                //alert("Invalid Email format");
+                toastr.info("Invalid Email format", "info");
+                return false;
+            }
+            $http.get(baseUrl + '/api/Login/ForgotPassword/?EmailId=' + $scope.forgotPasswordEmail).success(function (data) {
+                if (data != null) {
+                    //alert(data.Message)
+                    if (data.ReturnFlag == "1") {
+                        toastr.success(data.Message, "success");
+                        $("#chatLoaderPV").hide();
+                        angular.element('#forgotPasswordModal').modal('hide');
+                        $scope.forgotPasswordEmail = "";
+                    }
+                    else if (data.ReturnFlag == "0") {
+                        toastr.info(data.Message, "info");
+                    }
+                }
+                else {
+                    //alert("This Email is not registered, Invalid Email")
+                    toastr.info("This Email is not registered, Invalid Email", "info");
+                }
+            }).error(function (data) {
+                //alert("This Email is not registered, Invalid Email")
+                toastr.info("This Email is not registered, Invalid Email", "info");
+                $scope.error = "An error has occurred while deleting reset password details" + data;
             });
         }
-        if ($scope.GenderList.length == 0) {
-            // This is for to get Gender List
-            $http.get(baseUrl + 'api/Common/GenderList/').success(function (data) {
-                $scope.GenderList = data;
-            });
+
+
+
+        /*This is th eValidation for sign Up page 
+        The validations are FirstName,Last Name,MRN No,Gender,Nationality,DOB,Email and Mobile No.*/
+        $scope.SignupLogin_AddEdit_Validations = function () {
+            if (typeof ($scope.FirstName) == "undefined" || $scope.FirstName == "") {
+                alert("Please enter First Name");
+                return false;
+            }
+            else if (typeof ($scope.LastName) == "undefined" || $scope.LastName == "") {
+                alert("Please enter Last Name");
+                return false;
+            }
+            else if (typeof ($scope.MNR_No) == "undefined" || $scope.MNR_No == "") {
+                alert("Please enter MRN No.");
+                return false;
+            }
+            else if (typeof ($scope.GenderId) == "undefined" || $scope.GenderId == "0") {
+                alert("Please select Sex");
+                return false;
+            }
+            else if (typeof ($scope.NationalityId) == "undefined" || $scope.NationalityId == "0") {
+                alert("Please select Nationality");
+                return false;
+            }
+            else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "") {
+                alert("Please select Date of Birth");
+                return false;
+            }
+            //else if (isDate($scope.DOB) == false) {
+            //    alert("Date of Birth is in Invalid format, please enter dd-mm-yyyy");
+            //    return false;
+            //}
+            else if (typeof ($scope.EmailId) == "undefined" || $scope.EmailId == "") {
+                alert("Please enter Email");
+                return false;
+            }
+            else if (EmailFormate($scope.EmailId) == false) {
+                //alert("Invalid Email format");
+                toastr.warning("Invalid Email format", "warning");
+                return false;
+            }
+            else if (typeof ($scope.MobileNo) == "undefined" || $scope.MobileNo == "") {
+                alert("Please enter Mobile No.");
+                return false;
+            }
+            return true;
+        };
+        $http.get(baseUrl + '/api/Login/GetProduct_Details/').success(function (data) {
+            $scope.ProductName1 = data[0].ProductName;
+            var chk = $window.localStorage['inactivity_logout'];
+            if (chk === '1') {
+                $scope.errorlist = 'Your session has expired, please provide your credentials to login again.';
+                $window.localStorage['inactivity_logout'] = '0';
+            }
+            if ($scope.ProductName1 == 'MyCortex') {
+                $scope.Productlogin = 0;
+            } else {
+                $scope.Productlogin = 1;
+            }
+        });
+        $http.get(baseUrl + '/api/Login/getProductName/').success(function (data) {
+            var ProductName = data;
+            $('#productname').val(ProductName["instanceId"]);
+            if ($('#productname').val() == "1") {
+                $scope.prdName = "MyHealth";
+                $scope.prductName = " MyHealth?";
+            } else if ($('#productname').val() == "2") {
+                $scope.prdName = "STC MyCortex";
+                $scope.prductName = " STC MyCortex?";
+            } else {
+                $scope.prdName = "MyCortex  ";
+                $scope.prductName = " MyCortex?";
+            }
+        });
+
+
+
+        /*This is Insert Function for SignUp */
+        $scope.SignupLogin_AddEdit = function () {
+            if ($scope.SignupLogin_AddEdit_Validations() == true) {
+                // window.location.href = baseUrl + "/Home/Index#;
+                $("#chatLoaderPV").show();
+                var tokendata = "UserName=admin&Password=admin&grant_type=password"
+                $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
+                    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
+
+                    var data = {
+                        Id: $scope.Id,
+                        FirstName: $scope.FirstName,
+                        MiddleName: $scope.MiddleName,
+                        LastName: $scope.LastName,
+                        NATIONALID: $scope.NationalId,
+                        INSURANCEID: $scope.InsuranceId,
+                        MNR_NO: $scope.MNR_No,
+                        GENDER_ID: $scope.GenderId == 0 ? null : $scope.GenderId,
+                        NATIONALITY_ID: $scope.NationalityId == 0 ? null : $scope.NationalityId,
+                        DOB: moment($scope.DOB).format('DD-MMM-YYYY'),
+                        EMAILID: $scope.EmailId,
+                        MOBILE_NO: $scope.MobileNo,
+                        UserType_Id: $scope.UserTypeId,
+                        ApprovalFlag: 0,
+                        //, INSTITUTION_ID: 1
+                    }
+                    var config = {
+                        headers: {
+                            'Authorization': 'Bearer ' + $window.localStorage['dFhNCjOpdzPNNHxx54e+0w==']
+                        }
+                    };
+                    //$http({
+                    //    method: 'POST',
+                    //    url: baseUrl + 'api/User/User_InsertUpdate/',
+                    //    headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': 'Bearer ' + $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] },
+                    //    data: data
+                    //}).success(function (data) {
+                    $http.post(baseUrl + 'api/User/User_InsertUpdate?Login_Session_Id={00000000-0000-0000-0000-000000000000}', data, config).success(function (data) {
+                        //alert(data.Message);
+                        toastr.info(data.Message, "info");
+                        $scope.CancelSignUpPopup();
+                        if ($scope.MenuTypeId == 3) {
+                            $scope.ListRedirect();
+                        }
+                    });
+                    $("#chatLoaderPV").hide();
+                }).error(function (err) {
+                    //console.log(err);
+                    toastr.warning(err, "warning");
+                    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
+                    //alert('error');
+                    toastr.info("error", "info");
+                });
+            }
+        };
+        //This is for Clear the values
+        $scope.CancelSignUpPopup = function () {
+            $scope.FirstName = "";
+            $scope.MiddleName = "";
+            $scope.LastName = "";
+            $scope.MNR_No = "";
+            $scope.PatientNo = "";
+            $scope.NationalId = "";
+            $scope.InsuranceId = "";
+            $scope.GenderId = "0";
+            $scope.NationalityId = "0";
+            $scope.EmailId = "";
+            $scope.MobileNo = "";
+            $scope.HideSignUpModal();
         }
-    });
 
-    //This function is hide the Sign up Popup Modal
-    $scope.HideSignUpModal = function () {
-        angular.element('#signupModal').modal('hide')
-    };
+        $('#signupModal').on('show.bs.modal', function () {
+            if ($scope.NationalityList.length == 0) {
+                // This is for to get Nationality List 
+                $http.get(baseUrl + 'api/Common/NationalityList/').success(function (data) {
+                    $scope.NationalityList = data;
+                });
+            }
+            if ($scope.GenderList.length == 0) {
+                // This is for to get Gender List
+                $http.get(baseUrl + 'api/Common/GenderList/').success(function (data) {
+                    $scope.GenderList = data;
+                });
+            }
+        });
 
-    //This function is hide the forgot Password Popup Modal
-    $scope.showForgotPasswprd = function () {
-        angular.element('#forgotPasswordModal').modal('hide')
-    };
+        //This function is hide the Sign up Popup Modal
+        $scope.HideSignUpModal = function () {
+            angular.element('#signupModal').modal('hide')
+        };
 
-    //This function is hide the forgot Password Popup Modal
-    $scope.HideForgotPasswprd = function () {
-        angular.element('#forgotPasswordModal').modal('hide')
-    };
+        //This function is hide the forgot Password Popup Modal
+        $scope.showForgotPasswprd = function () {
+            angular.element('#forgotPasswordModal').modal('hide')
+        };
 
-    $scope.Validationcontrols = function () {
-        $scope.errorlist = null;
+        //This function is hide the forgot Password Popup Modal
+        $scope.HideForgotPasswprd = function () {
+            angular.element('#forgotPasswordModal').modal('hide')
+        };
 
-        if (typeof ($scope.Username) == "undefined" || $scope.Username == "") {
-            $scope.errorlist = "Please enter Email";
-            $("#chatLoaderPV").hide();
-            return false;
-        }
-        else if (typeof ($scope.Password) == "undefined" || $scope.Password == "") {
-            $scope.errorlist = "Please enter Password";
-            $("#chatLoaderPV").hide();
-            return false;
-        }
-        return true;
+        $scope.Validationcontrols = function () {
+            $scope.errorlist = null;
+
+            if (typeof ($scope.Username) == "undefined" || $scope.Username == "") {
+                $scope.errorlist = "Please enter Email";
+                $("#chatLoaderPV").hide();
+                return false;
+            }
+            else if (typeof ($scope.Password) == "undefined" || $scope.Password == "") {
+                $scope.errorlist = "Please enter Password";
+                $("#chatLoaderPV").hide();
+                return false;
+            }
+            return true;
         };
 
         //function getOS() {
@@ -440,10 +454,10 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
 
         //alert(getOS());
 
-    var IpAddress = "";
-    //$http.get("http://api.ipify.org/?format=json").then(function (response) {
-    //    IpAddress = response.data.ip;
-    //});
+        var IpAddress = "";
+        //$http.get("http://api.ipify.org/?format=json").then(function (response) {
+        //    IpAddress = response.data.ip;
+        //});
 
         var Login_Country = "";
         var Login_City = "";
@@ -454,362 +468,362 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
         var Login_regionName = "";
         var Login_timeZoneName = "";
         var Login_zipCode = "";
-    $http.get("http://ip-api.com/json").then(function (response) {
-        Login_Country = response.data.country;
-        Login_City = response.data.city;
-        IpAddress = response.data.query;
-        Login_CountryCode = response.data.countryCode;
-        Login_Latitude = response.data.lat;
-        Login_Longitude = response.data.lon;
-        Login_region = response.data.region;
-        Login_regionName = response.data.regionName;
-        Login_timeZoneName = response.data.timezone;
-        Login_zipCode = response.data.zip;
-    });
-
-    navigator.sayswho = (function () {
-        var ua = navigator.userAgent, tem,
-        M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
-        if (/trident/i.test(M[1])) {
-            tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
-            return 'IE ' + (tem[1] || '');
-        }
-        if (M[1] === 'Chrome') {
-            tem = ua.match(/\b(OPR|Edge)\/(\d+)/);
-            if (tem != null) return tem.slice(1).join(' ').replace('OPR', 'Opera');
-        }
-        M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
-        if ((tem = ua.match(/version\/(\d+)/i)) != null) M.splice(1, 1, tem[1]);
-        return M.join(' ');
-    })();
-
-    //LoginController js
-    $scope.UserLogin_AddEdit = function () {
-        if ($scope.isExpired) {
-            return false;
-        }
-        $("#chatLoaderPV").show();
-        var offsetTime = new Date().getTimezoneOffset();
-
-        $scope.errorlist = "";
-        $http.get(baseUrl + '/api/Login/CheckDBConnection/').success(function (data) { 
-            if (data == false) {
-                $scope.errorlist = "Invalid DB Connection";
-                return;
-            }
+        $http.get("http://ip-api.com/json").then(function (response) {
+            Login_Country = response.data.country;
+            Login_City = response.data.city;
+            IpAddress = response.data.query;
+            Login_CountryCode = response.data.countryCode;
+            Login_Latitude = response.data.lat;
+            Login_Longitude = response.data.lon;
+            Login_region = response.data.region;
+            Login_regionName = response.data.regionName;
+            Login_timeZoneName = response.data.timezone;
+            Login_zipCode = response.data.zip;
         });
 
-        if ($scope.Validationcontrols() == true) {
-            $scope.Password = $scope.Password.replace(/(#|&)/g, "amp"); 
-            var obj = {
+        navigator.sayswho = (function () {
+            var ua = navigator.userAgent, tem,
+                M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+            if (/trident/i.test(M[1])) {
+                tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
+                return 'IE ' + (tem[1] || '');
+            }
+            if (M[1] === 'Chrome') {
+                tem = ua.match(/\b(OPR|Edge)\/(\d+)/);
+                if (tem != null) return tem.slice(1).join(' ').replace('OPR', 'Opera');
+            }
+            M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
+            if ((tem = ua.match(/version\/(\d+)/i)) != null) M.splice(1, 1, tem[1]);
+            return M.join(' ');
+        })();
+
+        //LoginController js
+        $scope.UserLogin_AddEdit = function () {
+            if ($scope.isExpired) {
+                return false;
+            }
+            $("#chatLoaderPV").show();
+            var offsetTime = new Date().getTimezoneOffset();
+
+            $scope.errorlist = "";
+            $http.get(baseUrl + '/api/Login/CheckDBConnection/').success(function (data) {
+                if (data == false) {
+                    $scope.errorlist = "Invalid DB Connection";
+                    return;
+                }
+            });
+
+            if ($scope.Validationcontrols() == true) {
+                $scope.Password = $scope.Password.replace(/(#|&)/g, "amp");
+                var obj = {
+                    UserName: $scope.Username,
+                    Password: $scope.Password,
+                    DeviceType: "Web",
+                    LoginType: "1",
+                    Sys_TimeDifference: offsetTime,
+                    Browser_Version: navigator.sayswho,
+                    Login_Country: Login_Country,
+                    Login_City: Login_City,
+                    Login_IpAddress: IpAddress,
+                    countryCode: Login_CountryCode,
+                    Latitude: Login_Latitude,
+                    Longitude: Login_Longitude,
+                    region: Login_region,
+                    regionName: Login_regionName,
+                    timezoneName: Login_timeZoneName,
+                    zipcode: Login_zipCode
+                };
+
+                //$http.get(baseUrl + '/api/Login/Userlogin_AddEdit/?Id=' + $scope.Id + '&UserName=' + $scope.Username + '&Password=' + $scope.Password).success(function (data) {
+                $http.post(baseUrl + '/api/Login/Userlogin_CheckValidity/', obj).success(function (data) {
+                    $scope.UserId = data.UserId;
+                    $scope.UserTypeId = data.UserTypeId;
+                    $scope.InstitutionId = data.InstitutionId;
+                    $window.localStorage['User_Mobile_No'] = data.UserDetails.MOBILE_NO;
+                    $window.localStorage['UserId'] = $scope.UserId;
+                    $window.sessionStorage['UserId'] = $scope.UserId;
+                    $window.localStorage['Auth_Session_Id'] = 1;
+                    $window.localStorage['inactivity_logout'] = 0;
+                    $window.localStorage['UserTypeId'] = $scope.UserTypeId;
+                    $window.localStorage['Login_Session_Id'] = data.Login_Session_Id;
+                    if ($scope.UserTypeId == 1) {
+                        $window.localStorage['InstitutionId'] = -1;
+                    }
+                    else {
+                        $window.localStorage['InstitutionId'] = $scope.InstitutionId;
+                    }
+                    var Message = data.Messagetype;
+
+                    if ($scope.remember == true) {
+                        $rememberMeService('dXNlcm5hbWVocm1z', ($scope.Username));
+                        $rememberMeService('cGFzc3dvcmRocm1z', ($scope.Password));
+                        $rememberMeService('cmVtZW1iZXJocm1z', ($scope.remember));
+
+                    } else {
+                        $rememberMeService('dXNlcm5hbWVocm1z', '');
+                        $rememberMeService('cGFzc3dvcmRocm1z', '');
+                        $rememberMeService('cmVtZW1iZXJocm1z', '');
+                    }
+
+                    var data = data.data;
+                    //var tokendata = "UserName=admin&Password=admin&grant_type=password&LoginType=1"
+                    //$http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
+                    //    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
+                    //}).error(function (err) {
+                    //    console.log(err);
+                    //    alert('error');
+                    //});
+
+                    var UserName = $scope.Username.toLowerCase();
+                    var Password1 = $scope.Password;
+                    var Password = Password1.replace(/(#|&)/g, "amp");
+                    var LoginType = $scope.LoginType;
+                    var tokendata = "UserName=" + UserName + "&Password=" + Password + "&grant_type=password"
+                    $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
+                        $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
+                    }).error(function (err) {
+                        $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
+                        console.log(err);
+                    });
+                    $scope.ConfigCode = "WEBIDLETIME";
+                    var IdleDays = 0;
+                    $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId'])
+                        .success(function (data1) {
+                            if (data1[0] != undefined) {
+                                IdleDays = parseInt(data1[0].ConfigValue);
+                                $window.localStorage['IdleDays'] = IdleDays;
+                                $scope.UserLogin(data, Message);
+                            } else {
+                                IdleDays = 600;
+                                $window.localStorage['IdleDays'] = IdleDays;
+                                $scope.UserLogin(data, Message);
+                            }
+                        }).error(function (err) {
+                            IdleDays = 600;
+                            $window.localStorage['IdleDays'] = 600;
+                            $scope.UserLogin(data, Message);
+                        });
+                }).error(function (data) {
+                    $("#chatLoaderPV").hide();
+                    $scope.errorlist = "Login Failed! \n Invalid Username or Password ";
+                });
+            }
+
+            //$scope.ConfigCode = "WEBIDLETIME";
+            //var IdleDays = 0;
+            //$http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId'])
+            //    .success(function (data) {
+            //        if (data[0] != undefined) {
+            //            IdleDays = parseInt(data[0].ConfigValue);
+            //            $window.localStorage['IdleDays'] = IdleDays;
+            //        }
+            //});      
+        };
+
+        $scope.UserLogin = function (data, Message) {
+            $("#chatLoaderPV").hide();
+            if (data == "1") {
+                toastr.error("Username and/or Password are not matching, please verify", "Warning");
+                // $scope.errorlist = "Username and/or Password are not matching, please verify";
+            }
+            else if (data == "2") {
+                //$scope.errorlist = "Contract period expired, cannot login";
+                toastr.error("Contract period expired, cannot login", "Warning");
+            }
+            else if (data == "3") {
+                //$scope.errorlist = "Contract Time Exceed,contact admin";
+                //alert("Contract period expired, Please contact Admin for renewal");
+                toastr.error("Contract period expired, Please contact Admin for renewal", "Warning");
+                window.location.href = baseUrl + "/Home/Index#/home";
+            }
+            else if (data == "4" || data == "5") {
+                window.location.href = baseUrl + "/Home/Index#/home";
+            }
+            else if (data == "6" || data == "10") {
+                $window.localStorage['UserTypeId'] = $scope.UserTypeId;
+                $window.localStorage['UserId'] = $scope.UserId;
+
+                window.location.href = baseUrl + "/Home/Index#/ChangePassword/1";
+                $scope.errorlist = Message;
+                toastr.error(Message, "Warning");
+            }
+            else if (data == "7") {
+                $scope.errorlist = Message;
+                toastr.error(Message, "Warning");
+            }
+            else if (data == "8") {
+                $scope.errorlist = Message;
+                toastr.error(Message, "Warning");
+            }
+            else if (data == "9") {
+                //$scope.errorlist = "Username and/or Password are not active, please verify";
+                //toastr.error("Username and/or Password are not active, please verify", "Warning");
+
+                $scope.errorlist = "Inactive User Cannot Login";
+                toastr.error("Inactive User Cannot Login", "Warning");
+            }
+            else if (data == "13") {
+                toastr.error("Waiting for approval", "Warning");
+            }
+            else {
+                $scope.errorlist = "Username and/or Password are not matching, please verify";
+                toastr.error("Username and/or Password are not matching, please verify", "Warning");
+            }
+        }
+
+        $scope.getAccessToken = function () {
+            var offsetTime = new Date().getTimezoneOffset();
+            FB.login(function (response) {
+
+                $scope.loginStatus = response.status;
+                FB.getLoginStatus(function (response) {
+                    if (response.status === 'connected') {
+                        var uid = response.authResponse.userID;
+                        var accessToken = response.authResponse.accessToken;
+                        $scope.accessToken = accessToken;
+
+                        FB.api('/me?fields=id,name,email,first_name,last_name,age_range,picture.type(large)', { access_token: accessToken }, function (response) {
+                            $scope.first_name = response.first_name;
+                            $scope.last_name = response.last_name;
+                            $scope.gender = response.gender;
+                            $scope.email = response.email;
+                            $scope.name = response.name;
+
+                            $scope.UserId = "0";
+
+                            var obj = {
+                                UserName: $scope.email,
+                                Password: "",
+                                DeviceType: "Web",
+                                LoginType: "3",
+                                Sys_TimeDifference: offsetTime,
+                                Browser_Version: navigator.sayswho,
+                                Login_Country: Login_Country,
+                                Login_City: Login_City,
+                                Login_IpAddress: IpAddress
+                            };
+
+                            //$http.get(baseUrl + '/api/Login/Userlogin_AddEdit/?Id=' + $scope.Id + '&UserName=' + $scope.Username + '&Password=' + $scope.Password).success(function (data) {
+                            $http.post(baseUrl + '/api/Login/Userlogin_CheckValidity/', obj).success(function (data) {
+                                $scope.UserId = data.UserId;
+                                $scope.UserTypeId = data.UserTypeId;
+                                $scope.InstitutionId = data.InstitutionId;
+                                $window.localStorage['UserId'] = $scope.UserId;
+                                $window.localStorage['UserTypeId'] = $scope.UserTypeId;
+                                $window.localStorage['Login_Session_Id'] = data.Login_Session_Id;
+
+                                if ($scope.UserTypeId == 1) {
+                                    $window.localStorage['InstitutionId'] = -1;
+                                }
+                                else {
+                                    $window.localStorage['InstitutionId'] = $scope.InstitutionId;
+                                }
+                                var Message = data.Messagetype;
+
+                                if ($scope.remember == true) {
+                                    $rememberMeService('dXNlcm5hbWVocm1z', ($scope.Username));
+                                    $rememberMeService('cGFzc3dvcmRocm1z', ($scope.Password));
+                                    $rememberMeService('cmVtZW1iZXJocm1z', ($scope.remember));
+
+                                } else {
+                                    $rememberMeService('dXNlcm5hbWVocm1z', '');
+                                    $rememberMeService('cGFzc3dvcmRocm1z', '');
+                                    $rememberMeService('cmVtZW1iZXJocm1z', '');
+                                }
+
+                                var data = data.data;
+                                //var tokendata = "UserName=admin&Password=admin&grant_type=password&LoginType=1"
+                                //$http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
+                                //    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
+                                //}).error(function (err) {
+                                //    console.log(err);
+                                //    alert('error');
+                                //});
+
+
+                                //var UserName = $scope.Username;
+                                //var Password = $scope.Password;
+                                //var LoginType = "3";
+                                //var tokendata = "UserName=" + UserName + "&Password=#1#" + "&grant_type=password"
+                                //$http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
+                                //    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
+                                //}).error(function (err) {
+                                //    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
+                                //    alert('error');
+                                //});
+                                var UserName = $scope.Username;
+                                var Password = $scope.Password;
+                                var LoginType = $scope.LoginType;
+                                var tokendata = "UserName=" + UserName + "&Password=" + Password + "&grant_type=password"
+                                $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
+                                    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
+                                }).error(function (err) {
+                                    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
+                                    console.log(err);
+                                });
+                                $scope.ConfigCode = "WEBIDLETIME";
+                                var IdleDays = 0;
+                                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId'])
+                                    .success(function (data1) {
+                                        if (data1[0] != undefined) {
+                                            IdleDays = parseInt(data1[0].ConfigValue);
+                                            $window.localStorage['IdleDays'] = IdleDays;
+                                            $scope.UserLogin(data, Message);
+                                        } else {
+                                            IdleDays = 600;
+                                            $window.localStorage['IdleDays'] = IdleDays;
+                                            $scope.UserLogin(data, Message);
+                                        }
+                                    }).error(function (err) {
+                                        IdleDays = 600;
+                                        $window.localStorage['IdleDays'] = 600;
+                                        $scope.UserLogin(data,);
+                                    });
+                            });
+
+                        });
+                    } else if (response.status === 'not_authorized') {
+                        $scope.errorlist = "User is not authorised";
+                    } else {
+                        $scope.errorlist = "User not logged in";
+                    }
+                });
+            }, { scope: 'email,public_profile' });
+        }
+
+        $scope.GoogleLogin = function () {
+            var offsetTime = new Date().getTimezoneOffset();
+            var obj1 = {
                 UserName: $scope.Username,
                 Password: $scope.Password,
                 DeviceType: "Web",
-                LoginType: "1",
+                LoginType: "2",
                 Sys_TimeDifference: offsetTime,
                 Browser_Version: navigator.sayswho,
                 Login_Country: Login_Country,
                 Login_City: Login_City,
-                Login_IpAddress: IpAddress,
-                countryCode: Login_CountryCode,
-                Latitude: Login_Latitude,
-                Longitude: Login_Longitude,
-                region: Login_region,
-                regionName: Login_regionName,
-                timezoneName: Login_timeZoneName,
-                zipcode: Login_zipCode
+                Login_IpAddress: IpAddress
             };
 
-            //$http.get(baseUrl + '/api/Login/Userlogin_AddEdit/?Id=' + $scope.Id + '&UserName=' + $scope.Username + '&Password=' + $scope.Password).success(function (data) {
-            $http.post(baseUrl + '/api/Login/Userlogin_CheckValidity/', obj).success(function (data) {
-                $scope.UserId = data.UserId;
-                $scope.UserTypeId = data.UserTypeId;
-                $scope.InstitutionId = data.InstitutionId;
-                $window.localStorage['User_Mobile_No'] = data.UserDetails.MOBILE_NO;
-                $window.localStorage['UserId'] = $scope.UserId;
-                $window.sessionStorage['UserId'] = $scope.UserId;
-                $window.localStorage['Auth_Session_Id'] = 1;
-                $window.localStorage['inactivity_logout'] = 0;
-                $window.localStorage['UserTypeId'] = $scope.UserTypeId;
-                $window.localStorage['Login_Session_Id'] = data.Login_Session_Id;
-                if ($scope.UserTypeId == 1) {
-                    $window.localStorage['InstitutionId'] = -1;
-                }
-                else {
-                    $window.localStorage['InstitutionId'] = $scope.InstitutionId;
-                }
-                var Message = data.Messagetype;
 
-                if ($scope.remember == true) {
-                    $rememberMeService('dXNlcm5hbWVocm1z', ($scope.Username));
-                    $rememberMeService('cGFzc3dvcmRocm1z', ($scope.Password));
-                    $rememberMeService('cmVtZW1iZXJocm1z', ($scope.remember));
-
-                } else {
-                    $rememberMeService('dXNlcm5hbWVocm1z', '');
-                    $rememberMeService('cGFzc3dvcmRocm1z', '');
-                    $rememberMeService('cmVtZW1iZXJocm1z', '');
-                }
-
-                var data = data.data;
-                //var tokendata = "UserName=admin&Password=admin&grant_type=password&LoginType=1"
-                //$http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
-                //    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
-                //}).error(function (err) {
-                //    console.log(err);
-                //    alert('error');
-                //});
-
-                var UserName = $scope.Username.toLowerCase();
-                var Password1 = $scope.Password;
-                var Password = Password1.replace(/(#|&)/g, "amp");
-                var LoginType = $scope.LoginType;
-                var tokendata = "UserName=" + UserName + "&Password=" + Password +"&grant_type=password"
-                $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
-                    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
-                }).error(function (err) {                   
-                    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
-                    console.log(err);
-                });
-                $scope.ConfigCode = "WEBIDLETIME";
-                var IdleDays = 0;
-                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId'])
-                    .success(function (data1) {
-                        if (data1[0] != undefined) {
-                            IdleDays = parseInt(data1[0].ConfigValue);
-                            $window.localStorage['IdleDays'] = IdleDays;
-                            $scope.UserLogin(data, Message);
-                        } else {
-                            IdleDays = 600;
-                            $window.localStorage['IdleDays'] = IdleDays;
-                            $scope.UserLogin(data, Message);
-                        }
-                    }).error(function (err) {
-                        IdleDays = 600;
-                        $window.localStorage['IdleDays'] = 600;
-                        $scope.UserLogin(data, Message);
-                    }); 
-            }).error(function (data) {
-                $("#chatLoaderPV").hide();
-                $scope.errorlist = "Login Failed! \n Invalid Username or Password ";
-            });
+            var redirect = baseUrl + 'Home/LoginUsingGoogle/?Sys_TimeDifference=' + offsetTime + '&Browser_Version=' + navigator.sayswho + '&Login_Country=' + Login_Country
+                + '&Login_City=' + Login_City + '&IPAdddress=' + IpAddress;
+            // $http.post(baseUrl + '/api/PatientApproval/Multiple_PatientApproval_Active/', $scope.ApprovedPatientList).success(function (data) {
+            window.location.href = redirect;
         }
 
-        //$scope.ConfigCode = "WEBIDLETIME";
-        //var IdleDays = 0;
-        //$http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId'])
-        //    .success(function (data) {
-        //        if (data[0] != undefined) {
-        //            IdleDays = parseInt(data[0].ConfigValue);
-        //            $window.localStorage['IdleDays'] = IdleDays;
-        //        }
-        //});      
-    };
-
-    $scope.UserLogin = function (data, Message) {
-        $("#chatLoaderPV").hide();
-        if (data == "1") {
-            toastr.error("Username and/or Password are not matching, please verify", "Warning");
-            // $scope.errorlist = "Username and/or Password are not matching, please verify";
-        }
-        else if (data == "2") {
-            //$scope.errorlist = "Contract period expired, cannot login";
-            toastr.error("Contract period expired, cannot login", "Warning");
-        }
-        else if (data == "3") {
-            //$scope.errorlist = "Contract Time Exceed,contact admin";
-            //alert("Contract period expired, Please contact Admin for renewal");
-            toastr.error("Contract period expired, Please contact Admin for renewal", "Warning");
-            window.location.href = baseUrl + "/Home/Index#/home";
-        }
-        else if (data == "4" || data == "5") {
-            window.location.href = baseUrl + "/Home/Index#/home";
-        }
-        else if (data == "6" || data == "10") {
-            $window.localStorage['UserTypeId'] = $scope.UserTypeId;
-            $window.localStorage['UserId'] = $scope.UserId;
-
-            window.location.href = baseUrl + "/Home/Index#/ChangePassword/1";
-            $scope.errorlist = Message;
-            toastr.error(Message, "Warning");
-        }
-        else if (data == "7") {
-            $scope.errorlist = Message;
-            toastr.error(Message, "Warning");
-        }
-        else if (data == "8") {
-            $scope.errorlist = Message;
-            toastr.error(Message, "Warning");
-        }
-        else if (data == "9") {
-            //$scope.errorlist = "Username and/or Password are not active, please verify";
-            //toastr.error("Username and/or Password are not active, please verify", "Warning");
-
-            $scope.errorlist = "Inactive User Cannot Login";
-            toastr.error("Inactive User Cannot Login", "Warning");
-        }
-        else if (data == "13") {
-            toastr.error("Waiting for approval", "Warning");
-        }
-        else {
-            $scope.errorlist = "Username and/or Password are not matching, please verify";
-            toastr.error("Username and/or Password are not matching, please verify", "Warning");
-        }
+        $http.get(baseUrl + '/api/Login/CheckExpiryDate/').success(function (data) {
+            if (data == true) {
+                $scope.errorlist = "Your MyCortex version is outdated. Please contact Administrator for upgrade or email us on admin@mycortex.health";
+                $scope.isExpired = true;
+            }
+        });
     }
-
-    $scope.getAccessToken = function () {
-        var offsetTime = new Date().getTimezoneOffset(); 
-        FB.login(function (response) {
-
-            $scope.loginStatus = response.status;
-            FB.getLoginStatus(function (response) {
-                if (response.status === 'connected') {
-                    var uid = response.authResponse.userID;
-                    var accessToken = response.authResponse.accessToken;
-                    $scope.accessToken = accessToken;
-
-                    FB.api('/me?fields=id,name,email,first_name,last_name,age_range,picture.type(large)', { access_token: accessToken }, function (response) {
-                        $scope.first_name = response.first_name;
-                        $scope.last_name = response.last_name;
-                        $scope.gender = response.gender;
-                        $scope.email = response.email;
-                        $scope.name = response.name;
-
-                        $scope.UserId = "0";
-
-                        var obj = {
-                            UserName: $scope.email,
-                            Password: "",
-                            DeviceType: "Web",
-                            LoginType: "3",
-                            Sys_TimeDifference: offsetTime,
-                            Browser_Version: navigator.sayswho,
-                            Login_Country: Login_Country,
-                            Login_City: Login_City,
-                            Login_IpAddress: IpAddress
-                        };
-
-                        //$http.get(baseUrl + '/api/Login/Userlogin_AddEdit/?Id=' + $scope.Id + '&UserName=' + $scope.Username + '&Password=' + $scope.Password).success(function (data) {
-                        $http.post(baseUrl + '/api/Login/Userlogin_CheckValidity/', obj).success(function (data) {
-                            $scope.UserId = data.UserId;
-                            $scope.UserTypeId = data.UserTypeId;
-                            $scope.InstitutionId = data.InstitutionId;
-                            $window.localStorage['UserId'] = $scope.UserId;
-                            $window.localStorage['UserTypeId'] = $scope.UserTypeId;
-                            $window.localStorage['Login_Session_Id'] = data.Login_Session_Id;
-
-                            if ($scope.UserTypeId == 1) {
-                                $window.localStorage['InstitutionId'] = -1;
-                            }
-                            else {
-                                $window.localStorage['InstitutionId'] = $scope.InstitutionId;
-                            }
-                            var Message = data.Messagetype;
-
-                            if ($scope.remember == true) {
-                                $rememberMeService('dXNlcm5hbWVocm1z', ($scope.Username));
-                                $rememberMeService('cGFzc3dvcmRocm1z', ($scope.Password));
-                                $rememberMeService('cmVtZW1iZXJocm1z', ($scope.remember));
-
-                            } else {
-                                $rememberMeService('dXNlcm5hbWVocm1z', '');
-                                $rememberMeService('cGFzc3dvcmRocm1z', '');
-                                $rememberMeService('cmVtZW1iZXJocm1z', '');
-                            }
-
-                            var data = data.data;
-                            //var tokendata = "UserName=admin&Password=admin&grant_type=password&LoginType=1"
-                            //$http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
-                            //    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
-                            //}).error(function (err) {
-                            //    console.log(err);
-                            //    alert('error');
-                            //});
-                            
-
-                            //var UserName = $scope.Username;
-                            //var Password = $scope.Password;
-                            //var LoginType = "3";
-                            //var tokendata = "UserName=" + UserName + "&Password=#1#" + "&grant_type=password"
-                            //$http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
-                            //    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
-                            //}).error(function (err) {
-                            //    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
-                            //    alert('error');
-                            //});
-                            var UserName = $scope.Username;
-                            var Password = $scope.Password;
-                            var LoginType = $scope.LoginType;
-                            var tokendata = "UserName=" + UserName + "&Password=" + Password + "&grant_type=password"
-                            $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
-                                $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
-                            }).error(function (err) {
-                                $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
-                                console.log(err);
-                            });	
-                            $scope.ConfigCode = "WEBIDLETIME";
-                            var IdleDays = 0;
-                            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId'])
-                                .success(function (data1) {
-                                    if (data1[0] != undefined) {
-                                        IdleDays = parseInt(data1[0].ConfigValue);
-                                        $window.localStorage['IdleDays'] = IdleDays;
-                                        $scope.UserLogin(data, Message);
-                                    } else {
-                                        IdleDays = 600;
-                                        $window.localStorage['IdleDays'] = IdleDays;
-                                        $scope.UserLogin(data, Message);
-                                    }
-                                }).error(function (err) {
-                                    IdleDays = 600;
-                                    $window.localStorage['IdleDays'] = 600;
-                                    $scope.UserLogin(data,);
-                                });  
-                        });
-
-                    });
-                } else if (response.status === 'not_authorized') {
-                    $scope.errorlist = "User is not authorised";
-                } else {
-                    $scope.errorlist = "User not logged in";
-                }
-            });
-        }, { scope: 'email,public_profile' });
-    }
-
-    $scope.GoogleLogin = function () {
-        var offsetTime = new Date().getTimezoneOffset();
-        var obj1 = {
-            UserName: $scope.Username,
-            Password: $scope.Password,
-            DeviceType: "Web",
-            LoginType: "2",
-            Sys_TimeDifference: offsetTime,
-            Browser_Version: navigator.sayswho,
-            Login_Country: Login_Country,
-            Login_City: Login_City,
-            Login_IpAddress: IpAddress
-        };
-           
-                             
-        var redirect = baseUrl + 'Home/LoginUsingGoogle/?Sys_TimeDifference=' + offsetTime + '&Browser_Version=' + navigator.sayswho + '&Login_Country=' + Login_Country
-            + '&Login_City=' + Login_City + '&IPAdddress=' + IpAddress; 
-        // $http.post(baseUrl + '/api/PatientApproval/Multiple_PatientApproval_Active/', $scope.ApprovedPatientList).success(function (data) {
-        window.location.href = redirect;  
-     }
-
-    $http.get(baseUrl + '/api/Login/CheckExpiryDate/').success(function (data) {
-        if (data == true) {
-            $scope.errorlist = "Your MyCortex version is outdated. Please contact Administrator for upgrade or email us on admin@mycortex.health";
-            $scope.isExpired = true;
-        }
-    });
-}
 ]);
 
 /* THIS IS FOR SIGNUP CONTROLLER FUNCTION */
-MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', '$rootScope', '$timeout', 'rememberMe', 'filterFilter','toastr',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $rootScope, $timeout, $rememberMeService, $ff ,toastr) {
+MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', '$rootScope', '$timeout', 'rememberMe', 'filterFilter', 'toastr',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $rootScope, $timeout, $rememberMeService, $ff, toastr) {
         //Declaration and initialization of Scope Variables.    
         $scope.InstitutionCode = $routeParams.InstitutionCode;
         $scope.InstitutionId = 0;
@@ -848,7 +862,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
         $scope.email = "Email";
         $scope.mobilenumber = "Mobile Number";
         $scope.changelanguage = "Change Language";
-        
+
         $scope.defaultsignupacknowledgement = "By submitting this form you agree to share your medical information with MyCortex team for the purposes of medical evaluation and follow up.";
         $scope.signupacknowledgement = "By submitting this form you agree to share your medical information with MyCortex team for the purposes of medical evaluation and follow up.";
         if ($scope.InstitutionCode == "") {
@@ -860,10 +874,10 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                 } else {
                     $scope.institutionName = "MyCortex";
                 }
-                 
-            }); 
+
+            });
         }
-        
+
 
         $http.get(baseUrl + 'api/User/GetInstitutionFromCode/?Code=' + $scope.InstitutionCode).success(function (data) {
             if (data !== 0) {
@@ -923,8 +937,8 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                             }
                             if (masterVal.LANGUAGE_KEY === "signupacknowledgement") {
                                 $scope.signupacknowledgement = masterVal.LANGUAGE_TEXT;
-                                $scope.signupacknowledgement = $scope.signupacknowledgement.replace(/MyCortex/g, $scope.institutionName); 
-                                $scope.defaultsignupacknowledgement = $scope.defaultsignupacknowledgement.replace(/MyCortex/g, $scope.institutionName); 
+                                $scope.signupacknowledgement = $scope.signupacknowledgement.replace(/MyCortex/g, $scope.institutionName);
+                                $scope.defaultsignupacknowledgement = $scope.defaultsignupacknowledgement.replace(/MyCortex/g, $scope.institutionName);
                             }
                         });
                     }).error(function (data) {
@@ -989,11 +1003,11 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                 }
                 if (masterVal.LANGUAGE_KEY === "signupacknowledgement") {
 
-                    $scope.signupacknowledgement = masterVal.LANGUAGE_TEXT; 
-                    $scope.signupacknowledgement = $scope.signupacknowledgement.replace(/MyCortex/g, $scope.institutionName); 
+                    $scope.signupacknowledgement = masterVal.LANGUAGE_TEXT;
+                    $scope.signupacknowledgement = $scope.signupacknowledgement.replace(/MyCortex/g, $scope.institutionName);
                 }
             });
-            
+
         };
 
         /*This is th eValidation for sign Up page 
@@ -1055,7 +1069,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                 //alert("Please select Date of Birth");
                 toastr.warning("Please select Date of Birth", "warning");
                 return false;
-            } 
+            }
             if ((ParseDate($scope.DOB)) > (ParseDate(today))) {
                 //alert("DOB Can Be Only select past date");
                 toastr.warning("DOB Can Be Only select past date", "warning");
@@ -1073,7 +1087,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             }
             else if (EmailFormate($scope.EmailId) == false) {
                 //alert("Invalid Email format");
-                toastr.warning("Invalid Email format","warning");
+                toastr.warning("Invalid Email format", "warning");
                 return false;
             }
             else if (typeof ($scope.MobileNo) == "undefined" || $scope.MobileNo == "") {
@@ -1228,7 +1242,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
     }
 ]);
 
-MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', '$timeout', '$rootScope', '$toastr', 
+MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', '$timeout', '$rootScope', '$toastr',
     function ($scope, $http, $filter, $routeParams, $location, $window, $ff, $timeout, $rootScope, toastr) {
         $scope.fix = parseInt($routeParams.no) / 3;
         $scope.userid = $routeParams.str;
@@ -1262,7 +1276,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
             return true;
         };
 
-        
+
         $scope.policyExist = false;
         $scope.PasswordPolicyDetails = function () {
             $("#chatLoaderPV").show();
@@ -1368,7 +1382,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
 
                         if (angular.equals(z, a)) {
                             //alert($scope.Without_Char + "  characters not allowed, please check");
-                            toastr.info($scope.Without_Char + "  characters not allowed, please check","info");
+                            toastr.info($scope.Without_Char + "  characters not allowed, please check", "info");
                             return false;
                         }
 
@@ -1401,7 +1415,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                 var pwd = $scope.NewPassword;
                 if (user == pwd) {
                     //alert("Username and password is same, please check the password");
-                    toastr.inf("Username and password is same, please check the password","info");
+                    toastr.inf("Username and password is same, please check the password", "info");
                     return false;
                 }
 
@@ -1430,7 +1444,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
 
                 if ($scope.flagcharUpper <= 0) {
                     //alert("Please enter atleast one uppercase letter ");
-                    toastr.info("Please enter atleast one uppercase letter ","info");
+                    toastr.info("Please enter atleast one uppercase letter ", "info");
                     return false;
                 }
             }
@@ -1458,7 +1472,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
 
                 if ($scope.flagcharLower <= 0) {
                     //alert("Please enter atleast one lowercase letter ");
-                    toastr.info("Please enter atleast one lowercase letter ","info");
+                    toastr.info("Please enter atleast one lowercase letter ", "info");
                     return false;
                 }
             }
@@ -1496,7 +1510,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
             //Password policy based validations
             else if (parseInt(('' + $scope.NewPassword).length) < parseInt($scope.Minimum_Length)) {
                 //alert("Your Name Should Contain Minimum Length is " + $scope.Minimum_Length);
-                toastr.warning("Your Name Should Contain Minimum Length is " + $scope.Minimum_Length,"warning");
+                toastr.warning("Your Name Should Contain Minimum Length is " + $scope.Minimum_Length, "warning");
                 return false;
             }
 
@@ -1568,7 +1582,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                 }
                 if ($scope.flag <= 0) {
                     //alert("Please enter atleast one number ");
-                    toastr.info("Please enter atleast one number ","info");
+                    toastr.info("Please enter atleast one number ", "info");
                     return false;
                 }
             }
@@ -1581,7 +1595,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                 var pwd = $scope.NewPassword;
                 if (user == pwd) {
                     //alert("Username and password is same, please check the password");
-                    toastr.warning("Username and password is same, please check the password","warning");
+                    toastr.warning("Username and password is same, please check the password", "warning");
                     return false;
                 }
 
@@ -1610,7 +1624,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
 
                 if ($scope.flagcharUpper <= 0) {
                     //alert("Please enter atleast one uppercase letter ");
-                    toastr.info("Please enter atleast one uppercase letter ","info");
+                    toastr.info("Please enter atleast one uppercase letter ", "info");
                     return false;
                 }
             }
@@ -1638,7 +1652,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
 
                 if ($scope.flagcharLower <= 0) {
                     //alert("Please enter atleast one lowercase letter ");
-                    toastr.info("Please enter atleast one lowercase letter ","info");
+                    toastr.info("Please enter atleast one lowercase letter ", "info");
                     return false;
                 }
             }
@@ -1646,7 +1660,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
             return true;
 
         };
-        
+
         $scope.CancelPopup = function () {
             if (confirm('Are you sure?')) {
                 window.location.href = baseUrl + "/#/login";
