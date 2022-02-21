@@ -43,5 +43,28 @@ namespace MyCortex.CommonMenu.Controllers
             }
         }
 
+        /// <summary>
+        /// Module list based on user login
+        /// </summary>
+        /// <param name="InsId">Institution Id</param>
+        /// <returns>menu list with page URL</returns>
+        [HttpGet]
+        public IList<CommonModuleList> CommonModule_List(long InsId)
+        {
+            IList<CommonModuleList> model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model = repository.CommonModule_List(InsId);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
     }
 }

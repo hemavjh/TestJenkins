@@ -7,6 +7,23 @@ if (baseUrl == "/") {
 
 UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '$sce', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$interval', 'toastr',
     function ($scope, $sce, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $interval, toastr) {
+
+        var dtToday = new Date();
+
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+
+        var maxDate = year + '-' + month + '-' + day;
+
+        $scope.startDateMin = maxDate;
+        $scope.EndDateMin = maxDate;
+
+
         if (chatService.checkCall($routeParams.Id)) {
             //alert('You cannot switch patient during call.')
             toastr.info("You cannot switch patient during call.", "info");
@@ -6630,15 +6647,15 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 angular.element('#PatientNotesAddEditModal').modal('show');
             } else {
                 //alert('Notes only edited by author');
-                toastr.info("Inactive record cannot be edited", "info");
+                toastr.info("Notes can be edited by Author only", "info");
             }
 
         }
-        /*calling Alert message for cannot edit inactive record function */
+        /*calling Alert message for cannot edit inactive record function *//*
         $scope.EditPatientNotes = function () {
              //alert('Notes only edited by author');
             toastr.info("Inactive record cannot be edited ", "info");
-        }
+        }*/
 
 
         //Validation for insert function

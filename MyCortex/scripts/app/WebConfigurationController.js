@@ -218,65 +218,84 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
 
         var CHRONIC_CODE = "";
         $scope.WebConfigurationDetails = [];
+        $scope.Configuration_AddEdit_Validations = function () {
+            var CheckTrue = "";
+            angular.forEach($scope.rowCollectionWebConfiguration, function (value, index) {
+                if ($scope.rowCollectionWebConfiguration[index]["CONFIGCODE"] == "PATIENT_MIN_AGE") {
+                    var id = value.CONFIGCODE;
+                    var patientAge = document.getElementById(id).value;
+                    if (patientAge == "0" || patientAge == 0) {
+                        CheckTrue = 1;
+                    } 
+                }
+            });
+            if (CheckTrue == 1) {
+                toastr.info("PATIENT_MIN_AGE Config Value Is Below 1 Year", "info");
+                $('#save').attr("disabled", false);
+                return false
+            } else {
+                return true
+            }
+        }
         $scope.Configuration_AddEdit = function () {
             $("#chatLoaderPV").show();
-            angular.forEach($scope.rowCollectionWebConfiguration, function (value, index) {
-                //var obj = {
-                //    Id: value.ID,
-                //    INSTITUTION_ID: value.INSTITUTION_ID, //$scope.INSTITUTION_ID,
-                //    CONFIGVALUE: $scope.Config_value[value.ID] == 0 || $scope.Config_value[value.ID] == "" ? '' : $scope.Config_value[value.ID],
-                //}
-                //$('#save').attr("disabled", true);
-                //$scope.WebConfigurationDetails.push(obj);
-                
-                /*if (index = 32) {
-                    obj = {
-                        Id: value.ID,
-                        INSTITUTION_ID: value.INSTITUTION_ID,
-                        CONFIGVALUE: CHRONIC_CODE == 0 || CHRONIC_CODE == "" ? '' : CHRONIC_CODE,
-                    }
-                }
-                else {
-                    obj = {
-                        Id: value.ID,
-                        INSTITUTION_ID: value.INSTITUTION_ID,
-                        CONFIGVALUE: $scope.Config_value[value.ID] == 0 || $scope.Config_value[value.ID] == "" ? '' : $scope.Config_value[value.ID],
-                    }
-                }*/
+            if ($scope.Configuration_AddEdit_Validations() == true) {
+                angular.forEach($scope.rowCollectionWebConfiguration, function (value, index) {
+                    //var obj = {
+                    //    Id: value.ID,
+                    //    INSTITUTION_ID: value.INSTITUTION_ID, //$scope.INSTITUTION_ID,
+                    //    CONFIGVALUE: $scope.Config_value[value.ID] == 0 || $scope.Config_value[value.ID] == "" ? '' : $scope.Config_value[value.ID],
+                    //}
+                    //$('#save').attr("disabled", true);
+                    //$scope.WebConfigurationDetails.push(obj);
 
-                var obj = "";
-                if ($scope.rowCollectionWebConfiguration[index]["CONFIGCODE"] == "CHRONIC CODE") {
-                    obj = {
-                        Id: value.ID,
-                        INSTITUTION_ID: value.INSTITUTION_ID,
-                        CONFIGVALUE: CHRONIC_CODE == 0 || CHRONIC_CODE == "" ? '' : CHRONIC_CODE,
+                    /*if (index = 32) {
+                        obj = {
+                            Id: value.ID,
+                            INSTITUTION_ID: value.INSTITUTION_ID,
+                            CONFIGVALUE: CHRONIC_CODE == 0 || CHRONIC_CODE == "" ? '' : CHRONIC_CODE,
+                        }
                     }
-                }
-                else {
-                    obj = {
-                        Id: value.ID,
-                        INSTITUTION_ID: value.INSTITUTION_ID,
-                        CONFIGVALUE: $scope.Config_value[value.ID] == 0 || $scope.Config_value[value.ID] == "" ? '' : $scope.Config_value[value.ID],
+                    else {
+                        obj = {
+                            Id: value.ID,
+                            INSTITUTION_ID: value.INSTITUTION_ID,
+                            CONFIGVALUE: $scope.Config_value[value.ID] == 0 || $scope.Config_value[value.ID] == "" ? '' : $scope.Config_value[value.ID],
+                        }
+                    }*/
+
+                    var obj = "";
+                    if ($scope.rowCollectionWebConfiguration[index]["CONFIGCODE"] == "CHRONIC CODE") {
+                        obj = {
+                            Id: value.ID,
+                            INSTITUTION_ID: value.INSTITUTION_ID,
+                            CONFIGVALUE: CHRONIC_CODE == 0 || CHRONIC_CODE == "" ? '' : CHRONIC_CODE,
+                        }
                     }
-                }
-                $('#save').attr("disabled", true);
-                $scope.WebConfigurationDetails.push(obj);        
-            });
-
-
-            $http.post(baseUrl + '/api/WebConfiguration/Configuration_AddEdit/', $scope.WebConfigurationDetails).success(function (data) {
-                $("#chatLoaderPV").hide();
-                //alert("Configuration Data saved successfully");
-                toastr.success("Configuration Data saved successfully", "success");
-                $('#save').attr("disabled", false);
-                $scope.WebConfigurationDetails = [];
-                $scope.Config_value = [];
-                $scope.searchqueryWebConfiguration = "";
-                $scope.WebConfigurationList();
-                $scope.IsEdit = false;
-                //$location.path("/ParameterSettings");
-            });
-
+                    else {
+                        obj = {
+                            Id: value.ID,
+                            INSTITUTION_ID: value.INSTITUTION_ID,
+                            CONFIGVALUE: $scope.Config_value[value.ID] == 0 || $scope.Config_value[value.ID] == "" ? '' : $scope.Config_value[value.ID],
+                        }
+                    }
+                    $('#save').attr("disabled", true);
+                    $scope.WebConfigurationDetails.push(obj);
+                });
+                $http.post(baseUrl + '/api/WebConfiguration/Configuration_AddEdit/', $scope.WebConfigurationDetails).success(function (data) {
+                    $("#chatLoaderPV").hide();
+                    //alert("Configuration Data saved successfully");
+                    toastr.success("Configuration Data saved successfully", "success");
+                    $('#save').attr("disabled", false);
+                    $scope.WebConfigurationDetails = [];
+                    $scope.Config_value = [];
+                    $scope.searchqueryWebConfiguration = "";
+                    $scope.WebConfigurationList();
+                    $scope.IsEdit = false;
+                    //$location.path("/ParameterSettings");
+                });
+            }
+            $("#chatLoaderPV").hide();
         };
 /*
         $scope.insSubChronicChange = function () {
