@@ -1707,11 +1707,11 @@
                                                             </tr>
                                                             <tr ng-repeat="row in rowcollectionfiltericd10emptyData">
                                                                 <td class="textalign">{{((current_pageICD-1)*page_size)+$index+1}}</td>
-                                                                <td style="text-align: left">{{row.ICD_Code}}</td>
-                                                                <td style="text-align: left">
+                                                                <td style="text-align: left;word-break: break-word;">{{row.ICD_Code}}</td>
+                                                                <td style="text-align: left;word-break: break-word;">
                                                                     <div class="textwrap">{{row.Description}}</div>
                                                                 </td>
-                                                                <td style="text-align: left">{{row.CategoryName}}</td>
+                                                                <td style="text-align: left;word-break: break-word;">{{row.CategoryName}}</td>
                                                                 <td style="text-align: left">
                                                                     <div class="textwrap" style="word-break:break-word" title="{{row.Remarks}}">
                                                                         <!--{{row.Remarks}}-->
@@ -3730,14 +3730,14 @@
                                     <tbody>
                                         <tr ng-repeat="row in AddICD10List">
                                             <td class="textalign">{{$index+1}}</td>
-                                            <td>
+                                            <td style="word-break: break-word; min-width: 129px;">
                                                 {{row.ICD_Code}} <a href="javascript:" title="Click to ICD Code"
                                                                     ng-click="ICD10codeSearchPopup($index);Icd10Clear()">Select</a>
                                             </td>
-                                            <td width="25%">
+                                            <td style="word-break: break-word; min-width: 119px;">
                                                 {{row.Description}}
                                             </td>
-                                            <td width="25%">
+                                            <td style="word-break: break-word; min-width: 119px;">
                                                 {{row.CategoryName}}
                                             </td>
                                             <td style="text-align: center">
@@ -3827,17 +3827,17 @@
                                             </td>
                                         </tr>
                                         <tr ng-repeat="row in ICD10CodeEmptydata ">
-                                            <td style="text-align: right">
+                                            <td style="text-align: left">
                                                 <a href="javascript:" ng-click="ICD10CodeSelect(row)"
                                                    title="select">
                                                     Select
                                                 </a>
                                             </td>
-                                            <td style="text-align: left">{{row.ICD_Code}}
-                                            <td style="text-align: left">
+                                            <td style="text-align: left; word-break: break-word; min-width: 154px;" >{{row.ICD_Code}}
+                                            <td style="text-align: left; word-break: break-word; min-width: 119px;">
                                                 {{row.Description}}
                                             </td>
-                                            <td style="text-align: left">{{row.CategoryName}}
+                                            <td style="text-align: left; word-break: break-word; min-width: 119px;">{{row.CategoryName}}
                                         </tr>
                                     </tbody>
                                     <tfoot ng-show="ICD10CodeListsFilter.length >page_size">
@@ -4316,7 +4316,7 @@
                                     <td valign="top">
                                         <label>Generic Name</label>
                                     </td>
-                                    <td>
+                                    <td style="word-break: break-word;">
                                         <div class="textwrap">{{row.Generic_name}}</div>
                                     </td>
                                 </tr>
