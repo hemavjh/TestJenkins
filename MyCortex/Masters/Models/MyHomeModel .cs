@@ -408,4 +408,13 @@ namespace MyCortex.Masters.Models
         public string CreatedByName { get; set; }
         public string TimeDifference { get; set; }
     }
+    public class DashboardUserParameterSettingsModel
+    {
+        public long Id { get; set; }
+        public long User_Id { get; set; }
+        public string Parameter_ID { get; set; }
+        public int IsActive { get; set; }
+        public long Created_By { get; set; }
+        
+    }
 }
