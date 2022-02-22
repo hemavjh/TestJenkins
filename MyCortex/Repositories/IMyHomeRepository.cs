@@ -23,6 +23,7 @@ namespace MyCortex.Repositories
         IList<TabDevicesModel> Get_DeviceList(int? IsActive, long Institution_ID); 
         IList<TabDevicesModel> Get_DeviceNameList(int? IsActive);
         IList<TabDevicesModel> Device_InsertUpdate(TabDevicesModel obj);
+        IList<DashboardUserParameterSettingsModel> Dashboard_UserParameterSettings_InsertUpdate(DashboardUserParameterSettingsModel obj);
         TabDevicesModel Device_ListView(long id);
         /*TabDevicesModel Get_Device_Id(long DeviceId);*/
         void Device_List_Delete(int Id);

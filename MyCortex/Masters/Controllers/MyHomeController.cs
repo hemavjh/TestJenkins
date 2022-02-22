@@ -504,16 +504,47 @@ namespace MyCortex.User.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
-       /* [Authorize]
-        [HttpGet]
-        [CheckSessionOutFilter]
-        public TabDevicesModel Get_Device_id(long DeviceId)
+        public HttpResponseMessage Dashboard_UserParametersettings_InsertUpdate([FromBody] DashboardUserParameterSettingsModel model)
         {
-            TabDevicesModel model = new TabDevicesModel();
-            model = repository.Get_Device_Id(DeviceId);
-            return model;
+            IList<DashboardUserParameterSettingsModel> ModelData = new List<DashboardUserParameterSettingsModel>();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        ModelData = repository.Dashboard_UserParameterSettings_InsertUpdate(model);
+
+                        return Request.CreateResponse(HttpStatusCode.OK, ModelData);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.Error(ex.Message, ex);
+                        return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+                    }
+                }
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
         }
-       */
+
+        /* [Authorize]
+         [HttpGet]
+         [CheckSessionOutFilter]
+         public TabDevicesModel Get_Device_id(long DeviceId)
+         {
+             TabDevicesModel model = new TabDevicesModel();
+             model = repository.Get_Device_Id(DeviceId);
+             return model;
+         }
+        */
         [Authorize]
         [HttpGet]
         [CheckSessionOutFilter]
