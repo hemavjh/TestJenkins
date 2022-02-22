@@ -3879,7 +3879,7 @@
                                             <label>ICD Code</label>
                                         </td>
                                         <td width="30%">
-                                            <div class="textwrap"> {{ICD_Code}}</div>
+                                            <div class="textwrap" style="word-break: break-word;max-width: 450px;"> {{ICD_Code}}</div>
                                         </td>
                                     </tr>
 
@@ -3888,7 +3888,7 @@
                                             <label>ICD Description</label>
                                         </td>
                                         <td width="30%">
-                                            <div class="textwrap"> {{ICD_Description}}</div>
+                                            <div class="textwrap" style="word-break: break-word;max-width: 450px;"> {{ICD_Description}}</div>
                                         </td>
 
                                     </tr>
@@ -3985,12 +3985,9 @@
                             </tr>-->
 
                                     <tr ng-repeat="row in AddICD10List">
-                                        Ad
-
-
                                         <td><label>ICD Code</label></td>
 
-                                        <td>
+                                        <td style="min-width: 120px;word-break: break-word;">
 
                                             {{row.ICD_Code}}
                                             <a href="javascript:" title="Click to ICD Code"
@@ -4015,19 +4012,15 @@
 
 
                                     <tr ng-repeat="row in AddICD10List">
-
-                                        i
-
-
                                         <td><label>ICD Description</label></td>
 
-                                        <td>
+                                        <td style="min-width: 120px;word-break: break-word;">
                                             {{row.ICD_Description}}
                                         </td>
                                     </tr>
                                     <tr ng-repeat="row in AddICD10List">
                                         <td><label>Remarks</label></td>
-                                        <td>
+                                        <td style="min-width: 120px;word-break: break-word;">
                                             <input type="text" class="form-control"
                                                    ng-model="row.ICD_Remarks" row="1" cols="1" maxlength="250">
                                         </td>
