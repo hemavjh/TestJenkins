@@ -3414,6 +3414,7 @@ namespace MyCortex.Repositories.Uesr
                                           RowNumber = p.Field<int>("ROW_NUM"),
                                           Id = p.Field<long>("ID"),
                                           AllergenName = p.Field<string>("ALLERGENNAME"),
+                                          AllergyTypeId = p.Field<long>("ALLERGYTYPE_ID"),
                                           AllergyTypeName = p.Field<string>("ALLERGYTYPE"),
                                           AllergySeverityName = p.Field<string>("SEVERITY") ?? "",
                                           AllergyOnsetName = p.Field<string>("ONSETNAME") ?? "",
