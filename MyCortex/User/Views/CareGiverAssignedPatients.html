@@ -18,12 +18,30 @@
                 <div class="panel-body">
                     <div st-table="emptydata" st-safe-src="rowCollectionFilter">
                         <div class="row">
+                            <div class="col-sm-2">
+                                <div class="inputGroups">
+                                    <label>
+                                        Search Field
+                                    </label>
+                                    <select class="form-control" ng-model="filter_CG_Assig_SearchFieldId" id="ddlsearchfield" ng-required="true">
+                                        <option value="0" selected="selected">Select</option>
+                                        <option value="1">Patient ID</option>
+                                        <option value="2">National ID</option>
+                                        <option value="3">First Name</option>
+                                        <option value="4">Last Name</option>
+                                        <option value="5">Insurance ID</option>
+                                        <option value="6">Email</option>
+                                        <option value="7">Mobile No</option>
+                                        <option value="8">MRN</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="col-sm-4">
                                 <div class="inputGroups">
                                     <label>Search</label>
                                     <div class="modernSearch">
                                         <input type="text" ng-model="caregiver_searchquery"
-                                            ng-change="CareGiver_ListFilter()" placeholder="" />
+                                               ng-change="CareGiver_ListFilter()" placeholder="" />
                                         <i class="fa fa-search"></i>
                                     </div>
                                 </div>
@@ -32,7 +50,7 @@
                                 <div class="inputGroups">
                                     <label>Alert Filter</label>
                                     <select ng-model="Filter_Selected" multiple="multiple" multiselect-dropdown
-                                        style="width: 230px;" ng-change="Coordinator_Filter()">
+                                            style="width: 230px;" ng-change="Coordinator_Filter()">
                                         <option value="1">High</option>
                                         <option value="2">Medium</option>
                                         <option value="3">Low</option>
@@ -41,23 +59,23 @@
                                 </div>
                             </div>
                             <!--<div class="col-sm-4">
-                                <div class="inputGroups">
-                                    <label>Advance Filter</label>
-                                    <a data-toggle="collapse" data-parent="#accordion" class="btn btn-link ml-5"
-                                        href="#collapseMore" ng-click="currentTab=='1'?currentTab='2':currentTab='1'"
-                                        title="Click for Advance search">
-                                       
-                                        <sub ng-show="currentTab=='1' ">
-                                            <i class="fa fa-filter" aria-hidden="true"></i>
-                                            
-                                        </sub>
-                                        <sub ng-show="currentTab=='2'">
-                                            <i class="fa fa-filter" aria-hidden="true"></i>
-                                            
-                                        </sub>
-                                    </a>
-                                </div>
-                            </div>-->
+        <div class="inputGroups">
+            <label>Advance Filter</label>
+            <a data-toggle="collapse" data-parent="#accordion" class="btn btn-link ml-5"
+                href="#collapseMore" ng-click="currentTab=='1'?currentTab='2':currentTab='1'"
+                title="Click for Advance search">
+
+                <sub ng-show="currentTab=='1' ">
+                    <i class="fa fa-filter" aria-hidden="true"></i>
+
+                </sub>
+                <sub ng-show="currentTab=='2'">
+                    <i class="fa fa-filter" aria-hidden="true"></i>
+
+                </sub>
+            </a>
+        </div>
+    </div>-->
 
                         </div>
 

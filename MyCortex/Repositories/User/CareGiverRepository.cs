@@ -66,7 +66,14 @@ namespace MyCortex.Repositories.User
                                                           HighCount = p.Field<int>("HighCount"),	
                                                           MediumCount = p.Field<int>("MediumCount"),	
                                                           LowCount = p.Field<int>("LowCount"),
-                                                      }).ToList();
+                                                          FirstName = p.Field<string>("FirstName"),
+                                                          LastName = p.Field<string>("LastName"),
+                                                          Mobile = p.Field<string>("Mobile"),
+                                                          Email = p.Field<string>("Email"),
+                                                          Patient_No = p.Field<string>("Patient_ID"),
+                                                          National_ID = p.Field<string>("National_ID"),
+                                                          Insurance_ID = p.Field<string>("Insurance_ID")
+                                            }).ToList();
                 return lst;
             }
             catch (Exception ex)
