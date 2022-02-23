@@ -92,31 +92,31 @@ namespace MyCortex.Repositories.EmailAlert
                             EncryptFlag = int.Parse(dtRow1["ENCRYPT_FLAG"].ToString());
                             TagsReplaceData = dtRow[FieldName].ToString();
 
-                            if (EncryptFlag == 1)
-                            {
-                                if (TagsReplaceData.Contains(","))
-                                {
-                                    string[] cgList = TagsReplaceData.Split(',');
-                                    TagsReplaceData = "";
-                                    foreach ( string cg in cgList)
-                                    {
-                                        string cgs = DecryptFields.Decrypt(cg);
-                                        if (TagsReplaceData == "")
-                                        {
-                                            TagsReplaceData = cgs;
-                                        }
-                                        else
-                                        {
-                                            TagsReplaceData = TagsReplaceData + "," + cgs;
-                                        }
+                            //if (EncryptFlag == 1)
+                            //{
+                            //    if (TagsReplaceData.Contains(","))
+                            //    {
+                            //        string[] cgList = TagsReplaceData.Split(',');
+                            //        TagsReplaceData = "";
+                            //        foreach ( string cg in cgList)
+                            //        {
+                            //            string cgs = DecryptFields.Decrypt(cg);
+                            //            if (TagsReplaceData == "")
+                            //            {
+                            //                TagsReplaceData = cgs;
+                            //            }
+                            //            else
+                            //            {
+                            //                TagsReplaceData = TagsReplaceData + "," + cgs;
+                            //            }
                                         
-                                    }
-                                }
-                                else
-                                {
-                                    TagsReplaceData = DecryptFields.Decrypt(TagsReplaceData);
-                                }
-                            }
+                            //        }
+                            //    }
+                            //    else
+                            //    {
+                            //        TagsReplaceData = DecryptFields.Decrypt(TagsReplaceData);
+                            //    }
+                            //}
                             Template = FinalResult.Replace(TagName, TagsReplaceData);
                             if (TemplateType_Id == 3)
                             {

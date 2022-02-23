@@ -836,6 +836,41 @@ namespace MyCortex.Repositories.Masters
 
         }
 
+        public IList<DashboardUserParameterSettingsModel> Dashboard_UserParameterSettings_InsertUpdate(DashboardUserParameterSettingsModel insobj)
+        {
+            long InsertId;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ID", insobj.Id));
+            param.Add(new DataParameter("@USER_ID", insobj.User_Id));
+            param.Add(new DataParameter("@PARAMETER_ID", insobj.Parameter_ID));
+            param.Add(new DataParameter("@ISACTIVE", insobj.IsActive));
+            param.Add(new DataParameter("@CREATED_BY", insobj.Created_By));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[DASHBOARD_USERPARAMETERSETTINGS_SP_INSERTUPDATE]", param);
+                IList<DashboardUserParameterSettingsModel> INS = (from p in dt.AsEnumerable()
+                                                                      select
+                                                                      new DashboardUserParameterSettingsModel()
+                                                                      {
+                                                                          Id = p.Field<long>("ID"),
+                                                                          User_Id = p.Field<long>("USER_ID"),
+                                                                          Parameter_ID = p.Field<string>("PARAMETER_ID"),
+                                                                          IsActive = p.Field<int>("ISACTIVE"),
+                                                                          Created_By = p.Field<long>("CREATED_BY"),
+
+                                                                      }).ToList();
+                    return INS;
+                
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+
+        }
+
         public TabDevicesModel Device_ListView(long id)
         {
             List<DataParameter> param = new List<DataParameter>();
