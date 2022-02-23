@@ -507,91 +507,94 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             $window.location.href = baseUrl + "/Home/LoginIndex#/";
         }          
     });
-    $rootScope.$on('IdleStart', function () {
-        console.log('IdleStart');
-        var interval;
-        var timeLeft = 60;
-        Swal.fire({
-            position: 'top',
-            title: '<h6 class="text-lg" style="color: var(--bg-green);">Your session is about to expire due to inactivity</h6>',
-            html: 'MyCortex will logout in <b>60</b> seconds.',
-            timer: timeLeft * 1000,
-            showCloseButton: true,
-            showCancelButton: true,
-            focusConfirm: false,
-            confirmButtonText: 'Logout',
-            confirmButtonColor: '#d33',
-            confirmButtonClass: 'btn bg-green rounded text-white text-sm  px-3 py-1 mx-1',
-            cancelButtonClass: 'btn bg-green rounded text-white text-sm px-3 py-1 mx-1',
-            cancelButtonColor: '#008000',
-            cancelButtonText: 'Stay',
-            focusCancel: true,
-            allowOutsideClick: false,
-            didOpen: () => {
-                interval = setInterval(() => {
-                    if (timeLeft > 0) {
-                        timeLeft--;
-                    } else {
-                        timeLeft = 60;
-                    }
-                    const content = swal.getContent();
-                    if (content) {
-                        const b = content.querySelector('b');
-                        if (b) {
-                            b.textContent = timeLeft.toString();
+    var uid = window.localStorage['UserTypeId'];
+    if (uid != "1") {
+        $rootScope.$on('IdleStart', function () {
+            console.log('IdleStart');
+            var interval;
+            var timeLeft = 60;
+            Swal.fire({
+                position: 'top',
+                title: '<h6 class="text-lg" style="color: var(--bg-green);">Your session is about to expire due to inactivity</h6>',
+                html: 'MyCortex will logout in <b>60</b> seconds.',
+                timer: timeLeft * 1000,
+                showCloseButton: true,
+                showCancelButton: true,
+                focusConfirm: false,
+                confirmButtonText: 'Logout',
+                confirmButtonColor: '#d33',
+                confirmButtonClass: 'btn bg-green rounded text-white text-sm  px-3 py-1 mx-1',
+                cancelButtonClass: 'btn bg-green rounded text-white text-sm px-3 py-1 mx-1',
+                cancelButtonColor: '#008000',
+                cancelButtonText: 'Stay',
+                focusCancel: true,
+                allowOutsideClick: false,
+                didOpen: () => {
+                    interval = setInterval(() => {
+                        if (timeLeft > 0) {
+                            timeLeft--;
+                        } else {
+                            timeLeft = 60;
+                        }
+                        const content = swal.getContent();
+                        if (content) {
+                            const b = content.querySelector('b');
+                            if (b) {
+                                b.textContent = timeLeft.toString();
+                            }
+                        }
+                    }, 1000);
+                },
+                willClose: () => {
+                    timeLeft = 60;
+                    clearInterval(interval);
+                }
+            }).then((result) => {
+                if (result.value) {
+                    $window.localStorage['inactivity_logout'] = 1;
+                    var UserId = $window.localStorage['UserId'];
+                    var SessionId = $window.localStorage['Login_Session_Id'];
+                    $.get(baseUrl + "/api/Login/User_Logout?UserId=" + UserId + "&Login_Session_Id=" + SessionId, function (data, Status) {
+                        console.log(data);
+                        //if (data["Status"]) {
+                        //}
+                    });
+                    $window.location.href = baseUrl + "/Home/LoginIndex#/";
+                } else {
+                    if (result.dismiss) {
+                        if (result.dismiss === swal.DismissReason.timer) {
+                            $window.localStorage['inactivity_logout'] = 1;
+                            var UserId = $window.localStorage['UserId'];
+                            var SessionId = $window.localStorage['Login_Session_Id'];
+                            $.get(baseUrl + "/api/Login/User_Logout?UserId=" + UserId + "&Login_Session_Id=" + SessionId, function (data, Status) {
+                                console.log(data);
+                                //if (data["Status"]) {;
+                                //}
+                            });
+                            $window.location.href = baseUrl + "/Home/LoginIndex#/";
+                        } else {
+                            timeLeft = 60;
+                            clearInterval(interval);
+                            Idle.resetTimer();
+                            //IdleProvider.resetTimer();
                         }
                     }
-                }, 1000);
-            },
-            willClose: () => {
-                timeLeft = 60;
-                clearInterval(interval);
-            }
-        }).then((result) => {
-            if (result.value) {
-                $window.localStorage['inactivity_logout'] = 1;
-                var UserId = $window.localStorage['UserId'];
-                var SessionId = $window.localStorage['Login_Session_Id'];
-                $.get(baseUrl + "/api/Login/User_Logout?UserId=" + UserId + "&Login_Session_Id=" + SessionId, function (data, Status) {
-                console.log(data);
-                //if (data["Status"]) {
-                //}
-            });
-                $window.location.href = baseUrl + "/Home/LoginIndex#/";
-            } else {
-                if (result.dismiss) {
-                    if (result.dismiss === swal.DismissReason.timer) {
-                        $window.localStorage['inactivity_logout'] = 1;
-                        var UserId = $window.localStorage['UserId'];
-                        var SessionId = $window.localStorage['Login_Session_Id'];
-                        $.get(baseUrl + "/api/Login/User_Logout?UserId=" + UserId + "&Login_Session_Id=" + SessionId, function (data, Status) {
-                            console.log(data);
-                            //if (data["Status"]) {;
-                            //}
-                        });
-                        $window.location.href = baseUrl + "/Home/LoginIndex#/";
-                    } else {
-                        timeLeft = 60;
-                        clearInterval(interval);
-                        Idle.resetTimer();
-                        //IdleProvider.resetTimer();
-                    }
                 }
-            }
+            });
+            // the user appears to have gone idle
         });
-        // the user appears to have gone idle
-    });
-    $rootScope.$on('IdleTimeout', function () {
-        //console.log('IdleTimeout');
-        
+        $rootScope.$on('IdleTimeout', function () {
+            //console.log('IdleTimeout');
 
-        //$window.location.href = baseUrl + "/Home/LoginIndex#/";
-        // the user has timed out, let log them out
-    });
-    $rootScope.$on('IdleEnd', function () {
-        //console.log('IdleEnd');
-        // the user has come back from AFK and is doing stuff
-    });
+
+            //$window.location.href = baseUrl + "/Home/LoginIndex#/";
+            // the user has timed out, let log them out
+        });
+        $rootScope.$on('IdleEnd', function () {
+            //console.log('IdleEnd');
+            // the user has come back from AFK and is doing stuff
+        });
+    }
 }]);
 
 EmpApp.config(function ($httpProvider) {

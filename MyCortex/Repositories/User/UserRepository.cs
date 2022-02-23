@@ -4531,5 +4531,18 @@ namespace MyCortex.Repositories.Uesr
                 return 0;
             }
         }
+
+        public int Get_Exist_AnyUnEncryptedUser()
+        {
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GETCOUNT_ENCRYPTED_USER_DETAILS]");
+                return Convert.ToInt32(dt.Rows[0]["STATUS"].ToString());
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
     }
 }
