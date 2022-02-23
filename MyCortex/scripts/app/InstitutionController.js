@@ -84,7 +84,8 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
                         $scope.Apply_New_Encryption_to_UserDetails();
                     } else {
                         $("#newEncry").text('Apply New Encryption');
-                        $("#newEncry").css('display', 'inline-block');
+                        //$("#newEncry").css('display', 'inline-block');
+                        $("#newEncry").css('display', 'none');
                         $("#processtext").text('');
                     }
                 });
