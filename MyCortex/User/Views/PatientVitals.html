@@ -216,7 +216,7 @@
             </div>-->
                     <!--<div class="mainbody resBody ng-scope">
             <div class="rows">-->
-                <h4 class="page-title" style="margin-left: 18px;">Patient Vitals</h4>
+                    <h4 class="page-title" style="margin-left: 18px;">Patient Vitals</h4>
                     <div class="col-sm-4 p-15 centerScroll" style="z-index:2;">
                         <div style="border: 1px solid #ccc;box-shadow: 2px 2px 10px #ccc;background:#fff">
                             <div id="DemoChart" style="max-width:80%;margin: 0 auto;">
@@ -506,22 +506,22 @@
                     </div>-->
                             <div class="panel panel-default patientProfileInfo">
 
-                            <ul class="nav nav-tabs">
-                                <!--<li class=""><a data-toggle="tab" href="#"></a></li>-->
-                                <!--<li class="active"><a data-toggle="tab" href="#appt">Book Appointment</a></li>-->
-                                <li class="active" style="text-align: left;left: 15px;"><a data-toggle="tab" href="#alertclear">Clear Alerts</a></li>
-                            </ul>
-                            <div class="tab-content centerScroll" style="display:inherit !important;">
-                                <!--<div id="appt" class="tab-pane fade in active">
-                                <div class="panel-body">
-                                    <div class="inputGroups">
-                                        <label for="usr">Doctor</label>
-                                        <input type="text" class="form-control" ng-model="searchquery" ng-click="DoctorSeachPopup()"
-                                               placeholder="" />
-
-                                </div>
+                                <ul class="nav nav-tabs">
+                                    <!--<li class=""><a data-toggle="tab" href="#"></a></li>-->
+                                    <!--<li class="active"><a data-toggle="tab" href="#appt">Book Appointment</a></li>-->
+                                    <li class="active" style="text-align: left;left: 15px;"><a data-toggle="tab" href="#alertclear">Clear Alerts</a></li>
+                                </ul>
+                                <div class="tab-content centerScroll" style="display:inherit !important;">
+                                    <!--<div id="appt" class="tab-pane fade in active">
+                            <div class="panel-body">
                                 <div class="inputGroups">
-                                    <label for="usr">Appointment Date</label>-->
+                                    <label for="usr">Doctor</label>
+                                    <input type="text" class="form-control" ng-model="searchquery" ng-click="DoctorSeachPopup()"
+                                           placeholder="" />
+
+                            </div>
+                            <div class="inputGroups">
+                                <label for="usr">Appointment Date</label>-->
                                     <!--<div class="input-group date">-->
                                     <!--<input type="date" max="2099-12-31" id="AppointmentDate" class="form-control date" ng-model="AppointmentDate" ng-init="AppointmentDate=''">-->
                                     <!--<span class="input-group-addon">
@@ -674,125 +674,125 @@
                     <img style="padding-right:30px;" src="images/Video-icon1.png">
                 </button>-->
                         <!--<a class="homepadamicon Video" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" onclick="openChatWindow();videoCallUser()">
-                                            <img style="margin-top: -4px; padding-left: 0px; padding-top: 0px; padding-bottom: 0px; padding-right: 4px; width: 41px; margin-left: -2px;" src="images/Video-Icon.png">
-                                            </a>
+                                        <img style="margin-top: -4px; padding-left: 0px; padding-top: 0px; padding-bottom: 0px; padding-right: 4px; width: 41px; margin-left: -2px;" src="images/Video-Icon.png">
+                                        </a>
+                                        <a class="homepadamicon trashs" ng-click="CancelAppointmentModal(Appointment_Id)"><img class="kutticon" src="images/trashs-icon.png"> </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="myAppoinments" ng-hide="PreviousAppointmentCount !== 0">
+                                No Past Appointment...
+                            </div>
+                        </div>
+
+                            <div id="appt" class="tab-pane fade in active">
+                                <div class="" ng-repeat="Row in UpComingAppointmentDetails" ng-hide="UpComingAppointmentCount == 0">
+                                    <div class=" upcoming-doctor">
+                                        <div class="flex justify-content-between align-items-center mb-4">
+                                            <p class="up-time">
+                                                {{Row.Appointment_FromTime | date:'hh: mm' }} &nbsp; - {{Row.Appointment_ToTime | date:'hh: mm a' }},
+                                                {{Row.Appointment_Date | date :'dd-MMM-yyyy'}} (In {{Row.TimeDifference}} )
+                                            </p>
+                                            <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="flex">
+                                            <div class="" style="width:20%">
+                                                <div ng-if="(Row.PhotoBlob!=null && Row.PhotoBlob!='')" valign="top" rowspan="6">
+                                                    <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
+                                                </div>
+                                            </div>
+                                            <div class="" style="width:80%">
+                                                <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
+                                                <p class="m-bottom-0 secondary-text" style="font-size:13px;">{{Row.Doctor_DepartmentName}} / {{Row.Payment_Status}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex">
+                                            <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px" ng-click="ViewDoctorBio(Row.Doctor_Id)"> View Doctor Bio |</a>
+                                            <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">View Uploaded Records |</a>
+                                            <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px" ng-click="RescheduleDocAppointment(Row)">Reschedule |</a>
+                                            <a href="" class="font-semibold m-bottom-0 text-red" style="font-size:9px" ng-click="CancelDocAppointment(Row)"> Cancel</a>
+                                        </div>
+                                        <div class="flex">
+                                            <a class="homepadamicon chats" onclick="openChatWindow()"><img class="kutticon" src="images/chats-icon.png"> </a>
+                                            <button id="AudioDisable" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon phones" onclick="openChatWindow ();audioCallUser()"><img style="margin-left: -3px;" src="images/phones-icon.png"> </button>
+                                            <button id="videoDisable" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon Video" onclick="openChatWindow();videoCallUser()">
+                                                <img style=" margin-top: -7px; padding-left: 0px; padding-top: 0px; padding-bottom: 0px; padding-right: 4px; width: 41px; margin-left: -9px;" src="images/Video-Icon.png">
+                                            </button>
                                             <a class="homepadamicon trashs" ng-click="CancelAppointmentModal(Appointment_Id)"><img class="kutticon" src="images/trashs-icon.png"> </a>
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="myAppoinments" ng-hide="PreviousAppointmentCount !== 0">
-                                    No Past Appointment...
+                                <div class="myAppoinments" ng-hide="UpComingAppointmentCount !== 0">
+                                    No Upcoming Appointment...
                                 </div>
                             </div>
-
-                                <div id="appt" class="tab-pane fade in active">
-                                    <div class="" ng-repeat="Row in UpComingAppointmentDetails" ng-hide="UpComingAppointmentCount == 0">
-                                        <div class=" upcoming-doctor">
-                                            <div class="flex justify-content-between align-items-center mb-4">
-                                                <p class="up-time">
-                                                    {{Row.Appointment_FromTime | date:'hh: mm' }} &nbsp; - {{Row.Appointment_ToTime | date:'hh: mm a' }},
-                                                    {{Row.Appointment_Date | date :'dd-MMM-yyyy'}} (In {{Row.TimeDifference}} )
-                                                </p>
-                                                <i class="fa fa-angle-down" aria-hidden="true"></i>
-                                            </div>
-                                            <div class="flex">
-                                                <div class="" style="width:20%">
-                                                    <div ng-if="(Row.PhotoBlob!=null && Row.PhotoBlob!='')" valign="top" rowspan="6">
-                                                        <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
-                                                    </div>
-                                                </div>
-                                                <div class="" style="width:80%">
-                                                    <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
-                                                    <p class="m-bottom-0 secondary-text" style="font-size:13px;">{{Row.Doctor_DepartmentName}} / {{Row.Payment_Status}}</p>
+                            <div id="Waiting_Appointment" class="tab-pane fade in active">
+                                <div class="" ng-repeat="Row in UpComingWaitingAppointmentDetails" ng-hide="UpComingWaitingAppointmentCount == 0">
+                                    <div class=" upcoming-doctor">
+                                        <div class="flex justify-content-between align-items-center mb-4">
+                                            <p class="up-time">
+                                                {{Row.Appointment_FromTime | date:'hh: mm' }} &nbsp; - {{Row.Appointment_ToTime | date:'hh: mm a' }},
+                                                {{Row.Appointment_Date | date :'dd-MMM-yyyy'}} (In {{Row.TimeDifference}} )
+                                            </p>
+                                            <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="flex">
+                                            <div class="" style="width:20%">
+                                                <div ng-if="(Row.PhotoBlob!=null && Row.PhotoBlob!='')" valign="top" rowspan="6">
+                                                    <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
                                                 </div>
                                             </div>
-                                            <div class="flex">
-                                                <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px" ng-click="ViewDoctorBio(Row.Doctor_Id)"> View Doctor Bio |</a>
-                                                <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">View Uploaded Records |</a>
-                                                <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px" ng-click="RescheduleDocAppointment(Row)">Reschedule |</a>
-                                                <a href="" class="font-semibold m-bottom-0 text-red" style="font-size:9px" ng-click="CancelDocAppointment(Row)"> Cancel</a>
-                                            </div>
-                                            <div class="flex">
-                                                <a class="homepadamicon chats" onclick="openChatWindow()"><img class="kutticon" src="images/chats-icon.png"> </a>
-                                                <button id="AudioDisable" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon phones" onclick="openChatWindow ();audioCallUser()"><img style="margin-left: -3px;" src="images/phones-icon.png"> </button>
-                                                <button id="videoDisable" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon Video" onclick="openChatWindow();videoCallUser()">
-                                                    <img style=" margin-top: -7px; padding-left: 0px; padding-top: 0px; padding-bottom: 0px; padding-right: 4px; width: 41px; margin-left: -9px;" src="images/Video-Icon.png">
-                                                </button>
-                                                <a class="homepadamicon trashs" ng-click="CancelAppointmentModal(Appointment_Id)"><img class="kutticon" src="images/trashs-icon.png"> </a>
+                                            <div class="" style="width:80%">
+                                                <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
+                                                <p class="m-bottom-0 secondary-text" style="font-size:13px;">{{Row.Doctor_DepartmentName}}  / {{Row.Payment_Status}}</p>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="myAppoinments" ng-hide="UpComingAppointmentCount !== 0">
-                                        No Upcoming Appointment...
+                                        <div class="flex">
+                                            <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px" ng-click="ConfirmAppointment(Row)">Confirm |</a>
+                                            <a href="" class="font-semibold m-bottom-0 text-red" style="font-size:9px" ng-click="CancelDocAppointment(Row)"> Cancel</a>
+                                        </div>
                                     </div>
                                 </div>
-                                <div id="Waiting_Appointment" class="tab-pane fade in active">
-                                    <div class="" ng-repeat="Row in UpComingWaitingAppointmentDetails" ng-hide="UpComingWaitingAppointmentCount == 0">
-                                        <div class=" upcoming-doctor">
-                                            <div class="flex justify-content-between align-items-center mb-4">
-                                                <p class="up-time">
-                                                    {{Row.Appointment_FromTime | date:'hh: mm' }} &nbsp; - {{Row.Appointment_ToTime | date:'hh: mm a' }},
-                                                    {{Row.Appointment_Date | date :'dd-MMM-yyyy'}} (In {{Row.TimeDifference}} )
-                                                </p>
-                                                <i class="fa fa-angle-down" aria-hidden="true"></i>
-                                            </div>
-                                            <div class="flex">
-                                                <div class="" style="width:20%">
-                                                    <div ng-if="(Row.PhotoBlob!=null && Row.PhotoBlob!='')" valign="top" rowspan="6">
-                                                        <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
-                                                    </div>
-                                                </div>
-                                                <div class="" style="width:80%">
-                                                    <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
-                                                    <p class="m-bottom-0 secondary-text" style="font-size:13px;">{{Row.Doctor_DepartmentName}}  / {{Row.Payment_Status}}</p>
-                                                </div>
-                                            </div>
-                                            <div class="flex">
-                                                <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px" ng-click="ConfirmAppointment(Row)">Confirm |</a>
-                                                <a href="" class="font-semibold m-bottom-0 text-red" style="font-size:9px" ng-click="CancelDocAppointment(Row)"> Cancel</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="myAppoinments" ng-hide="UpComingWaitingAppointmentCount !== 0">
-                                        No Upcoming Waiting Appointment...
-                                    </div>
+                                <div class="myAppoinments" ng-hide="UpComingWaitingAppointmentCount !== 0">
+                                    No Upcoming Waiting Appointment...
                                 </div>
                             </div>
                         </div>
-                    </div>-->
-                </div>
-                <!--</div>
+                    </div>
                 </div>-->
-                <div class="col-sm-7">
-                    <h1 class="page-title" ng-show="ParameterValueList.length>=0">
-                        Alerts<sub>
-                            <input type="image" src="../../Images/expand.gif"
-                                   title='Click to Collapse'
-                                   onclick="return divcollapse('tableid', 'tableid_img')"
-                                   style="width: 20px;" id="tableid_img">
-                        </sub>
-                    </h1>
-                    <div class="mynotificationsWarnings myhighposition" ng-show="(ParameterValueList |filter:{HighCount:1}).length>=0" ng-click="AlertCountredDisplay()">
-                        <div class="jinglebelllow">
-                            <i id="Highcount" class="fa fa-bell-o myhighBell" ng-show="(ParameterValueList |filter:{HighCount:1}).length>=0"></i>
-                            <span ng-show="(ParameterValueList |filter:{HighCount:1}).length>=0"> {{(ParameterValueList |filter:{HighCount:1}).length}}</span>
-                        </div>
                     </div>
+                    <!--</div>
+            </div>-->
+                    <div class="col-sm-7">
+                        <h1 class="page-title" ng-show="ParameterValueList.length>=0">
+                            Alerts<sub>
+                                <input type="image" src="../../Images/expand.gif"
+                                       title='Click to Collapse'
+                                       onclick="return divcollapse('tableid', 'tableid_img')"
+                                       style="width: 20px;" id="tableid_img">
+                            </sub>
+                        </h1>
+                        <div class="mynotificationsWarnings myhighposition" ng-show="(ParameterValueList |filter:{HighCount:1}).length>=0" ng-click="AlertCountredDisplay()">
+                            <div class="jinglebelllow">
+                                <i id="Highcount" class="fa fa-bell-o myhighBell" ng-show="(ParameterValueList |filter:{HighCount:1}).length>=0"></i>
+                                <span ng-show="(ParameterValueList |filter:{HighCount:1}).length>=0"> {{(ParameterValueList |filter:{HighCount:1}).length}}</span>
+                            </div>
+                        </div>
 
-                    <div class="mynotificationsWarnings mymediumPosition" ng-show="(ParameterValueList |filter:{MediumCount:1}).length>=0" ng-click="AlertCountDisplay()">
-                        <div class="jinglebellmedium">
-                            <i id="Medcount" class="fa fa-bell-o mymediumBell" ng-show="(ParameterValueList |filter:{MediumCount:1}).length>=0"></i>
-                            <span ng-show="(ParameterValueList |filter:{MediumCount:1}).length>=0">{{(ParameterValueList |filter:{MediumCount:1}).length}}</span>
+                        <div class="mynotificationsWarnings mymediumPosition" ng-show="(ParameterValueList |filter:{MediumCount:1}).length>=0" ng-click="AlertCountDisplay()">
+                            <div class="jinglebellmedium">
+                                <i id="Medcount" class="fa fa-bell-o mymediumBell" ng-show="(ParameterValueList |filter:{MediumCount:1}).length>=0"></i>
+                                <span ng-show="(ParameterValueList |filter:{MediumCount:1}).length>=0">{{(ParameterValueList |filter:{MediumCount:1}).length}}</span>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="mynotificationsWarnings mylowPosition" ng-show="(ParameterValueList |filter:{LowCount:1}).length>=0" ng-click="AlertCountgreenDisplay()">
-                        <div class="jinglebellhigh">
-                            <i id="Lowcount" class="fa fa-bell-o mylowBell" ng-show="(ParameterValueList |filter:{LowCount:1}).length>=0"></i>
-                            <span ng-show="(ParameterValueList |filter:{LowCount:1}).length>=0"> {{(ParameterValueList |filter:{LowCount:1}).length}}</span>
+                        <div class="mynotificationsWarnings mylowPosition" ng-show="(ParameterValueList |filter:{LowCount:1}).length>=0" ng-click="AlertCountgreenDisplay()">
+                            <div class="jinglebellhigh">
+                                <i id="Lowcount" class="fa fa-bell-o mylowBell" ng-show="(ParameterValueList |filter:{LowCount:1}).length>=0"></i>
+                                <span ng-show="(ParameterValueList |filter:{LowCount:1}).length>=0"> {{(ParameterValueList |filter:{LowCount:1}).length}}</span>
+                            </div>
                         </div>
-                    </div>
 
                         <div class="PatientNotification1" style="left: 595px !important">
 
@@ -1414,89 +1414,89 @@
                                                                     </td>
                                                                 </tr>
 
-                                                            <tr ng-repeat="row in emptydataVitalLab | orderBy:'-Activity_DateTime'">
-                                                                <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
-                                                                <td style="text-align: left">
-                                                                    {{(row.Activity_DateTime| date:'dd-MMM-yyyy hh:mm a')}}
-                                                                </td>
-                                                                <td style="text-align: left">{{row.ParameterName}}</td>
-                                                                <td style="text-align: left">{{row.UOM_Name}}</td>
-                                                                <td style="text-align: right"
-                                                                    ng-init="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]=1">
-                                                                    <label ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==1">
-                                                                        {{row.ParameterValue | number : 2}} 
-                                                                    </label>
-                                                                    <input type="text" class="form-control"
-                                                                           ng-init="row.newParameterValue=row.ParameterValue"
-                                                                           ng-model="row.newParameterValue"
-                                                                           ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==2" />
-                                                                </td>
-                                                                <td style="text-align: left; max-width:150px; word-wrap:break-word;">
-                                                                    {{row.Createdby_FullName}} <br /> {{row.Created_Dt| date :'dd-MMM-yyyy hh:mm a'}}
-                                                                </td>
-                                                                <td style="text-align: left">
-                                                                    <a href="javascript:" title="Save" ng-click="ParameterEdit_Update(row, ((current_page-1)*page_size)+$index)"
-                                                                       ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==2;">
-                                                                        <img src="../../Images/save.png" />
-                                                                    </a>
-                                                                    <a href="javascript:" title="Cancel"
-                                                                       ng-click="CancelEdit(row, ((current_page-1)*page_size)+$index);"
-                                                                       ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==2;">
-                                                                        <img src="../../Images/deleteNewIcon.png" />
-                                                                    </a>
-                                                                    <a href="javascript:" title="Edit"
-                                                                       ng-click="ParameterClickEdit(row, ((current_page-1)*page_size)+$index);"
-                                                                       ng-show=" EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==1 && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
-                                                                        <img src="../../Images/EditIcon.png"  />
-                                                                    </a>
-                                                                    <a href="javascript:"
-                                                                       ng-click="DeleteParameters(row.Id, row.ParameterId)"
-                                                                       title="Active" ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
-                                                                        <img src="../../Images/activeIcon1.png"
-                                                                             ng-if="row.IsActive==1"
-                                                                             ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==1;" />
-                                                                    </a>
-                                                                    <a href="javascript:"
-                                                                       ng-click="ReInsertParameters(row.Id)"
-                                                                       title="Inactive" ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
-                                                                        <img src="../../Images/inactive.png"
-                                                                             ng-if="row.IsActive==0"
-                                                                             ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==1;" />
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                        <tfoot ng-show="patientvitals_pages>1">
-                                                            <tr>
-                                                                <td colspan="7" class="text-center">
-                                                                    <!--<div st-items-by-page="page_size"
-                                                                         st-page-change="rembemberCurrentPage(newPage)"
-                                                                         st-pagination=""
-                                                                         st-template="Masters/Views/pagination.custom.html">
-                                                                    </div>-->
-                                                                    <!-- THis Hidden Input for fetching the current TAB  value - for Pagination issue-->
-                                                                    <input style="width: 130px" class="text-center" type="hidden" ng-model="inputcurrentgrpid">
-                                                                    <ul class="pagination" style="margin-left:110px;">
-                                                                        <li>
-                                                                            <a ng-click="setPage(1)">First</a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a ng-click="setPage(current_page - 1)">&lt;</a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a><input style="width: 130px" class="text-center" type="number" min="1" max="{{patientvitals_pages}}" step="1" ng-model="inputPageNo" ng-value="current_page" ng-change="setPage(0);"> of {{patientvitals_pages}}</a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a ng-click="setPage(current_page + 1)">&gt;</a>
-                                                                        </li>
-                                                                        <li><a ng-click="setPage(patientvitals_pages)">Last</a></li>
-                                                                    </ul>
-                                                                </td>
-                                                            </tr>
-                                                        </tfoot>
-                                                    </table>
+                                                                <tr ng-repeat="row in emptydataVitalLab | orderBy:'-Activity_DateTime'">
+                                                                    <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+                                                                    <td style="text-align: left">
+                                                                        {{(row.Activity_DateTime| date:'dd-MMM-yyyy hh:mm a')}}
+                                                                    </td>
+                                                                    <td style="text-align: left">{{row.ParameterName}}</td>
+                                                                    <td style="text-align: left">{{row.UOM_Name}}</td>
+                                                                    <td style="text-align: right"
+                                                                        ng-init="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]=1">
+                                                                        <label ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==1">
+                                                                            {{row.ParameterValue | number : 2}}
+                                                                        </label>
+                                                                        <input type="text" class="form-control"
+                                                                               ng-init="row.newParameterValue=row.ParameterValue"
+                                                                               ng-model="row.newParameterValue"
+                                                                               ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==2" />
+                                                                    </td>
+                                                                    <td style="text-align: left; max-width:150px; word-wrap:break-word;">
+                                                                        {{row.Createdby_FullName}} <br /> {{row.Created_Dt| date :'dd-MMM-yyyy hh:mm a'}}
+                                                                    </td>
+                                                                    <td style="text-align: left">
+                                                                        <a href="javascript:" title="Save" ng-click="ParameterEdit_Update(row, ((current_page-1)*page_size)+$index)"
+                                                                           ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==2;">
+                                                                            <img src="../../Images/save.png" />
+                                                                        </a>
+                                                                        <a href="javascript:" title="Cancel"
+                                                                           ng-click="CancelEdit(row, ((current_page-1)*page_size)+$index);"
+                                                                           ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==2;">
+                                                                            <img src="../../Images/deleteNewIcon.png" />
+                                                                        </a>
+                                                                        <a href="javascript:" title="Edit"
+                                                                           ng-click="ParameterClickEdit(row, ((current_page-1)*page_size)+$index);"
+                                                                           ng-show=" EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==1 && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
+                                                                            <img src="../../Images/EditIcon.png" />
+                                                                        </a>
+                                                                        <a href="javascript:"
+                                                                           ng-click="DeleteParameters(row.Id, row.ParameterId)"
+                                                                           title="Active" ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
+                                                                            <img src="../../Images/activeIcon1.png"
+                                                                                 ng-if="row.IsActive==1"
+                                                                                 ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==1;" />
+                                                                        </a>
+                                                                        <a href="javascript:"
+                                                                           ng-click="ReInsertParameters(row.Id)"
+                                                                           title="Inactive" ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
+                                                                            <img src="../../Images/inactive.png"
+                                                                                 ng-if="row.IsActive==0"
+                                                                                 ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==1;" />
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                            <tfoot ng-show="patientvitals_pages>1">
+                                                                <tr>
+                                                                    <td colspan="7" class="text-center">
+                                                                        <!--<div st-items-by-page="page_size"
+                                                                     st-page-change="rembemberCurrentPage(newPage)"
+                                                                     st-pagination=""
+                                                                     st-template="Masters/Views/pagination.custom.html">
+                                                                </div>-->
+                                                                        <!-- THis Hidden Input for fetching the current TAB  value - for Pagination issue-->
+                                                                        <input style="width: 130px" class="text-center" type="hidden" ng-model="inputcurrentgrpid">
+                                                                        <ul class="pagination" style="margin-left:110px;">
+                                                                            <li>
+                                                                                <a ng-click="setPage(1)">First</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a ng-click="setPage(current_page - 1)">&lt;</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a><input style="width: 130px" class="text-center" type="number" min="1" max="{{patientvitals_pages}}" step="1" ng-model="inputPageNo" ng-value="current_page" ng-change="setPage(0);"> of {{patientvitals_pages}}</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a ng-click="setPage(current_page + 1)">&gt;</a>
+                                                                            </li>
+                                                                            <li><a ng-click="setPage(patientvitals_pages)">Last</a></li>
+                                                                        </ul>
+                                                                    </td>
+                                                                </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
                                                 </div>
-                                            </div>
 
                                             </div>
                                             <div ng-show="currentTab=='5'">
@@ -1702,24 +1702,24 @@
                                                             </thead>
                                                             <tbody>
 
-                                                            <tr ng-if="rowcollectionfiltericd10.length==0">
-                                                                <td colspan="8" style="text-align: center">{{SearchMsg}} </td>
-                                                            </tr>
-                                                            <tr ng-repeat="row in rowcollectionfiltericd10emptyData">
-                                                                <td class="textalign">{{((current_pageICD-1)*page_size)+$index+1}}</td>
-                                                                <td style="text-align: left;word-break: break-word;">{{row.ICD_Code}}</td>
-                                                                <td style="text-align: left;word-break: break-word;">
-                                                                    <div class="textwrap">{{row.Description}}</div>
-                                                                </td>
-                                                                <td style="text-align: left;word-break: break-word;">{{row.CategoryName}}</td>
-                                                                <td style="text-align: left">
-                                                                    <div class="textwrap" style="word-break:break-word" title="{{row.Remarks}}">
-                                                                        <!--{{row.Remarks}}-->
-                                                                        {{ row.Remarks.length > 100 ? row.Remarks.substring(0,200)+ "..." : row.Remarks}}
-                                                                    </div>
-                                                                </td>
-                                                                <td style="text-align: left">{{row.Active_From | date :'dd-MMM-yyyy'}} <br />{{row.Active_To | date :'dd-MMM-yyyy'}}</td>
-                                                                <td style="text-align: left; max-width:150px; word-wrap:break-word;">{{row.Created_By_Name }} <br /> {{row.Created_DT | date :'dd-MMM-yyyy hh:mm:ss a'}} </td>
+                                                                <tr ng-if="rowcollectionfiltericd10.length==0">
+                                                                    <td colspan="8" style="text-align: center">{{SearchMsg}} </td>
+                                                                </tr>
+                                                                <tr ng-repeat="row in rowcollectionfiltericd10emptyData">
+                                                                    <td class="textalign">{{((current_pageICD-1)*page_size)+$index+1}}</td>
+                                                                    <td style="text-align: left;word-break: break-word;">{{row.ICD_Code}}</td>
+                                                                    <td style="text-align: left;word-break: break-word;">
+                                                                        <div class="textwrap">{{row.Description}}</div>
+                                                                    </td>
+                                                                    <td style="text-align: left;word-break: break-word;">{{row.CategoryName}}</td>
+                                                                    <td style="text-align: left">
+                                                                        <div class="textwrap" style="word-break:break-word" title="{{row.Remarks}}">
+                                                                            <!--{{row.Remarks}}-->
+                                                                            {{ row.Remarks.length > 100 ? row.Remarks.substring(0,200)+ "..." : row.Remarks}}
+                                                                        </div>
+                                                                    </td>
+                                                                    <td style="text-align: left">{{row.Active_From | date :'dd-MMM-yyyy'}} <br />{{row.Active_To | date :'dd-MMM-yyyy'}}</td>
+                                                                    <td style="text-align: left; max-width:150px; word-wrap:break-word;">{{row.Created_By_Name }} <br /> {{row.Created_DT | date :'dd-MMM-yyyy hh:mm:ss a'}} </td>
 
                                                                     <td>
 
@@ -1737,7 +1737,7 @@
                                                                 <a href="javascript:" ng-click="ActiveICDPatient(row.Id)" title="Inactive">
                                                                     <img
                                                                         src="../../Images/inactive.png" ng-if="row.IsActive==0" /></a>-->
-                                                                        <a href="javascript:" title="Active" ng-click="InActiveICDPatient(row.Id)"  ng-show="((UserTypeId==4)||(UserTypeId ==7)||(UserTypeId ==5))">
+                                                                        <a href="javascript:" title="Active" ng-click="InActiveICDPatient(row.Id)" ng-show="((UserTypeId==4)||(UserTypeId ==7)||(UserTypeId ==5))">
                                                                             <img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" />
                                                                         </a>
                                                                         <a href="javascript:" title="Inactive" ng-click="ActiveICDPatient(row.Id)" ng-show="((UserTypeId==4)||(UserTypeId ==7)||(UserTypeId ==5))">
@@ -1853,8 +1853,8 @@
 
 
                                                                 <!-- <td style="text-align: left">
-        {{Allen.OnSetDate| date:'dd-MMM-yyyy'}}
-    </td>-->
+                                                            {{Allen.OnSetDate| date:'dd-MMM-yyyy'}}
+                                                        </td>-->
                                                                 <td style="text-align: left; max-width:150px; word-wrap:break-word;">
                                                                     {{Allen.Created_By_Name}}<br />{{Allen.Created_Dt|  date :'dd-MMM-yyyy hh:mm:ss a'}}
                                                                 </td>
@@ -1973,65 +1973,65 @@
                                                                         {{row.Notes}}
                                                                     </div>
 
-                                                            </td>
-                                                            <td style="text-align: left;max-width:150px; word-wrap:break-word;">
-                                                                <div>{{row.Created_By_Name}}</div>
-                                                            </td>
-                                                            <td style="text-align: left">
-                                                                <div>{{row.Created_Dt | date :'dd-MMM-yyyy hh:mm:ss a'}}</div>
-                                                            </td>
-                                                            <td style="text-align: center">
-                                                                <a href="javascript:" ng-click="ViewPatientNotesPopUP(row.Id)" title="View">
-                                                                    <img src="../../Images/ViewIcon.png" />
-                                                                </a>
-                                                                <a href="javascript:" title="Edit" ng-click="EditPatientNotes(row.Id, row.Created_Dt, row.Created_By)">
-                                                                    <i class="fa fa-pencil ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
-                                                                    <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
-                                                                        <img src="../../Images/EditIcon.png" ng-if="row.IsActive==0" />
+                                                                </td>
+                                                                <td style="text-align: left;max-width:150px; word-wrap:break-word;">
+                                                                    <div>{{row.Created_By_Name}}</div>
+                                                                </td>
+                                                                <td style="text-align: left">
+                                                                    <div>{{row.Created_Dt | date :'dd-MMM-yyyy hh:mm:ss a'}}</div>
+                                                                </td>
+                                                                <td style="text-align: center">
+                                                                    <a href="javascript:" ng-click="ViewPatientNotesPopUP(row.Id)" title="View">
+                                                                        <img src="../../Images/ViewIcon.png" />
                                                                     </a>
-                                                                </a>
+                                                                    <a href="javascript:" title="Edit" ng-click="EditPatientNotes(row.Id, row.Created_Dt, row.Created_By)">
+                                                                        <i class="fa fa-pencil ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
+                                                                        <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
+                                                                            <img src="../../Images/EditIcon.png" ng-if="row.IsActive==0" />
+                                                                        </a>
+                                                                    </a>
                                                                     <a href="javascript:" ng-click="DoctorNotesDetails_InActive(row.Id)" title="Active" ng-if="row.IsActive==1">
                                                                         <img src="../../Images/activeIcon1.png" />
                                                                     </a>
                                                                     <a href="javascript:" ng-click="DoctorNotesDetails_Active(row.Id)" title="Inactive" ng-if="row.IsActive==0">
                                                                         <img src="../../Images/inactive.png" />
                                                                     </a>
-</td>
-                                                        </tr>
-                                                        <tr ng-if="PatientNotesrowCollectionFilter.length==0">
-                                                            <td colspan="7" style="text-align: center">
-                                                                {{SearchMsg}}
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                    <tfoot ng-if="PatientNotes_pages>1">
-                                                        <tr>
-                                                            <td colspan="7" class="text-center">
-                                                                <!--<div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
-                                                                mplate="Masters/Views/pagination.custom.html"></div>-->
-                                                                <ul class="pagination" style="margin-left:110px;">
-                                                                    <li>
-                                                                        <a ng-click="setPage1(1)">First</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a ng-click="setPage1(current_pageNote - 1)">&lt;</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a><input style="width: 130px" class="text-center" type="number" min="1" max="{{PatientNotes_pages}}" step="1" ng-model="inputPageNote" ng-value="current_pageNote" ng-change="setPage1(0);"> of {{PatientNotes_pages}}</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a ng-click="setPage1(current_pageNote + 1)">&gt;</a>
-                                                                    </li>
-                                                                    <li><a ng-click="setPage1(PatientNotes_pages)">Last</a></li>
-                                                                </ul>
-                                                            </td>
-                                                        </tr>
-                                                    </tfoot>
-                                                </table>
+                                                                </td>
+                                                            </tr>
+                                                            <tr ng-if="PatientNotesrowCollectionFilter.length==0">
+                                                                <td colspan="7" style="text-align: center">
+                                                                    {{SearchMsg}}
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <tfoot ng-if="PatientNotes_pages>1">
+                                                            <tr>
+                                                                <td colspan="7" class="text-center">
+                                                                    <!--<div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                                                            mplate="Masters/Views/pagination.custom.html"></div>-->
+                                                                    <ul class="pagination" style="margin-left:110px;">
+                                                                        <li>
+                                                                            <a ng-click="setPage1(1)">First</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a ng-click="setPage1(current_pageNote - 1)">&lt;</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a><input style="width: 130px" class="text-center" type="number" min="1" max="{{PatientNotes_pages}}" step="1" ng-model="inputPageNote" ng-value="current_pageNote" ng-change="setPage1(0);"> of {{PatientNotes_pages}}</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a ng-click="setPage1(current_pageNote + 1)">&gt;</a>
+                                                                        </li>
+                                                                        <li><a ng-click="setPage1(PatientNotes_pages)">Last</a></li>
+                                                                    </ul>
+                                                                </td>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div ng-show="currentTab=='8'">
-                                            <div id="collapse15">
+                                            <div ng-show="currentTab=='8'">
+                                                <div id="collapse15">
 
 
                                                     <div class="row">
@@ -2108,15 +2108,15 @@
 
                                                                     </td>
 
-                                                                <td style="text-align: left">
-                                                                    <div class="textwrap" style="max-width:250px;word-wrap:break-word;">{{row.Created_Name}}</div>
-                                                                </td>
-                                                                <td style="text-align: left">{{row.Created_Date| date :'dd-MMM-yyyy hh:mm:ss a'}}</td>
-                                                                <td style="text-align: left">{{row.DocumentDate| date :'dd-MMM-yyyy'}}</td>
-                                                                <td style="text-align: left">
-                                                                    <div class="textwrap">{{row.DocumentType}}</div>
-                                                                </td>
-                                                                <td style="text-align: center" st-ratio="10">
+                                                                    <td style="text-align: left">
+                                                                        <div class="textwrap" style="max-width:250px;word-wrap:break-word;">{{row.Created_Name}}</div>
+                                                                    </td>
+                                                                    <td style="text-align: left">{{row.Created_Date| date :'dd-MMM-yyyy hh:mm:ss a'}}</td>
+                                                                    <td style="text-align: left">{{row.DocumentDate| date :'dd-MMM-yyyy'}}</td>
+                                                                    <td style="text-align: left">
+                                                                        <div class="textwrap">{{row.DocumentType}}</div>
+                                                                    </td>
+                                                                    <td style="text-align: center" st-ratio="10">
 
                                                                         <a href="javascript:" ng-click="Patient_OtherData_ViewModal(row.Id)" title="View">
                                                                             <img src="../../Images/ViewIcon.png" />
@@ -2139,32 +2139,32 @@
 
                                                             </tbody>
 
-                                                        <tfoot ng-show="Patientothers >1">
-                                                            <tr>
-                                                                <td colspan="8" class="text-center">
-                                                                    <!--<div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/paginationustom.html">
-                                                                    </div>-->
-                                                                    <ul class="pagination" style="margin-left:110px;">
-                                                                        <li>
-                                                                            <a ng-click="setPage5(1)">First</a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a ng-click="setPage5(current_others - 1)">&lt;</a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a><input style="width: 130px" class="text-center" type="number" min="1" max="{{Patientothers}}" step="1" ng-model="inputPageOthers" ng-value="current_others" ng-change="setPage5(0);"> of {{Patientothers}}</a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a ng-click="setPage4(current_others + 1)">&gt;</a>
-                                                                        </li>
-                                                                        <li><a ng-click="setPage4(Patientothers)">Last</a></li>
-                                                                    </ul>
-                                                                </td>
-                                                            </tr>
-                                                        </tfoot>
-                                                    </table>
+                                                            <tfoot ng-show="Patientothers >1">
+                                                                <tr>
+                                                                    <td colspan="8" class="text-center">
+                                                                        <!--<div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/paginationustom.html">
+                                                                </div>-->
+                                                                        <ul class="pagination" style="margin-left:110px;">
+                                                                            <li>
+                                                                                <a ng-click="setPage5(1)">First</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a ng-click="setPage5(current_others - 1)">&lt;</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a><input style="width: 130px" class="text-center" type="number" min="1" max="{{Patientothers}}" step="1" ng-model="inputPageOthers" ng-value="current_others" ng-change="setPage5(0);"> of {{Patientothers}}</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a ng-click="setPage4(current_others + 1)">&gt;</a>
+                                                                            </li>
+                                                                            <li><a ng-click="setPage4(Patientothers)">Last</a></li>
+                                                                        </ul>
+                                                                    </td>
+                                                                </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
                                                 </div>
-                                            </div>
 
                                             </div>
                                             <div class="panel panel-info" ng-show="currentTab=='9'">
@@ -2351,34 +2351,34 @@
                 </div>-->
                         <!--</div>-->
                         <!--                        <div ng-if="UserTypeId==6" class="mt-15" ng-init="CareGiverAssign_Function()">
-                                    el
-                                    <div class="panel panel-default">
+                            el
+                            <div class="panel panel-default">
 
-                                        <div class="panel-body">
-                                            <h1 class="title2"><hAssign Caregiver</</h1>
-                                            <div class="inputGroups">
-                                                <select ng-model="CareGiver_Id" multiple="multiple"
-                                                        ng-options="item1.Id as item1.Name for item1 in CareGiverList" multiselect-dropdown
-                                                        style="width: 230px;"></select>
-                                            </div>
-                                            <div class="inputGroups">
-                                                <label style="text-align: left">Comments</label>
-                                                <textarea type="text" ng-model="CC_Remarks" class="form-control" maxlength="250"
-                                                          ng-maxlength="250" />
-                                            </div>
-
-
-
-                                            <button type="button" class="theme-btn-1 mt-10 mr-10" ng-click="Assign_CareGiver()" title="Click to Assign the Care Giver">
-                                                Save
-                                            </button>
-                                            <button type="button" class="theme-btn-2" ng-click="CareCoordinatorModal()" title="Click to View History">
-                                                View History
-                                            </button>
-                                        </div>
-
+                                <div class="panel-body">
+                                    <h1 class="title2"><hAssign Caregiver</</h1>
+                                    <div class="inputGroups">
+                                        <select ng-model="CareGiver_Id" multiple="multiple"
+                                                ng-options="item1.Id as item1.Name for item1 in CareGiverList" multiselect-dropdown
+                                                style="width: 230px;"></select>
                                     </div>
-                                </div>-->
+                                    <div class="inputGroups">
+                                        <label style="text-align: left">Comments</label>
+                                        <textarea type="text" ng-model="CC_Remarks" class="form-control" maxlength="250"
+                                                  ng-maxlength="250" />
+                                    </div>
+
+
+
+                                    <button type="button" class="theme-btn-1 mt-10 mr-10" ng-click="Assign_CareGiver()" title="Click to Assign the Care Giver">
+                                        Save
+                                    </button>
+                                    <button type="button" class="theme-btn-2" ng-click="CareCoordinatorModal()" title="Click to View History">
+                                        View History
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>-->
                         <!--<div class="mt-15" ng-if="UserTypeId ==4||UserTypeId==7">
 
                     <div class="panel panel-default patientProfileInfo">
@@ -2668,9 +2668,9 @@
                                         <p class="col-sm-6 doc-p">{{DoctorDetailBio.DOB.split('T')[0]}}</p>
                                     </div>
                                     <!--<div class="flex">
-                                        <label class="col-sm-6 doc-label">Nationality</label>
-                                        <p class="col-sm-6 doc-p">{{DoctorDetailBio.HEALTH_LICENSE}}</p>
-                                    </div>-->
+                                <label class="col-sm-6 doc-label">Nationality</label>
+                                <p class="col-sm-6 doc-p">{{DoctorDetailBio.HEALTH_LICENSE}}</p>
+                            </div>-->
                                     <div class="flex">
                                         <label class="col-sm-6 doc-label">Email</label>
                                         <p class="col-sm-6 doc-p">{{DoctorDetailBio.EMAILID}}</p>
@@ -2965,6 +2965,57 @@
                                 </button>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div id="appointment_payment_history" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog" style="width: 70%;padding-top: 100px;">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" title="Close"
+                                    ng-click="ClosePaymentAppointmentHistory()">
+                                &times;
+                            </button>
+                            <h4 class="modal-title">Appointment Payment History</h4>
+                        </div>
+                        <div id="main-box">
+                            <div class="modal-body">
+                                <div class="panel-body">
+                                    <table class="table themeTable">
+                                        <thead>
+                                            <tr style="text-align: center">
+                                                <th>SNo</th>
+                                                <th>Id</th>
+                                                <th>Payment Date</th>
+                                                <th>Payment Time</th>
+                                                <th>Payment Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="row in paymentHistory">
+                                                <td>
+                                                    <span>{{row.SNO}}</span>
+                                                </td>
+                                                <td>
+                                                    <span>{{row.ID}}</span>
+                                                </td>
+                                                <td>
+                                                    <span>{{row.PAYMENT_DATE}}</span>
+                                                </td>
+                                                <td>
+                                                    <span>{{row.PAYMENT_TIME}}</span>
+                                                </td>
+                                                <td>
+                                                    <span>{{row.PAYMENT_STATUS}}</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lds-ripple" id="payment_waveLoader" style="z-index: 10000;display: none;"><div></div><div></div></div>
                     </div>
                 </div>
             </div>
@@ -3833,7 +3884,7 @@
                                                     Select
                                                 </a>
                                             </td>
-                                            <td style="text-align: left; word-break: break-word; min-width: 154px;" >{{row.ICD_Code}}
+                                            <td style="text-align: left; word-break: break-word; min-width: 154px;">{{row.ICD_Code}}
                                             <td style="text-align: left; word-break: break-word; min-width: 119px;">
                                                 {{row.Description}}
                                             </td>
@@ -4468,10 +4519,10 @@
                                                         <td>
                                                             <div class="textwrap" style="word-break:break-word">{{Notes}}</div>
                                                         </td>
-                                       
-                                        </tr>
-                                        </table>
-                                        </form>
+
+                                                    </tr>
+                                                </table>
+                                            </form>
                                         </div>
                                     </div>
                                     <div class="modal-footer" style="text-align: center;">
