@@ -896,7 +896,7 @@ namespace MyCortex.Repositories.Uesr
             List<ItemizedUserDetailsModel> list = (from p in dt.AsEnumerable()
                                                    select new ItemizedUserDetailsModel()
                                                    {
-                                                       //TotalRecord = p.Field<string>("TotalRecords"),
+                                                       TotalRecord = p.Field<string>("TotalRecords"),
                                                        Id = p.Field<long>("Id"),
                                                        FirstName = p.Field<string>("FirstName"),
                                                        MiddleName = p.Field<string>("MiddleName"),

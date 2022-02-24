@@ -189,14 +189,15 @@ CareCoordinator.controller("CareCoordinatorController", ['$scope', '$http', '$fi
         }
 
         $scope.CareCoordinator_Filter = function () {
-            $("#chatLoaderPV").show();
             $scope.PatientFilterCopy = [];
             if ($scope.coordinator_searchquery == "") {
+                $("#chatLoaderPV").show();
                 $scope.CareCoordinator_PatientListFunction(1);
             } else {
                 if ($scope.filter_CCComSearchFieldId == "0") {
                     toastr.warning("Please select Search Field", "Warning");
                 } else {
+                    $("#chatLoaderPV").show();
                     if ($scope.filter_CCComSearchFieldId == "1") {
                         $scope.CC_PatientNo2 = $scope.coordinator_searchquery;
                         $scope.CC_InsuranceId2 = "";

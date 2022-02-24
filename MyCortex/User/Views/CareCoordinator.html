@@ -34,10 +34,17 @@
                     <div class="inputGroups">
                         <label>Search</label>
                         <div class="modernSearch">
-                            <input type="text" ng-model="coordinator_searchquery" ng-change="CareCoordinator_Filter()"
+                            <input type="text" ng-model="coordinator_searchquery"
                                    placeholder="" />
                             <i class="fa fa-search"></i>
                         </div>
+                    </div>
+                </div>
+                <div class="col-sm-1">
+                    <div class="inputGroups">
+                        <a href="javascript:" ng-click="CareCoordinator_Filter()" class="theme-btn-1 pull-right mt-20 btn-autosize pull-right ml-10">
+                            Submit
+                        </a>
                     </div>
                 </div>
                 <div class="col-sm-3">

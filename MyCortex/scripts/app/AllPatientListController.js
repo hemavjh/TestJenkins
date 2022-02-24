@@ -205,14 +205,15 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
             }
         }
         $scope.filterPatientList = function () {
-            $("#chatLoaderPV").show();
             $scope.Patientemptydata = [];
             if ($scope.searchquery == "") {
+                $("#chatLoaderPV").show();
                 $scope.PatientListFunction(1);
             } else {
                 if ($scope.filter_CGSearchFieldId == "0") {
                     toastr.warning("Please select Search Field", "Warning");
                 } else {
+                    $("#chatLoaderPV").show();
                     if ($scope.filter_CGSearchFieldId == "1") {
                         $scope.Filter_PatientNo2 = $scope.searchquery;
                         $scope.filter_InsuranceId2 = "";
@@ -300,6 +301,7 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
             }
         }
         $scope.AdvancefilterPatientList = function () {
+            $("#chatLoaderPV").show();
             $scope.Filter_PatientNo2 = $scope.Filter_PatientNo;
             $scope.filter_InsuranceId2 = $scope.filter_InsuranceId;
             $scope.filter_MOBILE_NO2 = $scope.filter_MOBILE_NO;

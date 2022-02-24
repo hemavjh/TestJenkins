@@ -60,22 +60,34 @@
                             Search
                         </label>
                         <div class="modernSearch">
-                            <input type="text" ng-model="Patientsearchquery" ng-change="PatientSearch();" placeholder="" />
+                            <input type="text" ng-model="Patientsearchquery" placeholder="" />
                             <i class="fa fa-search"></i>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-1">
+                    <!--<div class="inputGroups">
+                        <label>Active</label>
+                        <div>
+                            <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="Patient_List(3);"
+                                   title="Active / All">
+                        </div>
+                    </div>-->
                     <div class="inputGroups">
+                        <a href="javascript:" ng-click="PatientSearch()" class="theme-btn-1 pull-right mt-20 btn-autosize pull-right ml-10">
+                            Submit
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="inputGroups" style="display: inline-block;">
                         <label>Active</label>
                         <div>
                             <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="Patient_List(3);"
                                    title="Active / All">
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-2">
-                    <div class="inputGroups">
+                    <div class="inputGroups" style="display: inline-block;">
                         <label>Advance filter</label>
                         <a data-toggle="collapse" data-parent="#accordion" class="btn btn-link ml-5" href="#collapseMore"
                            ng-click="currentTab=='1'?currentTab='2':currentTab='1';patientDropdownList()" title="Click for Advance search">

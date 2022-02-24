@@ -34,13 +34,20 @@
                     <div class="inputGroups">
                         <label>Search</label>
                         <div class="modernSearch">
-                            <input type="text" ng-model="coordinator_searchquery" ng-change="CareCoordinator_Filter()"
+                            <input type="text" ng-model="coordinator_searchquery"
                                    placeholder="" />
                             <i class="fa fa-search"></i>
                         </div>
                     </div>
 
 
+                </div>
+                <div class="col-sm-1">
+                    <div class="inputGroups">
+                        <a href="javascript:" ng-click="CareCoordinator_Filter()" class="theme-btn-1 pull-right mt-20 btn-autosize pull-right ml-10">
+                            Submit
+                        </a>
+                    </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="inputGroups">
@@ -55,22 +62,22 @@
                     </div>
                 </div>
                 <!--<div class="col-sm-3">
-                    <div class="inputGroups">
-                        <label>Advance Filter</label>
-                        <a data-toggle="collapse" data-parent="#accordion" class="btn btn-link"
-                           href="#collapseMore" ng-click="currentTab=='1'?currentTab='2':currentTab='1'"
-                           title="Click for Advance search">
+        <div class="inputGroups">
+            <label>Advance Filter</label>
+            <a data-toggle="collapse" data-parent="#accordion" class="btn btn-link"
+               href="#collapseMore" ng-click="currentTab=='1'?currentTab='2':currentTab='1'"
+               title="Click for Advance search">
 
-                            <sub ng-show="currentTab=='1'">
-                                <i class="fa fa-filter" aria-hidden="true"></i>
-                            </sub>
-                            <sub ng-show="currentTab=='2'">
-                                <i class="fa fa-filter" aria-hidden="true"></i>
-                            </sub>
-                        </a>
-                    </div>
+                <sub ng-show="currentTab=='1'">
+                    <i class="fa fa-filter" aria-hidden="true"></i>
+                </sub>
+                <sub ng-show="currentTab=='2'">
+                    <i class="fa fa-filter" aria-hidden="true"></i>
+                </sub>
+            </a>
+        </div>
 
-                </div>-->
+    </div>-->
 
             </div>
         </form>
