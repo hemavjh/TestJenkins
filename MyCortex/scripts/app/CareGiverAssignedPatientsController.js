@@ -6,11 +6,12 @@ if (baseUrl == "/") {
 }
 
 
-CareGiverAssignedPatients.controller("CareGiverAssignedPatientsController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
-    function ($scope, $http, $filter, $routeParams, $location, $window, $ff) {
+CareGiverAssignedPatients.controller("CareGiverAssignedPatientsController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'toastr', 
+    function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
         $scope.flag = 0;
         $scope.rowCollectionFilter = [];
         $scope.caregiver_PatientList = [];
+        $scope.CareGiver_PatientList2 = [];
         $scope.caregiver_searchquery = "";
         $scope.CareGiver_Id = $window.localStorage['UserId'];
         $scope.InstitutionId = $window.localStorage['InstitutionId'];
@@ -37,7 +38,7 @@ CareGiverAssignedPatients.controller("CareGiverAssignedPatientsController", ['$s
         $scope.CG_GroupId = "0";
         $scope.PageNumber = 1;
         $scope.TabClick = false;
-
+        $scope.filter_CG_Assig_SearchFieldId = "0";
         $scope.ResetFilter = function () {
             $scope.CG_PatientNo = "";
             $scope.CG_InsuranceId = "";
@@ -127,6 +128,7 @@ CareGiverAssignedPatients.controller("CareGiverAssignedPatientsController", ['$s
                         $scope.emptydata = [];
                         $scope.CareGiver_PatientList = [];
                         $scope.CareGiver_PatientList = data;
+                        $scope.CareGiver_PatientList2 = data;
                         $scope.PatientCount = $scope.CareGiver_PatientList.length;
                         total = Math.ceil(($scope.PatientCount) / ($scope.Patient_PerPage));
                         for (var i = 0; i < total; i++) {
@@ -222,38 +224,67 @@ CareGiverAssignedPatients.controller("CareGiverAssignedPatientsController", ['$s
         }
 
         $scope.CareGiver_ListFilter = function () {
-            $scope.ResultListFiltered = [];
-            $scope.PageCountArray = [];
-            $scope.PageNumber = 1;
-            var searchstring = angular.lowercase($scope.caregiver_searchquery);
-            if ($scope.caregiver_searchquery == "") {
-                $scope.rowCollectionFilter = angular.copy($scope.CareGiver_PatientList);
-            }
-            else {
-                $scope.rowCollectionFilter = $ff($scope.CareGiver_PatientList, function (value) {
-                    return angular.lowercase(value.PatientName).match(searchstring) ||
-                        angular.lowercase(value.MRN_NO).match(searchstring);
-                });
-            }
-            $scope.PatientCount = $scope.rowCollectionFilter.length;
-            total = Math.ceil(($scope.PatientCount) / ($scope.Patient_PerPage));
-            for (var i = 0; i < total; i++) {
-                var obj = {
-                    PageNumber: i + 1
+            if ($scope.filter_CG_Assig_SearchFieldId == "0") {
+                toastr.warning("Please Select Search Field", "warning");
+            } else {
+                $scope.ResultListFiltered = [];
+                $scope.PageCountArray = [];
+                $scope.PageNumber = 1;
+                var searchstring = angular.lowercase($scope.caregiver_searchquery);
+                if ($scope.caregiver_searchquery == "") {
+                    $scope.rowCollectionFilter = angular.copy($scope.CareGiver_PatientList2);
                 }
-                $scope.PageCountArray.push(obj);
-            }
-            $scope.CareGiver_PatientList = $scope.rowCollectionFilter;
-            $scope.PageStart = (($scope.PageNumber - 1) * ($scope.Patient_PerPage)) + 1;
-            $scope.PageEnd = $scope.PageNumber * $scope.Patient_PerPage;
-            $scope.rowCollectionFilter = $ff($scope.rowCollectionFilter, function (value, index) {
-                return (index >= ($scope.PageStart - 1) && index <= $scope.PageEnd - 1);
-            });
-            if ($scope.rowCollectionFilter.length > 0) {
-                $scope.flag = 1;
-            }
-            else {
-                $scope.flag = 0;
+                else {
+                    //$scope.rowCollectionFilter = $ff($scope.CareGiver_PatientList, function (value) {
+                    //    return angular.lowercase(value.PatientName).match(searchstring) ||
+                    //        angular.lowercase(value.MRN_NO).match(searchstring);
+                    //});
+                    if ($scope.filter_CG_Assig_SearchFieldId == "1") {
+                        var NotNull_User = $scope.CareGiver_PatientList2.filter(x => x.Patient_No != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.Patient_No).match(searchstring));
+                    } else if ($scope.filter_CG_Assig_SearchFieldId == "2") {
+                        var NotNull_User = $scope.CareGiver_PatientList2.filter(x => x.National_ID != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.National_ID).match(searchstring));
+                    } else if ($scope.filter_CG_Assig_SearchFieldId == "3") {
+                        var NotNull_User = $scope.CareGiver_PatientList2.filter(x => x.FirstName != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.FirstName).match(searchstring));
+                    } else if ($scope.filter_CG_Assig_SearchFieldId == "4") {
+                        var NotNull_User = $scope.CareGiver_PatientList2.filter(x => x.LastName != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.LastName).match(searchstring));
+                    } else if ($scope.filter_CG_Assig_SearchFieldId == "5") {
+                        var NotNull_User = $scope.CareGiver_PatientList2.filter(x => x.Insurance_ID != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.Insurance_ID).match(searchstring));
+                    } else if ($scope.filter_CG_Assig_SearchFieldId == "6") {
+                        var NotNull_User = $scope.CareGiver_PatientList2.filter(x => x.Email != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.Email).match(searchstring));
+                    } else if ($scope.filter_CG_Assig_SearchFieldId == "7") {
+                        var NotNull_User = $scope.CareGiver_PatientList2.filter(x => x.Mobile != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.Mobile).match(searchstring));
+                    } else if ($scope.filter_CG_Assig_SearchFieldId == "8") {
+                        var NotNull_User = $scope.CareGiver_PatientList2.filter(x => x.MRN_NO != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.MRN_NO).match(searchstring));
+                    }
+                }
+                $scope.PatientCount = $scope.rowCollectionFilter.length;
+                total = Math.ceil(($scope.PatientCount) / ($scope.Patient_PerPage));
+                for (var i = 0; i < total; i++) {
+                    var obj = {
+                        PageNumber: i + 1
+                    }
+                    $scope.PageCountArray.push(obj);
+                }
+                $scope.CareGiver_PatientList = $scope.rowCollectionFilter;
+                $scope.PageStart = (($scope.PageNumber - 1) * ($scope.Patient_PerPage)) + 1;
+                $scope.PageEnd = $scope.PageNumber * $scope.Patient_PerPage;
+                $scope.rowCollectionFilter = $ff($scope.rowCollectionFilter, function (value, index) {
+                    return (index >= ($scope.PageStart - 1) && index <= $scope.PageEnd - 1);
+                });
+                if ($scope.rowCollectionFilter.length > 0) {
+                    $scope.flag = 1;
+                }
+                else {
+                    $scope.flag = 0;
+                }
             }
         }
         $scope.CareGiver_AssignedPatients = function (eventId) {

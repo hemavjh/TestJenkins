@@ -3415,6 +3415,7 @@ namespace MyCortex.Repositories.Uesr
                                           RowNumber = p.Field<int>("ROW_NUM"),
                                           Id = p.Field<long>("ID"),
                                           AllergenName = p.Field<string>("ALLERGENNAME"),
+                                          AllergyTypeId = p.Field<long>("ALLERGYTYPE_ID"),
                                           AllergyTypeName = p.Field<string>("ALLERGYTYPE"),
                                           AllergySeverityName = p.Field<string>("SEVERITY") ?? "",
                                           AllergyOnsetName = p.Field<string>("ONSETNAME") ?? "",
@@ -4526,6 +4527,19 @@ namespace MyCortex.Repositories.Uesr
                 return 1;
             }
             catch(Exception ex)
+            {
+                return 0;
+            }
+        }
+
+        public int Get_Exist_AnyUnEncryptedUser()
+        {
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GETCOUNT_ENCRYPTED_USER_DETAILS]");
+                return Convert.ToInt32(dt.Rows[0]["STATUS"].ToString());
+            }
+            catch (Exception ex)
             {
                 return 0;
             }

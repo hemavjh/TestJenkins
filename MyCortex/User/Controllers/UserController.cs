@@ -4343,5 +4343,18 @@ namespace MyCortex.User.Controller
             //put a breakpoint here and check datatable
             return dataTable;
         }
+
+        public int Get_Exist_AnyUnEncryptedUser()
+        {
+            try
+            {
+                int val = repository.Get_Exist_AnyUnEncryptedUser(); 
+                return val;
+            }
+            catch(Exception ex)
+            {
+                return 0;
+            }
+        }
     }
 }
