@@ -31,7 +31,6 @@ namespace MyCortex.Repositories.Masters
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@InstitutionId", Institution_Id));
             param.Add(new DataParameter("@Date", Filter_Date));
-            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
 
             try
