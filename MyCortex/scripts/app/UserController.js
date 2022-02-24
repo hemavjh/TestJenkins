@@ -1693,7 +1693,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             }
             if ($scope.filter_CL_Group != "") {
                 var NotNull_User = $scope.BusinessUserList.filter(x => x.GroupName != null);
-                usgroup = NotNull_User.filter(x => angular.lowercase(x.GroupName).match($scope.filter_CL_Group));
+                //usgroup = NotNull_User.filter(x => angular.lowercase(x.GroupName).match($scope.filter_CL_Group));
+                usgroup = NotNull_User.filter(x => x.GroupName.toString().includes($scope.filter_CL_Group));
             }
             if ($scope.Filter_CL_Nationality != "0") {
                 var NotNull_User = $scope.BusinessUserList.filter(x => x.NATIONALITY_ID != null);
