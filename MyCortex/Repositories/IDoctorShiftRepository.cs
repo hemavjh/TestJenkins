@@ -23,6 +23,6 @@ namespace MyCortex.Repositories
         OrgAppointmentModuleSettings ORG_APPOINTMENT_MODULE_SETTINGS(long InstitutionId);
         void APPOINTMENTRESETDETAILS(long InstitutionId);
         IList<AppointmentModule> GetAppointmentModuleList();
-        IList<ByDateDepartmentModel> ByDateDept_List(long Institution_Id, DateTime Filter_Date);
+        IList<ByDateDepartmentModel> ByDateDept_List(long Institution_Id, DateTime Filter_Date, Guid Login_Session_Id);
     }
 }                                        
