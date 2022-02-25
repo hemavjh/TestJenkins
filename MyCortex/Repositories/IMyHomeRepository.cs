@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using MyCortex.Admin.Models;
 using MyCortex.Masters.Models;
 
 namespace MyCortex.Repositories
@@ -24,9 +25,12 @@ namespace MyCortex.Repositories
         IList<TabDevicesModel> Get_DeviceNameList(int? IsActive);
         IList<TabDevicesModel> Device_InsertUpdate(TabDevicesModel obj);
         IList<DashboardUserParameterSettingsModel> Dashboard_UserParameterSettings_InsertUpdate(DashboardUserParameterSettingsModel obj);
+        DashboardUserParameterSettingsReturnModel Dashboard_UserParameterSettings_InActive(long Id);
+        DashboardUserParameterSettingsReturnModel Dashboard_UserParameterSettings_Active(long Id);
         TabDevicesModel Device_ListView(long id);
         /*TabDevicesModel Get_Device_Id(long DeviceId);*/
         void Device_List_Delete(int Id);
         IList<TabDashBoardAlertDetails> Get_ParameterValue(long patientId, long userTypeId, Guid login_Session_Id);
+        IList<MonitoringProtocolModel> ParameterList(long UserId);
     }
 }
