@@ -739,11 +739,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     //alert(moment(new Date()).format('DD-MMM-YYYY'));
                     $scope.ByDateDeptList = function () {
                         var AppDate = document.getElementById('dateee').value; //$scope.AppoimDate;
-                         var res = convert(AppDate);
-                         $scope.DepartmentList1 = [];
-                         $http.get(baseUrl + '/api/DoctorShift/ByDateDept_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Filter_Date=' + res).success(function (data) {
-                             $scope.DepartmentList1 = data;
-                         });
+                        var res = convert(AppDate);
+                        $scope.DepartmentList1 = [];
+                        $http.get(baseUrl + '/api/DoctorShift/ByDateDept_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Filter_Date=' + res).success(function (data) {
+                            $scope.DepartmentList1 = data;
+                        });
                     }
                     $http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
                         $scope.DepartmentList = data;
@@ -873,7 +873,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         var AppointmentDate = moment($scope.AppoimDate).format('DD-MM-YYYY');
                         $scope.DoctorListWithTimeZone = [];
                         document.getElementById("show").disabled = true;
-                        if (($scope.AppoimDate != "" || $scope.AppoimDate != undefined) && (ParseDate(dt) > ParseDate($scope.AppoimDate))) { 
+                        if (($scope.AppoimDate != "" || $scope.AppoimDate != undefined) && (ParseDate(dt) > ParseDate($scope.AppoimDate))) {
                             toastr.warning("Please avoid past date as AppointmentDate", "warning");
                         }
                         else if ($scope.DoctorID == undefined || $scope.DoctorID.length == 0 || $scope.DoctorID == null) {
@@ -1556,24 +1556,24 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                 //Swal.fire('Changes are not saved', '', 'info')
                             }
                         })
-                       /* if (confirm("Confirm to appointment")) {
-                            $("#chatLoaderPV").show();
-                            var obj = {
-                                "Id": Row.Id,
-                                "SESSION_ID": $window.localStorage['Login_Session_Id'],
-                                "Institution_Id": $window.localStorage['InstitutionId'],
-                                "user_id": $window.localStorage['UserId']
-                            }
-                            $http.post(baseUrl + '/api/User/CG_Confirm_PatientAppointments/', obj).success(function (data) {
-                                $("#chatLoaderPV").hide();
-                                if (data.ReturnFlag == 1) {
-                                    CG_PatientAppointment_List();
-                                    alert(data.Message);
-                                } else {
-                                    alert(data.Message);
-                                }
-                            });
-                        }*/
+                        /* if (confirm("Confirm to appointment")) {
+                             $("#chatLoaderPV").show();
+                             var obj = {
+                                 "Id": Row.Id,
+                                 "SESSION_ID": $window.localStorage['Login_Session_Id'],
+                                 "Institution_Id": $window.localStorage['InstitutionId'],
+                                 "user_id": $window.localStorage['UserId']
+                             }
+                             $http.post(baseUrl + '/api/User/CG_Confirm_PatientAppointments/', obj).success(function (data) {
+                                 $("#chatLoaderPV").hide();
+                                 if (data.ReturnFlag == 1) {
+                                     CG_PatientAppointment_List();
+                                     alert(data.Message);
+                                 } else {
+                                     alert(data.Message);
+                                 }
+                             });
+                         }*/
                     }
                     $scope.AppointmentPayment = function (Row) {
                         $scope.paymentappointmentId = Row.Id;
@@ -3020,13 +3020,13 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 }
                 $scope.AppoimDate = new Date(DatetimepickermaxDate);
             });
-             // load department list --department list shown by default for current date            
-                var res = moment(new Date()).format('YYYY-MM-DD')// convert(AppDate);
-                $scope.DepartmentList1 = [];
-                $http.get(baseUrl + '/api/DoctorShift/ByDateDept_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Filter_Date=' + res).success(function (data) {
-                    $scope.DepartmentList1 = data;
-                });
-           
+            // load department list --department list shown by default for current date            
+            var res = moment(new Date()).format('YYYY-MM-DD')// convert(AppDate);
+            $scope.DepartmentList1 = [];
+            $http.get(baseUrl + '/api/DoctorShift/ByDateDept_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Filter_Date=' + res).success(function (data) {
+                $scope.DepartmentList1 = data;
+            });
+
         }
         $scope.ShowStripePopup = function () {
             angular.element('#StripePayOptions').modal('show');
@@ -3277,19 +3277,22 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     }
                 }
             }
-            
+
         }
-      /*  *//*calling Alert message for cannot edit inactive record function *//*
-        $scope.ParameterClickEdit = function () {
-           //alert("Parameter value cannot be edited");
-            toastr.info("Parameter value cannot be edited", "info");
-        }
-*/
+        /*  *//*calling Alert message for cannot edit inactive record function *//*
+          $scope.ParameterClickEdit = function () {
+             //alert("Parameter value cannot be edited");
+              toastr.info("Parameter value cannot be edited", "info");
+          }
+  */
         /*calling Alert message for cannot edit inactive record function *//*
         $scope.ParameterClickEdit = function () {
               //alert("Parameter value cannot be edited");
             toastr.info("Inactive records cannot be edited", "info");
         }*/
+        
+        
+
         $scope.ParameterEdit_Update = function (rowData, rowIndex) {
             if (rowData.newParameterValue == '') {
                 //alert("Please enter value");
@@ -3496,6 +3499,16 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                  });
              };*/
         }
+        /* on click view, view popup opened*/
+        $scope.ParameterViewPopUP = function (rowData) {
+          
+            $scope.Id = rowData.Id;
+            $scope.ParameterName = rowData.ParameterName;
+            $scope.UOM_Name = rowData.UOM_Name;
+            $scope.newParameterValue = rowData.newParameterValue;
+            $scope.Created_Dt = rowData.Created_Dt;
+            angular.element('#ParameterViewModal').modal('show');
+        };
 
         $scope.EditVitalParameters = function (CatId, activeFlag) {
             if (activeFlag == 1) {
@@ -3509,7 +3522,10 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 toastr.info("Inactive record cannot be edited", "info");
             }
         };
-
+        $scope.CancelViewParameter = function () {
+            angular.element('#ParameterViewModal').modal('hide');
+            $scope.ClearParameterPopup();
+        }
         $scope.ParameterCancelPopup = function () {
             angular.element('#PatientVitalsCreateModal').modal('hide');
             $scope.ClearParameterPopup();
