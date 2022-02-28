@@ -38,8 +38,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
         $scope.isPatientSignUp = "";
         $scope.InsModule_List = $rootScope.InsModuleList;
-        if ($rootScope.InsModuleList.length > 0) {
-            $scope.isPatientSignUp = $filter('filter')($rootScope.InsModuleList, { Module_Id: '24' })[0];
+        if ($rootScope.InsModuleList != undefined) {
+            if ($rootScope.InsModuleList.length > 0) {
+                $scope.isPatientSignUp = $filter('filter')($rootScope.InsModuleList, { Module_Id: '24' })[0];
+            }
         }
 
         $scope.SearchMsg = "No Data Available";
