@@ -24,8 +24,8 @@ if (baseUrl == "/") {
 //    };
 //}]);
 
-Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'InstSub', 'toastr',
-    function ($scope, $q, $http, $filter, $routeParams, $location, $window, $ff, InstSub, toastr) {
+Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', '$rootScope', 'InstSub', 'toastr',
+    function ($scope, $q, $http, $filter, $routeParams, $location, $window, $ff, $rootScope, InstSub, toastr) {
         //$scope.alertConfrimationVisible = false;
         //$scope.alertType = "alert-danger";
         //$scope.alertConfrimationMessage = "Do you like to deactivate the selected User?";
@@ -35,6 +35,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         //$scope.btn2Text = "Cancel";
         //$scope.alertbtn1Show = true;
         //$scope.alertbtn2Show = true;
+
+        $scope.isPatientSignUp = "";
+        $scope.InsModule_List = $rootScope.InsModuleList;
+        if ($rootScope.InsModuleList.length > 0) {
+            $scope.isPatientSignUp = $filter('filter')($rootScope.InsModuleList, { Module_Id: '24' })[0];
+        }
+
         $scope.SearchMsg = "No Data Available";
         $scope.AdminFlowdata = InstSub.getSubID();
         $scope.currentTab = "1";
@@ -181,6 +188,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.InstituteId = $window.localStorage['InstitutionId'];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
         $scope.Pat_UserTypeId = $window.localStorage['UserTypeId'];
+        $scope.filter_CL_SearchFieldId = "0";
+        $scope.filter_CL_UserType = "0";
+        $scope.filter_CL_Group = "";
+        $scope.Filter_CL_Nationality = "0";
 
         $scope.InsCountryId = "0";
         $scope.InsStateId = "0";
@@ -691,12 +702,129 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         reader.onload = function (e) {
                             $scope.uploadmes = e.target.result;
                             $scope.uploadme = $scope.uploadmes;
-                           // $scope.uploadme1 = $scope.uploadmes;
-                            //$scope.uploadme2 = $scope.uploadmes;
                             $scope.$apply();
                         };
                     };
                     request.send();
+                }
+            }
+        };
+        $scope.PatientgetBase64Image_Profile = function () {
+            if ($scope.UserPhotoValue == 0) {
+                var maleId = 0;
+                var feMaleId = 0;
+                angular.forEach($scope.GenderList, function (value, index) {
+                    $scope.Gender_Name = value.Gender_Name;
+                    if ($scope.Gender_Name.toLowerCase() == "male") {
+                        maleId = value.Id;
+                    }
+                    else if ($scope.Gender_Name.toLowerCase() == "female") {
+                        feMaleId = value.Id;
+                    }
+                });
+
+                var picPath = "../../Images/others.png";
+                if (typeof ($scope.Gender_Name) != "undefined")
+                    if ($scope.GenderId == feMaleId) {
+                        picPath = "../../Images/Patient_Female.png";
+                    }
+                    else if ($scope.GenderId == maleId) {
+                        picPath = "../../Images/Patient_Male.png";
+                    }
+
+                if (photoview == false) {
+                    var request = new XMLHttpRequest();
+                    request.open('GET', picPath, true);
+                    request.responseType = 'blob';
+                    request.onload = function () {
+                        var reader = new FileReader();
+                        reader.readAsDataURL(request.response);
+                        reader.onload = function (e) {
+                            $scope.uploadmes = e.target.result;                            
+                            $scope.uploadme = $scope.uploadmes;
+                            $scope.$apply();
+                        };
+                    };
+                    request.send();
+                }
+            }
+        };
+        $scope.PatientgetBase64Image_Insurance = function () {
+            if ($scope.UserPhotoValue == 0) {
+                var maleId = 0;
+                var feMaleId = 0;
+                angular.forEach($scope.GenderList, function (value, index) {
+                    $scope.Gender_Name = value.Gender_Name;
+                    if ($scope.Gender_Name.toLowerCase() == "male") {
+                        maleId = value.Id;
+                    }
+                    else if ($scope.Gender_Name.toLowerCase() == "female") {
+                        feMaleId = value.Id;
+                    }
+                });
+
+                var picPath1 = "../../Images/National_Male.png";
+                if (typeof ($scope.Gender_Name) != "undefined")
+                    if ($scope.GenderId == feMaleId) {
+                        picPath1 = "../../Images/National_Female.png";
+                    }
+                    else if ($scope.GenderId == maleId) {
+                        picPath1 = "../../Images/National_Male.png";
+                    }
+
+                      if (photoview == false) {
+                    var request1 = new XMLHttpRequest();
+                    request1.open('GET', picPath1, true);
+                    request1.responseType = 'blob';
+                    request1.onload = function () {
+                        var reader1 = new FileReader();
+                        reader1.readAsDataURL(request1.response);
+                        reader1.onload = function (e) {
+                            $scope.uploadmes = e.target.result;
+                            $scope.uploadme2 = $scope.uploadmes;
+                            $scope.$apply();
+                        };
+                    };
+                    request1.send();                    
+                }
+            }
+        };
+        $scope.PatientgetBase64Image_National = function () {
+            if ($scope.UserPhotoValue == 0) {
+                var maleId = 0;
+                var feMaleId = 0;
+                angular.forEach($scope.GenderList, function (value, index) {
+                    $scope.Gender_Name = value.Gender_Name;
+                    if ($scope.Gender_Name.toLowerCase() == "male") {
+                        maleId = value.Id;
+                    }
+                    else if ($scope.Gender_Name.toLowerCase() == "female") {
+                        feMaleId = value.Id;
+                    }
+                });
+
+                var picPath1 = "../../Images/National_Male.png";
+                if (typeof ($scope.Gender_Name) != "undefined")
+                    if ($scope.GenderId == feMaleId) {
+                        picPath1 = "../../Images/National_Female.png";
+                    }
+                    else if ($scope.GenderId == maleId) {
+                        picPath1 = "../../Images/National_Male.png";
+                    }
+                if (photoview == false) {
+                    var request1 = new XMLHttpRequest();
+                    request1.open('GET', picPath1, true);
+                    request1.responseType = 'blob';
+                    request1.onload = function () {
+                        var reader1 = new FileReader();
+                        reader1.readAsDataURL(request1.response);
+                        reader1.onload = function (e) {
+                            $scope.uploadmes = e.target.result;
+                            $scope.uploadme1 = $scope.uploadmes;
+                            $scope.$apply();
+                        };
+                    };
+                    request1.send();
                 }
             }
         };
@@ -756,14 +884,20 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         }
 
         $scope.AddPatientPopup = function () {
-            $scope.currentTab = "1";
-            $scope.DropDownListValue = 1;
-            var UserTypeId = 2;
-            $scope.InstitutionSubscriptionLicensecheck(UserTypeId);
-            $scope.AppConfigurationProfileImageList();
-            $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
-            //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
-            $location.path("/PatientCreate/" + "2" + "/" + "3");
+
+            if (typeof ($scope.isPatientSignUp) != 'undefined' && $scope.isPatientSignUp != "") {
+                $scope.currentTab = "1";
+                $scope.DropDownListValue = 1;
+                var UserTypeId = 2;
+                $scope.InstitutionSubscriptionLicensecheck(UserTypeId);
+                $scope.AppConfigurationProfileImageList();
+                $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+                //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+                $location.path("/PatientCreate/" + "2" + "/" + "3");
+            }
+            else {
+                toastr.warning("You are not rights to access patient sign up", "warning");
+            }
         }
         $scope.SubscriptionValidation = function () {
             if ($scope.Id == 0 && $scope.InstitutionId > 0)
@@ -1510,14 +1644,38 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $scope.BusinessUserFilter = angular.copy($scope.BusinessUserList);
             }
             else {
-                $scope.BusinessUserFilter = $ff($scope.BusinessUserList, function (value) {
-                    return angular.lowercase(value.FullName).match(searchstring) ||
-                        angular.lowercase(value.EMAILID).match(searchstring) ||
-                        angular.lowercase(value.Department_Name).match(searchstring) ||
-                        angular.lowercase(value.EMPLOYEMENTNO).match(searchstring) ||
-                        angular.lowercase(value.UserName).match(searchstring) ||
-                        angular.lowercase(value.GroupName).match(searchstring);
-                });
+                if ($scope.filter_CL_SearchFieldId == "0") {
+                    toastr.warning("Please select Search Field", "Warning");
+                    //$scope.BusinessUserFilter = $ff($scope.BusinessUserList, function (value) {
+                    //    return angular.lowercase(value.FullName).match(searchstring) ||
+                    //        angular.lowercase(value.EMAILID).match(searchstring) ||
+                    //        angular.lowercase(value.Department_Name).match(searchstring) ||
+                    //        angular.lowercase(value.EMPLOYEMENTNO).match(searchstring) ||
+                    //        angular.lowercase(value.UserName).match(searchstring) ||
+                    //        angular.lowercase(value.GroupName).match(searchstring);
+                    //});
+                } else if ($scope.filter_CL_SearchFieldId == "1") {
+                    var NotNull_User = $scope.BusinessUserList.filter(x => x.EMPLOYEMENTNO != null);
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.EMPLOYEMENTNO).match(searchstring));
+                } else if ($scope.filter_CL_SearchFieldId == "2") {
+                    var NotNull_User = $scope.BusinessUserList.filter(x => x.Department_Name != null);
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.Department_Name).match(searchstring));
+                } else if ($scope.filter_CL_SearchFieldId == "3") {
+                    var NotNull_User = $scope.BusinessUserList.filter(x => x.FirstName != null);
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.FirstName).match(searchstring));
+                } else if ($scope.filter_CL_SearchFieldId == "4") {
+                    var NotNull_User = $scope.BusinessUserList.filter(x => x.LastName != null);
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.LastName).match(searchstring));
+                }else if ($scope.filter_CL_SearchFieldId == "5") {
+                    var NotNull_User = $scope.BusinessUserList.filter(x => x.HEALTH_LICENSE != null);
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.HEALTH_LICENSE).match(searchstring));
+                } else if ($scope.filter_CL_SearchFieldId == "6") {
+                    var NotNull_User = $scope.BusinessUserList.filter(x => x.EMAILID != null);
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.EMAILID).match(searchstring));
+                } else if ($scope.filter_CL_SearchFieldId == "7") {
+                    var NotNull_User = $scope.BusinessUserList.filter(x => x.MOBILE_NO != null);
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.MOBILE_NO).match(searchstring));
+                }
                 if ($scope.BusinessUserFilter.length > 0) {
                     $scope.BusinessUserflag = 1;
                 }
@@ -1527,12 +1685,44 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             }
         }
 
-
+        $scope.CareCoordinator_AdvanceFilter = function () {
+            var ustype = [], usgroup = [], usnation = [];
+            if ($scope.filter_CL_UserType != "0") {
+                var NotNull_User = $scope.BusinessUserList.filter(x => x.UserType_Id != null);
+                ustype = NotNull_User.filter(x => x.UserType_Id == parseInt($scope.filter_CL_UserType));
+            }
+            if ($scope.filter_CL_Group != "") {
+                var NotNull_User = $scope.BusinessUserList.filter(x => x.GroupName != null);
+                usgroup = NotNull_User.filter(x => angular.lowercase(x.GroupName).match($scope.filter_CL_Group));
+            }
+            if ($scope.Filter_CL_Nationality != "0") {
+                var NotNull_User = $scope.BusinessUserList.filter(x => x.NATIONALITY_ID != null);
+                usnation = NotNull_User.filter(x => x.NATIONALITY_ID == parseInt($scope.Filter_CL_Nationality));
+            }
+            var fil = [];
+            $scope.BusinessUserFilter = fil.concat(ustype, usgroup, usnation);
+            if ($scope.BusinessUserFilter.length > 0) {
+                $scope.BusinessUserflag = 1;
+            }
+            else {
+                $scope.BusinessUserflag = 0;
+            }
+        }
+        $scope.NationalityList2 = [];
+        $scope.UserTypeList2 = [];
+        $http.get(baseUrl + '/api/Common/NationalityList/').success(function (data) {
+            $scope.NationalityList2 = data;
+        });
+        $http.get(baseUrl + '/api/User/BusinessUser_UserTypeList/').success(function (data) {
+            $scope.UserTypeList2 = data;
+        });
         $scope.PatientSearch = function () {
             if ($scope.Patientsearchquery == "") {
                 allpatientlist();
             } else {
-                if ($scope.filter_SearchFieldId == "1") {
+                if ($scope.filter_SearchFieldId == "0") {
+                    toastr.warning("Please select Search Field", "Warning");
+                } else if ($scope.filter_SearchFieldId == "1") {
                     $scope.Filter_PatientNo2 = $scope.Patientsearchquery;
                     $scope.filter_NationalityId2 = "";
                     $scope.Filter_FirstName2 = "";
@@ -1717,7 +1907,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             photoview2 = false;
             $scope.uploadview = false;
             $scope.UserPhotoValue = 0;
-            $scope.PatientgetBase64Image();
+            $scope.PatientgetBase64Image_Profile();
         };
 
         $scope.imageclearPatientNational = function () {
@@ -1730,7 +1920,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             photoview2 = false;
             $scope.Nationaluploadview = false;
             $scope.NationalPhotoValue = 0;
-            $scope.PatientgetBase64Image();
+            $scope.PatientgetBase64Image_National();
         };
         $scope.imageclearPatientInsurance = function () {
             $scope.InsurancePhoto = "";
@@ -1742,7 +1932,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             photoview2 = false;
             $scope.Insuranceuploadview = false;
             $scope.InsurancePhotoValue = 0;
-            $scope.PatientgetBase64Image();
+            $scope.PatientgetBase64Image_Insurance();
         };
 
         /* Read file name for the  Photo and file */
@@ -2490,7 +2680,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
                     }
                     else {
-                        $scope.uploadme1 = null;
+                        $scope.uploadme1 = '../../Images/National_Male.png';//null;
                     }
                 });
                 $http.get(baseUrl + '/api/User/UserDetails_GetInsurancePhoto/?Id=' + $scope.Id).success(function (data) {
@@ -2502,7 +2692,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
                     }
                     else {
-                        $scope.uploadme2 = null;
+                        $scope.uploadme2 = '../../Images/National_Male.png';//null;
                     }
                 });
                 $scope.ConfigCode = "CHRONIC CODE";
@@ -2522,7 +2712,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                 if (value == 'CC') {
                                     $scope.Chroniccc = true;
                                 }
-                                if (value == 'SL') {
+                                if (value == 'SC') {
                                     $scope.Chronicsc = true;
                                 }
                             }
@@ -3336,7 +3526,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $("#chatLoaderPV").show();
                     $scope.PhotoFullpath = $('#item-img-output').attr('src');
                     $scope.NationalPhotoFullpath = $('#item-img-output1').attr('src');
-                    $scope.InsurancePhotoFullpath = $('#item-img-output1').attr('src'); //$('#item-img-output2').attr('src');
+                    $scope.InsurancePhotoFullpath = $('#item-img-output2').attr('src'); //$('#item-img-output2').attr('src');
                     $scope.UserInstitutionDetails_List = [];
                     angular.forEach($scope.SelectedInstitution, function (value, index) {
                         var Institutionobj = {
@@ -4464,6 +4654,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             //} else {
             //    $scope.SelectedPlan = "";
             //}
+        }
+
+        $scope.Reset_CC_Filter = function () {
+            $scope.filter_CL_UserType = "0";
+            $scope.filter_CL_Group = "";
+            $scope.Filter_CL_Nationality = "0";
+            $scope.BusinessUserFilter = $scope.BusinessUserList;
         }
 
         $scope.ResetPatientFilter = function () {

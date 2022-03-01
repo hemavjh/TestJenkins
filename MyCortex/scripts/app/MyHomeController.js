@@ -461,6 +461,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
 
         /*This is a Addrow function to add new row and save  */
         $scope.MyHomeAdd = function () {
+            var TSDuplicate = 0;
             if ($scope.MyHomeRow >= 0) {
                 var obj = {
                     'ID': $scope.HomeId,
@@ -477,6 +478,19 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     'PIN': $scope.PIN,
                     'IsActive': true
                 })
+            }
+
+            angular.forEach($scope.AddUserParameters, function (value1, index1) {
+                angular.forEach($scope.AddUserParameters, function (value2, index2) {
+                    if (index1 > index2 && value1.UserId == value2.UserId && (value1.IsActive == true && value2.IsActive == true)) {
+                        TSDuplicate = 1;
+                    };
+                });
+            });
+
+            if (TSDuplicate == 1) {
+                toastr.info("User Name already exist, cannot be Duplicated", "info");
+                return false;
             }
         };
 
@@ -577,7 +591,9 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             'Id': $scope.DeviceId,
             'DeviceId': $scope.Id
         }];
+
         $scope.MyDeviceAdd = function () {
+            var DuplicateDevice = 0;
             if ($scope.MyDeviceRow >= 0) {
                 var obj = {
                     'Id': $scope.DeviceId,
@@ -592,6 +608,19 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     'DeviceId': $scope.Id,
                     'IsActive': true
                 })
+            }
+
+            angular.forEach($scope.AddDeviceParameters, function (value1, index1) {
+                angular.forEach($scope.AddDeviceParameters, function (value2, index2) {
+                    if (index1 > index2 && value1.Id == value2.Id && (value1.IsActive == true && value2.IsActive == true)) {
+                        DuplicateDevice = 1;
+                    };
+                });
+            });
+
+            if (DuplicateDevice == 1) {
+                toastr.info("Device already exist, cannot be Duplicated", "info");
+                return false;
             }
         };
 

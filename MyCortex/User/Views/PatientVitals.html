@@ -3613,14 +3613,14 @@
 
                                         <td>
                                             <div class="col-md-10 input-group date">
-                                                <input type="date" id="start_Date" max="2099-12-31" class="form-control" ng-model="row.StartDate"
+                                                <input type="date" id="start_Date" max="2099-12-31" min="{{startDateMin}}" class="form-control" ng-model="row.StartDate"
                                                        style="width: 165px">
                                                 <!--<span class="input-group-addon">
                                             <i class="glyphicon glyphicon-th"></i>
                                         </span>-->
                                             </div>
                                             <div class="col-md-10 input-group date">
-                                                <input type="date" id="End_Date" max="2099-12-31" class="form-control" ng-model="row.EndDate"
+                                                <input type="date" id="End_Date" max="2099-12-31" min="{{EndDateMin}}" class="form-control" ng-model="row.EndDate"
                                                        style="width: 165px">
                                                 <!--<span class="input-group-addon">
                                             <i class="glyphicon glyphicon-th"></i>

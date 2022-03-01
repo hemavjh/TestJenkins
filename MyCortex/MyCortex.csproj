@@ -1343,6 +1343,7 @@
     <Compile Include="Masters\Models\StateMasterModel.cs" />
     <Compile Include="Masters\Models\UnitsMasterModel.cs" />
     <Compile Include="Masters\Models\WebConfigurationModel.cs" />
+    <Compile Include="MyCortexLogger.cs" />
     <Compile Include="MyCortexLogHandler.cs" />
     <Compile Include="Notification\Models\AlertEventModel.cs" />
     <Compile Include="Notification\Models\UserNotificationModel.cs" />

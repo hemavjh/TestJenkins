@@ -783,9 +783,9 @@ namespace MyCortex.Repositories.Uesr
                                     {
                                         Id = p.Field<long>("Id"),
                                         INSTITUTION_ID = p.Field<long?>("INSTITUTION_ID"),
-                                        //FirstName = DecryptFields.Decrypt(p.Field<string>("FirstName")),
-                                        //MiddleName = DecryptFields.Decrypt(p.Field<string>("MiddleName")),
-                                        //LastName = DecryptFields.Decrypt(p.Field<string>("LastName")),
+                                        FirstName = p.Field<string>("FirstName"),
+                                        MiddleName = p.Field<string>("MiddleName"),
+                                        LastName = p.Field<string>("LastName"),
                                         FullName = p.Field<string>("FullName"),
                                         EMPLOYEMENTNO = p.Field<string>("EMPLOYEMENTNO"),
                                         EMAILID = p.Field<string>("EMAILID"),
@@ -799,7 +799,9 @@ namespace MyCortex.Repositories.Uesr
                                         LoginTime = p.Field<DateTime?>("LoginTime"),
                                         GENDER_NAME = p.Field<string>("Gender_Name"),
                                         UserType_Id = p.Field<long?>("UserType_Id"),
-                                        Is_Master = p.Field<bool>("IS_MASTER")
+                                        Is_Master = p.Field<bool>("IS_MASTER"),
+                                        HEALTH_LICENSE = p.Field<string>("HEALTH_LICENSE"),
+                                        NATIONALITY_ID = p.Field<long>("NATIONALITY_ID")
                                     }).ToList();
             //list.FullName = list.FullName;
             return list;
