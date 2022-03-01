@@ -1444,7 +1444,7 @@
                                                                        ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==2;">
                                                                         <img src="../../Images/deleteNewIcon.png" />
                                                                     </a>
-                                                                    <<<<<<< HEAD
+
                                                                     <a href="javascript:" ng-click="ParameterViewPopUP(row)" title="View">
                                                                         <img src="../../Images/ViewIcon.png" />
                                                                     </a>
@@ -1453,27 +1453,25 @@
                                                                        ng-click="ParameterClickEdit(row, ((current_page-1)*page_size)+$index);"
                                                                        ng-show=" EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==1 && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
                                                                         <img src="../../Images/EditIcon.png" />
-                                                                        =======
-                                                                        <a href="javascript:" title="Edit"
-                                                                           ng-click="ParameterClickEdit(row, ((current_page-1)*page_size)+$index);"
-                                                                           ng-show=" EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==1 && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
-                                                                            <img src="../../Images/EditIcon.png" />
-                                                                            >>>>>>> origin/master
-                                                                        </a>
-                                                                        <a href="javascript:"
-                                                                           ng-click="DeleteParameters(row.Id, row.ParameterId)"
-                                                                           title="Active" ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
-                                                                            <img src="../../Images/activeIcon1.png"
-                                                                                 ng-if="row.IsActive==1"
-                                                                                 ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==1;" />
-                                                                        </a>
-                                                                        <a href="javascript:"
-                                                                           ng-click="ReInsertParameters(row.Id)"
-                                                                           title="Inactive" ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
-                                                                            <img src="../../Images/inactive.png"
-                                                                                 ng-if="row.IsActive==0"
-                                                                                 ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==1;" />
-                                                                        </a>
+
+
+
+                                                                    </a>
+                                                                   
+                                                                    <a href="javascript:"
+                                                                       ng-click="DeleteParameters(row.Id, row.ParameterId)"
+                                                                       title="Active" ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
+                                                                        <img src="../../Images/activeIcon1.png"
+                                                                             ng-if="row.IsActive==1"
+                                                                             ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==1;" />
+                                                                    </a>
+                                                                    <a href="javascript:"
+                                                                       ng-click="ReInsertParameters(row.Id)"
+                                                                       title="Inactive" ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
+                                                                        <img src="../../Images/inactive.png"
+                                                                             ng-if="row.IsActive==0"
+                                                                             ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==1;" />
+                                                                    </a>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -2217,6 +2215,7 @@
                                                     <div class="alert alert-success nibp" ng-if="row.Type_Id==2 && LiveData_IsImage(row.UOM_Name)==true">
                                                         <img width="180" height="180" class="responsiveProfileImage" src="{{'data:image/png;base64,'+ row.LiveData_Blob}}" />
                                                         _B
+                                                        di
                                                     </div>
                                                 </div>
 
@@ -4132,7 +4131,7 @@
 
 
 
-                                    <td><label>Category Name</label></td>
+                                    <td><label>abCategory Name</</label></td>
                                     <td>
                                         {{row.Category_Name}}
                                         <!-- <select class="form-control" data-style="form-control"  ng-model="row.Category_ID" id="EditCategory">
@@ -5656,7 +5655,9 @@
                             <div class="col-sm-4" style="padding-top: 24px; padding-left: 0px;">
                                 <button type="button" class="btn-darkblue" title="Search" ng-click="SearchAvailibleDoctorsList()">
                                     Search
+                                     <
                                 </button>
+                                 <
                             </div>
                             <!--<div class="col-sm-4">
                                 <div class="inputGroups">
@@ -6001,6 +6002,7 @@
                                         <p class="col-sm-6 doc-p">{{DoctorDetailList.Nationality}}</p>
                                     </div>
                                     <div class="flex">
+                                        >
                                         <label class="col-sm-6">Date of birth</label>
                                         <p class="col-sm-6 doc-p">{{DoctorDetailList.DOB.split('T')[0]}}</p>
                                     </div>
