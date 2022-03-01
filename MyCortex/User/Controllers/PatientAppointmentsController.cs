@@ -297,12 +297,12 @@ namespace MyCortex.User.Controller
         }
 
         [HttpGet]
-        public IList<PatientAppointmentsModel> DepartmentwiseDoctorList(string DepartmentIds,long InstitutionId,DateTime Date)
+        public IList<PatientAppointmentsModel> DepartmentwiseDoctorList(string DepartmentIds,long InstitutionId,DateTime Date,Int32 IsShift = 0)
         {
             try
             {
                 IList<PatientAppointmentsModel> model;
-                model = repository.DepartmentwiseDoctorList(DepartmentIds, InstitutionId, Date);
+                model = repository.DepartmentwiseDoctorList(DepartmentIds, InstitutionId, Date, IsShift);
                 return model;
             }
             catch (Exception ex)

@@ -504,16 +504,153 @@ namespace MyCortex.User.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
-       /* [Authorize]
+
         [HttpGet]
-        [CheckSessionOutFilter]
-        public TabDevicesModel Get_Device_id(long DeviceId)
+        public IList<MonitoringProtocolModel> ParameterList(long UserId)
         {
-            TabDevicesModel model = new TabDevicesModel();
-            model = repository.Get_Device_Id(DeviceId);
-            return model;
+            IList<MonitoringProtocolModel> model;
+            try
+            {
+                model = repository.ParameterList(UserId);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
         }
-       */
+        
+        public HttpResponseMessage Dashboard_UserParametersettings_InsertUpdate([FromBody] DashboardUserParameterSettingsModel model)
+        {
+            IList<DashboardUserParameterSettingsModel> ModelData = new List<DashboardUserParameterSettingsModel>();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        ModelData = repository.Dashboard_UserParameterSettings_InsertUpdate(model);
+
+                        return Request.CreateResponse(HttpStatusCode.OK, ModelData);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.Error(ex.Message, ex);
+                        return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+                    }
+                }
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+        }
+        public HttpResponseMessage Dashboard_UserParameterSettings_InActive(long Id)
+        {
+            if (Id > 0)
+            {
+                string messagestr = "";
+                DashboardUserParameterSettingsModel ModelData = new DashboardUserParameterSettingsModel();
+                DashboardUserParameterSettingsReturnModel model = new DashboardUserParameterSettingsReturnModel();
+                try
+                {
+                    model = repository.Dashboard_UserParameterSettings_InActive(Id);
+                    if ((model.ReturnFlag == 2) == true)
+                    {
+                        messagestr = "Dashboard User Parameter Setting Details Can't Be Deactivate!";
+                        model.ReturnFlag = 0;
+                        model.Status = "False";
+                    }
+                    else if ((model.ReturnFlag == 1) == true)
+                    {
+                        messagestr = "Dashboard User Parameter Setting Details has been Deactivated Successfully";
+                        model.ReturnFlag = 1;
+                        model.Status = "True";
+                    }
+
+                    model.Error_Code = "";
+                    model.UserParamDetails = ModelData;
+                    model.Message = messagestr;
+                    HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                    return response;
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex.Message, ex);
+                    model.Status = "False";
+                    model.Message = "Invalid data";
+                    model.Error_Code = ex.Message;
+                    model.ReturnFlag = 0;
+                    model.UserParamDetails = ModelData;
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+                }               
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+        }
+
+        public HttpResponseMessage Dashboard_UserParameterSettings_Active(long Id)
+        {
+            DashboardUserParameterSettingsModel ModelData = new DashboardUserParameterSettingsModel();
+            DashboardUserParameterSettingsReturnModel model = new DashboardUserParameterSettingsReturnModel();
+            if (!ModelState.IsValid)
+            {
+                model.Status = "False";
+                model.Message = "Invalid data";
+                model.Error_Code = "";
+                model.ReturnFlag = 0;
+                model.UserParamDetails = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+
+            string messagestr = "";
+            try
+            {
+                model = repository.Dashboard_UserParameterSettings_Active(Id);
+
+                if ((model.ReturnFlag == 1) == true)
+                {
+                    messagestr = "Dashboard User Parameter Settings Details has been activated Successfully";
+                    model.ReturnFlag = 1;
+                    model.Status = "True";
+                }
+
+                model.Error_Code = "";
+                model.UserParamDetails = ModelData;
+                model.Message = messagestr;
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Invalid data";
+                model.Error_Code = ex.Message;
+                model.ReturnFlag = 0;
+                model.UserParamDetails = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+        /* [Authorize]
+         [HttpGet]
+         [CheckSessionOutFilter]
+         public TabDevicesModel Get_Device_id(long DeviceId)
+         {
+             TabDevicesModel model = new TabDevicesModel();
+             model = repository.Get_Device_Id(DeviceId);
+             return model;
+         }
+        */
         [Authorize]
         [HttpGet]
         [CheckSessionOutFilter]

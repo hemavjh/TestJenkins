@@ -182,7 +182,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             }
             if (SelectedDepartmentId != "") {
                 $http.get(baseUrl + '/api/PatientAppointments/DepartmentwiseDoctorList/?DepartmentIds=' + SelectedDepartmentId + '&InstitutionId=' + $window.localStorage['InstitutionId'] +
-                    '&Date=' + today + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    '&Date=' + today + '&Login_Session_Id=' + $scope.LoginSessionId + '&IsShift=1').success(function (data) {
                         $scope.SelectedDoctorList = data;
                     });
             } else {

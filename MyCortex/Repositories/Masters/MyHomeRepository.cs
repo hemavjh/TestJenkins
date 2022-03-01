@@ -836,6 +836,92 @@ namespace MyCortex.Repositories.Masters
 
         }
 
+        public IList<MonitoringProtocolModel> ParameterList(long UserId)
+        {
+            try
+            {
+                List<DataParameter> param = new List<DataParameter>();
+                param.Add(new DataParameter("@USER_ID", UserId));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].STANDARDPARAMETERNAME_BYSETTING_SP_LIST", param);
+                List<MonitoringProtocolModel> lst = (from p in dt.AsEnumerable()
+                                                     select new MonitoringProtocolModel()
+                                                     {
+                                                         Id = p.Field<long>("PARAMETER_ID"),
+                                                         Name = p.Field<string>("NAME"),
+                                                         Is_Selected = p.Field<int>("Is_Selected")
+                                                     }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        /*public IList<DashboardUserParameterSettingsModel> Dashboard_UserParameterSettings_InsertUpdate(DashboardUserParameterSettingsModel insobj)
+        {
+            long InsertId;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ID", insobj.Id));
+            param.Add(new DataParameter("@USER_ID", insobj.User_Id));
+            param.Add(new DataParameter("@PARAMETER_ID",  insobj.Parameter_Id));
+            param.Add(new DataParameter("@ISACTIVE", insobj.IsActive));
+            param.Add(new DataParameter("@CREATED_BY", insobj.Created_By));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[DASHBOARD_USERPARAMETERSETTINGS_SP_INSERTUPDATE]", param);
+                IList<DashboardUserParameterSettingsModel> INS = (from p in dt.AsEnumerable()
+                                                                      select
+                                                                      new DashboardUserParameterSettingsModel()
+                                                                      {
+                                                                          Id = p.Field<long>("ID"),
+                                                                          User_Id = p.Field<long>("USER_ID"),
+                                                                          Parameter_Id = p.Field<string>("PARAMETER_ID"),
+                                                                          IsActive = p.Field<int>("ISACTIVE"),
+                                                                          Created_By = p.Field<long>("CREATED_BY")
+                                                                      }).ToList();
+                    return INS;
+                
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+
+        }*/
+        public IList<DashboardUserParameterSettingsModel> Dashboard_UserParameterSettings_InsertUpdate(DashboardUserParameterSettingsModel insobj)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@USER_ID", insobj.User_Id));
+            param.Add(new DataParameter("@PARAMETER_ID", insobj.Parameter_Id));
+            param.Add(new DataParameter("@ISACTIVE", insobj.IsActive));
+            param.Add(new DataParameter("@CREATED_BY", insobj.Created_By));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[DASHBOARD_USERPARAMETERSETTINGS_SP_INSERTUPDATE]", param);
+                IList<DashboardUserParameterSettingsModel> INS = (from p in dt.AsEnumerable()
+                                                                  select
+                                                                  new DashboardUserParameterSettingsModel()
+                                                                  {
+                                                                      Id = p.Field<long>("ID"),
+                                                                      User_Id = p.Field<long>("USER_ID"),
+                                                                      Parameter_Id = p.Field<string>("PARAMETER_ID"),
+                                                                  }).ToList();
+                return INS;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+
+        }
+
         public TabDevicesModel Device_ListView(long id)
         {
             List<DataParameter> param = new List<DataParameter>();
@@ -898,6 +984,29 @@ namespace MyCortex.Repositories.Masters
                 _logger.Error(ex.Message, ex);
             }
         }
+        public DashboardUserParameterSettingsReturnModel Dashboard_UserParameterSettings_Active(long Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Id", Id));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[DASHBOARD_USERPARAMETERSETTINGS_SP_ACTIVE]", param);
+            DashboardUserParameterSettingsReturnModel Active = (from p in dt.AsEnumerable()
+                                      select new DashboardUserParameterSettingsReturnModel()
+                                      {
+                                          ReturnFlag = p.Field<int>("flag"),
+                                      }).FirstOrDefault();
+            return Active;
+        }
+        public DashboardUserParameterSettingsReturnModel Dashboard_UserParameterSettings_InActive(long Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Id", Id));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].DASHBOARD_USERPARAMETERSETTINGS_SP_INACTIVE", param);
+            DashboardUserParameterSettingsReturnModel Active = (from p in dt.AsEnumerable()
+                                      select new DashboardUserParameterSettingsReturnModel()
+                                      {
+                                          ReturnFlag = p.Field<int>("flag"),
+                                      }).FirstOrDefault();
+            return Active;            
+        }
     }
-
 }

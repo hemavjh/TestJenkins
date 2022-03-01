@@ -283,12 +283,14 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
-        public IList<PatientAppointmentsModel> DepartmentwiseDoctorList(string DepartmentIds,long InstitutionId, DateTime Date)
+        public IList<PatientAppointmentsModel> DepartmentwiseDoctorList(string DepartmentIds,long InstitutionId, DateTime Date, Int32 IsShift)
         {
             DataEncryption decrypt = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@DepartmentIds", DepartmentIds));
             param.Add(new DataParameter("@InstitutionId", InstitutionId));
+            param.Add(new DataParameter("@Date", Date));
+            param.Add(new DataParameter("@IsShift", IsShift));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {

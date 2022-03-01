@@ -61,6 +61,14 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
             $scope.TotalUserCount = data;
         });
 
+        $http.get(baseUrl + '/api/User/Get_Exist_AnyUnEncryptedUser/').success(function (data) {
+            if (data == 0) {
+                $("#newEncry").css('display', 'inline-block');
+            } else if (data == 1) {
+                $("#newEncry").css('display', 'none');
+            }
+        });
+
         $scope.Apply_New_Encryption_to_UserDetails = function () {
             if ($scope.UserCount != 0) {
                 $("#newEncry").text('Processing...');
@@ -71,11 +79,13 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
                         $scope.UserCount = $scope.UserCount - 1000;
                         var te = parseInt((($scope.startno * 1000) / $scope.TotalUserCount) * 100);
                         $("#newEncry").css('display', 'none');
-                        $("#processtext").text(te.toString() + " % Completed");
+                        // $("#processtext").text(te.toString() + " % Completed");
+                        $("#processtext").text($scope.startno * 1000 +" User Details Changed Out of " + $scope.TotalUserCount);
                         $scope.Apply_New_Encryption_to_UserDetails();
                     } else {
                         $("#newEncry").text('Apply New Encryption');
-                        $("#newEncry").css('display', 'inline-block');
+                        //$("#newEncry").css('display', 'inline-block');
+                        $("#newEncry").css('display', 'none');
                         $("#processtext").text('');
                     }
                 });

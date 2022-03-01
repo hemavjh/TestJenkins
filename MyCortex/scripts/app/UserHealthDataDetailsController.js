@@ -22,8 +22,20 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
         $scope.startDateMin = maxDate;
         $scope.EndDateMin = maxDate;
-
-
+        $rootScope.$on("show_payment_history", function (data) {
+            show_payment_history(data);
+        });
+        function show_payment_history(data) {
+            $scope.paymentHistory = [];
+            var RowId = localStorage.getItem('rowId');
+            $("#payment_waveLoader").show();
+            angular.element('#appointment_payment_history').modal('show');
+            $http.get(baseUrl + '/api/PatientAppointments/AppointmentPaymentHistory/?appointmentId=' + RowId + '&Login_Session_Id=' + $scope.LoginSessionId + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data1) {
+                $scope.paymentHistory = data1;
+                $("#payment_waveLoader").hide();
+                localStorage.removeItem('rowId');
+            }).error(function (data) { console.log(data); $("#payment_waveLoader").hide(); localStorage.removeItem('rowId'); });
+        }
         if (chatService.checkCall($routeParams.Id)) {
             //alert('You cannot switch patient during call.')
             toastr.info("You cannot switch patient during call.", "info");
@@ -36,7 +48,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
         $scope.LiveDataCurrentTime = "";
         $scope.PatientLiveDataList = [];
-        //$scope.paymentHistory = [];
+        $scope.paymentHistory = [];
         $scope.PatientType = 1;
         $scope.LiveTabClick = function () {
             $('.chartTabs').addClass('charTabsNone');
@@ -758,7 +770,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         var AppDate = document.getElementById('dateee').value; //$scope.AppoimDate;
                         var res = convert(AppDate);
                         $scope.DepartmentList1 = [];
-                        $http.get(baseUrl + '/api/DoctorShift/ByDateDept_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Filter_Date=' + res).success(function (data) {
+                        $http.get(baseUrl + '/api/DoctorShift/ByDateDept_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Filter_Date=' + res + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
                             $scope.DepartmentList1 = data;
                         });
                     }
@@ -1048,20 +1060,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.ClosePaymentAppointmentHistory = function () {
                         angular.element('#appointment_payment_history').modal('hide');
                     }
-                    //$scope.show_payment_history = function (Row) {
-                    //    $scope.paymentHistory = [];
-                    //    $("#payment_waveLoader").show();
-                    //    angular.element('#appointment_payment_history').modal('show');
-                    //    $http.get(baseUrl + '/api/PatientAppointments/AppointmentPaymentHistory/?appointmentId=' + Row.Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data1) {
-                    //        $scope.paymentHistory = data1;
-                    //        $("#payment_waveLoader").hide();
-                    //    }).error(function (data) { console.log(data); $("#payment_waveLoader").hide(); });
-                    //}
                     $scope.setappoint_type = function (type) {
                         $scope.AppointmoduleID1 = type;
                     }
                     $scope.BackToDoc = function () {
-                        $scope.DoctorListWithTimeZone=$scope.DoctorListWithTimeZone1;
+                        $scope.DoctorListWithTimeZone = $scope.DoctorListWithTimeZone1;
                         $scope.showMainBox = true;
                     }
                     $http.get(baseUrl + '/api/User/DocumentTypeList/').success(function (data) {
@@ -3040,7 +3043,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             // load department list --department list shown by default for current date            
             var res = moment(new Date()).format('YYYY-MM-DD')// convert(AppDate);
             $scope.DepartmentList1 = [];
-            $http.get(baseUrl + '/api/DoctorShift/ByDateDept_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Filter_Date=' + res).success(function (data) {
+            $http.get(baseUrl + '/api/DoctorShift/ByDateDept_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Filter_Date=' + res + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
                 $scope.DepartmentList1 = data;
             });
 
@@ -3307,9 +3310,6 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
               //alert("Parameter value cannot be edited");
             toastr.info("Inactive records cannot be edited", "info");
         }*/
-        
-        
-
         $scope.ParameterEdit_Update = function (rowData, rowIndex) {
             if (rowData.newParameterValue == '') {
                 //alert("Please enter value");
@@ -3516,16 +3516,6 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                  });
              };*/
         }
-        /* on click view, view popup opened*/
-        $scope.ParameterViewPopUP = function (rowData) {
-          
-            $scope.Id = rowData.Id;
-            $scope.ParameterName = rowData.ParameterName;
-            $scope.UOM_Name = rowData.UOM_Name;
-            $scope.newParameterValue = rowData.newParameterValue;
-            $scope.Created_Dt = rowData.Created_Dt;
-            angular.element('#ParameterViewModal').modal('show');
-        };
 
         $scope.EditVitalParameters = function (CatId, activeFlag) {
             if (activeFlag == 1) {
@@ -3539,10 +3529,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 toastr.info("Inactive record cannot be edited", "info");
             }
         };
-        $scope.CancelViewParameter = function () {
-            angular.element('#ParameterViewModal').modal('hide');
-            $scope.ClearParameterPopup();
-        }
+
         $scope.ParameterCancelPopup = function () {
             angular.element('#PatientVitalsCreateModal').modal('hide');
             $scope.ClearParameterPopup();
@@ -3682,7 +3669,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         if ($scope.UserTypeId != "3" || $scope.UserTypeId != "1") {
             //Assign care Giver only in Coordinator Login
 
-            $scope.ParameterValueList = [];            
+            $scope.ParameterValueList = [];
             /*$scope.ParameterValueListCount = [];
             
             $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValueCount/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data1) {
@@ -3694,7 +3681,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.MediumParamCount = value.MediumCount;
                 });
             });*/
-            
+
             $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 $scope.ParameterValueList = data;
                 //angular.forEach($scope.ParameterValueList, function (value, index) {
@@ -3934,242 +3921,242 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             }
             return true;
         };
-       /* $scope.yellowcount = 1;
-        $scope.AlertCountDisplay = function () {
-            $scope.redcount = 1;
-            $scope.greencount = 1;
-            $('.jinglebelllow').removeClass('active');
-            $('#Highcount').addClass('fa fa-bell-o myhighBell');
-            $('.jinglebellhigh').removeClass('active');
-            $('#Lowcount').addClass('fa fa-bell-o mylowBell');
-            $('.jinglebellmedium').addClass('active');
-            $('#Medcount').removeClass('fa fa-bell-o mymediumBell');
-            $('#Medcount').addClass('fas fa-bell mymediumBell');
-            var x = document.getElementById("tableid");
-            var i = document.getElementById("tableid_img");
-            i.src = "../../Images/expand.gif"
-            x.style.display = "none";
-            document.getElementById('tableid_img').title = 'Click to Expand';
-            $('#tableid').hide();
-            $('#tableid1').hide();
-            $('#tableid2').hide();
-            $scope.yellowcount++;
-
-            var MediumCountVital;
-            $scope.MediumCountVitalList = [];
-            if ($scope.yellowcount == 2) {
-                $scope.ParameterValueList = [];
-                $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                    $scope.ParameterValueList = data;
-                });
-
-                angular.forEach($scope.ParameterValueList, function (value, index) {
-                    console.log(value);
-                    if (value.MediumCount != 0) {
-                        MediumCountVital = value.MediumCount;
-                        console.log(MediumCountVital);
-                        $scope.MediumCountVitalList.push(value);
-                    }
-                });
-                if ($scope.MediumCountVitalList.length > 0) {
-                    $('#tableid1').show();
-                    $('#tableid3').hide();
-                    $('#tableid2').hide();
-                    $('#tableid4').hide();
-                    $('#tableid5').hide();
-                    $('#tableid6').hide();
-                    return true;
-                } else {
-                    $('#tableid1').hide();
-                    $('#tableid3').hide();
-                    $('#tableid2').hide();
-                    $('#tableid4').hide();
-                    $('#tableid5').hide();
-                    $('#tableid6').hide();
-                    return true;
-                }
-
-            } else if ($scope.yellowcount == 3) {
-                $('#tableid3').hide();
-                $('#tableid5').hide();
-                $('#tableid1').hide();
-                $('#tableid2').show();
-                $('#tableid4').hide();
-                $('#tableid6').hide();
-
-            } else {
-
-                //i.src = "../../Images/expand.gif"
-                $('#tableid1').hide();
-                $('#tableid2').hide();
-                $('.jinglebellmedium').removeClass('active');
-                $('.jinglebellmedium i').removeClass('fas fa-bell mymediumBell');
-                $('.jinglebellmedium i').addClass('fa fa-bell-o mymediumBell');
-                $scope.yellowcount = 1;
-                //document.getElementById(tableid + '_img').title = 'Click to Expand';
-                //count = $scope.yellowcount - 3;
-
-            }
-            return true;
-        };
-
-        $scope.redcount = 1;
-        $scope.AlertCountredDisplay = function () {
-            $scope.yellowcount = 1;
-            $scope.greencount = 1;
-            $('.jinglebellmedium').removeClass('active');
-            $('#Medcount').addClass('fa fa-bell-o mymediumBell');
-            $('.jinglebellhigh').removeClass('active');
-            $('#Lowcount').addClass('fa fa-bell-o mylowBell');
-            $('.jinglebelllow').addClass('active');
-            $('#Highcount').removeClass('fa fa-bell-o myhighBell');
-            $('#Highcount').addClass('fas fa-bell myhighBell');
-            var x = document.getElementById("tableid");
-            var i = document.getElementById("tableid_img");
-            i.src = "../../Images/expand.gif"
-            x.style.display = "none";
-            document.getElementById('tableid_img').title = 'Click to Expand';
-            $('#tableid').hide();
-            $('#tableid3').hide();
-            $('#tableid4').hide();
-            $scope.redcount++;
-
-            var HighCountVital;
-            $scope.HighCountVitalList = [];
-            if ($scope.redcount == 2) {
-                $scope.ParameterValueList = [];
-                $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                    $scope.ParameterValueList = data;
-                });
-                angular.forEach($scope.ParameterValueList, function (value, index) {
-                    console.log(value);
-                    if (value.HighCount != 0) {
-                        HighCountVital = value.HighCount;
-                        console.log(HighCountVital);
-                        $scope.HighCountVitalList.push(value);
-                    }
-                });
-                if ($scope.HighCountVitalList.length > 0) {
-                    $('#tableid3').show();
-                    $('#tableid1').hide();
-                    $('#tableid2').hide();
-                    $('#tableid5').hide();
-                    $('#tableid6').hide();
-                    return true;
-                } else {
-                    $('#tableid3').hide();
-                    $('#tableid1').hide();
-                    $('#tableid2').hide();
-                    $('#tableid5').hide();
-                    $('#tableid6').hide();
-
-                    return true;
-                }
-
-            } else if ($scope.redcount == 3) {
-                $('#tableid1').hide();
-                $('#tableid5').hide();
-                $('#tableid3').hide();
-                $('#tableid4').show();
-                $('#tableid2').hide();
-                $('#tableid6').hide();
-
-            } else {
-
-                //i.src = "../../Images/expand.gif"
-
-                $('#tableid3').hide();
-                $('#tableid4').hide();
-                $('.jinglebelllow').removeClass('active');
-                $('.jinglebelllow i').removeClass('fas fa-bell myhighBell');
-                $('.jinglebelllow i').addClass('fa fa-bell-o myhighBell');
-                $scope.redcount = 1;
-                //document.getElementById(tableid + '_img').title = 'Click to Expand';
-                //count = $scope.yellowcount - 3;
-
-            }
-            return true;
-        };
-
-        $scope.greencount = 1;
-        $scope.AlertCountgreenDisplay = function () {
-            $scope.redcount = 1;
-            $scope.yellowcount = 1;
-            $('.jinglebelllow').removeClass('active');
-            $('#Highcount').addClass('fa fa-bell-o myhighBell');
-            $('.jinglebellmedium').removeClass('active');
-            $('#Medcount').addClass('fa fa-bell-o mymediumBell');
-            $('.jinglebellhigh').addClass('active');
-            $('#Lowcount').removeClass('fa fa-bell-o mylowBell');
-            $('#Lowcount').addClass('fas fa-bell mylowBell');
-            var x = document.getElementById("tableid");
-            var i = document.getElementById("tableid_img");
-            i.src = "../../Images/expand.gif"
-            x.style.display = "none";
-            document.getElementById('tableid_img').title = 'Click to Expand';
-            $('#tableid').hide();
-            $('#tableid5').hide();
-            $('#tableid6').hide();
-            $scope.greencount++;
-
-            var LowCountVital;
-            $scope.LowCountVitalList = [];
-            if ($scope.greencount == 2) {
-                $scope.ParameterValueList = [];
-                $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                    $scope.ParameterValueList = data;
-                });
-                angular.forEach($scope.ParameterValueList, function (value, index) {
-                    console.log(value);
-                    if (value.LowCount != 0) {
-                        LowCountVital = value.LowCount;
-                        console.log(LowCountVital);
-                        $scope.LowCountVitalList.push(value);
-                    }
-                });
-                if ($scope.LowCountVitalList.length > 0) {
-                    $('#tableid5').show();
-                    $('#tableid1').hide();
-                    $('#tableid4').hide();
-                    $('#tableid3').hide();
-                    $('#tableid2').hide();
-                    $('#tableid6').hide();
-                    return true;
-                } else {
-                    $('#tableid5').hide();
-                    $('#tableid1').hide();
-                    $('#tableid4').hide();
-                    $('#tableid3').hide();
-                    $('#tableid2').hide();
-                    $('#tableid6').hide();
-                    return true;
-                }
-
-            } else if ($scope.greencount == 3) {
-                $('#tableid1').hide();
-                $('#tableid4').hide();
-                $('#tableid5').hide();
-                $('#tableid6').show();
-                $('#tableid2').hide();
-                $('#tableid4').hide();
-                $('#tableid3').hide();
-
-            } else {
-
-                //i.src = "../../Images/expand.gif"
-
-                $('#tableid5').hide();
-                $('#tableid6').hide();
-                $('.jinglebellhigh').removeClass('active');
-                $('.jinglebellhigh i').removeClass('fas fa-bell mylowBell');
-                $('.jinglebellhigh i').addClass('fa fa-bell-o mylowBell');
-                $scope.greencount = 1;
-                //document.getElementById(tableid + '_img').title = 'Click to Expand';
-                //count = $scope.yellowcount - 3;
-
-            }
-            return true;
-        };*/
+        /* $scope.yellowcount = 1;
+         $scope.AlertCountDisplay = function () {
+             $scope.redcount = 1;
+             $scope.greencount = 1;
+             $('.jinglebelllow').removeClass('active');
+             $('#Highcount').addClass('fa fa-bell-o myhighBell');
+             $('.jinglebellhigh').removeClass('active');
+             $('#Lowcount').addClass('fa fa-bell-o mylowBell');
+             $('.jinglebellmedium').addClass('active');
+             $('#Medcount').removeClass('fa fa-bell-o mymediumBell');
+             $('#Medcount').addClass('fas fa-bell mymediumBell');
+             var x = document.getElementById("tableid");
+             var i = document.getElementById("tableid_img");
+             i.src = "../../Images/expand.gif"
+             x.style.display = "none";
+             document.getElementById('tableid_img').title = 'Click to Expand';
+             $('#tableid').hide();
+             $('#tableid1').hide();
+             $('#tableid2').hide();
+             $scope.yellowcount++;
+ 
+             var MediumCountVital;
+             $scope.MediumCountVitalList = [];
+             if ($scope.yellowcount == 2) {
+                 $scope.ParameterValueList = [];
+                 $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                     $scope.ParameterValueList = data;
+                 });
+ 
+                 angular.forEach($scope.ParameterValueList, function (value, index) {
+                     console.log(value);
+                     if (value.MediumCount != 0) {
+                         MediumCountVital = value.MediumCount;
+                         console.log(MediumCountVital);
+                         $scope.MediumCountVitalList.push(value);
+                     }
+                 });
+                 if ($scope.MediumCountVitalList.length > 0) {
+                     $('#tableid1').show();
+                     $('#tableid3').hide();
+                     $('#tableid2').hide();
+                     $('#tableid4').hide();
+                     $('#tableid5').hide();
+                     $('#tableid6').hide();
+                     return true;
+                 } else {
+                     $('#tableid1').hide();
+                     $('#tableid3').hide();
+                     $('#tableid2').hide();
+                     $('#tableid4').hide();
+                     $('#tableid5').hide();
+                     $('#tableid6').hide();
+                     return true;
+                 }
+ 
+             } else if ($scope.yellowcount == 3) {
+                 $('#tableid3').hide();
+                 $('#tableid5').hide();
+                 $('#tableid1').hide();
+                 $('#tableid2').show();
+                 $('#tableid4').hide();
+                 $('#tableid6').hide();
+ 
+             } else {
+ 
+                 //i.src = "../../Images/expand.gif"
+                 $('#tableid1').hide();
+                 $('#tableid2').hide();
+                 $('.jinglebellmedium').removeClass('active');
+                 $('.jinglebellmedium i').removeClass('fas fa-bell mymediumBell');
+                 $('.jinglebellmedium i').addClass('fa fa-bell-o mymediumBell');
+                 $scope.yellowcount = 1;
+                 //document.getElementById(tableid + '_img').title = 'Click to Expand';
+                 //count = $scope.yellowcount - 3;
+ 
+             }
+             return true;
+         };
+ 
+         $scope.redcount = 1;
+         $scope.AlertCountredDisplay = function () {
+             $scope.yellowcount = 1;
+             $scope.greencount = 1;
+             $('.jinglebellmedium').removeClass('active');
+             $('#Medcount').addClass('fa fa-bell-o mymediumBell');
+             $('.jinglebellhigh').removeClass('active');
+             $('#Lowcount').addClass('fa fa-bell-o mylowBell');
+             $('.jinglebelllow').addClass('active');
+             $('#Highcount').removeClass('fa fa-bell-o myhighBell');
+             $('#Highcount').addClass('fas fa-bell myhighBell');
+             var x = document.getElementById("tableid");
+             var i = document.getElementById("tableid_img");
+             i.src = "../../Images/expand.gif"
+             x.style.display = "none";
+             document.getElementById('tableid_img').title = 'Click to Expand';
+             $('#tableid').hide();
+             $('#tableid3').hide();
+             $('#tableid4').hide();
+             $scope.redcount++;
+ 
+             var HighCountVital;
+             $scope.HighCountVitalList = [];
+             if ($scope.redcount == 2) {
+                 $scope.ParameterValueList = [];
+                 $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                     $scope.ParameterValueList = data;
+                 });
+                 angular.forEach($scope.ParameterValueList, function (value, index) {
+                     console.log(value);
+                     if (value.HighCount != 0) {
+                         HighCountVital = value.HighCount;
+                         console.log(HighCountVital);
+                         $scope.HighCountVitalList.push(value);
+                     }
+                 });
+                 if ($scope.HighCountVitalList.length > 0) {
+                     $('#tableid3').show();
+                     $('#tableid1').hide();
+                     $('#tableid2').hide();
+                     $('#tableid5').hide();
+                     $('#tableid6').hide();
+                     return true;
+                 } else {
+                     $('#tableid3').hide();
+                     $('#tableid1').hide();
+                     $('#tableid2').hide();
+                     $('#tableid5').hide();
+                     $('#tableid6').hide();
+ 
+                     return true;
+                 }
+ 
+             } else if ($scope.redcount == 3) {
+                 $('#tableid1').hide();
+                 $('#tableid5').hide();
+                 $('#tableid3').hide();
+                 $('#tableid4').show();
+                 $('#tableid2').hide();
+                 $('#tableid6').hide();
+ 
+             } else {
+ 
+                 //i.src = "../../Images/expand.gif"
+ 
+                 $('#tableid3').hide();
+                 $('#tableid4').hide();
+                 $('.jinglebelllow').removeClass('active');
+                 $('.jinglebelllow i').removeClass('fas fa-bell myhighBell');
+                 $('.jinglebelllow i').addClass('fa fa-bell-o myhighBell');
+                 $scope.redcount = 1;
+                 //document.getElementById(tableid + '_img').title = 'Click to Expand';
+                 //count = $scope.yellowcount - 3;
+ 
+             }
+             return true;
+         };
+ 
+         $scope.greencount = 1;
+         $scope.AlertCountgreenDisplay = function () {
+             $scope.redcount = 1;
+             $scope.yellowcount = 1;
+             $('.jinglebelllow').removeClass('active');
+             $('#Highcount').addClass('fa fa-bell-o myhighBell');
+             $('.jinglebellmedium').removeClass('active');
+             $('#Medcount').addClass('fa fa-bell-o mymediumBell');
+             $('.jinglebellhigh').addClass('active');
+             $('#Lowcount').removeClass('fa fa-bell-o mylowBell');
+             $('#Lowcount').addClass('fas fa-bell mylowBell');
+             var x = document.getElementById("tableid");
+             var i = document.getElementById("tableid_img");
+             i.src = "../../Images/expand.gif"
+             x.style.display = "none";
+             document.getElementById('tableid_img').title = 'Click to Expand';
+             $('#tableid').hide();
+             $('#tableid5').hide();
+             $('#tableid6').hide();
+             $scope.greencount++;
+ 
+             var LowCountVital;
+             $scope.LowCountVitalList = [];
+             if ($scope.greencount == 2) {
+                 $scope.ParameterValueList = [];
+                 $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                     $scope.ParameterValueList = data;
+                 });
+                 angular.forEach($scope.ParameterValueList, function (value, index) {
+                     console.log(value);
+                     if (value.LowCount != 0) {
+                         LowCountVital = value.LowCount;
+                         console.log(LowCountVital);
+                         $scope.LowCountVitalList.push(value);
+                     }
+                 });
+                 if ($scope.LowCountVitalList.length > 0) {
+                     $('#tableid5').show();
+                     $('#tableid1').hide();
+                     $('#tableid4').hide();
+                     $('#tableid3').hide();
+                     $('#tableid2').hide();
+                     $('#tableid6').hide();
+                     return true;
+                 } else {
+                     $('#tableid5').hide();
+                     $('#tableid1').hide();
+                     $('#tableid4').hide();
+                     $('#tableid3').hide();
+                     $('#tableid2').hide();
+                     $('#tableid6').hide();
+                     return true;
+                 }
+ 
+             } else if ($scope.greencount == 3) {
+                 $('#tableid1').hide();
+                 $('#tableid4').hide();
+                 $('#tableid5').hide();
+                 $('#tableid6').show();
+                 $('#tableid2').hide();
+                 $('#tableid4').hide();
+                 $('#tableid3').hide();
+ 
+             } else {
+ 
+                 //i.src = "../../Images/expand.gif"
+ 
+                 $('#tableid5').hide();
+                 $('#tableid6').hide();
+                 $('.jinglebellhigh').removeClass('active');
+                 $('.jinglebellhigh i').removeClass('fas fa-bell mylowBell');
+                 $('.jinglebellhigh i').addClass('fa fa-bell-o mylowBell');
+                 $scope.greencount = 1;
+                 //document.getElementById(tableid + '_img').title = 'Click to Expand';
+                 //count = $scope.yellowcount - 3;
+ 
+             }
+             return true;
+         };*/
 
 
         $scope.Assign_CareGiver_Id = "0";
@@ -4775,11 +4762,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 toastr.info("ICD10 Cannot be edited", "info");
             }
             else {*/
-                $scope.Icd10AddnewClear();
-                $scope.Icd10Clear();
-                $scope.Id = CatId;
-                $scope.PatientICD10Details_View();
-                angular.element('#EditICD10Modal').modal('show');
+            $scope.Icd10AddnewClear();
+            $scope.Icd10Clear();
+            $scope.Id = CatId;
+            $scope.PatientICD10Details_View();
+            angular.element('#EditICD10Modal').modal('show');
             //}
         };
 
@@ -4908,26 +4895,26 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                //    var del = confirm("Do you like to delete the selected ICD10 Details?");
+                    //    var del = confirm("Do you like to delete the selected ICD10 Details?");
                     //    if (del == true) {
-                 $scope.$apply(() => { 
-                     $scope.AddICD10List.splice(itemIndex, 1);
-                     if ($scope.AddICD10List.length == 0) {
-                         $scope.AddICD10List = [{
-                             'Id': 0,
-                             'Category_ID': 0,
-                             'Category_Name': '',
-                             'Code_ID': '0',
-                             'ICDCode': '',
-                             'ICD_Description': '',
-                             'ICD_Remarks': '',
-                             'Active_From': '',
-                             'Active_To': ''
-                         }];
- 
-                     }
-                });
-           //  }
+                    $scope.$apply(() => {
+                        $scope.AddICD10List.splice(itemIndex, 1);
+                        if ($scope.AddICD10List.length == 0) {
+                            $scope.AddICD10List = [{
+                                'Id': 0,
+                                'Category_ID': 0,
+                                'Category_Name': '',
+                                'Code_ID': '0',
+                                'ICDCode': '',
+                                'ICD_Description': '',
+                                'ICD_Remarks': '',
+                                'Active_From': '',
+                                'Active_To': ''
+                            }];
+
+                        }
+                    });
+                    //  }
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
                 }
@@ -5426,18 +5413,18 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 toastr.info("Medication Cannot be edited", "info");
             }
             else { */
-                if (editval == 3) {
-                    if ($scope.MedicationTabCount == 1) {
-                        $scope.DropLoadMedication();
-                        $scope.MedicationTabCount = $scope.MedicationTabCount + 1;
-                    }
-                    // $scope.medId=MedicationViewId;	
-                    $scope.Id = MedicationViewId;
-                    $scope.PatientMedicationView();
-                    $scope.DrugDropDown = 2;
-                    $scope.PatientMedicationCreateModalClear();
-                    angular.element('#PatientMedicationEditModal').modal('show');
+            if (editval == 3) {
+                if ($scope.MedicationTabCount == 1) {
+                    $scope.DropLoadMedication();
+                    $scope.MedicationTabCount = $scope.MedicationTabCount + 1;
                 }
+                // $scope.medId=MedicationViewId;	
+                $scope.Id = MedicationViewId;
+                $scope.PatientMedicationView();
+                $scope.DrugDropDown = 2;
+                $scope.PatientMedicationCreateModalClear();
+                angular.element('#PatientMedicationEditModal').modal('show');
+            }
             //}
         }
         $scope.CancelEditPopUp = function () {
@@ -6226,16 +6213,16 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         /* This is for Patient Allergy Edit Popup*/
         $scope.EditAllergy = function (AllergyViewId, createdDt) {
             $('#Allergysave').attr("disabled", false);
-           /* if ($scope.IsEditableCheck(createdDt) == false) {
-                //alert("Allergy Cannot be edited");
-                toastr.info("Allergy Cannot be edited", "info");
-            }
-            else {*/
-                $scope.AllergyClickDetailsList();
-                $scope.Id = AllergyViewId;
-                $scope.PatientAllergyView();
-                $scope.AllergyDropDown = 2;
-                angular.element('#PatientAllergyCreateModal').modal('show');
+            /* if ($scope.IsEditableCheck(createdDt) == false) {
+                 //alert("Allergy Cannot be edited");
+                 toastr.info("Allergy Cannot be edited", "info");
+             }
+             else {*/
+            $scope.AllergyClickDetailsList();
+            $scope.Id = AllergyViewId;
+            $scope.PatientAllergyView();
+            $scope.AllergyDropDown = 2;
+            angular.element('#PatientAllergyCreateModal').modal('show');
             //}
         }
         $scope.CancelPopUp = function () {
@@ -6250,50 +6237,54 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
         $scope.AllergyInsert_Update = function () {
             if ($scope.AllergyInsert_Update_Validationcontrols() == true) {
-                $('#Allergysave').attr("disabled", true);
-                $("#chatLoaderPV").show();
-                $scope.SelectedAllergyReactionList = [];
-                angular.forEach($scope.SelectedAllergyReaction, function (value, index) {
+                if ($scope.Known_noKnownAllergyValidation() == true) {
+                    $('#Allergysave').attr("disabled", true);
+                    $("#chatLoaderPV").show();
+                    $scope.SelectedAllergyReactionList = [];
+                    angular.forEach($scope.SelectedAllergyReaction, function (value, index) {
+
+                        var obj = {
+                            Id: value
+                        }
+                        $scope.SelectedAllergyReactionList.push(obj);
+                    });
 
                     var obj = {
-                        Id: value
-                    }
-                    $scope.SelectedAllergyReactionList.push(obj);
-                });
-                var obj = {
-                    Id: $scope.Id,
-                    OnSetDate: $scope.OnSetDate,
-                    AllergenId: $scope.AllergenId,
-                    AllergyTypeId: $scope.AllergyTypeId,
-                    AllergyOnsetId: $scope.AllergyOnsetId == 0 ? null : $scope.AllergyOnsetId,
-                    AllergySeverityId: $scope.AllergySeverityId == 0 ? null : $scope.AllergySeverityId,
-                    AllergyReactionId: $scope.AllergyReactionId == 0 ? null : $scope.AllergyReactionId,
-                    Remarks: $scope.Remarks == '' ? null : $scope.Remarks,
-                    SelectedAllergyList: $scope.SelectedAllergyReactionList,
-                    AllergyReaction_List: $scope.AllergyReactionList,
-                    Patient_Id: $scope.SelectedPatientId,
-                    Created_By: $window.localStorage['UserId'],
-                    Modified_By: $window.localStorage['UserId'],
-                };
-                $("#chatLoaderPV").show();
-                $http.post(baseUrl + 'api/User/Allergy_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
-                    $("#chatLoaderPV").hide();
-                    //alert(data.Message);
-                    if (data.ReturnFlag == 1) {
-                        toastr.success(data.Message, "success");
-                    }
-                    else if (data.ReturnFlag == 2) {
-                        toastr.success(data.Message, "success");
-                    }
-                    $('#Allergysave').attr("disabled", false);
-                    $scope.PatientAllergyList();
-                    $scope.PatientAllergyCreateModalClear();
-                    $scope.CancelAllergyPopUp();
+                        Id: $scope.Id,
+                        OnSetDate: $scope.OnSetDate,
+                        AllergenId: $scope.AllergenId,
+                        AllergyTypeId: $scope.AllergyTypeId,
+                        AllergyOnsetId: $scope.AllergyOnsetId == 0 ? null : $scope.AllergyOnsetId,
+                        AllergySeverityId: $scope.AllergySeverityId == 0 ? null : $scope.AllergySeverityId,
+                        AllergyReactionId: $scope.AllergyReactionId == 0 ? null : $scope.AllergyReactionId,
+                        Remarks: $scope.Remarks == '' ? null : $scope.Remarks,
+                        SelectedAllergyList: $scope.SelectedAllergyReactionList,
+                        AllergyReaction_List: $scope.AllergyReactionList,
+                        Patient_Id: $scope.SelectedPatientId,
+                        Created_By: $window.localStorage['UserId'],
+                        Modified_By: $window.localStorage['UserId'],
+                    };
+                    $("#chatLoaderPV").show();
+                    $http.post(baseUrl + 'api/User/Allergy_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
+                        $("#chatLoaderPV").hide();
+                        //alert(data.Message);
+                        if (data.ReturnFlag == 1) {
+                            toastr.success(data.Message, "success");
+                        }
+                        else if (data.ReturnFlag == 2) {
+                            toastr.success(data.Message, "success");
+                        }
+                        $('#Allergysave').attr("disabled", false);
+                        $scope.PatientAllergyList();
+                        $scope.PatientAllergyCreateModalClear();
+                        $scope.CancelAllergyPopUp();
 
 
-                });
+                    });
+                }
             }
         }
+
         /* This is for Mandatorycondition*/
         $scope.AllergyInsert_Update_Validationcontrols = function () {
             if (typeof ($scope.AllergyTypeId) == "" || $scope.AllergyTypeId == "0") {
@@ -6308,6 +6299,28 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             }
             return true;
         }
+
+        /*Known/no Known Allergy validation*/
+        $scope.Known_noKnownAllergyValidation = function () {
+            var
+                TSDuplicate = 0, ExistingPatientAllergyTypeName, IsActiveAllergyType, DefaultAlleryTypeName = 'No Known Allergies';
+            angular.forEach($scope.PatientAllergyListData, function (value1, index1) {
+
+                ExistingPatientAllergyTypeName = $scope.PatientAllergyListData[index1].AllergyTypeName;
+                IsActiveAllergyType = $scope.PatientAllergyListData[index1].IsActive;
+
+                if ((ExistingPatientAllergyTypeName != DefaultAlleryTypeName) && (IsActiveAllergyType == 1)) {
+                    TSDuplicate = 1;
+                };
+            });
+
+            if (TSDuplicate == 1) {
+                toastr.error('Deactivate the known allergy, before activating the no known allergy', "warning");
+                return false;
+            }
+            else { return true; }
+        }
+
         $scope.setPage4 = function (PageNo) {
             if (PageNo == 0) {
                 PageNo = $scope.inputPageAllergy;
@@ -6366,12 +6379,12 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         else if ($scope.PatientAllergyListFilterData[0].AllergyTypeName === "Unknown") {
                             document.getElementById("IconAllergy").style.color = '#FFD700';
                         }
-                        else if ($scope.PatientAllergyListFilterData[0].AllergenName === "No Known Allergies") {
-                            document.getElementById("IconAllergy").style.color = '#32CD32';
+                        else if (($scope.PatientAllergyListFilterData[0].AllergenName != "No Known Allergies") || ($scope.PatientAllergyListFilterData[0].AllergyTypeName != "Unknown")) {
+                            document.getElementById("IconAllergy").style.color = '#ff0000';
                         }
-                        else if ($scope.PatientAllergyListFilterData[0].AllergenName === "Unknown") {
-                            document.getElementById("IconAllergy").style.color = '#FFD700';
-                        }
+                        //else if ($scope.PatientAllergyListFilterData[0].AllergenName === "Unknown") {
+                        //    document.getElementById("IconAllergy").style.color = '#FFD700';
+                        //}
                         else {
                             //document.getElementById("IconAllergy").style.color = '#FF0000';
                         }
@@ -6399,6 +6412,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
      for the  Allergy Id,
      and redirected to the list page.
      */
+
         $scope.InActiveAllergy = function (comId) {
             $scope.Id = comId;
             $scope.Allergy_InActive();
@@ -6477,24 +6491,26 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 allowOutsideClick: false,
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-                    var obj =
-                    {
-                        Id: $scope.Id,
-                        Modified_By: $window.localStorage['UserId']
-                    }
-
-                    $http.post(baseUrl + '/api/User/AllergyDetails_Active/', obj).success(function (data) {
-                        //alert(data.Message);
-                        if (data.ReturnFlag == 2) {
-                            toastr.success(data.Message, "success");
+                if ($scope.Known_noKnownAllergyValidation() == true) {
+                    if (result.isConfirmed) {
+                        var obj =
+                        {
+                            Id: $scope.Id,
+                            Modified_By: $window.localStorage['UserId']
                         }
-                        $scope.PatientAllergyList();
-                    }).error(function (data) {
-                        $scope.error = "An error has occurred while deleting Doctor Notes" + data;
-                    });
-                } else if (result.isDenied) {
-                    //Swal.fire('Changes are not saved', '', 'info')
+
+                        $http.post(baseUrl + '/api/User/AllergyDetails_Active/', obj).success(function (data) {
+                            //alert(data.Message);
+                            if (data.ReturnFlag == 2) {
+                                toastr.success(data.Message, "success");
+                            }
+                            $scope.PatientAllergyList();
+                        }).error(function (data) {
+                            $scope.error = "An error has occurred while deleting Doctor Notes" + data;
+                        });
+                    } else if (result.isDenied) {
+                        //Swal.fire('Changes are not saved', '', 'info')
+                    }
                 }
             })
             /* var Ins = confirm("Do you like to activate the selected Allergy?");
@@ -7385,13 +7401,13 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             if (index != rowIndex)
                                 Previous_DocumentItem.push(selectedPre);
                         });
-                    $scope.Patient_OtherData = Previous_DocumentItem;
+                        $scope.Patient_OtherData = Previous_DocumentItem;
                         if ($scope.Patient_OtherData.length > 0) {
                             $scope.Add_OtherDataflag = 1;
                         }
                         else {
                             $scope.Add_OtherDataflag = 0;
-                            }
+                        }
                     });
                     // }
                 } else if (result.isDenied) {
@@ -7628,5 +7644,6 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
             };*/
         }
+        //$scope.$on("show_payment_history", show_payment_history);
     }
 ]);

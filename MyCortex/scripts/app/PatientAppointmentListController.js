@@ -34,13 +34,16 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
             $scope.calcNewYear = setInterval(checkdates(), 1000);
         }
         $scope.show_payment_history = function (Row) {
-            $scope.paymentHistory = [];
-            $("#payment_waveLoader").show();
-            angular.element('#appointment_payment_history').modal('show');
-            $http.get(baseUrl + '/api/PatientAppointments/AppointmentPaymentHistory/?appointmentId=' + Row.Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data1) {
-                $scope.paymentHistory = data1;
-                $("#payment_waveLoader").hide();
-            }).error(function (data) { console.log(data); $("#payment_waveLoader").hide(); });
+            //$scope.paymentHistory = [];
+            //$("#payment_waveLoader").show();
+            //angular.element('#appointment_payment_history').modal('show');
+            //document.getElementsByClassName('modal-backdrop')[0].className = "";
+            //$http.get(baseUrl + '/api/PatientAppointments/AppointmentPaymentHistory/?appointmentId=' + Row.Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data1) {
+            //    $scope.paymentHistory = data1;
+            //    $("#payment_waveLoader").hide();
+            //}).error(function (data) { console.log(data); $("#payment_waveLoader").hide(); });
+            localStorage.setItem('rowId', Row.Id);
+            $rootScope.$emit("show_payment_history", {id: Row.Id});
         }
         function checkdates() {
             var AppoinList = $scope.UpComingAppointmentDetails;
