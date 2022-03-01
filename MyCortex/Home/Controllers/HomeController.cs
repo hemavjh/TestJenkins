@@ -883,7 +883,7 @@ namespace MyCortex.Home.Controllers
                 paySceneCode = "PAYPAGE",
                 paySceneParams = new PaySceneParams
                 {
-                    redirectUrl =  "https://"+ baseUrl +"/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
+                    redirectUrl =  "https://"+ baseUrl + "/Home/Index#/PatientVitals/101382/5?orderId=414768633924763654"
                 },
                 notifyUrl = "https://"+ baseUrl +"/Home/Notify/",
                 accessoryContent = new AccessoryContent
