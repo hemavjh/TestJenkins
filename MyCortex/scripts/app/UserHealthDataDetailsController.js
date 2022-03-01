@@ -1088,6 +1088,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         }/* else if ($scope.TimeZoneID == undefined || $scope.TimeZoneID == null || $scope.TimeZoneID == "") {
                     alert('Please select TimeZone')
                 } */else {
+                            $scope.RedirectParam = $window.location.hash.replace('#/PatientVitals/', '');
+
                             var Appointment_Module = 1;
                             if ($scope.AppointmoduleID1 === 2) {
                                 Appointment_Module = 2;
@@ -1116,7 +1118,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                 }
                                 $('#shown').attr("disabled", true);
                                 $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-
+                                
                                 $http.post(baseUrl + '/api/PatientAppointments/PatientAppointment_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, objectSave).success(function (data) {
                                     //alert(data.Message);
                                     if (data.ReturnFlag == 1) {
@@ -1596,6 +1598,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                          }*/
                     }
                     $scope.AppointmentPayment = function (Row) {
+                        $scope.RedirectParam = $window.location.hash.replace('#/PatientVitals/', '');
                         $scope.paymentappointmentId = Row.Id;
                         $scope.paymentdepartmentId = Row.DoctorDepartmentId;
                         $scope.paymentInstitutionId = Row.Institution_Id;
