@@ -886,9 +886,9 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             });
         }
 
+        $scope.AllDeviceNameList = [];
         $scope.DeviceDropDown = function () {
-            $("#chatLoaderPV").show();
-            $scope.AllDeviceNameList = [];
+            $("#chatLoaderPV").show();            
             //$http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
             $scope.AllDevice = [
                 {
@@ -902,14 +902,14 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             ];
             //});
             $http.get(baseUrl + '/api/MyHome/DeviceName_List/?IsActive=' + 1).success(function (data1) {
-                $scope.AllDeviceNameList = data1.TabDeviceList;
+                $scope.AllDeviceNameList = data1.TabDeviceList;                
             });
 
             $http.get(baseUrl + '/api/Protocol/ParameterNameList/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
                 $("#chatLoaderPV").hide();
                 $scope.ParameterTypeList = data;
             });
-            $scope.DeviceName = $scope.DeviceId;
+            
         };
 
     /*    $scope.DeviceChange = function () {
@@ -1025,7 +1025,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $http.get(baseUrl + '/api/MyHome/ViewDevice_List/?Id=' + $scope.Id).success(function (data) {
                 $("#chatLoaderPV").hide();
                 $scope.DeviceId = data.DeviceId;
-                $scope.DeviceName = $scope.DeviceId; //data.DeviceName;
+                $scope.DeviceName = data.DeviceId; //data.DeviceName;
                 if (data.DeviceName == "FORA") {
                     $scope.DeviceName = "FORA P20";
                 }
@@ -1038,20 +1038,28 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 if (data.DeviceType == "Wearable") {
                     $scope.DeviceType = 1;
                 }
-                if (data.DeviceName == "FORA P20") {
+                /*if (data.DeviceName == "FORA P20") {
                     $scope.DeviceName = 1;
-                }
+                }*/
                 //$scope.DeviceType = data.DeviceTypeId;
                 $scope.DeviceMake = data.Make;
                 $scope.DeviceModel = data.ModelNumber;
                 var pname = data.ParameterList[0].ParameterName.toString();
-                if (pname.indexOf(',') >= 0) {
+                
+                if (pname.indexOf(',') > 0) {
                     var det = data.ParameterList[0].ParameterName.split(',');
-                    for (i = 0; i < det.length; i++) {
-                        $scope.Editselectedparam.push(parseInt(det[i]));
+                    if (det == 'undefined') {
+                        $scope.Editselectedparam.push(parseInt(pname));
+                    } else {
+                        for (i = 0; i < det.length; i++) {
+                            $scope.Editselectedparam.push(parseInt(det[i]));
+                        }                        
                     }
+                } else {
+                    $scope.Editselectedparam.push(parseInt(pname));
                 }
-                $scope.SelectedParamter = $scope.Editselectedparam;                
+                $scope.SelectedParamter = $scope.Editselectedparam;
+                               
             });
         }
 
