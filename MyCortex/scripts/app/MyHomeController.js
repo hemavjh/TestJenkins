@@ -909,6 +909,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 $("#chatLoaderPV").hide();
                 $scope.ParameterTypeList = data;
             });
+            $scope.DeviceName = $scope.DeviceId;
         };
 
     /*    $scope.DeviceChange = function () {
@@ -978,6 +979,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $scope.Id = CatId;
             $scope.Editid = CatId;
             $scope.CancelDeviceList();
+            $scope.DeviceDropDown();
             $('#btnsave').attr("disabled", false);
             $('#DeviceId').prop('disabled', false);
             $('#DeviceName').prop('disabled', false);
@@ -987,8 +989,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $('#Parameter').prop('disabled', false);
             $scope.showSave = true;
             var $sel2 = $('#Parameter');
-            $sel2.multiselect('enable');
-            $scope.DeviceDropDown();
+            $sel2.multiselect('enable');            
             $scope.ViewDevice();
             angular.element('#DeviceAddModal').modal('show');
         }
@@ -1020,10 +1021,11 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 $scope.Id = $routeParams.Id;
                 $scope.DuplicatesId = $routeParams.Id;
             }
+            $scope.AllDeviceNameList=[];
             $http.get(baseUrl + '/api/MyHome/ViewDevice_List/?Id=' + $scope.Id).success(function (data) {
                 $("#chatLoaderPV").hide();
                 $scope.DeviceId = data.DeviceId;
-                $scope.DeviceName = data.DeviceName;
+                $scope.DeviceName = $scope.DeviceId; //data.DeviceName;
                 if (data.DeviceName == "FORA") {
                     $scope.DeviceName = "FORA P20";
                 }
@@ -1049,7 +1051,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                         $scope.Editselectedparam.push(parseInt(det[i]));
                     }
                 }
-                $scope.SelectedParamter = $scope.Editselectedparam;
+                $scope.SelectedParamter = $scope.Editselectedparam;                
             });
         }
 
@@ -1232,14 +1234,15 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
 
         /* THIS IS FOR DEVICE ADD EDIT VALIDATION CONTROL */
         $scope.DeviceValidationcontrols = function () {
-            if (typeof ($scope.DeviceId) == "undefined" || $scope.DeviceId == "") {
+            /*if (typeof ($scope.DeviceId) == "undefined" || $scope.DeviceId == "") {
                 //alert("Please enter Device Id");
                 toastr.warning("Please enter Device Id", "warning");
                 return false;
             }
-            else if (typeof ($scope.DeviceName) == "undefined" || $scope.DeviceName == "" || $scope.DeviceName == null) {
+            else */ 
+            if (typeof ($scope.DeviceName) == "undefined" || $scope.DeviceName == "" || $scope.DeviceName == null) {
                 //alert("Please Select Device Name");
-                toastr.warning("Please enter Device Id", "warning");
+                toastr.warning("Please enter Device Name", "warning");
                 return false;
             }
             else if (typeof ($scope.DeviceMake) == "undefined" || $scope.DeviceMake == "") {
