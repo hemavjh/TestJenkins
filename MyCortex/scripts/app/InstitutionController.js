@@ -80,7 +80,7 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
                         var te = parseInt((($scope.startno * 10) / $scope.TotalUserCount) * 100);
                         $("#newEncry").css('display', 'none');
                         // $("#processtext").text(te.toString() + " % Completed");
-                        $("#processtext").text($scope.startno * 10 +" User Details Changed Out of " + $scope.TotalUserCount);
+                        $("#processtext").text($scope.startno * 10 + " User Details Changed Out of " + $scope.UserCount);
                         $scope.Apply_New_Encryption_to_UserDetails();
                     } else {
                         $("#newEncry").text('Apply New Encryption');
