@@ -1088,7 +1088,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         }/* else if ($scope.TimeZoneID == undefined || $scope.TimeZoneID == null || $scope.TimeZoneID == "") {
                     alert('Please select TimeZone')
                 } */else {
-                            $scope.RedirectParam = $window.location.hash.replace('#/PatientVitals/', '');
+                            //$scope.RedirectParam = $window.location.hash.replace('#/PatientVitals/', '');
+                            //$scope.RedirectParam = $scope.RedirectParam.replace('?orderId=414768633924763654', '');
 
                             var Appointment_Module = 1;
                             if ($scope.AppointmoduleID1 === 2) {
