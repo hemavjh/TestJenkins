@@ -1815,11 +1815,13 @@ namespace MyCortex.Repositories.Uesr
         /// </summary>
         /// <param name="Patient_Id">Patient Id</param>
         /// <returns></returns>
-        public IList<PatientAppointmentsModel> PatientAppointmentList(long PatientId, Guid Login_Session_Id)
+        public IList<PatientAppointmentsModel> PatientAppointmentList(long PatientId, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Patient_Id", PatientId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
