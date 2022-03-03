@@ -31,6 +31,7 @@ namespace MyCortex.User.Model
         public decimal Average { get; set; }
         public int IsActive { get; set; }
         public DateTime Activity_DateTime { get; set; }
+        public DateTime UTC_DATE_TIME { get; set; }
 
         public string DeviceType { get; set; }
         public string DeviceNo { get; set; }
