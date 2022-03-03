@@ -995,6 +995,7 @@ namespace MyCortex.Home.Controllers
                 _logger.Error(ex.Message, ex);
                 return null;
             }
+            _logger.Warn(redirectUrl);
             return new RedirectResult(redirectUrl);
         }
 
