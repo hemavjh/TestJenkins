@@ -1469,7 +1469,7 @@ namespace MyCortex.User.Controller
         /// <returns></returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage PatientAppointmentList(long Patient_Id, Guid Login_Session_Id, int StartRowNumber=1, int EndRowNumber=20)
+        public HttpResponseMessage PatientAppointmentList(long Patient_Id, Guid Login_Session_Id, int StartRowNumber= 0, int EndRowNumber= 0)
         {
             IList<PatientAppointmentsModel> ModelData = new List<PatientAppointmentsModel>();
             PatientAppointmentsReturnModel model = new PatientAppointmentsReturnModel();
