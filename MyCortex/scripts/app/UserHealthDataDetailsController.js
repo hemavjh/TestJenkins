@@ -1088,6 +1088,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         }/* else if ($scope.TimeZoneID == undefined || $scope.TimeZoneID == null || $scope.TimeZoneID == "") {
                     alert('Please select TimeZone')
                 } */else {
+                            //$scope.RedirectParam = $window.location.hash.replace('#/PatientVitals/', '');
+                            //$scope.RedirectParam = $scope.RedirectParam.replace('?orderId=414768633924763654', '');
+
                             var Appointment_Module = 1;
                             if ($scope.AppointmoduleID1 === 2) {
                                 Appointment_Module = 2;
@@ -1116,7 +1119,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                 }
                                 $('#shown').attr("disabled", true);
                                 $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-
+                                
                                 $http.post(baseUrl + '/api/PatientAppointments/PatientAppointment_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, objectSave).success(function (data) {
                                     //alert(data.Message);
                                     if (data.ReturnFlag == 1) {
@@ -1596,6 +1599,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                          }*/
                     }
                     $scope.AppointmentPayment = function (Row) {
+                        $scope.RedirectParam = $window.location.hash.replace('#/PatientVitals/', '');
                         $scope.paymentappointmentId = Row.Id;
                         $scope.paymentdepartmentId = Row.DoctorDepartmentId;
                         $scope.paymentInstitutionId = Row.Institution_Id;
@@ -3516,6 +3520,17 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                  });
              };*/
         }
+        /* on click view, view popup opened*/
+        /* on click view, view popup opened*/
+        $scope.ParameterViewPopUP = function (rowData) {
+
+            $scope.Id = rowData.Id;
+            $scope.ParameterName = rowData.ParameterName;
+            $scope.UOM_Name = rowData.UOM_Name;
+            $scope.newParameterValue = rowData.newParameterValue;
+            $scope.Created_Dt = rowData.Created_Dt;
+            angular.element('#ParameterViewModal').modal('show');
+        };
 
         $scope.EditVitalParameters = function (CatId, activeFlag) {
             if (activeFlag == 1) {
@@ -3529,7 +3544,10 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 toastr.info("Inactive record cannot be edited", "info");
             }
         };
-
+        $scope.CancelViewParameter = function () {
+            angular.element('#ParameterViewModal').modal('hide');
+            $scope.ClearParameterPopup();
+        }
         $scope.ParameterCancelPopup = function () {
             angular.element('#PatientVitalsCreateModal').modal('hide');
             $scope.ClearParameterPopup();

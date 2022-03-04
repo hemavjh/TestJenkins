@@ -76,11 +76,11 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
                     console.log(data);
                     if ($scope.UserCount > 0) {
                         $scope.startno = $scope.startno + 1;
-                        $scope.UserCount = $scope.UserCount - 1000;
-                        var te = parseInt((($scope.startno * 1000) / $scope.TotalUserCount) * 100);
+                        $scope.UserCount = $scope.UserCount - 10;
+                        var te = parseInt((($scope.startno * 10) / $scope.TotalUserCount) * 100);
                         $("#newEncry").css('display', 'none');
                         // $("#processtext").text(te.toString() + " % Completed");
-                        $("#processtext").text($scope.startno * 1000 +" User Details Changed Out of " + $scope.TotalUserCount);
+                        $("#processtext").text($scope.startno * 10 + " User Details Changed Out of " + $scope.UserCount);
                         $scope.Apply_New_Encryption_to_UserDetails();
                     } else {
                         $("#newEncry").text('Apply New Encryption');
