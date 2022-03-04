@@ -887,20 +887,30 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
         $scope.AddPatientPopup = function () {
 
-            if (typeof ($scope.isPatientSignUp) != 'undefined' && $scope.isPatientSignUp != "") {
-                $scope.currentTab = "1";
-                $scope.DropDownListValue = 1;
-                var UserTypeId = 2;
-                $scope.InstitutionSubscriptionLicensecheck(UserTypeId);
-                $scope.AppConfigurationProfileImageList();
-                $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
-                //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
-                $location.path("/PatientCreate/" + "2" + "/" + "3");
-            }
-            else {
-                toastr.warning("You are not rights to access patient sign up", "warning");
-            }
+            //if (typeof ($scope.isPatientSignUp) != 'undefined' && $scope.isPatientSignUp != "") {
+            //    $scope.currentTab = "1";
+            //    $scope.DropDownListValue = 1;
+            //    var UserTypeId = 2;
+            //    $scope.InstitutionSubscriptionLicensecheck(UserTypeId);
+            //    $scope.AppConfigurationProfileImageList();
+            //    $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            //    //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            //    $location.path("/PatientCreate/" + "2" + "/" + "3");
+            //}
+            //else {
+            //    toastr.warning("You are not rights to access patient sign up", "warning");
+            //}
+
+            $scope.currentTab = "1";
+            $scope.DropDownListValue = 1;
+            var UserTypeId = 2;
+            $scope.InstitutionSubscriptionLicensecheck(UserTypeId);
+            $scope.AppConfigurationProfileImageList();
+            $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            $location.path("/PatientCreate/" + "2" + "/" + "3");
         }
+
         $scope.SubscriptionValidation = function () {
             if ($scope.Id == 0 && $scope.InstitutionId > 0)
                 $scope.InstitutionSubscriptionLicensecheck(3);
