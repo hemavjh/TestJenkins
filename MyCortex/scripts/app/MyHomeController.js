@@ -43,6 +43,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         $scope.MyDeviceflag = "0";
         $scope.ISact = 1;
         $scope.PIN = "1234";
+        $scope.DisplayView = '';
 
         //$http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
         //    $scope.DevicesLists = data;
@@ -70,7 +71,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         }
 
         $scope.onCategoryChange = function () {
-            $scope.DeviceId = $scope.DeviceName;
+            //$scope.DeviceId = $scope.DeviceName;
         }
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddTabPopUP = function () {
@@ -886,7 +887,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             });
         }
 
-        $scope.AllDeviceNameList = [];
+        
         $scope.DeviceDropDown = function () {
             $("#chatLoaderPV").show();            
             //$http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
@@ -901,6 +902,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 }
             ];
             //});
+            $scope.AllDeviceNameList = [];
             $http.get(baseUrl + '/api/MyHome/DeviceName_List/?IsActive=' + 1).success(function (data1) {
                 $scope.AllDeviceNameList = data1.TabDeviceList;                
             });
@@ -997,6 +999,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         /* THIS IS OPENING POP WINDOW VIEW */
         $scope.ViewDevicePopUP = function (CatId) {
             $scope.Id = CatId;
+            $scope.DisplayView = 'View';
             $scope.CancelDeviceList();
             $('#DeviceId').prop('disabled', true);
             $('#DeviceName').prop('disabled', true);
@@ -1024,14 +1027,9 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $scope.AllDeviceNameList=[];
             $http.get(baseUrl + '/api/MyHome/ViewDevice_List/?Id=' + $scope.Id).success(function (data) {
                 $("#chatLoaderPV").hide();
-                $scope.DeviceId = data.DeviceId;
-                $scope.DeviceName = data.DeviceId; //data.DeviceName;
-                if (data.DeviceName == "FORA") {
-                    $scope.DeviceName = "FORA P20";
-                }
-                if (data.DeviceName == "BLEsmart_0000011AB0495F0337C2") {
-                    $scope.DeviceName = "OMRON BPM";
-                }
+                //$scope.DeviceId = data.DeviceId;
+                $scope.DeviceName = data.DeviceName;
+                
                 if (data.DeviceType == "Medical Device") {
                     $scope.DeviceType = 2;
                 }
@@ -1179,7 +1177,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 //var devicetypechange = $scope.DeviceType.toString();
                 angular.forEach($scope.AllDeviceNameList, function (value, index) {
                     if (value.ID == $scope.DeviceName) {
-                        $scope.DeviceName = value.DeviceName
+                    $scope.DeviceName = value.DeviceName;
                     }
                 });
                 angular.forEach($scope.AllDevice, function (value, index) {
@@ -1192,7 +1190,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                          $scope.DeviceName = value.DeviceName
                      }*/
                     if (value.DeviceId == $scope.DeviceName) {
-                        $scope.DeviceName = value.DeviceName
+                    $scope.DeviceName = value.DeviceName;
                     }
                 });
 
@@ -1248,9 +1246,10 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 return false;
             }
             else */ 
+            //$window.alert($scope.DeviceId);
             if (typeof ($scope.DeviceName) == "undefined" || $scope.DeviceName == "" || $scope.DeviceName == null) {
                 //alert("Please Select Device Name");
-                toastr.warning("Please enter Device Name", "warning");
+                toastr.warning("Please Select Device Name", "warning");
                 return false;
             }
             else if (typeof ($scope.DeviceMake) == "undefined" || $scope.DeviceMake == "") {
