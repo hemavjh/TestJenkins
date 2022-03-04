@@ -845,7 +845,7 @@ namespace MyCortex.Home.Controllers
             long appointmentId = Convert.ToInt64(form["paymentAppointmentId"]);
             long departmentId = Convert.ToInt64(form["paymentdepartmentId"]);
             long PInstitutionId = Convert.ToInt64(form["paymentInstitutionId"]);
-            //string redirectParam = Convert.ToString(form["RedirectParam"]);
+            string redirectParam = Convert.ToString(form["RedirectParam"]);
             double amount2 = Convert.ToDouble(gatewayrepository.PatientAmount(PInstitutionId, departmentId));
             string merchantOrderNumber = Guid.NewGuid().ToString().Replace("-", "").PadLeft(10);
             int retid = patientAppointmentsRepository.PaymentStatus_Update(appointmentId, "Payment Initiated", merchantOrderNumber);
@@ -885,7 +885,7 @@ namespace MyCortex.Home.Controllers
                 paySceneCode = "PAYPAGE",
                 paySceneParams = new PaySceneParams
                 {
-                    redirectUrl =  "https://"+ baseUrl + "/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
+                    redirectUrl =  "https://"+ baseUrl + "/Home/Index#/PatientVitals/"+ redirectParam //+"0/1?orderId=414768633924763654"
                 },
                 notifyUrl = "https://"+ baseUrl +"/Home/Notify/",
                 accessoryContent = new AccessoryContent
