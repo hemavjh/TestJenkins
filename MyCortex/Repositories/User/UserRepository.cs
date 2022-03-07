@@ -671,7 +671,7 @@ namespace MyCortex.Repositories.Uesr
                                     PayorId = p.Field<string>("PAYORID"),
                                     PlanId = p.Field<string>("PLANID"),
                                 }).FirstOrDefault();
-            if (insert.DOB_Encrypt != "")
+            if (insert.DOB_Encrypt != "" && insert.DOB_Encrypt != null)
             {
                 var time = insert.DOB_Encrypt.Split(' ');
 
