@@ -25,6 +25,7 @@
             $('#ptDateTimePicker').attr('min', maxDate);
             $('#dateee').attr('min', maxDate);
         });
+       
     </script>
     <!--<script src='Scripts/jquery-proper-slider.js'></script>
     <script src='Scripts/mixer.js'></script>-->
@@ -3354,12 +3355,12 @@
                                             <select class="form-control" data-style="form-control" id="AllergyTypeselectpicker"
                                                     data-live-search="true" data-selectpicker data-collection-name="AllergyTypeList"
                                                     ng-model="AllergyTypeId"
-                                                    ng-change="AllegenBasedType(AllergyTypeId);AllergenNameClearFunction()">
+                                                    ng-change="AllegenBasedType(AllergyTypeId);AllergenNameClearFunction()"  onchange="fngetalltypename();">
                                                 <option ng-repeat="sel in AllergyTypeList" ng-selected="AllergyTypeId==sel.Id" ng-required="true"
                                                         value="{{sel.Id}}">
                                                     {{sel.AllergyTypeName}}
                                                 </option>
-                                            </select>
+                                            </select><input type="hidden" id="alltypename" name="alltypename" ng-model="alltypename" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -6893,6 +6894,10 @@ Works in Mozilla, Webkit & IE.
                 $(document).ready(function () {
                     document.getElementById("ptDateTimePicker").style.display = "block";
                 });
+                function fngetalltypename() {
+                    var getalltypename = $("#AllergyTypeselectpicker option:selected").text();
+                    document.getElementById('alltypename').value = getalltypename.trim();
+                }
             </script>
         </div>
     </body>

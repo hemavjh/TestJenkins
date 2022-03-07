@@ -6154,7 +6154,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.AllergenListfilter = angular.copy($scope.AllergenListTemp);
                     $scope.AllergenId = id;
 
-                })
+                })               
             }
 
 
@@ -6301,18 +6301,32 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.Known_noKnownAllergyValidation = function () {
             var
                 TSDuplicate = 0, ExistingPatientAllergyTypeName, IsActiveAllergyType, DefaultAlleryTypeName = 'No Known Allergies';
+
+            //get the allergy type name from the text box. The text box filled when the select box onchange.
+            var x = angular.element(document.getElementById("alltypename"));
+            $scope.alltypename = x.val();
             angular.forEach($scope.PatientAllergyListData, function (value1, index1) {
 
                 ExistingPatientAllergyTypeName = $scope.PatientAllergyListData[index1].AllergyTypeName;
                 IsActiveAllergyType = $scope.PatientAllergyListData[index1].IsActive;
 
                 if ((ExistingPatientAllergyTypeName != DefaultAlleryTypeName) && (IsActiveAllergyType == 1)) {
-                    TSDuplicate = 1;
-                };
+                    if ($scope.alltypename == DefaultAlleryTypeName) {
+                        TSDuplicate = 1;                       
+                    }                    
+                }
+                if ((ExistingPatientAllergyTypeName == DefaultAlleryTypeName) && (IsActiveAllergyType == 1)) {
+                    if ($scope.alltypename != DefaultAlleryTypeName) {
+                        TSDuplicate = 2;                        
+                    }                     
+                }
             });
 
             if (TSDuplicate == 1) {
                 toastr.error('Deactivate the known allergy, before activating the no known allergy', "warning");
+                return false;
+            } else if(TSDuplicate == 2){
+                toastr.error('Deactivate the no known allergy, before activating the known allergy', "warning");
                 return false;
             }
             else { return true; }
