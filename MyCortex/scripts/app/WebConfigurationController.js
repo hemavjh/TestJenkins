@@ -228,12 +228,24 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                         CheckTrue = 1;
                     } 
                 }
+                if ($scope.rowCollectionWebConfiguration[index]["CONFIGCODE"] == "PROFILE_PICTURE") {
+                    var id = value.CONFIGCODE;
+                    var profilepicture = document.getElementById(id).value;
+                    if (profilepicture > 5242880) {
+                        CheckTrue = 2;
+                    }
+                }
             });
             if (CheckTrue == 1) {
-                toastr.info("PATIENT_MIN_AGE Config Value Is Below 1 Year", "info");
+                toastr.info("ATIENT_MIN_AGE Config Value Is Below 1 Year", "info");
                 $('#save').attr("disabled", false);
                 return false
-            } else {
+            } else if (CheckTrue == 2) {
+                toastr.info("PROFILE_PICTURE Config Value is less than or equal to 5MB(5242880)", "info");                
+                $('#save').attr("disabled", false);
+                return false
+            }
+            else {
                 return true
             }
         }
