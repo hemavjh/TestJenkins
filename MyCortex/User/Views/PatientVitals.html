@@ -5649,8 +5649,7 @@
                                 <button type="button" class="btn-darkblue" title="Search" ng-click="SearchAvailibleDoctorsList()">
                                     Search
                                      <
-                                </button>
-                                 <
+                                </button>                                 
                             </div>
                             <!--<div class="col-sm-4">
                                 <div class="inputGroups">
@@ -5820,8 +5819,8 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-12 flex-col mt-10">
-                                    <p class="col-sm-3 m-bottom-0 font-semibold p-0">Reason</p><br />
-                                    <textarea id="TextArea1" rows="3" cols="70"></textarea>
+                                    <p class="col-sm-3 m-bottom-0 font-semibold p-0">Reason<sup><font class='mandatory-field'>*</font></sup></p><br />
+                                    <textarea id="TextArea1" ng-model="TextArea1" rows="3" cols="70" ng-required="true"></textarea>
                                 </div>
                             </div>
                             <div class="col-sm-5">
@@ -5850,7 +5849,6 @@
                             </button>
                         </div>
                         <div class="col-sm-6 flex justify-end mt-6">
-
                             <button type="button" class="btn-darkblue" ng-disabled="false" ng-click="SavePatientAppointment()" id="shown" title="Save">
                                 Save this Doctor and Continue
                             </button>

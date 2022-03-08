@@ -1085,6 +1085,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         } else if ($scope.AppoiToTime == undefined || $scope.AppoiToTime == null || $scope.AppoiToTime == "") {
                             //alert('Please select Appointment Time')
                             toastr.warning("Please select Appointment Time", "warning");
+                        } else if ($scope.TextArea1 == undefined || $scope.TextArea1 == null || $scope.TextArea1 == "") {                            
+                            toastr.warning("Please enter the reason", "warning");
                         }/* else if ($scope.TimeZoneID == undefined || $scope.TimeZoneID == null || $scope.TimeZoneID == "") {
                     alert('Please select TimeZone')
                 } */else {
