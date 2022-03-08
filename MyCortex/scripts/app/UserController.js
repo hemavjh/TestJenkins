@@ -1657,6 +1657,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     } else if ($scope.filter_SASearchFieldId == "8") {
                         var NotNull_User = $scope.UserDetailsList.filter(x => x.MNR_NO != null);
                         $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.MNR_NO).match(searchstring));
+                    } else if ($scope.filter_SASearchFieldId == "9") {
+                        var NotNull_User = $scope.UserDetailsList.filter(x => x.EMPLOYEMENTNO != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.EMPLOYEMENTNO).match(searchstring));
                     }
                     if ($scope.rowCollectionFilter.length > 0) {
                         $scope.flag = 1;
