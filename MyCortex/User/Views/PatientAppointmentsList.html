@@ -151,6 +151,7 @@
                                                 <input type="hidden" name="paymentAppointmentId" id="paymentAppointmentId" value="{{paymentappointmentId}}" />
                                                 <input type="hidden" name="paymentdepartmentId" id="paymentAppointmentId" value="{{paymentdepartmentId}}" />
                                                 <input type="hidden" name="paymentInstitutionId" id="paymentInstitutionId" value="{{paymentInstitutionId}}" />
+                                                <input type="hidden" name="RedirectParam" id="RedirectParam" value="{{RedirectParam}}" />
                                                 <button id="but_payby" type="submit">Checkout</button>
                                             </form>
                                         </div>
@@ -176,10 +177,10 @@
             </div>
         </div>
     </div>
-    <div id="appointment_payment_history" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog" style="width: 70%">
+    <!--<div id="appointment_payment_history" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" style="width: 70%;padding-top: 100px;">-->
             <!-- Modal content-->
-            <div class="modal-content">
+            <!--<div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" title="Close"
                             ng-click="ClosePaymentAppointmentHistory()">
@@ -226,5 +227,5 @@
                 <div class="lds-ripple" id="payment_waveLoader" style="z-index: 10000;display: none;"><div></div><div></div></div>
             </div>
         </div>
-    </div>
+    </div>-->
 </div>

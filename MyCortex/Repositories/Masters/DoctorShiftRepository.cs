@@ -26,7 +26,7 @@ namespace MyCortex.Repositories.Masters
         /// Getting list of department for selected Date
         /// </summary>          
         /// <returns>list of department for Selected Date</returns>
-        public IList<ByDateDepartmentModel> ByDateDept_List(long Institution_Id, DateTime Filter_Date)
+        public IList<ByDateDepartmentModel> ByDateDept_List(long Institution_Id, DateTime Filter_Date, Guid Login_Session_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@InstitutionId", Institution_Id));

@@ -771,6 +771,7 @@ namespace MyCortex.Repositories.Masters
             //param.Add(new DataParameter("@PARAMETER", insobj.Parameter));
             param.Add(new DataParameter("@MAKE", insobj.Make));
             param.Add(new DataParameter("@CREATED_BY", insobj.CreatedBy));
+            param.Add(new DataParameter("@ISTAB", insobj.ISTAB));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {

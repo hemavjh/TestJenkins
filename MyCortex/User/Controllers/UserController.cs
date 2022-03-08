@@ -734,7 +734,7 @@ namespace MyCortex.User.Controller
 
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, string NATIONALITY_ID = null, String SearchQuery = null, string PATIENTNO = null, string INSURANCEID = null, string MOBILE_NO = null, string EMAILID = null, string FIRSTNAME = null, string LASTNAME = null, string MRNNO = null)
+        public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber, string NATIONALITY_ID = null, String SearchQuery = null, string PATIENTNO = null, string INSURANCEID = null, string MOBILE_NO = null, string EMAILID = null, string FIRSTNAME = null, string LASTNAME = null, string MRNNO = null)
         {
             string NATIONALITY_ID2 = string.IsNullOrEmpty(NATIONALITY_ID) ? "" : NATIONALITY_ID.ToLower();
             string PATIENTNO2 = string.IsNullOrEmpty(PATIENTNO) ? "" : PATIENTNO.ToLower();
@@ -745,8 +745,8 @@ namespace MyCortex.User.Controller
             string LASTNAME2 = string.IsNullOrEmpty(LASTNAME) ? "" : LASTNAME.ToLower();
             string MRNNO2 = string.IsNullOrEmpty(MRNNO) ? "" : MRNNO.ToLower();
             string SearchQuery2 = string.IsNullOrEmpty(SearchQuery) ? "" : SearchQuery.ToLower();
-            int lastno = 0;
-            int StartRowNumber2 = 1;
+            int lastno = EndRowNumber;
+            int StartRowNumber2 = StartRowNumber;
             List<ItemizedUserDetailsModel> model = new List<ItemizedUserDetailsModel>();
             try
             {
@@ -1469,14 +1469,14 @@ namespace MyCortex.User.Controller
         /// <returns></returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage PatientAppointmentList(long Patient_Id, Guid Login_Session_Id)
+        public HttpResponseMessage PatientAppointmentList(long Patient_Id, Guid Login_Session_Id, int StartRowNumber= 0, int EndRowNumber= 0)
         {
             IList<PatientAppointmentsModel> ModelData = new List<PatientAppointmentsModel>();
             PatientAppointmentsReturnModel model = new PatientAppointmentsReturnModel();
             try
             {
 
-                ModelData = repository.PatientAppointmentList(Patient_Id, Login_Session_Id);
+                ModelData = repository.PatientAppointmentList(Patient_Id, Login_Session_Id, StartRowNumber, EndRowNumber);
                 model.Status = "True";
                 model.Message = "Patient Appointment";
                 model.Error_Code = "";

@@ -22,8 +22,20 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
         $scope.startDateMin = maxDate;
         $scope.EndDateMin = maxDate;
-
-
+        $rootScope.$on("show_payment_history", function (data) {
+            show_payment_history(data);
+        });
+        function show_payment_history(data) {
+            $scope.paymentHistory = [];
+            var RowId = localStorage.getItem('rowId');
+            $("#payment_waveLoader").show();
+            angular.element('#appointment_payment_history').modal('show');
+            $http.get(baseUrl + '/api/PatientAppointments/AppointmentPaymentHistory/?appointmentId=' + RowId + '&Login_Session_Id=' + $scope.LoginSessionId + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data1) {
+                $scope.paymentHistory = data1;
+                $("#payment_waveLoader").hide();
+                localStorage.removeItem('rowId');
+            }).error(function (data) { console.log(data); $("#payment_waveLoader").hide(); localStorage.removeItem('rowId'); });
+        }
         if (chatService.checkCall($routeParams.Id)) {
             //alert('You cannot switch patient during call.')
             toastr.info("You cannot switch patient during call.", "info");
@@ -36,7 +48,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
         $scope.LiveDataCurrentTime = "";
         $scope.PatientLiveDataList = [];
-        //$scope.paymentHistory = [];
+        $scope.paymentHistory = [];
         $scope.PatientType = 1;
         $scope.LiveTabClick = function () {
             $('.chartTabs').addClass('charTabsNone');
@@ -758,7 +770,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         var AppDate = document.getElementById('dateee').value; //$scope.AppoimDate;
                         var res = convert(AppDate);
                         $scope.DepartmentList1 = [];
-                        $http.get(baseUrl + '/api/DoctorShift/ByDateDept_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Filter_Date=' + res).success(function (data) {
+                        $http.get(baseUrl + '/api/DoctorShift/ByDateDept_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Filter_Date=' + res + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
                             $scope.DepartmentList1 = data;
                         });
                     }
@@ -1048,15 +1060,6 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.ClosePaymentAppointmentHistory = function () {
                         angular.element('#appointment_payment_history').modal('hide');
                     }
-                    //$scope.show_payment_history = function (Row) {
-                    //    $scope.paymentHistory = [];
-                    //    $("#payment_waveLoader").show();
-                    //    angular.element('#appointment_payment_history').modal('show');
-                    //    $http.get(baseUrl + '/api/PatientAppointments/AppointmentPaymentHistory/?appointmentId=' + Row.Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data1) {
-                    //        $scope.paymentHistory = data1;
-                    //        $("#payment_waveLoader").hide();
-                    //    }).error(function (data) { console.log(data); $("#payment_waveLoader").hide(); });
-                    //}
                     $scope.setappoint_type = function (type) {
                         $scope.AppointmoduleID1 = type;
                     }
@@ -1085,6 +1088,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         }/* else if ($scope.TimeZoneID == undefined || $scope.TimeZoneID == null || $scope.TimeZoneID == "") {
                     alert('Please select TimeZone')
                 } */else {
+                            $scope.RedirectParam = $window.location.hash.replace('#/PatientVitals/', '');
+                            //$scope.RedirectParam = $scope.RedirectParam.replace('?orderId=414768633924763654', '');
+
                             var Appointment_Module = 1;
                             if ($scope.AppointmoduleID1 === 2) {
                                 Appointment_Module = 2;
@@ -1113,7 +1119,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                 }
                                 $('#shown').attr("disabled", true);
                                 $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-
+                                
                                 $http.post(baseUrl + '/api/PatientAppointments/PatientAppointment_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, objectSave).success(function (data) {
                                     //alert(data.Message);
                                     if (data.ReturnFlag == 1) {
@@ -1593,6 +1599,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                          }*/
                     }
                     $scope.AppointmentPayment = function (Row) {
+                        $scope.RedirectParam = $window.location.hash.replace('#/PatientVitals/', '');
                         $scope.paymentappointmentId = Row.Id;
                         $scope.paymentdepartmentId = Row.DoctorDepartmentId;
                         $scope.paymentInstitutionId = Row.Institution_Id;
@@ -3040,7 +3047,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             // load department list --department list shown by default for current date            
             var res = moment(new Date()).format('YYYY-MM-DD')// convert(AppDate);
             $scope.DepartmentList1 = [];
-            $http.get(baseUrl + '/api/DoctorShift/ByDateDept_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Filter_Date=' + res).success(function (data) {
+            $http.get(baseUrl + '/api/DoctorShift/ByDateDept_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Filter_Date=' + res + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
                 $scope.DepartmentList1 = data;
             });
 
@@ -3513,6 +3520,17 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                  });
              };*/
         }
+        /* on click view, view popup opened*/
+        /* on click view, view popup opened*/
+        $scope.ParameterViewPopUP = function (rowData) {
+
+            $scope.Id = rowData.Id;
+            $scope.ParameterName = rowData.ParameterName;
+            $scope.UOM_Name = rowData.UOM_Name;
+            $scope.newParameterValue = rowData.newParameterValue;
+            $scope.Created_Dt = rowData.Created_Dt;
+            angular.element('#ParameterViewModal').modal('show');
+        };
 
         $scope.EditVitalParameters = function (CatId, activeFlag) {
             if (activeFlag == 1) {
@@ -3526,7 +3544,10 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 toastr.info("Inactive record cannot be edited", "info");
             }
         };
-
+        $scope.CancelViewParameter = function () {
+            angular.element('#ParameterViewModal').modal('hide');
+            $scope.ClearParameterPopup();
+        }
         $scope.ParameterCancelPopup = function () {
             angular.element('#PatientVitalsCreateModal').modal('hide');
             $scope.ClearParameterPopup();
@@ -7655,5 +7676,6 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
             };*/
         }
+        //$scope.$on("show_payment_history", show_payment_history);
     }
 ]);

@@ -64,7 +64,7 @@ namespace MyCortex.Masters.Models
         public long CreatedBy { get; set; }
         public int Flag { get; set; }
         public long InstitutionId { get; set; }
-
+        public int ISTAB { get; set; }
         public long DeviceTypeId { get; set; }
     }
 

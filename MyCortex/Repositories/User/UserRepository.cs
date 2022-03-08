@@ -896,7 +896,7 @@ namespace MyCortex.Repositories.Uesr
             List<ItemizedUserDetailsModel> list = (from p in dt.AsEnumerable()
                                                    select new ItemizedUserDetailsModel()
                                                    {
-                                                       //TotalRecord = p.Field<string>("TotalRecords"),
+                                                       TotalRecord = p.Field<string>("TotalRecords"),
                                                        Id = p.Field<long>("Id"),
                                                        FirstName = p.Field<string>("FirstName"),
                                                        MiddleName = p.Field<string>("MiddleName"),
@@ -1494,6 +1494,7 @@ namespace MyCortex.Repositories.Uesr
                                                      UOM_Name = p.Field<string>("UNITNAME") ?? "",
                                                      Activity_Date = p.Field<DateTime>("ACTIVITYDATE"),
                                                      Activity_DateTime = p.Field<DateTime>("ACTIVITY_DATETIME"),
+                                                     UTC_DATE_TIME = p.Field<DateTime>("UTC_DATE_TIME"),
                                                      ParameterValue = p.IsNull("PARAMETERVALUE") ? 0 : p.Field<decimal>("PARAMETERVALUE"),
                                                      Id = p.Field<long>("LIFESTYLEID"),
                                                      IsActive = p.Field<int>("ISACTIVE"),
@@ -1540,6 +1541,7 @@ namespace MyCortex.Repositories.Uesr
                                                      UOM_Name = p.Field<string>("UNITNAME") ?? "",
                                                      Activity_Date = p.Field<DateTime>("ACTIVITYDATE"),
                                                      Activity_DateTime = p.Field<DateTime>("ACTIVITY_DATETIME"),
+                                                     UTC_DATE_TIME = p.Field<DateTime>("UTC_DATE_TIME"),
                                                      ParameterValue = p.IsNull("PARAMETERVALUE") ? 0 : p.Field<decimal>("PARAMETERVALUE"),
                                                      Id = p.Field<long>("LIFESTYLEID"),
                                                      IsActive = p.Field<int>("ISACTIVE"),
@@ -1815,11 +1817,13 @@ namespace MyCortex.Repositories.Uesr
         /// </summary>
         /// <param name="Patient_Id">Patient Id</param>
         /// <returns></returns>
-        public IList<PatientAppointmentsModel> PatientAppointmentList(long PatientId, Guid Login_Session_Id)
+        public IList<PatientAppointmentsModel> PatientAppointmentList(long PatientId, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Patient_Id", PatientId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {

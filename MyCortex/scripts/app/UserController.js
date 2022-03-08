@@ -38,8 +38,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
         $scope.isPatientSignUp = "";
         $scope.InsModule_List = $rootScope.InsModuleList;
-        if ($rootScope.InsModuleList.length > 0) {
-            $scope.isPatientSignUp = $filter('filter')($rootScope.InsModuleList, { Module_Id: '24' })[0];
+        if ($rootScope.InsModuleList != undefined) {
+            if ($rootScope.InsModuleList.length > 0) {
+                $scope.isPatientSignUp = $filter('filter')($rootScope.InsModuleList, { Module_Id: '24' })[0];
+            }
         }
 
         $scope.SearchMsg = "No Data Available";
@@ -1718,9 +1720,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.UserTypeList2 = data;
         });
         $scope.PatientSearch = function () {
+            $scope.PageStart = 1;
+            $scope.PageEnd = 20;
             if ($scope.Patientsearchquery == "") {
-                $scope.PageStart = 1;
-                $scope.PageEnd = 20;
                 allpatientlist();
             } else {
                 if ($scope.filter_SearchFieldId == "0") {
@@ -1830,7 +1832,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
             $http.get(baseUrl + '/api/User/Search_Patient_List?IsActive=' + $scope.ActiveStatus + '&INSTITUTION_ID=' + $window.localStorage['InstitutionId'] + '&SearchQuery=' + $scope.Patientsearchquery + '&PATIENTNO=' + $scope.Filter_PatientNo2
                 + '&INSURANCEID=' + $scope.filter_InsuranceId2 + '&NATIONALITY_ID=' + $scope.filter_NationalityId2 + '&MOBILE_NO=' +
-                $scope.filter_MOBILE_NO2 + '&EMAILID=' + $scope.filter_Email2 + '&FIRSTNAME=' + $scope.Filter_FirstName2 + '&LASTNAME=' + $scope.Filter_LastName2 + '&MRNNO=' + $scope.Filter_MRN2).success(function (data) {
+                $scope.filter_MOBILE_NO2 + '&EMAILID=' + $scope.filter_Email2 + '&FIRSTNAME=' + $scope.Filter_FirstName2 + '&LASTNAME=' + $scope.Filter_LastName2 + '&MRNNO=' + $scope.Filter_MRN2 + '&StartRowNumber=' + $scope.PageStart +
+                '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
                     $("#chatLoaderPV").hide();
                     if (data.length == 0) {
                         $scope.SearchMsg = "No Data Available";
