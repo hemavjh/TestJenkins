@@ -671,7 +671,7 @@ namespace MyCortex.Repositories.Uesr
                                     PayorId = p.Field<string>("PAYORID"),
                                     PlanId = p.Field<string>("PLANID"),
                                 }).FirstOrDefault();
-            if (insert.DOB_Encrypt != "")
+            if (insert.DOB_Encrypt != "" && insert.DOB_Encrypt != null)
             {
                 var time = insert.DOB_Encrypt.Split(' ');
 
@@ -801,7 +801,11 @@ namespace MyCortex.Repositories.Uesr
                                         UserType_Id = p.Field<long?>("UserType_Id"),
                                         Is_Master = p.Field<bool>("IS_MASTER"),
                                         HEALTH_LICENSE = p.Field<string>("HEALTH_LICENSE"),
-                                        NATIONALITY_ID = p.Field<long?>("NATIONALITY_ID")
+                                        NATIONALITY_ID = p.Field<long?>("NATIONALITY_ID"),
+                                        NATIONALID = p.Field<string>("NATIONALID"),
+                                        MNR_NO = p.Field<string>("MRN_NO"),
+                                        PATIENT_ID = p.Field<string>("PATIENTNO"),
+                                        INSURANCEID = p.Field<string>("INSURANCEID")
                                     }).ToList();
             //list.FullName = list.FullName;
             return list;

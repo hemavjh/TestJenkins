@@ -194,7 +194,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.filter_CL_UserType = "0";
         $scope.filter_CL_Group = "";
         $scope.Filter_CL_Nationality = "0";
-
+        $scope.filter_SASearchFieldId = "0";
         $scope.InsCountryId = "0";
         $scope.InsStateId = "0";
         $scope.InsCityId = "0";
@@ -887,20 +887,30 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
         $scope.AddPatientPopup = function () {
 
-            if (typeof ($scope.isPatientSignUp) != 'undefined' && $scope.isPatientSignUp != "") {
-                $scope.currentTab = "1";
-                $scope.DropDownListValue = 1;
-                var UserTypeId = 2;
-                $scope.InstitutionSubscriptionLicensecheck(UserTypeId);
-                $scope.AppConfigurationProfileImageList();
-                $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
-                //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
-                $location.path("/PatientCreate/" + "2" + "/" + "3");
-            }
-            else {
-                toastr.warning("You are not rights to access patient sign up", "warning");
-            }
+            //if (typeof ($scope.isPatientSignUp) != 'undefined' && $scope.isPatientSignUp != "") {
+            //    $scope.currentTab = "1";
+            //    $scope.DropDownListValue = 1;
+            //    var UserTypeId = 2;
+            //    $scope.InstitutionSubscriptionLicensecheck(UserTypeId);
+            //    $scope.AppConfigurationProfileImageList();
+            //    $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            //    //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            //    $location.path("/PatientCreate/" + "2" + "/" + "3");
+            //}
+            //else {
+            //    toastr.warning("You are not rights to access patient sign up", "warning");
+            //}
+
+            $scope.currentTab = "1";
+            $scope.DropDownListValue = 1;
+            var UserTypeId = 2;
+            $scope.InstitutionSubscriptionLicensecheck(UserTypeId);
+            $scope.AppConfigurationProfileImageList();
+            $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            $location.path("/PatientCreate/" + "2" + "/" + "3");
         }
+
         $scope.SubscriptionValidation = function () {
             if ($scope.Id == 0 && $scope.InstitutionId > 0)
                 $scope.InstitutionSubscriptionLicensecheck(3);
@@ -1623,18 +1633,50 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $scope.rowCollectionFilter = angular.copy($scope.UserDetailsList);
             }
             else {
-                $scope.rowCollectionFilter = $ff($scope.UserDetailsList, function (value) {
-                    return angular.lowercase(value.InstitutionName).match(searchstring) ||
-                        angular.lowercase(value.FullName).match(searchstring) ||
-                        angular.lowercase(value.Department_Name).match(searchstring) ||
-                        angular.lowercase(value.EMAILID).match(searchstring) ||
-                        angular.lowercase(value.EMPLOYEMENTNO).match(searchstring);
-                });
-                if ($scope.rowCollectionFilter.length > 0) {
-                    $scope.flag = 1;
-                }
-                else {
-                    $scope.flag = 0;
+                //$scope.rowCollectionFilter = $ff($scope.UserDetailsList, function (value) {
+                //    return angular.lowercase(value.InstitutionName).match(searchstring) ||
+                //        angular.lowercase(value.FullName).match(searchstring) ||
+                //        angular.lowercase(value.Department_Name).match(searchstring) ||
+                //        angular.lowercase(value.EMAILID).match(searchstring) ||
+                //        angular.lowercase(value.EMPLOYEMENTNO).match(searchstring);
+                //});
+                if ($scope.filter_SASearchFieldId == "0") {
+                    toastr.warning("Please select Search Field", "Warning");
+                } else {
+                    if ($scope.filter_SASearchFieldId == "1") {
+                        var NotNull_User = $scope.UserDetailsList.filter(x => x.PATIENT_ID != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.PATIENT_ID).match(searchstring));
+                    } else if ($scope.filter_SASearchFieldId == "2") {
+                        var NotNull_User = $scope.UserDetailsList.filter(x => x.NATIONALID != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.NATIONALID).match(searchstring));
+                    } else if ($scope.filter_SASearchFieldId == "3") {
+                        var NotNull_User = $scope.UserDetailsList.filter(x => x.FirstName != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.FirstName).match(searchstring));
+                    } else if ($scope.filter_SASearchFieldId == "4") {
+                        var NotNull_User = $scope.UserDetailsList.filter(x => x.LastName != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.LastName).match(searchstring));
+                    } else if ($scope.filter_SASearchFieldId == "5") {
+                        var NotNull_User = $scope.UserDetailsList.filter(x => x.INSURANCEID != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.INSURANCEID).match(searchstring));
+                    } else if ($scope.filter_SASearchFieldId == "6") {
+                        var NotNull_User = $scope.UserDetailsList.filter(x => x.EMAILID != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.EMAILID).match(searchstring));
+                    } else if ($scope.filter_SASearchFieldId == "7") {
+                        var NotNull_User = $scope.UserDetailsList.filter(x => x.MOBILE_NO != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.MOBILE_NO).match(searchstring));
+                    } else if ($scope.filter_SASearchFieldId == "8") {
+                        var NotNull_User = $scope.UserDetailsList.filter(x => x.MNR_NO != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.MNR_NO).match(searchstring));
+                    } else if ($scope.filter_SASearchFieldId == "9") {
+                        var NotNull_User = $scope.UserDetailsList.filter(x => x.EMPLOYEMENTNO != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.EMPLOYEMENTNO).match(searchstring));
+                    }
+                    if ($scope.rowCollectionFilter.length > 0) {
+                        $scope.flag = 1;
+                    }
+                    else {
+                        $scope.flag = 0;
+                    }
                 }
             }
         }

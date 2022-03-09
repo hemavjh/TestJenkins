@@ -4738,9 +4738,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.AddPatientICD10Popup = function () {
             $scope.Id = 0;
             $scope.Icd10AddnewClear();
+
             $('#buttonsave').attr("disabled", false);
             //$scope.ICD10CategoryClearFunction();
             $scope.Icd10Clear();
+            $scope.ICD10codeSearchPopup(0);
             angular.element('#CreateICDModal').modal('show');
 
             setTimeout(function () {
@@ -5281,6 +5283,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.ICD10codeSearchPopup = function (SelectedRow) {
             $scope.ICD10CodeSearch = "";
             $scope.selectedICD10Row = SelectedRow;
+           
             angular.element('#ICD10CodeListModal').modal('show');
             $("#txtICD10CodeSearch").focus();
         }
@@ -5402,11 +5405,14 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             });
 
             $scope.PatientMedicationCreateModalClear();
+            
             if ($scope.MedicationTabCount == 1) {
                 $scope.DropLoadMedication();
                 $scope.MedicationTabCount = $scope.MedicationTabCount + 1;
             }
             $('#save1').attr("disabled", false);
+            $scope.DrugbasedDetails($scope.DrugId, 0);
+            $scope.DrugcodeSearchPopup(0);
             angular.element('#PatientMedicationCreateModal').modal('show');
             setTimeout(function () {
                 $scope.calenderSet1($scope.AddMedicationDetails.length);
@@ -5424,6 +5430,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 $scope.PatientMedicationView();
                 $scope.DrugDropDown = 1;
                 $scope.PatientMedicationCreateModalClear();
+               
                 angular.element('#ViewMedicationPopModal').modal('show');
             }
         }
