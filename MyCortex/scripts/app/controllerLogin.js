@@ -590,13 +590,25 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                     $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId'])
                         .success(function (data1) {
                             if (data1[0] != undefined) {
-                                IdleDays = parseInt(data1[0].ConfigValue);
-                                $window.localStorage['IdleDays'] = IdleDays;
-                                $scope.UserLogin(data, Message);
+                                if ($scope.UserTypeId === 1) {
+                                    IdleDays = 86400;
+                                    $window.localStorage['IdleDays'] = IdleDays;
+                                    $scope.UserLogin(data, Message);
+                                } else {
+                                    IdleDays = parseInt(data1[0].ConfigValue);
+                                    $window.localStorage['IdleDays'] = IdleDays;
+                                    $scope.UserLogin(data, Message);
+                                }
                             } else {
-                                IdleDays = 600;
-                                $window.localStorage['IdleDays'] = IdleDays;
-                                $scope.UserLogin(data, Message);
+                                if ($scope.UserTypeId === 1) {
+                                    IdleDays = 86400;
+                                    $window.localStorage['IdleDays'] = IdleDays;
+                                    $scope.UserLogin(data, Message);
+                                } else {
+                                    IdleDays = 600;
+                                    $window.localStorage['IdleDays'] = IdleDays;
+                                    $scope.UserLogin(data, Message);
+                                }
                             }
                         }).error(function (err) {
                             IdleDays = 600;

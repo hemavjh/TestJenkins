@@ -5959,69 +5959,69 @@
                     </div>
                 </div>
 
-            </div>
-        </div>
-        <div class="lds-ripple" id="appoint_waveLoader" style="z-index: 10000;display: none;"><div></div><div></div></div>
-    </div>
-    <div id="DoctorBioModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog" style="width: 40%">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" title="Close"
-                            ng-click="CancelMyAppointment()">
-                        &times;
-                    </button>
-                    <h4 class="modal-title">Doctor Biography</h4>
+                    </div>
                 </div>
-                <div id="main-box">
-                    <div class="flex doc-details p-4">
-                        <div class="col-sm-12 p-8" id="DocDetails">
-                            <div class="flex">
-                                <div class="" style="width:50%">
-                                    <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6">
-                                        <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
-                                    </div>
-                                </div>
-                                <div class="" style="width:50%; text-align: center;">
-                                    <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr.{{DoctorDetailList.FirstName}}</p>
-                                    <p class="m-bottom-0 secondary-text1">{{DoctorDetailList.Department_Name}}</p>
-                                </div>
-                            </div>
-                            <div class="centerallign">
-                                <div class="col-sm-10">
+                <div class="lds-ripple" id="appoint_waveLoader" style="z-index: 10000;display: none;"><div></div><div></div></div>
+            </div>
+            <div id="DoctorBioModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog" style="width: 40%">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" title="Close"
+                                    ng-click="CancelMyAppointment()">
+                                &times;
+                            </button>
+                            <h4 class="modal-title">Doctor Biography</h4>
+                        </div>
+                        <div id="main-box">
+                            <div class="flex doc-details p-4">
+                                <div class="col-sm-12 p-8" id="DocDetails">
                                     <div class="flex">
-                                        <label class="col-sm-6">Health License</label>
-                                        <p class="col-sm-6 doc-p">{{DoctorDetailList.HEALTH_LICENSE}}</p>
+                                        <div class="" style="width:50%">
+                                            <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6">
+                                                <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
+                                            </div>
+                                        </div>
+                                        <div class="" style="width:50%; text-align: center;">
+                                            <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr.{{DoctorDetailList.FirstName}}</p>
+                                            <p class="m-bottom-0 secondary-text1">{{DoctorDetailList.Department_Name}}</p>
+                                        </div>
                                     </div>
-                                    <div class="flex">
-                                        <label class="col-sm-6">Sex</label>
-                                        <p class="col-sm-6 doc-p">{{DoctorDetailList.GENDER_NAME}}</p>
-                                    </div>
-                                    <div class="flex">
-                                        <label class="col-sm-6">Nationality</label>
-                                        <p class="col-sm-6 doc-p">{{DoctorDetailList.Nationality}}</p>
-                                    </div>
-                                    <div class="flex">
-                                        >
-
-                                        <label class="col-sm-6">Date of birth</label>
-                                        <p class="col-sm-6 doc-p">{{DoctorDetailList.DOB.split('T')[0]}}</p>
-                                    </div>
-                                    <!--<div class="flex">
-                                        <label class="col-sm-6">Nationality</label>
-                                        <p class="col-sm-6 doc-p">{{DoctorDetailList.HEALTH_LICENSE}}</p>
-                                    </div>-->
-                                    <div class="flex">
-                                        <label class="col-sm-6">Email</label>
-                                        <p class="col-sm-6 doc-p">{{DoctorDetailList.EMAILID}}</p>
-                                    </div>
-                                    <div class="flex">
-                                        <label class="col-sm-6">Contact Number</label>
-                                        <p class="col-sm-6 doc-p">{{DoctorDetailList.MOBILE_NO}}</p>
-                                    </div>
-                                    <div class="flex">
-                                        <label class="col-sm-6">Address</label>
-                                        <p class="col-sm-6 doc-p">{{DoctorDetailList.ADDRESS1}} <br />{{DoctorDetailList.ADDRESS2}}<br /> {{DoctorDetailList.ADDRESS3}}</p>
+                                    <div class="centerallign">
+                                        <div class="col-sm-10">
+                                            <div class="flex">
+                                                <label class="col-sm-6">Health License</label>
+                                                <p class="col-sm-6 doc-p">{{DoctorDetailList.HEALTH_LICENSE}}</p>
+                                            </div>
+                                            <div class="flex">
+                                                <label class="col-sm-6">Sex</label>
+                                                <p class="col-sm-6 doc-p">{{DoctorDetailList.GENDER_NAME}}</p>
+                                            </div>
+                                            <div class="flex">
+                                                <label class="col-sm-6">Nationality</label>
+                                                <p class="col-sm-6 doc-p">{{DoctorDetailList.Nationality}}</p>
+                                            </div>
+                                            <div class="flex">
+                                                <label class="col-sm-6">Date of birth</label>
+                                                <p class="col-sm-6 doc-p">{{DoctorDetailList.DOB.split('T')[0]}}</p>
+                                            </div>
+                                            <!--<div class="flex">
+                                                <label class="col-sm-6">Nationality</label>
+                                                <p class="col-sm-6 doc-p">{{DoctorDetailList.HEALTH_LICENSE}}</p>
+                                            </div>-->
+                                            <div class="flex">
+                                                <label class="col-sm-6">Email</label>
+                                                <p class="col-sm-6 doc-p">{{DoctorDetailList.EMAILID}}</p>
+                                            </div>
+                                            <div class="flex">
+                                                <label class="col-sm-6">Contact Number</label>
+                                                <p class="col-sm-6 doc-p">{{DoctorDetailList.MOBILE_NO}}</p>
+                                            </div>
+                                            <div class="flex">
+                                                <label class="col-sm-6">Address</label>
+                                                <p class="col-sm-6 doc-p">{{DoctorDetailList.ADDRESS1}} <br />{{DoctorDetailList.ADDRESS2}}<br /> {{DoctorDetailList.ADDRESS3}}</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -6029,74 +6029,73 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div id="StripePayOptions" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog" style="width: 70%">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
-                    <h4 class="modal-title">Payment Integration POC</h4>
-                </div>
-                <div id="main-box">
-                    <div class="modal-body">
-                        <div class="flex">
-                            <div class="col-sm-4">
-                                <div class="inputGroups">
-                                    <label for="usr">Stripe</label>
-                                    <form action="/Home/CreateStripeCheckoutSession" method="POST">
-                                        <button type="submit">Checkout</button>
-                                    </form>
+            <div id="StripePayOptions" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog" style="width: 70%">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                            <h4 class="modal-title">Payment Integration POC</h4>
+                        </div>
+                        <div id="main-box">
+                            <div class="modal-body">
+                                <div class="flex">
+                                    <div class="col-sm-4">
+                                        <div class="inputGroups">
+                                            <label for="usr">Stripe</label>
+                                            <form action="/Home/CreateStripeCheckoutSession" method="POST">
+                                                <button type="submit">Checkout</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="inputGroups">
+                                            <label for="usr">PayBy</label>
+                                            <form action="/Home/CreatePayByCheckoutSession" method="POST">
+                                                <input type="hidden" name="paymentAppointmentId" id="paymentAppointmentId" value="{{paymentappointmentId}}" />
+                                                <input type="hidden" name="paymentdepartmentId" id="paymentAppointmentId" value="{{paymentdepartmentId}}" />
+                                                <input type="hidden" name="paymentInstitutionId" id="paymentInstitutionId" value="{{paymentInstitutionId}}" />
+                                                <input type="hidden" name="RedirectParam" id="RedirectParam" value="{{RedirectParam}}" />
+                                                <button id="but_payby" type="submit">Checkout</button>
+                                            </form>
+                                        </div>
+                                        <div class="inputGroups">
+                                            <label for="usr">PayBy Refund</label>
+                                            <form action="/Home/RefundPayByCheckoutSession" method="POST">
+                                                <input type="hidden" name="refundAppointmentId" id="refundAppointmentId" value="{{refundAppointmentId}}" />
+                                                <input type="hidden" name="refundMerchantOrderNo" id="refundMerchantOrderNo" value="{{refundMerchantOrderNo}}" />
+                                                <input type="hidden" name="refundAmount" id="refundAmount" value="{{refundAmount}}" />
+                                                <input type="hidden" name="refundOrderNo" id="refundOrderNo" value="{{refundOrderNo}}" />
+                                                <input type="hidden" name="refundInstitutionId" id="refundInstitutionId" value="{{refundInstitutionId}}" />
+                                                <!--<button id="but_paybyrefund" type="submit">Checkout</button>-->
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
-                                <div class="inputGroups">
-                                    <label for="usr">PayBy</label>
-                                    <form action="/Home/CreatePayByCheckoutSession" method="POST">
-                                        <input type="hidden" name="paymentAppointmentId" id="paymentAppointmentId" value="{{paymentappointmentId}}" />
-                                        <input type="hidden" name="paymentdepartmentId" id="paymentAppointmentId" value="{{paymentdepartmentId}}" />
-                                        <input type="hidden" name="paymentInstitutionId" id="paymentInstitutionId" value="{{paymentInstitutionId}}" />
-                                        <button id="but_payby" type="submit">Checkout</button>
-                                    </form>
-                                </div>
-                                <div class="inputGroups">
-                                    <label for="usr">PayBy Refund</label>
-                                    <form action="/Home/RefundPayByCheckoutSession" method="POST">
-                                        <input type="hidden" name="refundAppointmentId" id="refundAppointmentId" value="{{refundAppointmentId}}" />
-                                        <input type="hidden" name="refundMerchantOrderNo" id="refundMerchantOrderNo" value="{{refundMerchantOrderNo}}" />
-                                        <input type="hidden" name="refundAmount" id="refundAmount" value="{{refundAmount}}" />
-                                        <input type="hidden" name="refundOrderNo" id="refundOrderNo" value="{{refundOrderNo}}" />
-                                        <input type="hidden" name="refundInstitutionId" id="refundInstitutionId" value="{{refundInstitutionId}}" />
-                                        <!--<button id="but_paybyrefund" type="submit">Checkout</button>-->
-                                    </form>
-                                </div>
+                            <div class="modal-footer">
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
-    <script>
-        $(document).ready(function () {
-            $("#show").click(function () {
-                $("#box").show();
-                $("#main-box").hide();
-            });
-        });
-        $(document).ready(function () {
-            $("#BackDoc").click(function () {
-                $("#box").hide();
-                $("#main-box").show();
-            });
-        });
-    </script>
-    <script>
-        /*
+            <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
+            <script>
+                $(document).ready(function () {
+                    $("#show").click(function () {
+                        $("#box").show();
+                        $("#main-box").hide();
+                    });
+                });
+                $(document).ready(function () {
+                    $("#BackDoc").click(function () {
+                        $("#box").hide();
+                        $("#main-box").show();
+                    });
+                });
+            </script>
+            <script>
+                /*
 jQuery Image upload
 Images can be uploaded using:
 * File requester (Double click on box)
@@ -7021,14 +7020,13 @@ Works in Mozilla, Webkit & IE.
             yearOffset: 0,
             beforeShowDay: null,
 
-            enterLikeTab: true,
-            showApplyButton: false
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
-            document.getElementById("ptDateTimePicker").style.display = "block";
-        });
-    </script>
-    </div>
-</body>
+                    enterLikeTab: true,
+                    showApplyButton: false
+                });
+            </script>
+            <script>
+                $(document).ready(function () {
+                    document.getElementById("ptDateTimePicker").style.display = "block";
+                });
+            </script>
+    </body>
