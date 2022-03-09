@@ -1995,7 +1995,6 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             }
         }
 
-
         $scope.User_Admin_AddEdit_Validations = function () {
             if ($scope.MenuTypeId == 1 || $scope.MenuTypeId == 2) {
                 if (($scope.MenuTypeId == 1) && (($scope.InstitutionId) == "undefined" || $scope.InstitutionId == "0")) {
@@ -2819,7 +2818,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                 var isccodeavail = mNumber;
                             }
                            
-                            $scope.MobileNo = typeof (mNumber) == "undefined" ? isccodeavail : mNumber //data.MOBILE_NO : mNumber;
+                            $scope.MobileNo = typeof (mNumber) == "undefined" ? isccodeavail : mNumberCC//mNumber //data.MOBILE_NO : mNumber;
                           
                             $scope.ViewDepartmentName = data.Department_Name;
                             $scope.ViewInstitutionName = data.InstitutionName;
