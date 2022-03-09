@@ -130,6 +130,7 @@ namespace MyCortex.User.Controller
         {
             IList<PatientAppointmentsModel> ModelData = new List<PatientAppointmentsModel>();
             PatientAppointmentsReturnModel model = new PatientAppointmentsReturnModel();
+
             if (!ModelState.IsValid)
             {
                 model.Status = "False";
@@ -142,7 +143,13 @@ namespace MyCortex.User.Controller
             try
             {
                 ModelData = repository.PatientAppointment_InsertUpdate(Login_Session_Id,insobj);
-                if (ModelData.Any(item => item.flag == 1) == true)
+                if(insobj.ReasonForVisit=="" || insobj.ReasonForVisit==null)
+                {
+                    model.Status = "False";
+                    model.ReturnFlag = 0;
+                    messagestr = "Reason for Visit should not be empty.";
+                }
+                else if (ModelData.Any(item => item.flag == 1) == true)
                 {
                     model.Status = "True";
                     model.ReturnFlag = 1;

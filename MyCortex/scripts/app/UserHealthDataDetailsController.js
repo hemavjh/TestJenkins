@@ -1085,6 +1085,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         } else if ($scope.AppoiToTime == undefined || $scope.AppoiToTime == null || $scope.AppoiToTime == "") {
                             //alert('Please select Appointment Time')
                             toastr.warning("Please select Appointment Time", "warning");
+                        } else if ($scope.TextArea1 == undefined || $scope.TextArea1 == null || $scope.TextArea1 == "") {                            
+                            toastr.warning("Please enter the reason", "warning");
                         }/* else if ($scope.TimeZoneID == undefined || $scope.TimeZoneID == null || $scope.TimeZoneID == "") {
                     alert('Please select TimeZone')
                 } */else {
@@ -5396,6 +5398,12 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         // This is for AddPopup	
         $scope.MedicationTabCount = 1;
         $scope.AddMedicationPopUp = function () {
+            //get the value from configuration (true /False)
+            var ConfigCode = "MEDICATION_END_DATE";
+            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+                $scope.Medication_End_Date = data1[0].ConfigValue;
+            });
+
             $scope.PatientMedicationCreateModalClear();
             
             if ($scope.MedicationTabCount == 1) {
@@ -5651,7 +5659,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 if (value.StartDate == null || value.StartDate == "") {
                     Startdate = 1;
                 }
-                if (value.EndDate == null || value.EndDate == "") {
+                if ((value.EndDate == null || value.EndDate == "") && $scope.Medication_End_Date=='True') {
                     Enddate = 1;
                 }
                 if ((value.StartDate !== null) && (value.EndDate !== null)) {
@@ -5885,7 +5893,10 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 $('#save1').attr("disabled", true);
                 $scope.MedicationList = [];
                 $("#chatLoaderPV").show();
+                //var Varenddate;
                 angular.forEach($scope.AddMedicationDetails, function (value, index) {
+                    if (value.EndDate == '' || value.EndDate == null) $scope.Varenddate = value.EndDate;
+                    else $scope.Varenddate = moment(value.EndDate).format('DD-MMM-YYYY');
                     var Medicationobj = {
                         Id: value.Id,
                         PatientId: $scope.SelectedPatientId,
@@ -5896,7 +5907,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         //StartDate: value.StartDate,
                         //EndDate: value.EndDate,
                         StartDate: moment(value.StartDate).format('DD-MMM-YYYY'),
-                        EndDate: moment(value.EndDate).format('DD-MMM-YYYY'),
+                        EndDate: $scope.Varenddate,
                         Created_By: $window.localStorage['UserId'],
                         Modified_By: $window.localStorage['UserId'],
                     }
@@ -5990,6 +6001,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         //Medication View	
         $scope.PatientMedicationView = function () {
             $http.get(baseUrl + 'api/User/MedicationView/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                if (data.EndDate == null || data.EndDate == '') $scope.ViewEndDate = data.EndDate;
+                else $scope.ViewEndDate = DateFormatEdit($filter('date')(data.EndDate, "dd-MMM-yyyy"));
                 $scope.AddMedicationDetails = [{
                     'Id': data.Id,
                     'DrugId': data.DrugId.toString(),
@@ -6001,7 +6014,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     'NoOfDays': data.NoOfDays,
                     'RouteId': data.RouteId.toString(),
                     'StartDate': DateFormatEdit($filter('date')(data.StartDate, "dd-MMM-yyyy")),
-                    'EndDate': DateFormatEdit($filter('date')(data.EndDate, "dd-MMM-yyyy"))
+                    'EndDate': $scope.ViewEndDate
                 }];
                 $scope.Id = data.Id,
                     $scope.DrugId = data.DrugId.toString();
@@ -6022,7 +6035,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     //    $scope.StartDate = DateFormatEdit($filter('date')(data.StartDate, "dd-MMM-yyyy"));
                     //$scope.EndDate = DateFormatEdit($filter('date')(data.EndDate, "dd-MMM-yyyy"));
                     $scope.StartDate = moment(data.StartDate).format('DD-MMM-YYYY'),
-                    $scope.EndDate = moment(data.EndDate).format('DD-MMM-YYYY')
+                    $scope.EndDate = $scope.ViewEndDate //moment(data.EndDate).format('DD-MMM-YYYY')
 
                 if ($scope.DrugDropDown == 2) {
                     $scope.DrugbasedDetails($scope.DrugId);
@@ -6182,7 +6195,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.AllergenListfilter = angular.copy($scope.AllergenListTemp);
                     $scope.AllergenId = id;
 
-                })
+                })               
             }
 
 
@@ -6329,18 +6342,32 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.Known_noKnownAllergyValidation = function () {
             var
                 TSDuplicate = 0, ExistingPatientAllergyTypeName, IsActiveAllergyType, DefaultAlleryTypeName = 'No Known Allergies';
+
+            //get the allergy type name from the text box. The text box filled when the select box onchange.
+            var x = angular.element(document.getElementById("alltypename"));
+            $scope.alltypename = x.val();
             angular.forEach($scope.PatientAllergyListData, function (value1, index1) {
 
                 ExistingPatientAllergyTypeName = $scope.PatientAllergyListData[index1].AllergyTypeName;
                 IsActiveAllergyType = $scope.PatientAllergyListData[index1].IsActive;
 
                 if ((ExistingPatientAllergyTypeName != DefaultAlleryTypeName) && (IsActiveAllergyType == 1)) {
-                    TSDuplicate = 1;
-                };
+                    if ($scope.alltypename == DefaultAlleryTypeName) {
+                        TSDuplicate = 1;                       
+                    }                    
+                }
+                if ((ExistingPatientAllergyTypeName == DefaultAlleryTypeName) && (IsActiveAllergyType == 1)) {
+                    if ($scope.alltypename != DefaultAlleryTypeName) {
+                        TSDuplicate = 2;                        
+                    }                     
+                }
             });
 
             if (TSDuplicate == 1) {
                 toastr.error('Deactivate the known allergy, before activating the no known allergy', "warning");
+                return false;
+            } else if(TSDuplicate == 2){
+                toastr.error('Deactivate the no known allergy, before activating the known allergy', "warning");
                 return false;
             }
             else { return true; }
