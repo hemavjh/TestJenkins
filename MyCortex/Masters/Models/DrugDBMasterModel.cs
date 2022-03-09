@@ -37,7 +37,7 @@ namespace MyCortex.Masters.Models
         public long? RouteId { get; set; }
         public decimal? NoOfDays { get; set; }
         public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public string FrequencyName { get; set; }
         public string RouteName { get; set; }
         public string Created_By_Name { get; set; }

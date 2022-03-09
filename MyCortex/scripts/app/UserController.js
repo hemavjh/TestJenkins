@@ -2120,7 +2120,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.currentTab = 2;
                     return false;
                 }
-                else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "") {
+                else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "" || $scope.DOB == 'yyyy-mm-dd') {
                     //alert("Please select Date of Birth under Additional info");
                     toastr.warning("Please select Date of Birth under Additional info", "warning");
                     $("#chatLoaderPV").hide();
@@ -2301,7 +2301,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.currentTab = 2;
                     return false;
                 }
-                else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "") {
+                else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "" || $scope.DOB == null || $scope.DOB == 'yyyy-mm-dd') {
                     //alert("Please select Date of Birth under Additional info");
                     toastr.warning("Please select Date of Birth under Additional info", "warning");
                     $("#chatLoaderPV").hide();
