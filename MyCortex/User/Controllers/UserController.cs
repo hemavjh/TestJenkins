@@ -1469,14 +1469,14 @@ namespace MyCortex.User.Controller
         /// <returns></returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage PatientAppointmentList(long Patient_Id, Guid Login_Session_Id)
+        public HttpResponseMessage PatientAppointmentList(long Patient_Id, Guid Login_Session_Id, int StartRowNumber= 0, int EndRowNumber= 0)
         {
             IList<PatientAppointmentsModel> ModelData = new List<PatientAppointmentsModel>();
             PatientAppointmentsReturnModel model = new PatientAppointmentsReturnModel();
             try
             {
 
-                ModelData = repository.PatientAppointmentList(Patient_Id, Login_Session_Id);
+                ModelData = repository.PatientAppointmentList(Patient_Id, Login_Session_Id, StartRowNumber, EndRowNumber);
                 model.Status = "True";
                 model.Message = "Patient Appointment";
                 model.Error_Code = "";

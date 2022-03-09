@@ -146,20 +146,13 @@
             <form class="form-horizontal" role="form" ng-class="{'submitted': submitted}" ng-submit="Device_InsertUpdate();">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopup()" style="color:#fff;">&times;</button>
-                    <h4 class="modal-title">Add Device</h4>
+                    <h4 class="modal-title" ng-if="Id>0">Edit Device</h4>
+                    <h4 class="modal-title" ng-if="Id==0">Add Device</h4>
+                    <h4 class="modal-title" ng-if="DisplayView=='View'">View Device</h4>
+                    
                 </div>
                 <div class="modal-body">
 
-
-
-                    <!--<div class="inputGroups">
-                <label>Device Name<sup>
-                    <font class='mandatory-field'>*</font></sup>
-                </label>
-                <input type="text" class="form-control" id="DeviceName"
-                       ng-model="DeviceName" ng-init="DeviceName=''" ng-maxlength="50"
-                       maxlength="50" placeholder="" onkeypress="">
-            </div>-->
                     <div class="inputGroups">
                         <label>
                             Device Name<sup>
@@ -168,18 +161,18 @@
                         </label>
 
                         <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="AllDeviceNameList" id="DeviceName" ng-model="DeviceName"
-                                ng-options="item2.DeviceId as item2.DeviceName for item2 in AllDeviceNameList" ng-change="onCategoryChange();">
+                                ng-options="item2.DeviceName as item2.DeviceName for item2 in AllDeviceNameList" ><!--ng-change="onCategoryChange();"-->
                             <option value="">Select</option>
                         </select>
 
-                        <div class="inputGroups">
+                        <div class="inputGroups" style="display:none;">
                             <label>
                                 DeviceId<sup>
-                                    <font class='mandatory-field'>*</font>
-                                </sup>
+    <!--<font class='mandatory-field'>*</font>  ng-required="true;"-->
+</sup>
                             </label>
                             <input type="text" class="form-control" id="DeviceId"
-                                   ng-model="DeviceId" ng-init="DeviceId=''" ng-maxlength="50" ng-required="true;"
+                                   ng-model="DeviceId" .ng-init="DeviceId=''" ng-maxlength="50"
                                    maxlength="50" placeholder="" onkeypress="" disabled>
                         </div>
 

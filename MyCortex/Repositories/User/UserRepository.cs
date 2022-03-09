@@ -671,7 +671,7 @@ namespace MyCortex.Repositories.Uesr
                                     PayorId = p.Field<string>("PAYORID"),
                                     PlanId = p.Field<string>("PLANID"),
                                 }).FirstOrDefault();
-            if (insert.DOB_Encrypt != "")
+            if (insert.DOB_Encrypt != "" && insert.DOB_Encrypt != null)
             {
                 var time = insert.DOB_Encrypt.Split(' ');
 
@@ -801,7 +801,11 @@ namespace MyCortex.Repositories.Uesr
                                         UserType_Id = p.Field<long?>("UserType_Id"),
                                         Is_Master = p.Field<bool>("IS_MASTER"),
                                         HEALTH_LICENSE = p.Field<string>("HEALTH_LICENSE"),
-                                        NATIONALITY_ID = p.Field<long?>("NATIONALITY_ID")
+                                        NATIONALITY_ID = p.Field<long?>("NATIONALITY_ID"),
+                                        NATIONALID = p.Field<string>("NATIONALID"),
+                                        MNR_NO = p.Field<string>("MRN_NO"),
+                                        PATIENT_ID = p.Field<string>("PATIENTNO"),
+                                        INSURANCEID = p.Field<string>("INSURANCEID")
                                     }).ToList();
             //list.FullName = list.FullName;
             return list;
@@ -1494,6 +1498,7 @@ namespace MyCortex.Repositories.Uesr
                                                      UOM_Name = p.Field<string>("UNITNAME") ?? "",
                                                      Activity_Date = p.Field<DateTime>("ACTIVITYDATE"),
                                                      Activity_DateTime = p.Field<DateTime>("ACTIVITY_DATETIME"),
+                                                     UTC_DATE_TIME = p.Field<DateTime>("UTC_DATE_TIME"),
                                                      ParameterValue = p.IsNull("PARAMETERVALUE") ? 0 : p.Field<decimal>("PARAMETERVALUE"),
                                                      Id = p.Field<long>("LIFESTYLEID"),
                                                      IsActive = p.Field<int>("ISACTIVE"),
@@ -1540,6 +1545,7 @@ namespace MyCortex.Repositories.Uesr
                                                      UOM_Name = p.Field<string>("UNITNAME") ?? "",
                                                      Activity_Date = p.Field<DateTime>("ACTIVITYDATE"),
                                                      Activity_DateTime = p.Field<DateTime>("ACTIVITY_DATETIME"),
+                                                     UTC_DATE_TIME = p.Field<DateTime>("UTC_DATE_TIME"),
                                                      ParameterValue = p.IsNull("PARAMETERVALUE") ? 0 : p.Field<decimal>("PARAMETERVALUE"),
                                                      Id = p.Field<long>("LIFESTYLEID"),
                                                      IsActive = p.Field<int>("ISACTIVE"),
@@ -1815,11 +1821,13 @@ namespace MyCortex.Repositories.Uesr
         /// </summary>
         /// <param name="Patient_Id">Patient Id</param>
         /// <returns></returns>
-        public IList<PatientAppointmentsModel> PatientAppointmentList(long PatientId, Guid Login_Session_Id)
+        public IList<PatientAppointmentsModel> PatientAppointmentList(long PatientId, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Patient_Id", PatientId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
@@ -3124,7 +3132,7 @@ namespace MyCortex.Repositories.Uesr
                                                Generic_name = p.Field<string>("GENERIC_NAME"),
                                                Drug_Code = p.Field<string>("DRUGCODE"),
                                                StartDate = p.Field<DateTime>("STARTDATE"),
-                                               EndDate = p.Field<DateTime>("ENDDATE"),
+                                               EndDate = p.Field<DateTime?>("ENDDATE"),
                                                Item_Code = p.Field<string>("ITEMCODE"),
                                                StrengthName = p.Field<string>("STRENGTHNAME"),
                                                Dosage_FromName = p.Field<string>("DOSAGEFORMNAME"),
@@ -3187,7 +3195,7 @@ namespace MyCortex.Repositories.Uesr
                                           DrugId = p.Field<long?>("DRUGID"),
                                           Drug_Code = p.Field<string>("DRUGCODE"),
                                           StartDate = p.Field<DateTime>("STARTDATE"),
-                                          EndDate = p.Field<DateTime>("ENDDATE"),
+                                          EndDate = p.Field<DateTime?>("ENDDATE"),
                                           Generic_name = p.Field<string>("GENERIC_NAME"),
                                           Item_Code = p.Field<string>("ITEMCODE"),
                                           StrengthName = p.Field<string>("STRENGTHNAME"),

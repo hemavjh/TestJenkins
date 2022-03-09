@@ -92,6 +92,7 @@ namespace MyCortex.Home.Controllers
             try
             {
                 long UserId = Convert.ToInt32(Session["UserId"].ToString());
+                _logger.Warn("Session UserId" + UserId);
                 if (UserId > 0)
                 {
                     //var lst = "";
@@ -884,7 +885,7 @@ namespace MyCortex.Home.Controllers
                 paySceneCode = "PAYPAGE",
                 paySceneParams = new PaySceneParams
                 {
-                    redirectUrl =  "https://"+ baseUrl + "/Home/Index#/PatientVitals/"+ redirectParam //+ "?orderId=414768633924763654"
+                    redirectUrl =  "https://"+ baseUrl + "/Home/Index#/PatientVitals/"+ redirectParam //+"0/1?orderId=414768633924763654"
                 },
                 notifyUrl = "https://"+ baseUrl +"/Home/Notify/",
                 accessoryContent = new AccessoryContent
@@ -995,6 +996,7 @@ namespace MyCortex.Home.Controllers
                 _logger.Error(ex.Message, ex);
                 return null;
             }
+            _logger.Warn(redirectUrl);
             return new RedirectResult(redirectUrl);
         }
 

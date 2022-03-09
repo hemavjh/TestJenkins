@@ -134,6 +134,12 @@
                         <option value="3">3</option>
                     </select>
 
+                    <select class="form-control" style="max-width:100% !important"
+                            ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='MEDICATION_END_DATE' && IsEdit==true">
+                        <option value="True">True</option>
+                        <option value="False">False</option>
+                    </select>
+
                     <select class="form-control" id="chkChronic" style="max-width:100% !important" multiple="multiple" multiselect-dropdown
                             ng-change="onChangeChronic(Config_value[row.ID],row.ID)"
                             ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='CHRONIC CODE' && IsEdit==true">
@@ -154,11 +160,11 @@
                         <input style="margin-left: 5px !important" type="radio" value="Manual" ng-model="Config_value[row.ID]"> Manual
                     </div>
                     <!--<select class="form-control" style="max-width:100% !important" ng-model="SelectedChronic" multiple="multiple" ng-change="onChangeChronic();"
-                    ng-options="item1.CHRONICID as item1.CHRONICNAME for item1 in ChronicCodeList"
-                    multiselect-dropdown ng-if="row.CONFIGCODE=='CHRONIC_CODE' && IsEdit==true">
-                    </select>-->
+    ng-options="item1.CHRONICID as item1.CHRONICNAME for item1 in ChronicCodeList"
+    multiselect-dropdown ng-if="row.CONFIGCODE=='CHRONIC_CODE' && IsEdit==true">
+    </select>-->
                     <input type="text" class="form-control" style="max-width:100% !important" id="{{row.CONFIGCODE}}"
-                           ng-model="Config_value[row.ID]" placeholder="" ng-if="row.CONFIGCODE!='CHRONIC CODE' && row.CONFIGCODE!='FULLNAME_FORMULA' && row.CONFIGCODE!='BT_DEVICE_DATA_POST' && row.CONFIGCODE!='AUTO_SIGNUP_APPROVAL' && row.CONFIGCODE!='DATEFORMAT_TYPE' && row.CONFIGCODE!='TIMEFORMAT_TYPE' && row.CONFIGCODE!='NUMBER_FORMAT_TYPE' && row.CONFIGCODE!='CURRENCY_FORMAT_TYPE' && IsEdit==true">
+                           ng-model="Config_value[row.ID]" placeholder="" ng-if="row.CONFIGCODE!='CHRONIC CODE' && row.CONFIGCODE!='FULLNAME_FORMULA' && row.CONFIGCODE!='BT_DEVICE_DATA_POST' && row.CONFIGCODE!='AUTO_SIGNUP_APPROVAL' && row.CONFIGCODE!='DATEFORMAT_TYPE' && row.CONFIGCODE!='TIMEFORMAT_TYPE' && row.CONFIGCODE!='NUMBER_FORMAT_TYPE' && row.CONFIGCODE!='CURRENCY_FORMAT_TYPE' && row.CONFIGCODE!='MEDICATION_END_DATE' && IsEdit==true">
                     <span ng-if="IsEdit==false">{{Config_value[row.ID]}}</span>
                 </td>
             </tr>

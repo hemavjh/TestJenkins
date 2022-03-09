@@ -1301,7 +1301,7 @@ li.customDropdownlast-child:hover {
 
         .chartTabs li a:hover {
             background: #333;
-            color: #fff;
+            color: #fff !important;
         }
 
 .chartActiveTab {
