@@ -5692,8 +5692,25 @@
                                 <div class="flex mb-8" style="max-width: 680px; word-wrap: break-word; }">
                                     <div class="col-sm-7 flex p-0">
                                         <div class="" style="width:20%">
-                                            <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6">
-                                                <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
+                                            <!--<div .ng-if="(uploadme!=null && uploadme!='')" valign="top" rowspan="6">
+        <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ DoctorDetailList.Photo}}" />
+    </div>-->
+                                            <div ng-if="(ViewGender| lowercase)=='male' && (uploadme==null)&&uploadview ==true"
+                                                 valign="top" rowspan="6">
+                                                <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/male.png" />
+                                            </div>
+                                            <div ng-if="(ViewGender| lowercase)=='female' && (uploadme==null)&&uploadview ==true"
+                                                 valign="top" rowspan="6">
+
+                                                <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/female.png" />
+                                            </div>
+                                            <div ng-if="(ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male' && (uploadme==null) &&uploadview ==true"
+                                                 valign="top" rowspan="6">
+                                               <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/Others.png" />
+                                            </div>
+                                            <div ng-if="(uploadme!=null || uploadme!=0)&&uploadview ==true"
+                                                 valign="top" rowspan="6">
+                                                <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{uploadme}}" />
                                             </div>
                                         </div>
                                         <div class="" style="width:80%">
