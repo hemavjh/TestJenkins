@@ -244,6 +244,18 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.DoctorInstitutionList = [];
         $scope.DoctorInstitutionList = [];
 
+        $scope.maxdateDOB = '';
+        // get minimum age from configuration set max date in DOB
+        $scope.ConfigCode = "PATIENT_MIN_AGE";
+        $scope.Today_Date = $filter('date')(new Date(), 'dd-MMM-yyyy');
+        $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).
+            success(function (data) {
+                if (data[0] != undefined) {
+                    $scope.PatientMinAge = parseInt(data[0].ConfigValue);
+                    $scope.maxdateDOB = moment().subtract($scope.PatientMinAge, 'years').format("YYYY-MM-DD");                    
+                }
+            });
         $scope.EditgroupOption = 0;
         if ($window.localStorage['UserTypeId'] == 4 || $window.localStorage['UserTypeId'] == 5 || $window.localStorage['UserTypeId'] == 6) {
             $scope.EditgroupOption = 1;
@@ -1500,10 +1512,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.BusinessUser_List = function (MenuType) {
             if ($window.localStorage['UserTypeId'] == 3) {
                 $("#chatLoaderPV").show();
+                
                 $scope.MenuTypeId = MenuType;
                 $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
+                                
                 $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-
                     $scope.BusineessUseremptydata = [];
                     $scope.BusinessUserList = [];
                     $scope.BusinessUserList = data;
@@ -1517,7 +1530,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     }
                     else {
                         $scope.BusinessUserflag = 0;
-                    }
+                    }                    
                     $("#chatLoaderPV").hide();
                     $scope.SearchMsg = "No Data Available";
                 });
@@ -2859,8 +2872,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             else {
                                 var isccodeavail = mNumber;
                             }
-                           
-                            $scope.MobileNo = typeof (mNumber) == "undefined" ? isccodeavail : mNumberCC//mNumber //data.MOBILE_NO : mNumber;
+                            $scope.MobileNoView = typeof (mNumber) == "undefined" ? isccodeavail : mNumberCC//mNumber //data.MOBILE_NO : mNumber;
+                            $scope.MobileNo = typeof (mNumber) == "undefined" ? isccodeavail : mNumber//mNumber //data.MOBILE_NO : mNumber;
                           
                             $scope.ViewDepartmentName = data.Department_Name;
                             $scope.ViewInstitutionName = data.InstitutionName;
