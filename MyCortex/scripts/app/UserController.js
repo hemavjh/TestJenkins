@@ -244,6 +244,18 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.DoctorInstitutionList = [];
         $scope.DoctorInstitutionList = [];
 
+        $scope.maxdateDOB = '';
+        // get minimum age from configuration set max date in DOB
+        $scope.ConfigCode = "PATIENT_MIN_AGE";
+        $scope.Today_Date = $filter('date')(new Date(), 'dd-MMM-yyyy');
+        $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).
+            success(function (data) {
+                if (data[0] != undefined) {
+                    $scope.PatientMinAge = parseInt(data[0].ConfigValue);
+                    $scope.maxdateDOB = moment().subtract($scope.PatientMinAge, 'years').format("YYYY-MM-DD");                    
+                }
+            });
         $scope.EditgroupOption = 0;
         if ($window.localStorage['UserTypeId'] == 4 || $window.localStorage['UserTypeId'] == 5 || $window.localStorage['UserTypeId'] == 6) {
             $scope.EditgroupOption = 1;
@@ -887,20 +899,30 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
         $scope.AddPatientPopup = function () {
 
-            if (typeof ($scope.isPatientSignUp) != 'undefined' && $scope.isPatientSignUp != "") {
-                $scope.currentTab = "1";
-                $scope.DropDownListValue = 1;
-                var UserTypeId = 2;
-                $scope.InstitutionSubscriptionLicensecheck(UserTypeId);
-                $scope.AppConfigurationProfileImageList();
-                $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
-                //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
-                $location.path("/PatientCreate/" + "2" + "/" + "3");
-            }
-            else {
-                toastr.warning("You are not rights to access patient sign up", "warning");
-            }
+            //if (typeof ($scope.isPatientSignUp) != 'undefined' && $scope.isPatientSignUp != "") {
+            //    $scope.currentTab = "1";
+            //    $scope.DropDownListValue = 1;
+            //    var UserTypeId = 2;
+            //    $scope.InstitutionSubscriptionLicensecheck(UserTypeId);
+            //    $scope.AppConfigurationProfileImageList();
+            //    $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            //    //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            //    $location.path("/PatientCreate/" + "2" + "/" + "3");
+            //}
+            //else {
+            //    toastr.warning("You are not rights to access patient sign up", "warning");
+            //}
+
+            $scope.currentTab = "1";
+            $scope.DropDownListValue = 1;
+            var UserTypeId = 2;
+            $scope.InstitutionSubscriptionLicensecheck(UserTypeId);
+            $scope.AppConfigurationProfileImageList();
+            $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            $location.path("/PatientCreate/" + "2" + "/" + "3");
         }
+
         $scope.SubscriptionValidation = function () {
             if ($scope.Id == 0 && $scope.InstitutionId > 0)
                 $scope.InstitutionSubscriptionLicensecheck(3);
@@ -1490,10 +1512,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.BusinessUser_List = function (MenuType) {
             if ($window.localStorage['UserTypeId'] == 3) {
                 $("#chatLoaderPV").show();
+                
                 $scope.MenuTypeId = MenuType;
                 $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
+                                
                 $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-
                     $scope.BusineessUseremptydata = [];
                     $scope.BusinessUserList = [];
                     $scope.BusinessUserList = data;
@@ -1507,7 +1530,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     }
                     else {
                         $scope.BusinessUserflag = 0;
-                    }
+                    }                    
                     $("#chatLoaderPV").hide();
                     $scope.SearchMsg = "No Data Available";
                 });
@@ -2027,7 +2050,6 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             }
         }
 
-
         $scope.User_Admin_AddEdit_Validations = function () {
             if ($scope.MenuTypeId == 1 || $scope.MenuTypeId == 2) {
                 if (($scope.MenuTypeId == 1) && (($scope.InstitutionId) == "undefined" || $scope.InstitutionId == "0")) {
@@ -2152,7 +2174,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.currentTab = 2;
                     return false;
                 }
-                else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "") {
+                else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "" || $scope.DOB == 'yyyy-mm-dd') {
                     //alert("Please select Date of Birth under Additional info");
                     toastr.warning("Please select Date of Birth under Additional info", "warning");
                     $("#chatLoaderPV").hide();
@@ -2333,7 +2355,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.currentTab = 2;
                     return false;
                 }
-                else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "") {
+                else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "" || $scope.DOB == null || $scope.DOB == 'yyyy-mm-dd') {
                     //alert("Please select Date of Birth under Additional info");
                     toastr.warning("Please select Date of Birth under Additional info", "warning");
                     $("#chatLoaderPV").hide();
@@ -2850,8 +2872,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             else {
                                 var isccodeavail = mNumber;
                             }
-                           
-                            $scope.MobileNo = typeof (mNumber) == "undefined" ? isccodeavail : mNumber //data.MOBILE_NO : mNumber;
+                            $scope.MobileNoView = typeof (mNumber) == "undefined" ? isccodeavail : mNumberCC//mNumber //data.MOBILE_NO : mNumber;
+                            $scope.MobileNo = typeof (mNumber) == "undefined" ? isccodeavail : mNumber//mNumber //data.MOBILE_NO : mNumber;
                           
                             $scope.ViewDepartmentName = data.Department_Name;
                             $scope.ViewInstitutionName = data.InstitutionName;

@@ -112,9 +112,13 @@
             if (day < 10)
                 day = '0' + day.toString();
 
-            var maxDate = year + '-' + month + '-' + day;
-            $('#Date_Birth').attr('max', maxDate);
+            var maxDate = year + '-' + month + '-' + day;           
+          $('#Date_Birth').attr('max', maxDate);            
         });
+        function SetmaxDateDOB() {
+            var maxdatedob = document.getElementById('maxdatedob').value;
+            $('#Date_Birth').attr('max', maxdatedob);
+        }
     </script>
     <script>
         $(document).ready(function () {
@@ -277,7 +281,7 @@
                     <div class="col-sm-2">
                         <div class="inputGroups">
                             <a href="javascript:" ng-click="AddUserPopUP();ClearPopUp();InstitutionBased_CountryStateList()"
-                               class="theme-btn-1 pull-right mt-15 text-center" title='Add New User'>Add New</a>
+                               class="theme-btn-1 pull-right mt-15 text-center" onclick="SetmaxDateDOB();" title='Add New User'>Add New</a>
                         </div>
                     </div>
                 </div>
@@ -827,7 +831,8 @@
                                                             <!--<input type="date" id="Date_Birth" max="2099-12-31" placeholder="" class="form-control ng-pristine ng-invalid ng-invalid-required" ng-model="DOB" ng-init="DOB=''">-->
                                                             <!--<input type="date" id="Date_Birth" max="2099-12-31" placeholder="" class="form-control" ng-model="DOB" ng-init="DOB=''">-->
                                                             <!--<div id="divDOB" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                                            <input type="date" id="Date_Birth" max="2099-12-31" placeholder="" class="form-control" ng-model="DOB">
+                                                            <input type="date" id="Date_Birth" max="" placeholder="" class="form-control" ng-model="DOB">
+                                                            <input type="hidden" id="maxdatedob" value="{{maxdateDOB | date:'yyyy-MM-dd'}}" />
                                                             <!--</div>-->
                                                             <!--</div>-->
                                                         </div>
