@@ -3984,13 +3984,13 @@ namespace MyCortex.User.Controller
             }
             try
             {
-                DataEncryption EncryptPassword = new DataEncryption();
-                userObj.MOBILE_NO = EncryptPassword.Encrypt(userObj.MOBILE_NO);
-                userObj.EMAILID = EncryptPassword.Encrypt(userObj.EMAILID.ToLower());
-                userObj.GOOGLE_EMAILID = EncryptPassword.Encrypt(userObj.GOOGLE_EMAILID);
-                userObj.FB_EMAILID = EncryptPassword.Encrypt(userObj.FB_EMAILID);
-                userObj.appleUserID = EncryptPassword.Encrypt(userObj.appleUserID);
-                userObj.PatientId = EncryptPassword.Encrypt(userObj.PatientId);
+                //DataEncryption EncryptPassword = new DataEncryption();
+                userObj.MOBILE_NO = userObj.MOBILE_NO;
+                userObj.EMAILID = userObj.EMAILID.ToLower();
+                userObj.GOOGLE_EMAILID = userObj.GOOGLE_EMAILID;
+                userObj.FB_EMAILID = userObj.FB_EMAILID;
+                userObj.appleUserID = userObj.appleUserID;
+                userObj.PatientId = userObj.PatientId;
                 ModelData = repository.Patient_Update(Login_Session_Id, userObj);
 
                 if (ModelData.flag > 0)
