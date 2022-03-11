@@ -877,6 +877,17 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
                         $http.get(baseUrl + '/api/User/UserDetails_View?Id=' + $scope.DoctorID + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                             $scope.DoctorDetailList = data;
+                            $http.get(baseUrl + '/api/User/UserDetails_GetPhoto/?Id=' + $scope.DoctorID).success(function (data) {
+                                methodcnt = methodcnt - 1;
+                                if (methodcnt == 0)
+                                    $scope.uploadview = true;
+                                if (data.PhotoBlob != null) {
+                                    $scope.uploadme = 'data:image/png;base64,' + data.PhotoBlob;
+                                }
+                                else {
+                                    $scope.uploadme = null;
+                                }
+                            })
                             $("#chatLoaderPV").hide();
                             $scope.AppointmoduleID = data.Appointment_Module_Id;
                             $scope.AppointmoduleID1 = data.Appointment_Module_Id;
