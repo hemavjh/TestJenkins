@@ -4753,8 +4753,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             $('#buttonsave').attr("disabled", false);
             //$scope.ICD10CategoryClearFunction();
             $scope.Icd10Clear();
-            $scope.ICD10codeSearchPopup(0);
             angular.element('#CreateICDModal').modal('show');
+             $scope.ICD10codeSearchPopup(0);
 
             setTimeout(function () {
                 $scope.calenderSet($scope.AddICD10List.length);
@@ -5423,8 +5423,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             }
             $('#save1').attr("disabled", false);
             $scope.DrugbasedDetails($scope.DrugId, 0);
-            $scope.DrugcodeSearchPopup(0);
             angular.element('#PatientMedicationCreateModal').modal('show');
+            $scope.DrugcodeSearchPopup(0);
             setTimeout(function () {
                 $scope.calenderSet1($scope.AddMedicationDetails.length);
             }, 1000);
