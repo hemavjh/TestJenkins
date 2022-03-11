@@ -134,7 +134,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
         $scope.IntervalBt2 = "0";
         $scope.Days2 = "0";
         $scope.Minutes2 = "0";
-        $http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
+        $http.get(baseUrl + '/api/User/DepartmentListByInstitution/').success(function (data) {
             $scope.DepartmentList = data;
         });
         $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.CC_Id + '&IsActive=' + 1 + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {

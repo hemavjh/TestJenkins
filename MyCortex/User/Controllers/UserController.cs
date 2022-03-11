@@ -92,6 +92,25 @@ namespace MyCortex.User.Controller
         }
 
         [HttpGet]
+        public IList<DepartmentModel> DepartmentListByInstitution()
+        {
+            IList<DepartmentModel> model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                long InstitutionId = Int64.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
+                model = repository.DepartmentListByInstitution(InstitutionId);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        [HttpGet]
         public IList<DocumentTypeModel> DocumentTypeList()
         {
             IList<DocumentTypeModel> model;

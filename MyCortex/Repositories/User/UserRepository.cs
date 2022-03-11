@@ -78,6 +78,30 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
+        public IList<DepartmentModel> DepartmentListByInstitution(long Institution_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                param.Add(new DataParameter("@InstitutionId", Institution_Id));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].DEPARTMENT_SP_LIST_By_Institution", param);
+                List<DepartmentModel> lst = (from p in dt.AsEnumerable()
+                                             select new DepartmentModel()
+                                             {
+                                                 Id = p.Field<long>("Id"),
+                                                 Department_Name = p.Field<string>("Department_Name"),
+                                                 IsActive = p.Field<int>("IsActive")
+                                             }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
 
         public IList<DocumentTypeModel> DocumentTypeList()
         {
