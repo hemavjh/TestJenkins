@@ -2872,8 +2872,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             else {
                                 var isccodeavail = mNumber;
                             }
-                            $scope.MobileNoView = typeof (mNumber) == "undefined" ? isccodeavail : mNumberCC//mNumber //data.MOBILE_NO : mNumber;
-                            $scope.MobileNo = typeof (mNumber) == "undefined" ? isccodeavail : mNumber//mNumber //data.MOBILE_NO : mNumber;
+                            $scope.MobileNoView = typeof (mNumber) == "undefined" ? isccodeavail : mNumberCC; //mNumber //data.MOBILE_NO : mNumber;
+                            $scope.MobileNo = typeof (mNumber) == "undefined" ? isccodeavail : mNumber; //mNumber //data.MOBILE_NO : mNumber;
                           
                             $scope.ViewDepartmentName = data.Department_Name;
                             $scope.ViewInstitutionName = data.InstitutionName;

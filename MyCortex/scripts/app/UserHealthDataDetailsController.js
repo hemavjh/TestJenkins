@@ -124,6 +124,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             $scope.current_PatientAllergyPages = p;
             $scope.current_others = p;
         }
+        
 
         $scope.showMainBox = true;
         // $scope.ParamGroup_Id=2;    
@@ -168,6 +169,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             if (data[0] != undefined) {
                 $scope.PATIENTDATA_EDITTIME = parseInt(data[0].ConfigValue);
             }
+        });
+        //get the value from configuration (true /False)
+        $scope.ConfigCode1 = "MEDICATION_END_DATE";
+        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode1 + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+            $scope.Medication_End_Date = data1[0].ConfigValue;
         });
         // is editale check based on allowed editable time configuration
         $scope.IsEditableCheck = function (itemDate) {
@@ -5398,12 +5404,6 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         // This is for AddPopup	
         $scope.MedicationTabCount = 1;
         $scope.AddMedicationPopUp = function () {
-            //get the value from configuration (true /False)
-            var ConfigCode = "MEDICATION_END_DATE";
-            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-                $scope.Medication_End_Date = data1[0].ConfigValue;
-            });
-
             $scope.PatientMedicationCreateModalClear();
             
             if ($scope.MedicationTabCount == 1) {
@@ -5453,9 +5453,10 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 }
                 // $scope.medId=MedicationViewId;	
                 $scope.Id = MedicationViewId;
-                $scope.PatientMedicationView();
+                
                 $scope.DrugDropDown = 2;
                 $scope.PatientMedicationCreateModalClear();
+                $scope.PatientMedicationView();
                 angular.element('#PatientMedicationEditModal').modal('show');
             }
             //}
@@ -5821,7 +5822,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 toastr.warning("Please select StartDate", "warning");
                 return false;
             }
-            else if (typeof ($scope.EndDate) == "undefined" || $scope.EndDate == 0) {
+            else if ((typeof ($scope.EndDate) == "undefined" || $scope.EndDate == null || $scope.EndDate == 0) && $scope.Medication_End_Date=='True') {
                 //alert("Please select EndDate");
                 toastr.warning("Please select EndDate", "warning");
                 return false;
@@ -5847,6 +5848,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
 
         $scope.PatientMedication_EditInsert = function () {
+            if ($scope.EndDate == null || $scope.EndDate == '') $scope.EndDate = $scope.EndDate;
+            else $scope.EndDate = moment($scope.EndDate).format('DD-MMM-YYYY');
             $scope.MedicationList = [];
             if ($scope.PatientMedication_EditInsert_Validationcontrols() == true) {
                 $('#save2').attr("disabled", true);
@@ -5857,8 +5860,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     FrequencyId: $scope.FrequencyId,
                     RouteId: $scope.RouteId,
                     NoOfDays: $scope.NoOfDays,
-                    StartDate: $scope.StartDate,
-                    EndDate: $scope.EndDate,
+                    StartDate: moment($scope.StartDate).format('DD-MMM-YYYY'),
+                    EndDate:$scope.EndDate,
                     Created_By: $window.localStorage['UserId'],
                     Modified_By: $window.localStorage['UserId'],
                     InstitutionId: $window.localStorage['InstitutionId']
@@ -6001,8 +6004,17 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         //Medication View	
         $scope.PatientMedicationView = function () {
             $http.get(baseUrl + 'api/User/MedicationView/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                if (data.EndDate == null || data.EndDate == '') $scope.ViewEndDate = data.EndDate;
-                else $scope.ViewEndDate = DateFormatEdit($filter('date')(data.EndDate, "dd-MMM-yyyy"));
+                if (data.EndDate == null || data.EndDate == '')
+                {
+                    $scope.ViewEndDate = data.EndDate;
+                    $scope.EndDateView = data.EndDate;
+                }
+                else
+                {
+                    $scope.ViewEndDate = DateFormatEdit($filter('date')(data.EndDate, "dd-MMM-yyyy"));
+                    $scope.EndDateView = moment(data.EndDate).format('DD-MMM-YYYY');
+                }
+
                 $scope.AddMedicationDetails = [{
                     'Id': data.Id,
                     'DrugId': data.DrugId.toString(),
@@ -6034,7 +6046,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 $scope.ViewRouteName = data.RouteName,
                     //    $scope.StartDate = DateFormatEdit($filter('date')(data.StartDate, "dd-MMM-yyyy"));
                     //$scope.EndDate = DateFormatEdit($filter('date')(data.EndDate, "dd-MMM-yyyy"));
-                    $scope.StartDate = moment(data.StartDate).format('DD-MMM-YYYY'),
+                    $scope.StartDate = DateFormatEdit($filter('date')(data.StartDate, "dd-MMM-yyyy")); //moment(data.StartDate).format('DD-MMM-YYYY'),
+                    $scope.StartDateView = moment(data.StartDate).format('DD-MMM-YYYY'),                    
                     $scope.EndDate = $scope.ViewEndDate //moment(data.EndDate).format('DD-MMM-YYYY')
 
                 if ($scope.DrugDropDown == 2) {
