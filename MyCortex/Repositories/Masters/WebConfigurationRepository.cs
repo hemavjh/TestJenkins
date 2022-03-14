@@ -78,7 +78,7 @@ namespace MyCortex.Repositories.Masters
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[CHRONIC_CODE_LIST]");
-                DataEncryption DecryptFields = new DataEncryption();
+                //DataEncryption DecryptFields = new DataEncryption();
                 List<WebConfigurationModel> list = (from p in dt.AsEnumerable()
                                                     select new WebConfigurationModel()
                                                     {
