@@ -2895,7 +2895,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             //}
                             $scope.Health_License = data.HEALTH_LICENSE;
                             $scope.File_Name = data.FILE_NAME;
-                            $scope.CertificateFileName = data.FILE_NAME;
+                            $scope.CertificateFileName = data.FILE_NAME; 
                             $scope.Resume = data.FILE_NAME;
                             $scope.resumedoc = data.FILE_NAME;
                             $scope.File_FullPath = data.FILE_FULLPATH;
@@ -3213,7 +3213,20 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             }
 
         }
-
+        $scope.CertificateView = function (Id) {
+            $http.get(baseUrl + '/api/User/UserDetails_GetCertificate?Id=' + Id+ '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                //var mtype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                //\var url = 'data:' + mtype + ';base64,' + data.DocumentBlobData.toString();
+                /*window.open(url);*/
+                console.log(typeof (data.CertificateBlob))
+                let pdfWindow = window.open("", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=500,width=500,height=400");
+                pdfWindow.document.write("<html><head><title>Test</title><style>body{margin: 0px;}iframe{border-width: 0px;}</style></head>");
+               // pdfWindow.document.write("<body><embed width='100%' height='100%' src='data:" + data.UPLOAD_FILENAME.toString() + ";base64, " + data.CertificateBlob.toString() + "#toolbar=0&navpanes=0&scrollbar=0'></embed></body></html>");
+                pdfWindow.document.write("<body><img width='100%' height='100%' src='data:" + data.FileName.toString() + ";base64, " + data.CertificateBlob.toString() + "#toolbar=0&navpanes=0&scrollbar=0'></img></body></html>");
+                //pdfWindow.document.write("<body><img width='100%' height='100%' src='data:" + data.FileName.toString() + ";base64, " + data.CertificateBlob.toString() + "#toolbar=0&navpanes=0&scrollbar=0'></img></body></html>");
+                // /*pdfWindow.target = '_top';*/
+            });
+        }
         $scope.PhotoUplaodSelected = function () {
             $scope.PhotoValue = 1;
             $scope.UserPhotoValue = 1;
