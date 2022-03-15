@@ -177,17 +177,43 @@
         <form class="form-horizontal" role="form">
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-2">
+                        <div class="inputGroups">
+                            <label>
+                                Search Field
+                            </label>
+                            <select class="form-control" ng-model="filter_SASearchFieldId" id="ddlSAsearchfield" ng-required="true">
+                                <option value="0" selected="selected">Select</option>
+                                <!--<option value="1">Patient ID</option>
+    <option value="2">National ID</option>-->
+                                <option value="3">First Name</option>
+                                <option value="4">Last Name</option>
+                                <!--<option value="5">Insurance ID</option>-->
+                                <option value="6">Email</option>
+                                <option value="7">Mobile No</option>
+                                <!--<option value="8">MRN</option>-->
+                                <option value="9">Employment No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
                         <div class="inputGroups">
                             <label>Search</label>
                             <div class="modernSearch">
-                                <input type="text" ng-model="searchquery" ng-change="filterInstitutionList()"
+                                <input type="text" ng-model="searchquery"
                                        placeholder="" />
                                 <i class="fa fa-search"></i>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-1">
+                        <div class="inputGroups">
+                            <a href="javascript:" ng-click="filterInstitutionList()" class="theme-btn-1 pull-right mt-20 btn-autosize pull-right ml-10">
+                                Submit
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
                         <div class="inputGroups">
                             <label>Active</label>
                             <div>
@@ -196,7 +222,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-5">
                         <div class="inputGroups">
                             <a href="javascript:" ng-click="AddUserPopUP(ClearPopUp())"
                                class="theme-btn-1 pull-right mt-15" title='Add New User'>Add New</a>

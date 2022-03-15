@@ -78,6 +78,30 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
+        public IList<DepartmentModel> DepartmentListByInstitution(long Institution_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                param.Add(new DataParameter("@InstitutionId", Institution_Id));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].DEPARTMENT_SP_LIST_By_Institution", param);
+                List<DepartmentModel> lst = (from p in dt.AsEnumerable()
+                                             select new DepartmentModel()
+                                             {
+                                                 Id = p.Field<long>("Id"),
+                                                 Department_Name = p.Field<string>("Department_Name"),
+                                                 IsActive = p.Field<int>("IsActive")
+                                             }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
 
         public IList<DocumentTypeModel> DocumentTypeList()
         {
@@ -671,7 +695,7 @@ namespace MyCortex.Repositories.Uesr
                                     PayorId = p.Field<string>("PAYORID"),
                                     PlanId = p.Field<string>("PLANID"),
                                 }).FirstOrDefault();
-            if (insert.DOB_Encrypt != "")
+            if (insert.DOB_Encrypt != "" && insert.DOB_Encrypt != null)
             {
                 var time = insert.DOB_Encrypt.Split(' ');
 
@@ -801,7 +825,11 @@ namespace MyCortex.Repositories.Uesr
                                         UserType_Id = p.Field<long?>("UserType_Id"),
                                         Is_Master = p.Field<bool>("IS_MASTER"),
                                         HEALTH_LICENSE = p.Field<string>("HEALTH_LICENSE"),
-                                        NATIONALITY_ID = p.Field<long?>("NATIONALITY_ID")
+                                        NATIONALITY_ID = p.Field<long?>("NATIONALITY_ID"),
+                                        NATIONALID = p.Field<string>("NATIONALID"),
+                                        MNR_NO = p.Field<string>("MRN_NO"),
+                                        PATIENT_ID = p.Field<string>("PATIENTNO"),
+                                        INSURANCEID = p.Field<string>("INSURANCEID")
                                     }).ToList();
             //list.FullName = list.FullName;
             return list;
@@ -3128,7 +3156,7 @@ namespace MyCortex.Repositories.Uesr
                                                Generic_name = p.Field<string>("GENERIC_NAME"),
                                                Drug_Code = p.Field<string>("DRUGCODE"),
                                                StartDate = p.Field<DateTime>("STARTDATE"),
-                                               EndDate = p.Field<DateTime>("ENDDATE"),
+                                               EndDate = p.Field<DateTime?>("ENDDATE"),
                                                Item_Code = p.Field<string>("ITEMCODE"),
                                                StrengthName = p.Field<string>("STRENGTHNAME"),
                                                Dosage_FromName = p.Field<string>("DOSAGEFORMNAME"),
@@ -3191,7 +3219,7 @@ namespace MyCortex.Repositories.Uesr
                                           DrugId = p.Field<long?>("DRUGID"),
                                           Drug_Code = p.Field<string>("DRUGCODE"),
                                           StartDate = p.Field<DateTime>("STARTDATE"),
-                                          EndDate = p.Field<DateTime>("ENDDATE"),
+                                          EndDate = p.Field<DateTime?>("ENDDATE"),
                                           Generic_name = p.Field<string>("GENERIC_NAME"),
                                           Item_Code = p.Field<string>("ITEMCODE"),
                                           StrengthName = p.Field<string>("STRENGTHNAME"),

@@ -14,6 +14,7 @@ namespace MyCortex.Repositories
     {
         IList<DoctorInstitutionModel> DoctorInstitutionList();
         IList<DepartmentModel> DepartmentList();
+        IList<DepartmentModel> DepartmentListByInstitution(long Institution_Id);
         IList<DocumentTypeModel> DocumentTypeList();
         IList<BusinessUser_UserTypeListModel> BusinessUser_UserTypeList();
         UserModel Admin_InsertUpdate(Guid Login_Session_Id, UserModel insobj);

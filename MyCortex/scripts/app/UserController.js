@@ -194,7 +194,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.filter_CL_UserType = "0";
         $scope.filter_CL_Group = "";
         $scope.Filter_CL_Nationality = "0";
-
+        $scope.filter_SASearchFieldId = "0";
         $scope.InsCountryId = "0";
         $scope.InsStateId = "0";
         $scope.InsCityId = "0";
@@ -244,6 +244,18 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.DoctorInstitutionList = [];
         $scope.DoctorInstitutionList = [];
 
+        $scope.maxdateDOB = '';
+        // get minimum age from configuration set max date in DOB
+        $scope.ConfigCode = "PATIENT_MIN_AGE";
+        $scope.Today_Date = $filter('date')(new Date(), 'dd-MMM-yyyy');
+        $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).
+            success(function (data) {
+                if (data[0] != undefined) {
+                    $scope.PatientMinAge = parseInt(data[0].ConfigValue);
+                    $scope.maxdateDOB = moment().subtract($scope.PatientMinAge, 'years').format("YYYY-MM-DD");                    
+                }
+            });
         $scope.EditgroupOption = 0;
         if ($window.localStorage['UserTypeId'] == 4 || $window.localStorage['UserTypeId'] == 5 || $window.localStorage['UserTypeId'] == 6) {
             $scope.EditgroupOption = 1;
@@ -887,20 +899,30 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
         $scope.AddPatientPopup = function () {
 
-            if (typeof ($scope.isPatientSignUp) != 'undefined' && $scope.isPatientSignUp != "") {
-                $scope.currentTab = "1";
-                $scope.DropDownListValue = 1;
-                var UserTypeId = 2;
-                $scope.InstitutionSubscriptionLicensecheck(UserTypeId);
-                $scope.AppConfigurationProfileImageList();
-                $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
-                //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
-                $location.path("/PatientCreate/" + "2" + "/" + "3");
-            }
-            else {
-                toastr.warning("You are not rights to access patient sign up", "warning");
-            }
+            //if (typeof ($scope.isPatientSignUp) != 'undefined' && $scope.isPatientSignUp != "") {
+            //    $scope.currentTab = "1";
+            //    $scope.DropDownListValue = 1;
+            //    var UserTypeId = 2;
+            //    $scope.InstitutionSubscriptionLicensecheck(UserTypeId);
+            //    $scope.AppConfigurationProfileImageList();
+            //    $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            //    //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            //    $location.path("/PatientCreate/" + "2" + "/" + "3");
+            //}
+            //else {
+            //    toastr.warning("You are not rights to access patient sign up", "warning");
+            //}
+
+            $scope.currentTab = "1";
+            $scope.DropDownListValue = 1;
+            var UserTypeId = 2;
+            $scope.InstitutionSubscriptionLicensecheck(UserTypeId);
+            $scope.AppConfigurationProfileImageList();
+            $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            $location.path("/PatientCreate/" + "2" + "/" + "3");
         }
+
         $scope.SubscriptionValidation = function () {
             if ($scope.Id == 0 && $scope.InstitutionId > 0)
                 $scope.InstitutionSubscriptionLicensecheck(3);
@@ -1490,10 +1512,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.BusinessUser_List = function (MenuType) {
             if ($window.localStorage['UserTypeId'] == 3) {
                 $("#chatLoaderPV").show();
+                
                 $scope.MenuTypeId = MenuType;
                 $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
+                                
                 $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-
                     $scope.BusineessUseremptydata = [];
                     $scope.BusinessUserList = [];
                     $scope.BusinessUserList = data;
@@ -1507,7 +1530,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     }
                     else {
                         $scope.BusinessUserflag = 0;
-                    }
+                    }                    
                     $("#chatLoaderPV").hide();
                     $scope.SearchMsg = "No Data Available";
                 });
@@ -1623,18 +1646,50 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $scope.rowCollectionFilter = angular.copy($scope.UserDetailsList);
             }
             else {
-                $scope.rowCollectionFilter = $ff($scope.UserDetailsList, function (value) {
-                    return angular.lowercase(value.InstitutionName).match(searchstring) ||
-                        angular.lowercase(value.FullName).match(searchstring) ||
-                        angular.lowercase(value.Department_Name).match(searchstring) ||
-                        angular.lowercase(value.EMAILID).match(searchstring) ||
-                        angular.lowercase(value.EMPLOYEMENTNO).match(searchstring);
-                });
-                if ($scope.rowCollectionFilter.length > 0) {
-                    $scope.flag = 1;
-                }
-                else {
-                    $scope.flag = 0;
+                //$scope.rowCollectionFilter = $ff($scope.UserDetailsList, function (value) {
+                //    return angular.lowercase(value.InstitutionName).match(searchstring) ||
+                //        angular.lowercase(value.FullName).match(searchstring) ||
+                //        angular.lowercase(value.Department_Name).match(searchstring) ||
+                //        angular.lowercase(value.EMAILID).match(searchstring) ||
+                //        angular.lowercase(value.EMPLOYEMENTNO).match(searchstring);
+                //});
+                if ($scope.filter_SASearchFieldId == "0") {
+                    toastr.warning("Please select Search Field", "Warning");
+                } else {
+                    if ($scope.filter_SASearchFieldId == "1") {
+                        var NotNull_User = $scope.UserDetailsList.filter(x => x.PATIENT_ID != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.PATIENT_ID).match(searchstring));
+                    } else if ($scope.filter_SASearchFieldId == "2") {
+                        var NotNull_User = $scope.UserDetailsList.filter(x => x.NATIONALID != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.NATIONALID).match(searchstring));
+                    } else if ($scope.filter_SASearchFieldId == "3") {
+                        var NotNull_User = $scope.UserDetailsList.filter(x => x.FirstName != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.FirstName).match(searchstring));
+                    } else if ($scope.filter_SASearchFieldId == "4") {
+                        var NotNull_User = $scope.UserDetailsList.filter(x => x.LastName != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.LastName).match(searchstring));
+                    } else if ($scope.filter_SASearchFieldId == "5") {
+                        var NotNull_User = $scope.UserDetailsList.filter(x => x.INSURANCEID != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.INSURANCEID).match(searchstring));
+                    } else if ($scope.filter_SASearchFieldId == "6") {
+                        var NotNull_User = $scope.UserDetailsList.filter(x => x.EMAILID != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.EMAILID).match(searchstring));
+                    } else if ($scope.filter_SASearchFieldId == "7") {
+                        var NotNull_User = $scope.UserDetailsList.filter(x => x.MOBILE_NO != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.MOBILE_NO).match(searchstring));
+                    } else if ($scope.filter_SASearchFieldId == "8") {
+                        var NotNull_User = $scope.UserDetailsList.filter(x => x.MNR_NO != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.MNR_NO).match(searchstring));
+                    } else if ($scope.filter_SASearchFieldId == "9") {
+                        var NotNull_User = $scope.UserDetailsList.filter(x => x.EMPLOYEMENTNO != null);
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.EMPLOYEMENTNO).match(searchstring));
+                    }
+                    if ($scope.rowCollectionFilter.length > 0) {
+                        $scope.flag = 1;
+                    }
+                    else {
+                        $scope.flag = 0;
+                    }
                 }
             }
         }
@@ -1995,7 +2050,6 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             }
         }
 
-
         $scope.User_Admin_AddEdit_Validations = function () {
             if ($scope.MenuTypeId == 1 || $scope.MenuTypeId == 2) {
                 if (($scope.MenuTypeId == 1) && (($scope.InstitutionId) == "undefined" || $scope.InstitutionId == "0")) {
@@ -2120,7 +2174,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.currentTab = 2;
                     return false;
                 }
-                else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "") {
+                else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "" || $scope.DOB == 'yyyy-mm-dd') {
                     //alert("Please select Date of Birth under Additional info");
                     toastr.warning("Please select Date of Birth under Additional info", "warning");
                     $("#chatLoaderPV").hide();
@@ -2301,7 +2355,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.currentTab = 2;
                     return false;
                 }
-                else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "") {
+                else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "" || $scope.DOB == null || $scope.DOB == 'yyyy-mm-dd') {
                     //alert("Please select Date of Birth under Additional info");
                     toastr.warning("Please select Date of Birth under Additional info", "warning");
                     $("#chatLoaderPV").hide();
@@ -2818,8 +2872,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             else {
                                 var isccodeavail = mNumber;
                             }
-                           
-                            $scope.MobileNo = typeof (mNumber) == "undefined" ? isccodeavail : mNumber //data.MOBILE_NO : mNumber;
+                            $scope.MobileNoView = typeof (mNumber) == "undefined" ? isccodeavail : mNumberCC//mNumber //data.MOBILE_NO : mNumber;
+                            $scope.MobileNo = typeof (mNumber) == "undefined" ? isccodeavail : mNumber//mNumber //data.MOBILE_NO : mNumber;
                           
                             $scope.ViewDepartmentName = data.Department_Name;
                             $scope.ViewInstitutionName = data.InstitutionName;
