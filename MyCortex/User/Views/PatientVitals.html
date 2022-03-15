@@ -824,7 +824,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="PatientNotification2" style="left: 675px !important ">
+                    <div class="PatientNotification2" style="left: 660px !important ">
                         <a ng-show="currentTab=='2' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))"
                            href="javascript:" ng-click="AddVitalsPopUp()" class="theme-btn-1 ml-20" title='Add New Vitals'>Add New</a>
                         <a ng-show="currentTab=='3' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))"
@@ -833,7 +833,7 @@
                            ng-show="currentTab=='4' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1 ml-20">
                             Add New
                         </a>
-                        <a href="javascript:" ng-click="AddMedicationPopUp()" title="Add New Medication"
+                        <a href="javascript:" ng-click="AddMedicationPopUp()" title="Add New Medication" 
                            ng-show="currentTab=='5' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1 ml-20">
                             Add New
                         </a>
@@ -1147,77 +1147,77 @@
                                         <div class="panel-body" ng-show="currentTab=='1'">
                                             <div id="zoomChart"></div>
                                             <!--<script>
-                                                Highcharts.chart('zoomChart', {
-                                                    chart: {
-                                                        zoomType: 'xy'
-                                                    },
-                                                    title: {
-                                                        text: 'Life Styles'
-                                                    },
+                        Highcharts.chart('zoomChart', {
+                            chart: {
+                                zoomType: 'xy'
+                            },
+                            title: {
+                                text: 'Life Styles'
+                            },
 
 
 
-                                                    yAxis: {
-                                                        title: {
-                                                            text: 'Activities'
-                                                        }
-                                                    },
+                            yAxis: {
+                                title: {
+                                    text: 'Activities'
+                                }
+                            },
 
-                                                    xAxis: {
-                                                        accessibility: {
-                                                            rangeDescription: 'Range: 2010 to 2017'
-                                                        }
-                                                    },
+                            xAxis: {
+                                accessibility: {
+                                    rangeDescription: 'Range: 2010 to 2017'
+                                }
+                            },
 
-                                                    legend: {
-                                                        layout: 'vertical',
-                                                        align: 'right',
-                                                        verticalAlign: 'middle'
-                                                    },
+                            legend: {
+                                layout: 'vertical',
+                                align: 'right',
+                                verticalAlign: 'middle'
+                            },
 
-                                                    plotOptions: {
-                                                        series: {
-                                                            label: {
-                                                                connectorAllowed: false
-                                                            },
-                                                            pointStart: 2010
-                                                        }
-                                                    },
+                            plotOptions: {
+                                series: {
+                                    label: {
+                                        connectorAllowed: false
+                                    },
+                                    pointStart: 2010
+                                }
+                            },
 
-                                                    series: [{
-                                                        name: 'Walks',
-                                                        data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-                                                    }, {
-                                                        name: 'Sleep',
-                                                        data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
-                                                    }, {
-                                                        name: 'Stand',
-                                                        data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-                                                    }, {
-                                                        name: 'exercise',
-                                                        data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-                                                    }, {
-                                                        name: 'Other',
-                                                        data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
-                                                    }],
+                            series: [{
+                                name: 'Walks',
+                                data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+                            }, {
+                                name: 'Sleep',
+                                data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+                            }, {
+                                name: 'Stand',
+                                data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
+                            }, {
+                                name: 'exercise',
+                                data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
+                            }, {
+                                name: 'Other',
+                                data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
+                            }],
 
-                                                    responsive: {
-                                                        rules: [{
-                                                            condition: {
-                                                                maxWidth: 500
-                                                            },
-                                                            chartOptions: {
-                                                                legend: {
-                                                                    layout: 'horizontal',
-                                                                    align: 'center',
-                                                                    verticalAlign: 'bottom'
-                                                                }
-                                                            }
-                                                        }]
-                                                    }
+                            responsive: {
+                                rules: [{
+                                    condition: {
+                                        maxWidth: 500
+                                    },
+                                    chartOptions: {
+                                        legend: {
+                                            layout: 'horizontal',
+                                            align: 'center',
+                                            verticalAlign: 'bottom'
+                                        }
+                                    }
+                                }]
+                            }
 
-                                                });
-                                            </script>-->
+                        });
+                    </script>-->
                                             <highchart id="Chart1" config="StepCountChartConfig" class="chartHeight" />
                                         </div>
                                         <div class="panel-body" ng-show="currentTab=='1'">
@@ -1261,76 +1261,76 @@
                                         <div ng-show="currentTab=='2' || currentTab=='3' ">
                                             <div>
                                                 <!-- Commented by yogesh
-                                                <div class="dropdown profile_menu">
-                                                    <button class="btn btn-primary dropdown-toggle" type="button"
-                                                            data-toggle="dropdown" aria-expanded="false">
-                                                        <i class="fas fa-chart-line" class="themeProfile"
-                                                           ng-if="VitalChart=='1'"></i>
-                                                        <i class="fas fa-table" class="themeProfile"
-                                                           ng-if="VitalChart=='2'"></i>
+                        <div class="dropdown profile_menu">
+                            <button class="btn btn-primary dropdown-toggle" type="button"
+                                    data-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-chart-line" class="themeProfile"
+                                   ng-if="VitalChart=='1'"></i>
+                                <i class="fas fa-table" class="themeProfile"
+                                   ng-if="VitalChart=='2'"></i>
 
-                                                    </button>
-                                                    <ul class="dropdown-menu customDropdown">
-                                                        <li class="customDropdownlast-child">
-                                                            <a href="javascript:"
-                                                               style="text-decoration: underline"
-                                                               ng-click="VitalChart ='1';WeeKDetailsList(currentTab);">
-                                                                <i class="fas fa-chart-line"
-                                                                   class="themeProfile"></i>Chart<i class="fas fa-check"
-                                                                                                    ng-if="VitalChart=='1'"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li class="customDropdownlast-child">
-                                                            <a href="javascript:" style="text-decoration: underline"
-                                                               ng-click="VitalChart ='2';HistoryDetails(currentTab);">
-                                                                <i class="fas fa-table"
-                                                                   class="themeProfile"></i>Detail<i class="fas fa-check" ng-if="VitalChart=='2'"></i>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                End Here-->
+                            </button>
+                            <ul class="dropdown-menu customDropdown">
+                                <li class="customDropdownlast-child">
+                                    <a href="javascript:"
+                                       style="text-decoration: underline"
+                                       ng-click="VitalChart ='1';WeeKDetailsList(currentTab);">
+                                        <i class="fas fa-chart-line"
+                                           class="themeProfile"></i>Chart<i class="fas fa-check"
+                                                                            ng-if="VitalChart=='1'"></i>
+                                    </a>
+                                </li>
+                                <li class="customDropdownlast-child">
+                                    <a href="javascript:" style="text-decoration: underline"
+                                       ng-click="VitalChart ='2';HistoryDetails(currentTab);">
+                                        <i class="fas fa-table"
+                                           class="themeProfile"></i>Detail<i class="fas fa-check" ng-if="VitalChart=='2'"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        End Here-->
                                                 <!-- Added by yogesh-->
                                                 <!--<div class="changeViews">
-                                                    <a href="javascript:" ng-if="VitalChart=='1'" title="Chart View"
-                                                       ng-click="VitalChart ='2';WeeKDetailsList(currentTab);">
-                                                        <i class="fas fa-chart-bar"></i></i>
-                                                    </a>
-                                                    <a href="javascript:" ng-if="VitalChart=='2'" title="Grid View"
-                                                       ng-click="VitalChart ='1';HistoryDetails(currentTab);">
-                                                        <i class="fas fa-table" class="themeProfile"></i></i>
-                                                    </a>
-                                                    <a href="#" title="Current Time">
-                                                        <i class="far fa-clock"></i>
-                                                    </a>
-                                                    <a href="#" title="English">
-                                                        <i class="fas fa-language"></i>
-                                                    </a>
-                                                </div>-->
+                            <a href="javascript:" ng-if="VitalChart=='1'" title="Chart View"
+                               ng-click="VitalChart ='2';WeeKDetailsList(currentTab);">
+                                <i class="fas fa-chart-bar"></i></i>
+                            </a>
+                            <a href="javascript:" ng-if="VitalChart=='2'" title="Grid View"
+                               ng-click="VitalChart ='1';HistoryDetails(currentTab);">
+                                <i class="fas fa-table" class="themeProfile"></i></i>
+                            </a>
+                            <a href="#" title="Current Time">
+                                <i class="far fa-clock"></i>
+                            </a>
+                            <a href="#" title="English">
+                                <i class="fas fa-language"></i>
+                            </a>
+                        </div>-->
                                                 <!-- End Here-->
                                                 <!--<div class="dropdown">
-                                                    <button class="btn btn-primary dropdown-toggle" type="button"
-                                                        data-toggle="dropdown">Change View
-                                                        <span class="caret"></span></button>
-                                                    <ul class="dropdown-menu">
-                                                        <li>
-                                                            <a href="javascript:" style="text-decoration: underline"
-                                                                ng-click="VitalChart ='1';WeeKDetailsList(currentTab);">
-                                                                <i class="fas fa-chart-line" class="themeProfile"></i>
-                                                                Chart <i class="fas fa-check"
-                                                                    ng-if="VitalChart=='1'"></i></a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:" style="text-decoration: underline"
-                                                                ng-click="VitalChart ='2';HistoryDetails(currentTab);">
-                                                                <i class="fas fa-table" class="themeProfile"></i>
-                                                                Detail <i class="fas fa-check"
-                                                                    ng-if="VitalChart=='2'"></i>
-                                                            </a>
-                                                        </li>
+                            <button class="btn btn-primary dropdown-toggle" type="button"
+                                data-toggle="dropdown">Change View
+                                <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="javascript:" style="text-decoration: underline"
+                                        ng-click="VitalChart ='1';WeeKDetailsList(currentTab);">
+                                        <i class="fas fa-chart-line" class="themeProfile"></i>
+                                        Chart <i class="fas fa-check"
+                                            ng-if="VitalChart=='1'"></i></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:" style="text-decoration: underline"
+                                        ng-click="VitalChart ='2';HistoryDetails(currentTab);">
+                                        <i class="fas fa-table" class="themeProfile"></i>
+                                        Detail <i class="fas fa-check"
+                                            ng-if="VitalChart=='2'"></i>
+                                    </a>
+                                </li>
 
-                                                    </ul>
-                                                </div>-->
+                            </ul>
+                        </div>-->
                                                 <div ng-show="VitalChart=='2'">
 
                                                     <div id="table1">
@@ -1362,17 +1362,17 @@
                                                             </div>
                                                             <div class="col-sm-4">
                                                                 <!--<div class="inputGroups">
-                                                                    <div ng-if="currentTab=='2' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
-                                                                        <a href="javascript:" ng-click="AddVitalsPopUp()"
-                                                                           class="theme-btn-1"
-                                                                           title='Add New Vitals'>Add New</a>
-                                                                    </div>
-                                                                    <div ng-if="currentTab=='3' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
-                                                                        <a href="javascript:" ng-click="AddVitalsPopUp()"
-                                                                           class="theme-btn-1 ml-10"
-                                                                           title='Add New Lab'>Add New</a>
-                                                                    </div>
-                                                                </div>-->
+                                            <div ng-if="currentTab=='2' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
+                                                <a href="javascript:" ng-click="AddVitalsPopUp()"
+                                                   class="theme-btn-1"
+                                                   title='Add New Vitals'>Add New</a>
+                                            </div>
+                                            <div ng-if="currentTab=='3' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
+                                                <a href="javascript:" ng-click="AddVitalsPopUp()"
+                                                   class="theme-btn-1 ml-10"
+                                                   title='Add New Lab'>Add New</a>
+                                            </div>
+                                        </div>-->
                                                             </div>
 
                                                         </div>
@@ -1457,7 +1457,7 @@
 
 
                                                                     </a>
-                                                                   
+
                                                                     <a href="javascript:"
                                                                        ng-click="DeleteParameters(row.Id, row.ParameterId)"
                                                                        title="Active" ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
@@ -1479,10 +1479,10 @@
                                                             <tr>
                                                                 <td colspan="7" class="text-center">
                                                                     <!--<div st-items-by-page="page_size"
-                                                                         st-page-change="rembemberCurrentPage(newPage)"
-                                                                         st-pagination=""
-                                                                         st-template="Masters/Views/pagination.custom.html">
-                                                                    </div>-->
+                                                 st-page-change="rembemberCurrentPage(newPage)"
+                                                 st-pagination=""
+                                                 st-template="Masters/Views/pagination.custom.html">
+                                            </div>-->
                                                                     <!-- THis Hidden Input for fetching the current TAB  value - for Pagination issue-->
                                                                     <input style="width: 130px" class="text-center" type="hidden" ng-model="inputcurrentgrpid">
                                                                     <ul class="pagination" style="margin-left:110px;">
@@ -1529,13 +1529,13 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <!--<div class="inputGroups">
-                                                        <button type="button" class="theme-btn-1" title="Add New Medication" ng-click="AddMedicationPopUp()"
-                                                                ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))">
-                                                            Add New
-                                                        </button>
-                                                    </div>-->
-                                                </div>
+                           <!--<div class="inputGroups">
+                                <button type="button" class="theme-btn-1" title="Add New Medication" ng-click="AddMedicationPopUp()"
+                                        ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))">
+                                    Add New
+                                </button>
+                            </div>-->
+                        </div>
 
 
 
@@ -1631,9 +1631,9 @@
                                                         <tr>
                                                             <td colspan="7" class="text-center">
                                                                 <!--<div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
-                                                                     st-pagination=""
-                                                                     st-template="Masters/Views/pagination.custom.html">
-                                                                </div>-->
+                                             st-pagination=""
+                                             st-template="Masters/Views/pagination.custom.html">
+                                        </div>-->
                                                                 <ul class="pagination" style="margin-left:110px;">
                                                                     <li>
                                                                         <a ng-click="setPage3(1)">First</a>
@@ -1682,14 +1682,14 @@
                                                         </div>
 
                                                         <div class="col-sm-4">
-                                                            <!--<div class="inputGroups">
-                                                                <a href="javascript:" ng-click="AddPatientICD10Popup()" title="Add New Diagnosis"
-                                                                   ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1">
-                                                                    Add New
-                                                                </a>
-                                                            </div>-->
+                                    <!--<div class="inputGroups">
+                                        <a href="javascript:" ng-click="AddPatientICD10Popup()" title="Add New Diagnosis"
+                                           ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1">
+                                            Add New
+                                        </a>
+                                    </div>-->
 
-                                                        </div>
+                                </div>
 
                                                     </div>
 
@@ -1701,7 +1701,7 @@
                                                             <tr style="text-align: center">
                                                                 <th st-ratio="5%">#</th>
                                                                 <th st-ratio="5%">ICD Code</th>
-                                                                <th st-ratio="10%">Description</th>        
+                                                                <th st-ratio="10%">Description</th>
                                                                 <th st-ratio="10%">Category</th>
                                                                 <th st-ratio="30%">Remarks</th>
                                                                 <th st-ratio="15%">Active From / To</th>
@@ -1716,19 +1716,12 @@
                                                             </tr>
                                                             <tr ng-repeat="row in rowcollectionfiltericd10emptyData">
                                                                 <td class="textalign">{{((current_pageICD-1)*page_size)+$index+1}}</td>
-                                                               
-                                                                <td style="text-align: left">{{row.ICD_Code}}</td>
-                                                                <td style="text-align: left">
-                                                                    <div class="textwrap">{{row.Description}}</div>
-                                                                </td>
-                                                                <td style="text-align: left">{{row.CategoryName}}</td>
-                                                               
                                                                 <td style="text-align: left;word-break: break-word;">{{row.ICD_Code}}</td>
                                                                 <td style="text-align: left;word-break: break-word;">
                                                                     <div class="textwrap">{{row.Description}}</div>
                                                                 </td>
                                                                 <td style="text-align: left;word-break: break-word;">{{row.CategoryName}}</td>
-                                                               
+
                                                                 <td style="text-align: left">
                                                                     <div class="textwrap" style="word-break:break-word" title="{{row.Remarks}}">
                                                                         <!--{{row.Remarks}}-->
@@ -1750,10 +1743,10 @@
                                                                         <img src="../../Images/EditIcon.png" />
                                                                     </a>
                                                                     <!-- <a href="javascript:" ng-click="InActiveICDPatient(row.Id)" title="Active">
-                                                                        <img src="../../Images/activeIcon1.png" ng-show="row.IsActive==1" /></a>
-                                                                    <a href="javascript:" ng-click="ActiveICDPatient(row.Id)" title="Inactive">
-                                                                        <img
-                                                                            src="../../Images/inactive.png" ng-if="row.IsActive==0" /></a>-->
+                                                <img src="../../Images/activeIcon1.png" ng-show="row.IsActive==1" /></a>
+                                            <a href="javascript:" ng-click="ActiveICDPatient(row.Id)" title="Inactive">
+                                                <img
+                                                    src="../../Images/inactive.png" ng-if="row.IsActive==0" /></a>-->
                                                                     <a href="javascript:" title="Active" ng-click="InActiveICDPatient(row.Id)" ng-show="((UserTypeId==4)||(UserTypeId ==7)||(UserTypeId ==5))">
                                                                         <img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" />
                                                                     </a>
@@ -1768,8 +1761,8 @@
                                                             <tr>
                                                                 <td colspan="8" class="text-center">
                                                                     <!--<div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
-                                                                         st-pagination="" st-template="Masters/Views/pagination.custom.html">
-                                                                    </div>-->
+                                                 st-pagination="" st-template="Masters/Views/pagination.custom.html">
+                                            </div>-->
                                                                     <ul class="pagination" style="margin-left:110px;">
                                                                         <li>
                                                                             <a ng-click="setPage2(1)">First</a>
@@ -1817,10 +1810,10 @@
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <!--<div class="inputGroups">
-                                                            <a href="javascript:" title="Add New Allergy" ng-if="(UserTypeId== 4)||(UserTypeId==5)||(UserTypeId==7)||(UserTypeId==2)"
-                                                               ng-click="AddAllergyPopUp()" width="55%"
-                                                               class="theme-btn-1">Add New</a>
-                                                        </div>-->
+                                    <a href="javascript:" title="Add New Allergy" ng-if="(UserTypeId== 4)||(UserTypeId==5)||(UserTypeId==7)||(UserTypeId==2)"
+                                       ng-click="AddAllergyPopUp()" width="55%"
+                                       class="theme-btn-1">Add New</a>
+                                </div>-->
 
                                                     </div>
                                                 </div>
@@ -1870,8 +1863,8 @@
 
 
                                                             <!-- <td style="text-align: left">
-                                                                {{Allen.OnSetDate| date:'dd-MMM-yyyy'}}
-                                                            </td>-->
+                                        {{Allen.OnSetDate| date:'dd-MMM-yyyy'}}
+                                    </td>-->
                                                             <td style="text-align: left; max-width:150px; word-wrap:break-word;">
                                                                 {{Allen.Created_By_Name}}<br />{{Allen.Created_Dt|  date :'dd-MMM-yyyy hh:mm:ss a'}}
                                                             </td>
@@ -1903,9 +1896,9 @@
                                                         <tr>
                                                             <td colspan="9" class="text-center">
                                                                 <!--<div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
-                                                                     st-pagination=""
-                                                                     st-template="Masters/Views/pagination.custom.html">
-                                                                </div>-->
+                                             st-pagination=""
+                                             st-template="Masters/Views/pagination.custom.html">
+                                        </div>-->
                                                                 <ul class="pagination" style="margin-left:110px;">
                                                                     <li>
                                                                         <a ng-click="setPage4(1)">First</a>
@@ -1950,7 +1943,7 @@
                                                             <input toggle-checkbox ng-model="NotesActive" type="checkbox"
                                                                    ng-change="patientnotelist();" title="Active / All">
                                                             <!--<a href="javascript:" ng-click="PatientNotesAddPopup()" width="15%" class="ml-10 theme-btn-1"
-                                                            title='Add New Patient Notes'>Add New</a>-->
+                                    title='Add New Patient Notes'>Add New</a>-->
                                                         </div>
                                                     </div>
 
@@ -2025,7 +2018,7 @@
                                                         <tr>
                                                             <td colspan="7" class="text-center">
                                                                 <!--<div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
-                                                                mplate="Masters/Views/pagination.custom.html"></div>-->
+                                        mplate="Masters/Views/pagination.custom.html"></div>-->
                                                                 <ul class="pagination" style="margin-left:110px;">
                                                                     <li>
                                                                         <a ng-click="setPage1(1)">First</a>
@@ -2068,9 +2061,9 @@
                                                             <input toggle-checkbox ng-model="OtherData_IsActive" type="checkbox" ng-change="Patient_OtherData_List();"
                                                                    title="Active / All">
                                                             <!--<a href="javascript:" ng-click="Patient_OtherData_AddModal(OtherData_ClearPopup())"
-                                                               class="theme-btn-1 ml-10" title='Add New Other Data' ng-if="(UserTypeId!= 6)">
-                                                                Add New
-                                                            </a>-->
+                                       class="theme-btn-1 ml-10" title='Add New Other Data' ng-if="(UserTypeId!= 6)">
+                                        Add New
+                                    </a>-->
                                                         </div>
                                                     </div>
 
@@ -2081,13 +2074,13 @@
                                                            class="table themeTable">
                                                         <thead>
                                                             <!--<tr style="text-align: center">
-                                                                <th width="5%">#</th>
-                                                                <th width="20%">Document Name</th>
-                                                                <th width="20%">File</th>
-                                                                <th width="15%">Created By</th>
-                                                                <th width="15%">Created On</th>
-                                                                <th width="15%">Action</th>
-                                                            </tr>-->
+                                        <th width="5%">#</th>
+                                        <th width="20%">Document Name</th>
+                                        <th width="20%">File</th>
+                                        <th width="15%">Created By</th>
+                                        <th width="15%">Created On</th>
+                                        <th width="15%">Action</th>
+                                    </tr>-->
                                                             <tr style="text-align: center">
                                                                 <th st-ratio="5">#</th>
                                                                 <th st-ratio="20">Document Name</th>
@@ -2160,7 +2153,7 @@
                                                             <tr>
                                                                 <td colspan="8" class="text-center">
                                                                     <!--<div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/paginationustom.html">
-                                                                    </div>-->
+                                            </div>-->
                                                                     <ul class="pagination" style="margin-left:110px;">
                                                                         <li>
                                                                             <a ng-click="setPage5(1)">First</a>
@@ -2220,13 +2213,13 @@
                                                 </div>
 
                                                 <!--<div class="col-sm-4" ng-repeat="row in PatientLiveDataList">
-                                                    <div class="alert alert-success nibp" ng-if="row.Type_Id==2 && LiveData_IsImage(row.UOM_Name)==false">
-                                                        <a href="home/GetPatient_OtherDataDocument?Id={{row.ParameterId}}" target="_blank">{{row.UOM_Name}}</a>
-                                                    </div>
-                                                    <div class="alert alert-success nibp" ng-if="row.Type_Id==2 && LiveData_IsImage(row.UOM_Name)==true">
-                                                        <img class="responsiveProfileImage" src="{{'data:image/png;base64,'+ row.LiveData_Blob}}" />
-                                                    </div>
-                                                </div>-->
+                            <div class="alert alert-success nibp" ng-if="row.Type_Id==2 && LiveData_IsImage(row.UOM_Name)==false">
+                                <a href="home/GetPatient_OtherDataDocument?Id={{row.ParameterId}}" target="_blank">{{row.UOM_Name}}</a>
+                            </div>
+                            <div class="alert alert-success nibp" ng-if="row.Type_Id==2 && LiveData_IsImage(row.UOM_Name)==true">
+                                <img class="responsiveProfileImage" src="{{'data:image/png;base64,'+ row.LiveData_Blob}}" />
+                            </div>
+                        </div>-->
                                                 <!--di-->
                                             </div>
                                         </div>
@@ -3845,84 +3838,84 @@
                     </div>
                     <div class="modal-body">
                         <form>
-                            <table st-table="emptydata" style="width: 100%"
-                                   st-safe-src="PatientHealthDataChartList"
-                                   class="table themeTable">
-                                <thead>
-                                    <tr style="text-align: center">
-                                        <th width="7%">#</th>
-                                        <th width="15%">Code</th>
-                                        <th width="20%">Description</th>
-                                        <th width="15%">Category</th>
-                                        <th width="20%">Remarks</th>
-                                        <th width="15%">Active From</th>
-                                        <th width="15%">Active To</th>
-                                        <th width="5%">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="row in AddICD10List">
-                                        <td class="textalign">{{$index+1}}</td>
-                                        <td style="word-break: break-word; min-width: 129px;">
-                                            {{row.ICD_Code}} <a href="javascript:" title="Click to ICD Code"
-                                                                ng-click="ICD10codeSearchPopup($index);Icd10Clear()">Select</a>
-                                        </td>
-                                        <td style="word-break: break-word; min-width: 119px;">
-                                            {{row.Description}}
-                                        </td>
-                                        <td style="word-break: break-word; min-width: 119px;">
-                                            {{row.CategoryName}}
-                                        </td>
-                                        <td style="text-align: center">
-                                            <textarea type="text" ng-model="row.ICD_Remarks" class="form-control" maxlength="250"
-                                                      ng-maxlength="250" />
-                                        </td>
-                                        <td>
-                                            <div class="inputGroups">
-                                                <input type="date" id="AFDate" max="2099-12-31" class="form-control" ng-model="row.Active_From"
-                                                       style="width: 165px">
-                                                <!--<span class="input-group-addon">
-                                                <i class="glyphicon glyphicon-th"></i>
-                                                </span>-->
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="inputGroups">
-                                                <input type="date" id="ATDate" max="2099-12-31" class="form-control" ng-model="row.Active_To"
-                                                       style="width: 165px">
-                                                <!--<span class="input-group-addon">
-                                                <i class="glyphicon glyphicon-th"></i>
-                                                </span>-->
-                                            </div>
-                                        </td>
+                        <table st-table="emptydata" style="width: 100%"
+                               st-safe-src="PatientHealthDataChartList"
+                               class="table themeTable">
+                            <thead>
+                                <tr style="text-align: center">
+                                    <th width="7%">#</th>
+                                    <th width="15%">Code</th>
+                                    <th width="20%">Description</th>
+                                    <th width="15%">Category</th>
+                                    <th width="20%">Remarks</th>
+                                    <th width="15%">Active From</th>
+                                    <th width="15%">Active To</th>
+                                    <th width="5%">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="row in AddICD10List">
+                                    <td class="textalign">{{$index+1}}</td>
+                                    <td style="word-break: break-word; min-width: 129px;">
+                                        {{row.ICD_Code}} <a href="javascript:" title="Click to ICD Code"
+                                                            ng-click="ICD10codeSearchPopup($index);Icd10Clear()">Select</a>
+                                    </td>
+                                    <td style="word-break: break-word; min-width: 119px;">
+                                        {{row.Description}}
+                                    </td>
+                                    <td style="word-break: break-word; min-width: 119px;">
+                                        {{row.CategoryName}}
+                                    </td>
+                                    <td style="text-align: center">
+                                        <textarea type="text" ng-model="row.ICD_Remarks" class="form-control" maxlength="250"
+                                                  ng-maxlength="250" />
+                                    </td>
+                                    <td>
+                                        <div class="inputGroups">
+                                            <input type="date" id="AFDate" max="2099-12-31" class="form-control" ng-model="row.Active_From"
+                                                   style="width: 165px">
+                                            <!--<span class="input-group-addon">
+                        <i class="glyphicon glyphicon-th"></i>
+                        </span>-->
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="inputGroups">
+                                            <input type="date" id="ATDate" max="2099-12-31" class="form-control" ng-model="row.Active_To"
+                                                   style="width: 165px">
+                                            <!--<span class="input-group-addon">
+                        <i class="glyphicon glyphicon-th"></i>
+                        </span>-->
+                                        </div>
+                                    </td>
 
 
-                                        <td style="text-align: center">
-                                            <input type="image" src="../../Images/deleteNewIcon.png"
-                                                   title='Click to Delete'
-                                                   ng-click="ICD10Delete($index)"
-                                                   ng-model="row.selectedICD10"
-                                                   style="width: 20px;" id="Image1" />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </form>
+                                    <td style="text-align: center">
+                                        <input type="image" src="../../Images/deleteNewIcon.png"
+                                               title='Click to Delete'
+                                               ng-click="ICD10Delete($index)"
+                                               ng-model="row.selectedICD10"
+                                               style="width: 20px;" id="Image1" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                            </form>
                         <a href="javascript:" title="Click to Add" style="color: #337ab7;"
                            ng-click="PatientICD10Insert()">|Add|</a>
-                    </div>
-                    <div class="modal-footer" style="text-align: center;">
-                        <div class="col-sm-offset-2 col-sm-9">
-                            <button type="button" class="theme-btn-1" title="Click to Save" id="buttonsave" ng-disabled="false"
-                                    ng-click="PatientICD10_InsertUpdate()">
-                                Save
-                            </button>
-                            <button type="button" title="Click to Cancel" class="theme-btn-2" ng-click="CancelAddICD10Popup()">
-                                Cancel
-                            </button>
+                        </div>
+                        <div class="modal-footer" style="text-align: center;">
+                            <div class="col-sm-offset-2 col-sm-9">
+                                <button type="button" class="theme-btn-1" title="Click to Save" id="buttonsave" ng-disabled="false" 
+                                        ng-click="PatientICD10_InsertUpdate()">
+                                    Save
+                                </button>
+                                <button type="button" title="Click to Cancel" class="theme-btn-2" ng-click="CancelAddICD10Popup()">
+                                    Cancel
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
         <div id="ICD10CodeListModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false" style="z-index: 2040">
@@ -5693,8 +5686,25 @@
                                 <div class="flex mb-8" style="max-width: 680px; word-wrap: break-word; }">
                                     <div class="col-sm-7 flex p-0">
                                         <div class="" style="width:20%">
-                                            <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6">
-                                                <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
+                                            <!--<div .ng-if="(uploadme!=null && uploadme!='')" valign="top" rowspan="6">
+        <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ DoctorDetailList.Photo}}" />
+    </div>-->
+                                            <div ng-if="(ViewGender| lowercase)=='male' && (uploadme==null)&&uploadview ==true"
+                                                 valign="top" rowspan="6">
+                                                <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/male.png" />
+                                            </div>
+                                            <div ng-if="(ViewGender| lowercase)=='female' && (uploadme==null)&&uploadview ==true"
+                                                 valign="top" rowspan="6">
+
+                                                <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/female.png" />
+                                            </div>
+                                            <div ng-if="(ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male' && (uploadme==null) &&uploadview ==true"
+                                                 valign="top" rowspan="6">
+                                               <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/Others.png" />
+                                            </div>
+                                            <div ng-if="(uploadme!=null || uploadme!=0)&&uploadview ==true"
+                                                 valign="top" rowspan="6">
+                                                <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{uploadme}}" />
                                             </div>
                                         </div>
                                         <div class="" style="width:80%">

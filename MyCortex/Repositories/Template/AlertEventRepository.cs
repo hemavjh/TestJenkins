@@ -34,7 +34,7 @@ namespace MyCortex.Repositories.EmailAlert
             int TemplateFor;
             long EntityId;
             //string TemplateType = "Email"; //for Email based Tag
-            DataEncryption DecryptFields = new DataEncryption();
+            //DataEncryption DecryptFields = new DataEncryption();
             ////Get Template Type Id
             //List<DataParameter> Event_param = new List<DataParameter>();
             //Event_param.Add(new DataParameter("@Event_Name", Event_Name));

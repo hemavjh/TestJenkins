@@ -119,7 +119,7 @@ namespace MyCortex.Repositories.User
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption decrypt = new DataEncryption();
+                //DataEncryption decrypt = new DataEncryption();
                 DataTable dt = new DataTable();
                 if (TypeId == 1)
                 {
@@ -314,7 +314,7 @@ namespace MyCortex.Repositories.User
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
+                //DataEncryption DecryptFields = new DataEncryption();
                 DataTable dt = new DataTable();
                 if (UserTypeId == 6)
                 {
