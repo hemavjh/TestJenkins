@@ -56,7 +56,8 @@ var EmpApp = angular.module('EmpApp', [
     'CoordinatorController',
     'CommonController',
     'AppointmentSlotController',
-    'SlotTimingController'
+    'SlotTimingController',
+    'DoctorAppointmentDetailsForOthersController'
 ]);
 
 
@@ -421,6 +422,10 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         when('/Admin_Userslog_List', {
             templateUrl: baseUrl + 'Admin/Views/HospitalAdmin_Userslog.html',
             controller: 'UsersLogController'
+        }).
+        when('/DoctorAppointmentDetails', {
+            templateUrl: baseUrl + 'Masters/Views/DoctorAppointmentDetails_For_Others.html',
+            controller: 'DoctorAppointmentDetailsForOthersController'
         }).
     otherwise({
         redirectTo: '/Googlehome'

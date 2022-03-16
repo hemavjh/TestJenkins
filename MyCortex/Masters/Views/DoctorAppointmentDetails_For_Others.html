@@ -1,0 +1,111 @@
+﻿<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        document.getElementById("Appointment").className += 'activeButton';
+        $('#doctorlist').next().children(':nth-child(1)').css('width', '100%');
+        $('#timezone').next().children(':nth-child(1)').css('width', '100%');
+    });
+</script>
+
+<h1 class="page-title">Doctor Appointment Details</h1>
+<div>
+
+    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
+        <div></div>
+        <div></div>
+    </div>
+    <div class="panel panel-default">
+        <form role="form" class="panel-body">
+            <div class="col-sm-3">
+                <div class="inputGroups">
+                    <label class="sub-title">
+                        Select Doctor<sup>
+                            <font class='mandatory-field'>*</font>
+                        </sup>
+                    </label>
+                    <!--<select id="Specialist" ng-model="SelectedDoctor" multiple="multiple"
+            ng-options="item2.Id as item2.FullName for item2 in DoctorList"
+            multiselect-dropdown style="width: 220px;"></select>-->
+                    <select id="doctorlist" class="col-sm-12" ng-model="SelectedDoctor" data-live-search="true" data-selectpicker data-collection-name="DoctorList">
+                        <option ng-repeat="list in DoctorList" value="{{list.Id}}">{{list.FullName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="inputGroups">
+                    <label class="sub-title">
+                        Select Date<sup>
+                            <font class='mandatory-field'>*</font>
+                        </sup>
+                    </label>
+                    <input id="SearchDate" class="form-control" type="date" ng-model="SearchDate" />
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="inputGroups">
+                    <label class="sub-title">
+                        Select TimeZone<sup>
+                            <font class='mandatory-field'>*</font>
+                        </sup>
+                    </label>
+                    <select id="timezone" class="col-sm-12" ng-model="TimeZoneID" data-live-search="true" data-selectpicker data-collection-name="TimeZoneList" ng-change="ddltimezonechange()">
+                        <option ng-repeat="list in TimeZoneList" value="{{list.TimeZoneId}}">{{list.TimeZoneDisplayName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-1">
+                <div class="inputGroups pt-17">
+                    <a href="javascript:void(0);" ng-click="DoctorAppointmentlist();" class="theme-btn-1 pull-right mt-15"
+                       title="Click to View Dotor Appointment List">Submit</a>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" st-search="query"
+           class="table themeTable">
+        <thead>
+            <tr style="text-align: center">
+                <th st-ratio="5">S.No</th>
+                <th st-ratio="10" st-sort="Generic_Name">Patient Name</th>
+                <th st-ratio="8" st-sort="ToDate">Shift Start Time</th>
+                <th st-ratio="8" st-sort="ToDate">Shift End Time</th>
+                <th st-ratio="8">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="flag==0 && rowCollectionFilter.length==0">
+                <td colspan="15" style="text-align: center">
+                    No Data Available
+                </td>
+            </tr>
+            <tr ng-repeat="row in emptydata">
+                <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+
+                <td style="text-align: left; max-width: 150px; word-wrap: break-word; ">
+                    <div class="textwrap">{{row.PatientName.length > 25 ? row.PatientName.substring(0,25)+"..." : row.PatientName}}</div>
+                </td>
+                <td style="text-align: left">
+                    {{row.FromTime}}
+                </td>
+                <td style="text-align: left">
+                    {{row.ToTime}}
+                </td>
+                <td style="text-align: center">
+        <a href="javascript:void(0);" ng-click="CancelPatientShift(row.id)" title="View">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </a>
+    </td>
+            </tr>
+        </tbody>
+        <!--<tfoot ng-show="rowCollectionFilter.length >10">
+            <tr>
+                <td colspan="15" class="text-center">
+                    <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                         st-template="Masters/Views/pagination.custom.html"></div>
+                </td>
+            </tr>
+        </tfoot>-->
+    </table>
+</div>

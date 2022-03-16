@@ -108,6 +108,8 @@ namespace MyCortex.User.Model
         public string ToTime { get; set; }
         public string AppointmentTime { get; set; }
         public bool IsBooked { get; set; }
+        public string PatientName { get; set; }
+        public long? id { get; set; }
     }
 
     public class DoctorAppointmentTimeSlotReturnModel
