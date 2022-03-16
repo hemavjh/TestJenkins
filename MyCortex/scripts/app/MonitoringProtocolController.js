@@ -6,8 +6,16 @@ if (baseUrl == "/") {
 }
 
 
-MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'toastr',
-    function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
+MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$rootScope', '$window', 'filterFilter', 'toastr',
+    function ($scope, $http, $filter, $routeParams, $location, $rootScope, $window, $ff, toastr) {
+
+        $scope.isPatientMonitornigProtocol = "";
+        $scope.InsModule_List = $rootScope.InsModuleList;
+        if ($rootScope.InsModuleList != null) {
+            if ($rootScope.InsModuleList.length > 0) {
+                $scope.isPatientMonitornigProtocol = $filter('filter')($rootScope.InsModuleList, { Module_Id: '35' })[0];
+            }
+        }
 
         //List Page Pagination.
         $scope.current_page = 1;
@@ -39,12 +47,16 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
 
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD,VIEW AND EDIT */
         $scope.AddMonitoringProtocolPopup = function () {
-            $scope.submitted = false;
-            $scope.IsAdd = 1;
-            $('#btnsave').attr("disabled", false);
-            angular.element('#ProtocolCreateModal').modal('show');
-            $scope.MonitoringProtocolDropDownList();
+            if (typeof ($scope.isPatientMonitornigProtocol) != 'undefined' && $scope.isPatientMonitornigProtocol != "") {
+                $scope.submitted = false;
+                $scope.IsAdd = 1;
+                $('#btnsave').attr("disabled", false);
+                angular.element('#ProtocolCreateModal').modal('show');
+                $scope.MonitoringProtocolDropDownList();
 
+            } else {
+                toastr.warning("This feature is not available for this user", "warning");
+            }
         }
 
         $scope.AddCloneProtocolPopup = function () {
