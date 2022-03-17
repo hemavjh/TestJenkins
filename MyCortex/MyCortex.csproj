@@ -499,6 +499,7 @@
     <Content Include="Login\Views\Loginhome.html" />
     <Content Include="Login\Views\Signup.html" />
     <Content Include="Masters\Views\AllergyMasterList.html" />
+    <Content Include="Masters\Views\AppointmentApproval.html" />
     <Content Include="Masters\Views\AttendanceDetails.html" />
     <Content Include="Masters\Views\DeviceList.html" />
     <Content Include="Masters\Views\DoctorAppointmentDetails_For_Others.html" />
@@ -533,6 +534,7 @@
     <Content Include="scripts\angular-ui.js" />
     <Content Include="scripts\angular.js" />
     <Content Include="scripts\angular.min.js" />
+    <Content Include="scripts\app\AppointmentApprovalController.js" />
     <Content Include="scripts\app\AlertConfigurationController.js" />
     <Content Include="scripts\app\AllergyMasterListController.js" />
     <Content Include="scripts\app\AllPatientListController.js" />
