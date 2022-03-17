@@ -969,9 +969,8 @@
                                                         <div class="uploadIconContainer theme-btn-1 mr-10" style="align-items:left!important; justify-content: flex-start;">
                                                             <label for="EditDocument" class="uploadIconBtn" style="display:initial;" title="Click to Upload File">
                                                                 <i class="fa fa-upload" aria-hidden="true"></i>
+                                                                <span style="text-align: left;">Upload File</span>
                                                             </label>
-
-                                                            <span style="text-align: left;">Upload File</span>
                                                         </div>
                                                         <a href="javascript:" class="theme-btn-2" ng-click="fileclear()">
                                                             Clear
@@ -1265,7 +1264,10 @@
                                                 <div class="col-sm-6">
                                                     <div class="inputGroups">
                                                         <label>Certificates Upload</label>
-                                                        <a href="home/GetPatient_UserDocument?Id={{Id}}" target="_blank">{{CertificateFileName}}</a>
+                                                        <!--<a href="home/GetPatient_UserDocument?Id={{Id}}" target="_blank">{{CertificateFileName}}</a>-->
+                                                        <a href="javascript:;" ng-click="CertificateView(Id)">
+                                                            <div class="textwrap">{{CertificateFileName}}</div>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>

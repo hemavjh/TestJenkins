@@ -3479,7 +3479,7 @@
                                         <select class="form-control" data-style="form-control" id="AllergyTypeselectpicker"
                                                 data-live-search="true" data-selectpicker data-collection-name="AllergyTypeList"
                                                 ng-model="AllergyTypeId"
-                                                ng-change="AllegenBasedType(AllergyTypeId);AllergenNameClearFunction()">
+                                                ng-change="AllegenBasedType(AllergyTypeId);AllergenNameClearFunction()" onchange="fngetalltypename();">
                                             <option ng-repeat="sel in AllergyTypeList" ng-selected="AllergyTypeId==sel.Id" ng-required="true"
                                                     value="{{sel.Id}}">
                                                 {{sel.AllergyTypeName}}
@@ -4384,7 +4384,7 @@
                                                     <label>Start Date</label>
                                                 </td>
                                                 <td>
-                                                    {{StartDate}}
+                                                    {{StartDateView}}
                                                 </td>
                                             </tr>
                                             <tr>
@@ -4392,7 +4392,7 @@
                                                     <label>End Date</label>
                                                 </td>
                                                 <td>
-                                                    {{EndDate}}
+                                                    {{EndDateView}}
                                                 </td>
                                             </tr>
                                         </table>
@@ -7038,6 +7038,7 @@ Works in Mozilla, Webkit & IE.
                 });
                 function fngetalltypename() {
                     var getalltypename = $("#AllergyTypeselectpicker option:selected").text();
+                    
                     document.getElementById('alltypename').value = getalltypename.trim();
                 }
             </script>

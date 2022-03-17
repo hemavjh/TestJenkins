@@ -148,6 +148,14 @@
                         <option id="chkCC" ng-model="chronicCC" value="CC">CC</option>
                         <option id="chkSC" ng-model="chronicSC" value="SC">SC</option>
                     </select>
+                    <select class="form-control" id="chkChronic" style="max-width:100% !important" multiple="multiple" multiselect-dropdown
+                            ng-change="onChangeChronic(Config_value[row.ID],row.ID)"
+                            ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='CHRONIC CODE' && IsEdit==false" disabled>
+                        <option id="chkCL" ng-model="chronicCL" value="CL">CL</option>
+                        <option id="chkCG" ng-model="chronicCG" value="CG">CG</option>
+                        <option id="chkCC" ng-model="chronicCC" value="CC">CC</option>
+                        <option id="chkSC" ng-model="chronicSC" value="SC">SC</option>
+                    </select>
 
                     <select class="form-control" style="max-width:100% !important"
                             ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='AUTO_SIGNUP_APPROVAL' && IsEdit==true">
@@ -156,8 +164,14 @@
                     </select>
 
                     <div ng-if="row.CONFIGCODE=='BT_DEVICE_DATA_POST' && IsEdit==true">
-                        <input style="margin-left: 5px !important" type="radio" value="Auto" ng-model="Config_value[row.ID]"> Auto
+                        <!-- && IsEdit==true this is in the ng-if statement-->
+                        <input style="margin-left: 5px !important;" type="radio" value="Auto" ng-model="Config_value[row.ID]"> Auto
                         <input style="margin-left: 5px !important" type="radio" value="Manual" ng-model="Config_value[row.ID]"> Manual
+                    </div>
+                    <div ng-if="row.CONFIGCODE=='BT_DEVICE_DATA_POST' && IsEdit==false">
+                        <!-- && IsEdit==true this is in the ng-if statement-->
+                        <input style="margin-left: 5px !important;" type="radio" value="Auto" ng-model="Config_value[row.ID]" disabled> Auto
+                        <input style="margin-left: 5px !important" type="radio" value="Manual" ng-model="Config_value[row.ID]" disabled> Manual
                     </div>
                     <!--<select class="form-control" style="max-width:100% !important" ng-model="SelectedChronic" multiple="multiple" ng-change="onChangeChronic();"
     ng-options="item1.CHRONICID as item1.CHRONICNAME for item1 in ChronicCodeList"
@@ -165,7 +179,7 @@
     </select>-->
                     <input type="text" class="form-control" style="max-width:100% !important" id="{{row.CONFIGCODE}}"
                            ng-model="Config_value[row.ID]" placeholder="" ng-if="row.CONFIGCODE!='CHRONIC CODE' && row.CONFIGCODE!='FULLNAME_FORMULA' && row.CONFIGCODE!='BT_DEVICE_DATA_POST' && row.CONFIGCODE!='AUTO_SIGNUP_APPROVAL' && row.CONFIGCODE!='DATEFORMAT_TYPE' && row.CONFIGCODE!='TIMEFORMAT_TYPE' && row.CONFIGCODE!='NUMBER_FORMAT_TYPE' && row.CONFIGCODE!='CURRENCY_FORMAT_TYPE' && row.CONFIGCODE!='MEDICATION_END_DATE' && IsEdit==true">
-                    <span ng-if="IsEdit==false">{{Config_value[row.ID]}}</span>
+                    <span ng-if="IsEdit==false && (row.CONFIGCODE!='BT_DEVICE_DATA_POST' && row.CONFIGCODE!='CHRONIC CODE')">{{Config_value[row.ID]}}</span>
                 </td>
             </tr>
         </tbody>

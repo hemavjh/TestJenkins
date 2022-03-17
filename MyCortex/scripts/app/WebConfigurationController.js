@@ -21,6 +21,7 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
 
         $scope.WebConfigCancel = function () {
             $scope.WebConfigurationList();
+            $scope.ChronicEdit();
             $scope.IsEdit = false;
         }
 
@@ -146,6 +147,7 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                     angular.forEach($scope.rowCollectionWebConfiguration, function (masterVal, masterInd) {
                         $scope.Config_value[masterVal.ID] = masterVal.CONFIGVALUE;
                     });
+                    $scope.ChronicEdit();
                 }).error(function (data) {
                     $scope.error = "AN error has occured while Listing the records!" + data;
                 })
@@ -283,7 +285,7 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                             INSTITUTION_ID: value.INSTITUTION_ID,
                             CONFIGVALUE: CHRONIC_CODE == 0 || CHRONIC_CODE == "" ? '' : CHRONIC_CODE,
                         }
-                    }
+                    } 
                     else {
                         obj = {
                             Id: value.ID,

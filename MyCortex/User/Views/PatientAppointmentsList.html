@@ -10,7 +10,7 @@
             <li style="width:33.3% !important;"><a data-toggle="tab" href="#Past">Past</a></li>
             <li style="width:33.4% !important;"><a data-toggle="tab" href="#Waiting_Appointment">Waiting</a></li>
         </ul>
-        <div class="tab-content centerScroll" style="display:inherit !important; height: 212px;">
+        <div infinityscroll="NextPage('appt','apptscrol')" id="apptscrol" class="tab-content centerScroll" style="display:inherit !important; height: 212px;">
 
             <div id="Past" class="tab-pane fade">
                 <div class="" ng-repeat="Row in PreviousAppointmentDetails" ng-hide="PreviousAppointmentCount == 0">
