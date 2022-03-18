@@ -67,6 +67,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.DepartmentId = "0";
         $scope.UserTypeId = "0";
         $scope.GenderId = "0";
+        $scope.Patient_Search = 0;
         $scope.Health_License = "";
         $scope.Title_Id = 0;
         $scope.NationalityId = "0";
@@ -1865,6 +1866,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.filter_MOBILE_NO2 = $scope.Patientsearchquery;
                         $scope.Filter_MRN2 = $scope.Patientsearchquery;
                     }
+                    $scope.Patient_Search = 0;
                     getallpatientlist();
                 }
             }
@@ -1879,6 +1881,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.filter_Email2 = $scope.filter_Email;
             $scope.filter_MOBILE_NO2 = $scope.filter_MOBILE_NO;
             $scope.Filter_MRN2 = $scope.Filter_MRN;
+            $scope.Patient_Search = 1;
             getallpatientlist();
         }
 
@@ -1888,7 +1891,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $http.get(baseUrl + '/api/User/Search_Patient_List?IsActive=' + $scope.ActiveStatus + '&INSTITUTION_ID=' + $window.localStorage['InstitutionId'] + '&SearchQuery=' + $scope.Patientsearchquery + '&PATIENTNO=' + $scope.Filter_PatientNo2
                 + '&INSURANCEID=' + $scope.filter_InsuranceId2 + '&NATIONALITY_ID=' + $scope.filter_NationalityId2 + '&MOBILE_NO=' +
                 $scope.filter_MOBILE_NO2 + '&EMAILID=' + $scope.filter_Email2 + '&FIRSTNAME=' + $scope.Filter_FirstName2 + '&LASTNAME=' + $scope.Filter_LastName2 + '&MRNNO=' + $scope.Filter_MRN2 + '&StartRowNumber=' + $scope.PageStart +
-                '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                '&EndRowNumber=' + $scope.PageEnd + '&AdvanceFilter=' + $scope.Patient_Search).success(function (data) {
                     $("#chatLoaderPV").hide();
                     if (data.length == 0) {
                         $scope.SearchMsg = "No Data Available";
