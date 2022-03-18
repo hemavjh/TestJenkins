@@ -417,7 +417,7 @@
                 <a href="javascript:" ng-click="ViewUserPopUP(row.Id)" title="View">
                     <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
-                <a href="javascript:;" ng-click="row.IsActive == 0 || EditUserPopUP(row.Id)" title="Edit">
+                <a href="javascript:;" ng-click="row.IsActive == 0 || EditUserPopUP(row.Id)" title="Edit" onclick="SetmaxDateDOB();">
 
                     <i class="fa fa-pencil" aria-hidden="true" ng-if="row.IsActive==1"></i>
                     <a href="javascript:"
@@ -1105,7 +1105,7 @@
                                                     </div>
                                                     <div class="inputGroups">
                                                         <label>Mobile No.</label>
-                                                        <span>{{MobileNo}}</span>
+                                                        <span>{{MobileNoView}}</span>
                                                     </div>
                                                     <div class="inputGroups">
                                                         <label>Type of User</label>

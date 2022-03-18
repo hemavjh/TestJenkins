@@ -244,7 +244,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.DoctorInstitutionList = [];
         $scope.DoctorInstitutionList = [];
 
-        $scope.maxdateDOB = '';
+        //$scope.maxdateDOB = '';
         // get minimum age from configuration set max date in DOB
         $scope.ConfigCode = "PATIENT_MIN_AGE";
         $scope.Today_Date = $filter('date')(new Date(), 'dd-MMM-yyyy');
@@ -253,7 +253,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             success(function (data) {
                 if (data[0] != undefined) {
                     $scope.PatientMinAge = parseInt(data[0].ConfigValue);
-                    $scope.maxdateDOB = moment().subtract($scope.PatientMinAge, 'years').format("YYYY-MM-DD");                    
+                    $scope.maxdateDOB = moment().subtract($scope.PatientMinAge, 'years').format("YYYY-MM-DD");
+                    var MDOB = $scope.maxdateDOB;                    
+                    angular.element(document.getElementById('maxdateDOB')).val(MDOB);
+                    angular.element('#Date_Birth').attr('max', $scope.maxdateDOB);
                 }
             });
         $scope.EditgroupOption = 0;
@@ -919,7 +922,20 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.InstitutionSubscriptionLicensecheck(UserTypeId);
             $scope.AppConfigurationProfileImageList();
             $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
-            //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+           
+            /*$scope.ConfigCode = "PATIENT_MIN_AGE";
+            $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).
+            success(function (data) {
+                if (data[0] != undefined) {
+                    $scope.PatientMinAge = parseInt(data[0].ConfigValue);
+                    $scope.maxdateDOB = moment().subtract($scope.PatientMinAge, 'years').format("YYYY-MM-DD");*/
+            $scope.maxdateDOB = $scope.maxdateDOB;
+                    angular.element('#maxdateDOB').val($scope.maxdateDOB);
+                    angular.element('#Date_Birth').attr('max', $scope.maxdateDOB);
+                /*}
+            });*/
+
             $location.path("/PatientCreate/" + "2" + "/" + "3");
         }
 

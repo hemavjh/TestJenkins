@@ -3291,7 +3291,7 @@ namespace MyCortex.User.Controller
             try
             {
                 msg = repository.MedicationInsertUpdateDateOverLapping(Login_Session_Id, insobj);
-                if (msg != "")
+                if (msg != "" && msg!=null)
                 {
                     model.Message = msg;
                 }
@@ -3327,7 +3327,7 @@ namespace MyCortex.User.Controller
 
                 }
                 model.DrugDBMaster = ModelData;
-                if (msg != "")
+                if (msg != "" && msg!=null)
                 {
                     model.Message = msg;
                 }
