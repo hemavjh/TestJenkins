@@ -238,6 +238,21 @@ namespace MyCortex.User.Controllers
             }
         }
 
+        [HttpGet]
+        public IList<DoctorAppoinmentSlotModel> CG_Doctors_List(long? Institution_Id, long? CC_CG)
+        {
+            IList<DoctorAppoinmentSlotModel> model;
+            try
+            {
+                model = repository.CG_Doctors_List(Institution_Id, CC_CG);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         /// <summary>      
         /// Settings  --> Active Appoinment Slot List details (menu) -- > List Page (result)
         /// to get the list of Appoinment Slot List for the specified filters

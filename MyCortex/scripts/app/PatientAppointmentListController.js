@@ -19,9 +19,9 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
         function intial_loading() {
             patientAppointmentList();
             getPreviousAppointmentList();
-            if ($scope.$parent.userTypeId == 5) {
-                CG_PatientAppointment_List();
-            }
+            //if ($scope.$parent.userTypeId == 5) {
+            //    CG_PatientAppointment_List();
+            //}
         }
         $scope.Patient_PerPage = 0;
         $scope.PageStart = 0;
