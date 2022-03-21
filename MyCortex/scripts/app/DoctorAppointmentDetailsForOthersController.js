@@ -13,7 +13,7 @@ DoctorAppointmentDetails.controller("DoctorAppointmentDetailsForOthersController
         $scope.DoctorList = [];
         $scope.emptydata = [];
         $scope.rowCollectionFilter = [];
-        $scope.TimeZoneList = [];
+        //$scope.TimeZoneList = [];
         $scope.TimeZoneID = 0;
         $scope.SelectedDoctor = 0;
         $scope.flag = 0;
@@ -27,21 +27,50 @@ DoctorAppointmentDetails.controller("DoctorAppointmentDetailsForOthersController
             Datetimepickerday = '0' + Datetimepickerday.toString();
         var DatetimepickermaxDate = Datetimepickeryear + '-' + Datetimepickermonth + '-' + Datetimepickerday;
         $scope.SearchDate = new Date(DatetimepickermaxDate);
-
+        $scope.AppointmentReasonTypeList = [];
+        $scope.ReasonTypeId = 0;
+        $scope.Cancelled_Remarks = "";
+        $scope.Appointment_Id = 0;
+        $scope.TimeZone_ID = 0;
+        $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            $scope.TimeZone_ID = data.TimeZone_ID;
+        });
+        $http.get(baseUrl + '/api/PatientAppointments/AppointmentReasonType_List/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
+            $scope.AppointmentReasonTypeListTemp = [];
+            $scope.AppointmentReasonTypeListTemp = data;
+            var obj = { "ReasonTypeId": 0, "ReasonType": "Select", "IsActive": 1 };
+            $scope.AppointmentReasonTypeListTemp.splice(0, 0, obj);
+            $scope.AppointmentReasonTypeList = angular.copy($scope.AppointmentReasonTypeListTemp);
+        });
         $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
             if (data[0] != undefined) {
                 $scope.page_size = parseInt(data[0].ConfigValue);
                 $window.localStorage['Pagesize'] = $scope.page_size;
             }
         });
-        $http.get(baseUrl + '/api/AppoinmentSlot/Doctors_List/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
+        $http.get(baseUrl + '/api/AppoinmentSlot/CG_Doctors_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&CC_CG=' + $window.localStorage['UserId']).success(function (data) {
             if (data[0] != undefined) {
                 $scope.DoctorList = data;
             }
         });
-        $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-            $scope.TimeZoneList = data;
-        });
+        $scope.getTimeZoneList = function () {
+            $("#chatLoaderPV").show();
+            //$scope.TimeZoneList = [];
+            $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $scope.TimeZoneCopy = [];
+                $scope.TimeZoneCopy = data;
+                var obj = { "TimeZoneId": 0, "TimeZoneName": "", "UtcOffSet": "", "TimeZoneDisplayName": "Select", "IsActive": 1 };
+                $scope.TimeZoneCopy.splice(0, 0, obj);
+                $scope.TimeZoneList = angular.copy($scope.TimeZoneCopy);
+                $scope.TimeZoneID = $scope.TimeZone_ID;
+                setTimeout(() => {
+                    settimezone(0);
+                    settimezone($scope.TimeZone_ID);
+                   $("#chatLoaderPV").hide();
+                }, 1000);
+            });
+        }
+        $scope.getTimeZoneList();
         $scope.current_page = 1;
         $scope.page_size = $window.localStorage['Pagesize'];
 
@@ -57,7 +86,7 @@ DoctorAppointmentDetails.controller("DoctorAppointmentDetailsForOthersController
                 toastr.warning("Please Select Timezone", "warning");
                 return;
             }
-            if ($scope.SelectedDoctor_List == 0 || $scope.SelectedDoctor_List == '') {
+            if ($scope.SelectedDoctor == 0 || $scope.SelectedDoctor == '') {
                 toastr.warning("Please Select Doctor", "warning");
                 return;
             }
@@ -66,10 +95,10 @@ DoctorAppointmentDetails.controller("DoctorAppointmentDetailsForOthersController
             $http.get(baseUrl + '/api/PatientAppointments/GetDoctorAppointmentDetails/?DoctorId=' + $scope.SelectedDoctor + '&Date=' + datee + '&Login_Session_Id=' + $scope.LoginSessionId + '&TimeZoneId=' + $scope.TimeZoneID + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data1) {
                 $("#chatLoaderPV").hide();
                 $scope.rowCollectionFilter = data1.DoctorAppointmentTimeSlotList;
-                if ($scope.DoctorAppointmentTimeSlotList.length == 0) {
-                    $scope.flag = 1;
-                } else {
+                if (data1.DoctorAppointmentTimeSlotList.length == 0) {
                     $scope.flag = 0;
+                } else {
+                    $scope.flag = 1;
                 }
             }).error(function (data) { $("#chatLoaderPV").hide(); });
         }
@@ -79,15 +108,6 @@ DoctorAppointmentDetails.controller("DoctorAppointmentDetailsForOthersController
         //}
 
         $scope.CancelPatientShift = function (Id) {
-            $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-            $("#chatLoaderPV").show();
-            var objectCancel = {
-                "Id": Id,
-                "CancelledBy_Id": $window.localStorage['UserId'],
-                "Cancel_Remarks": "Test",
-                "ReasonTypeId": "1",
-                "SESSION_ID": $scope.LoginSessionId
-            }
             Swal.fire({
                 title: 'Confirm to cancel appointment',
                 html: '',
@@ -99,21 +119,67 @@ DoctorAppointmentDetails.controller("DoctorAppointmentDetailsForOthersController
                 allowOutsideClick: false,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $http.post(baseUrl + '/api/PatientAppointments/CancelPatient_Appointment/?Login_Session_Id=' + $scope.LoginSessionId, objectCancel).success(function (data) {
-                        if (data.ReturnFlag == 1) {
-                            toastr.success(data.Message, "success");
-                        }
-                        else if (data.ReturnFlag == 0) {
-                            toastr.info(data.Message, "info");
-                        }
-                        if (data.ReturnFlag == 1) {
-                            $scope.DoctorAppointmentlist();
-                        }
-                    });
+                    $scope.Cancelled_Remarks = "";
+                    $scope.Appointment_Id = Id;
+                    angular.element('#PatientAppointmentModal').modal('show');
                 } else if (result.isDenied) {
                 }
             });
-            $("#chatLoaderPV").hide();
         }
+
+        $scope.Update_CancelledAppointment = function () {
+            if (typeof ($scope.ReasonTypeId) == "undefined" || $scope.ReasonTypeId == "0") {
+                toastr.warning("Please select Reason Type", "warning");
+                return false;
+            }
+            else {
+                var obj = {
+                    CancelledBy_Id: $window.localStorage['UserId'],
+                    Id: $scope.Appointment_Id,
+                    Cancelled_Remarks: $scope.Cancelled_Remarks,
+                    ReasonTypeId: $scope.ReasonTypeId
+                }
+                $("#chatLoaderPV").show();
+                $http.post(baseUrl + '/api/PatientAppointments/CancelPatient_Appointment/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
+                    $("#chatLoaderPV").hide();
+                    if (data.ReturnFlag == 1) {
+                        toastr.success(data.Message, "success");
+                    }
+                    else if (data.ReturnFlag == 0) {
+                        toastr.info(data.Message, "info");
+                    }
+                    if (data.AppointmentDetails.PaymentStatusId == 3) {
+                        $scope.refundAppointmentId = data.AppointmentDetails.Id;
+                        $scope.refundMerchantOrderNo = data.AppointmentDetails.MerchantOrderNo;
+                        $scope.refundAmount = data.AppointmentDetails.Amount;
+                        $scope.refundOrderNo = data.AppointmentDetails.OrderNo;
+                        $scope.refundInstitutionId = data.AppointmentDetails.Institution_Id;
+
+                        var obj = {
+                            refundAppointmentId: data.AppointmentDetails.Id,
+                            refundMerchantOrderNo: data.AppointmentDetails.MerchantOrderNo,
+                            refundAmount: data.AppointmentDetails.Amount,
+                            refundOrderNo: data.AppointmentDetails.OrderNo,
+                            refundInstitutionId: data.AppointmentDetails.Institution_Id
+                        };
+
+                        $http.post(baseUrl + '/api/PayBy/RefundPayByCheckoutSession/', obj).success(function (data) {
+                            console.log(data);
+                        }).error(function (data) { console.log(data); });
+
+                    }
+                    if (data.ReturnFlag == 1) {
+                        $scope.DoctorAppointmentlist();
+                    }
+                });
+            }
+        }
+
+        $scope.Cancel_CancelledAppointment = function () {
+            angular.element('#PatientAppointmentModal').modal('hide');
+            $scope.Cancelled_Remarks = "";
+            $scope.ReasonTypeId = '0';
+        }
+
     }
 ]);

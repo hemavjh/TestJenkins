@@ -14,6 +14,7 @@ namespace MyCortex.Repositories
         IList<AppoinmentSlotModel> AppoinmentSlot_Delete(AppoinmentSlotModel noteobj);
         IList<AppoinmentSlotModel> AppoinmentSlot_Active(AppoinmentSlotModel noteobj);
         IList<DoctorAppoinmentSlotModel> Doctors_List(long? Institution_Id);
+        IList<DoctorAppoinmentSlotModel> CG_Doctors_List(long? Institution_Id, long? CC_CG);
         AppoinmentSlotModel ActivateDoctorSlot_List(long Id, long Institution_Id, long Doctor_Id);
     }
 }

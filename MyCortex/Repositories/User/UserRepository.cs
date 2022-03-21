@@ -903,7 +903,7 @@ namespace MyCortex.Repositories.Uesr
         }
 
 
-        public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber, string NATIONALITY_ID, String SearchQuery, string PATIENTNO, string INSURANCEID, string MOBILE_NO, string EMAILID, string FIRSTNAME, string LASTNAME, string MRNNO)
+        public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber, string NATIONALITY_ID, String SearchQuery, string PATIENTNO, string INSURANCEID, string MOBILE_NO, string EMAILID, string FIRSTNAME, string LASTNAME, string MRNNO, int? AdvanceFilter)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@ISACTIVE", IsActive));
@@ -918,6 +918,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@FIRSTNAME", FIRSTNAME));
             param.Add(new DataParameter("@LASTNAME", LASTNAME));
             param.Add(new DataParameter("@MRNNO", MRNNO));
+            param.Add(new DataParameter("@ADVANCE_FILTER", AdvanceFilter));
             param.Add(new DataParameter("@USERTYPE_ID", "2"));  // dont change
             //param.Add(new DataParameter("@SearchEncryptedQuery", EncryptPassword.Encrypt(SearchQuery)));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].SEARCH_PATIENT_SP_ALL_LIST", param);
