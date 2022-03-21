@@ -867,6 +867,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     }
                     $scope.DoctorDetailList = [];
                     $scope.idSelectedVote = null;
+                    $scope.ProfileDetailList = [];
                     $scope.GetDoctorDetails = function (list) {
                         $("#chatLoaderPV").show();
                         $scope.DoctorID = [];
@@ -874,20 +875,12 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         document.getElementById("show").disabled = false;
                         $scope.idSelectedVote = list;
                         $scope.DoctorID = list.Doctor_Id;
+
                         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
                         $http.get(baseUrl + '/api/User/UserDetails_View?Id=' + $scope.DoctorID + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                             $scope.DoctorDetailList = data;
-                            $http.get(baseUrl + '/api/User/UserDetails_GetPhoto/?Id=' + $scope.DoctorID).success(function (data) {
-                                methodcnt = methodcnt - 1;
-                                if (methodcnt == 0)
-                                    $scope.uploadview = true;
-                                if (data.PhotoBlob != null) {
-                                    $scope.uploadme = 'data:image/png;base64,' + data.PhotoBlob;
-                                }
-                                else {
-                                    $scope.uploadme = null;
-                                }
-                            })
+                            $scope.ViewGender = data.GENDER_NAME;
+                    
                             $("#chatLoaderPV").hide();
                             $scope.AppointmoduleID = data.Appointment_Module_Id;
                             $scope.AppointmoduleID1 = data.Appointment_Module_Id;
@@ -901,6 +894,18 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                 setTimeout(function () { document.getElementById('Radio2').click(); }, 5000);
                             }
                         })
+                        $http.get(baseUrl + '/api/User/UserDetails_GetPhoto/?Id=' + $scope.DoctorID).success(function (data1) {
+                            $scope.ProfileDetailList = data1;
+                            methodcnt = methodcnt - 1;
+                            if (methodcnt == 0)
+                                $scope.uploadview = true;
+                            if (data1.PhotoBlob == null) {
+                                $scope.uploadme2 = '';
+                            }
+                            else {
+                                $scope.uploadme2 = 'data:image/png;base64,' + data1.PhotoBlob;
+                            }
+                        });
                     }
                     function convert(str) {
                         var date = new Date(str),
