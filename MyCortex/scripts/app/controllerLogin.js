@@ -295,10 +295,14 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                 $scope.Productlogin = 1;
             }
         });
+        $http.get(baseUrl + '/api/Login/GetProduct_Details/').success(function (data) {
+            $scope.PrdImg = data[0].ProductImg;
+            $scope.prdName = data[0].ProductName;
+        });
         $http.get(baseUrl + '/api/Login/getProductName/').success(function (data) {
             var ProductName = data;
             $('#productname').val(ProductName["instanceId"]);
-            if ($('#productname').val() == "1") {
+            if ($('#productname').val() == "0") {
                 $scope.prdName = "MyHealth";
                 $scope.prductName = " MyHealth?";
             } else if ($('#productname').val() == "2") {
@@ -1110,11 +1114,15 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             $scope.DOB = DateFormatEdit($scope.DOB);
             return true;
         };
+        $http.get(baseUrl + '/api/Login/GetProduct_Details/').success(function (data) {
+            $scope.PrdImg = data[0].ProductImg;
+            $scope.prdName = data[0].ProductName;
+        });
 
         $http.get(baseUrl + '/api/Login/getProductName/').success(function (data) {
             var ProductName = data;
             $('#productname').val(ProductName["instanceId"]);
-            if ($('#productname').val() == "1") {
+            if ($('#productname').val() == "0") {
                 $scope.prdName = "MyHealth";
                 $scope.prductName = " MyHealth?";
             } else if ($('#productname').val() == "2") {
