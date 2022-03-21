@@ -34,10 +34,10 @@ AppointmentApprovalController.controller("AppointmentApprovalController", ['$sco
             $http.get(baseUrl + '/api/User/CG_PatientAppointmentList/?UserId=' + $window.localStorage['UserId'] + '&Login_Session_Id=' + $scope.LoginSessionId + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data1) {
                 $("#chatLoaderPV").hide();
                 $scope.rowCollectionFilter = data1.PatientAppointmentList;
-                if ($scope.PatientAppointmentList.length == 0) {
-                    $scope.flag = 1;
-                } else {
+                if (data1.PatientAppointmentList.length == 0) {
                     $scope.flag = 0;
+                } else {
+                    $scope.flag = 1;
                 }
             }).error(function (data) { $("#chatLoaderPV").hide(); });
         }

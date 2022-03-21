@@ -26,8 +26,8 @@
                 <th st-ratio="10" st-sort="Generic_Name">Patient Name</th>
                 <th st-ratio="8" st-sort="ToDate">Appointment Start Time</th>
                 <th st-ratio="8" st-sort="ToDate">Appointment End Time</th>
-                <th st-ratio="8"></th>
-                <th st-ratio="8"></th>
+                <th st-ratio="8">Approve</th>
+                <th st-ratio="8">Cancel</th>
             </tr>
         </thead>
         <tbody>
@@ -49,13 +49,13 @@
                     {{row.Appointment_ToTime | date:'hh: mm' }}
                 </td>
                 <td style="text-align: center">
-                    <a href="javascript:void(0);" ng-click="ApproveAppointment(row.id)" title="View">
-                        Approve
+                    <a href="javascript:void(0);" ng-click="ApproveAppointment(row.id)" title="Approve">
+                        <i class="fa fa-check" aria-hidden="true"></i>
                     </a>
                 </td>
                 <td style="text-align: center">
-                    <a href="javascript:void(0);" ng-click="CancelAppointment(row.id)" title="View">
-                        Cancel
+                    <a href="javascript:void(0);" ng-click="CancelAppointment(row.id)" title="Cancel">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
                     </a>
                 </td>
             </tr>

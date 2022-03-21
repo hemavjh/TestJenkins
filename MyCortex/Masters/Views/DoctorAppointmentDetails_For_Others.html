@@ -6,8 +6,24 @@
         $('#timezone').next().children(':nth-child(1)').css('width', '100%');
         $('#timezone').val(0);
     });
+    $(function () {
+        var dtToday = new Date();
+
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+
+        var maxDate = year + '-' + month + '-' + day;
+        $('#SearchDate').attr('min', maxDate);
+    });
+    function setdoc() { $('ul li .doc-opt:first').click(); }
     function settimezone(id) {
-        $('#timezone').val(id);
+        //$('#timezone').val(id);
+        $('ul li .time'+id).click();
     }
 </script>
 
@@ -36,7 +52,7 @@
                     ng-options="item2.Id as item2.FullName for item2 in DoctorList"
                     multiselect-dropdown style="width: 220px;"></select>-->
                     <select id="doctorlist" class="col-sm-12" ng-model="SelectedDoctor" data-live-search="true" data-selectpicker data-collection-name="DoctorList">
-                        <option ng-repeat="list in DoctorList" value="{{list.Id}}">{{list.FullName}}</option>
+                        <option ng-repeat="list in DoctorList" class="doc-opt" value="{{list.Id}}">{{list.FullName}}</option>
                     </select>
                 </div>
             </div>
@@ -57,15 +73,15 @@
                             <font class='mandatory-field'>*</font>
                         </sup>
                     </label>
-                    <!--<select id="timezone" class="col-sm-12" ng-model="TimeZoneID" data-live-search="true" data-selectpicker data-collection-name="TimeZoneList" ng-change="ddltimezonechange()">
-        <option ng-repeat="list in TimeZoneList" ng-selected="TimeZoneID == set.TimeZoneId" value="{{list.TimeZoneId}}">{{list.TimeZoneDisplayName}}</option>
-    </select>-->
-                    <select id="timezone" class="form-control" ng-model="TimeZoneID">
+                    <select id="timezone" class="col-sm-12" ng-model="TimeZoneID" data-live-search="true" data-selectpicker data-collection-name="TimeZoneList" ng-change="ddltimezonechange()">
+        <option ng-repeat="list in TimeZoneList" ng-selected="TimeZoneID == set.TimeZoneId" class="time{{list.TimeZoneId}}" value="{{list.TimeZoneId}}">{{list.TimeZoneDisplayName}}</option>
+    </select>
+                    <!--<select id="timezone" class="form-control" ng-model="TimeZoneID">
                         <option ng-repeat="set in TimeZoneList" ng-required="true" ng-selected="TimeZoneID == set.TimeZoneId"
                                 value="{{set.TimeZoneId}}">
                             {{set.TimeZoneDisplayName}}
                         </option>
-                    </select>
+                    </select>-->
                 </div>
             </div>
             <div class="col-sm-1">
@@ -109,7 +125,7 @@
                 </td>
                 <td style="text-align: center">
                     <a href="javascript:void(0);" ng-click="CancelPatientShift(row.id)" title="View">
-                        Cancel
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
                     </a>
                 </td>
             </tr>

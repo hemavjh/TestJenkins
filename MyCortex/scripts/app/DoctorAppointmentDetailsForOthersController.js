@@ -50,7 +50,16 @@ DoctorAppointmentDetails.controller("DoctorAppointmentDetailsForOthersController
         });
         $http.get(baseUrl + '/api/AppoinmentSlot/CG_Doctors_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&CC_CG=' + $window.localStorage['UserId']).success(function (data) {
             if (data[0] != undefined) {
-                $scope.DoctorList = data;
+                $scope.doctorlistTemp = [];
+                $scope.doctorlistTemp = data;
+                var obj = {
+                    "Id": 0, "FullName": "Select"
+                };
+                $scope.doctorlistTemp.splice(0, 0, obj);
+                $scope.DoctorList = angular.copy($scope.doctorlistTemp);
+                setTimeout(() => {
+                    setdoc();
+                }, 1000);
             }
         });
         $scope.getTimeZoneList = function () {
@@ -168,6 +177,7 @@ DoctorAppointmentDetails.controller("DoctorAppointmentDetailsForOthersController
                         }).error(function (data) { console.log(data); });
 
                     }
+                    angular.element('#PatientAppointmentModal').modal('hide');
                     if (data.ReturnFlag == 1) {
                         $scope.DoctorAppointmentlist();
                     }
