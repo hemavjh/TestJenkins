@@ -5601,6 +5601,28 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 }
             }
         }
+        $scope.NumberOfDays = function (NoOfDays, rowItem, EndDate) {
+            $scope.sDate = moment($scope.StartDate).format('DD-MMM-YYYY');
+            $scope.EndDate = moment($scope.sDate).add(NoOfDays, 'days').format('YYYY-MM-DD');
+            angular.forEach($scope.AddMedicationDetails, function (value, index) {
+                if (rowItem == index) {
+                    value.EndDate = DateFormatEdit($filter('date')($scope.EndDate, 'dd-MMM-yyyy'));
+                }
+            });
+            $scope.AddMedicationDetails = angular.copy($scope.AddMedicationDetails);
+            //document.getElementById('End_Date').value = $scope.EndDate;
+        }
+
+        $scope.ChangeDate = function (NoOfDays, StartDate, rowItem) {
+            $scope.sDate = moment(StartDate).format('DD-MMM-YYYY');
+            $scope.EndDate = moment($scope.sDate).add(NoOfDays, 'days').format('YYYY-MM-DD');
+            angular.forEach($scope.AddMedicationDetails, function (value, index) {
+                if (rowItem == index) {
+                    value.EndDate = DateFormatEdit($filter('date')($scope.EndDate, 'dd-MMM-yyyy'));
+                }
+            });
+            $scope.AddMedicationDetails = angular.copy($scope.AddMedicationDetails);
+        }
         // Add row concept  for Patient MedicationDetails
         $scope.AddMedicationDetails = [{
             'Id': 0,
@@ -5918,7 +5940,19 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             }
             return true;
         };
+        $scope.NoOfDaysEdit = function (NoOfDays, EndDate) {
+            $scope.sDate = moment($scope.StartDate).format('DD-MMM-YYYY');
+            $scope.EndDate = moment($scope.sDate).add(NoOfDays, 'days').format('YYYY-MM-DD');
+            document.getElementById('E_Date').value = $scope.EndDate;
+            $scope.EndDate = DateFormatEdit($filter('date')($scope.EndDate, 'dd-MMM-yyyy'));
+        }
 
+        $scope.EditChangeDate = function (NoOfDays, StartDate) {
+            $scope.sDate = moment(StartDate).format('DD-MMM-YYYY');
+            $scope.EndDate = moment($scope.sDate).add(NoOfDays, 'days').format('YYYY-MM-DD');
+            document.getElementById('E_Date').value = $scope.EndDate;
+            $scope.EndDate = DateFormatEdit($filter('date')($scope.EndDate, 'dd-MMM-yyyy'));
+        }
         $scope.MedicationList = [];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
 
