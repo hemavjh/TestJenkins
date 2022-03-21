@@ -2,11 +2,9 @@
     $('#btnLogo').click(function () {
         $("#UserLogo").trigger('click');
     });
-    function SetmaxDateDOB() {
-        var maxdatedob = document.getElementById('maxdatedob').value;
-        $('#Date_Birth').attr('max', maxdatedob);
-    }
+    
     $(document).ready(function () {
+
         var image = $('#UserLogo').val();
         $image_crop = $('#image_demo').croppie({
             enableExif: true,
@@ -162,10 +160,21 @@
             day = '0' + day.toString();
 
         var maxDate = year + '-' + month + '-' + day;
-        $('#Date_Birth').attr('max', maxDate);
+        //$('#Date_Birth').attr('max', maxDate); //comment by Hema
         //document.getElementById("Expiry_Date").value = maxDate;
         //document.getElementById("Date_Birth").value = maxDate;
+
+        setTimeout(function () {
+            var maxdatedob = document.getElementById('maxdatedob').value;
+            $('#Date_Birth').attr('max', maxdatedob);            
+        }, 5000);
+        $("#maxdatedob").trigger("change");
+       
     });
+    function SetmaxDateDOB() {
+        var maxdatedob = document.getElementById('maxdatedob').value;        
+        $('#Date_Birth').attr('max', maxdatedob);
+    }
 </script>
 <script>
     var input = document.querySelector("#txtMobile");
@@ -244,7 +253,7 @@
 <input type="text" hidden="hidden" id="txthdCountryCode" ng-model="PhoneCountryCode" />
 <input type="text" hidden="hidden" id="txthdCountryiso2" ng-model="PhoneCountryiso2" />
 <input type="text" hidden="hidden" id="txthdFullNumber" />
-<div class="row"
+<div class="row" 
      ng-init="Patientcreatefunction();InstitutionBased_CountryStateList();Admin_View(3);PageParameter==1?currentTab=EditCurrentTab:currentTab='1';">
     <form class="form-horizontal" id="patientform" role="form" style="font-size: small" ng-submit="User_InsertUpdate();" ng-class="{'submitted': submitted}">
         <!-- ng-submit="User_InsertUpdate();"-->
@@ -637,7 +646,8 @@
                                     <!--<div id="divDOB" class="ng-invalid ddlValidationBorder" ng-required="true">-->
                                     <input max="2099-12-31" type="date" id="Date_Birth" class="form-control" ng-model="DOB"
                                            style="width: 165px" ng-disabled="Pat_UserTypeId==2">
-                                    <input type="hidden" id="maxdatedob" value="{{maxdateDOB | date:'yyyy-MM-dd'}}" />
+                                    <!-- this hidden box for bind the maximum date then apply max attribute-->
+                                    <input type="hidden" id="maxdatedob" ng-model="maxdateDOB" value="{{maxdateDOB}}" onchange="SetmaxDateDOB();" />
                                     <!--<span class="input-group-addon">
         <i class="glyphicon glyphicon-th"></i>
     </span>-->
