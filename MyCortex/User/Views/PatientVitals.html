@@ -24,6 +24,7 @@
         $('#End_Date').attr('min', maxDate);
         $('#ptDateTimePicker').attr('min', maxDate);
         $('#dateee').attr('min', maxDate);
+
     });
 </script>
 <!--<script src='Scripts/jquery-proper-slider.js'></script>
@@ -216,7 +217,7 @@
                 </div>-->
                 <!--<div class="mainbody resBody ng-scope">
                 <div class="rows">-->
-                <h4 class="page-title" style="margin-left: 18px;">Patient Vitals</h4>
+                <h4 class="page-title" style="margin-left: 18px;"></h4>
                 <div class="col-sm-4 p-15 centerScroll" style="z-index:2;">
                     <div style="border: 1px solid #ccc;box-shadow: 2px 2px 10px #ccc;background:#fff">
                         <div id="DemoChart" style="max-width:80%;margin: 0 auto;">
@@ -5689,21 +5690,16 @@
                                             <!--<div .ng-if="(uploadme!=null && uploadme!='')" valign="top" rowspan="6">
         <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ DoctorDetailList.Photo}}" />
     </div>-->
-                                            <div ng-if="(ViewGender| lowercase)=='male' && (uploadme==null)&&uploadview ==true"
-                                                 valign="top" rowspan="6">
+                                            <div ng-if="(ViewGender| lowercase)=='male' && (uploadme==null) && uploadview==true" valign="top" rowspan="6">
                                                 <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/male.png" />
                                             </div>
-                                            <div ng-if="(ViewGender| lowercase)=='female' && (uploadme==null)&&uploadview ==true"
-                                                 valign="top" rowspan="6">
-
+                                            <div ng-if="(ViewGender| lowercase)=='female' && (uploadme==null) && uploadview==true" valign="top" rowspan="6">
                                                 <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/female.png" />
                                             </div>
-                                            <div ng-if="(ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male' && (uploadme==null) &&uploadview ==true"
-                                                 valign="top" rowspan="6">
+                                            <div ng-if="(ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male' && (uploadme==null) && uploadview==true" valign="top" rowspan="6">
                                                <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/Others.png" />
                                             </div>
-                                            <div ng-if="(uploadme!=null || uploadme!=0)&&uploadview ==true"
-                                                 valign="top" rowspan="6">
+                                            <div ng-if="(uploadme!='null' || uploadme!=0) && uploadview==true" valign="top" rowspan="6">
                                                 <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{uploadme}}" />
                                             </div>
                                         </div>
@@ -5837,7 +5833,7 @@
                                 </div>
                                 <div class="col-sm-12 flex-col mt-10">
                                     <p class="col-sm-3 m-bottom-0 font-semibold p-0">Reason<sup><font class='mandatory-field'>*</font></sup></p><br />
-                                    <textarea id="TextArea1" ng-model="TextArea1" rows="3" cols="70" ng-required="true"></textarea>
+                                    <textarea id="TextArea1" ng-model="TextArea1" rows="3" cols="70" ng-required="true" ng-init="TextArea1=''"></textarea>
                                 </div>
                             </div>
                             <div class="col-sm-5">

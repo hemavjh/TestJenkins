@@ -202,10 +202,10 @@
     <li>
         <a class="secondaryMenuActive" href="Home/Index#/HospitalAdmin_UserList/2" data-menu="Home">
             Clinical
-            User
+            Users
         </a>
     </li>
-    <li><a href="Home/Index#/PatientList/3">All Patient</a></li>
+    <li><a href="Home/Index#/PatientList/3">All Patients</a></li>
     <li><a href="Home/Index#/PatientApproval">Patient Approval</a></li>
     <li><a href="Home/Index#/Admin_UserList/3">Hospital Admin</a></li>
     <li><a href="Home/Index#/Admin_Userslog_List">Users Log</a></li>
@@ -417,7 +417,7 @@
                 <a href="javascript:" ng-click="ViewUserPopUP(row.Id)" title="View">
                     <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
-                <a href="javascript:;" ng-click="row.IsActive == 0 || EditUserPopUP(row.Id)" title="Edit">
+                <a href="javascript:;" ng-click="row.IsActive == 0 || EditUserPopUP(row.Id)" title="Edit" onclick="SetmaxDateDOB();">
 
                     <i class="fa fa-pencil" aria-hidden="true" ng-if="row.IsActive==1"></i>
                     <a href="javascript:"
@@ -1104,7 +1104,7 @@
                                                     </div>
                                                     <div class="inputGroups">
                                                         <label>Mobile No.</label>
-                                                        <span>{{MobileNo}}</span>
+                                                        <span>{{MobileNoView}}</span>
                                                     </div>
                                                     <div class="inputGroups">
                                                         <label>Type of User</label>

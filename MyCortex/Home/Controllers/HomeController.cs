@@ -371,6 +371,7 @@ namespace MyCortex.Home.Controllers
             {
                 IList<EmployeeLoginModel> lst = login.GetProduct_Details();
                 t.Add(lst[0].ProductName);
+                t.Add(lst[0].ProductImg);
                 var json = jsonSerialiser.Serialize(t);
                 return Content(json);
             }
