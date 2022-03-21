@@ -501,6 +501,7 @@
     <Content Include="Masters\Views\AllergyMasterList.html" />
     <Content Include="Masters\Views\AttendanceDetails.html" />
     <Content Include="Masters\Views\DeviceList.html" />
+    <Content Include="Masters\Views\DoctorAppointmentDetails_For_Others.html" />
     <Content Include="Masters\Views\DoctorShift.html" />
     <Content Include="Masters\Views\AdminEmailConfiguration.html" />
     <Content Include="Masters\Views\GateWaySettings.html" />
@@ -547,6 +548,7 @@
     <Content Include="scripts\app\CoordinatorController.js" />
     <Content Include="scripts\app\DirectCallController.js" />
     <Content Include="scripts\app\DirectVideoCallController.js" />
+    <Content Include="scripts\app\DoctorAppointmentDetailsForOthersController.js" />
     <Content Include="scripts\app\DoctorProfileController.js" />
     <Content Include="scripts\app\DoctorShiftController.js" />
     <Content Include="scripts\app\DrugDBController.js" />
