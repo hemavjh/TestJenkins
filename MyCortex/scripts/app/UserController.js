@@ -1745,16 +1745,29 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
         $scope.CareCoordinator_AdvanceFilter = function () {
             var ustype = [], usgroup = [], usnation = [];
-            if ($scope.filter_CL_UserType != "0") {
+            if ($scope.filter_CL_UserType != "0" && $scope.filter_CL_Group != "" && $scope.Filter_CL_Nationality != "0") {
+                var NotNull_User = $scope.BusinessUserList.filter(x => x.UserType_Id != null);
+                ustype = NotNull_User.filter(x => x.UserType_Id == parseInt($scope.filter_CL_UserType) && x.GroupName.toString().includes($scope.filter_CL_Group) && x.NATIONALITY_ID == parseInt($scope.Filter_CL_Nationality));
+            }
+            else if ($scope.filter_CL_UserType != "0" && $scope.filter_CL_Group != "") {
+                var NotNull_User = $scope.BusinessUserList.filter(x => x.GroupName != null);
+                //usgroup = NotNull_User.filter(x => angular.lowercase(x.GroupName).match($scope.filter_CL_Group));
+                usgroup = NotNull_User.filter(x => x.UserType_Id == parseInt($scope.filter_CL_UserType) && x.GroupName.toString().includes($scope.filter_CL_Group));
+            }
+            else if ($scope.filter_CL_UserType != "0" && $scope.Filter_CL_Nationality != "0") {
+                var NotNull_User = $scope.BusinessUserList.filter(x => x.NATIONALITY_ID != null);
+                usnation = NotNull_User.filter(x => x.UserType_Id == parseInt($scope.filter_CL_UserType) && x.NATIONALITY_ID == parseInt($scope.Filter_CL_Nationality));
+            }
+            else if ($scope.filter_CL_UserType != "0") {
                 var NotNull_User = $scope.BusinessUserList.filter(x => x.UserType_Id != null);
                 ustype = NotNull_User.filter(x => x.UserType_Id == parseInt($scope.filter_CL_UserType));
             }
-            if ($scope.filter_CL_Group != "") {
+            else if ($scope.filter_CL_Group != "") {
                 var NotNull_User = $scope.BusinessUserList.filter(x => x.GroupName != null);
                 //usgroup = NotNull_User.filter(x => angular.lowercase(x.GroupName).match($scope.filter_CL_Group));
                 usgroup = NotNull_User.filter(x => x.GroupName.toString().includes($scope.filter_CL_Group));
             }
-            if ($scope.Filter_CL_Nationality != "0") {
+            else if ($scope.Filter_CL_Nationality != "0") {
                 var NotNull_User = $scope.BusinessUserList.filter(x => x.NATIONALITY_ID != null);
                 usnation = NotNull_User.filter(x => x.NATIONALITY_ID == parseInt($scope.Filter_CL_Nationality));
             }

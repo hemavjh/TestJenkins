@@ -96,7 +96,7 @@ namespace MyCortex.Repositories.User
                 return null;
             }
         }
-        public IList<AllPatientListModel> SearchPatientList(long Doctor_Id, string PATIENTNO, string INSURANCEID, string NATIONALITY_ID, string MOBILE_NO, string EMAILID, string FIRSTNAME, string LASTNAME, string MRN, long? UserTypeId, int StartRowNumber, int EndRowNumber)
+        public IList<AllPatientListModel> SearchPatientList(long Doctor_Id, string PATIENTNO, string INSURANCEID, string NATIONALITY_ID, string MOBILE_NO, string EMAILID, string FIRSTNAME, string LASTNAME, string MRN, long? UserTypeId, int StartRowNumber, int EndRowNumber, int? AdvanceFilter)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
@@ -111,6 +111,7 @@ namespace MyCortex.Repositories.User
             param.Add(new DataParameter("@MRN", MRN == null ? "" : MRN));
             param.Add(new DataParameter("@Email", EMAILID == null ? "" : EMAILID.ToLower()));
             param.Add(new DataParameter("@UserTypeId", UserTypeId));
+            param.Add(new DataParameter("@AdvanceFilter", AdvanceFilter));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
