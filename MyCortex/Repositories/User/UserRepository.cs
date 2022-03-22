@@ -1899,20 +1899,20 @@ namespace MyCortex.Repositories.Uesr
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[CG_PATIENTAPPOINTMENTS_SP_LIST]", param);
-                DataEncryption decrypt = new DataEncryption();
+                //DataEncryption decrypt = new DataEncryption();
                 List<PatientAppointmentsModel> lst = (from p in dt.AsEnumerable()
                                                       select new PatientAppointmentsModel()
                                                       {
                                                           Patient_Id = p.Field<long>("PATIENT_ID"),
-                                                          Appointment_FromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
-                                                          Appointment_ToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
+                                                          Appointment_FromTime2 = p.Field<string>("APPOINTMENT_FROMTIME2"),
+                                                          Appointment_ToTime2 = p.Field<string>("APPOINTMENT_TOTIME2"),
                                                           DoctorName = p.Field<string>("DOCTORNAME"),
                                                           PatientName = p.Field<string>("PATIENTNAME"),
                                                           //PatientName = p.Field<string>("PATIENTNAME"),
                                                           //DoctorName = p.Field<string>("DOCTORNAME"),
                                                           Appointment_Date = p.Field<DateTime>("APPOINTMENT_DATE"),
                                                           //Photo = p.Field<string>("PHOTO_NAME"),
-                                                          PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
+                                                          //PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
                                                           TimeDifference = p.Field<string>("TimeDifference"),
                                                           Doctor_Id = p.Field<long>("DOCTOR_ID"),
                                                           Id = p.Field<long>("Id"),

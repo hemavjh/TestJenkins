@@ -43,10 +43,10 @@
                     <div class="textwrap">{{row.PatientName.length > 25 ? row.PatientName.substring(0,25)+"..." : row.PatientName}}</div>
                 </td>
                 <td style="text-align: left">
-                    {{row.Appointment_FromTime | date:'hh: mm' }}
+                    {{row.Appointment_FromTime2 }}
                 </td>
                 <td style="text-align: left">
-                    {{row.Appointment_ToTime | date:'hh: mm' }}
+                    {{row.Appointment_ToTime2 }}
                 </td>
                 <td style="text-align: center">
                     <a href="javascript:void(0);" ng-click="ApproveAppointment(row.id)" title="Approve">

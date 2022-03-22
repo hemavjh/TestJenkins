@@ -20,7 +20,7 @@ AppointmentApprovalController.controller("AppointmentApprovalController", ['$sco
         $scope.ReasonTypeId = 0;
         $scope.Cancelled_Remarks = "";
         $scope.Appointment_Id = 0;
-        $http.get(baseUrl + '/api/PatientAppointments/AppointmentReasonType_List/?Institution_Id=' + $scope.Institution_Id).success(function (data) {
+        $http.get(baseUrl + '/api/PatientAppointments/AppointmentReasonType_List/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
             $scope.AppointmentReasonTypeListTemp = [];
             $scope.AppointmentReasonTypeListTemp = data;
             var obj = { "ReasonTypeId": 0, "ReasonType": "Select", "IsActive": 1 };
@@ -120,6 +120,7 @@ AppointmentApprovalController.controller("AppointmentApprovalController", ['$sco
                         }).error(function (data) { console.log(data); });
 
                     }
+                    $scope.Cancel_CancelledAppointment();
                     if (data.ReturnFlag == 1) {
                         $scope.CG_PatientAppointmentList();
                     }

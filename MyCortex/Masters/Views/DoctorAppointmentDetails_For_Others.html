@@ -73,7 +73,7 @@
                             <font class='mandatory-field'>*</font>
                         </sup>
                     </label>
-                    <select id="timezone" class="col-sm-12" ng-model="TimeZoneID" data-live-search="true" data-selectpicker data-collection-name="TimeZoneList" ng-change="ddltimezonechange()">
+                    <select id="timezone" class="col-sm-12" ng-model="TimeZoneID" data-live-search="true" data-selectpicker data-collection-name="TimeZoneList">
         <option ng-repeat="list in TimeZoneList" ng-selected="TimeZoneID == set.TimeZoneId" class="time{{list.TimeZoneId}}" value="{{list.TimeZoneId}}">{{list.TimeZoneDisplayName}}</option>
     </select>
                     <!--<select id="timezone" class="form-control" ng-model="TimeZoneID">
