@@ -179,8 +179,8 @@ namespace MyCortex.User.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet]
-        [CheckSessionOutFilter]
         public HttpResponseMessage TabDevice_List(long InstitutionId, long Tab_ID)
         {
             IList<TabDevicesModel> ModelData = new List<TabDevicesModel>();
@@ -462,9 +462,8 @@ namespace MyCortex.User.Controllers
         }
 
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpPost]
-        [CheckSessionOutFilter]
         public HttpResponseMessage AddDeviceInsertUpdate([FromBody] TabDevicesModel obj)
         {
             IList<TabDevicesModel> ModelData = new List<TabDevicesModel>();
