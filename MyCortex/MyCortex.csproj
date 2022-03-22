@@ -345,6 +345,7 @@
     <Content Include="Images\expand.png" />
     <Content Include="Images\expinactiveexpinactive.png" />
     <Content Include="Images\favicon.png" />
+    <Content Include="Images\favicon_MyH.png" />
     <Content Include="Images\favmenu.png" />
     <Content Include="Images\fb.png" />
     <Content Include="Images\female.png" />
