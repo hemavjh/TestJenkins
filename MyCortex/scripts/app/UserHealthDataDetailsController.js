@@ -6563,6 +6563,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             //document.getElementById("IconAllergy").style.color = '#FF0000';
                         }
                     }
+                    if ($scope.PatientAllergyListFilterData.length == 0) {
+                        document.getElementById("IconAllergy").style.color = '#FFD700';
+                    }
                     $scope.PatientAssignedAllergyDataList = angular.copy($scope.PatientAllergyListData);
 
                     // $scope.PatientAssignedknownAllergyDataList =angular.copy($scope.PatientAssignedAllergyDataList);
