@@ -6547,20 +6547,22 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.PatientAllergyListFilterData = data.PatientAllergyDetails;
                     $scope.PatientAllergyCountFilterData = data.PatientAllergyDetails;
                     for (i = 0; i < $scope.PatientAllergyListFilterData.length; i++) {
-                        if ($scope.PatientAllergyListFilterData[0].AllergyTypeName === "No Known Allergies") {
-                            document.getElementById("IconAllergy").style.color = '#32CD32';
-                        }
-                        else if ($scope.PatientAllergyListFilterData[0].AllergyTypeName === "Unknown") {
-                            document.getElementById("IconAllergy").style.color = '#FFD700';
-                        }
-                        else if (($scope.PatientAllergyListFilterData[0].AllergenName != "No Known Allergies") || ($scope.PatientAllergyListFilterData[0].AllergyTypeName != "Unknown")) {
-                            document.getElementById("IconAllergy").style.color = '#ff0000';
-                        }
-                        //else if ($scope.PatientAllergyListFilterData[0].AllergenName === "Unknown") {
-                        //    document.getElementById("IconAllergy").style.color = '#FFD700';
-                        //}
-                        else {
-                            //document.getElementById("IconAllergy").style.color = '#FF0000';
+                        if ($scope.PatientAllergyListFilterData[0].IsActive == 1) {
+                            if ($scope.PatientAllergyListFilterData[0].AllergyTypeName === "No Known Allergies") {
+                                document.getElementById("IconAllergy").style.color = '#32CD32';
+                            }
+                            else if ($scope.PatientAllergyListFilterData[0].AllergyTypeName === "Unknown") {
+                                document.getElementById("IconAllergy").style.color = '#FFD700';
+                            }
+                            else if (($scope.PatientAllergyListFilterData[0].AllergenName != "No Known Allergies") || ($scope.PatientAllergyListFilterData[0].AllergyTypeName != "Unknown")) {
+                                document.getElementById("IconAllergy").style.color = '#ff0000';
+                            }
+                            //else if ($scope.PatientAllergyListFilterData[0].AllergenName === "Unknown") {
+                            //    document.getElementById("IconAllergy").style.color = '#FFD700';
+                            //}
+                            else {
+                                //document.getElementById("IconAllergy").style.color = '#FF0000';
+                            }
                         }
                     }
                     if ($scope.PatientAllergyListFilterData.length == 0) {
