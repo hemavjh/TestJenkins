@@ -753,7 +753,7 @@ namespace MyCortex.User.Controller
 
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber, string NATIONALITY_ID = null, String SearchQuery = null, string PATIENTNO = null, string INSURANCEID = null, string MOBILE_NO = null, string EMAILID = null, string FIRSTNAME = null, string LASTNAME = null, string MRNNO = null)
+        public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber, string NATIONALITY_ID = null, String SearchQuery = null, string PATIENTNO = null, string INSURANCEID = null, string MOBILE_NO = null, string EMAILID = null, string FIRSTNAME = null, string LASTNAME = null, string MRNNO = null, int AdvanceFilter = 0)
         {
             string NATIONALITY_ID2 = string.IsNullOrEmpty(NATIONALITY_ID) ? "" : NATIONALITY_ID.ToLower();
             string PATIENTNO2 = string.IsNullOrEmpty(PATIENTNO) ? "" : PATIENTNO.ToLower();
@@ -769,7 +769,7 @@ namespace MyCortex.User.Controller
             List<ItemizedUserDetailsModel> model = new List<ItemizedUserDetailsModel>();
             try
             {
-                model = repository.Search_Patient_List(IsActive, INSTITUTION_ID, StartRowNumber2, lastno, NATIONALITY_ID2, SearchQuery2, PATIENTNO2, INSURANCEID2, MOBILE_NO2, EMAILID2, FIRSTNAME2, LASTNAME2, MRNNO2);
+                model = repository.Search_Patient_List(IsActive, INSTITUTION_ID, StartRowNumber2, lastno, NATIONALITY_ID2, SearchQuery2, PATIENTNO2, INSURANCEID2, MOBILE_NO2, EMAILID2, FIRSTNAME2, LASTNAME2, MRNNO2, AdvanceFilter);
             }
             catch(Exception ex)
             {
@@ -3291,7 +3291,7 @@ namespace MyCortex.User.Controller
             try
             {
                 msg = repository.MedicationInsertUpdateDateOverLapping(Login_Session_Id, insobj);
-                if (msg != "")
+                if (msg != "" && msg!=null)
                 {
                     model.Message = msg;
                 }
@@ -3327,7 +3327,7 @@ namespace MyCortex.User.Controller
 
                 }
                 model.DrugDBMaster = ModelData;
-                if (msg != "")
+                if (msg != "" && msg!=null)
                 {
                     model.Message = msg;
                 }

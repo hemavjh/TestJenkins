@@ -61,12 +61,12 @@ namespace MyCortex.User.Controllers
         }
         [HttpGet]
         [CheckSessionOutFilter]
-        public IList<AllPatientListModel> SearchPatientList(long Doctor_Id, string PATIENTNO, string INSURANCEID, string NATIONALITY_ID, string MOBILE_NO, string EMAILID, string FIRSTNAME, string LASTNAME, string MRN, long? UserTypeId, int StartRowNumber, int EndRowNumber)
+        public IList<AllPatientListModel> SearchPatientList(long Doctor_Id, string PATIENTNO, string INSURANCEID, string NATIONALITY_ID, string MOBILE_NO, string EMAILID, string FIRSTNAME, string LASTNAME, string MRN, long? UserTypeId, int StartRowNumber, int EndRowNumber, int? AdvanceFilter = 0)
         {
             try
             {
                 IList<AllPatientListModel> model;
-                model = repository.SearchPatientList(Doctor_Id, PATIENTNO, INSURANCEID, NATIONALITY_ID, MOBILE_NO, EMAILID, FIRSTNAME, LASTNAME, MRN, UserTypeId, StartRowNumber, EndRowNumber);
+                model = repository.SearchPatientList(Doctor_Id, PATIENTNO, INSURANCEID, NATIONALITY_ID, MOBILE_NO, EMAILID, FIRSTNAME, LASTNAME, MRN, UserTypeId, StartRowNumber, EndRowNumber, AdvanceFilter);
                 return model;
             }
             catch (Exception ex)

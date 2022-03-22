@@ -67,6 +67,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.DepartmentId = "0";
         $scope.UserTypeId = "0";
         $scope.GenderId = "0";
+        $scope.Patient_Search = 0;
         $scope.Health_License = "";
         $scope.Title_Id = 0;
         $scope.NationalityId = "0";
@@ -244,7 +245,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.DoctorInstitutionList = [];
         $scope.DoctorInstitutionList = [];
 
-        $scope.maxdateDOB = '';
+        //$scope.maxdateDOB = '';
         // get minimum age from configuration set max date in DOB
         $scope.ConfigCode = "PATIENT_MIN_AGE";
         $scope.Today_Date = $filter('date')(new Date(), 'dd-MMM-yyyy');
@@ -253,7 +254,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             success(function (data) {
                 if (data[0] != undefined) {
                     $scope.PatientMinAge = parseInt(data[0].ConfigValue);
-                    $scope.maxdateDOB = moment().subtract($scope.PatientMinAge, 'years').format("YYYY-MM-DD");                    
+                    $scope.maxdateDOB = moment().subtract($scope.PatientMinAge, 'years').format("YYYY-MM-DD");
+                    var MDOB = $scope.maxdateDOB;                    
+                    angular.element(document.getElementById('maxdateDOB')).val(MDOB);
+                    angular.element('#Date_Birth').attr('max', $scope.maxdateDOB);
                 }
             });
         $scope.EditgroupOption = 0;
@@ -919,7 +923,20 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.InstitutionSubscriptionLicensecheck(UserTypeId);
             $scope.AppConfigurationProfileImageList();
             $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
-            //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+           
+            /*$scope.ConfigCode = "PATIENT_MIN_AGE";
+            $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).
+            success(function (data) {
+                if (data[0] != undefined) {
+                    $scope.PatientMinAge = parseInt(data[0].ConfigValue);
+                    $scope.maxdateDOB = moment().subtract($scope.PatientMinAge, 'years').format("YYYY-MM-DD");*/
+            $scope.maxdateDOB = $scope.maxdateDOB;
+                    angular.element('#maxdateDOB').val($scope.maxdateDOB);
+                    angular.element('#Date_Birth').attr('max', $scope.maxdateDOB);
+                /*}
+            });*/
+
             $location.path("/PatientCreate/" + "2" + "/" + "3");
         }
 
@@ -1744,16 +1761,29 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
         $scope.CareCoordinator_AdvanceFilter = function () {
             var ustype = [], usgroup = [], usnation = [];
-            if ($scope.filter_CL_UserType != "0") {
+            if ($scope.filter_CL_UserType != "0" && $scope.filter_CL_Group != "" && $scope.Filter_CL_Nationality != "0") {
+                var NotNull_User = $scope.BusinessUserList.filter(x => x.UserType_Id != null);
+                ustype = NotNull_User.filter(x => x.UserType_Id == parseInt($scope.filter_CL_UserType) && x.GroupName.toString().includes($scope.filter_CL_Group) && x.NATIONALITY_ID == parseInt($scope.Filter_CL_Nationality));
+            }
+            else if ($scope.filter_CL_UserType != "0" && $scope.filter_CL_Group != "") {
+                var NotNull_User = $scope.BusinessUserList.filter(x => x.GroupName != null);
+                //usgroup = NotNull_User.filter(x => angular.lowercase(x.GroupName).match($scope.filter_CL_Group));
+                usgroup = NotNull_User.filter(x => x.UserType_Id == parseInt($scope.filter_CL_UserType) && x.GroupName.toString().includes($scope.filter_CL_Group));
+            }
+            else if ($scope.filter_CL_UserType != "0" && $scope.Filter_CL_Nationality != "0") {
+                var NotNull_User = $scope.BusinessUserList.filter(x => x.NATIONALITY_ID != null);
+                usnation = NotNull_User.filter(x => x.UserType_Id == parseInt($scope.filter_CL_UserType) && x.NATIONALITY_ID == parseInt($scope.Filter_CL_Nationality));
+            }
+            else if ($scope.filter_CL_UserType != "0") {
                 var NotNull_User = $scope.BusinessUserList.filter(x => x.UserType_Id != null);
                 ustype = NotNull_User.filter(x => x.UserType_Id == parseInt($scope.filter_CL_UserType));
             }
-            if ($scope.filter_CL_Group != "") {
+            else if ($scope.filter_CL_Group != "") {
                 var NotNull_User = $scope.BusinessUserList.filter(x => x.GroupName != null);
                 //usgroup = NotNull_User.filter(x => angular.lowercase(x.GroupName).match($scope.filter_CL_Group));
                 usgroup = NotNull_User.filter(x => x.GroupName.toString().includes($scope.filter_CL_Group));
             }
-            if ($scope.Filter_CL_Nationality != "0") {
+            else if ($scope.Filter_CL_Nationality != "0") {
                 var NotNull_User = $scope.BusinessUserList.filter(x => x.NATIONALITY_ID != null);
                 usnation = NotNull_User.filter(x => x.NATIONALITY_ID == parseInt($scope.Filter_CL_Nationality));
             }
@@ -1865,6 +1895,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.filter_MOBILE_NO2 = $scope.Patientsearchquery;
                         $scope.Filter_MRN2 = $scope.Patientsearchquery;
                     }
+                    $scope.Patient_Search = 0;
                     getallpatientlist();
                 }
             }
@@ -1879,6 +1910,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.filter_Email2 = $scope.filter_Email;
             $scope.filter_MOBILE_NO2 = $scope.filter_MOBILE_NO;
             $scope.Filter_MRN2 = $scope.Filter_MRN;
+            $scope.Patient_Search = 1;
             getallpatientlist();
         }
 
@@ -1888,7 +1920,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $http.get(baseUrl + '/api/User/Search_Patient_List?IsActive=' + $scope.ActiveStatus + '&INSTITUTION_ID=' + $window.localStorage['InstitutionId'] + '&SearchQuery=' + $scope.Patientsearchquery + '&PATIENTNO=' + $scope.Filter_PatientNo2
                 + '&INSURANCEID=' + $scope.filter_InsuranceId2 + '&NATIONALITY_ID=' + $scope.filter_NationalityId2 + '&MOBILE_NO=' +
                 $scope.filter_MOBILE_NO2 + '&EMAILID=' + $scope.filter_Email2 + '&FIRSTNAME=' + $scope.Filter_FirstName2 + '&LASTNAME=' + $scope.Filter_LastName2 + '&MRNNO=' + $scope.Filter_MRN2 + '&StartRowNumber=' + $scope.PageStart +
-                '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                '&EndRowNumber=' + $scope.PageEnd + '&AdvanceFilter=' + $scope.Patient_Search).success(function (data) {
                     $("#chatLoaderPV").hide();
                     if (data.length == 0) {
                         $scope.SearchMsg = "No Data Available";
