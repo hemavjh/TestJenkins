@@ -54,6 +54,7 @@ CareCoordinator.controller("CareCoordinatorController", ['$scope', '$http', '$fi
         $scope.Filter_FirstName2 = "";
         $scope.Filter_LastName2 = "";
         $scope.Filter_MRN2 = "";
+        $scope.Patient_Search = 0;
 
         $scope.Reset_CC_Filter = function () {
             $scope.CC_PatientNo2 = "";
@@ -281,6 +282,7 @@ CareCoordinator.controller("CareCoordinatorController", ['$scope', '$http', '$fi
                         $scope.Filter_LastName2 = $scope.coordinator_searchquery;
                         $scope.Filter_MRN2 = $scope.coordinator_searchquery;
                     }
+                    $scope.Patient_Search = 0;
                     $scope.CareCoordinator_FilterListFunction();
                 }
             }
@@ -295,6 +297,7 @@ CareCoordinator.controller("CareCoordinatorController", ['$scope', '$http', '$fi
             $scope.Filter_FirstName2 = $scope.Filter_FirstName;
             $scope.Filter_LastName2 = $scope.Filter_LastName;
             $scope.Filter_MRN2 = $scope.Filter_MRN;
+            $scope.Patient_Search = 1;
             $scope.CareCoordinator_FilterListFunction();
         }
 
@@ -305,7 +308,7 @@ CareCoordinator.controller("CareCoordinatorController", ['$scope', '$http', '$fi
                 $scope.PageNumber = 1;
                 $scope.ConfigCode = "PATIENTPAGE_COUNT";
                 $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-                $http.post(baseUrl + '/api/CareCoordinnator/CareCoordinator_FilterPatientList/?Coordinator_Id=' + $scope.Coordinator_Id + '&PATIENTNO=' + $scope.CC_PatientNo2 + '&FIRSTNAME=' + $scope.Filter_FirstName2 + '&LASTNAME=' + $scope.Filter_LastName2 + '&MRN=' + $scope.Filter_MRN2 + '&INSURANCEID=' + $scope.CC_InsuranceId2 + '&NATIONALITY_ID=' + $scope.CC_NationalityId2 + '&MOBILE_NO=' + $scope.CC_MOBILE_NO2 + '&EMAILID=' + $scope.CC_Email2 + '&UserTypeId=' + $scope.UserTypeId + '&TypeId=' + $scope.PageParameter + '&Login_Session_Id=' + $scope.LoginSessionId
+                $http.post(baseUrl + '/api/CareCoordinnator/CareCoordinator_FilterPatientList/?Coordinator_Id=' + $scope.Coordinator_Id + '&PATIENTNO=' + $scope.CC_PatientNo2 + '&FIRSTNAME=' + $scope.Filter_FirstName2 + '&LASTNAME=' + $scope.Filter_LastName2 + '&MRN=' + $scope.Filter_MRN2 + '&INSURANCEID=' + $scope.CC_InsuranceId2 + '&NATIONALITY_ID=' + $scope.CC_NationalityId2 + '&MOBILE_NO=' + $scope.CC_MOBILE_NO2 + '&EMAILID=' + $scope.CC_Email2 + '&UserTypeId=' + $scope.UserTypeId + '&TypeId=' + $scope.PageParameter + '&Login_Session_Id=' + $scope.LoginSessionId + '&AdvanceFilter=' + $scope.Patient_Search
                 ).success(function (data) {
                     $("#chatLoaderPV").hide();
                     $scope.emptydata = [];

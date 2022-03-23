@@ -40,6 +40,7 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
         $scope.Filter_LastName2 = "";
         $scope.Filter_MRN2 = "";
         $scope.flag = 0;
+        $scope.Patient_Search = 0;
         $scope.CommaSeparated_Group = $scope.filter_GroupId.toString();
         $scope.Doctor_Id = $window.localStorage['UserId'];
         $scope.ActiveStatus = "1";
@@ -296,6 +297,7 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
                         $scope.Filter_LastName2 = $scope.searchquery;
                         $scope.Filter_MRN2 = $scope.searchquery;
                     }
+                    $scope.Patient_Search = 0;
                     $scope.CG_PatientSearch();
                 }
             }
@@ -310,10 +312,11 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
             $scope.Filter_FirstName2 = $scope.Filter_FirstName;
             $scope.Filter_LastName2 = $scope.Filter_LastName;
             $scope.Filter_MRN2 = $scope.Filter_MRN;
+            $scope.Patient_Search = 1;
             $scope.CG_PatientSearch();
         }
         $scope.CG_PatientSearch = function () {
-            $http.get(baseUrl + '/api/AllPatientList/SearchPatientList/?Doctor_Id=' + $scope.Doctor_Id + '&PATIENTNO=' + $scope.Filter_PatientNo2 + '&INSURANCEID=' + $scope.filter_InsuranceId2 + '&NATIONALITY_ID=' + $scope.filter_NationalityId2 + '&MOBILE_NO=' + $scope.filter_MOBILE_NO2 + '&FIRSTNAME=' + $scope.Filter_FirstName2 + '&LASTNAME=' + $scope.Filter_LastName2 + '&MRN=' + $scope.Filter_MRN2 + '&EMAILID=' + $scope.filter_Email2 + '&UserTypeId=' + $scope.UserTypeId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd
+            $http.get(baseUrl + '/api/AllPatientList/SearchPatientList/?Doctor_Id=' + $scope.Doctor_Id + '&PATIENTNO=' + $scope.Filter_PatientNo2 + '&INSURANCEID=' + $scope.filter_InsuranceId2 + '&NATIONALITY_ID=' + $scope.filter_NationalityId2 + '&MOBILE_NO=' + $scope.filter_MOBILE_NO2 + '&FIRSTNAME=' + $scope.Filter_FirstName2 + '&LASTNAME=' + $scope.Filter_LastName2 + '&MRN=' + $scope.Filter_MRN2 + '&EMAILID=' + $scope.filter_Email2 + '&UserTypeId=' + $scope.UserTypeId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd + '&AdvanceFilter=' + $scope.Patient_Search
             ).success(function (Patientdata) {
                 $("#chatLoaderPV").hide();
                 $scope.SearchMsg = "No Data Available";
