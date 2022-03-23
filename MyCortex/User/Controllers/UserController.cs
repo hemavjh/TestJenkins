@@ -1423,8 +1423,8 @@ namespace MyCortex.User.Controller
                 else if ((ModelData.flag == 4) == true)
                 {
                     messagestr = "Patient Data Cumulate value has less than 1";
-                    model.ReturnFlag = 0;
-                    model.Status = "False";
+                    model.ReturnFlag = 1;
+                    model.Status = "True";
                 }
                 model.Error_Code = "";
                 model.PatientHealthDataDetails = ModelData;
