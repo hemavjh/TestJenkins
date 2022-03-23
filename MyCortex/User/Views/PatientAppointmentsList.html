@@ -6,8 +6,9 @@
             <li><a data-toggle="tab" href="#Past">Past</a></li>
         </ul>
         <ul ng-if="userTypeId == 5" class="nav nav-tabs">
-            <li style="width:33.3% !important;" class="active"><a data-toggle="tab" href="#appt">Upcoming</a></li>
-            <li style="width:33.3% !important;"><a data-toggle="tab" href="#Past">Past</a></li>
+            <!--style="width:33.3% !important;"-->
+            <li class="active"><a data-toggle="tab" href="#appt">Upcoming</a></li>
+            <li><a data-toggle="tab" href="#Past">Past</a></li>
             <!--<li style="width:33.4% !important;"><a data-toggle="tab" href="#Waiting_Appointment">Waiting</a></li>-->
         </ul>
         <div infinityscroll="NextPage('appt','apptscrol')" id="apptscrol" class="tab-content centerScroll" style="display:inherit !important; height: 212px;">
@@ -94,7 +95,7 @@
                     No Upcoming Appointment...
                 </div>
             </div>
-            <div id="Waiting_Appointment" ng-if="userTypeId == 5" class="tab-pane fade in active">
+            <!--<div id="Waiting_Appointment" ng-if="userTypeId == 5" class="tab-pane fade in active">
                 <div class="" ng-repeat="Row in UpComingWaitingAppointmentDetails" ng-hide="UpComingWaitingAppointmentCount == 0">
                     <div class=" upcoming-doctor">
                         <div class="flex justify-content-between align-items-center mb-4">
@@ -120,11 +121,11 @@
                             <a href="" class="font-semibold m-bottom-0" style="font-size:9px" ng-click="CancelDocAppointment(Row)"> Cancel</a>
                         </div>
                     </div>
-                </div>
+                </div>-->
                 <!--<div class="myAppoinments" ng-hide="UpComingWaitingAppointmentCount !== 0">
         No Upcoming Waiting Appointment...
     </div>-->
-            </div>
+            <!--</div>-->
             <div id="StripePayOptions" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
                 <div class="modal-dialog" style="width: 70%">
                     <!-- Modal content-->

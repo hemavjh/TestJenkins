@@ -5270,13 +5270,14 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.ICD10CodeSearch = "";
         $scope.ICD10CodeList = [];
         $scope.ICD10CodeListsFilter = [];
-        $scope.SelectedIcdRow = 0;
+        $scope.selectedICD10Row = 0;
 
         $scope.ICD10codesearchkey = function (Selectedrow) {
             var SearchICD10Code = angular.lowercase($scope.ICD10CodeSearch);
 
             if (SearchICD10Code.length >= 3) {
                 $http.get(baseUrl + 'api/User/ICD10Code_List/?ICD10CodeSearch=' + SearchICD10Code + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
+                    SearchMsg = "No Data Available";
                     $scope.ICD10CodeList = [];
                     $scope.ICD10CodeListsFilter = [];
                     $scope.ICD10CodeList = data;
@@ -5287,17 +5288,21 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     else {
                         $scope.flag = 0;
                     }
-                    $scope.SearchMsg = "No Data Available";
                 });
             }
+                 else {
+                    $scope.ICD10CodeList = [];
+                    $scope.ICD10CodeListsFilter = [];
+                }
+                angular.element('#ICD10CodeListModal').modal('show');
 
         }
 
         /**ICD10 Code Search button Click Popup window**/
         $scope.ICD10codeSearchPopup = function (SelectedRow) {
             $scope.ICD10CodeSearch = "";
+            $scope.ICD10CodeListsFilter = [];
             $scope.selectedICD10Row = SelectedRow;
-           
             angular.element('#ICD10CodeListModal').modal('show');
             $("#txtICD10CodeSearch").focus();
         }
@@ -5312,6 +5317,12 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     value.Description = ICD10codeItem.Description;
                 }
             });
+            if ($scope.Id > 0) {
+                angular.forEach($scope.AddICD10List, function (value, index) {
+                    $scope.Description = value.Description;
+                    $scope.CategoryName = value.CategoryName;
+                });
+            }
             angular.element('#ICD10CodeListModal').modal('hide');
         }
 
