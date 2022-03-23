@@ -294,6 +294,13 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             } else {
                 $scope.Productlogin = 1;
             }
+
+            if ($scope.Productlogin == '1') {
+                document.getElementById('LoginSection').className = "loginBgHel";
+            }
+            else {
+                document.getElementById('LoginSection').className = "loginBgCor";
+            }
         });
         $http.get(baseUrl + '/api/Login/GetProduct_Details/').success(function (data) {
             $scope.PrdImg = data[0].ProductImg;
