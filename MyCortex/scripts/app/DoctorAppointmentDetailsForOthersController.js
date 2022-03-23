@@ -135,7 +135,9 @@ DoctorAppointmentDetails.controller("DoctorAppointmentDetailsForOthersController
                 if (result.isConfirmed) {
                     $scope.Cancelled_Remarks = "";
                     $scope.Appointment_Id = Id;
+                    $scope.ReasonTypeId = '0';
                     angular.element('#PatientAppointmentModal').modal('show');
+                    setTimeout(() => { setres(); }, 500);
                 } else if (result.isDenied) {
                 }
             });
