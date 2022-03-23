@@ -1124,6 +1124,18 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
         $http.get(baseUrl + '/api/Login/GetProduct_Details/').success(function (data) {
             $scope.PrdImg = data[0].ProductImg;
             $scope.prdName = data[0].ProductName;
+            if ($scope.prdName == 'MyCortex') {
+                $scope.Productlogin = 0;
+            } else {
+                $scope.Productlogin = 1;
+            }
+
+            if ($scope.Productlogin == '1') {
+                document.getElementById('LoginSection').className = "loginBgHel";
+            }
+            else {
+                document.getElementById('LoginSection').className = "loginBgCor";
+            }
         });
 
         $http.get(baseUrl + '/api/Login/getProductName/').success(function (data) {
