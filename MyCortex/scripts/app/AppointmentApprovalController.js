@@ -147,8 +147,10 @@ AppointmentApprovalController.controller("AppointmentApprovalController", ['$sco
             }).then((result) => {
                 if (result.isConfirmed) {
                     $scope.Cancelled_Remarks = "";
+                    $scope.ReasonTypeId = '0';
                     $scope.Appointment_Id = id;
                     angular.element('#PatientAppointmentModal').modal('show');
+                    setTimeout(() => { setres(); }, 500);
                 } else if (result.isDenied) {
                 }
             });
