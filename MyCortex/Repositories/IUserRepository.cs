@@ -33,7 +33,8 @@ namespace MyCortex.Repositories
         IList<ItemizedUserDetailsModel> PatientGroupNameList(long? PatientId);
         IList<PatientAllergiesNameListModels> PatientAllergiesNameList(long? PatientId);
         long GetInstitutionForWebURL(string request);
-        long GetInstitutionFromShortName(string INSTITUTION_CODE);
+        //long GetInstitutionFromShortName(string INSTITUTION_CODE);
+        IList<InstitutionShortCode> GetInstitutionFromShortName(string INSTITUTION_CODE);
 
         int Get_Exist_AnyUnEncryptedUser();
         string GetInstitutionName(string INSTITUTION_CODE);
