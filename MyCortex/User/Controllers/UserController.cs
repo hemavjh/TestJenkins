@@ -182,12 +182,25 @@ namespace MyCortex.User.Controller
             return model;
         }
 
+        //[AllowAnonymous]
+        //public long GetInstitutionFromCode(string Code)
+        //{
+        //    long InstitutionId = 0;
+        //    InstitutionId = repository.GetInstitutionFromShortName(Code);
+        //    return InstitutionId;
+        //}
+        /// <summary>      
+        /// Getting user list of a institution
+        /// </summary>          
+        /// <returns> user list of a institution</returns>
         [AllowAnonymous]
-        public long GetInstitutionFromCode(string Code)
+        [HttpGet]
+        //  [CheckSessionOutFilter]
+        public IList<InstitutionShortCode> GetInstitutionFromCode(string Code)
         {
-            long InstitutionId = 0;
-            InstitutionId = repository.GetInstitutionFromShortName(Code);
-            return InstitutionId;
+            IList<InstitutionShortCode> model;
+            model = repository.GetInstitutionFromShortName(Code);
+            return model;
         }
         [AllowAnonymous]
         public string GetInstitutionName(string Code)
@@ -221,7 +234,9 @@ namespace MyCortex.User.Controller
                 {
                     if (!string.IsNullOrEmpty(userObj.INSTITUTION_CODE))
                     {
-                        userObj.INSTITUTION_ID = repository.GetInstitutionFromShortName(userObj.INSTITUTION_CODE);
+                        IList<InstitutionShortCode> Insmodel;
+                        Insmodel = repository.GetInstitutionFromShortName(userObj.INSTITUTION_CODE);
+                        userObj.INSTITUTION_ID = Insmodel[0].INSTITUTION_ID;
                     }
                     //else
                     //{
