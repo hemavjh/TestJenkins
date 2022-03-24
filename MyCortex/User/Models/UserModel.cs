@@ -223,6 +223,13 @@ namespace MyCortex.User.Model
 
         public int? IsActive { get; set; }
     }
+
+    public class InstitutionShortCode
+    {
+        public long? INSTITUTION_ID { get; set; }
+        public long? PatSignUpFlag { get; set; }
+
+    }
     public class Patient_CurrentMedicalDetails
     {
         public long? Id { get; set; }
