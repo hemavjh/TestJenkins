@@ -3258,6 +3258,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         filteredObj[i].Activity_Date = $filter('date')(new Date(), 'dd-MMM-yyyy HH:mm:ss')
                     } else {
                         filteredObj[i].Activity_Date = $filter('date')(filteredObj[i].ActivityDate, 'dd-MMM-yyyy HH:mm:ss')
+                        if (filteredObj[i].Activity_Date == "" || filteredObj[i].Activity_Date == 'undefined') { filteredObj[i].Activity_Date = $filter('date')(new Date(), 'dd-MMM-yyyy HH:mm:ss') }
                     }
                 }
                 var obj = {
