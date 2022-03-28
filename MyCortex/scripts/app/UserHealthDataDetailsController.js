@@ -1108,7 +1108,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             //$scope.RedirectParam = $scope.RedirectParam.replace('?orderId=414768633924763654', '');
 
                             var Appointment_Module = 1;
-                            if ($scope.AppointmoduleID1 === 2) {
+                            if ($scope.AppointmoduleID1 === 2 && $window.localStorage["UserTypeId"] == 2) {
                                 Appointment_Module = 2;
                             }
                             if ($scope.AppointmoduleID1 === 3) {
@@ -1201,7 +1201,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                                     $scope.AppoiToTime = [];
                                                     $scope.IsNew = 1;
                                                     $scope.OldAppointmentID = null;
-                                                    if ($scope.AppointmoduleID1 == 2) {
+                                                    if ($scope.AppointmoduleID1 == 2 && $window.localStorage["UserTypeId"] == 2) {
                                                         $scope.paymentappointmentId = data.PatientAppointmentList[0].Id;
                                                         //var post = $http({
                                                         //    method: "POST",
@@ -1255,7 +1255,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                             $scope.AppoiToTime = [];
                                             $scope.IsNew = 1;
                                             $scope.OldAppointmentID = null;
-                                            if ($scope.AppointmoduleID1 == 2) {
+                                            if ($scope.AppointmoduleID1 == 2 && $window.localStorage["UserTypeId"] == 2) {
                                                 $scope.paymentappointmentId = data.PatientAppointmentList[0].Id;
                                                 //var post = $http({
                                                 //    method: "POST",
@@ -1415,7 +1415,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                             //if (data.ReturnFlag == 1) {
                                             //    $scope.$broadcast("appointment_list");
                                             //}
-                                            if ($scope.AppointmoduleID1 == 2) {
+                                            if ($scope.AppointmoduleID1 == 2 && $window.localStorage["UserTypeId"] == 2) {
                                                 $scope.OldAppointmentID = null;
                                                 setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
                                             } else {
