@@ -2204,12 +2204,22 @@
                                                         <span>{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                                                     </div>
                                                     <div class="alert alert-success nibp" ng-if="row.Type_Id==2 && LiveData_IsImage(row.UOM_Name)==false">
-                                                        <a href="home/GetPatient_OtherDataDocument?Id={{row.ParameterId}}" target="_blank">{{row.UOM_Name}}</a>
+                                                        <a href="javascript:" ng-click="Patient_Lab_View(row.Id,row.ParameterId)" title="View">
+                                                            {{row.UOM_Name}}
+                                                        </a>
+                                                        <a href="home/GetPatient_OtherDataDocument?Id={{row.ParameterId}}" style="text-decoration:none;">
+                                                            <img target="_blank" src="../../Images/download1.png" title="Click to Download">
+                                                        </a>
                                                     </div>
                                                     <div class="alert alert-success nibp" ng-if="row.Type_Id==2 && LiveData_IsImage(row.UOM_Name)==true">
-                                                        <img width="180" height="180" class="responsiveProfileImage" src="{{'data:image/png;base64,'+ row.LiveData_Blob}}" />
-                                                        _B
-                                                        di
+                                                        <img width="180" height="180" class="responsiveProfileImage" 
+                                                             src="{{'data:image/png;base64,'+ row.LiveData_Blob}}" /><br />
+                                                        <a href="javascript:" ng-click="Patient_Lab_View(row.Id,row.ParameterId)" title="View">
+                                                            {{row.UOM_Name}}
+                                                        </a>
+                                                        <a href="home/GetPatient_OtherDataDocument?Id={{row.ParameterId}}" style="text-decoration:none;">
+                                                            <img target="_blank" src="../../Images/download1.png" title="Click to Download">
+                                                        </a>
                                                     </div>
                                                 </div>
 
@@ -2221,7 +2231,7 @@
                                 <img class="responsiveProfileImage" src="{{'data:image/png;base64,'+ row.LiveData_Blob}}" />
                             </div>
                         </div>-->
-                                                <!--di-->
+                                                <!--div-->
                                             </div>
                                         </div>
 
