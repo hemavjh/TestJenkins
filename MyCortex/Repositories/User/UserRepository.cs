@@ -956,7 +956,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].USERDETAILS_SP_VIEW", param);
-            
+                
             UserModel View = (from p in dt.AsEnumerable()
                               select 
                                 new UserModel()
@@ -967,6 +967,7 @@ namespace MyCortex.Repositories.Uesr
                                   FirstName = p.Field<string>("FirstName"),
                                   MiddleName = p.Field<string>("MiddleName"),
                                   LastName = p.Field<string>("LastName"),
+                                  FullName = p.Field<string>("FULLNAME"),
                                   EMPLOYEMENTNO = p.Field<string>("EMPLOYEMENTNO"),
                                   EMAILID = p.Field<string>("EMAILID"),
                                   DEPARTMENT_ID = p.IsNull("DEPARTMENT_ID") ? 0 : p.Field<long>("DEPARTMENT_ID"),
