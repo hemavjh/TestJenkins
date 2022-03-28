@@ -3085,7 +3085,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 'IsActive': 1,
                 'All_UnitLists': $scope.ParameterMappingList,
                 'ParameterMappingList': []
-            }];
+            }];            
         }
 
         $scope.smsResponse = [];
@@ -3142,6 +3142,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.patientVitalsrowChkChange = function (itemIndex) {
             //alert(itemIndex);
             $("#ptDateTimePicker" + itemIndex).val(new Date().toJSON().slice(0, 19));
+            $("#ptDateTimePicker" + itemIndex).attr('max', new Date().toJSON().slice(0, 19));
         }
 
         $scope.get_SubParameterMappingList = function (index) {
@@ -6483,6 +6484,24 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         TSDuplicate = 2;                        
                     }                     
                 }
+                //this section for deactivate to activate checking
+                var x1 = angular.element(document.getElementById("alltypename" + $scope.Id));
+                $scope.alltypename1 = x1.val();
+                if ($scope.alltypename1 != "") {
+                    if ((ExistingPatientAllergyTypeName != DefaultAlleryTypeName) && (IsActiveAllergyType == 1)) {
+
+                        // $scope.alltypename1 = x1.val();
+                        if ($scope.alltypename1 == DefaultAlleryTypeName) {
+                            TSDuplicate = 1;
+                        }
+                    }
+                    if ((ExistingPatientAllergyTypeName == DefaultAlleryTypeName) && (IsActiveAllergyType == 1)) {
+
+                        if ($scope.alltypename1 != DefaultAlleryTypeName) {
+                            TSDuplicate = 2;
+                        }
+                    }
+                }              
             });
 
             if (TSDuplicate == 1) {
@@ -6494,7 +6513,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             }
             else { return true; }
         }
-
+        
         $scope.setPage4 = function (PageNo) {
             if (PageNo == 0) {
                 PageNo = $scope.inputPageAllergy;
@@ -6607,26 +6626,25 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 showCloseButton: true,
                 allowOutsideClick: false,
             }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-                    var obj =
-                    {
-                        Id: $scope.Id,
-                        Modified_By: $window.localStorage['UserId']
-                    }
-
-                    $http.post(baseUrl + '/api/User/AllergyDetails_InActive/', obj).success(function (data) {
-                        //alert(data.Message);
-                        if (data.ReturnFlag == 2) {
-                            toastr.success(data.Message, "success");
+                    if (result.isConfirmed) {
+                        var obj =
+                        {
+                            Id: $scope.Id,
+                            Modified_By: $window.localStorage['UserId']
                         }
-                        $scope.PatientAllergyList();
-                    }).error(function (data) {
-                        $scope.error = "An error has occurred while deleting Doctor Notes" + data;
-                    });
-                } else if (result.isDenied) {
-                    //Swal.fire('Changes are not saved', '', 'info')
-                }
+
+                        $http.post(baseUrl + '/api/User/AllergyDetails_InActive/', obj).success(function (data) {
+                            //alert(data.Message);
+                            if (data.ReturnFlag == 2) {
+                                toastr.success(data.Message, "success");
+                            }
+                            $scope.PatientAllergyList();
+                        }).error(function (data) {
+                            $scope.error = "An error has occurred while deleting Doctor Notes" + data;
+                        });
+                    } else if (result.isDenied) {
+                        //Swal.fire('Changes are not saved', '', 'info')
+                    }                
             })
             /*var del = confirm("Do you like to deactivate the selected Allergy?");
             if (del == true) {
