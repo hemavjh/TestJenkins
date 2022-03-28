@@ -1785,33 +1785,47 @@ namespace MyCortex.Repositories.Uesr
             //flag = (dr["FLAG"].ToString());
         }
 
-        public long GetInstitutionFromShortName(string INSTITUTION_CODE)
-        {
-            long INSTITUTION_ID;
-            List<DataParameter> param = new List<DataParameter>();
+        //public long GetInstitutionFromShortName(string INSTITUTION_CODE)
+        //{
+        //    long INSTITUTION_ID;
+        //    List<DataParameter> param = new List<DataParameter>();
 
+        //    param.Add(new DataParameter("@INSTITUTION_CODE", INSTITUTION_CODE));
+        //    DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USER_SP_GET_INSTITUTIONBYCODE]", param);
+        //    if (dt.Rows.Count > 0)
+        //    {
+        //        DataRow dr = dt.Rows[0];
+        //        /*   UserModel View = (from p in dt.AsEnumerable()
+        //                             select
+        //                             new UserModel()
+        //                             {
+        //                                 INSTITUTION_ID = p.IsNull("Id") ? 0 : p.Field<long>("Id")
+        //                             }).FirstOrDefault();*/
+        //        INSTITUTION_ID = dr.IsNull("Id") ? 0 : dr.Field<long>("Id");
+        //    }
+        //    else
+        //    {
+        //        INSTITUTION_ID = 0;
+        //    }
+        //    var data = (Convert.ToInt64(INSTITUTION_ID));
+        //    return data;
+        //    //DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_ICD10DETAILS_SP_INSERTUPDATE", param);
+        //    //DataRow dr = dt.Rows[0];
+        //    //flag = (dr["FLAG"].ToString());
+        //}
+
+        public IList<InstitutionShortCode> GetInstitutionFromShortName(string INSTITUTION_CODE)
+        {
+            List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_CODE", INSTITUTION_CODE));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USER_SP_GET_INSTITUTIONBYCODE]", param);
-            if (dt.Rows.Count > 0)
-            {
-                DataRow dr = dt.Rows[0];
-                /*   UserModel View = (from p in dt.AsEnumerable()
-                                     select
-                                     new UserModel()
-                                     {
-                                         INSTITUTION_ID = p.IsNull("Id") ? 0 : p.Field<long>("Id")
-                                     }).FirstOrDefault();*/
-                INSTITUTION_ID = dr.IsNull("Id") ? 0 : dr.Field<long>("Id");
-            }
-            else
-            {
-                INSTITUTION_ID = 0;
-            }
-            var data = (Convert.ToInt64(INSTITUTION_ID));
-            return data;
-            //DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_ICD10DETAILS_SP_INSERTUPDATE", param);
-            //DataRow dr = dt.Rows[0];
-            //flag = (dr["FLAG"].ToString());
+            List<InstitutionShortCode> INS = (from p in dt.AsEnumerable()
+                                              select new InstitutionShortCode()
+                                              {
+                                                  INSTITUTION_ID = p.Field<long>("Id"),
+                                                  PatSignUpFlag = p.Field<long>("PatSignup")
+                                              }).ToList();
+            return INS;
         }
         public string GetInstitutionName(string INSTITUTION_CODE)
         {
@@ -1899,20 +1913,20 @@ namespace MyCortex.Repositories.Uesr
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[CG_PATIENTAPPOINTMENTS_SP_LIST]", param);
-                DataEncryption decrypt = new DataEncryption();
+                //DataEncryption decrypt = new DataEncryption();
                 List<PatientAppointmentsModel> lst = (from p in dt.AsEnumerable()
                                                       select new PatientAppointmentsModel()
                                                       {
                                                           Patient_Id = p.Field<long>("PATIENT_ID"),
-                                                          Appointment_FromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
-                                                          Appointment_ToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
+                                                          Appointment_FromTime2 = p.Field<string>("APPOINTMENT_FROMTIME2"),
+                                                          Appointment_ToTime2 = p.Field<string>("APPOINTMENT_TOTIME2"),
                                                           DoctorName = p.Field<string>("DOCTORNAME"),
                                                           PatientName = p.Field<string>("PATIENTNAME"),
                                                           //PatientName = p.Field<string>("PATIENTNAME"),
                                                           //DoctorName = p.Field<string>("DOCTORNAME"),
                                                           Appointment_Date = p.Field<DateTime>("APPOINTMENT_DATE"),
                                                           //Photo = p.Field<string>("PHOTO_NAME"),
-                                                          PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
+                                                          //PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
                                                           TimeDifference = p.Field<string>("TimeDifference"),
                                                           Doctor_Id = p.Field<long>("DOCTOR_ID"),
                                                           Id = p.Field<long>("Id"),

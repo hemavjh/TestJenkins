@@ -51,7 +51,16 @@ body {
     left: 0px;
     right: 0px;
 }
-
+.loginBg {
+    min-height: calc(115vh - 125px);
+    padding-bottom: 30px;
+    /* margin-top: 75px; */
+    background-image: url(../images/loginBg.jpg);
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .loginBgCor {
     min-height: calc(100vh - 105px);
     padding-bottom: 30px;

@@ -32,8 +32,8 @@ DoctorAppointmentDetails.controller("DoctorAppointmentDetailsForOthersController
         $scope.Cancelled_Remarks = "";
         $scope.Appointment_Id = 0;
         $scope.TimeZone_ID = 0;
-        $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-            $scope.TimeZone_ID = data.TimeZone_ID;
+        $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            $scope.TimeZone_ID = data.DefautTimeZone;
         });
         $http.get(baseUrl + '/api/PatientAppointments/AppointmentReasonType_List/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
             $scope.AppointmentReasonTypeListTemp = [];
@@ -71,6 +71,11 @@ DoctorAppointmentDetails.controller("DoctorAppointmentDetailsForOthersController
                 var obj = { "TimeZoneId": 0, "TimeZoneName": "", "UtcOffSet": "", "TimeZoneDisplayName": "Select", "IsActive": 1 };
                 $scope.TimeZoneCopy.splice(0, 0, obj);
                 $scope.TimeZoneList = angular.copy($scope.TimeZoneCopy);
+                angular.forEach($scope.TimeZoneList, function (value, index) {
+                    if (value.TimeZoneDisplayName == $scope.TimeZone_ID) {
+                        $scope.TimeZone_ID = value.TimeZoneId;
+                    }
+                });
                 $scope.TimeZoneID = $scope.TimeZone_ID;
                 setTimeout(() => {
                     settimezone(0);
@@ -130,7 +135,9 @@ DoctorAppointmentDetails.controller("DoctorAppointmentDetailsForOthersController
                 if (result.isConfirmed) {
                     $scope.Cancelled_Remarks = "";
                     $scope.Appointment_Id = Id;
+                    $scope.ReasonTypeId = '0';
                     angular.element('#PatientAppointmentModal').modal('show');
+                    setTimeout(() => { setres(); }, 500);
                 } else if (result.isDenied) {
                 }
             });
@@ -177,7 +184,7 @@ DoctorAppointmentDetails.controller("DoctorAppointmentDetailsForOthersController
                         }).error(function (data) { console.log(data); });
 
                     }
-                    angular.element('#PatientAppointmentModal').modal('hide');
+                    $scope.Cancel_CancelledAppointment();
                     if (data.ReturnFlag == 1) {
                         $scope.DoctorAppointmentlist();
                     }
