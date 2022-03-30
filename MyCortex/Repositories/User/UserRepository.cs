@@ -956,7 +956,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].USERDETAILS_SP_VIEW", param);
-            
+                
             UserModel View = (from p in dt.AsEnumerable()
                               select 
                                 new UserModel()
@@ -967,6 +967,7 @@ namespace MyCortex.Repositories.Uesr
                                   FirstName = p.Field<string>("FirstName"),
                                   MiddleName = p.Field<string>("MiddleName"),
                                   LastName = p.Field<string>("LastName"),
+                                  FullName = p.Field<string>("FULLNAME"),
                                   EMPLOYEMENTNO = p.Field<string>("EMPLOYEMENTNO"),
                                   EMAILID = p.Field<string>("EMAILID"),
                                   DEPARTMENT_ID = p.IsNull("DEPARTMENT_ID") ? 0 : p.Field<long>("DEPARTMENT_ID"),
@@ -1991,11 +1992,13 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
-        public IList<PatientAppointmentsModel> PatientPreviousAppointmentList(long PatientId, Guid Login_Session_Id)
+        public IList<PatientAppointmentsModel> PatientPreviousAppointmentList(long PatientId, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Patient_Id", PatientId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
