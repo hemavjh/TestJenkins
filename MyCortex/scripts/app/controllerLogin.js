@@ -908,9 +908,9 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                 $scope.PatSignUpFlag = data[0].PatSignUpFlag;
                 toastr.warning("You Haven't Subscribed For This Module. Please Contact Your Administrator", "warning" );
             }
-            if (data !== 0) {
-                $scope.InstitutionId = data;
-                $scope.SelectedInstitutionId = data;
+            if (data[0].INSTITUTION_ID !== 0) {
+                $scope.InstitutionId = data[0].INSTITUTION_ID;
+                $scope.SelectedInstitutionId = data[0].INSTITUTION_ID;
                 //if ($scope.SelectedInstitutionId != "") {
                 $scope.ConfigCode = "MRN_PREFIX";
                 $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data2) {
