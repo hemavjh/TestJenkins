@@ -40,12 +40,38 @@
                 </div>
                 <div class="col-sm-4 p-0">
                     <div class="flex justify-end">
+                        <input type="text" class="input-size" ng-model="NewAppointmentPrice" ng-required="true"
+                               ng-init="NewAppointmentPrice=''" id="NewAppointmentPrice" onkeypress="OnlySpecCharNum(event)" name="NewAppointmentPrice"
+                               placeholder="" ng-maxlength="10" maxlength="10">
+                    </div>
+                    <p class="input-text text-right">
+                        Price
+                        <sup>
+                            <font class='mandatory-field'>*</font>
+                        </sup>
+                    </p>
+                </div>
+                <div class="col-sm-4 p-0">
+                    <div class="flex justify-end">
                         <input type="text" class="input-size" ng-model="followup"
                                ng-init="followup=''" id="FollowUp"
                                ng-required="true" onkeypress="OnlySpecCharNum(event)" name="FollowUp" placeholder="" ng-maxlength="2" maxlength="2">
                     </div>
                     <p class="input-text text-right">
                         Follow-Up<sup>
+                            <font class='mandatory-field'>*</font>
+                        </sup>
+                    </p>
+                </div>
+                <div class="col-sm-4 p-0">
+                    <div class="flex justify-end">
+                        <input type="text" class="input-size" ng-model="followupPrice" ng-required="true"
+                               ng-init="followupPrice=''" id="followupPrice" onkeypress="OnlySpecCharNum(event)" name="followupPrice"
+                               placeholder="" ng-maxlength="10" maxlength="10">
+                    </div>
+                    <p class="input-text text-right">
+                        Price
+                        <sup>
                             <font class='mandatory-field'>*</font>
                         </sup>
                     </p>
