@@ -853,7 +853,7 @@
 
                     <br ng-if="ParameterValueList.length>=0" />
                     <div class="row" ng-show="ParameterValueList.length>=0" style="display: none" id="tableid">
-                        <div class="col-sm-3" ng-repeat="row in ParameterValueList">
+                        <div class="col-sm-3" ng-repeat="row in ParameterValueList" >
                             <div ng-class="{'alert alert-success nibp':row.LowCount>0,'alert alert-danger nibp':row.HighCount>0,'alert alert-warning nibp':row.MediumCount>0}">
                                 <div class="notificationsWarnings" ng-show="row.HighCount>0">
                                     <i class="fas fa-bell highBell" ng-show="row.HighCount>0"></i>
