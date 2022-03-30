@@ -5679,14 +5679,26 @@
                         <div class="flex doc-details mt-10 p-4">
                             <div class="col-sm-3">
                                 <ul class="p-0 pointerview">
-                                    <li ng-repeat="list in DoctorListWithTimeZone" ng-click="GetDoctorDetails(list)"
-                                        ng-class="{clickdoc : list === idSelectedVote}">{{list.DoctorName}}</li>
+                                    <li ng-repeat="list in DoctorListWithTimeZone" ng-click="GetDoctorDetails(list)" ng-class="{clickdoc : list === idSelectedVote}">
+                                        <div ng-if="(list.ViewGenderName| lowercase)=='male' && (!list.PhotoBlob)" valign="top" rowspan="6">
+                                            <img src="../../Images/male.png" style="border-radius:20%;height:2rem;width:2rem" class="patientDetimg" />{{list.DoctorName}}
+                                        </div>
+                                        <div ng-if="(list.ViewGenderName| lowercase)=='female' && (!list.PhotoBlob)" valign="top" rowspan="6">
+                                            <img src="../../Images/female.png" style="border-radius:20%;height:2rem;width:2rem" class="patientDetimg" />{{list.DoctorName}}
+                                        </div>
+                                        <div ng-if="(list.ViewGenderName| lowercase)!='female' && (list.ViewGenderName| lowercase)!='male' && (!list.PhotoBlob)" valign="top" rowspan="6">
+                                            <img src="../../Images/Others.png" style="border-radius:20%;height:2rem;width:2rem" class="patientDetimg" />{{list.DoctorName}}
+                                        </div>
+                                        <div ng-if="list.PhotoBlob" valign="top" rowspan="6">
+                                            <img src="{{'data:image/png;base64,'+list.PhotoBlob}}" style="border-radius:20%;height:2rem;width:2rem" class="patientDetimg" />{{list.DoctorName}}
+                                        </div>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="col-sm-9 p-8" id="DocDetails" hidden>
                                 <div class="flex mb-8" style="max-width: 680px; word-wrap: break-word; }">
                                     <div class="col-sm-7 flex p-0">
-                                        <div class="" style="width:20%">
+                                       
                                             <!--<div .ng-if="(uploadme!=null && uploadme!='')" valign="top" rowspan="6">
         <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ DoctorDetailList.Photo}}" />
     </div>-->
