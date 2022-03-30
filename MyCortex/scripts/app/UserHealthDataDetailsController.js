@@ -876,6 +876,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     }
                     $scope.DoctorDetailList = [];
                     $scope.idSelectedVote = null;
+                    $scope.ProfileDetailList = [];
                     $scope.GetDoctorDetails = function (list) {
                         $("#chatLoaderPV").show();
                         $scope.DoctorID = [];
@@ -883,6 +884,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         document.getElementById("show").disabled = false;
                         $scope.idSelectedVote = list;
                         $scope.DoctorID = list.Doctor_Id;
+
                         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
                         $scope.ViewGender = '';
                             $http.get(baseUrl + '/api/User/UserDetails_View?Id=' + $scope.DoctorID + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
