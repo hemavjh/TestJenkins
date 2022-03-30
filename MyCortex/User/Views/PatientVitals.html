@@ -22,9 +22,7 @@
         $('#SD_Date').attr('min', maxDate);
         $('#start_Date').attr('min', maxDate);
         $('#End_Date').attr('min', maxDate);
-        $('#ptDateTimePicker').attr('min', maxDate);
-        $('#dateee').attr('min', maxDate);
-
+        $('#ptDateTimePicker').attr('min', maxDate);      
     });
 </script>
 <!--<script src='Scripts/jquery-proper-slider.js'></script>
@@ -1843,9 +1841,10 @@
                                                             </td>
                                                         </tr>
                                                         <tr ng-repeat="Allen in PatientAllergyemptydata">
+                                                            
                                                             <td class="textalign">{{((current_PatientAllergyPages-1)*page_size)+$index+1}}</td>
                                                             <td style="text-align: left; ">
-                                                                {{Allen.AllergyTypeName}}
+                                                                {{Allen.AllergyTypeName}} <input type="hidden" id="{{'alltypename'+ Allen.Id}}" ng-model="alltypename" value="{{Allen.AllergyTypeName}}" />
                                                             </td>
                                                             <td style="text-align: left; max-width: 150px; word-wrap: break-word; ">
                                                                 {{Allen.AllergenName}}
@@ -1864,8 +1863,8 @@
 
 
                                                             <!-- <td style="text-align: left">
-                                        {{Allen.OnSetDate| date:'dd-MMM-yyyy'}}
-                                    </td>-->
+        {{Allen.OnSetDate| date:'dd-MMM-yyyy'}}
+    </td>-->
                                                             <td style="text-align: left; max-width:150px; word-wrap:break-word;">
                                                                 {{Allen.Created_By_Name}}<br />{{Allen.Created_Dt|  date :'dd-MMM-yyyy hh:mm:ss a'}}
                                                             </td>
@@ -3082,7 +3081,7 @@
                                     </td>
                                     <td>
                                         <input type="datetime-local" value="row.ActivityDate" ng-disabled="row.chkDateTime == false" ej-datetimepicker ng-init="row.ActivityDate=''" ng-model="row.ActivityDate" class="form-control date"
-                                               id="ptDateTimePicker{{$index}}" ng-required="true" ng-change="ejDTonChange(row.ActivityDate, $index)">
+                                               id="ptDateTimePicker{{$index}}" name="ptDateTimePicker" ng-required="true" ng-change="ejDTonChange(row.ActivityDate, $index)">
                                     </td>
                                     <td style="text-align: center">
                                         <input type="image" src="../../Images/deleteNewIcon.png"
@@ -5851,12 +5850,32 @@
                             <div class="col-sm-5">
                                 <p class="font-semibold m-bottom-0">Upload Reports and Documents</p>
                                 <div class="col-sm-12 custom-file mt-10">
-                                    <label class="custom-file-upload text-center">
-                                        <input type="file" id="appdocfile" fileread="appdocfile"
-                                               onchange="angular.element(this).scope().appdocfileChange(this, angular.element(this).scope().$index)" />
-                                        Drag and Drop File
-                                        <p class="m-bottom-0 mt-10 text-center">Brower File</p>
-                                    </label>
+                                    <div class="preview-zone hidden">
+                                        <div class="box box-solid">
+                                            <div class="box-header with-border">
+                                                <div><b>Preview</b></div>
+                                                <div class="box-tools pull-right">
+                                                    <button type="button" class="btn btn-danger btn-xs remove-preview">
+                                                        <i class="fa fa-times"></i> Reset The Field
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="box-body"></div>
+                                        </div>
+                                    </div>
+                                    <div class="dropzone-wrapper">
+                                        <div class="dropzone-desc">
+                                            <i class="glyphicon glyphicon-download-alt"></i>
+                                            <p>Choose a file or drag it here.</p>
+                                        </div>
+                                        <input type="file" name="img_logo" fileread="appdocfile" ng-model="appdocfile" class="dropzone" id="appdocfile" multiple onchange="angular.element(this).scope().appdocfileChange(this, angular.element(this).scope().$index)" >
+                                    </div>
+                                        <!--<label class="custom-file-upload text-center">
+                                            <input type="file" id="appdocfile" fileread="appdocfile"
+                                                   onchange="angular.element(this).scope().appdocfileChange(this, angular.element(this).scope().$index)" />
+                                            Drag and Drop File
+                                            <p class="m-bottom-0 mt-10 text-center">Browser File</p>
+                                        </label>-->                                    
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="col-sm-12 file" ng-repeat="list in files">
@@ -7050,4 +7069,132 @@ Works in Mozilla, Webkit & IE.
                     document.getElementById('alltypename').value = getalltypename.trim();
                 }
             </script>
+    <script>
+        function readFile(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    var htmlPreview =
+                        '<img width="200" src="' + e.target.result + '" />' +
+                        '<p>' + input.files[0].name + '</p>';
+                    var wrapperZone = $(input).parent();
+                    var previewZone = $(input).parent().parent().find('.preview-zone');
+                    var boxZone = $(input).parent().parent().find('.preview-zone').find('.box').find('.box-body');
+
+                    wrapperZone.removeClass('dragover');
+                    previewZone.removeClass('hidden');
+                    boxZone.empty();
+                    boxZone.append(htmlPreview);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function reset(e) {
+            e.wrap('<form>').closest('form').get(0).reset();
+            e.unwrap();
+        }
+
+        $(".dropzone").change(function () {
+            readFile(this);
+        });
+
+        $('.dropzone-wrapper').on('dragover', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $(this).addClass('dragover');
+        });
+
+        $('.dropzone-wrapper').on('dragleave', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $(this).removeClass('dragover');
+        });
+
+        $('.remove-preview').on('click', function () {
+            var boxZone = $(this).parents('.preview-zone').find('.box-body');
+            var previewZone = $(this).parents('.preview-zone');
+            var dropzone = $(this).parents('.form-group').find('.dropzone');
+            boxZone.empty();
+            previewZone.addClass('hidden');
+            reset(dropzone);
+        });        
+    </script>
+    <style >
+        /* Code By Webdevtrick ( https://webdevtrick.com ) */
+        /*.container {
+            padding: 50px 10%;
+        }
+*/
+        .box {
+            position: relative;
+            background: #ffffff;
+            width: 100%;
+        }
+
+        .box-header {
+            color: #444;
+            display: block;
+            padding: 10px;
+            position: relative;
+            border-bottom: 1px solid #f4f4f4;
+            margin-bottom: 10px;
+        }
+
+        .box-tools {
+            position: absolute;
+            right: 10px;
+            top: 5px;
+        }
+
+        .dropzone-wrapper {
+            border: 2px dashed #91b0b3;
+            color: #92b0b3;
+            position: relative;
+            height: 150px;
+        }
+
+        .dropzone-desc {
+            position: absolute;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            text-align: center;
+            width: 40%;
+            top: 50px;
+            font-size: 16px;
+        }
+
+        .dropzone,
+        .dropzone:focus {
+            position: absolute;
+            outline: none !important;
+            width: 100%;
+            height: 150px;
+            cursor: pointer;
+            opacity: 0;
+        }
+
+        .dropzone-wrapper:hover,
+        .dropzone-wrapper.dragover {
+            background: #ecf0f5;
+        }
+
+        .preview-zone {
+            text-align: center;
+        }
+
+            .preview-zone .box {
+                box-shadow: none;
+                border-radius: 0;
+                margin-bottom: 0;
+            }
+
+        .btn-primary {
+            background-color: crimson;
+            border: 1px solid #212121;
+        }
+    </style>
     </body>
