@@ -24,6 +24,8 @@ namespace MyCortex.User.Model
 
         public DateTime AppointmentFromTime { get; set; }
         public DateTime AppointmentToTime { get; set; }
+        public string Appointment_ToTime2 { get; set; }
+        public string Appointment_FromTime2 { get; set; }
         public long? Appointment_Module_Id { get; set; }
         public long Appointment_Type { get; set; }
         public string ReasonForVisit { get; set; }
@@ -108,6 +110,8 @@ namespace MyCortex.User.Model
         public string ToTime { get; set; }
         public string AppointmentTime { get; set; }
         public bool IsBooked { get; set; }
+        public string PatientName { get; set; }
+        public long? id { get; set; }
     }
 
     public class DoctorAppointmentTimeSlotReturnModel

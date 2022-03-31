@@ -103,7 +103,7 @@ namespace MyCortex.Repositories.User
             }
         }
 
-        public IList<CareCoordinatorModel> CareCoordinator_FilterPatientList(long Coordinator_Id, string PATIENTNO, string INSURANCEID, string NATIONALITY_ID, string MOBILE_NO, string EMAILID, long UserTypeId, string FIRSTNAME, string LASTNAME, string MRN, int TypeId, Guid Login_Session_Id)
+        public IList<CareCoordinatorModel> CareCoordinator_FilterPatientList(long Coordinator_Id, string PATIENTNO, string INSURANCEID, string NATIONALITY_ID, string MOBILE_NO, string EMAILID, long UserTypeId, string FIRSTNAME, string LASTNAME, string MRN, int TypeId, Guid Login_Session_Id, int? AdvanceFilter)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Coordinator_Id", Coordinator_Id));
@@ -116,10 +116,11 @@ namespace MyCortex.Repositories.User
             param.Add(new DataParameter("@LASTNAME", string.IsNullOrEmpty(LASTNAME) ? "" : LASTNAME.ToLower()));
             param.Add(new DataParameter("@MRN", string.IsNullOrEmpty(MRN) ? "" : MRN.ToLower()));
             param.Add(new DataParameter("@UserTypeId", UserTypeId));
+            param.Add(new DataParameter("@AdvanceFilter", AdvanceFilter));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption decrypt = new DataEncryption();
+                //DataEncryption decrypt = new DataEncryption();
                 DataTable dt = new DataTable();
                 if (TypeId == 1)
                 {
@@ -314,7 +315,7 @@ namespace MyCortex.Repositories.User
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
+                //DataEncryption DecryptFields = new DataEncryption();
                 DataTable dt = new DataTable();
                 if (UserTypeId == 6)
                 {

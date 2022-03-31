@@ -345,6 +345,7 @@
     <Content Include="Images\expand.png" />
     <Content Include="Images\expinactiveexpinactive.png" />
     <Content Include="Images\favicon.png" />
+    <Content Include="Images\favicon_MyH.png" />
     <Content Include="Images\favmenu.png" />
     <Content Include="Images\fb.png" />
     <Content Include="Images\female.png" />
@@ -499,8 +500,10 @@
     <Content Include="Login\Views\Loginhome.html" />
     <Content Include="Login\Views\Signup.html" />
     <Content Include="Masters\Views\AllergyMasterList.html" />
+    <Content Include="Masters\Views\AppointmentApproval.html" />
     <Content Include="Masters\Views\AttendanceDetails.html" />
     <Content Include="Masters\Views\DeviceList.html" />
+    <Content Include="Masters\Views\DoctorAppointmentDetails_For_Others.html" />
     <Content Include="Masters\Views\DoctorShift.html" />
     <Content Include="Masters\Views\AdminEmailConfiguration.html" />
     <Content Include="Masters\Views\GateWaySettings.html" />
@@ -532,6 +535,7 @@
     <Content Include="scripts\angular-ui.js" />
     <Content Include="scripts\angular.js" />
     <Content Include="scripts\angular.min.js" />
+    <Content Include="scripts\app\AppointmentApprovalController.js" />
     <Content Include="scripts\app\AlertConfigurationController.js" />
     <Content Include="scripts\app\AllergyMasterListController.js" />
     <Content Include="scripts\app\AllPatientListController.js" />
@@ -547,6 +551,7 @@
     <Content Include="scripts\app\CoordinatorController.js" />
     <Content Include="scripts\app\DirectCallController.js" />
     <Content Include="scripts\app\DirectVideoCallController.js" />
+    <Content Include="scripts\app\DoctorAppointmentDetailsForOthersController.js" />
     <Content Include="scripts\app\DoctorProfileController.js" />
     <Content Include="scripts\app\DoctorShiftController.js" />
     <Content Include="scripts\app\DrugDBController.js" />

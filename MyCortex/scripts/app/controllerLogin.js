@@ -187,7 +187,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
         $scope.usernamekeypress = function (e) {
             var charCode = e.charCode || e.keyCode || e.which;
             if ((charCode >= 33 && charCode <= 39) || (charCode >= 40 && charCode <= 45) || (charCode >= 47 && charCode <= 43) || (charCode >= 58 && charCode <= 63) || (charCode >= 91 && charCode <= 96) || (charCode >= 123 && charCode <= 126)) {
-                toastr.warning("Numbers & Special characters are not allowed except @ and dot.", "warning");
+                toastr.warning("Special characters are not allowed except @ and dot.", "warning");
                 //swal.fire("Numbers & Special characters are not allowed.");
                 if (e.preventDefault) {
                     e.preventDefault();
@@ -294,11 +294,22 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             } else {
                 $scope.Productlogin = 1;
             }
+
+            if ($scope.Productlogin == '1') {
+                document.getElementById('LoginSection').className = "loginBgHel";
+            }
+            else {
+                document.getElementById('LoginSection').className = "loginBgCor";
+            }
+        });
+        $http.get(baseUrl + '/api/Login/GetProduct_Details/').success(function (data) {
+            $scope.PrdImg = data[0].ProductImg;
+            $scope.prdName = data[0].ProductName;
         });
         $http.get(baseUrl + '/api/Login/getProductName/').success(function (data) {
             var ProductName = data;
             $('#productname').val(ProductName["instanceId"]);
-            if ($('#productname').val() == "1") {
+            if ($('#productname').val() == "0") {
                 $scope.prdName = "MyHealth";
                 $scope.prductName = " MyHealth?";
             } else if ($('#productname').val() == "2") {
@@ -1110,11 +1121,15 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             $scope.DOB = DateFormatEdit($scope.DOB);
             return true;
         };
+        $http.get(baseUrl + '/api/Login/GetProduct_Details/').success(function (data) {
+            $scope.PrdImg = data[0].ProductImg;
+            $scope.prdName = data[0].ProductName;
+        });
 
         $http.get(baseUrl + '/api/Login/getProductName/').success(function (data) {
             var ProductName = data;
             $('#productname').val(ProductName["instanceId"]);
-            if ($('#productname').val() == "1") {
+            if ($('#productname').val() == "0") {
                 $scope.prdName = "MyHealth";
                 $scope.prductName = " MyHealth?";
             } else if ($('#productname').val() == "2") {

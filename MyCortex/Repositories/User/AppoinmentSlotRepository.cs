@@ -234,18 +234,71 @@ namespace MyCortex.Repositories.User
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].DOCTORAPPOINMENTSLOT_SP_LIST", param);
-                List<DoctorAppoinmentSlotModel> list = (from p in dt.AsEnumerable()
-                                                        select new DoctorAppoinmentSlotModel()
-                                                  {
-                                                      Id = p.Field<long>("ID"),
-                                                      FullName = p.Field<string>("FULLNAME"),
-                                                      Department_Name = p.Field<string>("DEPARTMENT_NAME"),
-                                                      NameSpecialization = p.Field<string>("NAMESPECIALIZATION"),
-                                                      ViewGenderName = p.Field<string>("VIEWGENDERNAME"),
-                                                      EmailId = p.Field<string>("EMAILID"),
-                                                      TypeName = p.Field<string>("TYPENAME"),
-                                                      IsActive = p.Field<int>("ISACTIVE")
-                                                  }).ToList();
+                //List<DoctorAppoinmentSlotModel> list = (from p in dt.AsEnumerable()
+                //                                        select new DoctorAppoinmentSlotModel()
+                //                                  {
+                //                                      Id = p.Field<long>("ID"),
+                //                                      FullName = p.Field<string>("FULLNAME"),
+                //                                      Department_Name = p.Field<string>("DEPARTMENT_NAME"),
+                //                                      NameSpecialization = p.Field<string>("NAMESPECIALIZATION"),
+                //                                      ViewGenderName = p.Field<string>("VIEWGENDERNAME"),
+                //                                      EmailId = p.Field<string>("EMAILID"),
+                //                                      TypeName = p.Field<string>("TYPENAME"),
+                //                                      IsActive = p.Field<int>("ISACTIVE")
+                //                                  }).ToList();
+
+                List<DoctorAppoinmentSlotModel> list = new List<DoctorAppoinmentSlotModel>();
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    try
+                    {
+                        DoctorAppoinmentSlotModel am = new DoctorAppoinmentSlotModel();
+                        am.Id = Convert.ToInt64(dt.Rows[i]["ID"].ToString());
+                        am.FullName = dt.Rows[i]["FULLNAME"].ToString();
+                        am.Department_Name = dt.Rows[i]["DEPARTMENT_NAME"].ToString();
+                        am.NameSpecialization = dt.Rows[i]["NAMESPECIALIZATION"].ToString();
+                        am.ViewGenderName = dt.Rows[i]["VIEWGENDERNAME"].ToString();
+                        am.EmailId = dt.Rows[i]["EMAILID"].ToString();
+                        am.TypeName = dt.Rows[i]["TYPENAME"].ToString();
+                        am.IsActive = Convert.ToInt32(dt.Rows[i]["ISACTIVE"].ToString());
+                        list.Add(am);
+                    }
+                    catch(Exception ex)
+                    {
+                        continue;
+                    }
+                }
+                return list;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public IList<DoctorAppoinmentSlotModel> CG_Doctors_List(long? Institution_Id, long? CC_CG)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
+            param.Add(new DataParameter("@CC_CG", CC_CG));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].CG_DOCTORS_LIST", param);
+                List<DoctorAppoinmentSlotModel> list = new List<DoctorAppoinmentSlotModel>();
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    try
+                    {
+                        DoctorAppoinmentSlotModel am = new DoctorAppoinmentSlotModel();
+                        am.Id = Convert.ToInt64(dt.Rows[i]["ID"].ToString());
+                        am.FullName = dt.Rows[i]["FULLNAME"].ToString();
+                        list.Add(am);
+                    }
+                    catch (Exception ex)
+                    {
+                        continue;
+                    }
+                }
                 return list;
             }
             catch (Exception ex)

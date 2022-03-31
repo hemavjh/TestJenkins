@@ -4,18 +4,19 @@
 
     $(function () {
 
-        $('body:not(".viewPassword")').click(function () {
-
+        $('body:not(".viewPasswordClass")').click(function () {
+            console.log('Press1');
             $('#viewPassword').addClass('fa-eye');
             $('#viewPassword').removeClass('fa-eye-slash');
             $('#psw').attr('type', 'password');
         })
         $('#viewPassword').on('mousedown', function () {
-
+            console.log('Press2');
             $(this).addClass('fa-eye-slash');
             $(this).removeClass('fa-eye');
             $('#psw').attr('type', 'text');
         }).on('mouseup', function () {
+            console.log('Press3');
             $(this).addClass('fa-eye');
             $(this).removeClass('fa-eye-slash');
             $('#psw').attr('type', 'password');
@@ -54,11 +55,14 @@
     <div class="loginContainer">
         <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
         <div ng-hide="Productlogin == 1">
+            <img src="{{PrdImg}}" style="width: 13%; margin-bottom: -60px; margin-left: -7px;">
             <h1>{{ProductName1}} Sign In</h1>
         </div>
         <div ng-hide="Productlogin == 0">
-            <h3>Sign In</h3>
-            <h2>New to {{ProductName1}}? Sign Up</h2>
+            <!--<h3>Sign In</h3>
+            <h2>New to {{ProductName1}}? Sign Up</h2>-->
+            <img src="{{PrdImg}}" style="width: 13%; margin-bottom: -60px; margin-left: -7px;">
+            <h1>{{ProductName1}} Sign In</h1>
         </div>
         <form>
             <div class="inputGroups">

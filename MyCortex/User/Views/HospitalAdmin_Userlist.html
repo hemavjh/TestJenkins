@@ -112,9 +112,13 @@
             if (day < 10)
                 day = '0' + day.toString();
 
-            var maxDate = year + '-' + month + '-' + day;
-            $('#Date_Birth').attr('max', maxDate);
+            var maxDate = year + '-' + month + '-' + day;           
+          $('#Date_Birth').attr('max', maxDate);            
         });
+        function SetmaxDateDOB() {
+            var maxdatedob = document.getElementById('maxdatedob').value;
+            $('#Date_Birth').attr('max', maxdatedob);
+        }
     </script>
     <script>
         $(document).ready(function () {
@@ -198,17 +202,17 @@
     <li>
         <a class="secondaryMenuActive" href="Home/Index#/HospitalAdmin_UserList/2" data-menu="Home">
             Clinical
-            User
+            Users
         </a>
     </li>
-    <li><a href="Home/Index#/PatientList/3">All Patient</a></li>
+    <li><a href="Home/Index#/PatientList/3">All Patients</a></li>
     <li><a href="Home/Index#/PatientApproval">Patient Approval</a></li>
     <li><a href="Home/Index#/Admin_UserList/3">Hospital Admin</a></li>
     <li><a href="Home/Index#/Admin_Userslog_List">Users Log</a></li>
     <!--<li><a href="Home/Index#/PatientList">Patient</a></li>-->
 </ul>
 
-<h1 class="page-title">Clinical User</h1>
+<h1 class="page-title">Clinical Users</h1>
 
 <div ng-init="BusinessUser_List(2);currentTab='1';">
     <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
@@ -270,14 +274,14 @@
                     </div>
                     <div class="col-sm-3">
                         <div class="inputGroups">
-                            <label>Remind No.Of HealthCareProfessionals / Total No.of HealthCareProfessionals: </label>
+                            <label>Available No.Of HealthCareProfessionals / Total No.of HealthCareProfessionals: </label>
                             <span style=" margin-left: 219px; font-weight: bold;"> {{Remaining_No_Of_HealthCareProf}} / {{Health_Care_Professionals}}</span>
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="inputGroups">
                             <a href="javascript:" ng-click="AddUserPopUP();ClearPopUp();InstitutionBased_CountryStateList()"
-                               class="theme-btn-1 pull-right mt-15 text-center" title='Add New User'>Add New</a>
+                               class="theme-btn-1 pull-right mt-15 text-center" onclick="SetmaxDateDOB();" title='Add New User'>Add New</a>
                         </div>
                     </div>
                 </div>
@@ -413,7 +417,7 @@
                 <a href="javascript:" ng-click="ViewUserPopUP(row.Id)" title="View">
                     <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
-                <a href="javascript:;" ng-click="row.IsActive == 0 || EditUserPopUP(row.Id)" title="Edit">
+                <a href="javascript:;" ng-click="row.IsActive == 0 || EditUserPopUP(row.Id)" title="Edit" onclick="SetmaxDateDOB();">
 
                     <i class="fa fa-pencil" aria-hidden="true" ng-if="row.IsActive==1"></i>
                     <a href="javascript:"
@@ -827,7 +831,8 @@
                                                             <!--<input type="date" id="Date_Birth" max="2099-12-31" placeholder="" class="form-control ng-pristine ng-invalid ng-invalid-required" ng-model="DOB" ng-init="DOB=''">-->
                                                             <!--<input type="date" id="Date_Birth" max="2099-12-31" placeholder="" class="form-control" ng-model="DOB" ng-init="DOB=''">-->
                                                             <!--<div id="divDOB" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                                            <input type="date" id="Date_Birth" max="2099-12-31" placeholder="" class="form-control" ng-model="DOB">
+                                                            <input type="date" id="Date_Birth" max="" placeholder="" class="form-control" ng-model="DOB">
+                                                            <input type="hidden" id="maxdatedob" value="{{maxdateDOB | date:'yyyy-MM-dd'}}" />
                                                             <!--</div>-->
                                                             <!--</div>-->
                                                         </div>
@@ -964,9 +969,8 @@
                                                         <div class="uploadIconContainer theme-btn-1 mr-10" style="align-items:left!important; justify-content: flex-start;">
                                                             <label for="EditDocument" class="uploadIconBtn" style="display:initial;" title="Click to Upload File">
                                                                 <i class="fa fa-upload" aria-hidden="true"></i>
+                                                                <span style="text-align: left;">Upload File</span>
                                                             </label>
-
-                                                            <span style="text-align: left;">Upload File</span>
                                                         </div>
                                                         <a href="javascript:" class="theme-btn-2" ng-click="fileclear()">
                                                             Clear
@@ -1100,7 +1104,7 @@
                                                     </div>
                                                     <div class="inputGroups">
                                                         <label>Mobile No.</label>
-                                                        <span>{{MobileNo}}</span>
+                                                        <span>{{MobileNoView}}</span>
                                                     </div>
                                                     <div class="inputGroups">
                                                         <label>Type of User</label>
@@ -1260,7 +1264,10 @@
                                                 <div class="col-sm-6">
                                                     <div class="inputGroups">
                                                         <label>Certificates Upload</label>
-                                                        <a href="home/GetPatient_UserDocument?Id={{Id}}" target="_blank">{{CertificateFileName}}</a>
+                                                        <!--<a href="home/GetPatient_UserDocument?Id={{Id}}" target="_blank">{{CertificateFileName}}</a>-->
+                                                        <a href="javascript:;" ng-click="CertificateView(Id)">
+                                                            <div class="textwrap">{{CertificateFileName}}</div>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>

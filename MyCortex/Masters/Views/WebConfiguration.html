@@ -95,71 +95,181 @@
 
                 <td style="text-align: left">
 
-                    <select class="form-control" style="max-width:100% !important"
-                            ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='FULLNAME_FORMULA' && IsEdit==true">
-                        <option value="[L],[F]">[L],[F]</option>
-                        <option value="[F],[L],[M]">[F],[L],[M]</option>
-                        <option value="[L],[F],[M]">[L],[F],[M]</option>
-                    </select>
+                    <!--<select class="form-control" style="max-width:100% !important"
+            ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='FULLNAME_FORMULA' && IsEdit==true">
+        <option value="[L],[F]">[L],[F]</option>
+        <option value="[F],[L],[M]">[F],[L],[M]</option>
+        <option value="[L],[F],[M]">[L],[F],[M]</option>
+    </select>-->
+                    <div ng-if="row.CONFIGCODE=='FULLNAME_FORMULA' && IsEdit==true">
+                        <input style="margin-left: 5px !important;" type="radio" value="[L],[F]" ng-model="Config_value[row.ID]"> [L],[F]
+                        <input style="margin-left: 5px !important" type="radio" value="[F],[L],[M]" ng-model="Config_value[row.ID]"> [F],[L],[M]
+                        <input style="margin-left: 5px !important;" type="radio" value="[L],[F],[M]" ng-model="Config_value[row.ID]"> [L],[F],[M]
+                    </div>
+                    <div ng-if="row.CONFIGCODE=='FULLNAME_FORMULA' && IsEdit==false">
+                        <input style="margin-left: 5px !important;" type="radio" value="[L],[F]" ng-model="Config_value[row.ID]" disabled> [L],[F]
+                        <input style="margin-left: 5px !important" type="radio" value="[F],[L],[M]" ng-model="Config_value[row.ID]" disabled> [F],[L],[M]
+                        <input style="margin-left: 5px !important;" type="radio" value="[L],[F],[M]" ng-model="Config_value[row.ID]" disabled> [L],[F],[M]
+                    </div>
 
-                    <select class="form-control" style="max-width:100% !important"
-                            ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='DATEFORMAT_TYPE' && IsEdit==true">
-                        <option value="mm/dd/yyyy">mm/dd/yyyy</option>
-                        <option value="dd/mm/yy">dd/mm/yy</option>
-                        <option value="mm/dd/yy">mm/dd/yy</option>
-                        <option value="dd/mm/yyyy">dd/mm/yyyy</option>
-                    </select>
+                    <!--<select class="form-control" style="max-width:100% !important"
+            ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='DATEFORMAT_TYPE' && IsEdit==true">
+        <option value="mm/dd/yyyy">mm/dd/yyyy</option>
+        <option value="dd/mm/yy">dd/mm/yy</option>
+        <option value="mm/dd/yy">mm/dd/yy</option>
+        <option value="dd/mm/yyyy">dd/mm/yyyy</option>
+    </select>-->
 
-                    <select class="form-control" style="max-width:100% !important"
-                            ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='TIMEFORMAT_TYPE' && IsEdit==true">
-                        <option value="HH:mm">HH:mm</option>
-                        <option value="HH:mm xm">HH:mm xm</option>
-                        <option value="HH:mm:ss">HH:mm:ss</option>
-                        <option value="HH:mm:ss xm">HH:mm:ss xm</option>
-                    </select>
+                    <div ng-if="row.CONFIGCODE=='DATEFORMAT_TYPE' && IsEdit==true">
+                        <input style="margin-left: 5px !important;" type="radio" value="mm/dd/yyyy" ng-model="Config_value[row.ID]"> mm/dd/yyyy
+                        <input style="margin-left: 5px !important" type="radio" value="dd/mm/yy" ng-model="Config_value[row.ID]"> dd/mm/yy
+                        <input style="margin-left: 5px !important;" type="radio" value="mm/dd/yy" ng-model="Config_value[row.ID]"> mm/dd/yy
+                        <input style="margin-left: 5px !important" type="radio" value="dd/mm/yyyy" ng-model="Config_value[row.ID]"> dd/mm/yyyy
+                    </div>
+                    <div ng-if="row.CONFIGCODE=='DATEFORMAT_TYPE' && IsEdit==false">
+                        <input style="margin-left: 5px !important;" type="radio" value="mm/dd/yyyy" ng-model="Config_value[row.ID]" disabled> mm/dd/yyyy
+                        <input style="margin-left: 5px !important" type="radio" value="dd/mm/yy" ng-model="Config_value[row.ID]" disabled> dd/mm/yy
+                        <input style="margin-left: 5px !important;" type="radio" value="mm/dd/yy" ng-model="Config_value[row.ID]" disabled> mm/dd/yy
+                        <input style="margin-left: 5px !important" type="radio" value="dd/mm/yyyy" ng-model="Config_value[row.ID]" disabled> dd/mm/yyyy
+                    </div>
+                    <!--<select class="form-control" style="max-width:100% !important"
+            ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='TIMEFORMAT_TYPE' && IsEdit==true">
+        <option value="HH:mm">HH:mm</option>
+        <option value="HH:mm xm">HH:mm xm</option>
+        <option value="HH:mm:ss">HH:mm:ss</option>
+        <option value="HH:mm:ss xm">HH:mm:ss xm</option>
+    </select>-->
+                    <div ng-if="row.CONFIGCODE=='TIMEFORMAT_TYPE' && IsEdit==true">
+                        <input style="margin-left: 5px !important;" type="radio" value="HH:mm" ng-model="Config_value[row.ID]"> HH:mm
+                        <input style="margin-left: 5px !important" type="radio" value="HH:mm xm" ng-model="Config_value[row.ID]"> HH:mm xm
+                        <input style="margin-left: 5px !important;" type="radio" value="HH:mm:ss" ng-model="Config_value[row.ID]"> HH:mm:ss
+                        <input style="margin-left: 5px !important" type="radio" value="HH:mm:ss xm" ng-model="Config_value[row.ID]"> HH:mm:ss xm
+                    </div>
+                    <div ng-if="row.CONFIGCODE=='TIMEFORMAT_TYPE' && IsEdit==false">
+                        <input style="margin-left: 5px !important;" type="radio" value="HH:mm" ng-model="Config_value[row.ID]" disabled> HH:mm
+                        <input style="margin-left: 5px !important" type="radio" value="HH:mm xm" ng-model="Config_value[row.ID]" disabled> HH:mm xm
+                        <input style="margin-left: 5px !important;" type="radio" value="HH:mm:ss" ng-model="Config_value[row.ID]" disabled> HH:mm:ss
+                        <input style="margin-left: 5px !important" type="radio" value="HH:mm:ss xm" ng-model="Config_value[row.ID]" disabled> HH:mm:ss xm
+                    </div>
 
-                    <select class="form-control" style="max-width:100% !important"
-                            ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='NUMBER_FORMAT_TYPE' && IsEdit==true">
-                        <option value="1">1</option>
-                        <option value="1.0">1.0</option>
-                        <option value="1.00">1.00</option>
-                        <option value="1.000">1.000</option>
-                    </select>
+                    <!--<select class="form-control" style="max-width:100% !important"
+            ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='NUMBER_FORMAT_TYPE' && IsEdit==true">
+        <option value="1">1</option>
+        <option value="1.0">1.0</option>
+        <option value="1.00">1.00</option>
+        <option value="1.000">1.000</option>
+    </select>-->
+                    <div ng-if="row.CONFIGCODE=='NUMBER_FORMAT_TYPE' && IsEdit==true">
+                        <input style="margin-left: 5px !important;" type="radio" value="1" ng-model="Config_value[row.ID]"> 1
+                        <input style="margin-left: 5px !important" type="radio" value="1.0" ng-model="Config_value[row.ID]"> 1.0
+                        <input style="margin-left: 5px !important;" type="radio" value="1.00" ng-model="Config_value[row.ID]"> 1.00
+                        <input style="margin-left: 5px !important" type="radio" value="1.000" ng-model="Config_value[row.ID]"> 1.000
+                    </div>
+                    <div ng-if="row.CONFIGCODE=='NUMBER_FORMAT_TYPE' && IsEdit==false">
+                        <input style="margin-left: 5px !important;" type="radio" value="1" ng-model="Config_value[row.ID]" disabled> 1
+                        <input style="margin-left: 5px !important" type="radio" value="1.0" ng-model="Config_value[row.ID]" disabled> 1.0
+                        <input style="margin-left: 5px !important;" type="radio" value="1.00" ng-model="Config_value[row.ID]" disabled> 1.00
+                        <input style="margin-left: 5px !important" type="radio" value="1.000" ng-model="Config_value[row.ID]" disabled> 1.000
+                    </div>
+                    <!--<select class="form-control" style="max-width:100% !important"
+            ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='CURRENCY_FORMAT_TYPE' && IsEdit==true">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+    </select>-->
+                    <!--<select class="form-control" style="max-width:100% !important"
+            ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='MEDICATION_END_DATE' && IsEdit==true">
+        <option value="True">True</option>
+        <option value="False">False</option>
+    </select>-->
+                    <div ng-if="row.CONFIGCODE=='CURRENCY_FORMAT_TYPE' && IsEdit==true">
+                        <input style="margin-left: 5px !important;" type="radio" value="0" ng-model="Config_value[row.ID]"> 0
+                        <input style="margin-left: 5px !important" type="radio" value="1" ng-model="Config_value[row.ID]"> 1
+                        <input style="margin-left: 5px !important;" type="radio" value="2" ng-model="Config_value[row.ID]"> 2
+                        <input style="margin-left: 5px !important" type="radio" value="3" ng-model="Config_value[row.ID]"> 3
+                    </div>
+                    <div ng-if="row.CONFIGCODE=='CURRENCY_FORMAT_TYPE' && IsEdit==false">
+                        <input style="margin-left: 5px !important;" type="radio" value="0" ng-model="Config_value[row.ID]" disabled> 0
+                        <input style="margin-left: 5px !important" type="radio" value="1" ng-model="Config_value[row.ID]" disabled> 1
+                        <input style="margin-left: 5px !important;" type="radio" value="2" ng-model="Config_value[row.ID]" disabled> 2
+                        <input style="margin-left: 5px !important" type="radio" value="3" ng-model="Config_value[row.ID]" disabled> 3
+                    </div>
+                    <div ng-if="row.CONFIGCODE=='MEDICATION_END_DATE' && IsEdit==true">
+                        <input style="margin-left: 5px !important;" type="radio" value="True" ng-model="Config_value[row.ID]"> True
+                        <input style="margin-left: 5px !important" type="radio" value="False" ng-model="Config_value[row.ID]"> False
+                    </div>
+                    <div ng-if="row.CONFIGCODE=='MEDICATION_END_DATE' && IsEdit==false">
+                        <input style="margin-left: 5px !important;" type="radio" value="True" ng-model="Config_value[row.ID]" disabled> True
+                        <input style="margin-left: 5px !important" type="radio" value="False" ng-model="Config_value[row.ID]" disabled> False
+                    </div>
 
-                    <select class="form-control" style="max-width:100% !important"
-                            ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='CURRENCY_FORMAT_TYPE' && IsEdit==true">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                    </select>
+                    <select class="form-control" id="chkChronic" style="max-width:100% !important" multiple="multiple" size="4" multiselect-dropdown
+            ng-change="onChangeChronic(Config_value[row.ID],row.ID)"
+            ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='CHRONIC CODE' && IsEdit==true">
+        <option id="chkCL" ng-model="chronicCL" value="CL">CL</option>
+        <option id="chkCG" ng-model="chronicCG" value="CG">CG</option>
+        <option id="chkCC" ng-model="chronicCC" value="CC">CC</option>
+        <option id="chkSC" ng-model="chronicSC" value="SC">SC</option>
+    </select>
+    <select class="form-control" id="chkChronic" style="max-width:100% !important" multiple="multiple"
+            ng-change="onChangeChronic(Config_value[row.ID],row.ID)"
+            ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='CHRONIC CODE' && IsEdit==false" disabled>
+        <option id="chkCL" ng-model="chronicCL" value="CL" disabled>CL</option>
+        <option id="chkCG" ng-model="chronicCG" value="CG" disabled>CG</option>
+        <option id="chkCC" ng-model="chronicCC" value="CC" disabled>CC</option>
+        <option id="chkSC" ng-model="chronicSC" value="SC" disabled>SC</option>
+    </select>
 
-                    <select class="form-control" id="chkChronic" style="max-width:100% !important" multiple="multiple" multiselect-dropdown
-                            ng-change="onChangeChronic(Config_value[row.ID],row.ID)"
-                            ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='CHRONIC CODE' && IsEdit==true">
-                        <option id="chkCL" ng-model="chronicCL" value="CL">CL</option>
-                        <option id="chkCG" ng-model="chronicCG" value="CG">CG</option>
-                        <option id="chkCC" ng-model="chronicCC" value="CC">CC</option>
-                        <option id="chkSC" ng-model="chronicSC" value="SC">SC</option>
-                    </select>
 
-                    <select class="form-control" style="max-width:100% !important"
-                            ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='AUTO_SIGNUP_APPROVAL' && IsEdit==true">
-                        <option value="Active">Active</option>
-                        <option value="InActive">InActive</option>
-                    </select>
+                    <!--<div ng-repeat="chcode in ChronicCodeList" ng-if="row.CONFIGCODE=='CHRONIC CODE' && IsEdit==true" ng-model="Config_value[row.ID]">
+                        <input type="checkbox" style="margin-left: 5px !important;" id="chkCL" ng-model="chcode.checked" value="{{chcode.Id}}"> {{chcode.Name}}
+                    </div>
+                    <div ng-if="row.CONFIGCODE=='CHRONIC CODE' && IsEdit==true" ng-model="Config_value[row.ID]">
+                        <input type="checkbox" style="margin-left: 5px !important;" id="chkCL" ng-model="chronicCL" ng-checked="Config_value[row.ID]"  value="CL" ng-change="onChangeChronic(Config_value[row.ID],row.ID)"> CL
+                        <input type="checkbox" style="margin-left: 5px !important;" id="chkCG" ng-model="chronicCG" ng-checked="Config_value[row.ID]"  value="CG" ng-change="onChangeChronic(Config_value[row.ID],row.ID)"> CG
+                        <input type="checkbox" style="margin-left: 5px !important;" id="chkCC" ng-model="chronicCC" ng-checked="Config_value[row.ID]" value="CC" ng-change="onChangeChronic(Config_value[row.ID],row.ID)"> CC
+                        <input type="checkbox" style="margin-left: 5px !important;" id="chkSC" ng-model="chronicSC" ng-checked="Config_value[row.ID]"  value="SC" ng-change="onChangeChronic(Config_value[row.ID],row.ID)"> SC
+                    </div>
+                    <div ng-if="row.CONFIGCODE=='CHRONIC CODE' && IsEdit==false" ng-model="Config_value[row.ID]">
+                        <input type="checkbox" style="margin-left: 5px !important;" id="chkCL" ng-model="chronicCL" ng-checked="Config_value[row.ID]" value="CL" disabled> CL
+                        <input type="checkbox" style="margin-left: 5px !important;" id="chkCG" ng-model="chronicCG" ng-checked="Config_value[row.ID]" value="CG" disabled> CG
+                        <input type="checkbox" style="margin-left: 5px !important;" id="chkCC" ng-model="chronicCC" ng-checked="Config_value[row.ID]" value="CC" disabled> CC
+                        <input type="checkbox" style="margin-left: 5px !important;" id="chkSC" ng-model="chronicSC" ng-checked="Config_value[row.ID]" value="SC" disabled> SC
+                    </div>-->
+                   
+
+                    <!--<select class="form-control" style="max-width:100% !important"
+            ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='AUTO_SIGNUP_APPROVAL' && IsEdit==true">
+        <option value="Active">Active</option>
+        <option value="InActive">InActive</option>
+    </select>-->
+                    <div ng-if="row.CONFIGCODE=='AUTO_SIGNUP_APPROVAL' && IsEdit==true">
+                        <input style="margin-left: 5px !important;" type="radio" value="Active" ng-model="Config_value[row.ID]"> Active
+                        <input style="margin-left: 5px !important" type="radio" value="InActive" ng-model="Config_value[row.ID]"> InActive
+                    </div>
+                    <div ng-if="row.CONFIGCODE=='AUTO_SIGNUP_APPROVAL' && IsEdit==false">
+                        <input style="margin-left: 5px !important;" type="radio" value="Active" ng-model="Config_value[row.ID]" disabled> Active
+                        <input style="margin-left: 5px !important" type="radio" value="InActive" ng-model="Config_value[row.ID]" disabled> InActive
+                    </div>
 
                     <div ng-if="row.CONFIGCODE=='BT_DEVICE_DATA_POST' && IsEdit==true">
-                        <input style="margin-left: 5px !important" type="radio" value="Auto" ng-model="Config_value[row.ID]"> Auto
+                        <!-- && IsEdit==true this is in the ng-if statement-->
+                        <input style="margin-left: 5px !important;" type="radio" value="Auto" ng-model="Config_value[row.ID]"> Auto
                         <input style="margin-left: 5px !important" type="radio" value="Manual" ng-model="Config_value[row.ID]"> Manual
                     </div>
+                    <div ng-if="row.CONFIGCODE=='BT_DEVICE_DATA_POST' && IsEdit==false">
+                        <!-- && IsEdit==true this is in the ng-if statement-->
+                        <input style="margin-left: 5px !important;" type="radio" value="Auto" ng-model="Config_value[row.ID]" disabled> Auto
+                        <input style="margin-left: 5px !important" type="radio" value="Manual" ng-model="Config_value[row.ID]" disabled> Manual
+                    </div>
                     <!--<select class="form-control" style="max-width:100% !important" ng-model="SelectedChronic" multiple="multiple" ng-change="onChangeChronic();"
-                    ng-options="item1.CHRONICID as item1.CHRONICNAME for item1 in ChronicCodeList"
-                    multiselect-dropdown ng-if="row.CONFIGCODE=='CHRONIC_CODE' && IsEdit==true">
-                    </select>-->
+    ng-options="item1.CHRONICID as item1.CHRONICNAME for item1 in ChronicCodeList"
+    multiselect-dropdown ng-if="row.CONFIGCODE=='CHRONIC_CODE' && IsEdit==true">
+    </select>-->
                     <input type="text" class="form-control" style="max-width:100% !important" id="{{row.CONFIGCODE}}"
-                           ng-model="Config_value[row.ID]" placeholder="" ng-if="row.CONFIGCODE!='CHRONIC CODE' && row.CONFIGCODE!='FULLNAME_FORMULA' && row.CONFIGCODE!='BT_DEVICE_DATA_POST' && row.CONFIGCODE!='AUTO_SIGNUP_APPROVAL' && row.CONFIGCODE!='DATEFORMAT_TYPE' && row.CONFIGCODE!='TIMEFORMAT_TYPE' && row.CONFIGCODE!='NUMBER_FORMAT_TYPE' && row.CONFIGCODE!='CURRENCY_FORMAT_TYPE' && IsEdit==true">
-                    <span ng-if="IsEdit==false">{{Config_value[row.ID]}}</span>
+                           ng-model="Config_value[row.ID]" placeholder="" ng-if="row.CONFIGCODE!='CHRONIC CODE' && row.CONFIGCODE!='FULLNAME_FORMULA' && row.CONFIGCODE!='BT_DEVICE_DATA_POST' && row.CONFIGCODE!='AUTO_SIGNUP_APPROVAL' && row.CONFIGCODE!='DATEFORMAT_TYPE' && row.CONFIGCODE!='TIMEFORMAT_TYPE' && row.CONFIGCODE!='NUMBER_FORMAT_TYPE' && row.CONFIGCODE!='CURRENCY_FORMAT_TYPE' && row.CONFIGCODE!='MEDICATION_END_DATE' && IsEdit==true">
+                    <span ng-if="IsEdit==false && (row.CONFIGCODE!='CHRONIC CODE' && row.CONFIGCODE!='FULLNAME_FORMULA' && row.CONFIGCODE!='BT_DEVICE_DATA_POST' && row.CONFIGCODE!='AUTO_SIGNUP_APPROVAL' && row.CONFIGCODE!='DATEFORMAT_TYPE' && row.CONFIGCODE!='TIMEFORMAT_TYPE' && row.CONFIGCODE!='NUMBER_FORMAT_TYPE' && row.CONFIGCODE!='CURRENCY_FORMAT_TYPE' && row.CONFIGCODE!='MEDICATION_END_DATE')">{{Config_value[row.ID]}}</span>
                 </td>
             </tr>
         </tbody>

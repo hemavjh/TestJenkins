@@ -65,12 +65,12 @@ namespace MyCortex.User.Controllers
         }
 
         [HttpPost]
-        public IList<CareCoordinatorModel> CareCoordinator_FilterPatientList(long Coordinator_Id, string PATIENTNO, string INSURANCEID, string NATIONALITY_ID, string MOBILE_NO, string EMAILID, long UserTypeId, string FIRSTNAME, string LASTNAME, string MRN, int TypeId, Guid Login_Session_Id)
+        public IList<CareCoordinatorModel> CareCoordinator_FilterPatientList(long Coordinator_Id, string PATIENTNO, string INSURANCEID, string NATIONALITY_ID, string MOBILE_NO, string EMAILID, long UserTypeId, string FIRSTNAME, string LASTNAME, string MRN, int TypeId, Guid Login_Session_Id, int? AdvanceFilter = 0)
         {
             try
             {
                 IList<CareCoordinatorModel> model;
-                model = repository.CareCoordinator_FilterPatientList(Coordinator_Id, PATIENTNO, INSURANCEID, NATIONALITY_ID, MOBILE_NO, EMAILID, UserTypeId, FIRSTNAME, LASTNAME, MRN, TypeId, Login_Session_Id);
+                model = repository.CareCoordinator_FilterPatientList(Coordinator_Id, PATIENTNO, INSURANCEID, NATIONALITY_ID, MOBILE_NO, EMAILID, UserTypeId, FIRSTNAME, LASTNAME, MRN, TypeId, Login_Session_Id, AdvanceFilter);
                 return model;
             }
             catch (Exception ex)

@@ -250,7 +250,7 @@ namespace MyCortex.Repositories.Login
                                       Approval_flag = p.Field<int?>("APPROVAL_FLAG"),
                                   },
                               }).FirstOrDefault();
-            if (lst.UserDetails.DOB_Encrypt != "")
+            if (lst.UserDetails.DOB_Encrypt != "" && lst.UserDetails.DOB_Encrypt != null)
             {
                 var time = lst.UserDetails.DOB_Encrypt.Split(' ');
 

@@ -78,6 +78,30 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
+        public IList<DepartmentModel> DepartmentListByInstitution(long Institution_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                param.Add(new DataParameter("@InstitutionId", Institution_Id));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].DEPARTMENT_SP_LIST_By_Institution", param);
+                List<DepartmentModel> lst = (from p in dt.AsEnumerable()
+                                             select new DepartmentModel()
+                                             {
+                                                 Id = p.Field<long>("Id"),
+                                                 Department_Name = p.Field<string>("Department_Name"),
+                                                 IsActive = p.Field<int>("IsActive")
+                                             }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
 
         public IList<DocumentTypeModel> DocumentTypeList()
         {
@@ -671,7 +695,7 @@ namespace MyCortex.Repositories.Uesr
                                     PayorId = p.Field<string>("PAYORID"),
                                     PlanId = p.Field<string>("PLANID"),
                                 }).FirstOrDefault();
-            if (insert.DOB_Encrypt != "")
+            if (insert.DOB_Encrypt != "" && insert.DOB_Encrypt != null)
             {
                 var time = insert.DOB_Encrypt.Split(' ');
 
@@ -801,7 +825,11 @@ namespace MyCortex.Repositories.Uesr
                                         UserType_Id = p.Field<long?>("UserType_Id"),
                                         Is_Master = p.Field<bool>("IS_MASTER"),
                                         HEALTH_LICENSE = p.Field<string>("HEALTH_LICENSE"),
-                                        NATIONALITY_ID = p.Field<long?>("NATIONALITY_ID")
+                                        NATIONALITY_ID = p.Field<long?>("NATIONALITY_ID"),
+                                        NATIONALID = p.Field<string>("NATIONALID"),
+                                        MNR_NO = p.Field<string>("MRN_NO"),
+                                        PATIENT_ID = p.Field<string>("PATIENTNO"),
+                                        INSURANCEID = p.Field<string>("INSURANCEID")
                                     }).ToList();
             //list.FullName = list.FullName;
             return list;
@@ -875,7 +903,7 @@ namespace MyCortex.Repositories.Uesr
         }
 
 
-        public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber, string NATIONALITY_ID, String SearchQuery, string PATIENTNO, string INSURANCEID, string MOBILE_NO, string EMAILID, string FIRSTNAME, string LASTNAME, string MRNNO)
+        public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber, string NATIONALITY_ID, String SearchQuery, string PATIENTNO, string INSURANCEID, string MOBILE_NO, string EMAILID, string FIRSTNAME, string LASTNAME, string MRNNO, int? AdvanceFilter)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@ISACTIVE", IsActive));
@@ -890,6 +918,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@FIRSTNAME", FIRSTNAME));
             param.Add(new DataParameter("@LASTNAME", LASTNAME));
             param.Add(new DataParameter("@MRNNO", MRNNO));
+            param.Add(new DataParameter("@ADVANCE_FILTER", AdvanceFilter));
             param.Add(new DataParameter("@USERTYPE_ID", "2"));  // dont change
             //param.Add(new DataParameter("@SearchEncryptedQuery", EncryptPassword.Encrypt(SearchQuery)));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].SEARCH_PATIENT_SP_ALL_LIST", param);
@@ -1903,20 +1932,20 @@ namespace MyCortex.Repositories.Uesr
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[CG_PATIENTAPPOINTMENTS_SP_LIST]", param);
-                DataEncryption decrypt = new DataEncryption();
+                //DataEncryption decrypt = new DataEncryption();
                 List<PatientAppointmentsModel> lst = (from p in dt.AsEnumerable()
                                                       select new PatientAppointmentsModel()
                                                       {
                                                           Patient_Id = p.Field<long>("PATIENT_ID"),
-                                                          Appointment_FromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
-                                                          Appointment_ToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
+                                                          Appointment_FromTime2 = p.Field<string>("APPOINTMENT_FROMTIME2"),
+                                                          Appointment_ToTime2 = p.Field<string>("APPOINTMENT_TOTIME2"),
                                                           DoctorName = p.Field<string>("DOCTORNAME"),
                                                           PatientName = p.Field<string>("PATIENTNAME"),
                                                           //PatientName = p.Field<string>("PATIENTNAME"),
                                                           //DoctorName = p.Field<string>("DOCTORNAME"),
                                                           Appointment_Date = p.Field<DateTime>("APPOINTMENT_DATE"),
                                                           //Photo = p.Field<string>("PHOTO_NAME"),
-                                                          PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
+                                                          //PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
                                                           TimeDifference = p.Field<string>("TimeDifference"),
                                                           Doctor_Id = p.Field<long>("DOCTOR_ID"),
                                                           Id = p.Field<long>("Id"),
@@ -3161,7 +3190,7 @@ namespace MyCortex.Repositories.Uesr
                                                Generic_name = p.Field<string>("GENERIC_NAME"),
                                                Drug_Code = p.Field<string>("DRUGCODE"),
                                                StartDate = p.Field<DateTime>("STARTDATE"),
-                                               EndDate = p.Field<DateTime>("ENDDATE"),
+                                               EndDate = p.Field<DateTime?>("ENDDATE"),
                                                Item_Code = p.Field<string>("ITEMCODE"),
                                                StrengthName = p.Field<string>("STRENGTHNAME"),
                                                Dosage_FromName = p.Field<string>("DOSAGEFORMNAME"),
@@ -3224,7 +3253,7 @@ namespace MyCortex.Repositories.Uesr
                                           DrugId = p.Field<long?>("DRUGID"),
                                           Drug_Code = p.Field<string>("DRUGCODE"),
                                           StartDate = p.Field<DateTime>("STARTDATE"),
-                                          EndDate = p.Field<DateTime>("ENDDATE"),
+                                          EndDate = p.Field<DateTime?>("ENDDATE"),
                                           Generic_name = p.Field<string>("GENERIC_NAME"),
                                           Item_Code = p.Field<string>("ITEMCODE"),
                                           StrengthName = p.Field<string>("STRENGTHNAME"),

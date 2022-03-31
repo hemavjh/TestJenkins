@@ -305,7 +305,7 @@
             positionClass: 'toast-top-right',
             preventDuplicates: false,
             preventOpenDuplicates: false,
-            progressBar: false,
+            progressBar: true,
             tapToDismiss: true,
             target: 'body',
             templates: {

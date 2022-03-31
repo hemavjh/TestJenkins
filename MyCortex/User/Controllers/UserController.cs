@@ -92,6 +92,25 @@ namespace MyCortex.User.Controller
         }
 
         [HttpGet]
+        public IList<DepartmentModel> DepartmentListByInstitution()
+        {
+            IList<DepartmentModel> model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                long InstitutionId = Int64.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
+                model = repository.DepartmentListByInstitution(InstitutionId);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        [HttpGet]
         public IList<DocumentTypeModel> DocumentTypeList()
         {
             IList<DocumentTypeModel> model;
@@ -734,7 +753,7 @@ namespace MyCortex.User.Controller
 
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber, string NATIONALITY_ID = null, String SearchQuery = null, string PATIENTNO = null, string INSURANCEID = null, string MOBILE_NO = null, string EMAILID = null, string FIRSTNAME = null, string LASTNAME = null, string MRNNO = null)
+        public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber, string NATIONALITY_ID = null, String SearchQuery = null, string PATIENTNO = null, string INSURANCEID = null, string MOBILE_NO = null, string EMAILID = null, string FIRSTNAME = null, string LASTNAME = null, string MRNNO = null, int AdvanceFilter = 0)
         {
             string NATIONALITY_ID2 = string.IsNullOrEmpty(NATIONALITY_ID) ? "" : NATIONALITY_ID.ToLower();
             string PATIENTNO2 = string.IsNullOrEmpty(PATIENTNO) ? "" : PATIENTNO.ToLower();
@@ -750,7 +769,7 @@ namespace MyCortex.User.Controller
             List<ItemizedUserDetailsModel> model = new List<ItemizedUserDetailsModel>();
             try
             {
-                model = repository.Search_Patient_List(IsActive, INSTITUTION_ID, StartRowNumber2, lastno, NATIONALITY_ID2, SearchQuery2, PATIENTNO2, INSURANCEID2, MOBILE_NO2, EMAILID2, FIRSTNAME2, LASTNAME2, MRNNO2);
+                model = repository.Search_Patient_List(IsActive, INSTITUTION_ID, StartRowNumber2, lastno, NATIONALITY_ID2, SearchQuery2, PATIENTNO2, INSURANCEID2, MOBILE_NO2, EMAILID2, FIRSTNAME2, LASTNAME2, MRNNO2, AdvanceFilter);
             }
             catch(Exception ex)
             {
@@ -1501,7 +1520,7 @@ namespace MyCortex.User.Controller
         /// <returns></returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage PatientAppointmentList(long Patient_Id, Guid Login_Session_Id, int StartRowNumber=1, int EndRowNumber=20)
+        public HttpResponseMessage PatientAppointmentList(long Patient_Id, Guid Login_Session_Id, int StartRowNumber= 0, int EndRowNumber= 0)
         {
             IList<PatientAppointmentsModel> ModelData = new List<PatientAppointmentsModel>();
             PatientAppointmentsReturnModel model = new PatientAppointmentsReturnModel();
@@ -3304,7 +3323,7 @@ namespace MyCortex.User.Controller
             try
             {
                 msg = repository.MedicationInsertUpdateDateOverLapping(Login_Session_Id, insobj);
-                if (msg != "")
+                if (msg != "" && msg!=null)
                 {
                     model.Message = msg;
                 }
@@ -3340,7 +3359,7 @@ namespace MyCortex.User.Controller
 
                 }
                 model.DrugDBMaster = ModelData;
-                if (msg != "")
+                if (msg != "" && msg!=null)
                 {
                     model.Message = msg;
                 }
@@ -4016,13 +4035,13 @@ namespace MyCortex.User.Controller
             }
             try
             {
-                DataEncryption EncryptPassword = new DataEncryption();
-                userObj.MOBILE_NO = EncryptPassword.Encrypt(userObj.MOBILE_NO);
-                userObj.EMAILID = EncryptPassword.Encrypt(userObj.EMAILID.ToLower());
-                userObj.GOOGLE_EMAILID = EncryptPassword.Encrypt(userObj.GOOGLE_EMAILID);
-                userObj.FB_EMAILID = EncryptPassword.Encrypt(userObj.FB_EMAILID);
-                userObj.appleUserID = EncryptPassword.Encrypt(userObj.appleUserID);
-                userObj.PatientId = EncryptPassword.Encrypt(userObj.PatientId);
+                //DataEncryption EncryptPassword = new DataEncryption();
+                userObj.MOBILE_NO = userObj.MOBILE_NO;
+                userObj.EMAILID = userObj.EMAILID.ToLower();
+                userObj.GOOGLE_EMAILID = userObj.GOOGLE_EMAILID;
+                userObj.FB_EMAILID = userObj.FB_EMAILID;
+                userObj.appleUserID = userObj.appleUserID;
+                userObj.PatientId = userObj.PatientId;
                 ModelData = repository.Patient_Update(Login_Session_Id, userObj);
 
                 if (ModelData.flag > 0)
