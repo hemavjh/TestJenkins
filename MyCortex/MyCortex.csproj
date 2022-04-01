@@ -335,6 +335,7 @@
     <Content Include="Images\delete_icon_consult.png" />
     <Content Include="Images\DOB.png" />
     <Content Include="Images\document.png" />
+    <Content Include="Images\download1.png" />
     <Content Include="Images\downloadimage.png" />
     <Content Include="Images\dr1.jpg" />
     <Content Include="Images\dr2.jpg" />
