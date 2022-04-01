@@ -876,6 +876,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.DoctorDetailList = [];
                     $scope.idSelectedVote = null;
                     $scope.ProfileDetailList = [];
+                    $scope.GetDoctorPhoto = [];
                     $scope.GetDoctorDetails = function (list) {
                         $("#chatLoaderPV").show();
                         $scope.DoctorID = [];
@@ -903,7 +904,15 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             }
                         })
                         
-
+                        $http.get(baseUrl + '/api/User/UserDetails_GetPhoto/?Id=' + $scope.DoctorID).success(function (data1) {
+                            $scope.GetDoctorPhoto = data1;
+                            if (data1.PhotoBlob != null) {
+                                $scope.uploadme2 = 'data:image/png;base64,' + data1.PhotoBlob;
+                            }
+                            else {
+                                $scope.uploadme2 = null;
+                            }
+                        });
                     }
                     function convert(str) {
                         var date = new Date(str),
