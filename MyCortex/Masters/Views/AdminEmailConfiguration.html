@@ -6,7 +6,9 @@
             if ($('#' + $('.secondaryMenuActive').data('menu')).length === 0) {
                 $('.activeButton').removeClass('activeButton');
                 //$('#Templates/EmailSetup').addClass('activeButton');
-                document.getElementById("Templates/EmailSetup").className += 'activeButton';
+                if (document.getElementById("Templates/EmailSetup")) {
+                    document.getElementById("Templates/EmailSetup").className += 'activeButton';
+                }
             }
         });
     </script>

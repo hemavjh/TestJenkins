@@ -75,16 +75,16 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                 $scope.SectionType = "INS_SUB_DETAILS";
             if (EmailSectionType != "0")
                 $scope.TemplateTagMappingList = [];
-                $http.get(baseUrl + '/api/EmailTemplate/SectionEmailTemplateTagMapping_List/?Id=' + $scope.Type + '&Institution_Id=' + $scope.InstituteId + '&SectionName=' + $scope.SectionType).success(function (data) {
-                    $scope.TemplateTagMappingList = data;
-                });
+            $http.get(baseUrl + '/api/EmailTemplate/SectionEmailTemplateTagMapping_List/?Id=' + $scope.Type + '&Institution_Id=' + $scope.InstituteId + '&SectionName=' + $scope.SectionType).success(function (data) {
+                $scope.TemplateTagMappingList = data;
+            });
         };
 
         /* THIS IS FOR VALIDATION CONTROL */
         $scope.Validationcontrols = function () {
-            if ($scope.PageParameter == 1 || $scope.PageParameter == 3) {
-                $scope.Template = (CKEDITOR.instances.editor1.getData());
-            }
+            //if ($scope.PageParameter == 1 || $scope.PageParameter == 3) {
+            $scope.Template = (CKEDITOR.instances.editor1.getData());
+            //}
             if (typeof ($scope.TemplateName) == "undefined" || $scope.TemplateName == "") {
                 //alert("Please enter Template Name");
                 toastr.warning("Please enter Template Name", "warning");
@@ -136,21 +136,21 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
         $scope.EmailTemplateTagDetails = [];
 
         /* THIS IS FOR ADD/EDIT FUNCTION */
-        $scope.EmailTemplateAddEdit = function () {            
-            if ($scope.PageParameter == 1 || $scope.PageParameter == 3) {
-                if (CKEDITOR.instances['editor1'].getData() != "") {
-                    $('#divEditor').removeClass('ng-invalid');
-                    $('#divEditor').addClass('ng-valid');
-                } else {
-                    $('#divEditor').removeClass('ng-valid');
-                    $('#divEditor').addClass('ng-invalid');
-                    return false;
-                }
+        $scope.EmailTemplateAddEdit = function () {
+            //if ($scope.PageParameter == 1 || $scope.PageParameter == 3) {
+            if (CKEDITOR.instances['editor1'].getData() != "") {
+                $('#divEditor').removeClass('ng-invalid');
+                $('#divEditor').addClass('ng-valid');
+            } else {
+                $('#divEditor').removeClass('ng-valid');
+                $('#divEditor').addClass('ng-invalid');
+                return false;
             }
+            //}
 
-            if ($scope.PageParameter == 1 || $scope.PageParameter == 3) {
-                $scope.Template = (CKEDITOR.instances.editor1.getData());
-            }
+            //if ($scope.PageParameter == 1 || $scope.PageParameter == 3) {
+            $scope.Template = (CKEDITOR.instances.editor1.getData());
+            //}
             if ($scope.Validationcontrols() == true) {
 
                 var TemplateChildList = [],
@@ -287,9 +287,9 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                 $scope.Type = data.Type_Id.toString();
                 $scope.ViewType_Name = data.Type_Name;
                 $scope.TemplateTagMappingList = data.EmailTemplateTagList;
-                if ($scope.TemplateType_Id == 1 || $scope.TemplateType_Id == 3) {
-                    $scope.ViewTemplate = CKEDITOR.instances.editor1.setData($scope.Template);
-                }
+                //if ($scope.TemplateType_Id == 1 || $scope.TemplateType_Id == 3) {
+                $scope.ViewTemplate = CKEDITOR.instances.editor1.setData($scope.Template);
+                //}
                 $scope.TempMappinglist();
                 $("#chatLoaderPV").hide();
             });
@@ -324,16 +324,16 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                     //Swal.fire('Changes are not saved', '', 'info')
                 }
             })
-           /* var del = confirm("Do you like to deactivate the selected Template?");
-            if (del == true) {
-                $http.get(baseUrl + '/api/EmailTemplate/EmailTemplate_Delete/?Id=' + $scope.Id).success(function (data) {
-                    //alert("Template has been deactivated Successfully");
-                    toastr.success("Template has been deactivated Successfully", "success");
-                    $scope.EmailTemplatelist();
-                }).error(function (data) {
-                    $scope.error = "An error has occurred while deleting  ICD 10 details" + data;
-                });
-            }*/
+            /* var del = confirm("Do you like to deactivate the selected Template?");
+             if (del == true) {
+                 $http.get(baseUrl + '/api/EmailTemplate/EmailTemplate_Delete/?Id=' + $scope.Id).success(function (data) {
+                     //alert("Template has been deactivated Successfully");
+                     toastr.success("Template has been deactivated Successfully", "success");
+                     $scope.EmailTemplatelist();
+                 }).error(function (data) {
+                     $scope.error = "An error has occurred while deleting  ICD 10 details" + data;
+                 });
+             }*/
         };
 
         /* THIS IS FOR ACTIVE FUNCTION*/
@@ -438,9 +438,9 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
             $scope.EmailTemplate = "";
             $scope.Type = "0";
             $scope.Template = "";
-            if ($scope.PageParameter == 1 || $scope.PageParameter == 3) {
-                $scope.Template = CKEDITOR.instances.editor1.setData($scope.Template);
-            }
+            //if ($scope.PageParameter == 1 || $scope.PageParameter == 3) {
+            $scope.Template = CKEDITOR.instances.editor1.setData($scope.Template);
+            //}
         }
 
         /* THIS IS OPENING POP WINDOW FORM LIST */
