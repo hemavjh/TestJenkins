@@ -15,6 +15,7 @@ var EmpApp = angular.module('EmpApp', [
     'ChatSettingsController',
     'PasswordController',
     'EmailConfigurationController',
+    'SMSConfigurationController',
     'EmailAlertlistController',
     'WebConfigurationController',
     'LanguageSettingsController',
@@ -351,6 +352,10 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
              templateUrl: baseUrl + 'Masters/Views/EmailConfiguration.html',
              controller: 'EmailConfigurationController'
          }).
+        when('/MasterSmsConfigurationList', {
+            templateUrl: baseUrl + 'Masters/Views/SMSConfiguration.html',
+            controller: 'SMSConfigurationController'
+        }).
         when('/AdminEmailConfigurationList/:LoginUserType', {
             templateUrl: baseUrl + 'Masters/Views/EmailConfiguration.html',
             controller: 'EmailConfigurationController'

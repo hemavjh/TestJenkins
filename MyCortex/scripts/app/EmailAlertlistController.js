@@ -170,8 +170,10 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
         $scope.EventBasedToList = function () {
             $http.get(baseUrl + '/api/EmailAlertConfig/EventTo_List/?EventId=' + $scope.Event).success(function (data) {
                 if (data != null) {
-                    $scope.EventCC = data[0].EventCC;
-                    $scope.EventTo = data[0].EventTo;
+                    if (data.length > 0) {
+                        $scope.EventCC = data[0].EventCC;
+                        $scope.EventTo = data[0].EventTo;
+                    }
                 }
             });
         };
@@ -315,23 +317,35 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
                     $scope.EmailTemplate = data.EmailTemplate_Id.toString();
                     $scope.EmailTempId = 1;
                     $scope.ViewEmailTemplateName = data.EmailTemplate;
+                    $scope.EmailFlag = true;
+                } else {
+                    $scope.EmailFlag = false;
                 }
                 if (data.AppTemplate_Id != null) {
                     $scope.AppTemplate = data.AppTemplate_Id.toString();
                     $scope.AppTempId = 2;
                     $scope.ViewAppTemplateName = data.AppTemplate;
+                    $scope.AppFlag = true;
+                } else {
+                    $scope.AppFlag = false;
                 }
 
                 if (data.WebTemplate_Id != null) {
                     $scope.WebTemplate = data.WebTemplate_Id.toString();
                     $scope.WebTempId = 2;
                     $scope.ViewWebTemplateName = data.WebTemplate;
+                    $scope.WebFlag = true;
+                } else {
+                    $scope.WebFlag = false;
                 }
 
                 if (data.SMSTemplate_Id != null) {
                     $scope.SMSTemplate = data.SMSTemplate_Id.toString();
                     $scope.SMSTempId = 3;
                     $scope.ViewSMSTemplateName = data.SMSTemplate;
+                    $scope.SMSFlag = true;
+                } else {
+                    $scope.SMSFlag = false;
                 }
 
                 $scope.AlertDays = data.AlertDays == null ? "" : data.AlertDays;
@@ -467,13 +481,21 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
         /* THIS IS OPENING POP WINDOW FORM EDIT */
         $scope.EditEmailAlert = function (CatId) {
             $scope.Id = CatId;
-            $scope.EventClear();
-            $scope.ViewEmailAlert();
-            $scope.status = 0;
-            $('[data-id="select1"]').prop('disabled', true);
-            $scope.Eventselected();
-            angular.element('#EmailAlertModal').modal('show');
-            $('#btnsave').attr("disabled", false);
+            $("#chatLoaderPV").show();
+            $http.get(baseUrl + '/api/EmailAlertConfig/AlertEvent_List/?Institution_Id=' + $scope.InstituteId + '&Id=' + 0
+                + '&status=3').success(function (data) {
+                $scope.AlertListTemp = [];
+                $scope.AlertListTemp = data;
+                if (data != null) {
+                    $scope.AlertEvent = angular.copy($scope.AlertListTemp);
+                }
+                $scope.EventClear();
+                $scope.ViewEmailAlert();
+                $scope.status = 0;
+                $('[data-id="select1"]').prop('disabled', true);
+                angular.element('#EmailAlertModal').modal('show');
+                $('#btnsave').attr("disabled", false);
+            });
         }
 
         /* THIS IS CANCEL POPUP FUNCTION */

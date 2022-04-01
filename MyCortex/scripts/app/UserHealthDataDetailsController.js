@@ -3020,7 +3020,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 'IsActive': 1,
                 'All_UnitLists': $scope.ParameterMappingList,
                 'ParameterMappingList': []
-            }];
+            }];            
         }
 
         $scope.smsResponse = [];
@@ -3077,6 +3077,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.patientVitalsrowChkChange = function (itemIndex) {
             //alert(itemIndex);
             $("#ptDateTimePicker" + itemIndex).val(new Date().toJSON().slice(0, 19));
+            $("#ptDateTimePicker" + itemIndex).attr('max', new Date().toJSON().slice(0, 19));
         }
 
         $scope.get_SubParameterMappingList = function (index) {
@@ -3260,6 +3261,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         filteredObj[i].Activity_Date = $filter('date')(new Date(), 'dd-MMM-yyyy HH:mm:ss')
                     } else {
                         filteredObj[i].Activity_Date = $filter('date')(filteredObj[i].ActivityDate, 'dd-MMM-yyyy HH:mm:ss')
+                        if (filteredObj[i].Activity_Date == "" || filteredObj[i].Activity_Date == 'undefined') { filteredObj[i].Activity_Date = $filter('date')(new Date(), 'dd-MMM-yyyy HH:mm:ss') }
                     }
                 }
                 var obj = {
@@ -6429,6 +6431,24 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         TSDuplicate = 2;                        
                     }                     
                 }
+                //this section for deactivate to activate checking
+                var x1 = angular.element(document.getElementById("alltypename" + $scope.Id));
+                $scope.alltypename1 = x1.val();
+                if ($scope.alltypename1 != "") {
+                    if ((ExistingPatientAllergyTypeName != DefaultAlleryTypeName) && (IsActiveAllergyType == 1)) {
+
+                        // $scope.alltypename1 = x1.val();
+                        if ($scope.alltypename1 == DefaultAlleryTypeName) {
+                            TSDuplicate = 1;
+                        }
+                    }
+                    if ((ExistingPatientAllergyTypeName == DefaultAlleryTypeName) && (IsActiveAllergyType == 1)) {
+
+                        if ($scope.alltypename1 != DefaultAlleryTypeName) {
+                            TSDuplicate = 2;
+                        }
+                    }
+                }              
             });
 
             if (TSDuplicate == 1) {
@@ -6440,7 +6460,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             }
             else { return true; }
         }
-
+        
         $scope.setPage4 = function (PageNo) {
             if (PageNo == 0) {
                 PageNo = $scope.inputPageAllergy;
@@ -6553,26 +6573,25 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 showCloseButton: true,
                 allowOutsideClick: false,
             }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-                    var obj =
-                    {
-                        Id: $scope.Id,
-                        Modified_By: $window.localStorage['UserId']
-                    }
-
-                    $http.post(baseUrl + '/api/User/AllergyDetails_InActive/', obj).success(function (data) {
-                        //alert(data.Message);
-                        if (data.ReturnFlag == 2) {
-                            toastr.success(data.Message, "success");
+                    if (result.isConfirmed) {
+                        var obj =
+                        {
+                            Id: $scope.Id,
+                            Modified_By: $window.localStorage['UserId']
                         }
-                        $scope.PatientAllergyList();
-                    }).error(function (data) {
-                        $scope.error = "An error has occurred while deleting Doctor Notes" + data;
-                    });
-                } else if (result.isDenied) {
-                    //Swal.fire('Changes are not saved', '', 'info')
-                }
+
+                        $http.post(baseUrl + '/api/User/AllergyDetails_InActive/', obj).success(function (data) {
+                            //alert(data.Message);
+                            if (data.ReturnFlag == 2) {
+                                toastr.success(data.Message, "success");
+                            }
+                            $scope.PatientAllergyList();
+                        }).error(function (data) {
+                            $scope.error = "An error has occurred while deleting Doctor Notes" + data;
+                        });
+                    } else if (result.isDenied) {
+                        //Swal.fire('Changes are not saved', '', 'info')
+                    }                
             })
             /*var del = confirm("Do you like to deactivate the selected Allergy?");
             if (del == true) {
@@ -7019,6 +7038,20 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
         $scope.Patient_OtherData_Image_View = function (Id, filetype) {
             $http.get(baseUrl + '/api/User/Patient_OtherData_GetDocument?Id=' + Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                //var mtype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                //\var url = 'data:' + mtype + ';base64,' + data.DocumentBlobData.toString();
+                /*window.open(url);*/
+                console.log(typeof (data.DocumentBlobData))
+                let pdfWindow = window.open("", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=500,width=500,height=400");
+                pdfWindow.document.write("<html><head><title>Test</title><style>body{margin: 0px;}iframe{border-width: 0px;}</style></head>");
+                pdfWindow.document.write("<body><embed width='100%' height='100%' src='data:" + data.Filetype.toString() + ";base64, " + data.DocumentBlobData.toString() + "#toolbar=0&navpanes=0&scrollbar=0'></embed></body></html>");
+                /*pdfWindow.target = '_top';*/
+
+            });
+        }
+
+        $scope.Patient_Lab_View = function (Id, ParameterId,filetype) {
+            $http.get(baseUrl + '/api/User/Patient_OtherData_GetDocument?Id=' + Id + ParameterId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 //var mtype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
                 //\var url = 'data:' + mtype + ';base64,' + data.DocumentBlobData.toString();
                 /*window.open(url);*/

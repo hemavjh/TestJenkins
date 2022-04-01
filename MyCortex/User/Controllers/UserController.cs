@@ -1441,6 +1441,12 @@ namespace MyCortex.User.Controller
                     model.ReturnFlag = 1;
                     model.Status = "True";
                 }
+                else if ((ModelData.flag == 5) == true)
+                {
+                    messagestr = "Sync app data mismatching";
+                    model.ReturnFlag = 5;
+                    model.Status = "True";
+                }
                 model.Error_Code = "";
                 model.PatientHealthDataDetails = ModelData;
                 model.Message = messagestr;
@@ -1492,6 +1498,32 @@ namespace MyCortex.User.Controller
                 model.Error_Code = ex.Message;
                 model.ReturnFlag = 0;
                 model.PatientHealthDataDetails = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage IntegrationAppHistory(Guid Login_Session_Id, [FromBody] IntegrationAppHistoryModel obj)
+        {
+            IntegrationAppHistoryModel ModelData = new IntegrationAppHistoryModel();
+            IntegrationAppHistoryReturnModel model = new IntegrationAppHistoryReturnModel();
+
+            try
+            {
+                ModelData = repository.IntegrationAppHistory_Update(Login_Session_Id, obj);
+                
+                model.IntegrationAppHistory = ModelData;
+                model.Message = "Sync data updated successfully";
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in sync data update";
+                model.IntegrationAppHistory = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
@@ -1595,14 +1627,14 @@ namespace MyCortex.User.Controller
 
         [HttpGet]
         [CheckSessionOutFilter]
-        public HttpResponseMessage PatientPreviousAppointmentList(long Patient_Id, Guid Login_Session_Id)
+        public HttpResponseMessage PatientPreviousAppointmentList(long Patient_Id, Guid Login_Session_Id, int StartRowNumber = 0, int EndRowNumber = 0)
         {
             IList<PatientAppointmentsModel> ModelData = new List<PatientAppointmentsModel>();
             PatientAppointmentsReturnModel model = new PatientAppointmentsReturnModel();
             try
             {
 
-                ModelData = repository.PatientPreviousAppointmentList(Patient_Id, Login_Session_Id);
+                ModelData = repository.PatientPreviousAppointmentList(Patient_Id, Login_Session_Id, StartRowNumber, EndRowNumber);
                 model.Status = "True";
                 model.Message = "Patient Previous Appointments";
                 model.Error_Code = "";

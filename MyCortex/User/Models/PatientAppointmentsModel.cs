@@ -140,6 +140,8 @@ namespace MyCortex.User.Model
         public DateTime ToDate { get; set; }
         public long NewAppointment { get; set; }
         public long FollowUp { get; set; }
+        public long NewAppointmentPrice { get; set; }
+        public long FollowUpPrice { get; set; }
         public long Intervel { get; set; }
         public long CustomSlot { get; set; }
         public long BookingOpen { get; set; }

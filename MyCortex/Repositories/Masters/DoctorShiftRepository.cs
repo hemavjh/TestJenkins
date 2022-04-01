@@ -410,6 +410,8 @@ namespace MyCortex.Repositories.Masters
                                             //ModifiedBy = p.Field<long>("MODIFIED_BY"),
                                             NewAppointment = p.Field<int>("NEWAPPOINTMNET"),
                                             FollowUp = p.Field<int>("FOLLOWUP"),
+                                            NewAppointmentPrice = p.Field<long>("NEWAPPOINTMENT_PRICE"),
+                                            FollowUpPrice = p.Field<long>("FOLLOWUP_PRICE"),
                                             Intervel = p.Field<int>("INTERVAL"),
                                             CustomSlot = p.Field<int>("CUSTOM_SLOT"),
                                             BookingOpen = p.Field<int>("BOOKING_OPEN"),
@@ -697,6 +699,8 @@ namespace MyCortex.Repositories.Masters
                     param2.Add(new DataParameter("@MYAPPCONFIG_ID", InsertId));
                     param2.Add(new DataParameter("@NewAppointment", InObj.NewAppointmentDuration));
                     param2.Add(new DataParameter("@FollowUp", InObj.FollowUpDuration));
+                    param2.Add(new DataParameter("@NewAppointmentPrice", InObj.NewAppointmentPrice));
+                    param2.Add(new DataParameter("@FollowUpPrice", InObj.FollowUpPrice));
                     param2.Add(new DataParameter("@AppointmentInterval", InObj.AppointmentInterval));
                     param2.Add(new DataParameter("@WorkingDays", InObj.DefaultWorkingDays));
                     param2.Add(new DataParameter("@HoliDays", InObj.DefaultHoliDays));
@@ -771,6 +775,8 @@ namespace MyCortex.Repositories.Masters
                                          MyAppConfigId = p.Field<long>("MYAPPCONFIG_ID"),
                                          NewAppointmentDuration = p.Field<int>("NEWAPPOINTMENT_DURATION"),
                                          FollowUpDuration = p.Field<int>("FOLLOWUP_DURATION"),
+                                         NewAppointmentPrice = p.Field<long>("NEWAPPOINTMENT_PRICE"),
+                                         FollowUpPrice = p.Field<long>("FOLLOWUP_PRICE"),
                                          AppointmentInterval = p.Field<int>("APPOINTMENT_INTERVAL"),
                                          DefaultWorkingDays= p.Field<string>("DEFAULT_WORKINGDAYS"),
                                          DefaultHoliDays = p.Field<string>("DEFAULT_HOLIDAYS"),
