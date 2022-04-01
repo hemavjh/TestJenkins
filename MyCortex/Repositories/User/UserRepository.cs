@@ -1759,7 +1759,8 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@APP_ID", insobj.AppId));
             param.Add(new DataParameter("@APP_TYPE", insobj.AppType));
             param.Add(new DataParameter("@USERID", insobj.PatientId));
-          
+            param.Add(new DataParameter("@ISDISCONNECT", insobj.IsDisconnect));
+
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
