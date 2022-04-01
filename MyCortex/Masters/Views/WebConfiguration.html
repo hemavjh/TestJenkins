@@ -120,6 +120,14 @@
         <option value="mm/dd/yy">mm/dd/yy</option>
         <option value="dd/mm/yyyy">dd/mm/yyyy</option>
     </select>-->
+                    <div ng-if="row.CONFIGCODE=='LIVEDATA_STARTFROM' && IsEdit==true">
+                        <input style="margin-left: 5px !important;" type="radio" value="1" ng-model="Config_value[row.ID]"> 1
+                        <input style="margin-left: 5px !important" type="radio" value="2" ng-model="Config_value[row.ID]"> 2                     
+                    </div>
+                    <div ng-if="row.CONFIGCODE=='LIVEDATA_STARTFROM' && IsEdit==false">
+                        <input style="margin-left: 5px !important;" type="radio" value="1" ng-model="Config_value[row.ID]" disabled> 1
+                        <input style="margin-left: 5px !important" type="radio" value="2" ng-model="Config_value[row.ID]" disabled> 2                        
+                    </div>
 
                     <div ng-if="row.CONFIGCODE=='DATEFORMAT_TYPE' && IsEdit==true">
                         <input style="margin-left: 5px !important;" type="radio" value="mm/dd/yyyy" ng-model="Config_value[row.ID]"> mm/dd/yyyy
@@ -205,41 +213,39 @@
                         <input style="margin-left: 5px !important" type="radio" value="False" ng-model="Config_value[row.ID]" disabled> False
                     </div>
 
-                    <select class="form-control" id="chkChronic" style="max-width:100% !important" multiple="multiple" size="4" multiselect-dropdown
-            ng-change="onChangeChronic(Config_value[row.ID],row.ID)"
-            ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='CHRONIC CODE' && IsEdit==true">
-        <option id="chkCL" ng-model="chronicCL" value="CL">CL</option>
-        <option id="chkCG" ng-model="chronicCG" value="CG">CG</option>
-        <option id="chkCC" ng-model="chronicCC" value="CC">CC</option>
-        <option id="chkSC" ng-model="chronicSC" value="SC">SC</option>
-    </select>
-    <select class="form-control" id="chkChronic" style="max-width:100% !important" multiple="multiple"
-            ng-change="onChangeChronic(Config_value[row.ID],row.ID)"
-            ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='CHRONIC CODE' && IsEdit==false" disabled>
-        <option id="chkCL" ng-model="chronicCL" value="CL" disabled>CL</option>
-        <option id="chkCG" ng-model="chronicCG" value="CG" disabled>CG</option>
-        <option id="chkCC" ng-model="chronicCC" value="CC" disabled>CC</option>
-        <option id="chkSC" ng-model="chronicSC" value="SC" disabled>SC</option>
-    </select>
+                    <select class="form-control" id="chkChronic" style="max-width:50% !important" multiple="multiple" size="4" multiselect-dropdown
+                            ng-change="onChangeChronic(Config_value[row.ID],row.ID)"
+                            ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='CHRONIC CODE' && IsEdit==true">
+                        <option id="chkCL" ng-model="chronicCL" value="CL">CL</option>
+                        <option id="chkCG" ng-model="chronicCG" value="CG">CG</option>
+                        <option id="chkCC" ng-model="chronicCC" value="CC">CC</option>
+                        <option id="chkSC" ng-model="chronicSC" value="SC">SC</option>
+                    </select>
+                    <select class="form-control" id="chkChronic" style="max-width:50% !important" multiple="multiple"
+                            ng-change="onChangeChronic(Config_value[row.ID],row.ID)"
+                            ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='CHRONIC CODE' && IsEdit==false" disabled>
+                        <option id="chkCL" ng-model="chronicCL" value="CL" disabled>CL</option>
+                        <option id="chkCG" ng-model="chronicCG" value="CG" disabled>CG</option>
+                        <option id="chkCC" ng-model="chronicCC" value="CC" disabled>CC</option>
+                        <option id="chkSC" ng-model="chronicSC" value="SC" disabled>SC</option>
+                    </select>
 
 
                     <!--<div ng-repeat="chcode in ChronicCodeList" ng-if="row.CONFIGCODE=='CHRONIC CODE' && IsEdit==true" ng-model="Config_value[row.ID]">
-                        <input type="checkbox" style="margin-left: 5px !important;" id="chkCL" ng-model="chcode.checked" value="{{chcode.Id}}"> {{chcode.Name}}
-                    </div>
-                    <div ng-if="row.CONFIGCODE=='CHRONIC CODE' && IsEdit==true" ng-model="Config_value[row.ID]">
-                        <input type="checkbox" style="margin-left: 5px !important;" id="chkCL" ng-model="chronicCL" ng-checked="Config_value[row.ID]"  value="CL" ng-change="onChangeChronic(Config_value[row.ID],row.ID)"> CL
-                        <input type="checkbox" style="margin-left: 5px !important;" id="chkCG" ng-model="chronicCG" ng-checked="Config_value[row.ID]"  value="CG" ng-change="onChangeChronic(Config_value[row.ID],row.ID)"> CG
-                        <input type="checkbox" style="margin-left: 5px !important;" id="chkCC" ng-model="chronicCC" ng-checked="Config_value[row.ID]" value="CC" ng-change="onChangeChronic(Config_value[row.ID],row.ID)"> CC
-                        <input type="checkbox" style="margin-left: 5px !important;" id="chkSC" ng-model="chronicSC" ng-checked="Config_value[row.ID]"  value="SC" ng-change="onChangeChronic(Config_value[row.ID],row.ID)"> SC
-                    </div>
-                    <div ng-if="row.CONFIGCODE=='CHRONIC CODE' && IsEdit==false" ng-model="Config_value[row.ID]">
-                        <input type="checkbox" style="margin-left: 5px !important;" id="chkCL" ng-model="chronicCL" ng-checked="Config_value[row.ID]" value="CL" disabled> CL
-                        <input type="checkbox" style="margin-left: 5px !important;" id="chkCG" ng-model="chronicCG" ng-checked="Config_value[row.ID]" value="CG" disabled> CG
-                        <input type="checkbox" style="margin-left: 5px !important;" id="chkCC" ng-model="chronicCC" ng-checked="Config_value[row.ID]" value="CC" disabled> CC
-                        <input type="checkbox" style="margin-left: 5px !important;" id="chkSC" ng-model="chronicSC" ng-checked="Config_value[row.ID]" value="SC" disabled> SC
-                    </div>-->
-                   
-
+        <input type="checkbox" style="margin-left: 5px !important;" id="chkCL" ng-model="chcode.checked" value="{{chcode.Id}}"> {{chcode.Name}}
+    </div>
+    <div ng-if="row.CONFIGCODE=='CHRONIC CODE' && IsEdit==true" ng-model="Config_value[row.ID]">
+        <input type="checkbox" style="margin-left: 5px !important;" id="chkCL" ng-model="chronicCL" ng-checked="Config_value[row.ID]"  value="CL" ng-change="onChangeChronic(Config_value[row.ID],row.ID)"> CL
+        <input type="checkbox" style="margin-left: 5px !important;" id="chkCG" ng-model="chronicCG" ng-checked="Config_value[row.ID]"  value="CG" ng-change="onChangeChronic(Config_value[row.ID],row.ID)"> CG
+        <input type="checkbox" style="margin-left: 5px !important;" id="chkCC" ng-model="chronicCC" ng-checked="Config_value[row.ID]" value="CC" ng-change="onChangeChronic(Config_value[row.ID],row.ID)"> CC
+        <input type="checkbox" style="margin-left: 5px !important;" id="chkSC" ng-model="chronicSC" ng-checked="Config_value[row.ID]"  value="SC" ng-change="onChangeChronic(Config_value[row.ID],row.ID)"> SC
+    </div>
+    <div ng-if="row.CONFIGCODE=='CHRONIC CODE' && IsEdit==false" ng-model="Config_value[row.ID]">
+        <input type="checkbox" style="margin-left: 5px !important;" id="chkCL" ng-model="chronicCL" ng-checked="Config_value[row.ID]" value="CL" disabled> CL
+        <input type="checkbox" style="margin-left: 5px !important;" id="chkCG" ng-model="chronicCG" ng-checked="Config_value[row.ID]" value="CG" disabled> CG
+        <input type="checkbox" style="margin-left: 5px !important;" id="chkCC" ng-model="chronicCC" ng-checked="Config_value[row.ID]" value="CC" disabled> CC
+        <input type="checkbox" style="margin-left: 5px !important;" id="chkSC" ng-model="chronicSC" ng-checked="Config_value[row.ID]" value="SC" disabled> SC
+    </div>-->
                     <!--<select class="form-control" style="max-width:100% !important"
             ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='AUTO_SIGNUP_APPROVAL' && IsEdit==true">
         <option value="Active">Active</option>
@@ -269,8 +275,8 @@
     multiselect-dropdown ng-if="row.CONFIGCODE=='CHRONIC_CODE' && IsEdit==true">
     </select>-->
                     <input type="text" class="form-control" style="max-width:100% !important" id="{{row.CONFIGCODE}}"
-                           ng-model="Config_value[row.ID]" placeholder="" ng-if="row.CONFIGCODE!='CHRONIC CODE' && row.CONFIGCODE!='FULLNAME_FORMULA' && row.CONFIGCODE!='BT_DEVICE_DATA_POST' && row.CONFIGCODE!='AUTO_SIGNUP_APPROVAL' && row.CONFIGCODE!='DATEFORMAT_TYPE' && row.CONFIGCODE!='TIMEFORMAT_TYPE' && row.CONFIGCODE!='NUMBER_FORMAT_TYPE' && row.CONFIGCODE!='CURRENCY_FORMAT_TYPE' && row.CONFIGCODE!='MEDICATION_END_DATE' && IsEdit==true">
-                    <span ng-if="IsEdit==false && (row.CONFIGCODE!='CHRONIC CODE' && row.CONFIGCODE!='FULLNAME_FORMULA' && row.CONFIGCODE!='BT_DEVICE_DATA_POST' && row.CONFIGCODE!='AUTO_SIGNUP_APPROVAL' && row.CONFIGCODE!='DATEFORMAT_TYPE' && row.CONFIGCODE!='TIMEFORMAT_TYPE' && row.CONFIGCODE!='NUMBER_FORMAT_TYPE' && row.CONFIGCODE!='CURRENCY_FORMAT_TYPE' && row.CONFIGCODE!='MEDICATION_END_DATE')">{{Config_value[row.ID]}}</span>
+                           ng-model="Config_value[row.ID]" placeholder="" ng-if="row.CONFIGCODE!='LIVEDATA_STARTFROM' && row.CONFIGCODE!='CHRONIC CODE' && row.CONFIGCODE!='FULLNAME_FORMULA' && row.CONFIGCODE!='BT_DEVICE_DATA_POST' && row.CONFIGCODE!='AUTO_SIGNUP_APPROVAL' && row.CONFIGCODE!='DATEFORMAT_TYPE' && row.CONFIGCODE!='TIMEFORMAT_TYPE' && row.CONFIGCODE!='NUMBER_FORMAT_TYPE' && row.CONFIGCODE!='CURRENCY_FORMAT_TYPE' && row.CONFIGCODE!='MEDICATION_END_DATE' && IsEdit==true">
+                    <span ng-if="IsEdit==false && (row.CONFIGCODE!='CHRONIC CODE' && row.CONFIGCODE!='FULLNAME_FORMULA' && row.CONFIGCODE!='LIVEDATA_STARTFROM' && row.CONFIGCODE!='BT_DEVICE_DATA_POST' && row.CONFIGCODE!='AUTO_SIGNUP_APPROVAL' && row.CONFIGCODE!='DATEFORMAT_TYPE' && row.CONFIGCODE!='TIMEFORMAT_TYPE' && row.CONFIGCODE!='NUMBER_FORMAT_TYPE' && row.CONFIGCODE!='CURRENCY_FORMAT_TYPE' && row.CONFIGCODE!='MEDICATION_END_DATE')">{{Config_value[row.ID]}}</span>
                 </td>
             </tr>
         </tbody>

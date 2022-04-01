@@ -438,9 +438,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             else {
                 $scope.appdocfilename = e.files[0]['name'];
                 $scope.filetype = e.files[0].type;
-                $scope.files.push(e.files[0])
+                $scope.files.push(e.files[0])                
             }
-
         }
 
         $scope.UnitGroupPreference = function () {
@@ -1454,6 +1453,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $scope.AppoiDate = [];
                         $scope.AppoiFromTime = [];
                         $scope.AppoiToTime = [];
+                        $scope.files = []; // drag and drop files are cleared 
                         $scope.IsNew = 1;
                     }
                     $scope.OldAppointmentID = null;
