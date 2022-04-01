@@ -1,0 +1,177 @@
+﻿<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+    });
+</script>
+<script>
+    var input = document.querySelector("#txtMobile");
+    var inputPhoneNo = window.intlTelInput(input, {
+        formatOnDisplay: true,
+        separateDialCode: true,
+        geoIpLookup: function (callback) {
+            $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
+                var countryCode = (resp && resp.country) ? resp.country : "";
+                callback(countryCode);
+            });
+        },
+        //preferredCountries: ["in"],
+        utilsScript: "scripts/utils.js",
+    });
+
+    //inputPhoneNo.setNumber("+91 98765 43210");
+
+    function txtPhoneChange() {
+        //alert("event fired");
+        //var phoneNo = document.getElementById("txtPhone");
+
+        //var txtiso2 = document.getElementById("txthdCountryiso2").value;
+        //alert(txtiso2);
+        //inputPhoneNo.setCountry(txtiso2);
+
+        const PhoneNumber = inputPhoneNo.getNumber();
+        //alert(PhoneNumber);
+
+        var countryData = inputPhoneNo.getSelectedCountryData();
+        var countryCode = countryData.dialCode; // using updated doc, code has been replaced with dialCode
+        var iso2 = countryData.iso2;
+        countryCode = "+" + countryCode;
+        //alert(countryCode);
+        //alert(iso2);
+
+        var number = document.getElementById("txtMobile").value;
+        //alert(number);
+        //alert(countryCode +"-" + number);
+
+        document.getElementById("txthdCountryiso2").value = iso2;
+        document.getElementById("txthdCountryCode").value = countryCode;
+        //document.getElementById("txthdFullNumber").value = PhoneNumber;
+        document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
+
+        //var txtiso2 = document.getElementById("txthdCountryiso2").value;
+        //alert(txt);
+
+        if (PhoneNumber != "") {
+            var isValidNum = inputPhoneNo.isValidNumber();
+            //alert(isValidNum);
+            if (!isValidNum) {
+                //toastr.error("Phone Number Invalid", "warning");
+                //alert("Phone number invalid");
+                swal.fire("Phone number invalid");
+                document.getElementById("txthdFullNumber").value = "";
+            }
+            else {
+                document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
+            }
+        }
+
+        //inputPhoneNo.setCountry(txtiso2);
+    }
+</script>
+<input type="text" hidden="hidden" id="txthdCountryCode" ng-model="PhoneCountryCode" />
+<input type="text" hidden="hidden" id="txthdCountryiso2" ng-model="PhoneCountryiso2" />
+<input type="text" hidden="hidden" id="txthdFullNumber" />
+<ul class="secondaryMenu" ng-show="UserTypeId == 3">
+    <li><a href="Home/Index#/ParameterSettings">Standard Parameter</a></li>
+    <li><a href="Home/Index#/ChatSetting/2">Chat</a></li>
+    <li><a href="Home/Index#/Password_Policy">Password Policy</a></li>
+    <li><a href="Home/Index#/ResetPassword">Reset Password</a></li>
+    <li><a href="Home/Index#/MasterEmailConfigurationList">Email setup</a></li>
+    <li><a a class="secondaryMenuActive" href="Home/Index#/MasterSmsConfigurationList" data-menu="Settings">SMS setup</a></li>
+    <li><a href="Home/Index#/MasterAlertConfigurationList">Alerts</a></li>
+    <li><a href="Home/Index#/WebConfiguration">Configuration</a></li>
+    <li><a href="Home/Index#/LanguageSettings">Language</a></li>
+    <li><a href="Home/Index#/GateWaySettings">GateWay</a></li>
+</ul>
+<h1 class="page-title">SMS setup</h1>
+<div ng-init="SMSConfiguration_ViewEdit()">
+    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
+        <div></div>
+        <div></div>
+    </div>
+    <form class="form-horizontal" role="form" ng-class="{'submitted': submitted}" ng-submit="SMSConfiguration_AddEdit();">
+        <div class="panel panel-default" id="Basic1">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="inputGroups">
+                            <label>
+                                Source ID<sup>
+                                    <font class='mandatory-field'>*</font>
+                                </sup>
+                            </label>
+                            <input type="text" class="form-control" id="Text3" ng-model="Source_Id" ng-required="true"
+                                   ng-maxlength="150" maxlength="150">
+                        </div>
+                        <div class="inputGroups">
+                            <label>
+                                User Name<sup>
+                                    <font class='mandatory-field'>*</font>
+                                </sup>
+                            </label>
+                            <input type="text" class="form-control" id="Text2" ng-model="UserName" ng-required="true" ng-maxlength="50" maxlength="50">
+                        </div>
+                        <div class="inputGroups">
+                            <button type="submit" class="theme-btn-1 mr-10" id="save" title="Click to Save"
+                                    ng-click="submitted= true;">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="inputGroups">
+                            <label>
+                                API ID<sup>
+                                    <font class='mandatory-field'>*</font>
+                                </sup>
+                            </label>
+                            <input type="text" class="form-control" ng-model="ApiId" ng-required="true" ng-maxlength="10" maxlength="10">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default" id="Basic1">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="inputGroups">
+                            <label>
+                                Mobile Number<sup>
+                                </sup>
+                            </label>
+                            <input type="text" class="form-control" id="txtMobile" name="tel"
+                                   ng-model="MobileNo" onblur="txtPhoneChange()" />
+                        </div>
+                        <div class="inputGroups">
+                            <label>
+                                Subject<sup>
+                                </sup>
+                            </label>
+                            <input type="text" class="form-control" id="Text5" ng-model="Subject">
+                        </div>
+                        <div class="inputGroups">
+                            <label>
+                                Body<sup>
+                                </sup>
+                            </label>
+                            <input type="text" class="form-control" id="Text1" ng-model="ServerName">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="col-sm-12" style="top: 153px;">
+                            <button type="button" class="theme-btn-1 mr-10" id="test_connection" title="Test Connection"
+                                    ng-click="check_sms_configuration()">
+                                Test Connection
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+

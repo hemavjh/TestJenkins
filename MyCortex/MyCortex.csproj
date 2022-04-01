@@ -519,6 +519,7 @@
     <Content Include="Masters\Views\pagination.custom.html" />
     <Content Include="Masters\Views\ParameterSettings.html" />
     <Content Include="Masters\Views\PasswordPolicy.html" />
+    <Content Include="Masters\Views\SMSConfiguration.html" />
     <Content Include="Masters\Views\WebConfiguration.html" />
     <Content Include="National_Female.png" />
     <Content Include="National_Male.png" />
@@ -587,6 +588,7 @@
     <Content Include="scripts\app\ProtocolController.js" />
     <Content Include="scripts\app\SendEmailController.js" />
     <Content Include="scripts\app\SlotTimingController.js" />
+    <Content Include="scripts\app\SMSConfigurationController.js" />
     <Content Include="scripts\app\toaster.js" />
     <Content Include="scripts\app\UnderConstructionController.js" />
     <Content Include="scripts\app\UserController.js" />
@@ -1315,6 +1317,7 @@
     <Compile Include="Masters\Controllers\PayorMasterController.cs" />
     <Compile Include="Masters\Controllers\PlanMasterController.cs" />
     <Compile Include="Masters\Controllers\ShiftTmingsController.cs" />
+    <Compile Include="Masters\Controllers\SMSConfigurationController.cs" />
     <Compile Include="Masters\Controllers\WebConfigurationController.cs" />
     <Compile Include="Masters\Models\AllergyMasterModel.cs" />
     <Compile Include="Masters\Models\AppConfigurationModel.cs" />
@@ -1345,6 +1348,7 @@
     <Compile Include="Masters\Models\PlanMasterModel.cs" />
     <Compile Include="Masters\Models\ProtocolParameterMasterModel.cs" />
     <Compile Include="Masters\Models\ShiftTimingsModel.cs" />
+    <Compile Include="Masters\Models\SMSConfigurationModel.cs" />
     <Compile Include="Masters\Models\StateMasterModel.cs" />
     <Compile Include="Masters\Models\UnitsMasterModel.cs" />
     <Compile Include="Masters\Models\WebConfigurationModel.cs" />
@@ -1400,6 +1404,7 @@
     <Compile Include="Repositories\IProtocolRepository.cs" />
     <Compile Include="Repositories\ISendEmailRepository.cs" />
     <Compile Include="Repositories\IShiftTimingsRepository.cs" />
+    <Compile Include="Repositories\ISMSConfigurationRepository.cs" />
     <Compile Include="Repositories\ISMSTemplateRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Repositories\IColorPreferenceRepository.cs" />
@@ -1423,6 +1428,7 @@
     <Compile Include="Repositories\Masters\PayorMasterRepository.cs" />
     <Compile Include="Repositories\Masters\PlanMasterRepository.cs" />
     <Compile Include="Repositories\Masters\ShiftTimingsRepository.cs" />
+    <Compile Include="Repositories\Masters\SMSConfigurationRepository.cs" />
     <Compile Include="Repositories\Template\SMSTemplateRepository.cs" />
     <Compile Include="Repositories\User\ColorPreferenceRepository.cs" />
     <Compile Include="Repositories\Masters\WebConfigurationRepository.cs" />
