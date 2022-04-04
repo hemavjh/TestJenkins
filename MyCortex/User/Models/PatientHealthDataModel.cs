@@ -52,6 +52,23 @@ namespace MyCortex.User.Model
         public long Units_Id { get; set; }
     }
 
+    public class IntegrationAppHistoryModel
+    {
+        public long AppId { get; set; }
+        public string AppType { get; set; }
+        public long PatientId { get; set; }
+        public int IsDisconnect { get; set; }
+    }
+
+    public class IntegrationAppHistoryReturnModel
+    {
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public string Error_Code { get; set; }
+        public int ReturnFlag { get; set; }
+        public IntegrationAppHistoryModel IntegrationAppHistory { get; set; }
+    }
+
     public class PatientHealthDataReturnModel
     {
         public string Status { get; set; }
