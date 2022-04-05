@@ -48,120 +48,122 @@ namespace MyCortex.Notification
         {
             foreach (AlertEventModel alert in alertList.AlertEventTemplateList)
             {
-                IList<SendEmailModel> sendEmailModel = new List<SendEmailModel>();
-                SendEmailModel model = new SendEmailModel();
-                model.Id = 0;
-                model.Institution_Id = Institution_Id;
-                model.Template_Id = alert.Template_Id;
-                model.UserId = alertList.AlertEventEmailList[0].UserId;
-                model.Email_Body = alert.TempBody;
-                model.Email_Subject = alert.TempSubject;
-                model.Created_By = alertList.AlertEventEmailList[0].UserId;
-                sendEmailModel = sendemailrepository.SendEmail_AddEdit(model);
-
-                if (alert.TemplateType_Id == 1)
+                if (alertList.AlertEventEmailList != null)
                 {
-                    if (alert.FromEmail_Id != null || emailModel.Sender_Email_Id!=null)
+                    IList<SendEmailModel> sendEmailModel = new List<SendEmailModel>();
+                    SendEmailModel model = new SendEmailModel();
+                    model.Id = 0;
+                    model.Institution_Id = Institution_Id;
+                    model.Template_Id = alert.Template_Id;
+                    model.UserId = alertList.AlertEventEmailList[0].UserId;
+                    model.Email_Body = alert.TempBody;
+                    model.Email_Subject = alert.TempSubject;
+                    model.Created_By = alertList.AlertEventEmailList[0].UserId;
+                    sendEmailModel = sendemailrepository.SendEmail_AddEdit(model);
+                    if (alert.TemplateType_Id == 1)
                     {
-                        if (emailType == 1)
+                        if (alert.FromEmail_Id != null || emailModel.Sender_Email_Id != null)
                         {
-                            SendGridMessage msg = SendGridApiManager.ComposeMailMessage(
-                                                    alert.FromEmail_Id,
-                                                    alert.FromEmail_Id,
-                                                    alert.TempSubject,
-                                                    alert.TempBody,
-                                                    alertList.AlertEventEmailList
-                                                    );
+                            if (emailType == 1)
+                            {
+                                SendGridMessage msg = SendGridApiManager.ComposeMailMessage(
+                                                        emailModel.Sender_Email_Id,
+                                                        emailModel.Sender_Email_Id,
+                                                        alert.TempSubject,
+                                                        alert.TempBody,
+                                                        alertList.AlertEventEmailList
+                                                        );
 
-                            SendGridApiManager mail = new SendGridApiManager();
-                            var res = mail.SendEmailAsync(msg, sendEmailModel[0].Id);
+                                SendGridApiManager mail = new SendGridApiManager();
+                                var res = mail.SendEmailAsync(msg, sendEmailModel[0].Id);
+                            }
+                            else
+                            {
+                                SendGridApiManager mail = new SendGridApiManager();
+                                var res = mail.SendComposedSMTPEmail(emailModel, alert, alertList.AlertEventEmailList, sendEmailModel[0].Id);
+
+                            }
+
+                        }
+                    }
+                    // sent only TO email Id users
+                    else if (alert.TemplateType_Id == 2)
+                    {
+                        PushNotificationMessage message = new PushNotificationMessage();
+                        message.Title = alert.TempSubject;
+                        message.Message = alert.TempBody;
+
+                        PushNotificationApiManager.sendNotification(message, sendEmailModel[0].Id, alert.UserId, alert.TemplateFor);
+                    }
+                    else if (alert.TemplateType_Id == 3)
+                    {
+                        //string[] EncryptMbNO; string[] SMSSplMbNo;
+                        string
+                            SMSPrefixMbNO = string.Empty, SMSSuffixMbNO = string.Empty, SMSMbNO = string.Empty, SMSSubject = string.Empty,
+                            SMSBody = string.Empty, SMSURL = string.Empty, SMSApiId = string.Empty, SMSUserName = string.Empty, SMSSource = string.Empty;
+                        //bool containsTildeSpecialCharacter, containsPlusSpecialCharacter = false;
+                        //Regex rgx = new Regex("[^A-Za-z0-9]");
+                        string MobileNo = alertList.AlertEventEmailList[0].mobile_no.Replace(@"~", @"").Replace(@"+", @"");
+                        //containsTildeSpecialCharacter = rgx.IsMatch(MobileNO);
+                        //EncryptMbNO = MobileNO.Split('~');
+
+                        //if (containsTildeSpecialCharacter)
+                        //{
+                        //    SMSPrefixMbNO = EncryptMbNO[0];
+                        //    SMSSuffixMbNO = EncryptMbNO[1];
+                        //    SMSMbNO = SMSPrefixMbNO + SMSSuffixMbNO;
+                        //    containsPlusSpecialCharacter = rgx.IsMatch(SMSPrefixMbNO);
+                        //}
+                        //if (containsPlusSpecialCharacter)
+                        //{
+                        //    SMSSplMbNo = SMSPrefixMbNO.Split('+');
+                        //    SMSMbNO = SMSSplMbNo[1] + SMSSuffixMbNO;
+                        //}
+                        //else
+                        //{
+                        //    SMSMbNO = EncryptMbNO[0];
+                        //}
+                        SMSMbNO = MobileNo;
+                        SMSSubject = alert.TempSubject;
+                        SMSBody = alert.TempBody;
+                        SMSApiId = "Kv2n09u8";
+                        SMSUserName = "MyHealth";
+                        SMSSource = "Medspero";
+
+                        SMSURL = "https://txt.speroinfotech.ae/API/SendSMS?" + "username=" + SMSUserName + "&apiId=" + SMSApiId + "&json=True&destination=" + SMSMbNO + "&source=" + SMSSource + "&text=" + SMSBody;
+
+                        HttpClient client = new HttpClient();
+                        client.BaseAddress = new Uri(SMSURL);
+
+                        // Add an Accept header for JSON format.
+                        client.DefaultRequestHeaders.Accept.Add(
+                        new MediaTypeWithQualityHeaderValue("application/json"));
+
+                        // List data response.
+                        HttpResponseMessage smsResponse = client.GetAsync(SMSURL).Result;  // Blocking call! Program will wait here until a response is received or a timeout occurs.
+                        if (smsResponse.IsSuccessStatusCode)
+                        {
+                            // Parse the response body.
+                            //var dataObjects = smsResponse.Content.ReadAsAsync<IEnumerable<DataObject>>().Result;  //Make sure to add a reference to System.Net.Http.Formatting.dll
+                            //foreach (var d in dataObjects)
+                            //{
+                            //    Console.WriteLine("{0}", d.Name);
+                            //}
+                            //sendemailrepository.SendEmail_Update(EntityId, "", 1, "");
+                            sendemailrepository.SendEmail_Update(sendEmailModel[0].Id, "", 1, "");
                         }
                         else
                         {
-                            SendGridApiManager mail = new SendGridApiManager();
-                            var res = mail.SendComposedSMTPEmail(emailModel, alert, alertList.AlertEventEmailList, sendEmailModel[0].Id);                           
-
+                            Console.WriteLine("{0} ({1})", (int)smsResponse.StatusCode, smsResponse.ReasonPhrase);
+                            //sendemailrepository.SendEmail_Update(EntityId, smsResponse.ReasonPhrase, 2, "");
+                            sendemailrepository.SendEmail_Update(sendEmailModel[0].Id, smsResponse.ReasonPhrase, 2, "");
                         }
 
+                        //Make any other calls using HttpClient here.
+
+                        //Dispose once all HttpClient calls are complete. This is not necessary if the containing object will be disposed of; for example in this case the HttpClient instance will be disposed automatically when the application terminates so the following call is superfluous.
+                        client.Dispose();
                     }
-                }
-                // sent only TO email Id users
-                else if(alert.TemplateType_Id==2)
-                {
-                    PushNotificationMessage message = new PushNotificationMessage();
-                    message.Title = alert.TempSubject;
-                    message.Message = alert.TempBody;
-
-                    PushNotificationApiManager.sendNotification(message, sendEmailModel[0].Id, alert.UserId, alert.TemplateFor);
-                }
-                else if(alert.TemplateType_Id == 3)
-                {
-                    //string[] EncryptMbNO; string[] SMSSplMbNo;
-                    string
-                        SMSPrefixMbNO = string.Empty, SMSSuffixMbNO = string.Empty, SMSMbNO = string.Empty, SMSSubject = string.Empty,
-                        SMSBody = string.Empty, SMSURL = string.Empty, SMSApiId = string.Empty, SMSUserName = string.Empty, SMSSource = string.Empty;
-                    //bool containsTildeSpecialCharacter, containsPlusSpecialCharacter = false;
-                    //Regex rgx = new Regex("[^A-Za-z0-9]");
-                    string MobileNo = alertList.AlertEventEmailList[0].mobile_no.Replace(@"~", @"").Replace(@"+", @"");
-                    //containsTildeSpecialCharacter = rgx.IsMatch(MobileNO);
-                    //EncryptMbNO = MobileNO.Split('~');
-
-                    //if (containsTildeSpecialCharacter)
-                    //{
-                    //    SMSPrefixMbNO = EncryptMbNO[0];
-                    //    SMSSuffixMbNO = EncryptMbNO[1];
-                    //    SMSMbNO = SMSPrefixMbNO + SMSSuffixMbNO;
-                    //    containsPlusSpecialCharacter = rgx.IsMatch(SMSPrefixMbNO);
-                    //}
-                    //if (containsPlusSpecialCharacter)
-                    //{
-                    //    SMSSplMbNo = SMSPrefixMbNO.Split('+');
-                    //    SMSMbNO = SMSSplMbNo[1] + SMSSuffixMbNO;
-                    //}
-                    //else
-                    //{
-                    //    SMSMbNO = EncryptMbNO[0];
-                    //}
-                    SMSMbNO = MobileNo;
-                    SMSSubject = alert.TempSubject;
-                    SMSBody = alert.TempBody;
-                    SMSApiId = "Kv2n09u8";
-                    SMSUserName = "MyHealth";
-                    SMSSource = "Medspero";
-
-                    SMSURL = "https://txt.speroinfotech.ae/API/SendSMS?" + "username=" + SMSUserName + "&apiId=" + SMSApiId + "&json=True&destination=" + SMSMbNO + "&source=" + SMSSource + "&text=" + SMSBody;
-
-                    HttpClient client = new HttpClient();
-                    client.BaseAddress = new Uri(SMSURL);
-
-                    // Add an Accept header for JSON format.
-                    client.DefaultRequestHeaders.Accept.Add(
-                    new MediaTypeWithQualityHeaderValue("application/json"));
-
-                    // List data response.
-                    HttpResponseMessage smsResponse = client.GetAsync(SMSURL).Result;  // Blocking call! Program will wait here until a response is received or a timeout occurs.
-                    if (smsResponse.IsSuccessStatusCode)
-                    {
-                        // Parse the response body.
-                        //var dataObjects = smsResponse.Content.ReadAsAsync<IEnumerable<DataObject>>().Result;  //Make sure to add a reference to System.Net.Http.Formatting.dll
-                        //foreach (var d in dataObjects)
-                        //{
-                        //    Console.WriteLine("{0}", d.Name);
-                        //}
-                        //sendemailrepository.SendEmail_Update(EntityId, "", 1, "");
-                        sendemailrepository.SendEmail_Update(sendEmailModel[0].Id, "", 1, "");
-                    }
-                    else
-                    {
-                        Console.WriteLine("{0} ({1})", (int)smsResponse.StatusCode, smsResponse.ReasonPhrase);
-                        //sendemailrepository.SendEmail_Update(EntityId, smsResponse.ReasonPhrase, 2, "");
-                        sendemailrepository.SendEmail_Update(sendEmailModel[0].Id, smsResponse.ReasonPhrase, 2, "");
-                    }
-
-                    //Make any other calls using HttpClient here.
-
-                    //Dispose once all HttpClient calls are complete. This is not necessary if the containing object will be disposed of; for example in this case the HttpClient instance will be disposed automatically when the application terminates so the following call is superfluous.
-                    client.Dispose();
                 }
             }
         }
