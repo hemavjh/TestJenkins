@@ -491,7 +491,7 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
                 }
                 $scope.EventClear();
                 $scope.ViewEmailAlert();
-                $scope.status = 0;
+                    $scope.status = 0;
                 $('[data-id="select1"]').prop('disabled', true);
                 angular.element('#EmailAlertModal').modal('show');
                 $('#btnsave').attr("disabled", false);
@@ -505,16 +505,18 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
 
         /* THIS IS CANCEL VIEW POPUP FUNCTION*/
         $scope.CancelViewPopup = function () {
+            $scope.ClearPopup();
             angular.element('#EmailAlertViewModal').modal('hide')
+            angular.element('#EmailAlertModal').modal('hide')
         }
         $scope.EventClear = function () {
             $scope.Institution_Id = "0";
             $scope.Institution_Name = "";
-            $scope.EmailFlag = 0;
+            //$scope.EmailFlag = 0;
             $scope.EmailTemplate = "0";
-            $scope.AppFlag = 0;
-            $scope.AppTemplate = "0";
-            $scope.AppFlag = 0;
+          //  $scope.AppFlag = 0;
+           // $scope.AppTemplate = "0";
+           // $scope.AppFlag = 0;
             $scope.AppTemplate = "0";
             $scope.AlertDays = "";
             $scope.WebTempId = -1;
@@ -522,7 +524,7 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
             $scope.EmailTempId = -1;
             $scope.EventCC = "";
             $scope.EventTo = "";
-            $scope.SMSFlag = 0;
+            //$scope.SMSFlag = 0;
             $scope.SMSTemplate = "0";
             $scope.SMSTempId = -1;
         };
