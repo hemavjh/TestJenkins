@@ -332,7 +332,7 @@ namespace MyCortexService
                         Institution_Id = Convert.ToInt64(dt.Rows[0]["INSTITUTION_ID"].ToString());
                         Patient_Id = Convert.ToInt64(dt.Rows[0]["PATIENT_ID"].ToString());
 
-                        EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)Id, (long)Institution_Id);
+                        EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)Id, (long)Institution_Id, null);
 
                         AlertEventReturn.Generate_SMTPEmail_Notification("PAT_APPOINTMENT_CANCEL", Id, (long)Institution_Id, EmailList);
 
@@ -386,7 +386,7 @@ namespace MyCortexService
                         Institution_Id = Convert.ToInt64(dt.Rows[0]["INSTITUTION_ID"].ToString());
                         Patient_Id = Convert.ToInt64(dt.Rows[0]["PATIENT_ID"].ToString());
 
-                        EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)Id, (long)Institution_Id);
+                        EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)Id, (long)Institution_Id, null);
 
                         AlertEventReturn.Generate_SMTPEmail_Notification("PAT_APPOINT_PAYMENT_SUCCESS", Id, (long)Institution_Id, EmailList);
 
@@ -424,7 +424,7 @@ namespace MyCortexService
                         Institution_Id = Convert.ToInt64(dt.Rows[0]["INSTITUTION_ID"].ToString());
                         Patient_Id = Convert.ToInt64(dt.Rows[0]["PATIENT_ID"].ToString());
 
-                        EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)Id, (long)Institution_Id);
+                        EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)Id, (long)Institution_Id, null);
 
                         AlertEventReturn.Generate_SMTPEmail_Notification("PAT_APPOINT_PAYMENT_FAILURE", Id, (long)Institution_Id, EmailList);
 
@@ -464,7 +464,7 @@ namespace MyCortexService
                             Institution_Id = Convert.ToInt64(dt.Rows[i]["INSTITUTION_ID"].ToString());
                             Patient_Id = Convert.ToInt64(dt.Rows[i]["PATIENT_ID"].ToString());
 
-                            EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)Id, (long)Institution_Id);
+                            EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)Id, (long)Institution_Id, null);
 
                             AlertEventReturn.Generate_SMTPEmail_Notification("PAT_APPOINTMENT_REMINDER", Id, (long)Institution_Id, EmailList);
 
