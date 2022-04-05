@@ -17,6 +17,9 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
         $scope.calcNewYear;
         intial_loading();
         function intial_loading() {
+            //get the browser timezone.
+            $scope.getTimeZone = new Date().getTimezoneOffset(); //Intl.DateTimeFormat().resolvedOptions().timeZone; 
+            
             patientAppointmentList();
             getPreviousAppointmentList();
             //if ($scope.$parent.userTypeId == 5) {
@@ -71,7 +74,8 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                                 //$scope.UpComingAppointmentDetails = [];
                                 Array.prototype.push.apply($scope.UpComingAppointmentDetails, data.PatientAppointmentList);
                                 //$scope.UpComingAppointmentDetails.push(data.PatientAppointmentList);
-                                compareAppointmentDates();
+                                compareAppointmentDates();                            
+
                             });
                             //}
                             //$scope.Input_Type = 1;

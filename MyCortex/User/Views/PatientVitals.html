@@ -7133,7 +7133,15 @@ Works in Mozilla, Webkit & IE.
             boxZone.empty();
             previewZone.addClass('hidden');
             reset(dropzone);
-        });        
+        });
+        $('#show').on('click', function () {
+            
+            var boxZone = $('.remove-preview').parents('.preview-zone').find('.box-body');
+            boxZone.empty();
+            $('.preview-zone').addClass('hidden');
+           
+        });
+        
     </script>
     <style >
         /* Code By Webdevtrick ( https://webdevtrick.com ) */

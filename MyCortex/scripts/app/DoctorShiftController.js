@@ -3220,7 +3220,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     $scope.IntervalBt = data.AppointmentInterval;
                     $scope.AppointmentDay = data.MaxScheduleDays;
                     $scope.Minutest = data.MinRescheduleMinutes;
-                    $scope.SelectedTimeZone = data.DefautTimeZone;
+                    //$scope.SelectedTimeZone = data.DefautTimeZone;
                     $scope.DefaultworkingDays = data.DefaultWorkingDays;
                     $scope.SelectedDefaultholiday = data.DefaultHoliDays;
                     $scope.BookEnable = data.IsAppointmentInHolidays;
