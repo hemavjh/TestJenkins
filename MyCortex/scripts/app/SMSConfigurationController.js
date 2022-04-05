@@ -87,5 +87,72 @@ SMSConfigurationController.controller("SMSConfigurationController", ['$scope', '
             return true;
         };
 
+        $scope.CheckSmsConfigurationValidation = function () {
+            if (typeof ($scope.MobileNo) == "undefined" || $scope.MobileNo == "") {
+                toastr.warning("Please enter MobileNo", "warning");
+                return false;
+            }
+            else if (typeof ($scope.Subject) == "undefined" || $scope.Subject == "") {
+                toastr.warning("Please enter User Subject", "warning");
+                return false;
+            }
+            else if (typeof ($scope.Body) == "undefined" || $scope.Body == "") {
+                toastr.warning("Please enter Body", "warning");
+                return false;
+            }
+            return true;
+        };
+
+        $scope.check_sms_configuration = function () {
+            //$scope.smsUrl = "https://txt.speroinfotech.ae/API/SendSMS?";
+            //$scope.smsUserName = "MyHealth";
+            //$scope.smsApiId = "Kv2n09u8";
+            ////$scope.smsDestination = "971552433557"; //Mobile Number
+            //$scope.smsDestination = $('#txthdFullNumber').val(); //Mobile Number
+            //$scope.smsSource = $scope.Subject; // AD-Medspero // Header Text
+            //$scope.smsText = $scope.ServerName;   //"Test";
+            //$http.get($scope.smsUrl + 'username=' + $scope.smsUserName + '&apiId=' + $scope.smsApiId + '&json=True&destination=' + $scope.smsDestination + '&source=' + $scope.smsSource + '&text=' + $scope.smsText).success(function (data) {
+            //    $scope.smsResponse = data;
+            //});
+            if ($scope.CheckSmsConfigurationValidation() == true) {
+                //var val_sslen = 2;
+                //if ($scope.SSL_Enable == "1") {
+                //    val_sslen = 1;
+                //}
+                //else {
+                //    val_sslen = 2;
+                //}
+                //if ($scope.SSL_Enable != "0") {
+                //    $('#divSSLEnable').removeClass("ng-invalid");
+                //    $('#divSSLEnable').addClass("ng-valid");
+                //}
+                //else {
+                //    $('#divSSLEnable').removeClass("ng-valid");
+                //    $('#divSSLEnable').addClass("ng-invalid");
+                //}
+                var obj = {
+                    Id: $scope.Id,
+                    Institution_Id: $window.localStorage['InstitutionId'],
+                    //MobileNo: $scope.MobileNo,
+                    MobileNo: $('#txthdFullNumber').val(),
+                    Subject: $scope.Subject,
+                    Body: $scope.Body,
+                    Created_By: $window.localStorage['UserId']
+                };
+                $("#chatLoaderPV").show();
+                $http.post(baseUrl + 'api/SMSConfiguration/CheckSMSConfiguration/', obj).success(function (data) {
+                    if (data != null) {
+                        //console.log(data);
+                        if (data == true) {
+                            toastr.success("SMS Setup Working Properly", "Success");
+                        } else {
+                            toastr.warning("SMS Setup Not Working Properly", "Warning");
+                        }
+                    }
+                    $("#chatLoaderPV").hide();
+                }).error(function (data) { toastr.warning("SMS Setup Server Error", "Warning"); });
+            }
+        }
+
     }
 ]);
