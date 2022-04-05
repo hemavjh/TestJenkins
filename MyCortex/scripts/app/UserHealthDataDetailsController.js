@@ -1399,7 +1399,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                             else if (data.ReturnFlag == 0) {
                                                 toastr.info(data.Message, "info");
                                             }
-                                            if (data.AppointmentDetails.PaymentStatusId == 3) {
+                                            if (data.AppointmentDetails.PaymentStatusId == 3 && data.ReturnFlag == 1) {
                                                 $scope.refundAppointmentId = data.AppointmentDetails.Id;
                                                 $scope.refundMerchantOrderNo = data.AppointmentDetails.MerchantOrderNo;
                                                 $scope.refundAmount = data.AppointmentDetails.Amount;
@@ -1501,7 +1501,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                     else if (data.ReturnFlag == 0) {
                                         toastr.info(data.Message, "info");
                                     }
-                                    if (data.AppointmentDetails.PaymentStatusId == 3) {
+                                    if (data.AppointmentDetails.PaymentStatusId == 3 && data.ReturnFlag == 1) {
                                         $scope.refundAppointmentId = data.AppointmentDetails.Id;
                                         $scope.refundMerchantOrderNo = data.AppointmentDetails.MerchantOrderNo;
                                         $scope.refundAmount = data.AppointmentDetails.Amount;
@@ -1541,7 +1541,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                 else if (data.ReturnFlag == 0) {
                                     toastr.info(data.Message, "info");
                                 }
-                                if (data.AppointmentDetails.PaymentStatusId == 3) {
+                                if (data.AppointmentDetails.PaymentStatusId == 3 && data.ReturnFlag == 1) {
                                     $scope.refundAppointmentId = data.AppointmentDetails.Id;
                                     $scope.refundMerchantOrderNo = data.AppointmentDetails.MerchantOrderNo;
                                     $scope.refundAmount = data.AppointmentDetails.Amount;

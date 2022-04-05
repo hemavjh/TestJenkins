@@ -1596,6 +1596,12 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 if (data != null) {
                     const OrgDay = "";
                     const OrgSelectedDate = data.DefaultWorkingDays.split(',');
+                    if ($scope.NewAppointmentPrice == '' || $scope.NewAppointmentPrice == 0) {
+                        $scope.NewAppointmentPrice = data.NewAppointmentPrice;
+                    }
+                    if ($scope.followupPrice == '' || $scope.followupPrice == 0) {
+                        $scope.followupPrice = data.FollowUpPrice;
+                    }
                     angular.forEach($scope.SelectedDays, function (value, index) {
                         angular.forEach(OrgSelectedDate, function (value1, index1) {
                             if (value1 == "monday") {
