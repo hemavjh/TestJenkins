@@ -179,18 +179,19 @@
             favicon.setAttribute("href", ProductName[1]);
 
             var ProductNameId = document.getElementById('ProductName');
+            console.log(ProductName[0]);
             if ('textContent' in ProductNameId) {
                 ProductNameId.textContent = ProductName[0];
             } else {
-                    ProductNameId.innerText = ProductName[0];
+                ProductNameId.innerText = ProductName[0];
             }
 
             var productnamespan = document.getElementById('productnamespan');
 
             if ('textContent' in productnamespan) {
-                productnamespan.textContent = ProductName[0];
+                productnamespan.textContent = ProductName[2];
             } else {
-                productnamespan.innerText = ProductName[0];
+                productnamespan.innerText = ProductName[2];
             }
         });
 
