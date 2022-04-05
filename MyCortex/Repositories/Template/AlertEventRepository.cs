@@ -118,10 +118,10 @@ namespace MyCortex.Repositories.EmailAlert
                             //    }
                             //}
                             Template = FinalResult.Replace(TagName, TagsReplaceData);
-                            if (TemplateType_Id == 3)
-                            {
+                            //if (TemplateType_Id == 3)
+                            //{
                                 Template = Template.Replace(@"<p>", @"").Replace(@"</p>", @"");
-                            }
+                            //}
                         }
                     }
                 }
