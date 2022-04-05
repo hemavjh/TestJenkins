@@ -876,6 +876,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.DoctorDetailList = [];
                     $scope.idSelectedVote = null;
                     $scope.ProfileDetailList = [];
+                    $scope.GetDoctorPhoto = [];
                     $scope.GetDoctorDetails = function (list) {
                         $("#chatLoaderPV").show();
                         $scope.DoctorID = [];
@@ -903,7 +904,15 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             }
                         })
                         
-
+                        $http.get(baseUrl + '/api/User/UserDetails_GetPhoto/?Id=' + $scope.DoctorID).success(function (data1) {
+                            $scope.GetDoctorPhoto = data1;
+                            if (data1.PhotoBlob != null) {
+                                $scope.uploadme2 = 'data:image/png;base64,' + data1.PhotoBlob;
+                            }
+                            else {
+                                $scope.uploadme2 = null;
+                            }
+                        });
                     }
                     function convert(str) {
                         var date = new Date(str),
@@ -3048,9 +3057,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             //document.getElementById("box").style = "display:none";
             //$scope.SendSMS();
             $scope.showMainBox = true;
-            $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
-                //$scope.NewAppointment = data.NewAppointmentDuration;
-                if (data == null || data.length == 0 || data.DefautTimeZone == "" || data.DefautTimeZone == 0) {
+            //$http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
+            $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
+                //$scope.NewAppointment = data.NewAppointmentDuration;  
+                //if (data == null || data.length == 0 || data.DefautTimeZone == "" || data.DefautTimeZone == 0) {
+                if (data.length == 0 || data.TimeZone_ID == "" || data.TimeZone_ID == 0) {
                     //alert('Please Check Organisation Settings!');
                     toastr.info("Please Check Organisation Settings!", "info");
                     angular.element('#BookAppointmentModal').modal('hide');
