@@ -10,6 +10,7 @@ namespace MyCortex.User.Model
     {
         public string TotalRecord { get; set; }
         public int RowNumber { get; set; }
+        public int Sync_AppId { get; set; }
         public long Id { get; set; }
         public long Patient_Id { get; set; }
         public int Type_Id { get; set; }
