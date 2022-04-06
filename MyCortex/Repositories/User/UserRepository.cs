@@ -1713,6 +1713,7 @@ namespace MyCortex.Repositories.Uesr
         {
             List<DataParameter> param = new List<DataParameter>();
             PatientHealthDataModel list = null;
+            param.Add(new DataParameter("@SYNC_APPID", insobj.Sync_AppId));
             param.Add(new DataParameter("@ID", insobj.Id));
             param.Add(new DataParameter("@PATIENTID", insobj.Patient_Id));
             param.Add(new DataParameter("@PARAMETERID", insobj.ParameterId));
