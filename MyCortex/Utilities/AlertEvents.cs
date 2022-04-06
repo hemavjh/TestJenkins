@@ -60,7 +60,7 @@ namespace MyCortex.Notification
                     model.Email_Subject = alert.TempSubject;
                     model.Created_By = alertList.AlertEventEmailList[0].UserId;
                     sendEmailModel = sendemailrepository.SendEmail_AddEdit(model);
-                    if (alert.TemplateType_Id == 1)
+                    if (alert.TemplateType_Id == 1)  // 1 for Email
                     {
                         if (alert.FromEmail_Id != null || emailModel.Sender_Email_Id != null)
                         {
@@ -87,15 +87,18 @@ namespace MyCortex.Notification
                         }
                     }
                     // sent only TO email Id users
-                    else if (alert.TemplateType_Id == 2)
+                    else if (alert.TemplateType_Id == 2) // 2 for APP and Web Notification
                     {
-                        PushNotificationMessage message = new PushNotificationMessage();
-                        message.Title = alert.TempSubject;
-                        message.Message = alert.TempBody;
+                        foreach (EmailListModel email in alertList.AlertEventEmailList)
+                        {
+                            PushNotificationMessage message = new PushNotificationMessage();
+                            message.Title = alert.TempSubject;
+                            message.Message = alert.TempBody;
 
-                        PushNotificationApiManager.sendNotification(message, sendEmailModel[0].Id, alert.UserId, alert.TemplateFor);
+                            PushNotificationApiManager.sendNotification(message, sendEmailModel[0].Id, email.UserId, alert.TemplateFor);
+                        }
                     }
-                    else if (alert.TemplateType_Id == 3)
+                    else if (alert.TemplateType_Id == 3)  // 3 for SMS
                     {
                         //string[] EncryptMbNO; string[] SMSSplMbNo;
                         string
@@ -132,6 +135,8 @@ namespace MyCortex.Notification
                     SMSApiId = alertList.AlertEventEmailList[0].SMSApiId;
                     SMSUserName = alertList.AlertEventEmailList[0].SMSUserName;
                     SMSSource = alertList.AlertEventEmailList[0].SMSSourceId;
+
+                        SMSBody = SMSBody.Replace("&nbsp;", " ");
 
                         SMSURL = "https://txt.speroinfotech.ae/API/SendSMS?" + "username=" + SMSUserName + "&apiId=" + SMSApiId + "&json=True&destination=" + SMSMbNO + "&source=" + SMSSource + "&text=" + SMSBody;
 
