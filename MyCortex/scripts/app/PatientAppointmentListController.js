@@ -195,8 +195,9 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                 //var seconds1 = Math.floor(diff1 / 1000) - ((days1 * 24 * 60 * 60) + (hours1 * 60 * 60) + (minutes1 * 60));
                 var CallRemain1 = Math.floor(diff1 / (60 * 1000));
                 $scope.CallButton1 = CallRemain1;
-                var date_future = new Date($scope.UpComingAppointmentDetails[i].Appointment_FromTime);
-                var date_now = new Date();
+                var date_future = (new Date($scope.UpComingAppointmentDetails[i].Appointment_FromTime+'Z'));
+               
+                var date_now = (new Date());
 
                 var seconds = Math.floor((date_future - (date_now)) / 1000);
                 var minutes = Math.floor(seconds / 60);
