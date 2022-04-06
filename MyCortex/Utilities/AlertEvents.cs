@@ -125,9 +125,12 @@ namespace MyCortex.Notification
                     SMSMbNO = MobileNo;
                     SMSSubject = alert.TempSubject;
                     SMSBody = alert.TempBody;
-                    SMSApiId = "Kv2n09u8";
-                    SMSUserName = "MyHealth";
-                    SMSSource = "Medspero";
+                    //SMSApiId = "Kv2n09u8";
+                    //SMSUserName = "MyHealth";
+                    //SMSSource = "Medspero";
+                    SMSApiId = alertList.AlertEventEmailList[0].SMSApiId;
+                    SMSUserName = alertList.AlertEventEmailList[0].SMSUserName;
+                    SMSSource = alertList.AlertEventEmailList[0].SMSSourceId;
 
                     SMSURL = "https://txt.speroinfotech.ae/API/SendSMS?" + "username=" + SMSUserName + "&apiId=" + SMSApiId + "&json=True&destination=" + SMSMbNO + "&source=" + SMSSource + "&text=" + SMSBody;
 

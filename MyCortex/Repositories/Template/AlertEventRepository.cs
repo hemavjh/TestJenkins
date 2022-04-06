@@ -397,7 +397,10 @@ namespace MyCortex.Repositories.EmailAlert
                                                 UserName = p.Field<string>("FullName"),
                                                 EmailId = p.Field<string>("EmailId"),
                                                 EmailType_Flag = p.Field<int>("EmailSentType"),
-                                                mobile_no = p.Field<string>("mobile_no")
+                                                mobile_no = p.Field<string>("mobile_no"),
+                                                SMSSourceId = p.Field<string>("SOURCE_ID"),
+                                                SMSUserName = p.Field<string>("USERNAME"),
+                                                SMSApiId = p.Field<string>("API_ID"),
                                             }).ToList();
                 return lst;
             }
