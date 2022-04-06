@@ -100,7 +100,7 @@
                         <div class="textwrap">{{row.EventName}}</div>
                     </td>
                     <td style="text-align: center">{{row.EmailFlag==true?'Yes':'No'}}</td>
-                    <td style="text-align: left" title="{{row.EmailTemplate}}">
+                    <td style="text-align: left; max-width: 150px; word-wrap: break-word;" title="{{row.EmailTemplate}}">
                         <div class="textwrap">{{row.EmailTemplate.length > 50 ? row.EmailTemplate.substring(0,50) + "..." : row.EmailTemplate}}</div>
                     </td>
                     <td style="text-align: center">{{row.AppFlag==true?'Yes':'No'}}</td>
@@ -294,7 +294,7 @@
                         <input type="checkbox" style="display: inline-block;" value="agree" ng-model="EmailFlag"
                                ng-disabled="true">
                     </div>
-                    <div class="inputGroups" ng-show="EmailFlag==true">
+                    <div class="inputGroups" style="max-width: 500px; word-wrap: break-word;" ng-show="EmailFlag==true">
                         <label>Template</label>
                         <span>{{ViewEmailTemplateName}}</span>
                     </div>
