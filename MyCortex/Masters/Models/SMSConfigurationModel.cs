@@ -18,5 +18,16 @@ namespace MyCortex.Admin.Models
         public int Created_By { get; set; }
     
     }
+
+    public class CheckSMSConfiguration
+    {
+        public long Id { get; set; }
+        public long Institution_Id { get; set; }
+        public string MobileNo { get; set; }
+        public string Subject { get; set; }
+        public string Body { get; set; }
+        public int Created_By { get; set; }
+
+    }
    
 }
