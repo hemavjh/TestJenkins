@@ -18,13 +18,22 @@
                     <div class=" upcoming-doctor">
                         <div class="flex justify-content-between align-items-center mb-4">
                             <p class="up-time">
-                                {{Row.Appointment_FromTime | date:'hh: mm' }} &nbsp; - {{Row.Appointment_ToTime | date:'hh: mm a' }},
+                                {{Row.Appointment_FromTime | date:'hh: mm' :'UTC': getTimeZone }} &nbsp; - {{Row.Appointment_ToTime | date:'hh: mm a':'UTC': getTimeZone }},
                                 {{Row.Appointment_Date | date :'dd-MMM-yyyy'}} ({{Row.TimeDifference}} )
                             </p>
                             <i class="fa fa-angle-down" aria-hidden="true"></i>
                         </div>
                         <div class="flex">
                             <div class="" style="width:20%">
+                                <div ng-if="(Row.ViewGenderName| lowercase)=='male' && (Row.PhotoBlob==null)" valign="top" rowspan="6">
+                                    <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/male.png" />
+                                </div>
+                                <div ng-if="(Row.ViewGenderName| lowercase)=='female' && (Row.PhotoBlob==null)" valign="top" rowspan="6">
+                                    <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/female.png" />
+                                </div>
+                                <div ng-if="(Row.ViewGenderName| lowercase)!='female' && (Row.ViewGenderName| lowercase)!='male' && (Row.PhotoBlob==null)" valign="top" rowspan="6">
+                                    <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/Others.png" />
+                                </div>
                                 <div ng-if="(Row.PhotoBlob!=null && Row.PhotoBlob!='')" valign="top" rowspan="6">
                                     <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
                                 </div>
@@ -58,13 +67,22 @@
                     <div class=" upcoming-doctor">
                         <div class="flex justify-content-between align-items-center mb-4">
                             <p class="up-time">
-                                {{Row.Appointment_FromTime | date:'hh: mm' }} &nbsp; - {{Row.Appointment_ToTime | date:'hh: mm a' }},
-                                {{Row.Appointment_Date | date :'dd-MMM-yyyy'}} (In {{Row.TimeDifference}} )
+                                {{Row.Appointment_FromTime | date:'hh: mm':'UTC': getTimeZone}} &nbsp; - {{Row.Appointment_ToTime | date:'hh: mm a':'UTC': getTimeZone }},
+                                {{Row.Appointment_Date | date :'dd-MMM-yyyy':'UTC': getTimeZone}} (In {{Row.TimeDifference}} )
                             </p>
                             <i class="fa fa-angle-down" aria-hidden="true"></i>
                         </div>
                         <div class="flex">
                             <div class="" style="width:20%">
+                                <div ng-if="(Row.ViewGenderName| lowercase)=='male' && (Row.PhotoBlob==null)" valign="top" rowspan="6">
+                                    <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/male.png" />
+                                </div>
+                                <div ng-if="(Row.ViewGenderName| lowercase)=='female' && (Row.PhotoBlob==null)" valign="top" rowspan="6">
+                                    <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/female.png" />
+                                </div>
+                                <div ng-if="(Row.ViewGenderName| lowercase)!='female' && (Row.ViewGenderName| lowercase)!='male' && (Row.PhotoBlob==null)" valign="top" rowspan="6">
+                                    <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/Others.png" />
+                                </div>
                                 <div ng-if="(Row.PhotoBlob!=null && Row.PhotoBlob!='')" valign="top" rowspan="6">
                                     <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ Row.PhotoBlob}}" />
                                 </div>

@@ -1089,14 +1089,16 @@ namespace MyCortex.Repositories.Login
                 IList<EmployeeLoginModel> lst = (from p in dt.AsEnumerable()
                                                  select new EmployeeLoginModel()
                                                  {
-                                                    ProductName = p.Field<string>("PRODUCTNAME"),
-                                                    ProductImg = p.Field<string>("PRODUCTIMAGE"),
-                                                    ProductCopyRight = p.Field<string>("COPYRIGHT"),
+                                                     ProductName = p.Field<string>("PRODUCTNAME"),
+                                                     ProductImg = p.Field<string>("PRODUCTIMAGE"),
+                                                     ProductCopyRight = p.Field<string>("COPYRIGHT"),
+                                                     PoweredBy = p.Field<string>("POWEREDBY"),
                                                  }).ToList();
                 return lst;
             }
             catch (Exception ex)
             {
+                _logger.Error(ex.Message, ex);
                 return null;
             }
         }
