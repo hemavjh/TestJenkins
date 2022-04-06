@@ -27,6 +27,9 @@ namespace MyCortex.Admin.Models
         public string Subject { get; set; }
         public string Body { get; set; }
         public int Created_By { get; set; }
+        public string SMSApiId { get; set; }
+        public string SMSUserName { get; set; }
+        public string SMSSource { get; set; }
 
     }
    
