@@ -216,7 +216,7 @@ namespace MyCortex.Template.Controllers
                             SMSBody = model1.Email_Body;
                             SMSApiId = "Kv2n09u8";
                             SMSUserName = "MyHealth";
-                            SMSSource = "Medspero";
+                            SMSSource = "OILHDK";
 
                             SMSURL = "https://txt.speroinfotech.ae/API/SendSMS?" + "username=" + SMSUserName + "&apiId=" + SMSApiId + "&json=True&destination=" + SMSMbNO + "&source=" + SMSSource + "&text=" + SMSBody;
                             

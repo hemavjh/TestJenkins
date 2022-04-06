@@ -107,28 +107,31 @@ namespace MyCortex.Notification
                         //containsTildeSpecialCharacter = rgx.IsMatch(MobileNO);
                         //EncryptMbNO = MobileNO.Split('~');
 
-                        //if (containsTildeSpecialCharacter)
-                        //{
-                        //    SMSPrefixMbNO = EncryptMbNO[0];
-                        //    SMSSuffixMbNO = EncryptMbNO[1];
-                        //    SMSMbNO = SMSPrefixMbNO + SMSSuffixMbNO;
-                        //    containsPlusSpecialCharacter = rgx.IsMatch(SMSPrefixMbNO);
-                        //}
-                        //if (containsPlusSpecialCharacter)
-                        //{
-                        //    SMSSplMbNo = SMSPrefixMbNO.Split('+');
-                        //    SMSMbNO = SMSSplMbNo[1] + SMSSuffixMbNO;
-                        //}
-                        //else
-                        //{
-                        //    SMSMbNO = EncryptMbNO[0];
-                        //}
-                        SMSMbNO = MobileNo;
-                        SMSSubject = alert.TempSubject;
-                        SMSBody = alert.TempBody;
-                        SMSApiId = "Kv2n09u8";
-                        SMSUserName = "MyHealth";
-                        SMSSource = "Medspero";
+                    //if (containsTildeSpecialCharacter)
+                    //{
+                    //    SMSPrefixMbNO = EncryptMbNO[0];
+                    //    SMSSuffixMbNO = EncryptMbNO[1];
+                    //    SMSMbNO = SMSPrefixMbNO + SMSSuffixMbNO;
+                    //    containsPlusSpecialCharacter = rgx.IsMatch(SMSPrefixMbNO);
+                    //}
+                    //if (containsPlusSpecialCharacter)
+                    //{
+                    //    SMSSplMbNo = SMSPrefixMbNO.Split('+');
+                    //    SMSMbNO = SMSSplMbNo[1] + SMSSuffixMbNO;
+                    //}
+                    //else
+                    //{
+                    //    SMSMbNO = EncryptMbNO[0];
+                    //}
+                    SMSMbNO = MobileNo;
+                    SMSSubject = alert.TempSubject;
+                    SMSBody = alert.TempBody;
+                    //SMSApiId = "Kv2n09u8";
+                    //SMSUserName = "MyHealth";
+                    //SMSSource = "Medspero";
+                    SMSApiId = alertList.AlertEventEmailList[0].SMSApiId;
+                    SMSUserName = alertList.AlertEventEmailList[0].SMSUserName;
+                    SMSSource = alertList.AlertEventEmailList[0].SMSSourceId;
 
                         SMSURL = "https://txt.speroinfotech.ae/API/SendSMS?" + "username=" + SMSUserName + "&apiId=" + SMSApiId + "&json=True&destination=" + SMSMbNO + "&source=" + SMSSource + "&text=" + SMSBody;
 
