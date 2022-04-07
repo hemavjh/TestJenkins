@@ -50,6 +50,7 @@ namespace MyCortex.Notification
             {
                 if (alertList.AlertEventEmailList != null)
                 {
+                    alert.TempBody = alert.TempBody.Replace("&nbsp;", " ");
                     IList<SendEmailModel> sendEmailModel = new List<SendEmailModel>();
                     SendEmailModel model = new SendEmailModel();
                     model.Id = 0;
