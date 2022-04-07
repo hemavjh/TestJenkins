@@ -1442,8 +1442,8 @@
         //chatService.createGroup();
         chatService.sendMessage();
         //chatService.getaddressbookDetails($('#contactSearch').val());
-        if(window.localStorage['UserTypeId'] != 2)
-            window.location = '/Home/Index#/PatientVitals/' + window.COMETCHAT_TO_USER + '/' + window.localStorage['UserTypeId'];
+        if (window.localStorage['UserTypeId'] != 2)
+            chatService.openProfile();
     }
     function audioCallUser() {
 
@@ -1457,12 +1457,12 @@
 
         chatService.initiateCall();
         if(window.localStorage['UserTypeId'] != 2)
-            window.location = '/Home/Index#/PatientVitals/' + window.COMETCHAT_TO_USER + '/' + window.localStorage['UserTypeId'];
+            chatService.openProfile();
     }
     function videoCallUser() {
         chatService.initiateVideCall();
         if(window.localStorage['UserTypeId'] != 2)
-            window.location = '/Home/Index#/PatientVitals/' + window.COMETCHAT_TO_USER + '/' + window.localStorage['UserTypeId'];
+            chatService.openProfile();
     }
     function openUserChat(userType, viewUser, userValidity)
     {
