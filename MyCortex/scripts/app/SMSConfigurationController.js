@@ -103,6 +103,12 @@ SMSConfigurationController.controller("SMSConfigurationController", ['$scope', '
             return true;
         };
 
+        $scope.clearfields = function () {
+            $scope.MobileNo = "";
+            $scope.Subject = "";
+            $scope.Body = "";
+        }
+
         $scope.check_sms_configuration = function () {
             //$scope.smsUrl = "https://txt.speroinfotech.ae/API/SendSMS?";
             //$scope.smsUserName = "MyHealth";
@@ -149,6 +155,7 @@ SMSConfigurationController.controller("SMSConfigurationController", ['$scope', '
                             toastr.warning("SMS Setup Not Working Properly", "Warning");
                         }
                     }
+                    $scope.clearfields();
                     $("#chatLoaderPV").hide();
                 }).error(function (data) { toastr.warning("SMS Setup Server Error", "Warning"); });
             }
