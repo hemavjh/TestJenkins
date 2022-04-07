@@ -14,6 +14,11 @@ SMSConfigurationController.controller("SMSConfigurationController", ['$scope', '
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
         $scope.UserTypeId = parseInt($window.localStorage["UserTypeId"]);
 
+        $http.get(baseUrl + 'api/SMSConfiguration/SMSConfiguration_View/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
+            $scope.Source_Id = data.Source_Id;
+            $scope.UserName = data.UserName;
+            $scope.ApiId = data.ApiId;
+        });
     
         /* Institution Dropdown function  */
         $scope.InstitutionList = [];
@@ -110,32 +115,7 @@ SMSConfigurationController.controller("SMSConfigurationController", ['$scope', '
         }
 
         $scope.check_sms_configuration = function () {
-            //$scope.smsUrl = "https://txt.speroinfotech.ae/API/SendSMS?";
-            //$scope.smsUserName = "MyHealth";
-            //$scope.smsApiId = "Kv2n09u8";
-            ////$scope.smsDestination = "971552433557"; //Mobile Number
-            //$scope.smsDestination = $('#txthdFullNumber').val(); //Mobile Number
-            //$scope.smsSource = $scope.Subject; // AD-Medspero // Header Text
-            //$scope.smsText = $scope.ServerName;   //"Test";
-            //$http.get($scope.smsUrl + 'username=' + $scope.smsUserName + '&apiId=' + $scope.smsApiId + '&json=True&destination=' + $scope.smsDestination + '&source=' + $scope.smsSource + '&text=' + $scope.smsText).success(function (data) {
-            //    $scope.smsResponse = data;
-            //});
             if ($scope.CheckSmsConfigurationValidation() == true) {
-                //var val_sslen = 2;
-                //if ($scope.SSL_Enable == "1") {
-                //    val_sslen = 1;
-                //}
-                //else {
-                //    val_sslen = 2;
-                //}
-                //if ($scope.SSL_Enable != "0") {
-                //    $('#divSSLEnable').removeClass("ng-invalid");
-                //    $('#divSSLEnable').addClass("ng-valid");
-                //}
-                //else {
-                //    $('#divSSLEnable').removeClass("ng-valid");
-                //    $('#divSSLEnable').addClass("ng-invalid");
-                //}
                 var obj = {
                     Id: $scope.Id,
                     Institution_Id: $window.localStorage['InstitutionId'],
@@ -143,7 +123,10 @@ SMSConfigurationController.controller("SMSConfigurationController", ['$scope', '
                     MobileNo: $('#txthdFullNumber').val(),
                     Subject: $scope.Subject,
                     Body: $scope.Body,
-                    Created_By: $window.localStorage['UserId']
+                    Created_By: $window.localStorage['UserId'],
+                    SMSSource :$scope.Source_Id,
+                    SMSUserName : $scope.UserName ,
+                    SMSApiId : $scope.ApiId
                 };
                 $("#chatLoaderPV").show();
                 $http.post(baseUrl + 'api/SMSConfiguration/CheckSMSConfiguration/', obj).success(function (data) {
