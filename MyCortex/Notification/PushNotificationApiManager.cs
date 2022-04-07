@@ -37,7 +37,9 @@ namespace MyCortex.Notification.Firebase
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/json");
             request.AddHeader("Authorization", "key=" + model[0].ConfigValue);
-                        
+
+            message.Message = message.Message.Replace("\n\n", Environment.NewLine);
+
             // HttpContext.Current.Request.Url.Host;
             // localhost
             var my_jsondata = new
