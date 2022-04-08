@@ -255,11 +255,14 @@ namespace MyCortex.Repositories.User
         /// <param name="PatientId"></param>
         /// <param name="UserTypeId"></param>
         /// <returns></returns>
-        public IList<GetParameterValueModel> Get_ParameterValue(long PatientId, long UserTypeId, Guid Login_Session_Id)
+        public IList<GetParameterValueModel> Get_ParameterValue(long PatientId, long UserTypeId, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber, int Alert_Type)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@PatientId", PatientId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
+            param.Add(new DataParameter("@AlertType", Alert_Type));
             try
             {
                 DataTable dt = new DataTable();
@@ -318,7 +321,8 @@ namespace MyCortex.Repositories.User
                 DataTable dt = new DataTable();
                 if (UserTypeId == 6)
                 {
-                    dt = ClsDataBase.GetDataTable("[MYCORTEX].[GETPARAMETERVALUE_SP_LIST]", param);
+                    //dt = ClsDataBase.GetDataTable("[MYCORTEX].[GETPARAMETERVALUE_SP_LIST]", param);
+                    dt = ClsDataBase.GetDataTable("[MYCORTEX].[GETPARAMETERVALUELISTCOUNT_SP_LIST]", param);
                 }
                 else
                 {
