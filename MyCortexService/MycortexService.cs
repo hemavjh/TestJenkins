@@ -58,7 +58,7 @@ namespace MyCortexService
 
                 AlertEvents AlertEventReturn = new AlertEvents();
                 IList<EmailListModel> EmailList;
-                Int64 Id = 0, Institution_Id, Patient_Id, Doctor_Id;
+                Int64 Id = 0, Institution_Id, Patient_Id, Doctor_Id, APPOINTMENT_ID;
 
                 // to execute the service daily once at the day start(at 12AM)
                 var dateAndTime = DateTime.Now;
@@ -463,10 +463,11 @@ namespace MyCortexService
                             Id = Convert.ToInt64(dt.Rows[i]["id"].ToString());
                             Institution_Id = Convert.ToInt64(dt.Rows[i]["INSTITUTION_ID"].ToString());
                             Patient_Id = Convert.ToInt64(dt.Rows[i]["PATIENT_ID"].ToString());
+                            APPOINTMENT_ID = Convert.ToInt64(dt.Rows[i]["APPOINTMENT_ID"].ToString());
 
-                            EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)Id, (long)Institution_Id, null);
+                            EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)APPOINTMENT_ID, (long)Institution_Id, null);
 
-                            AlertEventReturn.Generate_SMTPEmail_Notification("PAT_APPOINTMENT_REMINDER", Id, (long)Institution_Id, EmailList);
+                            AlertEventReturn.Generate_SMTPEmail_Notification("PAT_APPOINTMENT_REMINDER", APPOINTMENT_ID, (long)Institution_Id, EmailList);
 
                             List<DataParameter> param1 = new List<DataParameter>();
                             param1.Add(new DataParameter("@TYPE", "Update_Mail_Notification"));
@@ -504,10 +505,11 @@ namespace MyCortexService
                             Id = Convert.ToInt64(dt.Rows[i]["id"].ToString());
                             Institution_Id = Convert.ToInt64(dt.Rows[i]["INSTITUTION_ID"].ToString());
                             Doctor_Id = Convert.ToInt64(dt.Rows[i]["DOCTOR_ID"].ToString());
+                            APPOINTMENT_ID = Convert.ToInt64(dt.Rows[i]["APPOINTMENT_ID"].ToString());
 
                             EmailList = alertrepository.UserSpecificEmailList((long)Institution_Id, Doctor_Id);
 
-                            AlertEventReturn.Generate_SMTPEmail_Notification("DOCTOR_APPOINTMENT_REMINDER", Id, (long)Institution_Id, EmailList);
+                            AlertEventReturn.Generate_SMTPEmail_Notification("DOCTOR_APPOINTMENT_REMINDER", APPOINTMENT_ID, (long)Institution_Id, EmailList);
 
                             List<DataParameter> param1 = new List<DataParameter>();
                             param1.Add(new DataParameter("@TYPE", "Update_Mail_Notification"));
