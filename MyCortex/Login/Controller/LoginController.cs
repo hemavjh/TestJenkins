@@ -36,6 +36,7 @@ namespace MyCortex.Login.Controller
         static readonly ICommonRepository commonrepository = new CommonRepository();
         static readonly AlertEventRepository alertrepository = new AlertEventRepository();
         static readonly IEmailConfigurationRepository emailrepository = new EmailConfigurationRepository();
+        static readonly ISMSConfigurationRepository SMSrepository = new SMSConfigurationRepository();
         static readonly IUserRepository userrepo = new UserRepository();
 
         private LoginRepository login = new LoginRepository();

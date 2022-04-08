@@ -903,7 +903,7 @@ namespace MyCortex.Repositories.Uesr
         }
 
 
-        public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber, string NATIONALITY_ID, String SearchQuery, string PATIENTNO, string INSURANCEID, string MOBILE_NO, string EMAILID, string FIRSTNAME, string LASTNAME, string MRNNO)
+        public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber, string NATIONALITY_ID, String SearchQuery, string PATIENTNO, string INSURANCEID, string MOBILE_NO, string EMAILID, string FIRSTNAME, string LASTNAME, string MRNNO, int? AdvanceFilter)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@ISACTIVE", IsActive));
@@ -918,6 +918,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@FIRSTNAME", FIRSTNAME));
             param.Add(new DataParameter("@LASTNAME", LASTNAME));
             param.Add(new DataParameter("@MRNNO", MRNNO));
+            param.Add(new DataParameter("@ADVANCE_FILTER", AdvanceFilter));
             param.Add(new DataParameter("@USERTYPE_ID", "2"));  // dont change
             //param.Add(new DataParameter("@SearchEncryptedQuery", EncryptPassword.Encrypt(SearchQuery)));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].SEARCH_PATIENT_SP_ALL_LIST", param);
@@ -955,7 +956,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].USERDETAILS_SP_VIEW", param);
-            
+                
             UserModel View = (from p in dt.AsEnumerable()
                               select 
                                 new UserModel()
@@ -966,6 +967,7 @@ namespace MyCortex.Repositories.Uesr
                                   FirstName = p.Field<string>("FirstName"),
                                   MiddleName = p.Field<string>("MiddleName"),
                                   LastName = p.Field<string>("LastName"),
+                                  FullName = p.Field<string>("FULLNAME"),
                                   EMPLOYEMENTNO = p.Field<string>("EMPLOYEMENTNO"),
                                   EMAILID = p.Field<string>("EMAILID"),
                                   DEPARTMENT_ID = p.IsNull("DEPARTMENT_ID") ? 0 : p.Field<long>("DEPARTMENT_ID"),
@@ -1711,6 +1713,7 @@ namespace MyCortex.Repositories.Uesr
         {
             List<DataParameter> param = new List<DataParameter>();
             PatientHealthDataModel list = null;
+            param.Add(new DataParameter("@SYNC_APPID", insobj.Sync_AppId));
             param.Add(new DataParameter("@ID", insobj.Id));
             param.Add(new DataParameter("@PATIENTID", insobj.Patient_Id));
             param.Add(new DataParameter("@PARAMETERID", insobj.ParameterId));
@@ -1750,6 +1753,40 @@ namespace MyCortex.Repositories.Uesr
 
             return list;
         }
+
+        public IntegrationAppHistoryModel IntegrationAppHistory_Update(Guid Login_Session_Id, IntegrationAppHistoryModel insobj)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@APP_ID", insobj.AppId));
+            param.Add(new DataParameter("@APP_TYPE", insobj.AppType));
+            param.Add(new DataParameter("@USERID", insobj.PatientId));
+            param.Add(new DataParameter("@ISDISCONNECT", insobj.IsDisconnect));
+
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[INTEGRATION_APPS_HISTORY]", param);
+               
+                IntegrationAppHistoryModel INS = (from p in dt.AsEnumerable()
+                                                select
+                                                new IntegrationAppHistoryModel()
+                                                {
+                                                    AppId = p.Field<long>("APP_ID"),
+                                                    AppType= p.Field<string>("APP_TYPE"),
+                                                    PatientId = p.Field<long>("USER_ID"),
+                                                }).FirstOrDefault();
+                return INS;
+
+                
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
         /// <summary>
         /// to Insert/Update the Sign up Users, Hospital Admin and Business Users for a Institution
         /// </summary>
@@ -1784,33 +1821,47 @@ namespace MyCortex.Repositories.Uesr
             //flag = (dr["FLAG"].ToString());
         }
 
-        public long GetInstitutionFromShortName(string INSTITUTION_CODE)
-        {
-            long INSTITUTION_ID;
-            List<DataParameter> param = new List<DataParameter>();
+        //public long GetInstitutionFromShortName(string INSTITUTION_CODE)
+        //{
+        //    long INSTITUTION_ID;
+        //    List<DataParameter> param = new List<DataParameter>();
 
+        //    param.Add(new DataParameter("@INSTITUTION_CODE", INSTITUTION_CODE));
+        //    DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USER_SP_GET_INSTITUTIONBYCODE]", param);
+        //    if (dt.Rows.Count > 0)
+        //    {
+        //        DataRow dr = dt.Rows[0];
+        //        /*   UserModel View = (from p in dt.AsEnumerable()
+        //                             select
+        //                             new UserModel()
+        //                             {
+        //                                 INSTITUTION_ID = p.IsNull("Id") ? 0 : p.Field<long>("Id")
+        //                             }).FirstOrDefault();*/
+        //        INSTITUTION_ID = dr.IsNull("Id") ? 0 : dr.Field<long>("Id");
+        //    }
+        //    else
+        //    {
+        //        INSTITUTION_ID = 0;
+        //    }
+        //    var data = (Convert.ToInt64(INSTITUTION_ID));
+        //    return data;
+        //    //DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_ICD10DETAILS_SP_INSERTUPDATE", param);
+        //    //DataRow dr = dt.Rows[0];
+        //    //flag = (dr["FLAG"].ToString());
+        //}
+
+        public IList<InstitutionShortCode> GetInstitutionFromShortName(string INSTITUTION_CODE)
+        {
+            List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_CODE", INSTITUTION_CODE));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USER_SP_GET_INSTITUTIONBYCODE]", param);
-            if (dt.Rows.Count > 0)
-            {
-                DataRow dr = dt.Rows[0];
-                /*   UserModel View = (from p in dt.AsEnumerable()
-                                     select
-                                     new UserModel()
-                                     {
-                                         INSTITUTION_ID = p.IsNull("Id") ? 0 : p.Field<long>("Id")
-                                     }).FirstOrDefault();*/
-                INSTITUTION_ID = dr.IsNull("Id") ? 0 : dr.Field<long>("Id");
-            }
-            else
-            {
-                INSTITUTION_ID = 0;
-            }
-            var data = (Convert.ToInt64(INSTITUTION_ID));
-            return data;
-            //DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_ICD10DETAILS_SP_INSERTUPDATE", param);
-            //DataRow dr = dt.Rows[0];
-            //flag = (dr["FLAG"].ToString());
+            List<InstitutionShortCode> INS = (from p in dt.AsEnumerable()
+                                              select new InstitutionShortCode()
+                                              {
+                                                  INSTITUTION_ID = p.Field<long>("Id"),
+                                                  PatSignUpFlag = p.Field<long>("PatSignup")
+                                              }).ToList();
+            return INS;
         }
         public string GetInstitutionName(string INSTITUTION_CODE)
         {
@@ -1898,20 +1949,20 @@ namespace MyCortex.Repositories.Uesr
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[CG_PATIENTAPPOINTMENTS_SP_LIST]", param);
-                DataEncryption decrypt = new DataEncryption();
+                //DataEncryption decrypt = new DataEncryption();
                 List<PatientAppointmentsModel> lst = (from p in dt.AsEnumerable()
                                                       select new PatientAppointmentsModel()
                                                       {
                                                           Patient_Id = p.Field<long>("PATIENT_ID"),
-                                                          Appointment_FromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
-                                                          Appointment_ToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
+                                                          Appointment_FromTime2 = p.Field<string>("APPOINTMENT_FROMTIME2"),
+                                                          Appointment_ToTime2 = p.Field<string>("APPOINTMENT_TOTIME2"),
                                                           DoctorName = p.Field<string>("DOCTORNAME"),
                                                           PatientName = p.Field<string>("PATIENTNAME"),
                                                           //PatientName = p.Field<string>("PATIENTNAME"),
                                                           //DoctorName = p.Field<string>("DOCTORNAME"),
                                                           Appointment_Date = p.Field<DateTime>("APPOINTMENT_DATE"),
                                                           //Photo = p.Field<string>("PHOTO_NAME"),
-                                                          PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
+                                                          //PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
                                                           TimeDifference = p.Field<string>("TimeDifference"),
                                                           Doctor_Id = p.Field<long>("DOCTOR_ID"),
                                                           Id = p.Field<long>("Id"),

@@ -182,12 +182,25 @@ namespace MyCortex.User.Controller
             return model;
         }
 
+        //[AllowAnonymous]
+        //public long GetInstitutionFromCode(string Code)
+        //{
+        //    long InstitutionId = 0;
+        //    InstitutionId = repository.GetInstitutionFromShortName(Code);
+        //    return InstitutionId;
+        //}
+        /// <summary>      
+        /// Getting user list of a institution
+        /// </summary>          
+        /// <returns> user list of a institution</returns>
         [AllowAnonymous]
-        public long GetInstitutionFromCode(string Code)
+        [HttpGet]
+        //  [CheckSessionOutFilter]
+        public IList<InstitutionShortCode> GetInstitutionFromCode(string Code)
         {
-            long InstitutionId = 0;
-            InstitutionId = repository.GetInstitutionFromShortName(Code);
-            return InstitutionId;
+            IList<InstitutionShortCode> model;
+            model = repository.GetInstitutionFromShortName(Code);
+            return model;
         }
         [AllowAnonymous]
         public string GetInstitutionName(string Code)
@@ -221,7 +234,9 @@ namespace MyCortex.User.Controller
                 {
                     if (!string.IsNullOrEmpty(userObj.INSTITUTION_CODE))
                     {
-                        userObj.INSTITUTION_ID = repository.GetInstitutionFromShortName(userObj.INSTITUTION_CODE);
+                        IList<InstitutionShortCode> Insmodel;
+                        Insmodel = repository.GetInstitutionFromShortName(userObj.INSTITUTION_CODE);
+                        userObj.INSTITUTION_ID = Insmodel[0].INSTITUTION_ID;
                     }
                     //else
                     //{
@@ -753,7 +768,7 @@ namespace MyCortex.User.Controller
 
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber, string NATIONALITY_ID = null, String SearchQuery = null, string PATIENTNO = null, string INSURANCEID = null, string MOBILE_NO = null, string EMAILID = null, string FIRSTNAME = null, string LASTNAME = null, string MRNNO = null)
+        public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber, string NATIONALITY_ID = null, String SearchQuery = null, string PATIENTNO = null, string INSURANCEID = null, string MOBILE_NO = null, string EMAILID = null, string FIRSTNAME = null, string LASTNAME = null, string MRNNO = null, int AdvanceFilter = 0)
         {
             string NATIONALITY_ID2 = string.IsNullOrEmpty(NATIONALITY_ID) ? "" : NATIONALITY_ID.ToLower();
             string PATIENTNO2 = string.IsNullOrEmpty(PATIENTNO) ? "" : PATIENTNO.ToLower();
@@ -769,7 +784,7 @@ namespace MyCortex.User.Controller
             List<ItemizedUserDetailsModel> model = new List<ItemizedUserDetailsModel>();
             try
             {
-                model = repository.Search_Patient_List(IsActive, INSTITUTION_ID, StartRowNumber2, lastno, NATIONALITY_ID2, SearchQuery2, PATIENTNO2, INSURANCEID2, MOBILE_NO2, EMAILID2, FIRSTNAME2, LASTNAME2, MRNNO2);
+                model = repository.Search_Patient_List(IsActive, INSTITUTION_ID, StartRowNumber2, lastno, NATIONALITY_ID2, SearchQuery2, PATIENTNO2, INSURANCEID2, MOBILE_NO2, EMAILID2, FIRSTNAME2, LASTNAME2, MRNNO2, AdvanceFilter);
             }
             catch(Exception ex)
             {
@@ -1423,8 +1438,14 @@ namespace MyCortex.User.Controller
                 else if ((ModelData.flag == 4) == true)
                 {
                     messagestr = "Patient Data Cumulate value has less than 1";
-                    model.ReturnFlag = 0;
-                    model.Status = "False";
+                    model.ReturnFlag = 1;
+                    model.Status = "True";
+                }
+                else if ((ModelData.flag == 5) == true)
+                {
+                    messagestr = "Sync app data mismatching";
+                    model.ReturnFlag = 5;
+                    model.Status = "True";
                 }
                 model.Error_Code = "";
                 model.PatientHealthDataDetails = ModelData;
@@ -1477,6 +1498,32 @@ namespace MyCortex.User.Controller
                 model.Error_Code = ex.Message;
                 model.ReturnFlag = 0;
                 model.PatientHealthDataDetails = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage IntegrationAppHistory(Guid Login_Session_Id, [FromBody] IntegrationAppHistoryModel obj)
+        {
+            IntegrationAppHistoryModel ModelData = new IntegrationAppHistoryModel();
+            IntegrationAppHistoryReturnModel model = new IntegrationAppHistoryReturnModel();
+
+            try
+            {
+                ModelData = repository.IntegrationAppHistory_Update(Login_Session_Id, obj);
+                
+                model.IntegrationAppHistory = ModelData;
+                model.Message = "Sync data updated successfully";
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in sync data update";
+                model.IntegrationAppHistory = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
@@ -3291,7 +3338,7 @@ namespace MyCortex.User.Controller
             try
             {
                 msg = repository.MedicationInsertUpdateDateOverLapping(Login_Session_Id, insobj);
-                if (msg != "")
+                if (msg != "" && msg!=null)
                 {
                     model.Message = msg;
                 }
@@ -3327,7 +3374,7 @@ namespace MyCortex.User.Controller
 
                 }
                 model.DrugDBMaster = ModelData;
-                if (msg != "")
+                if (msg != "" && msg!=null)
                 {
                     model.Message = msg;
                 }

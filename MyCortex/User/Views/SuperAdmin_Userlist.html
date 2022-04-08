@@ -160,10 +160,10 @@
     <li>
         <a href="Home/Index#/HospitalAdmin_UserList/2">
             Clinical
-            User
+            Users
         </a>
     </li>
-    <li><a href="Home/Index#/PatientList/3">All Patient</a></li>
+    <li><a href="Home/Index#/PatientList/3">All Patients</a></li>
     <li><a href="Home/Index#/PatientApproval">Patient Approval</a></li>
     <li><a class="secondaryMenuActive" href="Home/Index#/Admin_UserList/3" data-menu="Home">Hospital Admin</a></li>
     <li><a href="Home/Index#/Admin_Userslog_List">Users Log</a></li>
@@ -266,7 +266,7 @@
             </td>
             <td style="text-align: left" title="{{row.FullName}}">
                 <div class="textwrap">
-                    <img src="../../Images/male.png" width="30" height="30" ng-if="(row.GENDER_NAME| lowercase)=='male'" />
+                    <img src="../../Images/Patient_Male.png" width="30" height="30" ng-if="(row.GENDER_NAME| lowercase)=='male'" />
                     <img src="../../Images/female.png" width="30" height="30" ng-if="(row.GENDER_NAME| lowercase)=='female'" />
                     <img src="../../Images/Others.png" width="30" height="30" ng-if="(row.GENDER_NAME| lowercase)!='female' && (row.GENDER_NAME| lowercase)!='male'" />
                     {{ row.FullName.length > 25 ? row.FullName.substring(0,25)+"..." : row.FullName }}
@@ -352,7 +352,7 @@
                                                                name="FileName" title="Click to Upload Image "
                                                                style="height:0px !important"
                                                                accept="image/x-png,image/gif,image/jpeg" ng-click="PhotoUplaodSelected()" />
-
+                                                       
 
                                                         <div class="modal" tabindex="-1" role="dialog" id="insertimageModal">
                                                             <div class="modal-dialog" role="document" style="min-width: 700px">
@@ -383,10 +383,10 @@
                                                         </div>
 
                                                         <!--<div class="uploadIconContainer">
-                                                            <a href="javascript:" ng-click="Adminimageclear();" title="Clear">
-                                                                <u>Clear</u>
-                                                            </a>
-                                                        </div>-->
+        <a href="javascript:" ng-click="Adminimageclear();" title="Clear">
+            <u>Clear</u>
+        </a>
+    </div>-->
                                                         <div style="margin-top: 15px;">
                                                             <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="Adminimageclear();"
                                                                title="Clear">
@@ -401,7 +401,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                    </div>
                                                 <!--<div class="uploadIconContainer">
                                                     <label for="UserLogo" class="uploadIconBtn" title="Click to Upload Photo">
                                                         <i class="fa fa-upload"></i>
@@ -486,7 +486,7 @@
                                             </td>
                                             <td>
                                                 <!--<div id="divGender" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                                    <select class="form-control" data-style="form-control" ng-model="GenderId" id="Select10" data-live-search="true" data-selectpicker data-collection-name="GenderList" ng-required="true" ng-change="PatientgetBase64Image();" ng-disabled="Pat_UserTypeId==2">
+                                                    <select class="form-control" data-style="form-control" ng-model="GenderId" id="Select10" data-live-search="true" data-selectpicker data-collection-name="GenderList" ng-required="true" ng-change="AdmingetBase64Image();" ng-disabled="Pat_UserTypeId==2">
                                                         <option value="0">Select</option>
                                                         <option ng-repeat="sel in GenderList" ng-selected="GenderId==sel.Id"
                                                                 value="{{sel.Id}}">
@@ -603,7 +603,7 @@
                                 </div>
                                 <div ng-if="(ViewGender| lowercase)=='male' && (uploadme == null)&&uploadview ==true"
                                      valign="top" rowspan="6">
-                                    <img class="responsiveProfileImage" src="../../Images/male.png" width="180" height="180" />
+                                    <img class="responsiveProfileImage" src="../../Images/Patient_Male" width="180" height="180" />
                                 </div>
                                 <div ng-if="(ViewGender| lowercase)=='female' && (uploadme == null)&&uploadview ==true" valign="top" rowspan="6">
 
@@ -692,7 +692,7 @@
                                 <label>Mobile No.</label>
                             </td>
                             <td>
-                                <span>{{MobileNo}}</span>
+                                <span>{{MobileNoView}}</span>
                             </td>
                         </tr>
                         <tr>

@@ -51,7 +51,17 @@ body {
     left: 0px;
     right: 0px;
 }
-
+.loginBg {
+   /* min-height: calc(115vh - 125px);
+    padding-bottom: 30px;
+    margin-top: 75px; 
+    background-image: url(../images/loginBg.jpg);
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;*/
+    display: none;
+}
 .loginBgCor {
     min-height: calc(100vh - 105px);
     padding-bottom: 30px;
@@ -91,7 +101,7 @@ body {
     font-size: 36px;
     margin: 0px 0px 15px 0px;
     text-align: center;
-    background-image: url(../images/logoIcon.png);
+    /*background-image: url(../images/logoIcon.png);*/
     background-repeat: no-repeat;
     background-position: left center;
     background-size: 40px;

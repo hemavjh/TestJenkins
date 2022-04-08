@@ -402,6 +402,34 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
+        public IList<DoctorAppointmentTimeSlotModel> GetDoctorAppointmentDetails(long DoctorId, DateTime Date, Guid Login_Session_Id, long TimeZoneId, long Institution_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@DOCTORID", DoctorId));
+            param.Add(new DataParameter("@DATE", Date));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@TIMEZONE_ID", TimeZoneId));
+            param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[DOCTOR_APPOINTMENT_DETAILS_SP_LIST]", param);
+                List<DoctorAppointmentTimeSlotModel> lst = (from p in dt.AsEnumerable()
+                                                            select new DoctorAppointmentTimeSlotModel()
+                                                            {
+                                                                FromTime = p.Field<string>("FromTime"),
+                                                                ToTime = p.Field<string>("ToTime"),
+                                                                PatientName = p.Field<string>("PatientName"),
+                                                                id = p.Field<long>("ID")
+                                                            }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
 
         public IList<DoctorShiftModel> DoctorShift_InsertUpdate(DoctorShiftModel obj, Guid Login_Session_Id)
         {
@@ -423,6 +451,8 @@ namespace MyCortex.Repositories.Uesr
                 param.Add(new DataParameter("@TODATE", obj.ToDate));
                 param.Add(new DataParameter("@NEWAPPOINTMENT", obj.NewAppointment));
                 param.Add(new DataParameter("@FOLLOWUP", obj.FollowUp));
+                param.Add(new DataParameter("@NEWAPPOINTMENT_PRICE", obj.NewAppointmentPrice));
+                param.Add(new DataParameter("@FOLLOWUP_PRICE", obj.FollowUpPrice));
                 param.Add(new DataParameter("@INTERVAL", obj.Intervel));
                 param.Add(new DataParameter("@CUSTOMSLOT", obj.CustomSlot));
                 param.Add(new DataParameter("@BOOKINGOPEN", obj.BookingOpen));
@@ -647,6 +677,23 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@NOTIFYTIMESTAMP", notifyTimeStamp));
             retid = ClsDataBase.Insert("[MYCORTEX].[PAYMENTPROVIDER_PAYMENTREFUNDINFO]", param, true);
             return retid;
+        }
+
+        public int DoctorShift_Editable(long Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@DOCTORSHIFT_ID", Id));
+            try
+            {
+                DataTable dt1 = ClsDataBase.GetDataTable("[MYCORTEX].[DOCTOR_SHIFT_EDITABLE]", param);
+                DataRow dr1 = dt1.Rows[0];
+                return Convert.ToInt32(dr1.ItemArray[0]);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return 0;
+            }
         }
     }
 }

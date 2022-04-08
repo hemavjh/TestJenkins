@@ -1,0 +1,141 @@
+﻿<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        if (document.getElementById("Appointments") != null && document.getElementById("Appointments") != undefined) {
+            document.getElementById("Appointments").className += 'activeButton';
+        }
+        $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+    });
+    function setres() { $('ul li .doc-res:first').click(); }
+</script>
+
+<ul class="secondaryMenu">
+    <li><a href="Home/Index#/DoctorAppointmentDetails">List</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/AppointmentApproval" data-menu="Home">Approval</a></li>
+</ul>
+<h1 class="page-title">Appointment Approval</h1>
+
+<div>
+
+    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
+        <div></div>
+        <div></div>
+    </div>
+
+    <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" st-search="query"
+           class="table themeTable">
+        <thead>
+            <tr style="text-align: center">
+                <th st-ratio="5">S.No</th>
+                <th st-ratio="10" st-sort="Generic_Name">Patient Name</th>
+                <th st-ratio="10" st-sort="Generic_Name">Appointment Date</th>
+                <th st-ratio="8" st-sort="ToDate">Appointment Start Time</th>
+                <th st-ratio="8" st-sort="ToDate">Appointment End Time</th>
+                <th st-ratio="8">Approve</th>
+                <th st-ratio="8">Cancel</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="flag==0 && rowCollectionFilter.length==0">
+                <td colspan="15" style="text-align: center">
+                    No Data Available
+                </td>
+            </tr>
+            <tr ng-repeat="row in emptydata">
+                <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+
+                <td style="text-align: left; max-width: 150px; word-wrap: break-word; ">
+                    <div class="textwrap">{{row.PatientName.length > 25 ? row.PatientName.substring(0,25)+"..." : row.PatientName}}</div>
+                </td>
+                <td style="text-align: left">
+                    {{row.Appointment_Date | date :'dd-MMM-yyyy' }}
+                </td>
+                <td style="text-align: left">
+                    {{row.Appointment_FromTime2 }}
+                </td>
+                <td style="text-align: left">
+                    {{row.Appointment_ToTime2 }}
+                </td>
+                <td style="text-align: center">
+                    <a href="javascript:void(0);" ng-click="ApproveAppointment(row.Id)" title="Approve">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                    </a>
+                </td>
+                <td style="text-align: center">
+                    <a href="javascript:void(0);" ng-click="CancelAppointment(row.Id)" title="Cancel">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+        <!--<tfoot ng-show="rowCollectionFilter.length >10">
+            <tr>
+                <td colspan="15" class="text-center">
+                    <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                         st-template="Masters/Views/pagination.custom.html"></div>
+                </td>
+            </tr>
+        </tfoot>-->
+    </table>
+
+    <div id="PatientAppointmentModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Cancel Appointment</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                            <tr>
+                                <td width="10%">
+                                    <label for="usr">
+                                        Reason Type <sup>
+                                            <font class='mandatory-field'>*</font>
+                                        </sup>
+                                    </label>
+                                </td>
+                                <td width="30%">
+                                    <select class="form-control" data-style="form-control"
+                                            data-live-search="true" data-selectpicker
+                                            data-collection-name="AppointmentReasonTypeList" ng-model="ReasonTypeId">
+                                        <option ng-repeat="sel in AppointmentReasonTypeList"
+                                                ng-required="true" class="doc-res" value="{{sel.ReasonTypeId}}">
+                                            {{sel.ReasonType}}
+                                        </option>
+                                    </select>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>
+                                        Reason
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" ng-model="Cancelled_Remarks" maxlength="100"
+                                           ng-maxlength="100" />
+                                </td>
+                            </tr>
+
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <div class="col-sm-offset-2 col-sm-9">
+                        <button type="button" class="theme-btn-2 btn-save" ng-click="Update_CancelledAppointment()">
+                            Save
+                        </button>
+                        <button type="button" class="theme-btn-2 btn-save" ng-click="Cancel_CancelledAppointment()">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -131,6 +131,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
         $scope.TimeSlot56 = new Date();
         $scope.NewAppointment2 = "0";
         $scope.followup2 = "0";
+        $scope.NewAppointmentPrice2 = "0";
+        $scope.followupPrice2 = "0";
         $scope.IntervalBt2 = "0";
         $scope.Days2 = "0";
         $scope.Minutes2 = "0";
@@ -205,9 +207,13 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                             $scope.Minutes2 = data.MinRescheduleMinutes;
                             $scope.NewAppointment = data.NewAppointmentDuration;
                             $scope.followup = data.FollowUpDuration;
+                            $scope.NewAppointmentPrice = data.NewAppointmentPrice;
+                            $scope.followupPrice = data.FollowUpPrice;
                             $scope.IntervalBt = data.AppointmentInterval;
                             $scope.NewAppointment2 = data.NewAppointmentDuration;
                             $scope.followup2 = data.FollowUpDuration;
+                            $scope.NewAppointmentPrice2 = data.NewAppointmentPrice;
+                            $scope.followupPrice2 = data.FollowUpPrice;
                             $scope.IntervalBt2 = data.AppointmentInterval;
                         } else {
                             $('#OrgDefaultId').prop('checked', false);
@@ -225,6 +231,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 $scope.NewAppointment = "0";
                 $scope.followup = "0";
                 $scope.IntervalBt = "0";
+                $scope.NewAppointmentPrice = "0";
+                $scope.followupPrice = "0";
             }
         }
 
@@ -245,6 +253,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                             //$scope.IntervalBt = data.AppointmentInterval;
                             $scope.NewAppointment2 = data.NewAppointmentDuration;
                             $scope.followup2 = data.FollowUpDuration;
+                            $scope.NewAppointmentPrice2 = data.NewAppointmentPrice;
+                            $scope.followupPrice2 = data.FollowUpPrice;
                             $scope.IntervalBt2 = data.AppointmentInterval;
                         } else {
                             $('#OrgBookInfoId').prop('checked', false);
@@ -1362,6 +1372,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                         ToDate: $scope.ToDate,
                         NewAppointment: $scope.NewAppointment,
                         FollowUp: $scope.followup,
+                        NewAppointmentPrice: $scope.NewAppointmentPrice,
+                        FollowUpPrice: $scope.followupPrice,
                         Intervel: $scope.IntervalBt,
                         CustomSlot: parseInt($scope.CustomSlot),
                         BookingOpen: $scope.Days,
@@ -1531,9 +1543,19 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 toastr.warning("Please Enter NewAppointment Time Slot", "warning");
                 return false;
             }
+            else if (typeof ($scope.NewAppointmentPrice) == "undefined" || $scope.NewAppointmentPrice == "0" || $scope.NewAppointmentPrice == "") {
+                //alert("Please Enter NewAppointment");
+                toastr.warning("Please Enter New Appointment Price", "warning");
+                return false;
+            }
             else if (typeof ($scope.followup) == "undefined" || $scope.followup == "0" || $scope.followup == '') {
                 //alert("Please Enter followup Time Slot");
                 toastr.warning("Please Enter followup Time Slot", "warning");
+                return false;
+            }
+            else if (typeof ($scope.followupPrice) == "undefined" || $scope.followupPrice == "0" || $scope.followupPrice == "") {
+                //alert("Please Enter FollowUp");
+                toastr.warning("Please Enter Follow Up Price", "warning");
                 return false;
             }
             else if (typeof ($scope.IntervalBt) == "undefined" || $scope.IntervalBt == "0" || $scope.IntervalBt == '') {
@@ -1574,6 +1596,12 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 if (data != null) {
                     const OrgDay = "";
                     const OrgSelectedDate = data.DefaultWorkingDays.split(',');
+                    if ($scope.NewAppointmentPrice == '' || $scope.NewAppointmentPrice == 0) {
+                        $scope.NewAppointmentPrice = data.NewAppointmentPrice;
+                    }
+                    if ($scope.followupPrice == '' || $scope.followupPrice == 0) {
+                        $scope.followupPrice = data.FollowUpPrice;
+                    }
                     angular.forEach($scope.SelectedDays, function (value, index) {
                         angular.forEach(OrgSelectedDate, function (value1, index1) {
                             if (value1 == "monday") {
@@ -1804,14 +1832,20 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
         /* on click Edit, edit popup opened*/
         $scope.EditDoctorShift = function (DId, activeFlag, DoctorId, Institution_Id) {
             if (activeFlag == 1) {
-            angular.element('#DoctorShiftModal').modal('show');
-            $('#saveDoctorShift1').attr("disabled", false);
-            $('#saveDoctorShift2').attr("disabled", false);
-            $('#saveDoctorShift3').attr("disabled", false);
-            $scope.DoctorShiftClear();
-            $scope.Id = DId;
-            $scope.DoctorShift_View(DId, DoctorId, Institution_Id);
-            $scope.EditShiftDoctor();
+                $http.get(baseUrl + '/api/PatientAppointments/DoctorShift_Editable/?Id=' + DId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    if (data == 0) {
+                        angular.element('#DoctorShiftModal').modal('show');
+                        $('#saveDoctorShift1').attr("disabled", false);
+                        $('#saveDoctorShift2').attr("disabled", false);
+                        $('#saveDoctorShift3').attr("disabled", false);
+                        $scope.DoctorShiftClear();
+                        $scope.Id = DId;
+                        $scope.DoctorShift_View(DId, DoctorId, Institution_Id);
+                        $scope.EditShiftDoctor();
+                    } else {
+                        toastr.info("Particular Doctor Shift cannot be Editable", "info");
+                    }
+                });
             }
             else {
                 //alert("Inactive record cannot be edited");
@@ -2149,6 +2183,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             $scope.FromDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
             $scope.ToDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
             $scope.NewAppointment = "0";
+            $scope.NewAppointmentPrice = "0";
+            $scope.followupPrice = "0";
             $scope.followup = "0";
             $scope.IntervalBt = "0";
             $scope.CustomSlot = "0";
@@ -2196,7 +2232,9 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             $("#OrgDefaultId").attr("disabled", true);
             $("#OrgBookInfoId").attr("disabled", true);
             $('#NewAppointment').prop('disabled', true);
+            $('#NewAppointmentPrice').prop('disabled', true);
             $('#followup').prop('disabled', true);
+            $('#followupPrice').prop('disabled', true);
             $('#IntervalBt').prop('disabled', true);
             $('#CustomSlot').prop('disabled', true);
             $('#Days').prop('disabled', true);
@@ -2282,7 +2320,9 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             $("#OrgDefaultId").attr("disabled", false);
             $("#OrgBookInfoId").attr("disabled", false);
             $('#NewAppointment').prop('disabled', false);
+            $('#NewAppointmentPrice').prop('disabled', false);
             $('#followup').prop('disabled', false);
+            $('#followupPrice').prop('disabled', false);
             $('#IntervalBt').prop('disabled', false);
             $('#CustomSlot').prop('disabled', false);
             $('#Days').prop('disabled', false);
@@ -2452,6 +2492,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     $('#OrgBookInfoId').prop("checked", true);
                     $scope.NewAppointment = data.NewAppointment;
                     $scope.followup = data.FollowUp;
+                    $scope.NewAppointmentPrice = data.NewAppointmentPrice;
+                    $scope.followupPrice = data.FollowUpPrice;
                     $scope.IntervalBt = data.Intervel;
                     $scope.CustomSlot = data.CustomSlot;
                     $scope.Days = data.BookingOpen;
@@ -2959,7 +3001,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
         }
 
         //Appointment Settings 
-
+        $scope.NewAppointmentPrice = "0";
+        $scope.followupPrice = "0";
         $scope.NewAppointment = "0";
         $scope.followup = "0";
         $scope.IntervalBt = "0";
@@ -3178,10 +3221,12 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     $scope.MyAppConfigId = data.MyAppConfigId;
                     $scope.NewAppointment = data.NewAppointmentDuration;
                     $scope.followup = data.FollowUpDuration;
+                    $scope.NewAppointmentPrice = data.NewAppointmentPrice;
+                    $scope.followupPrice = data.FollowUpPrice;
                     $scope.IntervalBt = data.AppointmentInterval;
                     $scope.AppointmentDay = data.MaxScheduleDays;
                     $scope.Minutest = data.MinRescheduleMinutes;
-                    $scope.SelectedTimeZone = data.DefautTimeZone;
+                    //$scope.SelectedTimeZone = data.DefautTimeZone;
                     $scope.DefaultworkingDays = data.DefaultWorkingDays;
                     $scope.SelectedDefaultholiday = data.DefaultHoliDays;
                     $scope.BookEnable = data.IsAppointmentInHolidays;
@@ -3284,9 +3329,19 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 toastr.warning("Please Enter NewAppointment", "warning");
                 return false;
             }
+            else if (typeof ($scope.NewAppointmentPrice) == "undefined" || $scope.NewAppointmentPrice == "0" || $scope.NewAppointmentPrice == "") {
+                //alert("Please Enter NewAppointment");
+                toastr.warning("Please Enter New Appointment Price", "warning");
+                return false;
+            }
             else if (typeof ($scope.followup) == "undefined" || $scope.followup == "0") {
                 //alert("Please Enter FollowUp");
                 toastr.warning("Please Enter FollowUp", "warning");
+                return false;
+            }
+            else if (typeof ($scope.followupPrice) == "undefined" || $scope.followupPrice == "0" || $scope.followupPrice == "") {
+                //alert("Please Enter FollowUp");
+                toastr.warning("Please Enter Follow Up Price", "warning");
                 return false;
             }
             else if (typeof ($scope.IntervalBt) == "undefined" || $scope.IntervalBt == "0") {
@@ -3428,7 +3483,9 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     InstitutionId: $window.localStorage['InstitutionId'],
                     CreatedBy: $window.localStorage['UserId'],
                     NewAppointmentDuration: $scope.NewAppointment,
+                    NewAppointmentPrice: $scope.NewAppointmentPrice,
                     FollowUpDuration: $scope.followup,
+                    FollowUpPrice: $scope.followupPrice,
                     AppointmentInterval: $scope.IntervalBt,
                     MinRescheduleDays: $scope.ReduceNumberofavailableAppointmentes,
                     MinRescheduleMinutes: $scope.Minutest,

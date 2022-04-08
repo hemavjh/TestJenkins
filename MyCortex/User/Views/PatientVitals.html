@@ -22,8 +22,7 @@
         $('#SD_Date').attr('min', maxDate);
         $('#start_Date').attr('min', maxDate);
         $('#End_Date').attr('min', maxDate);
-        $('#ptDateTimePicker').attr('min', maxDate);
-        $('#dateee').attr('min', maxDate);
+        $('#ptDateTimePicker').attr('min', maxDate);      
     });
 </script>
 <!--<script src='Scripts/jquery-proper-slider.js'></script>
@@ -216,7 +215,7 @@
                 </div>-->
                 <!--<div class="mainbody resBody ng-scope">
                 <div class="rows">-->
-                <h4 class="page-title" style="margin-left: 18px;">Patient Vitals</h4>
+                <h4 class="page-title" style="margin-left: 18px;"></h4>
                 <div class="col-sm-4 p-15 centerScroll" style="z-index:2;">
                     <div style="border: 1px solid #ccc;box-shadow: 2px 2px 10px #ccc;background:#fff">
                         <div id="DemoChart" style="max-width:80%;margin: 0 auto;">
@@ -1147,7 +1146,7 @@
                             </ul>
 
                             <div class="panel panel-default patientProfileInfo bt-0">
-                                <div class="panel-body">
+                                <div class="panel-body" style="overflow: auto;max-width: 787px;max-height: 605px;">
 
                                     <div id="accordion">
 
@@ -1851,9 +1850,10 @@
                                                             </td>
                                                         </tr>
                                                         <tr ng-repeat="Allen in PatientAllergyemptydata">
+                                                            
                                                             <td class="textalign">{{((current_PatientAllergyPages-1)*page_size)+$index+1}}</td>
                                                             <td style="text-align: left; ">
-                                                                {{Allen.AllergyTypeName}}
+                                                                {{Allen.AllergyTypeName}} <input type="hidden" id="{{'alltypename'+ Allen.Id}}" ng-model="alltypename" value="{{Allen.AllergyTypeName}}" />
                                                             </td>
                                                             <td style="text-align: left; max-width: 150px; word-wrap: break-word; ">
                                                                 {{Allen.AllergenName}}
@@ -2212,12 +2212,22 @@
                                                         <span>{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                                                     </div>
                                                     <div class="alert alert-success nibp" ng-if="row.Type_Id==2 && LiveData_IsImage(row.UOM_Name)==false">
-                                                        <a href="home/GetPatient_OtherDataDocument?Id={{row.ParameterId}}" target="_blank">{{row.UOM_Name}}</a>
+                                                        <a href="javascript:" ng-click="Patient_OtherData_Image_View(row.Id,row.ParameterId)" title="View">
+                                                            {{row.UOM_Name}}
+                                                        </a>
+                                                        <a href="home/GetPatient_OtherDataDocument?Id={{row.ParameterId}}" style="text-decoration:none;">
+                                                            <img target="_blank" src="../../Images/download1.png" title="Click to Download">
+                                                        </a>
                                                     </div>
                                                     <div class="alert alert-success nibp" ng-if="row.Type_Id==2 && LiveData_IsImage(row.UOM_Name)==true">
-                                                        <img width="180" height="180" class="responsiveProfileImage" src="{{'data:image/png;base64,'+ row.LiveData_Blob}}" />
-                                                        _B
-                                                        di
+                                                        <img width="180" height="110" class="responsiveProfileImage" 
+                                                             src="{{'data:image/png;base64,'+ row.LiveData_Blob}}" /><br />
+                                                        <a href="javascript:" ng-click="Patient_OtherData_Image_View(row.Id,row.ParameterId)" title="View">
+                                                            {{row.UOM_Name}}
+                                                        </a>
+                                                        <a href="home/GetPatient_OtherDataDocument?Id={{row.ParameterId}}" style="text-decoration:none;">
+                                                            <img target="_blank" src="../../Images/download1.png" title="Click to Download">
+                                                        </a>
                                                     </div>
                                                 </div>
 
@@ -2661,7 +2671,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6" style="width:80%">
-                                    <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr.{{DoctorDetailBio.FirstName}}</p>
+                                    <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr.{{DoctorDetailList.FullName}}</p>
                                     <p class="m-bottom-0 secondary-text" style="font-size:13px;">{{DoctorDetailBio.Department_Name}}</p>
                                 </div>
                             </div>
@@ -3090,7 +3100,7 @@
                                     </td>
                                     <td>
                                         <input type="datetime-local" value="row.ActivityDate" ng-disabled="row.chkDateTime == false" ej-datetimepicker ng-init="row.ActivityDate=''" ng-model="row.ActivityDate" class="form-control date"
-                                               id="ptDateTimePicker{{$index}}" ng-required="true" ng-change="ejDTonChange(row.ActivityDate, $index)">
+                                               id="ptDateTimePicker{{$index}}" name="ptDateTimePicker" ng-required="true" ng-change="ejDTonChange(row.ActivityDate, $index)">
                                     </td>
                                     <td style="text-align: center">
                                         <input type="image" src="../../Images/deleteNewIcon.png"
@@ -3488,7 +3498,7 @@
                                         <select class="form-control" data-style="form-control" id="AllergyTypeselectpicker"
                                                 data-live-search="true" data-selectpicker data-collection-name="AllergyTypeList"
                                                 ng-model="AllergyTypeId"
-                                                ng-change="AllegenBasedType(AllergyTypeId);AllergenNameClearFunction()">
+                                                ng-change="AllegenBasedType(AllergyTypeId);AllergenNameClearFunction()" onchange="fngetalltypename();">
                                             <option ng-repeat="sel in AllergyTypeList" ng-selected="AllergyTypeId==sel.Id" ng-required="true"
                                                     value="{{sel.Id}}">
                                                 {{sel.AllergyTypeName}}
@@ -3661,7 +3671,7 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" id="Text1" ng-model="row.NoOfDays" ng-maxlength="50"
+                                        <input type="text" class="form-control" id="Text1" ng-model="row.NoOfDays" ng-maxlength="50" ng-change="NumberOfDays(row.NoOfDays,$index,row.EndDate);"
                                                maxlength="50" placeholder="" onkeypress="">
                                     </td>
 
@@ -3682,7 +3692,7 @@
                                     <td>
                                         <div class="col-md-10 input-group date">
                                             <input type="date" id="start_Date" max="2099-12-31" min="{{startDateMin}}" class="form-control" ng-model="row.StartDate"
-                                                   style="width: 165px">
+                                                  ng-change="ChangeDate(row.NoOfDays,row.StartDate,$index)" style="width: 165px">
                                             <!--<span class="input-group-addon">
                                                 <i class="glyphicon glyphicon-th"></i>
                                             </span>-->
@@ -3700,7 +3710,7 @@
                                     <td style="text-align: center">
                                         <input type="image" src="../../Images/deleteNewIcon.png"
                                                title='Click to delete'
-                                               ng-click="MedicationDetailsDelete($itemIndex)"
+                                               ng-click="MedicationDetailsDelete($index)"
                                                ng-model="row.selectedMedication"
                                                style="width: 20px;" id="Image6" />
                                     </td>
@@ -3742,7 +3752,7 @@
                     <div class="modal-body">
                         <div class="modal-footer" style="text-align: center;">
                             <div class="modernSearch">
-                                <input type="text" ng-model="CodeSearch" id="txtdrugCodeSearch" ng-keyup="Drugcodesearchkey()" placeholder="" />
+                                <input type="text" ng-model="CodeSearch" id="txtdrugCodeSearch" ng-keyup="Drugcodesearchkey()" placeholder="Search Drug Code" />
                                 <i class="fa fa-search"></i>
                             </div>
                         </div>
@@ -3792,7 +3802,7 @@
                     </div>
                     <div class="modal-footer" style="text-align: center;">
                         <div class="col-sm-offset-2 col-sm-9">
-                            <button type="button" class="btn btn-save" ng-click="DrugcodeSearchCancelPopup()">
+                            <button type="button" class="theme-btn-2 btn btn-save" ng-click="DrugcodeSearchCancelPopup()">
                                 Cancel
                             </button>
                         </div>
@@ -3988,7 +3998,7 @@
                     </div>
                     <div class="modal-footer" style="text-align: center;">
                         <div class="col-sm-offset-2 col-sm-9">
-                            <button type="button" class="btn btn-save" ng-click="ICD10codeSearchCancelPopup()" title="Click to Cancel">
+                            <button type="button" class="theme-btn-2 btn btn-save" ng-click="ICD10codeSearchCancelPopup()" title="Click to Cancel">
                                 Cancel
                             </button>
                         </div>
@@ -4078,7 +4088,7 @@
                     <div class="modal-footer" style="text-align: center;">
                         <div class="col-sm-offset-2 col-sm-9">
 
-                            <button type="button" class="btn btn-save" title="Click to Cancel" ng-click="CancelViewICD10Popup()">
+                            <button type="button" class="theme-btn-2 btn btn-save" title="Click to Cancel" ng-click="CancelViewICD10Popup()">
                                 Cancel
                             </button>
                         </div>
@@ -4201,11 +4211,11 @@
                     </div>
                     <div class="modal-footer" style="text-align: center;">
                         <div class="col-sm-offset-2 col-sm-9">
-                            <button type="button" class="btn btn-save" title="Click to Save" ng-disabled="false" id="buttonsave1"
+                            <button type="button" class="theme-btn-2 btn btn-save" title="Click to Save" ng-disabled="false" id="buttonsave1"
                                     ng-click="PatientICD10_InsertUpdate()">
                                 Save
                             </button>
-                            <button type="button" class="btn btn-save" title="Click to Cancel" ng-click="CancelEditICD10Popup()">
+                            <button type="button" class="theme-btn-2 btn btn-save" title="Click to Cancel" ng-click="CancelEditICD10Popup()">
                                 Cancel
                             </button>
                         </div>
@@ -4393,7 +4403,7 @@
                                                     <label>Start Date</label>
                                                 </td>
                                                 <td>
-                                                    {{StartDate}}
+                                                    {{StartDateView}}
                                                 </td>
                                             </tr>
                                             <tr>
@@ -4401,13 +4411,13 @@
                                                     <label>End Date</label>
                                                 </td>
                                                 <td>
-                                                    {{EndDate}}
+                                                    {{EndDateView}}
                                                 </td>
                                             </tr>
                                         </table>
                                     </form>
                                     <div class="modal-footer" style="text-align: center;">
-                                        <button type="button" class="btn btn-save" title="Click to Cancel" ng-click="CancelViewPopup()">
+                                        <button type="button" class="theme-btn-2 btn btn-save" title="Click to Cancel" ng-click="CancelViewPopup()">
                                             Cancel
                                         </button>
                                     </div>
@@ -4501,7 +4511,7 @@
                                     </label>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" id="Text12" ng-model="NoOfDays" ng-maxlength="50"
+                                    <input type="text" class="form-control" id="Text12" ng-model="NoOfDays" ng-maxlength="50" ng-change="NoOfDaysEdit(NoOfDays,EndDate)"
                                            maxlength="50" placeholder="" onkeypress="">
                                 </td>
                             </tr>
@@ -4538,7 +4548,7 @@
                                     <input type="text" datepicker ng-model="row.EndDate" ng-init="EndDate=''" ng-maxlength="20" maxlength="20" placeholder="" onkeypress="" style="width: 91px" />                                                                                                    -->
 
                                     <div class="inputGroups">
-                                        <input type="date" id="S_Date" class="form-control" max="2099-12-31" ng-model="StartDate"
+                                        <input type="date" id="S_Date" class="form-control" max="2099-12-31" ng-model="StartDate"  ng-change="EditChangeDate(NoOfDays,StartDate)"
                                                style="width: 165px">
                                         <!--<span class="input-group-addon">
                                         <i class="glyphicon glyphicon-th"></i>
@@ -4559,11 +4569,11 @@
                         </table>
                         <div class="modal-footer" style="text-align: center;">
                             <div class="col-sm-offset-2 col-sm-9">
-                                <button type="button" class="btn btn-save" title="Click to Save" id="save2" ng-disabled="false"
+                                <button type="button" class="theme-btn-2 btn btn-save" title="Click to Save" id="save2" ng-disabled="false"
                                         ng-click="PatientMedication_EditInsert()">
                                     Save
                                 </button>
-                                <button type="button" class="btn btn-save" title="Click to Cancel"
+                                <button type="button" class="theme-btn-2 btn btn-save" title="Click to Cancel"
                                         ng-click="CancelEditMedicationPopUp()">
                                     Cancel
                                 </button>
@@ -4610,7 +4620,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer" style="text-align: center;">
-                                    <button type="button" class="btn btn-save" title="Click to Cancel" ng-click="CancelViewPatientNotespopup()">
+                                    <button type="button" class="theme-btn-2 btn btn-save" title="Click to Cancel" ng-click="CancelViewPatientNotespopup()">
                                         Cancel
                                     </button>
                                 </div>
@@ -4803,7 +4813,7 @@
                     </form>
                 </div>
                 <div class="modal-footer" style="text-align: center;">
-                    <button type="button" class="btn  btn-save" ng-click="OtherData_CancelPopup()" title="Click to Cancel">
+                    <button type="button" class="theme-btn-2 btn-save" ng-click="OtherData_CancelPopup()" title="Click to Cancel">
                         Cancel
                     </button>
                 </div>
@@ -4948,10 +4958,10 @@
                 </div>
                 <div class="modal-footer" style="text-align: center;">
                     <div class="col-sm-offset-2 col-sm-9">
-                        <button type="button" class="btn btn-save" ng-click="Update_CancelledAppointment()">
+                        <button type="button" class="theme-btn-2 btn-save" ng-click="Update_CancelledAppointment()">
                             Save
                         </button>
-                        <button type="button" class="btn btn-save" ng-click="Cancel_CancelledAppointment()">
+                        <button type="button" class="theme-btn-2 btn-save" ng-click="Cancel_CancelledAppointment()">
                             Cancel
                         </button>
                     </div>
@@ -5130,7 +5140,7 @@
                 </div>
 
                 <div class="modal-footer" style="text-align: center;">
-                    <button type="button" class="btn btn-save" title="Click to Cancel" ng-click="CancelAlertHistorypopup()">
+                    <button type="button" class="theme-btn-2 btn-save" title="Click to Cancel" ng-click="CancelAlertHistorypopup()">
                         Cancel
                     </button>
                 </div>
@@ -5687,8 +5697,21 @@
                         <div class="flex doc-details mt-10 p-4">
                             <div class="col-sm-3">
                                 <ul class="p-0 pointerview">
-                                    <li ng-repeat="list in DoctorListWithTimeZone" ng-click="GetDoctorDetails(list)"
-                                        ng-class="{clickdoc : list === idSelectedVote}">{{list.DoctorName}}</li>
+                                    <li ng-repeat="list in DoctorListWithTimeZone" ng-click="GetDoctorDetails(list)" ng-class="{clickdoc : list === idSelectedVote}">
+                                        {{list.DoctorName}}
+                                        <!--<div ng-if="(list.ViewGenderName| lowercase)=='male' && (!list.PhotoBlob)" valign="top" rowspan="6">
+                                            <img src="../../Images/male.png" style="border-radius:20%;height:2rem;width:2rem" class="patientDetimg" />
+                                        </div>
+                                        <div ng-if="(list.ViewGenderName| lowercase)=='female' && (!list.PhotoBlob)" valign="top" rowspan="6">
+                                            <img src="../../Images/female.png" style="border-radius:20%;height:2rem;width:2rem" class="patientDetimg" />{{list.DoctorName}}
+                                        </div>
+                                        <div ng-if="(list.ViewGenderName| lowercase)!='female' && (list.ViewGenderName| lowercase)!='male' && (!list.PhotoBlob)" valign="top" rowspan="6">
+                                            <img src="../../Images/Others.png" style="border-radius:20%;height:2rem;width:2rem" class="patientDetimg" />{{list.DoctorName}}
+                                        </div>
+                                        <div ng-if="list.PhotoBlob" valign="top" rowspan="6">
+                                            <img src="{{'data:image/png;base64,'+list.PhotoBlob}}" style="border-radius:20%;height:2rem;width:2rem" class="patientDetimg" />{{list.DoctorName}}
+                                        </div>-->
+                                    </li>
                                 </ul>
                             </div>
                             <div class="col-sm-9 p-8" id="DocDetails" hidden>
@@ -5696,28 +5719,23 @@
                                     <div class="col-sm-7 flex p-0">
                                         <div class="" style="width:20%">
                                             <!--<div .ng-if="(uploadme!=null && uploadme!='')" valign="top" rowspan="6">
-        <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ DoctorDetailList.Photo}}" />
-    </div>-->
-                                            <div ng-if="(ViewGender| lowercase)=='male' && (uploadme==null)&&uploadview ==true"
-                                                 valign="top" rowspan="6">
+            <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ DoctorDetailList.Photo}}" />
+        </div>-->
+                                            <div ng-if="(DoctorDetailList.GENDER_NAME| lowercase)=='male' && (uploadme2==null)" valign="top" rowspan="6">
                                                 <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/male.png" />
                                             </div>
-                                            <div ng-if="(ViewGender| lowercase)=='female' && (uploadme==null)&&uploadview ==true"
-                                                 valign="top" rowspan="6">
-
+                                            <div ng-if="(DoctorDetailList.GENDER_NAME| lowercase)=='female' && (uploadme2==null)" valign="top" rowspan="6">
                                                 <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/female.png" />
                                             </div>
-                                            <div ng-if="(ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male' && (uploadme==null) &&uploadview ==true"
-                                                 valign="top" rowspan="6">
-                                               <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/Others.png" />
+                                            <div ng-if="(DoctorDetailList.GENDER_NAME| lowercase)!='female' && (DoctorDetailList.GENDER_NAME| lowercase)!='male' && (uploadme2==null)" valign="top" rowspan="6">
+                                                <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/Others.png" />
                                             </div>
-                                            <div ng-if="(uploadme!=null || uploadme!=0)&&uploadview ==true"
-                                                 valign="top" rowspan="6">
-                                                <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{uploadme}}" />
+                                            <div ng-if="GetDoctorPhoto.PhotoBlob" valign="top" rowspan="6">
+                                                <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{uploadme2}}" />
                                             </div>
                                         </div>
                                         <div class="" style="width:80%">
-                                            <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr.{{DoctorDetailList.FirstName}}</p>
+                                            <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr.{{DoctorDetailList.FullName}}</p>
                                             <p class="m-bottom-0 secondary-text" style="font-size:13px;">{{DoctorDetailList.Department_Name}}</p>
                                         </div>
                                     </div>
@@ -5846,18 +5864,38 @@
                                 </div>
                                 <div class="col-sm-12 flex-col mt-10">
                                     <p class="col-sm-3 m-bottom-0 font-semibold p-0">Reason<sup><font class='mandatory-field'>*</font></sup></p><br />
-                                    <textarea id="TextArea1" ng-model="TextArea1" rows="3" cols="70" ng-required="true"></textarea>
+                                    <textarea id="TextArea1" ng-model="TextArea1" rows="3" cols="70" ng-required="true" ng-init="TextArea1=''"></textarea>
                                 </div>
                             </div>
                             <div class="col-sm-5">
                                 <p class="font-semibold m-bottom-0">Upload Reports and Documents</p>
                                 <div class="col-sm-12 custom-file mt-10">
-                                    <label class="custom-file-upload text-center">
-                                        <input type="file" id="appdocfile" fileread="appdocfile"
-                                               onchange="angular.element(this).scope().appdocfileChange(this, angular.element(this).scope().$index)" />
-                                        Drag and Drop File
-                                        <p class="m-bottom-0 mt-10 text-center">Brower File</p>
-                                    </label>
+                                    <div class="preview-zone hidden">
+                                        <div class="box box-solid">
+                                            <div class="box-header with-border">
+                                                <div style="text-align:left;"><b>Preview</b></div>
+                                                <div class="box-tools pull-right">
+                                                    <button type="button" class="btn btn-danger btn-xs remove-preview">
+                                                        <i class="fa fa-times"></i> Reset The Field
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="box-body"></div>
+                                        </div>
+                                    </div>
+                                    <div class="dropzone-wrapper">
+                                        <div class="dropzone-desc">
+                                            <i class="glyphicon glyphicon-download-alt"></i>
+                                            <p>Choose a file or drag it here.</p>
+                                        </div>
+                                        <input type="file" name="img_logo" fileread="appdocfile" ng-model="appdocfile" class="dropzone" id="appdocfile" multiple onchange="angular.element(this).scope().appdocfileChange(this, angular.element(this).scope().$index)" >
+                                    </div>
+                                        <!--<label class="custom-file-upload text-center">
+                                            <input type="file" id="appdocfile" fileread="appdocfile"
+                                                   onchange="angular.element(this).scope().appdocfileChange(this, angular.element(this).scope().$index)" />
+                                            Drag and Drop File
+                                            <p class="m-bottom-0 mt-10 text-center">Browser File</p>
+                                        </label>-->                                    
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="col-sm-12 file" ng-repeat="list in files">
@@ -6000,7 +6038,7 @@
                                             </div>
                                         </div>
                                         <div class="" style="width:50%; text-align: center;">
-                                            <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr.{{DoctorDetailList.FirstName}}</p>
+                                            <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr.{{DoctorDetailList.FullName}}</p>
                                             <p class="m-bottom-0 secondary-text1">{{DoctorDetailList.Department_Name}}</p>
                                         </div>
                                     </div>
@@ -7047,7 +7085,146 @@ Works in Mozilla, Webkit & IE.
                 });
                 function fngetalltypename() {
                     var getalltypename = $("#AllergyTypeselectpicker option:selected").text();
+                    
                     document.getElementById('alltypename').value = getalltypename.trim();
                 }
             </script>
+    <script>
+        function readFile(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    var htmlPreview =
+                        '<img width="200" src="' + e.target.result + '" />' +
+                        '<p>' + input.files[0].name + '</p>';
+                    var wrapperZone = $(input).parent();
+                    var previewZone = $(input).parent().parent().find('.preview-zone');
+                    var boxZone = $(input).parent().parent().find('.preview-zone').find('.box').find('.box-body');
+
+                    wrapperZone.removeClass('dragover');
+                    previewZone.removeClass('hidden');
+                    boxZone.empty();
+                    boxZone.append(htmlPreview);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function reset(e) {
+            e.wrap('<form>').closest('form').get(0).reset();
+            e.unwrap();
+        }
+
+        $(".dropzone").change(function () {
+            readFile(this);
+        });
+
+        $('.dropzone-wrapper').on('dragover', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $(this).addClass('dragover');
+        });
+
+        $('.dropzone-wrapper').on('dragleave', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $(this).removeClass('dragover');
+        });
+
+        $('.remove-preview').on('click', function () {
+            var boxZone = $(this).parents('.preview-zone').find('.box-body');
+            var previewZone = $(this).parents('.preview-zone');
+            var dropzone = $(this).parents('.form-group').find('.dropzone');
+            //var resetfile = $(this).parents('.preview-zone').find('.box-body').find('<p>').val();
+            //alert(resetfile);
+            boxZone.empty();
+            previewZone.addClass('hidden');
+            reset(dropzone);
+        });
+        $('#show').on('click', function () {
+            
+            var boxZone = $('.remove-preview').parents('.preview-zone').find('.box-body');
+            boxZone.empty();
+            $('.preview-zone').addClass('hidden');
+           
+        });
+        
+    </script>
+    <style >
+        /* Code By Webdevtrick ( https://webdevtrick.com ) */
+        /*.container {
+            padding: 50px 10%;
+        }
+*/
+        .box {
+            position: relative;
+            background: #ffffff;
+            width: 100%;
+        }
+
+        .box-header {
+            color: #444;
+            display: block;
+            padding: 10px;
+            position: relative;
+            border-bottom: 1px solid #f4f4f4;
+            margin-bottom: 10px;
+        }
+
+        .box-tools {
+            position: absolute;
+            right: 10px;
+            top: 5px;
+        }
+
+        .dropzone-wrapper {
+            border: 2px dashed #91b0b3;
+            color: #92b0b3;
+            position: relative;
+            height: 150px;
+        }
+
+        .dropzone-desc {
+            position: absolute;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            text-align: center;
+            width: 40%;
+            top: 50px;
+            font-size: 16px;
+        }
+
+        .dropzone,
+        .dropzone:focus {
+            position: absolute;
+            outline: none !important;
+            width: 100%;
+            height: 150px;
+            cursor: pointer;
+            opacity: 0;
+        }
+
+        .dropzone-wrapper:hover,
+        .dropzone-wrapper.dragover {
+            background: #ecf0f5;
+        }
+
+        .preview-zone {
+            text-align: center;
+        }
+
+            .preview-zone .box {
+                box-shadow: none;
+                border-radius: 0;
+                margin-bottom: 0;
+            }
+
+        .btn-primary {
+            background-color: crimson;
+            border: 1px solid #212121;
+        }
+    </style>
     </body>

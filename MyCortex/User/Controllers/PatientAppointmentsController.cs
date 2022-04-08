@@ -398,6 +398,35 @@ namespace MyCortex.User.Controller
             }
         }
 
+        [HttpGet]
+        public HttpResponseMessage GetDoctorAppointmentDetails(long DoctorId, DateTime Date, Guid Login_Session_Id, long TimeZoneId, long Institution_Id)
+        {
+            IList<DoctorAppointmentTimeSlotModel> ModelData = new List<DoctorAppointmentTimeSlotModel>();
+            DoctorAppointmentTimeSlotReturnModel model = new DoctorAppointmentTimeSlotReturnModel();
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.GetDoctorAppointmentDetails(DoctorId, Date, Login_Session_Id, TimeZoneId, Institution_Id);
+                model.DoctorAppointmentTimeSlotList = ModelData;
+                model.Status = "True";
+                model.Message = "List of Slots";
+                model.Error_Code = "";
+                model.ReturnFlag = 0;
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in getting Scheduled Date";
+                model.Error_Code = ex.Message;
+                model.ReturnFlag = 0;
+                model.DoctorAppointmentTimeSlotList = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
         [HttpPost]
         public HttpResponseMessage AddDoctorShiftInsertUpdate([FromBody] DoctorShiftModel obj, Guid Login_Session_Id)
         {
@@ -458,6 +487,21 @@ namespace MyCortex.User.Controller
                 model.Message = "Error in creating Add DoctorShift";
                 model.DoctorShiftAddList = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+        [HttpGet]
+        public int DoctorShift_Editable(long Id)
+        {
+            try
+            {
+                int y = repository.DoctorShift_Editable(Id);
+                return y;
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return 0;
             }
         }
 

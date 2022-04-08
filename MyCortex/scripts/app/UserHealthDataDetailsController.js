@@ -124,6 +124,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             $scope.current_PatientAllergyPages = p;
             $scope.current_others = p;
         }
+        //Reason text area is empty in New patient appointment
+          $scope.TextArea1 = '';
+        
 
         $scope.showMainBox = true;
         // $scope.ParamGroup_Id=2;    
@@ -168,6 +171,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             if (data[0] != undefined) {
                 $scope.PATIENTDATA_EDITTIME = parseInt(data[0].ConfigValue);
             }
+        });
+        //get the value from configuration (true /False)
+        $scope.ConfigCode1 = "MEDICATION_END_DATE";
+        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode1 + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+            $scope.Medication_End_Date = data1[0].ConfigValue;
         });
         // is editale check based on allowed editable time configuration
         $scope.IsEditableCheck = function (itemDate) {
@@ -430,9 +438,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             else {
                 $scope.appdocfilename = e.files[0]['name'];
                 $scope.filetype = e.files[0].type;
-                $scope.files.push(e.files[0])
+                $scope.files.push(e.files[0])                
             }
-
         }
 
         $scope.UnitGroupPreference = function () {
@@ -599,6 +606,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 }
             });
         }
+
         $http.get(baseUrl + '/api/SendEmail/User_get_NotificationList/?User_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
 
             var NotificationCount = document.getElementById('notificationCount');
@@ -867,6 +875,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     }
                     $scope.DoctorDetailList = [];
                     $scope.idSelectedVote = null;
+                    $scope.ProfileDetailList = [];
+                    $scope.GetDoctorPhoto = [];
                     $scope.GetDoctorDetails = function (list) {
                         $("#chatLoaderPV").show();
                         $scope.DoctorID = [];
@@ -874,20 +884,12 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         document.getElementById("show").disabled = false;
                         $scope.idSelectedVote = list;
                         $scope.DoctorID = list.Doctor_Id;
+
                         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-                        $http.get(baseUrl + '/api/User/UserDetails_View?Id=' + $scope.DoctorID + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                        $scope.ViewGender = '';
+                            $http.get(baseUrl + '/api/User/UserDetails_View?Id=' + $scope.DoctorID + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                             $scope.DoctorDetailList = data;
-                            $http.get(baseUrl + '/api/User/UserDetails_GetPhoto/?Id=' + $scope.DoctorID).success(function (data) {
-                                methodcnt = methodcnt - 1;
-                                if (methodcnt == 0)
-                                    $scope.uploadview = true;
-                                if (data.PhotoBlob != null) {
-                                    $scope.uploadme = 'data:image/png;base64,' + data.PhotoBlob;
-                                }
-                                else {
-                                    $scope.uploadme = null;
-                                }
-                            })
+                                                            
                             $("#chatLoaderPV").hide();
                             $scope.AppointmoduleID = data.Appointment_Module_Id;
                             $scope.AppointmoduleID1 = data.Appointment_Module_Id;
@@ -901,6 +903,16 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                 setTimeout(function () { document.getElementById('Radio2').click(); }, 5000);
                             }
                         })
+                        
+                        $http.get(baseUrl + '/api/User/UserDetails_GetPhoto/?Id=' + $scope.DoctorID).success(function (data1) {
+                            $scope.GetDoctorPhoto = data1;
+                            if (data1.PhotoBlob != null) {
+                                $scope.uploadme2 = 'data:image/png;base64,' + data1.PhotoBlob;
+                            }
+                            else {
+                                $scope.uploadme2 = null;
+                            }
+                        });
                     }
                     function convert(str) {
                         var date = new Date(str),
@@ -909,6 +921,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         return [date.getFullYear(), mnth, day].join("-");
                     }
                     $scope.newAppoinmentDates = function () {
+                        $scope.TextArea1='';
                         var dt = moment(new Date()).format('DD-MM-YYYY');
                         var AppointmentDate = moment($scope.AppoimDate).format('DD-MM-YYYY');
                         $scope.DoctorListWithTimeZone = [];
@@ -1105,7 +1118,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             //$scope.RedirectParam = $scope.RedirectParam.replace('?orderId=414768633924763654', '');
 
                             var Appointment_Module = 1;
-                            if ($scope.AppointmoduleID1 === 2) {
+                            if ($scope.AppointmoduleID1 === 2 && $window.localStorage["UserTypeId"] == 2) {
                                 Appointment_Module = 2;
                             }
                             if ($scope.AppointmoduleID1 === 3) {
@@ -1198,7 +1211,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                                     $scope.AppoiToTime = [];
                                                     $scope.IsNew = 1;
                                                     $scope.OldAppointmentID = null;
-                                                    if ($scope.AppointmoduleID1 == 2) {
+                                                    if ($scope.AppointmoduleID1 == 2 && $window.localStorage["UserTypeId"] == 2) {
                                                         $scope.paymentappointmentId = data.PatientAppointmentList[0].Id;
                                                         //var post = $http({
                                                         //    method: "POST",
@@ -1252,7 +1265,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                             $scope.AppoiToTime = [];
                                             $scope.IsNew = 1;
                                             $scope.OldAppointmentID = null;
-                                            if ($scope.AppointmoduleID1 == 2) {
+                                            if ($scope.AppointmoduleID1 == 2 && $window.localStorage["UserTypeId"] == 2) {
                                                 $scope.paymentappointmentId = data.PatientAppointmentList[0].Id;
                                                 //var post = $http({
                                                 //    method: "POST",
@@ -1386,7 +1399,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                             else if (data.ReturnFlag == 0) {
                                                 toastr.info(data.Message, "info");
                                             }
-                                            if (data.AppointmentDetails.PaymentStatusId == 3) {
+                                            if (data.AppointmentDetails.PaymentStatusId == 3 && data.ReturnFlag == 1) {
                                                 $scope.refundAppointmentId = data.AppointmentDetails.Id;
                                                 $scope.refundMerchantOrderNo = data.AppointmentDetails.MerchantOrderNo;
                                                 $scope.refundAmount = data.AppointmentDetails.Amount;
@@ -1412,7 +1425,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                             //if (data.ReturnFlag == 1) {
                                             //    $scope.$broadcast("appointment_list");
                                             //}
-                                            if ($scope.AppointmoduleID1 == 2) {
+                                            if ($scope.AppointmoduleID1 == 2 && $window.localStorage["UserTypeId"] == 2) {
                                                 $scope.OldAppointmentID = null;
                                                 setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
                                             } else {
@@ -1449,6 +1462,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $scope.AppoiDate = [];
                         $scope.AppoiFromTime = [];
                         $scope.AppoiToTime = [];
+                        $scope.files = []; // drag and drop files are cleared 
                         $scope.IsNew = 1;
                     }
                     $scope.OldAppointmentID = null;
@@ -1487,7 +1501,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                     else if (data.ReturnFlag == 0) {
                                         toastr.info(data.Message, "info");
                                     }
-                                    if (data.AppointmentDetails.PaymentStatusId == 3) {
+                                    if (data.AppointmentDetails.PaymentStatusId == 3 && data.ReturnFlag == 1) {
                                         $scope.refundAppointmentId = data.AppointmentDetails.Id;
                                         $scope.refundMerchantOrderNo = data.AppointmentDetails.MerchantOrderNo;
                                         $scope.refundAmount = data.AppointmentDetails.Amount;
@@ -1527,7 +1541,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                 else if (data.ReturnFlag == 0) {
                                     toastr.info(data.Message, "info");
                                 }
-                                if (data.AppointmentDetails.PaymentStatusId == 3) {
+                                if (data.AppointmentDetails.PaymentStatusId == 3 && data.ReturnFlag == 1) {
                                     $scope.refundAppointmentId = data.AppointmentDetails.Id;
                                     $scope.refundMerchantOrderNo = data.AppointmentDetails.MerchantOrderNo;
                                     $scope.refundAmount = data.AppointmentDetails.Amount;
@@ -3015,7 +3029,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 'IsActive': 1,
                 'All_UnitLists': $scope.ParameterMappingList,
                 'ParameterMappingList': []
-            }];
+            }];            
         }
 
         $scope.smsResponse = [];
@@ -3043,9 +3057,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             //document.getElementById("box").style = "display:none";
             //$scope.SendSMS();
             $scope.showMainBox = true;
-            $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
-                //$scope.NewAppointment = data.NewAppointmentDuration;
-                if (data == null || data.length == 0 || data.DefautTimeZone == "" || data.DefautTimeZone == 0) {
+            //$http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
+            $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
+                //$scope.NewAppointment = data.NewAppointmentDuration;  
+                //if (data == null || data.length == 0 || data.DefautTimeZone == "" || data.DefautTimeZone == 0) {
+                if (data.length == 0 || data.TimeZone_ID == "" || data.TimeZone_ID == 0) {
                     //alert('Please Check Organisation Settings!');
                     toastr.info("Please Check Organisation Settings!", "info");
                     angular.element('#BookAppointmentModal').modal('hide');
@@ -3072,6 +3088,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.patientVitalsrowChkChange = function (itemIndex) {
             //alert(itemIndex);
             $("#ptDateTimePicker" + itemIndex).val(new Date().toJSON().slice(0, 19));
+            $("#ptDateTimePicker" + itemIndex).attr('max', new Date().toJSON().slice(0, 19));
         }
 
         $scope.get_SubParameterMappingList = function (index) {
@@ -3255,6 +3272,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         filteredObj[i].Activity_Date = $filter('date')(new Date(), 'dd-MMM-yyyy HH:mm:ss')
                     } else {
                         filteredObj[i].Activity_Date = $filter('date')(filteredObj[i].ActivityDate, 'dd-MMM-yyyy HH:mm:ss')
+                        if (filteredObj[i].Activity_Date == "" || filteredObj[i].Activity_Date == 'undefined') { filteredObj[i].Activity_Date = $filter('date')(new Date(), 'dd-MMM-yyyy HH:mm:ss') }
                     }
                 }
                 var obj = {
@@ -5530,13 +5548,14 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.ICD10CodeSearch = "";
         $scope.ICD10CodeList = [];
         $scope.ICD10CodeListsFilter = [];
-        $scope.SelectedIcdRow = 0;
+        $scope.selectedICD10Row = 0;
 
         $scope.ICD10codesearchkey = function (Selectedrow) {
             var SearchICD10Code = angular.lowercase($scope.ICD10CodeSearch);
 
             if (SearchICD10Code.length >= 3) {
                 $http.get(baseUrl + 'api/User/ICD10Code_List/?ICD10CodeSearch=' + SearchICD10Code + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
+                    SearchMsg = "No Data Available";
                     $scope.ICD10CodeList = [];
                     $scope.ICD10CodeListsFilter = [];
                     $scope.ICD10CodeList = data;
@@ -5547,17 +5566,21 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     else {
                         $scope.flag = 0;
                     }
-                    $scope.SearchMsg = "No Data Available";
                 });
             }
+                 else {
+                    $scope.ICD10CodeList = [];
+                    $scope.ICD10CodeListsFilter = [];
+                }
+                angular.element('#ICD10CodeListModal').modal('show');
 
         }
 
         /**ICD10 Code Search button Click Popup window**/
         $scope.ICD10codeSearchPopup = function (SelectedRow) {
             $scope.ICD10CodeSearch = "";
+            $scope.ICD10CodeListsFilter = [];
             $scope.selectedICD10Row = SelectedRow;
-           
             angular.element('#ICD10CodeListModal').modal('show');
             $("#txtICD10CodeSearch").focus();
         }
@@ -5572,6 +5595,12 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     value.Description = ICD10codeItem.Description;
                 }
             });
+            if ($scope.Id > 0) {
+                angular.forEach($scope.AddICD10List, function (value, index) {
+                    $scope.Description = value.Description;
+                    $scope.CategoryName = value.CategoryName;
+                });
+            }
             angular.element('#ICD10CodeListModal').modal('hide');
         }
 
@@ -5672,12 +5701,6 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         // This is for AddPopup	
         $scope.MedicationTabCount = 1;
         $scope.AddMedicationPopUp = function () {
-            //get the value from configuration (true /False)
-            var ConfigCode = "MEDICATION_END_DATE";
-            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-                $scope.Medication_End_Date = data1[0].ConfigValue;
-            });
-
             $scope.PatientMedicationCreateModalClear();
             
             if ($scope.MedicationTabCount == 1) {
@@ -5727,9 +5750,10 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 }
                 // $scope.medId=MedicationViewId;	
                 $scope.Id = MedicationViewId;
-                $scope.PatientMedicationView();
+                
                 $scope.DrugDropDown = 2;
                 $scope.PatientMedicationCreateModalClear();
+                $scope.PatientMedicationView();
                 angular.element('#PatientMedicationEditModal').modal('show');
             }
             //}
@@ -5798,6 +5822,28 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     });
                 }
             }
+        }
+        $scope.NumberOfDays = function (NoOfDays, rowItem, EndDate) {
+            $scope.sDate = moment($scope.StartDate).format('DD-MMM-YYYY');
+            $scope.EndDate = moment($scope.sDate).add(NoOfDays, 'days').format('YYYY-MM-DD');
+            angular.forEach($scope.AddMedicationDetails, function (value, index) {
+                if (rowItem == index) {
+                    value.EndDate = DateFormatEdit($filter('date')($scope.EndDate, 'dd-MMM-yyyy'));
+                }
+            });
+            $scope.AddMedicationDetails = angular.copy($scope.AddMedicationDetails);
+            //document.getElementById('End_Date').value = $scope.EndDate;
+        }
+
+        $scope.ChangeDate = function (NoOfDays, StartDate, rowItem) {
+            $scope.sDate = moment(StartDate).format('DD-MMM-YYYY');
+            $scope.EndDate = moment($scope.sDate).add(NoOfDays, 'days').format('YYYY-MM-DD');
+            angular.forEach($scope.AddMedicationDetails, function (value, index) {
+                if (rowItem == index) {
+                    value.EndDate = DateFormatEdit($filter('date')($scope.EndDate, 'dd-MMM-yyyy'));
+                }
+            });
+            $scope.AddMedicationDetails = angular.copy($scope.AddMedicationDetails);
         }
         // Add row concept  for Patient MedicationDetails
         $scope.AddMedicationDetails = [{
@@ -5898,7 +5944,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                 'NoOfDays': "",
                                 'StartDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
                                 'EndDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
-                                ' Created_By': 0
+                                'Created_By': 0
                             }];
                         }
                     });
@@ -6064,7 +6110,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 });
             }
             angular.element('#DrugCodeListModal').modal('hide');
-        }
+        }       
 
         $scope.DrugcodeSearchCancelPopup = function () {
             angular.element('#DrugCodeListModal').modal('hide');
@@ -6095,7 +6141,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 toastr.warning("Please select StartDate", "warning");
                 return false;
             }
-            else if (typeof ($scope.EndDate) == "undefined" || $scope.EndDate == 0) {
+            else if ((typeof ($scope.EndDate) == "undefined" || $scope.EndDate == null || $scope.EndDate == 0) && $scope.Medication_End_Date=='True') {
                 //alert("Please select EndDate");
                 toastr.warning("Please select EndDate", "warning");
                 return false;
@@ -6116,11 +6162,25 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             }
             return true;
         };
+        $scope.NoOfDaysEdit = function (NoOfDays, EndDate) {
+            $scope.sDate = moment($scope.StartDate).format('DD-MMM-YYYY');
+            $scope.EndDate = moment($scope.sDate).add(NoOfDays, 'days').format('YYYY-MM-DD');
+            document.getElementById('E_Date').value = $scope.EndDate;
+            $scope.EndDate = DateFormatEdit($filter('date')($scope.EndDate, 'dd-MMM-yyyy'));
+        }
 
+        $scope.EditChangeDate = function (NoOfDays, StartDate) {
+            $scope.sDate = moment(StartDate).format('DD-MMM-YYYY');
+            $scope.EndDate = moment($scope.sDate).add(NoOfDays, 'days').format('YYYY-MM-DD');
+            document.getElementById('E_Date').value = $scope.EndDate;
+            $scope.EndDate = DateFormatEdit($filter('date')($scope.EndDate, 'dd-MMM-yyyy'));
+        }
         $scope.MedicationList = [];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
 
         $scope.PatientMedication_EditInsert = function () {
+            if ($scope.EndDate == null || $scope.EndDate == '') $scope.EndDateIE = $scope.EndDate;
+            else $scope.EndDateIE = moment($scope.EndDate).format('DD-MMM-YYYY');
             $scope.MedicationList = [];
             if ($scope.PatientMedication_EditInsert_Validationcontrols() == true) {
                 $('#save2').attr("disabled", true);
@@ -6131,8 +6191,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     FrequencyId: $scope.FrequencyId,
                     RouteId: $scope.RouteId,
                     NoOfDays: $scope.NoOfDays,
-                    StartDate: $scope.StartDate,
-                    EndDate: $scope.EndDate,
+                    StartDate: moment($scope.StartDate).format('DD-MMM-YYYY'),
+                    EndDate: $scope.EndDateIE,
                     Created_By: $window.localStorage['UserId'],
                     Modified_By: $window.localStorage['UserId'],
                     InstitutionId: $window.localStorage['InstitutionId']
@@ -6275,8 +6335,17 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         //Medication View	
         $scope.PatientMedicationView = function () {
             $http.get(baseUrl + 'api/User/MedicationView/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                if (data.EndDate == null || data.EndDate == '') $scope.ViewEndDate = data.EndDate;
-                else $scope.ViewEndDate = DateFormatEdit($filter('date')(data.EndDate, "dd-MMM-yyyy"));
+                if (data.EndDate == null || data.EndDate == '')
+                {
+                    $scope.ViewEndDate = data.EndDate;
+                    $scope.EndDateView = data.EndDate;
+                }
+                else
+                {
+                    $scope.ViewEndDate = DateFormatEdit($filter('date')(data.EndDate, "dd-MMM-yyyy"));
+                    $scope.EndDateView = moment(data.EndDate).format('DD-MMM-YYYY');
+                }
+
                 $scope.AddMedicationDetails = [{
                     'Id': data.Id,
                     'DrugId': data.DrugId.toString(),
@@ -6308,7 +6377,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 $scope.ViewRouteName = data.RouteName,
                     //    $scope.StartDate = DateFormatEdit($filter('date')(data.StartDate, "dd-MMM-yyyy"));
                     //$scope.EndDate = DateFormatEdit($filter('date')(data.EndDate, "dd-MMM-yyyy"));
-                    $scope.StartDate = moment(data.StartDate).format('DD-MMM-YYYY'),
+                    $scope.StartDate = DateFormatEdit($filter('date')(data.StartDate, "dd-MMM-yyyy")); //moment(data.StartDate).format('DD-MMM-YYYY'),
+                    $scope.StartDateView = moment(data.StartDate).format('DD-MMM-YYYY'),                    
                     $scope.EndDate = $scope.ViewEndDate //moment(data.EndDate).format('DD-MMM-YYYY')
 
                 if ($scope.DrugDropDown == 2) {
@@ -6635,6 +6705,24 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         TSDuplicate = 2;                        
                     }                     
                 }
+                //this section for deactivate to activate checking
+                var x1 = angular.element(document.getElementById("alltypename" + $scope.Id));
+                $scope.alltypename1 = x1.val();
+                if ($scope.alltypename1 != "") {
+                    if ((ExistingPatientAllergyTypeName != DefaultAlleryTypeName) && (IsActiveAllergyType == 1)) {
+
+                        // $scope.alltypename1 = x1.val();
+                        if ($scope.alltypename1 == DefaultAlleryTypeName) {
+                            TSDuplicate = 1;
+                        }
+                    }
+                    if ((ExistingPatientAllergyTypeName == DefaultAlleryTypeName) && (IsActiveAllergyType == 1)) {
+
+                        if ($scope.alltypename1 != DefaultAlleryTypeName) {
+                            TSDuplicate = 2;
+                        }
+                    }
+                }              
             });
 
             if (TSDuplicate == 1) {
@@ -6646,7 +6734,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             }
             else { return true; }
         }
-
+        
         $scope.setPage4 = function (PageNo) {
             if (PageNo == 0) {
                 PageNo = $scope.inputPageAllergy;
@@ -6699,21 +6787,26 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.PatientAllergyListFilterData = data.PatientAllergyDetails;
                     $scope.PatientAllergyCountFilterData = data.PatientAllergyDetails;
                     for (i = 0; i < $scope.PatientAllergyListFilterData.length; i++) {
-                        if ($scope.PatientAllergyListFilterData[0].AllergyTypeName === "No Known Allergies") {
-                            document.getElementById("IconAllergy").style.color = '#32CD32';
+                        if ($scope.PatientAllergyListFilterData[0].IsActive == 1) {
+                            if ($scope.PatientAllergyListFilterData[0].AllergyTypeName === "No Known Allergies") {
+                                document.getElementById("IconAllergy").style.color = '#32CD32';
+                            }
+                            else if ($scope.PatientAllergyListFilterData[0].AllergyTypeName === "Unknown") {
+                                document.getElementById("IconAllergy").style.color = '#FFD700';
+                            }
+                            else if (($scope.PatientAllergyListFilterData[0].AllergenName != "No Known Allergies") || ($scope.PatientAllergyListFilterData[0].AllergyTypeName != "Unknown")) {
+                                document.getElementById("IconAllergy").style.color = '#ff0000';
+                            }
+                            //else if ($scope.PatientAllergyListFilterData[0].AllergenName === "Unknown") {
+                            //    document.getElementById("IconAllergy").style.color = '#FFD700';
+                            //}
+                            else {
+                                //document.getElementById("IconAllergy").style.color = '#FF0000';
+                            }
                         }
-                        else if ($scope.PatientAllergyListFilterData[0].AllergyTypeName === "Unknown") {
-                            document.getElementById("IconAllergy").style.color = '#FFD700';
-                        }
-                        else if (($scope.PatientAllergyListFilterData[0].AllergenName != "No Known Allergies") || ($scope.PatientAllergyListFilterData[0].AllergyTypeName != "Unknown")) {
-                            document.getElementById("IconAllergy").style.color = '#ff0000';
-                        }
-                        //else if ($scope.PatientAllergyListFilterData[0].AllergenName === "Unknown") {
-                        //    document.getElementById("IconAllergy").style.color = '#FFD700';
-                        //}
-                        else {
-                            //document.getElementById("IconAllergy").style.color = '#FF0000';
-                        }
+                    }
+                    if ($scope.PatientAllergyListFilterData.length == 0) {
+                        document.getElementById("IconAllergy").style.color = '#FFD700';
                     }
                     $scope.PatientAssignedAllergyDataList = angular.copy($scope.PatientAllergyListData);
 
@@ -6754,26 +6847,25 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 showCloseButton: true,
                 allowOutsideClick: false,
             }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-                    var obj =
-                    {
-                        Id: $scope.Id,
-                        Modified_By: $window.localStorage['UserId']
-                    }
-
-                    $http.post(baseUrl + '/api/User/AllergyDetails_InActive/', obj).success(function (data) {
-                        //alert(data.Message);
-                        if (data.ReturnFlag == 2) {
-                            toastr.success(data.Message, "success");
+                    if (result.isConfirmed) {
+                        var obj =
+                        {
+                            Id: $scope.Id,
+                            Modified_By: $window.localStorage['UserId']
                         }
-                        $scope.PatientAllergyList();
-                    }).error(function (data) {
-                        $scope.error = "An error has occurred while deleting Doctor Notes" + data;
-                    });
-                } else if (result.isDenied) {
-                    //Swal.fire('Changes are not saved', '', 'info')
-                }
+
+                        $http.post(baseUrl + '/api/User/AllergyDetails_InActive/', obj).success(function (data) {
+                            //alert(data.Message);
+                            if (data.ReturnFlag == 2) {
+                                toastr.success(data.Message, "success");
+                            }
+                            $scope.PatientAllergyList();
+                        }).error(function (data) {
+                            $scope.error = "An error has occurred while deleting Doctor Notes" + data;
+                        });
+                    } else if (result.isDenied) {
+                        //Swal.fire('Changes are not saved', '', 'info')
+                    }                
             })
             /*var del = confirm("Do you like to deactivate the selected Allergy?");
             if (del == true) {
@@ -7218,8 +7310,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         }
 
 
-        $scope.Patient_OtherData_Image_View = function (Id, filetype) {
-            $http.get(baseUrl + '/api/User/Patient_OtherData_GetDocument?Id=' + Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+        $scope.Patient_OtherData_Image_View = function (Id, ParameterId, filetype) {
+            $http.get(baseUrl + '/api/User/Patient_OtherData_GetDocument?Id=' + Id + ParameterId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 //var mtype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
                 //\var url = 'data:' + mtype + ';base64,' + data.DocumentBlobData.toString();
                 /*window.open(url);*/
@@ -7231,6 +7323,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
             });
         }
+
 
         $scope.Patient_OtherData_EditModal = function (Id, createdDt) {
             $('#other_Datasave1').attr("disabled", false);

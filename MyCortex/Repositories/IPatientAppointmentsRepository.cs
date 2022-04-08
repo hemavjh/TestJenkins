@@ -18,7 +18,7 @@ namespace MyCortex.Repositories
         IList<AppointmentReasonType> AppointmentReasonType_List(long Institution_Id);
         IList<ScheduledDaysListModel> GetScheduledDates(Guid Login_Session_Id, long Institution_Id);
         IList<DoctorAppointmentTimeSlotModel> GetAppointmentTimeSlots(long DoctorId,DateTime Date, int IsNew, Guid Login_Session_Id, long TimeZoneId, long Institution_Id);
-
+        IList<DoctorAppointmentTimeSlotModel> GetDoctorAppointmentDetails(long DoctorId, DateTime Date, Guid Login_Session_Id, long TimeZoneId, long Institution_Id);
         IList<AppointmentPaymentHistory> AppointmentPaymentHistory(long appointmentId, Guid Login_Session_Id, long Institution_Id);
 
         IList<DoctorShiftModel> DoctorShift_InsertUpdate(DoctorShiftModel obj, Guid Login_Session_Id);
@@ -26,5 +26,6 @@ namespace MyCortex.Repositories
         int PaymentStatus_Update(long appointmentId, string status, string merchantOrderNo);
         int PaymentStatusInfo_Insert(string merchantOrderNo, string amount, string OrderNo, string status, long requestTime, string notifyId, long notifyTimeStamp);
         int PaymentRefundStatusInfo_Insert(string merchantOrderNo, string originMerchantOrderNo, string amount, string OrderNo, string status, string notifyId, long notifyTimeStamp);
+        int DoctorShift_Editable(long Id);
     }   
 }

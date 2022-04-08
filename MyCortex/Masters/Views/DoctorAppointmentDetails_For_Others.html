@@ -1,0 +1,206 @@
+﻿<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        if (document.getElementById("Appointments") != null && document.getElementById("Appointments") != undefined) {
+            document.getElementById("Appointments").className += 'activeButton';
+        }
+        $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+        $('#doctorlist').next().children(':nth-child(1)').css('width', '100%');
+        $('#timezone').next().children(':nth-child(1)').css('width', '100%');
+        $('#timezone').val(0);
+    });
+    $(function () {
+        var dtToday = new Date();
+
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+
+        var maxDate = year + '-' + month + '-' + day;
+        $('#SearchDate').attr('min', maxDate);
+    });
+    function setdoc() { $('ul li .doc-opt:first').click(); $('ul li .doc-res:first').click(); }
+    function setres() { $('ul li .doc-res:first').click(); }
+    function settimezone(id) {
+        //$('#timezone').val(id);
+        $('ul li .time'+id).click();
+    }
+</script>
+
+<ul class="secondaryMenu">
+    <li><a class="secondaryMenuActive" href="Home/Index#/DoctorAppointmentDetails" data-menu="Home">List</a></li>
+    <li><a href="Home/Index#/AppointmentApproval">Approval</a></li>
+</ul>
+
+<h1 class="page-title">Doctor Appointment Details</h1>
+<div>
+
+    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
+        <div></div>
+        <div></div>
+    </div>
+    <div class="panel panel-default">
+        <form role="form" class="panel-body">
+            <div class="col-sm-3">
+                <div class="inputGroups">
+                    <label class="sub-title">
+                        Select Doctor<sup>
+                            <font class='mandatory-field'>*</font>
+                        </sup>
+                    </label>
+                    <!--<select id="Specialist" ng-model="SelectedDoctor" multiple="multiple"
+                    ng-options="item2.Id as item2.FullName for item2 in DoctorList"
+                    multiselect-dropdown style="width: 220px;"></select>-->
+                    <select id="doctorlist" class="col-sm-12" ng-model="SelectedDoctor" data-live-search="true" data-selectpicker data-collection-name="DoctorList">
+                        <option ng-repeat="list in DoctorList" class="doc-opt" value="{{list.Id}}">{{list.FullName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="inputGroups">
+                    <label class="sub-title">
+                        Select Date<sup>
+                            <font class='mandatory-field'>*</font>
+                        </sup>
+                    </label>
+                    <input id="SearchDate" class="form-control" type="date" ng-model="SearchDate" />
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="inputGroups">
+                    <label class="sub-title">
+                        Select TimeZone<sup>
+                            <font class='mandatory-field'>*</font>
+                        </sup>
+                    </label>
+                    <select id="timezone" class="col-sm-12" ng-model="TimeZoneID" data-live-search="true" data-selectpicker data-collection-name="TimeZoneList">
+        <option ng-repeat="list in TimeZoneList" ng-selected="TimeZoneID == set.TimeZoneId" class="time{{list.TimeZoneId}}" value="{{list.TimeZoneId}}">{{list.TimeZoneDisplayName}}</option>
+    </select>
+                    <!--<select id="timezone" class="form-control" ng-model="TimeZoneID">
+                        <option ng-repeat="set in TimeZoneList" ng-required="true" ng-selected="TimeZoneID == set.TimeZoneId"
+                                value="{{set.TimeZoneId}}">
+                            {{set.TimeZoneDisplayName}}
+                        </option>
+                    </select>-->
+                </div>
+            </div>
+            <div class="col-sm-1">
+                <div class="inputGroups pt-17">
+                    <a href="javascript:void(0);" ng-click="DoctorAppointmentlist();" class="theme-btn-1 pull-right mt-15"
+                       title="Click to View Dotor Appointment List">Submit</a>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" st-search="query"
+           class="table themeTable">
+        <thead>
+            <tr style="text-align: center">
+                <th st-ratio="5">S.No</th>
+                <th st-ratio="10" st-sort="Generic_Name">Patient Name</th>
+                <th st-ratio="8" st-sort="ToDate">Appointment Start Time</th>
+                <th st-ratio="8" st-sort="ToDate">Appointment End Time</th>
+                <th st-ratio="8">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="flag==0 && rowCollectionFilter.length==0">
+                <td colspan="15" style="text-align: center">
+                    No Data Available
+                </td>
+            </tr>
+            <tr ng-repeat="row in emptydata">
+                <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+
+                <td style="text-align: left; max-width: 150px; word-wrap: break-word; ">
+                    <div class="textwrap">{{row.PatientName.length > 25 ? row.PatientName.substring(0,25)+"..." : row.PatientName}}</div>
+                </td>
+                <td style="text-align: left">
+                    {{row.FromTime}}
+                </td>
+                <td style="text-align: left">
+                    {{row.ToTime}}
+                </td>
+                <td style="text-align: center">
+                    <a href="javascript:void(0);" ng-click="CancelPatientShift(row.id)" title="View">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+        <!--<tfoot ng-show="rowCollectionFilter.length >10">
+            <tr>
+                <td colspan="15" class="text-center">
+                    <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                         st-template="Masters/Views/pagination.custom.html"></div>
+                </td>
+            </tr>
+        </tfoot>-->
+    </table>
+
+    <div id="PatientAppointmentModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Cancel Appointment</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                            <tr>
+                                <td width="10%">
+                                    <label for="usr">
+                                        Reason Type <sup>
+                                            <font class='mandatory-field'>*</font>
+                                        </sup>
+                                    </label>
+                                </td>
+                                <td width="30%">
+                                    <select class="form-control" data-style="form-control"
+                                            data-live-search="true" data-selectpicker
+                                            data-collection-name="AppointmentReasonTypeList" ng-model="ReasonTypeId">
+                                        <option ng-repeat="sel in AppointmentReasonTypeList"
+                                                ng-required="true" class="doc-res" value="{{sel.ReasonTypeId}}">
+                                            {{sel.ReasonType}}
+                                        </option>
+                                    </select>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>
+                                        Reason
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" ng-model="Cancelled_Remarks" maxlength="100"
+                                           ng-maxlength="100" />
+                                </td>
+                            </tr>
+
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <div class="col-sm-offset-2 col-sm-9">
+                        <button type="button" class="theme-btn-2 btn-save" ng-click="Update_CancelledAppointment()">
+                            Save
+                        </button>
+                        <button type="button" class="theme-btn-2 btn-save" ng-click="Cancel_CancelledAppointment()">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

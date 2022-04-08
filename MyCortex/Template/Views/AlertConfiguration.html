@@ -5,7 +5,9 @@
         if ($('#' + $('.secondaryMenuActive').data('menu')).length === 0) {
             $('.activeButton').removeClass('activeButton');
             //$('#Templates/EmailSetup').addClass('activeButton');
-            document.getElementById("Templates/EmailSetup").className += 'activeButton';
+            if (document.getElementById("Templates/EmailSetup")) {
+                document.getElementById("Templates/EmailSetup").className += 'activeButton';
+            }
         }
     });
 </script>
@@ -15,6 +17,7 @@
     <li> <a href="Home/Index#/Password_Policy">Password Policy</a></li>
     <li><a href="Home/Index#/ResetPassword">Reset Password</a></li>
     <li><a href="Home/Index#/MasterEmailConfigurationList">Email setup</a></li>
+    <li><a href="Home/Index#/MasterSmsConfigurationList">SMS setup</a></li>
     <li><a class="secondaryMenuActive" href="Home/Index#/MasterAlertConfigurationList" data-menu="Settings">Alerts</a></li>
     <li><a href="Home/Index#/WebConfiguration">Configuration</a></li>
     <li><a href="Home/Index#/LanguageSettings">Language</a></li>
@@ -97,7 +100,7 @@
                         <div class="textwrap">{{row.EventName}}</div>
                     </td>
                     <td style="text-align: center">{{row.EmailFlag==true?'Yes':'No'}}</td>
-                    <td style="text-align: left" title="{{row.EmailTemplate}}">
+                    <td style="text-align: left; max-width: 150px; word-wrap: break-word;" title="{{row.EmailTemplate}}">
                         <div class="textwrap">{{row.EmailTemplate.length > 50 ? row.EmailTemplate.substring(0,50) + "..." : row.EmailTemplate}}</div>
                     </td>
                     <td style="text-align: center">{{row.AppFlag==true?'Yes':'No'}}</td>
@@ -291,7 +294,7 @@
                         <input type="checkbox" style="display: inline-block;" value="agree" ng-model="EmailFlag"
                                ng-disabled="true">
                     </div>
-                    <div class="inputGroups" ng-show="EmailFlag==true">
+                    <div class="inputGroups" style="max-width: 500px; word-wrap: break-word;" ng-show="EmailFlag==true">
                         <label>Template</label>
                         <span>{{ViewEmailTemplateName}}</span>
                     </div>
