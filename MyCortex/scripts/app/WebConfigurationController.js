@@ -30,6 +30,12 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
             var EditChronicEdit = [];
             var EditChronicId = "";
             angular.forEach($scope.rowCollectionWebConfiguration, function (SplitChronic, Id) {
+                //if (SplitChronic["CONFIGVALUE"] != "" && SplitChronic["CONFIGCODE"] == "LIVEDATA_STARTFROM") {
+                //    if (SplitChronic["CONFIGVALUE"] > 2) {
+                //        //$('#livedatastartfrom1').attr('checked','checked');
+                //        angular.element('#livedatastartfrom1').attr('checked', 'checked');
+                //    }
+                //}
                 if (SplitChronic["CONFIGVALUE"] != "" && SplitChronic["CONFIGCODE"] == "CHRONIC CODE") {
                     var ConfigListValue = $scope.Config_value[SplitChronic["ID"]];
                     EditChronicId = SplitChronic["ID"];
@@ -150,7 +156,12 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                     $("#chatLoaderPV").hide();
                     angular.forEach($scope.rowCollectionWebConfiguration, function (masterVal, masterInd) {
                         $scope.Config_value[masterVal.ID] = masterVal.CONFIGVALUE;
-
+                        //if ($scope.Config_value[masterVal.ID] != "" && masterVal.CONFIGCODE == "LIVEDATA_STARTFROM") {
+                        //    if ($scope.Config_value[masterVal.ID] > 2 || $scope.Config_value[masterVal.ID] ==1) {
+                        //        //$('#livedatastartfrom1').attr('checked', 'checked');
+                        //        angular.element('#livedatastartfrom1').attr('checked', 'checked');
+                        //    }
+                        //}
                        /* if (masterVal.CONFIGVALUE != "" && masterVal.CONFIGCODE == "CHRONIC CODE") {
                             var ConfigListValue = $scope.Config_value[masterVal.ID];
                             EditChronicId = masterVal.ID;
