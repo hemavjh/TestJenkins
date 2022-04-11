@@ -90,7 +90,14 @@ namespace MyCortex.Repositories.EmailAlert
                             TagName = dtRow1["TagsName"].ToString();
                             FieldName = dtRow1["FieldName"].ToString();
                             EncryptFlag = int.Parse(dtRow1["ENCRYPT_FLAG"].ToString());
-                            TagsReplaceData = dtRow[FieldName].ToString();
+                            if (Result_dt.Columns.Contains(FieldName))
+                            {
+                                TagsReplaceData = dtRow[FieldName].ToString();
+                            }
+                            else
+                            {
+
+                            }
 
                             //if (EncryptFlag == 1)
                             //{
