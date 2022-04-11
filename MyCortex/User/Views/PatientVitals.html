@@ -3083,9 +3083,10 @@
                                         </select>
                                     </td>
                                     <td style="text-align: left">
-                                        <select ng-model="row.Units_ID" data-live-search="true" data-selectpicker data-collection-name="row.ParameterMappingList"
-                                                class="form-control" data-style="form-control"
-                                                ng-options="item1.Units_ID as item1.Units_with_Group_Name for item1 in row.ParameterMappingList">
+                                        <select ng-model="row.Units_ID" data-live-search="true"  data-selectpicker data-collection-name="row.ParameterMappingList"
+                                                class="form-control" data-style="form-control" 
+                                                ng-options="item1.Units_ID as item1.Units_with_Group_Name for item1 in row.ParameterMappingList"
+                                                ng-change="get_ParameterMappingList($index)" >
                                             <option value="">Select</option>
                                         </select>
                                         <!-- {{(VitalsParameterList_Data| filter:{ ParameterId:row.ParameterId}:true)[0].UOM_Name}}-->
