@@ -3747,13 +3747,20 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 });
             });
             $scope.alert_PerPage = 0;
-            $scope.NextPage = function (id,alert_type) {
+            $scope.res_call = false;
+            $scope.NextPage = function (id, alert_type) {
+                
                 var element = angular.element(document.querySelector('#' + id));
                 var scr = element.scrollTop()
                 var height = element[0].scrollHeight;
                 $scope.ConfigCode = "PATIENTPAGE_COUNT";
                 $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+                var va = Math.round(element.scrollTop() + element[0].offsetHeight)
                 if (Math.round(element.scrollTop() + element[0].offsetHeight) == element[0].scrollHeight) {
+                    if ($scope.res_call == true) {
+                        return;
+                    }
+                    $scope.res_call = true
                     if (alert_type == 1) {
                         if ($scope.high_count == 0) {
                             $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
@@ -3763,6 +3770,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                 $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd, +'&AlertType=' + alert_type).success(function (data) {
                                     $scope.HighCountVitalList = [];
                                     $scope.HighCountVitalList = data;
+                                    $scope.res_call = false
 
                                 });
                             });
@@ -3774,6 +3782,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                 $scope.PageEnd = parseInt($scope.HighCountVitalList.length) + parseInt(data1[0].ConfigValue)
                                 $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd + '&AlertType=' + alert_type).success(function (data) {
                                     Array.prototype.push.apply($scope.HighCountVitalList, data);
+                                    $scope.res_call = false
 
                                 });
                             });
@@ -3788,6 +3797,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                 $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd, +'&AlertType=' + alert_type).success(function (data) {
                                     $scope.MediumCountVitalList = [];
                                     $scope.MediumCountVitalList = data;
+                                    $scope.res_call = false
 
                                 });
                             });
@@ -3799,6 +3809,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                 $scope.PageEnd = parseInt($scope.MediumCountVitalList.length) + parseInt(data1[0].ConfigValue)
                                 $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd + '&AlertType=' + alert_type).success(function (data) {
                                     Array.prototype.push.apply($scope.MediumCountVitalList, data);
+                                    $scope.res_call = false
 
                                 });
                             });
@@ -3813,6 +3824,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                 $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd, +'&AlertType=' + alert_type).success(function (data) {
                                     $scope.LowCountVitalList = [];
                                     $scope.LowCountVitalList = data;
+                                    $scope.res_call = false
 
                                 });
                             });
@@ -3824,6 +3836,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                 $scope.PageEnd = parseInt($scope.LowCountVitalList.length) + parseInt(data1[0].ConfigValue)
                                 $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd + '&AlertType=' + alert_type).success(function (data) {
                                     Array.prototype.push.apply($scope.LowCountVitalList, data);
+                                    $scope.res_call = false
 
                                 });
                             });
@@ -3838,6 +3851,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                 $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd, +'&Alert_Type=' + alert_type).success(function (data) {
                                     $scope.ParameterValueList = [];
                                     $scope.ParameterValueList = data;
+                                    $scope.res_call = false
 
                                 });
                             });
@@ -3849,6 +3863,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                 $scope.PageEnd = parseInt($scope.ParameterValueList.length) + parseInt(data1[0].ConfigValue)
                                 $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd + '&Alert_Type=' + alert_type).success(function (data) {
                                     Array.prototype.push.apply($scope.ParameterValueList, data);
+                                    $scope.res_call = false
 
                                 });
                             });
