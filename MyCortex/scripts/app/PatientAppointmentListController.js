@@ -18,7 +18,7 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
         intial_loading();
         function intial_loading() {
             //get the browser timezone.
-            $scope.getTimeZone = new Date().getTimezoneOffset(); //Intl.DateTimeFormat().resolvedOptions().timeZone; 
+            //$scope.getTimeZone = new Date().getTimezoneOffset(); //Intl.DateTimeFormat().resolvedOptions().timeZone; 
             
             patientAppointmentList();
             getPreviousAppointmentList();
@@ -186,7 +186,7 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
         function checkdates() {
             var AppoinList = $scope.UpComingAppointmentDetails;
             for (i = 0; i < AppoinList.length; i++) {
-                var startdate1 = moment(new Date($scope.UpComingAppointmentDetails[i].Appointment_FromTime));
+                var startdate1 = moment(new Date($scope.UpComingAppointmentDetails[i].Appointment_FromTime+'Z'));
                 var enddate1 = moment(new Date());
                 var diff1 = Math.abs(enddate1 - startdate1);
                 //var days1 = Math.floor(diff1 / (60 * 60 * 24 * 1000));
