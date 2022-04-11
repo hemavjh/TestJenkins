@@ -104,12 +104,12 @@ namespace MyCortex.Admin.Controllers
                     SMSBody = SMSBody.Replace("</p> ", "\n<p ");
                     SMSBody = SMSBody.Replace("&nbsp;", " ");
                     SMSBody = SMSBody.Replace("\n", " ");
-                    string[] OldWords = { "&nbsp;", "&amp;", "&quot;", "&lt;", "&gt;", "&reg;", "&copy;", "&bull;", "&trade;", "&#39;" };
-                    string[] NewWords = { " ", "&", "\"", "<", ">", "Â®", "Â©", "â€¢", "â„¢", "\'" };
-                    for (int i = 0; i < OldWords.Length; i++)
-                    {
-                        SMSBody.Replace(OldWords[i], NewWords[i]);
-                    }
+                    //string[] OldWords = { "&nbsp;", "&amp;", "&quot;", "&lt;", "&gt;", "&reg;", "&copy;", "&bull;", "&trade;", "&#39;" };
+                    //string[] NewWords = { " ", "&", "\"", "<", ">", "Â®", "Â©", "â€¢", "â„¢", "\'" };
+                    //for (int i = 0; i < OldWords.Length; i++)
+                    //{
+                    //    SMSBody.Replace(OldWords[i], NewWords[i]);
+                    //}
                     // Finally, remove all HTML tags and return plain text
                     //return 
                     var TextPlan = "";
