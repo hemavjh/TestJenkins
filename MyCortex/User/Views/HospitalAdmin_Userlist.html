@@ -380,7 +380,7 @@
             <td style="text-align: center"><input type="checkbox" ng-model="row.SelectedBuisnessuser" ng-disabled="row.UserType_Id==7" /></td>
             <td style="text-align: left" title="{{row.FullName}}">
                 <div class="textwrap">
-                    <img src="../../Images/male.png" width="30" height="30"
+                    <img src="../../Images/Patient_Male.png" width="30" height="30"
                          ng-if="(row.GENDER_NAME| lowercase)=='male'" />
                     <img src="../../Images/female.png" width="30" height="30"
                          ng-if="(row.GENDER_NAME| lowercase)=='female'" />
@@ -1125,7 +1125,7 @@
                                                     </label>
                                                     <div ng-if="(ViewGender| lowercase)=='male' && (uploadme==null)&&uploadview ==true"
                                                          valign="top" rowspan="6">
-                                                        <img style="width:150px;height:150px;" class="responsiveProfileImage" src="../../Images/male.png" />
+                                                        <img style="width:150px;height:150px;" class="responsiveProfileImage" src="../../Images/Patient_Male.png" />
                                                     </div>
                                                     <div ng-if="(ViewGender| lowercase)=='female' && (uploadme==null)&&uploadview ==true"
                                                          valign="top" rowspan="6">

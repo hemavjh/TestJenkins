@@ -45,6 +45,7 @@ namespace MyCortex.Repositories
         IList<MasterListModel> GetParameterNameList();
         PatientHealthDataModel PatientHealthData_Insert_Update(Guid Login_Session_Id, PatientHealthDataModel insobj);
         PatientHealthDataModel PatientHealthData_Sync_Insert_Update(Guid Login_Session_Id, PatientHealthDataModel insobj);
+        IntegrationAppHistoryModel IntegrationAppHistory_Update(Guid Login_Session_Id, IntegrationAppHistoryModel insobj);
         IList<PatientAppointmentsModel> PatientAppointmentList(long PatientId, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber);
         IList<PatientAppointmentsModel> CG_PatientAppointmentList(long Institution_Id, Guid Login_Session_Id, long UserId);
         IList<PatientAppointmentsModel> CG_Confirm_PatientAppointments(CG_PatientAppointmentConfirm obj);

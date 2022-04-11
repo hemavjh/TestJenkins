@@ -10,6 +10,7 @@ namespace MyCortex.User.Model
     {
         public string TotalRecord { get; set; }
         public int RowNumber { get; set; }
+        public int Sync_AppId { get; set; }
         public long Id { get; set; }
         public long Patient_Id { get; set; }
         public int Type_Id { get; set; }
@@ -50,6 +51,23 @@ namespace MyCortex.User.Model
         public long Institution_Id { get; set; }
         public long Units_Group_Id { get; set; }
         public long Units_Id { get; set; }
+    }
+
+    public class IntegrationAppHistoryModel
+    {
+        public long AppId { get; set; }
+        public string AppType { get; set; }
+        public long PatientId { get; set; }
+        public int IsDisconnect { get; set; }
+    }
+
+    public class IntegrationAppHistoryReturnModel
+    {
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public string Error_Code { get; set; }
+        public int ReturnFlag { get; set; }
+        public IntegrationAppHistoryModel IntegrationAppHistory { get; set; }
     }
 
     public class PatientHealthDataReturnModel

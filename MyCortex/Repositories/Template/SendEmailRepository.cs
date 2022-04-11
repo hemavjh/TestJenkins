@@ -300,11 +300,11 @@ namespace MyCortex.Repositories.Template
                     //    TagsReplaceData = DecryptFields.Decrypt(TagsReplaceData);
                     //}
                     Template = FinalResult.Replace(TagName, TagsReplaceData);
-                    if (TemplateType_Id == 3)
-                    {
+                    //if (TemplateType_Id == 3)
+                    //{
                         Template = Template.Replace("<p>", "");
                         Template = Template.Replace("</p>", "");
-                    }
+                    //}
                 }
             }
             return new SendEmailModel

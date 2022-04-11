@@ -14,12 +14,20 @@ namespace MyCortexService
         /// </summary>
         static void Main()
         {
+#if DEBUG
+            //While debugging this section is used.
+            MycortexService myService = new MycortexService();
+            myService.onDebug();
+            System.Threading.Thread.Sleep(System.Threading.Timeout.Infinite);
+
+#else
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
             {
                 new MycortexService()
             };
             ServiceBase.Run(ServicesToRun);
+#endif
         }
     }
 }

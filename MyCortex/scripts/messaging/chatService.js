@@ -1,25 +1,20 @@
-const utilService = function()
-{
+const utilService = function () {
     return {
-        initializeFirebase: function()
-        {
+        initializeFirebase: function () {
             return "test";
         },
-        convertOnlyDate: function(strTime) 
-        {
+        convertOnlyDate: function (strTime) {
             var timestamp = Number(strTime) * 1000;
             var date = new Date(timestamp);
             return ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + date.getFullYear();
         },
-        convertStringToDate: function(strTime) 
-        {
+        convertStringToDate: function (strTime) {
             var timestamp = Number(strTime) * 1000;
             var date = new Date(timestamp);
             var timestr = this.formatAMPM(date);
             return timestr.toString();
         },
-        formatAMPM: function(date) 
-        {
+        formatAMPM: function (date) {
             var hours = date.getHours();
             var minutes = date.getMinutes();
             var ampm = hours >= 12 ? "pm" : "am";
@@ -29,42 +24,38 @@ const utilService = function()
             var strTime = hours + ":" + minutes + " " + ampm;
             return strTime;
         },
-        createGUID: function()
-        {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {  
-                var r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8);  
-                return v.toString(16);  
-            });  
+        createGUID: function () {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
         },
-        callRejectAction: function()
-        {
+        callRejectAction: function () {
             checkCallStatus = false;
             $.stopSound();
             $('#addressBook').show();
             $('.chatBody').removeClass('chatBodyHalf');
             $('#addressBook').addClass('aqua');
             $('.chatBox').removeClass('chatBoxBig');
-            $("#msg-page").attr("style", "display:block");                  
+            $("#msg-page").attr("style", "display:block");
             $("#call-accept").attr("style", "display:none");
             $("#call-reject").attr("style", "display:none");
             $("#call-page").attr("style", "display:none");
             $("#showchatIcon").hide();
         },
-        callEndAction: function()
-        {
+        callEndAction: function () {
             checkCallStatus = false;
             $('#addressBook').show();
             $('.chatBody').removeClass('chatBodyHalf');
             $('#addressBook').addClass('aqua');
             $('.chatBox').removeClass('chatBoxBig');
-            $("#msg-page").attr("style", "display:block");                  
+            $("#msg-page").attr("style", "display:block");
             $("#call-accept").attr("style", "display:none");
             $("#call-reject").attr("style", "display:none");
             $("#call-page").attr("style", "display:none");
             $("#showchatIcon").hide();
         },
-        initializeChat: function()
-        {
+        initializeChat: function () {
             /*$.get(baseUrl + '/api/Common/getCometchatAppId')
             .done(function (data) {
                 var arrayComet = data.split(",");
@@ -89,14 +80,14 @@ const utilService = function()
 
             window.COMETCHAT_MSGCOUNT = 100;
             $.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=CHATMSGHISTORY_COUNT&Institution_Id=' + window.localStorage['InstitutionId'])
-            .done(function (data) {
-                if (data[0] !== undefined) {
-                    window.COMETCHAT_MSGCOUNT = parseInt(data[0].ConfigValue);
-                }
+                .done(function (data) {
+                    if (data[0] !== undefined) {
+                        window.COMETCHAT_MSGCOUNT = parseInt(data[0].ConfigValue);
+                    }
 
-                //chatService.initializeApp();
-            });
-            
+                    //chatService.initializeApp();
+                });
+
             $.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=COMETCHAT_APPID&Institution_Id=0')
                 .done(function (data) {
                     window.COMETCHAT_APP_ID = data[0].ConfigValue;
@@ -308,7 +299,7 @@ const utilService = function()
     };
 }();
 
-const chatService = function() {
+const chatService = function () {
     $('#empty-chat').hide();
     $('#group-message-holder').hide();
     $('#loading-message-container').hide();
@@ -316,9 +307,9 @@ const chatService = function() {
 
     let messageArray = [];
     //let userid=$('#chatUserUID').val();
-    let userid="0";//"superhero2";
-    let currentusertype="";
-    let callAcceptedStatus=false;
+    let userid = "0";//"superhero2";
+    let currentusertype = "";
+    let callAcceptedStatus = false;
     let callInitiatorFlag = false;
     let checkCallStatus = false;
     let userDataLoad = "";
@@ -364,8 +355,7 @@ const chatService = function() {
                     this.callReceiving();
                 },
                 error => {
-                    //alert("Chat login is not created for this User, please contact Admin");
-                    swal.fire("Chat login is not created for this User, please contact Admin");
+                    alert("Chat login is not created for this User, please contact Admin");
                     console.log("Login failed with error:", error.code);
                 }
             );
@@ -504,7 +494,7 @@ const chatService = function() {
             let receiverID = userid;
             let messageobj = document.getElementById('filechat').files[0];
 
-            
+
             let receiverType;
             if (currentusertype === "u")
                 receiverType = CometChat.RECEIVER_TYPE.USER;
@@ -705,14 +695,10 @@ const chatService = function() {
                                 if (customMessage.data.customData.CallType === "Audio") {
                                     $("#WaitingCall-Page").hide();
                                     $("#directCall-Page").show();
-                                    //$('#transparent-background-call').show();
-                                    localStorage.setItem('callisRunning', 1);
                                     this.initiateDirectCall(customMessage.data.customData.CallSessionId);
                                 } else {
                                     $("#WaitingCall-Page").hide();
                                     $("#directCall-Page").show();
-                                    //$('#transparent-background-call').show();
-                                    localStorage.setItem('callisRunning', 1);
                                     this.initiateDirectVideoCall(customMessage.data.customData.CallSessionId);
                                 }
                             } else {
@@ -755,15 +741,12 @@ const chatService = function() {
                     $("#call-page").attr("style", "display:flex");
                     $("#showchatIcon").show();
                     $('#addressBook').hide();
-                    //$('#transparent-background-call').show();
-                    localStorage.setItem('callisRunning', 1);
+
                     //console.log("Call initiated successfully:", outGoingCall);
                     // perform action on success. Like show your calling screen.
                 },
                 error => {
                     console.log("Call initialization failed with exception:", error);
-                    //$('#transparent-background-call').hide();
-                    localStorage.setItem('callisRunning', 0);
                 }
             );
         },
@@ -783,13 +766,9 @@ const chatService = function() {
                 new CometChat.OngoingCallListener({
                     onCallEnded: call => {
                         console.log("Call ended:", call);
-                        //$('#transparent-background-call').hide();
-                        localStorage.setItem('callisRunning', 0);
                     },
                     onError: error => {
                         console.log("Error :", error);
-                        //$('#transparent-background-call').hide();
-                        localStorage.setItem('callisRunning', 0);
                     }
                 })
             );
@@ -810,13 +789,9 @@ const chatService = function() {
                 new CometChat.OngoingCallListener({
                     onCallEnded: call => {
                         console.log("Call ended:", call);
-                        //$('#transparent-background-call').hide();
-                        localStorage.setItem('callisRunning', 0);
                     },
                     onError: error => {
                         console.log("Error :", error);
-                        //$('#transparent-background-call').hide();
-                        localStorage.setItem('callisRunning', 0);
                     }
                 })
             );
@@ -851,15 +826,11 @@ const chatService = function() {
                     $("#showchatIcon").show();
                     $('#addressBook').hide();
                     $.playSound('/images/vivo-ringtone.mp3');
-                    //$('#transparent-background-call').show();
-                    localStorage.setItem('callisRunning', 1);
                     //console.log("Call initiated successfully:", outGoingCall);
                     // perform action on success. Like show your calling screen.
                 },
                 error => {
                     console.log("Call initialization failed with exception:", error);
-                    //$('#transparent-background-call').hide();
-                    localStorage.setItem('callisRunning', 0);
                 }
             );
         },
@@ -935,9 +906,7 @@ const chatService = function() {
                                 onUserJoined: user => {
                                     /* Notification received here if another user joins the call. */
                                     //console.log("User joined call:", user);
-                                /* this method can be use to display message or perform any actions if someone joining the call */
-                                    //$('#transparent-background-call').show();
-                                    localStorage.setItem('callisRunning', 1);
+                                    /* this method can be use to display message or perform any actions if someone joining the call */
                                 },
                                 onUserLeft: user => {
                                     /* Notification received here if another user left the call. */
@@ -955,8 +924,6 @@ const chatService = function() {
                                     $("#msg-page").attr("style", "display:block");
                                     $("#call-page").attr("style", "display:none");
                                     $("#showchatIcon").hide();
-                                    //$('#transparent-background-call').hide();
-                                    localStorage.setItem('callisRunning', 0);
                                     //CometChat.removeCallListener(listnerID);
                                     CometChat.endCall(call.sessionId).then(
                                         call => {
@@ -973,8 +940,6 @@ const chatService = function() {
                         // Outgoing Call Accepted
                     },
                     onOutgoingCallRejected(call) {
-                        //$('#transparent-background-call').hide();
-                        localStorage.setItem('callisRunning', 0);
                         $.stopSound();
                         //CometChat.removeCallListener(listenerID);
                         utilService.callEndAction();
@@ -982,8 +947,6 @@ const chatService = function() {
                         // Outgoing Call Rejected
                     },
                     onIncomingCallCancelled(call) {
-                        //$('#transparent-background-call').hide();
-                        localStorage.setItem('callisRunning', 0);
                         $.stopSound();
                         //CometChat.removeCallListener(listenerID);
                         utilService.callEndAction();
@@ -1019,8 +982,6 @@ const chatService = function() {
                             onUserJoined: user => {
                                 /* Notification received here if another user joins the call. */
                                 //console.log("User joined call:", user);
-                                //$('#transparent-background-call').show();
-                                localStorage.setItem('callisRunning', 1);
                                 $("#add-book").hide();
                                 $("#groupsList").hide();
                                 $("#msg-page").attr("style", "display:none");
@@ -1045,12 +1006,8 @@ const chatService = function() {
                                 CometChat.endCall(call.sessionId).then(
                                     call => {
                                         //console.log("Call ended: endCall", call);
-                                        //$('#transparent-background-call').hide();
-                                        localStorage.setItem('callisRunning', 0);
                                     }, err => {
                                         console.log("error while ending call", err);
-                                        //$('#transparent-background-call').hide();
-                                        localStorage.setItem('callisRunning', 0);
                                     }
                                 );
                                 /* Notification received here if current ongoing call is ended. */
@@ -1064,15 +1021,11 @@ const chatService = function() {
                 error => {
                     utilService.callEndAction();
                     console.log("Call acceptance failed with error", error);
-                    //$('#transparent-background-call').hide();
-                    localStorage.setItem('callisRunning', 0);
                     // handle exception
                 }
             );
         },
         callReject: function () {
-            //$('#transparent-background-call').hide();
-            localStorage.setItem('callisRunning', 0);
             var sessionID = $('#callSessionID').val();
             var status;
             checkCallStatus = false;
@@ -1180,8 +1133,7 @@ const chatService = function() {
                             },
                             error => {
                                 console.log("Group leaving failed with exception:", error);
-                                //alert("Error in deleting the group");
-                                swal.fire("Error in deleting the group");
+                                alert("Error in deleting the group");
                             }
                         );
                         console.log("Group delete failed with exception:", error);
@@ -1235,7 +1187,7 @@ const chatService = function() {
 
                                 validuser = false;
                                 $.each(userDataLoad, function (contIndex, contValue) {
-                                    if (value.conversationWith.uid === contValue.User_Id) {
+                                    if (value.conversationWith.uid.toString() === contValue.User_Id.toString()) {
                                         if (contValue.GenderName.toLowerCase() === "male") {
                                             gendername = "male.png";
                                         }
@@ -1312,7 +1264,7 @@ const chatService = function() {
                         contactExist = false;
                         $.each(conversationList, function (contIndex, contValue) {
                             if (contValue.conversationType === "user") {
-                                if (contValue.conversationWith.uid === value.User_Id)
+                                if (contValue.conversationWith.uid.toString() === value.User_Id.toString())
                                     contactExist = true;
                             }
                         });
@@ -1390,6 +1342,14 @@ const chatService = function() {
 
 
         },
+
+        openProfile: function () {
+            $.each(userDataLoad, function (contIndex, contValue) {
+                if (contValue.User_Id.toString() === window.COMETCHAT_TO_USER && contValue.GroupName === "U") {
+                    window.location = '/Home/Index#/PatientVitals/' + window.COMETCHAT_TO_USER + '/' + window.localStorage['UserTypeId'];
+                }
+            });
+        },
         createGroup: function (groupname) {
             var GUID = utilService.createGUID();
             var groupName = groupname;
@@ -1414,8 +1374,7 @@ const chatService = function() {
                 }
             });
             if (validGroup === false) {
-                //alert("Minimum two users to be selected to create group");
-                swal.fire("Minimum two users to be selected to create group");
+                alert("Minimum two users to be selected to create group");
                 return false;
             }
 
@@ -1438,8 +1397,7 @@ const chatService = function() {
                     });
                     CometChat.addMembersToGroup(GUID, membersList, []).then(
                         response => {
-                            //alert("Group created successfully");
-                            swal.fire("Group created successfully");
+                            alert("Group created successfully");
 
                             $('#addGroup').click();
                         },
