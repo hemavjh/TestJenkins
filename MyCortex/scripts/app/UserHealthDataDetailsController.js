@@ -3101,6 +3101,20 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 $scope.AddVitalParameters[index].ParameterMappingList = newlist;
             }
         }
+        $scope.get_ParameterMappingList = function (index) {
+            angular.forEach($scope.AddVitalParameters[index].ParameterMappingList, function (value2, index2) {
+                if ($scope.AddVitalParameters[index].Units_ID == value2.Units_ID) {
+                    
+                    $http.get(baseUrl + '/api/User/GroupParameterNameList/?Patient_Id=' + $scope.SelectedPatientId + '&UnitGroupType_Id=' + value2.UnitsGroup_ID).success(function (data) {
+
+                /*$scope.Tick = true;*/
+                $scope.GroupParameterNameList = data;
+
+            });
+                }
+            });
+            
+        }
 
         // Add row concept for Patient Vital Parameters
         $scope.AddVitalParameters = [{
