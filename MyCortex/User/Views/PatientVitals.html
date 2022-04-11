@@ -25,6 +25,14 @@
         $('#ptDateTimePicker').attr('min', maxDate);      
     });
 </script>
+<style>
+    .lablewrap {
+        max-width: 54px;
+        height: 23px;
+        overflow: hidden;
+        float: left;
+    }
+</style>
 <!--<script src='Scripts/jquery-proper-slider.js'></script>
 <script src='Scripts/mixer.js'></script>-->
 <body>
@@ -875,8 +883,8 @@
                                 <label>Actual Value</label>
                                 <span>{{row.ParameterValue}}</span><br />
                                 <span ng-show="row.PageType=='C'"><br /></span>
-                                <span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-show="row.PageType=='D'">{{row.Device_No}}/</span>
-                                <span ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                <span class="lablewrap" data-toggle="tooltip" title={{row.DeviceType}} ng-show="row.PageType=='D'">{{row.DeviceType}}</span><span style="float:left">/</span><span class="lablewrap" data-toggle="tooltip" title={{row.Device_No}} ng-show="row.PageType=='D'">{{row.Device_No}}/</span><br />
+                                <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
                                 <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                             </div>
                         </div>
@@ -901,8 +909,8 @@
                                 <label>Actual Value</label>
                                 <span>{{row.ParameterValue}}</span><br />
                                 <span ng-show="row.PageType=='C'"><br /></span>
-                                <span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-show="row.PageType=='D'">{{row.Device_No}}/</span>
-                                <span ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                <span class="lablewrap" data-toggle="tooltip" title={{row.DeviceType}} ng-show="row.PageType=='D'">{{row.DeviceType}}</span><span style="float:left">/</span><span class="lablewrap" data-toggle="tooltip" title={{row.Device_No}} ng-show="row.PageType=='D'">{{row.Device_No}}/</span><br />
+                                <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
                                 <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                             </div>
                         </div>
@@ -927,8 +935,8 @@
                                 <label>Actual Value</label>
                                 <span>{{row.ParameterValue}}</span><br />
                                 <span ng-show="row.PageType=='C'"><br /></span>
-                                <span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-show="row.PageType=='D'">{{row.Device_No}}/</span>
-                                <span ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                <span class="lablewrap" data-toggle="tooltip" title={{row.DeviceType}} ng-show="row.PageType=='D'">{{row.DeviceType}}</span><span style="float:left">/</span><span class="lablewrap" data-toggle="tooltip" title={{row.Device_No}} ng-show="row.PageType=='D'">{{row.Device_No}}/</span><br />
+                                <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
                                 <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                             </div>
                         </div>
@@ -949,8 +957,8 @@
                                 <label>Actual Value</label>
                                 <span>{{row.ParameterValue}}</span><br />
                                 <span ng-show="row.PageType=='C'"><br /></span>
-                                <span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-show="row.PageType=='D'">{{row.Device_No}}/</span>
-                                <span ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                <span class="lablewrap" data-toggle="tooltip" title={{row.DeviceType}} ng-show="row.PageType=='D'">{{row.DeviceType}}</span><span style="float:left">/</span><span class="lablewrap" data-toggle="tooltip" title={{row.Device_No}} ng-show="row.PageType=='D'">{{row.Device_No}}/</span><br />
+                                <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
                                 <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                             </div>
                         </div>
@@ -975,8 +983,8 @@
                                 <label>Actual Value</label>
                                 <span>{{row.ParameterValue}}</span><br />
                                 <span ng-show="row.PageType=='C'"><br /></span>
-                                <span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-show="row.PageType=='D'">{{row.Device_No}}/</span>
-                                <span ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                <span class="lablewrap" data-toggle="tooltip" title={{row.DeviceType}} ng-show="row.PageType=='D'">{{row.DeviceType}}</span><span style="float:left">/</span><span class="lablewrap" data-toggle="tooltip" title={{row.Device_No}} ng-show="row.PageType=='D'">{{row.Device_No}}/</span><br />
+                                <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
                                 <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                             </div>
                         </div>
@@ -996,8 +1004,9 @@
                                 <label>Actual Value</label>
                                 <span>{{row.ParameterValue}}</span><br />
                                 <span ng-show="row.PageType=='C'"><br /></span>
-                                <span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-if="row.PageType=='D'">{{row.Device_No}}/</span>
-                                <span ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                <span class="lablewrap" data-toggle="tooltip" title={{row.DeviceType}} ng-show="row.PageType=='D'">{{row.DeviceType}}</span><span style="float:left">/</span><span class="lablewrap" data-toggle="tooltip" title={{row.Device_No}} ng-show="row.PageType=='D'">{{row.Device_No}}/</span><br />
+                                <!--<span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-if="row.PageType=='D'">{{row.Device_No}}/</span>-->
+                                <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
                                 <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                             </div>
                         </div>
@@ -1022,8 +1031,9 @@
                                 <label>Actual Value</label>
                                 <span>{{row.ParameterValue}}</span><br />
                                 <span ng-show="row.PageType=='C'"><br /></span>
-                                <span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-show="row.PageType=='D'">{{row.Device_No}}/</span>
-                                <span ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                <span class="lablewrap" data-toggle="tooltip" title={{row.DeviceType}} ng-show="row.PageType=='D'">{{row.DeviceType}}</span><span style="float:left">/</span><span class="lablewrap" data-toggle="tooltip" title={{row.Device_No}} ng-show="row.PageType=='D'">{{row.Device_No}}/</span><br />
+                                <!--<span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-show="row.PageType=='D'">{{row.Device_No}}/</span>-->
+                                <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
                                 <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                             </div>
                         </div>
