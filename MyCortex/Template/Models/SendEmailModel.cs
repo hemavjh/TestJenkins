@@ -24,6 +24,9 @@ namespace MyCortex.Template.Models
         public string MobileNO { get; set; }
         public string UserType { get; set; }
         public DateTime Send_Date { get; set; }
+        public string SMSSource_Id { get; set; }
+        public string SMSUserName { get; set; }
+        public string SMSApiId { get; set; }
     }
 
     public class SendEmailReturnModels

@@ -93,7 +93,7 @@
         </p>-->
         <h1>
             <img src="{{PrdImg}}" width="70" height="50">
-            <!--MyCortex-->{{prdName}} Sign Up
+            <!--MyCortex-->{{ProductName}} Sign Up
             <i class="fa fa-language" aria-hidden="true"></i>
             <select style="text-align:right !important; width:30%;font-size:15px" ng-model="selectedLanguage" ng-change="FilterLanguageSettingsList()">
                 <option ng-repeat="item1 in InstitutionLanguageList" value="{{item1.Id}}">
@@ -368,7 +368,8 @@
                 <h4 class="modal-title1">Forgot Password</h4>
             </div>
             <div class="modal-body">
-                <form action="/action_page.php">
+                <form>
+                    <!--  action="/action_page.php"-->
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="inputGroups">

@@ -993,6 +993,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             var $sel2 = $('#Parameter');
             $sel2.multiselect('enable');            
             $scope.ViewDevice();
+            $scope.DisplayView = '';
             angular.element('#DeviceAddModal').modal('show');
         }
 

@@ -169,12 +169,12 @@ namespace MyCortex.User.Controllers
         /// <param name="PatientId"></param>
         /// <param name="UserTypeId"></param>
         /// <returns></returns>
-        public IList<GetParameterValueModel> Get_ParameterValue(long PatientId, long UserTypeId, Guid Login_Session_Id)
+        public IList<GetParameterValueModel> Get_ParameterValue(long PatientId, long UserTypeId, Guid Login_Session_Id, int StartRowNumber = 0, int EndRowNumber = 0, int AlertType = 0)
         {
             try
             {
                 IList<GetParameterValueModel> model;
-                model = repository.Get_ParameterValue(PatientId, UserTypeId, Login_Session_Id);
+                model = repository.Get_ParameterValue(PatientId, UserTypeId, Login_Session_Id, StartRowNumber, EndRowNumber, AlertType);
                 return model;
             }
             catch (Exception ex)

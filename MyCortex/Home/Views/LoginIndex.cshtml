@@ -13,7 +13,7 @@
 
     <link href="@Url.Content("~/Css/login.css?V1.01")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Css/spacing.css?v1.0")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Css/theme.css?v1.37")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/theme.css?v1.38")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Css/jquery.datetimepicker.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Css/intlTelInput.css?v1.0")" rel="stylesheet" type="text/css" />
     <script src="@Url.Content("~/scripts/intlTelInput.js?v1.0")" type="text/javascript"></script>
@@ -46,6 +46,27 @@
             }
         });
     </script>
+   
+    <script>
+        $(function () {
+            $(".preload").fadeOut(10000, function () {
+                $(".content").fadeIn(1000);
+            });
+        });
+    </script>
+    <style>
+        .content {
+            display: none;
+        }
+
+        .preload {
+            width: 100px;
+            height: 100px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+        }
+    </style>
 </head>
 <body id="idbody">
     <div id="loginhead" style="display:none;">
@@ -57,6 +78,7 @@
         </header>
     </div>
     <div>
+        <div class="preload"> <img src="http://i.imgur.com/KUJoe.gif"></div>
         <section id="LoginSection" class="loginBg" ng-view></section>
     </div>
     @*<div id="loginCor" style="display:none;">

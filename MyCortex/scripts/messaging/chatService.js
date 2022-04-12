@@ -1342,6 +1342,14 @@ const chatService = function () {
 
 
         },
+
+        openProfile: function () {
+            $.each(userDataLoad, function (contIndex, contValue) {
+                if (contValue.User_Id.toString() === window.COMETCHAT_TO_USER && contValue.GroupName === "U") {
+                    window.location = '/Home/Index#/PatientVitals/' + window.COMETCHAT_TO_USER + '/' + window.localStorage['UserTypeId'];
+                }
+            });
+        },
         createGroup: function (groupname) {
             var GUID = utilService.createGUID();
             var groupName = groupname;

@@ -214,11 +214,31 @@ namespace MyCortex.Template.Controllers
                             }
                             SMSSubject = model1.Email_Subject;
                             SMSBody = model1.Email_Body;
-                            SMSApiId = "Kv2n09u8";
-                            SMSUserName = "MyHealth";
-                            SMSSource = "OILHDK";
+                            //SMSApiId = "Kv2n09u8";
+                            //SMSUserName = "MyHealth";
+                            //SMSSource = "OILHDK";
+                            SMSApiId = itemData.SMSApiId;
+                            SMSUserName = itemData.SMSUserName;
+                            SMSSource = itemData.SMSSource_Id;
 
-                            SMSURL = "https://txt.speroinfotech.ae/API/SendSMS?" + "username=" + SMSUserName + "&apiId=" + SMSApiId + "&json=True&destination=" + SMSMbNO + "&source=" + SMSSource + "&text=" + SMSBody;
+                            SMSBody = SMSBody.Replace("<br>", "");
+                            SMSBody = SMSBody.Replace("<br /> ", "");
+                            SMSBody = SMSBody.Replace("<p>", "");
+                            SMSBody = SMSBody.Replace("</p> ", "\n<p ");
+                            SMSBody = SMSBody.Replace("&nbsp;", " ");
+                            SMSBody = SMSBody.Replace("\n", " ");
+                            //string[] OldWords = {"&nbsp;", "&amp;", "&quot;", "&lt;","&gt;", "&reg;", "&copy;", "&bull;", "&trade;","&#39;"};
+                            //string[] NewWords = { " ", "&", "\"", "<", ">", "Â®", "Â©", "â€¢", "â„¢", "\'" };
+                            //for (int i = 0; i < OldWords.Length; i++)
+                            //{
+                            //    SMSBody.Replace(OldWords[i], NewWords[i]);
+                            //}
+                            // Finally, remove all HTML tags and return plain text
+                            //return 
+                            var TextPlan = "";
+                            TextPlan = System.Text.RegularExpressions.Regex.Replace(SMSBody.ToString(), "<[^>]*>", "");
+
+                            SMSURL = "https://txt.speroinfotech.ae/API/SendSMS?" + "username=" + SMSUserName + "&apiId=" + SMSApiId + "&json=True&destination=" + SMSMbNO + "&source=" + SMSSource + "&text=" + TextPlan;
                             
                             HttpClient client = new HttpClient();
                             client.BaseAddress = new Uri(SMSURL);
