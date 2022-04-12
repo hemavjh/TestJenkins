@@ -675,7 +675,7 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@IsAutoReschedule", InObj.IsAutoReschedule));
             param.Add(new DataParameter("@MaxScheduleDays", InObj.MaxScheduleDays));
             param.Add(new DataParameter("@CreatedBy", InObj.CreatedBy));
-
+            param.Add(new DataParameter("@MinimumSlots", InObj.MinimumSlots));
 
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
@@ -730,7 +730,6 @@ namespace MyCortex.Repositories.Masters
                                                      select
                                                      new OrgAppointmentSettings()
                                                      {
-
                                                          MinRescheduleDays = p.Field<int>("MinRescheduleDays"),
                                                          MinRescheduleMinutes = p.Field<int>("MinRescheduleMinutes"),
                                                          DefautTimeZone = p.Field<string>("TimeZone"),
@@ -743,6 +742,7 @@ namespace MyCortex.Repositories.Masters
                                                          IsDirectAppointment = p.Field<bool>("IsDirectAppointment"),
                                                          IsAutoReschedule = p.Field<bool>("IsAutoReschedule"),
                                                          MaxScheduleDays = p.Field<int>("MaxScheduleDays"),
+                                                         MinimumSlots = p.Field<int>("MinimumSlots"),
                                                          Flag = p.Field<int>("Flag")
                                                      }).ToList();
                 return INS;
@@ -792,6 +792,7 @@ namespace MyCortex.Repositories.Masters
                                          IsDirectAppointment = p.Field<bool>("IS_DIRECTAPPOINTMENT"),
                                          IsAutoReschedule = p.Field<bool>("IS_AUTORESCHEDULE"),
                                          MaxScheduleDays = p.Field<int>("MAX_SCHEDULE_DAYS"),
+                                         MinimumSlots = p.Field<int>("MINIMUM_SLOTS"),
                                          CreatedBy = p.Field<long>("CREATED_BY"),
                                          IsActive =  p.Field<int>("ISACTIVE")
 

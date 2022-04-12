@@ -5846,8 +5846,8 @@
                                     <label>Sorry, slots not available for the day</label>
                                 </div>
                                 <div class="col-sm-12 flex flex-wrap mt-10">
-                                    <div class="col-sm-4 pointerview" ng-repeat="list in newAppoiTimeSlot">
-                                        <p class="time text-center" ng-click="ClickAppointment(list)" ng-class="{highframe : list === idSelectedAppoi, 'div-disabled': list.IsBooked}">{{list.AppointmentTime}}</p>
+                                    <div class="col-sm-4 pointerview" ng-repeat="list in newAppoiTimeSlot1">
+                                        <p class="time text-center" ng-click="ClickAppointment(list)" id="" ng-class="{highframe : list === idSelectedAppoi,  'div-disabled' : (list.IsBusy || list.IsBooked)}">{{list.AppointmentTime}}</p>
                                     </div>
                                 </div>
                                 <div ng-switch="AppointmoduleID" class="col-sm-12 flex mt-10">
