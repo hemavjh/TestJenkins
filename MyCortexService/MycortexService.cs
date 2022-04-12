@@ -134,6 +134,7 @@ namespace MyCortexService
                     }
                     catch (Exception ex)
                     {
+                        TraceException(ex);
                     }
                 }
 
@@ -235,6 +236,7 @@ namespace MyCortexService
                             param1.Add(new DataParameter("@id", Id));
                             dt = ClsDataBase.GetDataTable("[MYCORTEX].GET_UPDATE_TBLPATIENT_LIFESTYLEDATA_FOR_EMAIL_NOTIFICATION", param1);
                         }
+                        TraceException(ex);
                     }
                 }
                 // End
@@ -288,6 +290,7 @@ namespace MyCortexService
                             param1.Add(new DataParameter("@id", Id));
                             dt = ClsDataBase.GetDataTable("[MYCORTEX].GET_UPDATE_TBLPATIENT_APPOINTMENTS_FOR_EMAIL_NOTIFICATION", param1);
                         }
+                        TraceException(ex);
                     }
                 }
 
@@ -320,6 +323,7 @@ namespace MyCortexService
                             param1.Add(new DataParameter("@id", Id));
                             dt = ClsDataBase.GetDataTable("[MYCORTEX].GET_UPDATE_TBLPATIENT_APPOINTMENTS_FOR_EMAIL_NOTIFICATION", param1);
                         }
+                        TraceException(ex);
                     }
                 }
                 // End
@@ -357,6 +361,7 @@ namespace MyCortexService
                             param1.Add(new DataParameter("@id", Id));
                             dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_TBLPATIENT_APPOINTMENTS_FOR_CANCEL_EMAIL_NOTIFICATION]", param1);
                         }
+                        TraceException(ex);
                     }
                 }
 
@@ -365,16 +370,27 @@ namespace MyCortexService
                 // APPointments RESET by System
                 // Start
 
-                List<DataParameter> li = new List<DataParameter>();
-                li.Add(new DataParameter("@INST", 1));
-                dt = ClsDataBase.GetDataTable("[MYCORTEX].RESET_APPOINTMENTS_BY_SYSTEM", li);
+                try
+                {
+                    dt = ClsDataBase.GetDataTable("[MYCORTEX].RESET_APPOINTMENTS_BY_SYSTEM");
+                }
+                catch(Exception ex)
+                {
+                    TraceException(ex);
+                }
 
                 // END
 
                 // Deactivate Past Doctor Shift Details
                 // Start
-
-                dt = ClsDataBase.GetDataTable("[MYCORTEX].[DEACTIVATE_PAST_DOCTORSHIFT]");
+                try
+                {
+                    dt = ClsDataBase.GetDataTable("[MYCORTEX].[DEACTIVATE_PAST_DOCTORSHIFT]");
+                }
+                catch (Exception ex)
+                {
+                    TraceException(ex);
+                }
 
                 // END
 
@@ -411,6 +427,7 @@ namespace MyCortexService
                             param1.Add(new DataParameter("@id", Id));
                             dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_TBLAPPOINTMENT_PAYMENT_STATUS_FOR_EMAIL_NOTIFICATION]", param1);
                         }
+                        TraceException(ex);
                     }
                 }
 
@@ -449,6 +466,7 @@ namespace MyCortexService
                             param1.Add(new DataParameter("@id", Id));
                             dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_TBLAPPOINTMENT_PAYMENT_STATUS_FOR_EMAIL_NOTIFICATION]", param1);
                         }
+                        TraceException(ex);
                     }
                 }
 
@@ -496,6 +514,7 @@ namespace MyCortexService
                             dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_TBLPATIENT_APPOINTMENTS_REMINDER_EMAIL_NOTIFICATION]", param1);
                             dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_DOCTOR_APPOINTMENTS_REMINDER_EMAIL_NOTIFICATION]", param1);
                         }
+                        TraceException(ex);
                     }
                 }
 
@@ -509,6 +528,14 @@ namespace MyCortexService
                 WriteToFile(new String('-', 50));
             }
         }
+
+        public void TraceException(Exception ex)
+        {
+            WriteToFile(new String('-', 50));
+            WriteToFile(ex.StackTrace);
+            WriteToFile(new String('-', 50));
+        }
+
         protected override void OnStop()
         {
             WriteToFile("Service is stopped at " + DateTime.Now);
