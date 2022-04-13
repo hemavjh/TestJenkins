@@ -1786,6 +1786,31 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
+        public IntegrationAppHistoryModel IntegrationAppHistory_Details(long PatientId)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@USERID", PatientId));
+
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[INTEGRATION_APPS_HISTORY_DETAILS]", param);
+                IntegrationAppHistoryModel data = (from p in dt.AsEnumerable()
+                                                   select new IntegrationAppHistoryModel()
+                                                   {
+                                                       PatientId = p.Field<long>("USER_ID"),
+                                                       AppId = p.Field<long>("APP_ID"),
+                                                       AppType = p.Field<string>("APP_TYPE")
+                                                   }).FirstOrDefault();
+                return data;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
         /// <summary>
         /// to Insert/Update the Sign up Users, Hospital Admin and Business Users for a Institution
         /// </summary>
