@@ -3739,6 +3739,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             
             $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValueCount/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data1) {
                 $scope.ParameterValueListCount = data1;
+                $scope.HighParamCount = 0;
+                $scope.LowParamCount = 0;
+                $scope.MediumParamCount = 0;
                 angular.forEach($scope.ParameterValueListCount, function (value, index) {
                     //console.log(value);
                     $scope.HighParamCount = value.HighCount;
@@ -4110,6 +4113,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         });
                     });
                 }
+            }
+            if (i.title == 'Click to Expand') {
+                $('#noalerts').hide();
+            } else {
+                $('#noalerts').show();
             }
             
             //$scope.yellowcount = view_type;
