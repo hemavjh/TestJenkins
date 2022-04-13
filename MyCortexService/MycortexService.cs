@@ -22,6 +22,7 @@ namespace MyCortexService
     public partial class MycortexService : ServiceBase
     {
         Timer timer = new Timer();
+        Timer timer2 = new Timer();
         private string executedTime="";
         private string lastexecutedTime="";
         private string executedTimeNow = "";
@@ -41,6 +42,10 @@ namespace MyCortexService
             timer.Elapsed += new ElapsedEventHandler(OnElapsedTime);
             timer.Interval = 60000; //number in milisecinds     // 60000 = one minute
             timer.Enabled = true;
+
+            timer2.Elapsed += new ElapsedEventHandler(OnElapsedTime2);
+            timer2.Interval = 300000; //number in milisecinds     // 300000 = 5 minute
+            timer2.Enabled = true;
         }
 
         public void onDebug()
@@ -526,6 +531,66 @@ namespace MyCortexService
                 WriteToFile(new String('-', 50));
                 WriteToFile(ex.StackTrace);
                 WriteToFile(new String('-', 50));
+            }
+        }
+
+        private void OnElapsedTime2(object source, ElapsedEventArgs e)
+        {
+            WriteToFile("Service started at " + DateTime.Now);
+
+            // Doctor Shift Expiry Notification to Doctor and Admin
+            // Start
+
+            try
+            {
+                string Event_Code = "";
+
+                AlertEvents AlertEventReturn = new AlertEvents();
+                IList<EmailListModel> EmailList;
+                Int64 Id = 0, Institution_Id, Patient_Id, Doctor_Id, APPOINTMENT_ID;
+
+                List<DataParameter> appoint_shi = new List<DataParameter>();
+                appoint_shi.Add(new DataParameter("@TYPE", "Get_Mail"));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_DOCTOR_SHIFT_FOR_EMAIL_NOTIFICATION]", appoint_shi);
+                if (dt.Rows.Count > 0)
+                {
+                    try
+                    {
+                        Id = Convert.ToInt64(dt.Rows[0]["id"].ToString());
+                        Institution_Id = Convert.ToInt64(dt.Rows[0]["INSTITUTION_ID"].ToString());
+                        Doctor_Id = Convert.ToInt64(dt.Rows[0]["DOCTOR_ID"].ToString());
+
+                        EmailList = AlertEventReturn.DoctorShift_AlertEvent((long)Id, (long)Institution_Id, "DOCTOR");
+
+                        IList<EmailListModel> EmailList2 = AlertEventReturn.DoctorShift_AlertEvent((long)Id, (long)Institution_Id, "HA");
+
+                        AlertEventReturn.Generate_SMTPEmail_Notification("DOCTOR_SHIFT_EXPIRY", Id, (long)Institution_Id, EmailList);
+
+                        AlertEventReturn.Generate_SMTPEmail_Notification("NOTIFY_ADMIN_DOCTOR_SHIFT_EXPIRY", Id, (long)Institution_Id, EmailList2);
+
+                        List<DataParameter> param1 = new List<DataParameter>();
+                        param1.Add(new DataParameter("@TYPE", "Update_Mail"));
+                        param1.Add(new DataParameter("@ID", Id));
+                        dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_DOCTOR_SHIFT_FOR_EMAIL_NOTIFICATION]", param1);
+                    }
+                    catch (Exception ex)
+                    {
+                        if (Id != 0)
+                        {
+                            List<DataParameter> param1 = new List<DataParameter>();
+                            param1.Add(new DataParameter("@TYPE", "Failed_Mail"));
+                            param1.Add(new DataParameter("@ID", Id));
+                            dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_DOCTOR_SHIFT_FOR_EMAIL_NOTIFICATION]", param1);
+                        }
+                        TraceException(ex);
+                    }
+                }
+
+                // End
+            }
+            catch (Exception ex)
+            {
+                TraceException(ex);
             }
         }
 

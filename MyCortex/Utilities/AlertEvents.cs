@@ -342,6 +342,12 @@ namespace MyCortex.Notification
             EmailListModel = repository.Patient_AppointmentCreation_AlertEvent(Institution_Id, Entity_Id, CGtype);
             return EmailListModel;
         }
+        public IList<EmailListModel> DoctorShift_AlertEvent(long Entity_Id, long Institution_Id, string CGtype = null)
+        {
+            IList<EmailListModel> EmailListModel;
+            EmailListModel = repository.DoctorShift_AlertEvent(Institution_Id, Entity_Id, CGtype);
+            return EmailListModel;
+        }
 
         public IList<EmailListModel> Patient_Appointment_Cancel_AlertEvent(long Entity_Id, long Institution_Id)
         {
