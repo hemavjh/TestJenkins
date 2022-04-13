@@ -658,6 +658,22 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         };
                     };
                     request.send();
+                } else {
+                    var request = new XMLHttpRequest();
+                    request.open('GET', picPath, true);
+                    request.responseType = 'blob';
+                    request.onload = function () {
+                        var reader = new FileReader();
+                        reader.readAsDataURL(request.response);
+                        reader.onload = function (e) {
+                            $scope.uploadmes = e.target.result;
+                            $scope.uploadme = $scope.uploadmes;
+                            $scope.uploadme1 = $scope.uploadmes;
+                            $scope.uploadme2 = $scope.uploadmes;
+                            $scope.$apply();
+                        };
+                    };
+                    request.send();
                 }
             }
         };
@@ -710,7 +726,36 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         };
                     };
                     request1.send();
-                
+
+                    var request = new XMLHttpRequest();
+                    request.open('GET', picPath, true);
+                    request.responseType = 'blob';
+                    request.onload = function () {
+                        var reader = new FileReader();
+                        reader.readAsDataURL(request.response);
+                        reader.onload = function (e) {
+                            $scope.uploadmes = e.target.result;
+                            $scope.uploadme = $scope.uploadmes;
+                            $scope.$apply();
+                        };
+                    };
+                    request.send();
+                } else {
+                    var request1 = new XMLHttpRequest();
+                    request1.open('GET', picPath1, true);
+                    request1.responseType = 'blob';
+                    request1.onload = function () {
+                        var reader1 = new FileReader();
+                        reader1.readAsDataURL(request1.response);
+                        reader1.onload = function (e) {
+                            $scope.uploadmes = e.target.result;
+                            $scope.uploadme1 = $scope.uploadmes;
+                            $scope.uploadme2 = $scope.uploadmes;
+                            $scope.$apply();
+                        };
+                    };
+                    request1.send();
+
                     var request = new XMLHttpRequest();
                     request.open('GET', picPath, true);
                     request.responseType = 'blob';
@@ -867,12 +912,28 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     picPath = "../../Images/female.png";
                 }
                 else if ($scope.GenderId == maleId) {
-                    picPath = "../../Images/male.png";
+                    picPath = "../../Images/Patient_Male.png";
                 }
                 else {
                     picPath = "../../Images/others.png";
                 }
                 if (photoview == false) {
+                    var request = new XMLHttpRequest();
+                    request.open('GET', picPath, true);
+                    request.responseType = 'blob';
+                    request.onload = function () {
+                        var reader = new FileReader();
+                        reader.readAsDataURL(request.response);
+                        reader.onload = function (e) {
+                            $scope.uploadmes = e.target.result;
+                            $scope.uploadme = $scope.uploadmes;
+                            $scope.uploadme1 = $scope.uploadmes;
+                            $scope.uploadme2 = $scope.uploadmes;
+                            $scope.$apply();
+                        };
+                    };
+                    request.send();
+                } else {
                     var request = new XMLHttpRequest();
                     request.open('GET', picPath, true);
                     request.responseType = 'blob';

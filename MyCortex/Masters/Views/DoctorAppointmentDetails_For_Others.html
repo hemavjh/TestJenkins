@@ -1,7 +1,10 @@
 ﻿<script>
     $(document).ready(function () {
         $('.activeButton').removeClass('activeButton');
-        document.getElementById("Appointments").className += 'activeButton';
+        if (document.getElementById("Appointments") != null && document.getElementById("Appointments") != undefined) {
+            document.getElementById("Appointments").className += 'activeButton';
+        }
+        $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
         $('#doctorlist').next().children(':nth-child(1)').css('width', '100%');
         $('#timezone').next().children(':nth-child(1)').css('width', '100%');
         $('#timezone').val(0);
@@ -20,7 +23,8 @@
         var maxDate = year + '-' + month + '-' + day;
         $('#SearchDate').attr('min', maxDate);
     });
-    function setdoc() { $('ul li .doc-opt:first').click(); }
+    function setdoc() { $('ul li .doc-opt:first').click(); $('ul li .doc-res:first').click(); }
+    function setres() { $('ul li .doc-res:first').click(); }
     function settimezone(id) {
         //$('#timezone').val(id);
         $('ul li .time'+id).click();
@@ -28,7 +32,7 @@
 </script>
 
 <ul class="secondaryMenu">
-    <li><a href="Home/Index#/DoctorAppointmentDetails">List</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/DoctorAppointmentDetails" data-menu="Home">List</a></li>
     <li><a href="Home/Index#/AppointmentApproval">Approval</a></li>
 </ul>
 
@@ -164,7 +168,7 @@
                                             data-live-search="true" data-selectpicker
                                             data-collection-name="AppointmentReasonTypeList" ng-model="ReasonTypeId">
                                         <option ng-repeat="sel in AppointmentReasonTypeList"
-                                                ng-required="true" value="{{sel.ReasonTypeId}}">
+                                                ng-required="true" class="doc-res" value="{{sel.ReasonTypeId}}">
                                             {{sel.ReasonType}}
                                         </option>
                                     </select>
@@ -188,10 +192,10 @@
                 </div>
                 <div class="modal-footer" style="text-align: center;">
                     <div class="col-sm-offset-2 col-sm-9">
-                        <button type="button" class="btn btn-save" ng-click="Update_CancelledAppointment()">
+                        <button type="button" class="theme-btn-2 btn-save" ng-click="Update_CancelledAppointment()">
                             Save
                         </button>
-                        <button type="button" class="btn btn-save" ng-click="Cancel_CancelledAppointment()">
+                        <button type="button" class="theme-btn-2 btn-save" ng-click="Cancel_CancelledAppointment()">
                             Cancel
                         </button>
                     </div>

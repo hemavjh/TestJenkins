@@ -295,16 +295,16 @@ namespace MyCortex.Repositories.Template
                     FieldName = dtRow1["FieldName"].ToString();
                     EncryptFlag = int.Parse(dtRow1["ENCRYPT_FLAG"].ToString());
                     TagsReplaceData = dtRow[FieldName].ToString();
-                    if (EncryptFlag == 1)
-                    {
-                        TagsReplaceData = DecryptFields.Decrypt(TagsReplaceData);
-                    }
+                    //if (EncryptFlag == 1)
+                    //{
+                    //    TagsReplaceData = DecryptFields.Decrypt(TagsReplaceData);
+                    //}
                     Template = FinalResult.Replace(TagName, TagsReplaceData);
-                    if (TemplateType_Id == 3)
-                    {
+                    //if (TemplateType_Id == 3)
+                    //{
                         Template = Template.Replace("<p>", "");
                         Template = Template.Replace("</p>", "");
-                    }
+                    //}
                 }
             }
             return new SendEmailModel

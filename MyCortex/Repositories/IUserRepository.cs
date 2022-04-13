@@ -33,7 +33,8 @@ namespace MyCortex.Repositories
         IList<ItemizedUserDetailsModel> PatientGroupNameList(long? PatientId);
         IList<PatientAllergiesNameListModels> PatientAllergiesNameList(long? PatientId);
         long GetInstitutionForWebURL(string request);
-        long GetInstitutionFromShortName(string INSTITUTION_CODE);
+        //long GetInstitutionFromShortName(string INSTITUTION_CODE);
+        IList<InstitutionShortCode> GetInstitutionFromShortName(string INSTITUTION_CODE);
 
         int Get_Exist_AnyUnEncryptedUser();
         string GetInstitutionName(string INSTITUTION_CODE);
@@ -49,7 +50,7 @@ namespace MyCortex.Repositories
         IList<PatientAppointmentsModel> PatientAppointmentList(long PatientId, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber);
         IList<PatientAppointmentsModel> CG_PatientAppointmentList(long Institution_Id, Guid Login_Session_Id, long UserId);
         IList<PatientAppointmentsModel> CG_Confirm_PatientAppointments(CG_PatientAppointmentConfirm obj);
-        IList<PatientAppointmentsModel> PatientPreviousAppointmentList(long PatientId, Guid Login_Session_Id);
+        IList<PatientAppointmentsModel> PatientPreviousAppointmentList(long PatientId, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber);
         IList<PatientChronicCondition_List> Chronic_Conditions(long PatientId);
         IList<ParametersListModel> GroupParameterNameList(long Patient_Id, long UnitGroupType_Id);
         IList<PatientInstituteModel> GETPATIENTINSTITUTION(long ID);

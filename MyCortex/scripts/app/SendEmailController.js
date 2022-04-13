@@ -42,6 +42,9 @@ SendEmailcontroller.controller("SendEmailController", ['$scope', '$http', '$filt
         $scope.NationalityList = [];
         $scope.loadCount = 0;
         $scope.TabClick = false;
+        $scope.Source_Id = "";
+        $scope.UserName = "";
+        $scope.ApiId = "";
 
         $scope.ResetPatientFilter = function () {
             $scope.Filter_PatientNo = "";
@@ -108,6 +111,12 @@ SendEmailcontroller.controller("SendEmailController", ['$scope', '$http', '$filt
         $scope.CountryNameList = [];
         $scope.StateNameList = [];
         $scope.CityNameList = [];
+
+        $http.get(baseUrl + 'api/SMSConfiguration/SMSConfiguration_View/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
+            $scope.Source_Id = data.Source_Id;
+            $scope.UserName = data.UserName;
+            $scope.ApiId = data.ApiId;
+        });
 
         $scope.CountryStateList = function () {
             $http.get(baseUrl + '/api/Common/CountryList/').success(function (data) {
@@ -251,6 +260,7 @@ SendEmailcontroller.controller("SendEmailController", ['$scope', '$http', '$filt
                     msgtype = "notification";
                 else if ($scope.PageParameter == "3")
                     msgtype = "sms";
+
                 Swal.fire({
                     
                     title: 'Do you like to send ' + msgtype + ' for selected users?',
@@ -277,7 +287,10 @@ SendEmailcontroller.controller("SendEmailController", ['$scope', '$http', '$filt
                                         Created_By: $scope.UserId,
                                         Institution_Id: $scope.InstitutionId,
                                         TemplateType_Id: $scope.PageParameter,
-                                        MobileNO: SelectedUser.MobileNO
+                                        MobileNO: SelectedUser.MobileNO,
+                                        SMSSource_Id: $scope.Source_Id,
+                                        SMSUserName:$scope.UserName,
+                                        SMSApiId:$scope.ApiId
                                     };
                                     $('#btnsave').attr("disabled", true);
                                     $scope.SelectedUserList.push(obj);

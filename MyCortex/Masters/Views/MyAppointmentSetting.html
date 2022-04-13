@@ -22,7 +22,7 @@
         <div class="flex padding-1 border-b">
             <div class="col-sm-6 p-0">
                 <p class="main">Time slot (in Minutes)</p>
-                <p class="secondary">Pre-defined default time invertal for Appointments</p>
+                <p class="secondary">Pre-defined default time Interval for Appointments</p>
             </div>
             <div class="col-sm-6 p-0 flex justify-end">
                 <div class="col-sm-4 p-0">
@@ -40,12 +40,38 @@
                 </div>
                 <div class="col-sm-4 p-0">
                     <div class="flex justify-end">
+                        <input type="text" class="input-size" ng-model="NewAppointmentPrice" ng-required="true"
+                               ng-init="NewAppointmentPrice=''" id="NewAppointmentPrice" onkeypress="OnlySpecCharNum(event)" name="NewAppointmentPrice"
+                               placeholder="" ng-maxlength="10" maxlength="10">
+                    </div>
+                    <p class="input-text text-right">
+                        Price
+                        <sup>
+                            <font class='mandatory-field'>*</font>
+                        </sup>
+                    </p>
+                </div>
+                <div class="col-sm-4 p-0">
+                    <div class="flex justify-end">
                         <input type="text" class="input-size" ng-model="followup"
                                ng-init="followup=''" id="FollowUp"
                                ng-required="true" onkeypress="OnlySpecCharNum(event)" name="FollowUp" placeholder="" ng-maxlength="2" maxlength="2">
                     </div>
                     <p class="input-text text-right">
                         Follow-Up<sup>
+                            <font class='mandatory-field'>*</font>
+                        </sup>
+                    </p>
+                </div>
+                <div class="col-sm-4 p-0">
+                    <div class="flex justify-end">
+                        <input type="text" class="input-size" ng-model="followupPrice" ng-required="true"
+                               ng-init="followupPrice=''" id="followupPrice" onkeypress="OnlySpecCharNum(event)" name="followupPrice"
+                               placeholder="" ng-maxlength="10" maxlength="10">
+                    </div>
+                    <p class="input-text text-right">
+                        Price
+                        <sup>
                             <font class='mandatory-field'>*</font>
                         </sup>
                     </p>
@@ -105,7 +131,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex padding-1 border-b">
+        <!--<div class="flex padding-1 border-b">
             <div class="col-sm-6 p-0">
                 <p class="main">Default Time Zone</p>
                 <p class="secondary">The default time zone for the calendar events</p>
@@ -121,7 +147,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
         <div class="flex padding-1 border-b">
             <div class="col-sm-6 p-0">
                 <p class="main">Default Working Days</p>
@@ -245,7 +271,7 @@
         </div>
         <div class="flex padding-1 border-b">
             <div class="col-sm-6 p-0">
-                <p class="main">Default Booking Conformation</p>
+                <p class="main">Default Booking Confirmation</p>
                 <p class="secondary">Confirm the appointment directly if a person is booking an appointment or keep it pending CG/CC to check and approve. Once the appointment is confirmed it should be notified to the people involved in the appointment.</p>
             </div>
             <div class="col-sm-6 flex justify-end">
@@ -262,7 +288,7 @@
         <div class="flex padding-1 border-b">
             <div class="col-sm-6 p-0">
                 <p class="main">Reminder to the User</p>
-                <p class="secondary">Time intervel to trigger reminders before the appointment</p>
+                <p class="secondary">Time Interval to trigger reminders before the appointment</p>
             </div>
             <div class="col-sm-6 flex p-0">
                 <div class="col-sm-12 p-0">

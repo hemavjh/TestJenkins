@@ -490,5 +490,20 @@ namespace MyCortex.User.Controller
             }
         }
 
+        [HttpGet]
+        public int DoctorShift_Editable(long Id)
+        {
+            try
+            {
+                int y = repository.DoctorShift_Editable(Id);
+                return y;
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return 0;
+            }
+        }
+
     }
 }

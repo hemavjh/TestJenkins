@@ -156,7 +156,7 @@ MyCortexControllers.service('browser', ['$window', function ($window) {
 /* THIS IS FOR LOGIN CONTROLLER FUNCTION */
 MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', '$rootScope', '$timeout', 'rememberMe', 'toastr',
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $rootScope, $timeout, $rememberMeService, toastr) {
-        //Declaration and initialization of Scope Variables.          
+        //Declaration and initialization of Scope Variables.  
         $scope.Id = "0";
         $scope.FirstName = "";
         $scope.MiddleName = "";
@@ -281,7 +281,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                 return false;
             }
             return true;
-        };
+        };      
         $http.get(baseUrl + '/api/Login/GetProduct_Details/').success(function (data) {
             $scope.ProductName1 = data[0].ProductName;
             var chk = $window.localStorage['inactivity_logout'];
@@ -304,7 +304,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
         });
         $http.get(baseUrl + '/api/Login/GetProduct_Details/').success(function (data) {
             $scope.PrdImg = data[0].ProductImg;
-            $scope.prdName = data[0].ProductName;
+            $scope.prdtname = data[0].ProductName;
         });
         $http.get(baseUrl + '/api/Login/getProductName/').success(function (data) {
             var ProductName = data;
@@ -849,6 +849,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $rootScope, $timeout, $rememberMeService, $ff, toastr) {
         //Declaration and initialization of Scope Variables.    
         $scope.InstitutionCode = $routeParams.InstitutionCode;
+        $scope.PatSignUpFlag = 1;
         $scope.InstitutionId = 0;
         $scope.Id = "0";
         $scope.FirstName = "";
@@ -903,9 +904,13 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
 
 
         $http.get(baseUrl + 'api/User/GetInstitutionFromCode/?Code=' + $scope.InstitutionCode).success(function (data) {
-            if (data !== 0) {
-                $scope.InstitutionId = data;
-                $scope.SelectedInstitutionId = data;
+            if (data[0].PatSignUpFlag == 0) {
+                $scope.PatSignUpFlag = data[0].PatSignUpFlag;
+                toastr.warning("You Haven't Subscribed For This Module. Please Contact Your Administrator", "warning" );
+            }
+            if (data[0].INSTITUTION_ID !== 0) {
+                $scope.InstitutionId = data[0].INSTITUTION_ID;
+                $scope.SelectedInstitutionId = data[0].INSTITUTION_ID;
                 //if ($scope.SelectedInstitutionId != "") {
                 $scope.ConfigCode = "MRN_PREFIX";
                 $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data2) {
@@ -1121,9 +1126,22 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             $scope.DOB = DateFormatEdit($scope.DOB);
             return true;
         };
+
         $http.get(baseUrl + '/api/Login/GetProduct_Details/').success(function (data) {
             $scope.PrdImg = data[0].ProductImg;
-            $scope.prdName = data[0].ProductName;
+            $scope.ProductName = data[0].ProductName;
+            if ($scope.ProductName == 'MyCortex') {
+                $scope.Productlogin = 0;
+            } else {
+                $scope.Productlogin = 1;
+            }
+
+            if ($scope.Productlogin == '1') {
+                document.getElementById('LoginSection').className = "loginBgHel";
+            }
+            else {
+                document.getElementById('LoginSection').className = "loginBgCor";
+            }
         });
 
         $http.get(baseUrl + '/api/Login/getProductName/').success(function (data) {
@@ -1143,77 +1161,83 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
 
         /*This is Insert Function for SignUp */
         $scope.SignupLogin_AddEdit = function () {
-            if ($scope.SignupLogin_AddEdit_Validations() == true) {
-                // window.location.href = baseUrl + "/Home/Index#;
-                $("#chatLoaderPV").show();
-                $('#submit').attr("disabled", true);
-                $scope.MobileNo_CC = document.getElementById("txthdFullNumber").value;
-                var tokendata = "UserName=admin&Password=admin&grant_type=password"
-                $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
-                    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
+            if ($scope.PatSignUpFlag == 1) {
+                if ($scope.SignupLogin_AddEdit_Validations() == true) {
+                    // window.location.href = baseUrl + "/Home/Index#;
+                    $("#chatLoaderPV").show();
+                    $('#submit').attr("disabled", true);
+                    $scope.MobileNo_CC = document.getElementById("txthdFullNumber").value;
+                    var tokendata = "UserName=admin&Password=admin&grant_type=password"
+                    $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
+                        $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
 
-                    var data = {
-                        Id: $scope.Id,
-                        INSTITUTION_CODE: $scope.InstitutionCode,
-                        FirstName: $scope.FirstName,
-                        MiddleName: $scope.MiddleName,
-                        LastName: $scope.LastName,
-                        NATIONALID: $scope.NationalId,
-                        INSURANCEID: $scope.InsuranceId,
-                        //MNR_NO: $scope.MNR_No,
-                        GENDER_ID: $scope.GenderId == 0 ? null : $scope.GenderId,
-                        NATIONALITY_ID: $scope.NationalityId == 0 ? null : $scope.NationalityId,
-                        DOB: $scope.DOB,
-                        EMAILID: $scope.EmailId,
-                        MOBILE_NO: $scope.MobileNo_CC,
-                        UserType_Id: $scope.UserTypeId,
-                        ApprovalFlag: 0,
-                        MrnPrefix: $scope.PrefixMRN,
-                        User_Id: $window.localStorage['UserId']
-                        //, INSTITUTION_ID: 1
-                    }
-                    var config = {
-                        headers: {
-                            'Authorization': 'Bearer ' + $window.localStorage['dFhNCjOpdzPNNHxx54e+0w==']
+                        var data = {
+                            Id: $scope.Id,
+                            INSTITUTION_CODE: $scope.InstitutionCode,
+                            FirstName: $scope.FirstName,
+                            MiddleName: $scope.MiddleName,
+                            LastName: $scope.LastName,
+                            NATIONALID: $scope.NationalId,
+                            INSURANCEID: $scope.InsuranceId,
+                            //MNR_NO: $scope.MNR_No,
+                            GENDER_ID: $scope.GenderId == 0 ? null : $scope.GenderId,
+                            NATIONALITY_ID: $scope.NationalityId == 0 ? null : $scope.NationalityId,
+                            DOB: $scope.DOB,
+                            EMAILID: $scope.EmailId,
+                            MOBILE_NO: $scope.MobileNo_CC,
+                            UserType_Id: $scope.UserTypeId,
+                            ApprovalFlag: 0,
+                            MrnPrefix: $scope.PrefixMRN,
+                            User_Id: $window.localStorage['UserId']
+                            //, INSTITUTION_ID: 1
                         }
-                    };
-                    //$http({
-                    //    method: 'POST',
-                    //    url: baseUrl + 'api/User/User_InsertUpdate/',
-                    //    headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': 'Bearer ' + $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] },
-                    //    data: data
-                    //}).success(function (data) {
-                    $http.post(baseUrl + 'api/User/User_InsertUpdate?Login_Session_Id={00000000-0000-0000-0000-000000000000}', data, config).success(function (data) {
-                        $("#chatLoaderPV").hide();
-                        if (data.ReturnFlag == 1) {
-                            //alert("You have been signed up successfully");
-                            toastr.success("You have been signed up successfully", "success");
-                            $scope.submitted = false;
-                            $('#submit').attr("disabled", false);
-                            $scope.CancelSignUpPopup();
-                        } else {
-                            //alert(data.Message);
-                            toastr.info(data.Message, "info");
-                            $scope.submitted = false;
-                            $('#submit').attr("disabled", false);
+                        var config = {
+                            headers: {
+                                'Authorization': 'Bearer ' + $window.localStorage['dFhNCjOpdzPNNHxx54e+0w==']
+                            }
+                        };
+                        //$http({
+                        //    method: 'POST',
+                        //    url: baseUrl + 'api/User/User_InsertUpdate/',
+                        //    headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': 'Bearer ' + $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] },
+                        //    data: data
+                        //}).success(function (data) {
+                        $http.post(baseUrl + 'api/User/User_InsertUpdate?Login_Session_Id={00000000-0000-0000-0000-000000000000}', data, config).success(function (data) {
+                            $("#chatLoaderPV").hide();
+                            if (data.ReturnFlag == 1) {
+                                //alert("You have been signed up successfully");
+                                toastr.success("You have been signed up successfully", "success");
+                                $scope.submitted = false;
+                                $('#submit').attr("disabled", false);
+                                $scope.CancelSignUpPopup();
+                            } else {
+                                //alert(data.Message);
+                                toastr.info(data.Message, "info");
+                                $scope.submitted = false;
+                                $('#submit').attr("disabled", false);
+                            }
+                            //if ($scope.MenuTypeId == 3) {
+                            //    $scope.ListRedirect();
+                            //}
+                        }).error(function (err) {
+                            $("#chatLoaderPV").hide();
+                            console.log(err);
+                            //alert(err);
+                            toastr.info("err", "info");
                         }
-                        //if ($scope.MenuTypeId == 3) {
-                        //    $scope.ListRedirect();
-                        //}
+                        );
+                        //$("#chatLoaderPV").hide();
                     }).error(function (err) {
-                        $("#chatLoaderPV").hide();
                         console.log(err);
-                        //alert(err);
-                        toastr.info("err", "info");
-                    }
-                    );
-                    //$("#chatLoaderPV").hide();
-                }).error(function (err) {
-                    console.log(err);
-                    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
-                    //alert('error');
-                    toastr.info("error", "info");
-                });
+                        $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
+                        //alert('error');
+                        toastr.info("error", "info");
+                    });
+                }
+            }
+            else {
+                toastr.warning("You Haven't Subscribed For This Module. Please Contact Your Administrator", "warning");
+                return false;
             }
         };
         //This is for Clear the values

@@ -31,6 +31,9 @@ namespace MyCortex.Notification.Models
         public string UserName { get; set; }
 
         public string mobile_no { get; set; }
+        public string SMSSourceId { get; set; }
+        public string SMSUserName { get; set; }
+        public string SMSApiId { get; set; }
     }
 
     public class Appointment_AlertEventModel

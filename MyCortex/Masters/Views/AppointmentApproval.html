@@ -1,13 +1,17 @@
 ﻿<script>
     $(document).ready(function () {
         $('.activeButton').removeClass('activeButton');
-        document.getElementById("Appointment").className += 'activeButton';
+        if (document.getElementById("Appointments") != null && document.getElementById("Appointments") != undefined) {
+            document.getElementById("Appointments").className += 'activeButton';
+        }
+        $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
     });
+    function setres() { $('ul li .doc-res:first').click(); }
 </script>
 
 <ul class="secondaryMenu">
     <li><a href="Home/Index#/DoctorAppointmentDetails">List</a></li>
-    <li><a href="Home/Index#/AppointmentApproval">Approval</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/AppointmentApproval" data-menu="Home">Approval</a></li>
 </ul>
 <h1 class="page-title">Appointment Approval</h1>
 
@@ -24,6 +28,7 @@
             <tr style="text-align: center">
                 <th st-ratio="5">S.No</th>
                 <th st-ratio="10" st-sort="Generic_Name">Patient Name</th>
+                <th st-ratio="10" st-sort="Generic_Name">Appointment Date</th>
                 <th st-ratio="8" st-sort="ToDate">Appointment Start Time</th>
                 <th st-ratio="8" st-sort="ToDate">Appointment End Time</th>
                 <th st-ratio="8">Approve</th>
@@ -43,18 +48,21 @@
                     <div class="textwrap">{{row.PatientName.length > 25 ? row.PatientName.substring(0,25)+"..." : row.PatientName}}</div>
                 </td>
                 <td style="text-align: left">
+                    {{row.Appointment_Date | date :'dd-MMM-yyyy' }}
+                </td>
+                <td style="text-align: left">
                     {{row.Appointment_FromTime2 }}
                 </td>
                 <td style="text-align: left">
                     {{row.Appointment_ToTime2 }}
                 </td>
                 <td style="text-align: center">
-                    <a href="javascript:void(0);" ng-click="ApproveAppointment(row.id)" title="Approve">
+                    <a href="javascript:void(0);" ng-click="ApproveAppointment(row.Id)" title="Approve">
                         <i class="fa fa-check" aria-hidden="true"></i>
                     </a>
                 </td>
                 <td style="text-align: center">
-                    <a href="javascript:void(0);" ng-click="CancelAppointment(row.id)" title="Cancel">
+                    <a href="javascript:void(0);" ng-click="CancelAppointment(row.Id)" title="Cancel">
                         <i class="fa fa-trash-o" aria-hidden="true"></i>
                     </a>
                 </td>
@@ -94,7 +102,7 @@
                                             data-live-search="true" data-selectpicker
                                             data-collection-name="AppointmentReasonTypeList" ng-model="ReasonTypeId">
                                         <option ng-repeat="sel in AppointmentReasonTypeList"
-                                                ng-required="true" value="{{sel.ReasonTypeId}}">
+                                                ng-required="true" class="doc-res" value="{{sel.ReasonTypeId}}">
                                             {{sel.ReasonType}}
                                         </option>
                                     </select>
@@ -118,10 +126,10 @@
                 </div>
                 <div class="modal-footer" style="text-align: center;">
                     <div class="col-sm-offset-2 col-sm-9">
-                        <button type="button" class="btn btn-save" ng-click="Update_CancelledAppointment()">
+                        <button type="button" class="theme-btn-2 btn-save" ng-click="Update_CancelledAppointment()">
                             Save
                         </button>
-                        <button type="button" class="btn btn-save" ng-click="Cancel_CancelledAppointment()">
+                        <button type="button" class="theme-btn-2 btn-save" ng-click="Cancel_CancelledAppointment()">
                             Cancel
                         </button>
                     </div>

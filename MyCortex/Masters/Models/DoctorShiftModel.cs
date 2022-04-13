@@ -23,6 +23,8 @@ namespace MyCortex.Masters.Models
         public DateTime ToDate { get; set; }
         public int NewAppointment { get; set; }
         public int FollowUp { get; set; }
+        public long NewAppointmentPrice { get; set; }
+        public long FollowUpPrice { get; set; }
         public int Intervel { get; set; }
         public int CustomSlot { get; set; }
         public int BookingOpen { get; set; }
@@ -188,6 +190,8 @@ namespace MyCortex.Masters.Models
         public long MyAppConfigId { get; set; }
         public int NewAppointmentDuration { get; set; }
         public int FollowUpDuration { get; set; }
+        public long NewAppointmentPrice { get; set; }
+        public long FollowUpPrice { get; set; }
         public int AppointmentInterval { get; set; }
         public int ReminderDays { get; set; }
         public int ReminderHours { get; set; }
