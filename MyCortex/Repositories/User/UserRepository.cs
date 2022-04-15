@@ -1787,10 +1787,11 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
-        public IntegrationAppHistoryModel IntegrationAppHistory_Details(long PatientId)
+        public IntegrationAppHistoryModel IntegrationAppHistory_Details(long PatientId, Guid Login_Session_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@USERID", PatientId));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
 
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try

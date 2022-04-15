@@ -1529,13 +1529,13 @@ namespace MyCortex.User.Controller
         }
 
         [HttpGet]
-        public HttpResponseMessage IntegrationAppHistory_Details(long Patient_Id)
+        public HttpResponseMessage IntegrationAppHistory_Details(long Patient_Id, Guid Login_Session_Id)
         {
             IntegrationAppHistoryModel ModelData = new IntegrationAppHistoryModel();
             IntegrationAppHistoryReturnModel model = new IntegrationAppHistoryReturnModel();
             try
             {
-                ModelData = repository.IntegrationAppHistory_Details(Patient_Id);
+                ModelData = repository.IntegrationAppHistory_Details(Patient_Id, Login_Session_Id);
                 model.Status = "True";
                 model.Message = "";
                 model.Error_Code = "";
