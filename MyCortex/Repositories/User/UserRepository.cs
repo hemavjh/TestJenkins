@@ -1713,6 +1713,7 @@ namespace MyCortex.Repositories.Uesr
         {
             List<DataParameter> param = new List<DataParameter>();
             PatientHealthDataModel list = null;
+            param.Add(new DataParameter("@SYNC_APPID", insobj.Sync_AppId));
             param.Add(new DataParameter("@ID", insobj.Id));
             param.Add(new DataParameter("@PATIENTID", insobj.Patient_Id));
             param.Add(new DataParameter("@PARAMETERID", insobj.ParameterId));
@@ -1778,6 +1779,32 @@ namespace MyCortex.Repositories.Uesr
                 return INS;
 
                 
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        public IntegrationAppHistoryModel IntegrationAppHistory_Details(long PatientId, Guid Login_Session_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@USERID", PatientId));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[INTEGRATION_APPS_HISTORY_DETAILS]", param);
+                IntegrationAppHistoryModel data = (from p in dt.AsEnumerable()
+                                                   select new IntegrationAppHistoryModel()
+                                                   {
+                                                       PatientId = p.Field<long>("USER_ID"),
+                                                       AppId = p.Field<long>("APP_ID"),
+                                                       AppType = p.Field<string>("APP_TYPE")
+                                                   }).FirstOrDefault();
+                return data;
             }
             catch (Exception ex)
             {

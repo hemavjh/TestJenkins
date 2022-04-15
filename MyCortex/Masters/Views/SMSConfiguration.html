@@ -9,6 +9,7 @@
     var inputPhoneNo = window.intlTelInput(input, {
         formatOnDisplay: true,
         separateDialCode: true,
+        onlyCountries: ['AE'],
         geoIpLookup: function (callback) {
             $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
                 var countryCode = (resp && resp.country) ? resp.country : "";
@@ -18,7 +19,7 @@
         //preferredCountries: ["in"],
         utilsScript: "scripts/utils.js",
     });
-
+    inputPhoneNo.setCountry('AE');
     //inputPhoneNo.setNumber("+91 98765 43210");
 
     function txtPhoneChange() {
@@ -27,7 +28,7 @@
 
         //var txtiso2 = document.getElementById("txthdCountryiso2").value;
         //alert(txtiso2);
-        //inputPhoneNo.setCountry(txtiso2);
+        
 
         const PhoneNumber = inputPhoneNo.getNumber();
         //alert(PhoneNumber);

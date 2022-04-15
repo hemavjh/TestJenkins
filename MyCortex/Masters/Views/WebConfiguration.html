@@ -121,14 +121,14 @@
         <option value="dd/mm/yyyy">dd/mm/yyyy</option>
     </select>-->
                     <div ng-if="row.CONFIGCODE=='LIVEDATA_STARTFROM' && IsEdit==true">
-                        <input style="margin-left: 5px !important;" type="radio" value="1" ng-model="Config_value[row.ID]"> 1
-                        <input style="margin-left: 5px !important" type="radio" value="2" ng-model="Config_value[row.ID]"> 2                     
+                        <input style="margin-left: 5px !important;" type="radio" value="1" ng-model="Config_value[row.ID]"  id="livedatastartfrom1"> 1
+                        <input style="margin-left: 5px !important" type="radio" value="2" ng-model="Config_value[row.ID]"  id="livedatastartfrom2"> 2
                     </div>
                     <div ng-if="row.CONFIGCODE=='LIVEDATA_STARTFROM' && IsEdit==false">
-                        <input style="margin-left: 5px !important;" type="radio" value="1" ng-model="Config_value[row.ID]" disabled> 1
-                        <input style="margin-left: 5px !important" type="radio" value="2" ng-model="Config_value[row.ID]" disabled> 2                        
+                        <input style="margin-left: 5px !important;" type="radio" value="1" ng-model="Config_value[row.ID]" id="livedatastartfrom1" disabled> 1
+                        <input style="margin-left: 5px !important" type="radio" value="2" ng-model="Config_value[row.ID]"  id="livedatastartfrom2" disabled> 2
                     </div>
-
+                   
                     <div ng-if="row.CONFIGCODE=='DATEFORMAT_TYPE' && IsEdit==true">
                         <input style="margin-left: 5px !important;" type="radio" value="mm/dd/yyyy" ng-model="Config_value[row.ID]"> mm/dd/yyyy
                         <input style="margin-left: 5px !important" type="radio" value="dd/mm/yy" ng-model="Config_value[row.ID]"> dd/mm/yy

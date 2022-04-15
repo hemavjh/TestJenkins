@@ -1584,6 +1584,7 @@ li.customDropdownlast-child:hover {
 
 .institutionLogo {
     max-height: 100px;
+    background-color: black;
 }
 
 .themeTable a {
