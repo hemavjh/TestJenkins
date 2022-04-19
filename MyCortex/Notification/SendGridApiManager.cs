@@ -154,29 +154,28 @@ namespace MyCortex.Email.SendGrid
                 MailMessage msg = new MailMessage();
                 msg.From = new MailAddress(nw.UserName, DisplayName);
 
-                foreach (EmailListModel email in EmailList)
+                //foreach (EmailListModel email in EmailList)
+                for(int i = 0; i < 1; i++)
                 {
-                    if (email.EmailType_Flag == 1)
-                        msg.To.Add(email.EmailId);
+                    if (EmailList[i].EmailType_Flag == 1 || EmailList[i].EmailType_Flag == 2)
+                        msg.To.Add(EmailList[i].EmailId);
 
-                    if (email.EmailType_Flag == 2)
-                        msg.CC.Add(email.EmailId);
+                    //if (email.EmailType_Flag == 2)
+                    //    msg.CC.Add(email.EmailId);
                 }
 
 
-                msg.Subject = alert.TempSubject;
-                msg.Body = alert.TempBody;
-                msg.IsBodyHtml = true;
-                msg.Priority = MailPriority.High;
-                msg.DeliveryNotificationOptions = DeliveryNotificationOptions.OnSuccess | DeliveryNotificationOptions.OnFailure;
-                //attachments
-                //msg.Attachments.Add(new Attachment(obj.AttachmentFile));
-                // System.Threading.Thread.Sleep(3000);
-                client.Send(msg);
-                client.Dispose();
-
-
-                msg.Dispose();
+                    msg.Subject = alert.TempSubject;
+                    msg.Body = alert.TempBody;
+                    msg.IsBodyHtml = true;
+                    msg.Priority = MailPriority.High;
+                    msg.DeliveryNotificationOptions = DeliveryNotificationOptions.OnSuccess | DeliveryNotificationOptions.OnFailure;
+                    //attachments
+                    //msg.Attachments.Add(new Attachment(obj.AttachmentFile));
+                    // System.Threading.Thread.Sleep(3000);
+                    client.Send(msg);
+                    client.Dispose();
+                    msg.Dispose();
                 repository.SendEmail_Update(mailId, "", 1, "");
                 return true;
             }

@@ -50,8 +50,10 @@ namespace MyCortex.Notification
             {
                 if (alertList.AlertEventEmailList != null)
                 {
-                    foreach (EmailListModel email in alertList.AlertEventEmailList)
+                    //foreach (EmailListModel email in alertList.AlertEventEmailList)
+                    for (int i = 0; i < alertList.AlertEventEmailList.Count; i++)
                     {
+                        EmailListModel email = alertList.AlertEventEmailList[i];
                         alert.TempBody = alert.TempBody.Replace("&nbsp;", " ").Replace("\n\n", Environment.NewLine);
                         IList<SendEmailModel> sendEmailModel = new List<SendEmailModel>();
                         SendEmailModel model = new SendEmailModel();
@@ -83,7 +85,9 @@ namespace MyCortex.Notification
                                 else
                                 {
                                     SendGridApiManager mail = new SendGridApiManager();
-                                    var res = mail.SendComposedSMTPEmail(emailModel, alert, alertList.AlertEventEmailList, sendEmailModel[0].Id);
+                                    IList<EmailListModel> em = new List<EmailListModel>();
+                                    em.Add(email);
+                                    var res = mail.SendComposedSMTPEmail(emailModel, alert, em, sendEmailModel[0].Id);
 
                                 }
 
@@ -340,6 +344,12 @@ namespace MyCortex.Notification
         {
             IList<EmailListModel> EmailListModel;
             EmailListModel = repository.Patient_AppointmentCreation_AlertEvent(Institution_Id, Entity_Id, CGtype);
+            return EmailListModel;
+        }
+        public IList<EmailListModel> DoctorShift_AlertEvent(long Entity_Id, long Institution_Id, string CGtype = null)
+        {
+            IList<EmailListModel> EmailListModel;
+            EmailListModel = repository.DoctorShift_AlertEvent(Institution_Id, Entity_Id, CGtype);
             return EmailListModel;
         }
 
