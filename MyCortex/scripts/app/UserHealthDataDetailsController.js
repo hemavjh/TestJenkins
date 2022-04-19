@@ -803,7 +803,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             if (data.IsCl) { $scope.bookCl = 4; }
                             if (data.IsSc) { $scope.bookSc = 7; }
                             if (data.IsPatient) { $scope.bookpa = 2; }
-                            $scope.NewAppointmentDuration = data.NewAppointmentDuration;
+                            if (data.MinRescheduleDays) { $scope.MakeMeLookBusy = data.MinRescheduleDays; }
+                            if (data.MinimumSlots) { $scope.MinimumSlots = data.MinimumSlots; }
+                            $scope.NewAppointmentDuration = data.NewAppointmentDuration; 
                             $scope.FollowUpDuration = data.FollowUpDuration;
                             if (data.MaxScheduleDays) {
                                 var futu_date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + data.MaxScheduleDays);
@@ -925,7 +927,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         var dt = moment(new Date()).format('DD-MM-YYYY');
                         var AppointmentDate = moment($scope.AppoimDate).format('DD-MM-YYYY');
                         $scope.DoctorListWithTimeZone = [];
-                        document.getElementById("show").disabled = true;
+                        document.getElementById("show").disabled = false;
                         if (($scope.AppoimDate != "" || $scope.AppoimDate != undefined) && (ParseDate(dt) > ParseDate($scope.AppoimDate))) {
                             toastr.warning("Please avoid past date as AppointmentDate", "warning");
                         }
@@ -1006,20 +1008,107 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $scope.AppoiFromTime = [];
                         $scope.AppoiToTime = [];
                         $scope.newAppoiTimeSlot = [];
+                        $scope.newAppoiTimeSlot1 = [];
+                        $scope.randomno = [];
                         var DoctorIDs = $scope.DoctorID;
                         var AppoDate = $scope.AppoimDate;
                         var res1 = convert(AppoDate);
                         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+
                         $http.get(baseUrl + '/api/PatientAppointments/GetDoctorAppointmentTimeSlot/?DoctorId=' + DoctorIDs + '&Date=' + res1 + '&IsNew=' + $scope.IsNew + '&Login_Session_Id=' + $scope.LoginSessionId + '&TimeZoneId=' + $scope.TimeZoneID + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data1) {
                             $("#appoint_waveLoader").hide();
                             $scope.newAppoiTimeSlot = data1.DoctorAppointmentTimeSlotList;
+                           
                             if ($scope.newAppoiTimeSlot.length == 0) {
                                 $scope.DataNotAvailible = 1;
                             } else {
                                 $scope.DataNotAvailible = 0;
                             }
+                            // This area for calculate make me look busy
+                            if ($scope.newAppoiTimeSlot.length > 0) {
+                                $scope.BookedSlot = 0;
+                                angular.forEach($scope.newAppoiTimeSlot, function (value, index) {
+                                    if (value.IsBooked == 1) {
+                                        $scope.BookedSlot = $scope.BookedSlot + 1;
+                                    }
+                                });
+                                $scope.AvailSlot = $scope.newAppoiTimeSlot.length - $scope.BookedSlot;
+                                $scope.CalcMakemeLookBusy = Math.round($scope.AvailSlot * ($scope.MakeMeLookBusy / 100));
+                                if ($scope.AvailSlot > $scope.MinimumSlots) {
+                                    for (i = 0; i < $scope.CalcMakemeLookBusy; i++) {
+                                        //get the random number
+                                        $scope.randomno1 = randomInt(1, $scope.AvailSlot);
+                                        //check slot is already booked and the index is equal to random no.
+                                        angular.forEach($scope.newAppoiTimeSlot, function (value, index) {
+                                            if (value.IsBooked == false && index == $scope.randomno1) {
+                                                //check current random number already exists in random array.
+                                                if ($scope.randomno.lastIndexOf($scope.randomno1) == -1) {
+                                                    $scope.randomno.push($scope.randomno1);
+                                                } else {
+                                                    i = i - 1;
+                                                }
+                                            }
+                                            //} else {
+                                            //    i = i - 1;
+                                            //}
+                                        });
+                                       
+                                    }
+                                    angular.forEach($scope.newAppoiTimeSlot, function (value, index) {
+                                        var object = {
+                                            AppointmentFromDateTime: value.AppointmentFromDateTime,
+                                            AppointmentToDateTime: value.AppointmentToDateTime,
+                                            FromTime: value.FromTime,
+                                            ToTime: value.ToTime,
+                                            AppointmentTime: value.AppointmentTime,
+                                            IsBooked: value.IsBooked==true ? 1 : false,
+                                            IdNo: index,
+                                            IsBusy: $scope.randomno.lastIndexOf(index + 1) == -1 ? false : true
+                                        }
+                                        $scope.newAppoiTimeSlot1.push(object);
+                                    });
+                                } else {
+                                    angular.forEach($scope.newAppoiTimeSlot, function (value, index) {
+                                        var object = {
+                                            AppointmentFromDateTime: value.AppointmentFromDateTime,
+                                            AppointmentToDateTime: value.AppointmentToDateTime,
+                                            FromTime: value.FromTime,
+                                            ToTime: value.ToTime,
+                                            AppointmentTime: value.AppointmentTime,
+                                            IsBooked: value.IsBooked == true ? 1 : false,
+                                            IdNo: index,
+                                            IsBusy: false
+                                        }
+                                        $scope.newAppoiTimeSlot1.push(object);
+                                    });
+                                    //$scope.newAppoiTimeSlot1= $scope.newAppoiTimeSlot;
+                                }
+                               
+                            } else {
+                                //$scope.newAppoiTimeSlot1=$scope.newAppoiTimeSlot;
+                                angular.forEach($scope.newAppoiTimeSlot, function (value, index) {
+                                    var object = {
+                                        AppointmentFromDateTime: value.AppointmentFromDateTime,
+                                        AppointmentToDateTime: value.AppointmentToDateTime,
+                                        FromTime: value.FromTime,
+                                        ToTime: value.ToTime,
+                                        AppointmentTime: value.AppointmentTime,
+                                        IsBooked: value.IsBooked == true ? 1 : false,
+                                        IdNo: index,
+                                        IsBusy: false
+                                    }
+                                    $scope.newAppoiTimeSlot1.push(object);
+                                });
+                            }
+                        //---------------------------------
                         }).error(function (data) { $("#appoint_waveLoader").hide(); });
+                       
                     }
+
+                    function randomInt(min, range) {
+                        return Math.floor((Math.random() * (range + 1)) + min)
+                    }
+
                     $scope.ddltimezonechange = function () { TimeSlot(); }
                     $scope.clickNewBooking = function () {
                         $scope.IsNew = 1;
@@ -3060,7 +3149,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             //$http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
            // $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
             $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
-                
+
                 //$scope.NewAppointment = data.NewAppointmentDuration;  
                 //if (data == null || data.length == 0 || data.DefautTimeZone == "" || data.DefautTimeZone == 0) {
                 if (data.length == 0 || data.TimeZone_ID == "" || data.TimeZone_ID == 0) {
