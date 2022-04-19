@@ -3501,7 +3501,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     IsDirectAppointment: $scope.confirmBook,
                     ReminderTimeInterval: $scope.AddReminderParameters,
                     IsAutoReschedule: $scope.AutoEnable,
-                    MaxScheduleDays: $scope.AppointmentDay
+                    MaxScheduleDays: $scope.AppointmentDay,
+                    MinimumSlots: $scope.Minimumslots
                 };
                 $('#save').attr("disabled", true);
                 console.log(obj)
