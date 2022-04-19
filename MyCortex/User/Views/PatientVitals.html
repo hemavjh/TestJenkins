@@ -790,7 +790,7 @@
 
                     <div class="mynotificationsWarnings mymediumPosition" ng-show="MediumParamCount>=0" ng-click="AlertCountredDisplay('medium')">
                         <div class="jinglebellmedium">
-                            <i ng-class="{'fas fa-bell mymediumBell': yellowcount == 'medium','fa fa-bell-o mymediumBell':yellowcount != 'medium'}" id="Medcount"  ng-show="MediumParamCount>=0"></i>
+                            <i ng-class="{'fas fa-bell mymediumBell': yellowcount == 'medium','fa fa-bell-o mymediumBell':yellowcount != 'medium'}" id="Medcount" ng-show="MediumParamCount>=0"></i>
                             <span ng-show="MediumParamCount>=0">{{MediumParamCount}}</span>
                         </div>
                     </div>
@@ -865,13 +865,14 @@
 
                     <br ng-if="ParameterValueList.length>=0" />
                     <div style="display:none" id="noalerts">
-                        <div ng-show="ParameterValueList.length==0" style="text-align:center">NO ALERTS ARE AVAILABLE 
-                        
+                        <div ng-show="ParameterValueList.length==0" style="text-align:center">
+                            NO ALERTS ARE AVAILABLE
+
                         </div>
                         <br />
 
                     </div>
-                    
+
                     <div class="row centerScroll" ng-show="ParameterValueList.length>=0" infinityscroll="NextPage('tableid',0)" ng-style="ParameterValueList.length !== 0 && {'height':425px}" style="display:none; " id="tableid">
                         <div class="col-sm-3" ng-repeat="row in ParameterValueList">
                             <div ng-class="{'alert alert-success nibp':row.LowCount>0,'alert alert-danger nibp':row.HighCount>0,'alert alert-warning nibp':row.MediumCount>0}">
@@ -902,8 +903,17 @@
                     </div>
 
 
+                    
+                    <div style="display:none" id="noalertsred">
+                        <br ng-if="HighCountVitalList.length>=0" />
+                        <div ng-show="HighCountVitalList.length==0" style="text-align:center">
+                            NO ALERTS ARE AVAILABLE
 
-                    <br ng-if="redcount=='high'" />
+                        </div>
+                        <br />
+
+                    </div>
+                    <!--<br ng-if="redcount=='high'" />-->
 
                     <div class="row centerScroll" ng-show="redcount=='high'&& HighCountVitalList.length>0" infinityscroll="NextPage('high',1)" style="height:425px;" id="high">
 
@@ -953,7 +963,16 @@
                         </div>
                     </div>
 
+                    
+                    <div style="display:none" id="noalertsyellow">
+                        <br ng-if="MediumCountVitalList.length>=0" />
+                        <div ng-show="MediumCountVitalList.length==0" style="text-align:center">
+                            NO ALERTS ARE AVAILABLE
 
+                        </div>
+                        <br />
+
+                    </div>
                     <div class="row centerScroll" ng-show="yellowcount=='medium'&&MediumCountVitalList.length>0" infinityscroll="NextPage('medium',2)" style="height:412px;" id="medium">
                         <!--<br  />-->
                         <div class="col-sm-3" ng-repeat="row in MediumCountVitalList">
@@ -1001,6 +1020,16 @@
                         </div>
                     </div>
                     <!--<br ng-if="greencount==2" />-->
+                    
+                    <div style="display:none" id="noalertsgreen">
+                        <br ng-if="LowCountVitalList.length>=0" />
+                        <div ng-show="LowCountVitalList.length==0" style="text-align:center">
+                            NO ALERTS ARE AVAILABLE
+
+                        </div>
+                        <br />
+
+                    </div>
                     <div class="row centerScroll" ng-show="greencount=='low' && LowCountVitalList.length>0" infinityscroll="NextPage('low',3)" style="height:412px;" id="low">
                         <br />
                         <div class="col-sm-3" ng-repeat="row in LowCountVitalList">
@@ -1019,8 +1048,11 @@
                                 <!--<span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-if="row.PageType=='D'">{{row.Device_No}}/</span>-->
                                 <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
                                 <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
+     v>
                             </div>
+                            di
                         </div>
+                        /d
                     </div>
                     <br ng-if="greencount==3" />
                     <div class="row" ng-show="ParameterValueList.length>=0" style="display: none" id="tableid6">
@@ -1757,6 +1789,8 @@
                                                                         {{ row.Remarks.length > 100 ? row.Remarks.substring(0,200)+ "..." : row.Remarks}}
                                                                     </div>
                                                                 </td>
+                                                                yl
+
                                                                 <td style="text-align: left">{{row.Active_From | date :'dd-MMM-yyyy'}} <br />{{row.Active_To | date :'dd-MMM-yyyy'}}</td>
                                                                 <td style="text-align: left; max-width:150px; word-wrap:break-word;">{{row.Created_By_Name }} <br /> {{row.Created_DT | date :'dd-MMM-yyyy hh:mm:ss a'}} </td>
 
@@ -1871,7 +1905,7 @@
                                                             </td>
                                                         </tr>
                                                         <tr ng-repeat="Allen in PatientAllergyemptydata">
-                                                            
+
                                                             <td class="textalign">{{((current_PatientAllergyPages-1)*page_size)+$index+1}}</td>
                                                             <td style="text-align: left; ">
                                                                 {{Allen.AllergyTypeName}} <input type="hidden" id="{{'alltypename'+ Allen.Id}}" ng-model="alltypename" value="{{Allen.AllergyTypeName}}" />
@@ -2241,7 +2275,7 @@
                                                         </a>
                                                     </div>
                                                     <div class="alert alert-success nibp" ng-if="row.Type_Id==2 && LiveData_IsImage(row.UOM_Name)==true">
-                                                        <img width="180" height="110" class="responsiveProfileImage" 
+                                                        <img width="180" height="110" class="responsiveProfileImage"
                                                              src="{{'data:image/png;base64,'+ row.LiveData_Blob}}" /><br />
                                                         <a href="javascript:" ng-click="Patient_OtherData_Image_View(row.Id,row.ParameterId)" title="View">
                                                             {{row.UOM_Name}}
@@ -2267,7 +2301,19 @@
                                     </div>
 
 
+                                    iv
+                                    
+
+                                    
+
                                 </div>
+
+
+                                
+
+                                
+
+                                iv
 
 
                             </div>
@@ -2282,6 +2328,7 @@
 
                         </div>
                     </div>
+
                     <!--<div class="col-sm-4">
     <div class="mt-15" ng-if="UserTypeId==2">
 

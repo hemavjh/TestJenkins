@@ -4062,6 +4062,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             }
             if ($scope.redcount == 'high' && $scope.redcount != 3) {
                 $scope.HighCountVitalList = [];
+                $('#noalertsyellow').hide();
+                $('#noalertsgreen').hide();
+                $('#noalerts').hide();
                 $('#chatLoaderPVhigh').show();
 
                 $scope.ConfigCode = "PATIENTPAGE_COUNT";
@@ -4071,8 +4074,14 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.PageStart = 0
                     $scope.PageEnd = $scope.high_count
                     $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd + '&AlertType=1').success(function (data) {
-
-                        $scope.HighCountVitalList = data;
+                        if (data.length != 0) {
+                            $scope.HighCountVitalList = data;
+                            $('#noalertsred').hide();
+                        }
+                        else {
+                            $('#noalertsred').show();
+                            
+                        }
                         $('#chatLoaderPVhigh').hide();
 
                     });
@@ -4080,6 +4089,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             }
             else if ($scope.yellowcount == 'medium' && $scope.yellowcount != 3) {
                 $scope.MediumCountVitalList = [];
+                $('#noalertsgreen').hide();
+                $('#noalertsred').hide();
+                $('#noalerts').hide();
                 $('#chatLoaderPVhigh').show();
                 $scope.ConfigCode = "PATIENTPAGE_COUNT";
                 $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
@@ -4088,8 +4100,15 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.PageStart = 0
                     $scope.PageEnd = $scope.medium_count
                     $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd + '&AlertType=2').success(function (data) {
+                        if (data.length != 0) {
 
-                        $scope.MediumCountVitalList = data;
+
+                            $scope.MediumCountVitalList = data;
+                            $('#noalertsyellow').hide();
+                        } else {
+                            $('#noalertsyellow').show();
+                            
+                        }
                         $('#chatLoaderPVhigh').hide();
 
                     });
@@ -4098,6 +4117,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             else {
                 if ($scope.greencount == 'low' && $scope.greencount != 3) {
                     $scope.LowCountVitalList = [];
+                    $('#noalertsyellow').hide();
+                    $('#noalertsred').hide();
+                    $('#noalerts').hide();
                     $('#chatLoaderPVhigh').show();
                     $scope.ConfigCode = "PATIENTPAGE_COUNT";
                     $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
@@ -4106,8 +4128,15 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $scope.PageStart = 0
                         $scope.PageEnd = $scope.low_count
                         $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd + '&AlertType=3').success(function (data) {
-
-                            $scope.LowCountVitalList = data;
+                            if (data.length != 0) {
+                                $scope.LowCountVitalList = data;
+                                
+                                $('#noalertsgreen').hide();
+                            }
+                            else {
+                                $('#noalertsgreen').show();
+                                
+                            }
                             $('#chatLoaderPVhigh').hide();
 
                         });
@@ -4118,6 +4147,12 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 $('#noalerts').hide();
             } else {
                 $('#noalerts').show();
+                $('#noalertsred').hide();
+                $('#noalertsyellow').hide();
+                $('#noalertsgreen').hide();
+
+
+               
             }
             
             //$scope.yellowcount = view_type;
