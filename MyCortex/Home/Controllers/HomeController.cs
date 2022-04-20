@@ -796,6 +796,27 @@ namespace MyCortex.Home.Controllers
             retid = patientAppointmentsRepository.PaymentStatusInfo_Insert(merchantOrderNumber, amount, OrderNumber, status, requestTime, notifyId, notifyTimeStamp);
             return Content("SUCCESS");
         }
+        [HttpPost]
+        public ActionResult SMSNotify()
+        {
+            int retid = 0;
+            Stream req = Request.InputStream;
+            req.Seek(0, System.IO.SeekOrigin.Begin);
+            string json = new StreamReader(req).ReadToEnd();
+            retid = patientAppointmentsRepository.Sms_Notify_Log(json);
+            //dynamic data = JsonConvert.DeserializeObject(json);
+
+            //string OrderNumber = data.acquireOrder.orderNo;
+            //string merchantOrderNumber = data.acquireOrder.merchantOrderNo;
+            //string amount = data.acquireOrder.totalAmount.amount;
+            //string status = data.acquireOrder.status;
+            //long requestTime = data.acquireOrder.requestTime;
+            //string notifyId = data.notify_id;
+            //long notifyTimeStamp = data.notify_timestamp;
+            ////string data1 = data.toString();
+            //retid = patientAppointmentsRepository.PaymentStatusInfo_Insert(merchantOrderNumber, amount, OrderNumber, status, requestTime, notifyId, notifyTimeStamp);
+            return Content("SUCCESS");
+        }
 
         [HttpPost]
         public ActionResult RefundNotify(long id, string merchantorderno)

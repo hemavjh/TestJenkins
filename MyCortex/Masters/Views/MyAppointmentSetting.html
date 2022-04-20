@@ -311,7 +311,7 @@
                                        ng-model="row.ReminderMinutes" maxlength="2"
                                        ng-maxlength="2" onkeypress="OnlySpecCharNum(event)" style="width:50px;" id="minutesst">
                                 <p>Minutes</p>
-                                <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Decrease' ng-click="remindDelete(row.Id,0)" ng-model="row.SelectedDelete" style="width: 20px;margin-left:10px;" id="ReminderDelete" />
+                                <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Delete' ng-click="remindDelete(row.Id,0)" ng-model="row.SelectedDelete" style="width: 20px;margin-left:10px;" id="ReminderDelete" />
                             </div>
 
                         </div>
@@ -356,7 +356,7 @@
                 <div class="d-flex justify-end reminder">
                     <input type="text" class="form-control myhomedropdown"
                            ng-model="ReduceNumberofavailableAppointmentes" maxlength="2"
-                           ng-maxlength="2" style="width:240px;" id="reduceappointments" onkeypress="OnlySpecCharNum(event)">
+                           ng-maxlength="2" style="width:240px;margin-right:10px" id="reduceappointments" onkeypress="OnlySpecCharNum(event)">
                 </div>
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" version="1.1" width="10" height="10" x="0" y="0" viewBox="0 0 443.615 443.615" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g>
                 <g xmlns="http://www.w3.org/2000/svg">
@@ -386,7 +386,7 @@
                 <div class="d-flex justify-end reminder">
                     <input type="text" class="form-control myhomedropdown"
                            ng-model="Minimumslots" maxlength="2"
-                           ng-maxlength="2" style="width:240px;" id="MinSlots" onkeypress="OnlySpecCharNum(event)">
+                           ng-maxlength="2" style="width:242px;margin-right:19px;" id="MinSlots" onkeypress="OnlySpecCharNum(event)">
                 </div>
                 
             </div>
