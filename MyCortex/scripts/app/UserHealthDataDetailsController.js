@@ -4075,6 +4075,10 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.medium_count = 0;
         $scope.low_count = 0;
         $scope.AlertCountredDisplay = function (view_type) {
+            $('#noalertsyellow').hide();
+            $('#noalertsred').hide();
+            $('#noalerts').hide();
+            $('#noalertsgreen').hide();
             var x = document.getElementById("tableid");
             var i = document.getElementById("tableid_img");
             if (view_type !== '') {
@@ -4102,10 +4106,10 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             }
             else {
                 $scope.redcount = "";
-                i.src = "../../Images/expand.gif"
-                x.style.display = "none";
-                document.getElementById('tableid_img').title = 'Click to Expand';
-                $('#tableid').hide();
+                //i.src = "../../Images/expand.gif"
+                //x.style.display = "none";
+                //document.getElementById('tableid_img').title = 'Click to Expand';
+                //$('#tableid').hide();
             }
             if ($scope.yellowcount != 'medium' && $scope.yellowcount!=3) {
                 $scope.yellowcount = view_type;
@@ -4123,10 +4127,10 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             }
             else {
                 $scope.yellowcount = "";
-                i.src = "../../Images/expand.gif"
-                x.style.display = "none";
-                document.getElementById('tableid_img').title = 'Click to Expand';
-                $('#tableid').hide();
+                //i.src = "../../Images/expand.gif"
+                //x.style.display = "none";
+                //document.getElementById('tableid_img').title = 'Click to Expand';
+                //$('#tableid').hide();
 
             }
             if ($scope.greencount != "low" && $scope.greencount!=3) {
@@ -4144,10 +4148,10 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
             } else {
                 $scope.greencount = "";
-                i.src = "../../Images/expand.gif"
-                x.style.display = "none";
-                document.getElementById('tableid_img').title = 'Click to Expand';
-                $('#tableid').hide();
+                //i.src = "../../Images/expand.gif"
+                //x.style.display = "none";
+                //document.getElementById('tableid_img').title = 'Click to Expand';
+                //$('#tableid').hide();
             }
             if ($scope.redcount == 'high' && $scope.redcount != 3) {
                 $scope.HighCountVitalList = [];
