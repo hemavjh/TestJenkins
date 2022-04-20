@@ -271,6 +271,42 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 $scope.Minutes = "0";
             }
         }
+        $scope.OrgBookInfoBusyDefaultClick = function (event) {
+            var checked = $('#OrgBookBusyInfoId').is(":checked")
+            if (checked == true) {
+                if (($scope.Days2 == "0" && $scope.Minutes2 == "0") || ($scope.Days2.toString().trim() == "" && $scope.Minutes2.toString().trim() == "")) {
+                    $("#chatLoaderPV").show();
+                    $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
+                        $("#chatLoaderPV").hide();
+                        if (data != null && data.length != 0) {
+                            //$scope.Days = data.MaxScheduleDays;
+                            //$scope.Minutes = data.MinRescheduleMinutes;
+                            //$scope.Days2 = data.MaxScheduleDays;
+                            //$scope.Minutes2 = data.MinRescheduleMinutes;
+                            //$scope.NewAppointment = data.NewAppointmentDuration;
+                            //$scope.followup = data.FollowUpDuration;
+                            //$scope.IntervalBt = data.AppointmentInterval;
+                            $scope.Makemelookbusy = data.MinRescheduleDays;
+                            $scope.MinimumSlots = data.MinimumSlots;
+                            //$scope.followup2 = data.FollowUpDuration;
+                            //$scope.NewAppointmentPrice2 = data.NewAppointmentPrice;
+                            //$scope.followupPrice2 = data.FollowUpPrice;
+                            //$scope.IntervalBt2 = data.AppointmentInterval;
+                        } else {
+                            $('#OrgBookInfoId').prop('checked', false);
+                        }
+                    }).error(function (data) {
+                        $("#chatLoaderPV").hide();
+                    });
+                } else {
+                    $scope.Days = $scope.Days2;
+                    $scope.Minutes = $scope.Minutes2;
+                }
+            } else {
+                $scope.Days = "0";
+                $scope.Minutes = "0";
+            }
+        }
 
         $scope.Shift1_SelectAllClick = function (event) {
             var checked = $('#Shift1Select').is(":checked")
@@ -1378,7 +1414,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                         CustomSlot: parseInt($scope.CustomSlot),
                         BookingOpen: $scope.Days,
                         BookingCancelLock: parseInt($scope.Minutes),
-                        SelectedDaysList: selectedCheckedDays
+                        SelectedDaysList: selectedCheckedDays,
+
                     };
                     $('#saveDoctorShift1').attr("disabled", true);
                     $('#saveDoctorShift2').attr("disabled", true);
@@ -1575,6 +1612,20 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             else if (typeof ($scope.Minutes) == "undefined" || $scope.Minutes == "0" || $scope.Minutes == '') {
                 //alert("Please Enter Minutes");
                 toastr.warning("Please Enter Minutes", "warning");
+                return false;
+            }
+            else if (typeof ($scope.MakeMeLookBusy) == "undefined" || $scope.MakeMeLookBusy == "0" || $scope.MakeMeLookBusy == '') {
+                //alert("Please Enter Minutes");
+                toastr.warning("Please Enter Make Me Look Busy Value", "warning");
+                return false;
+            } else if ($scope.MakeMeLookBusy>50) {
+                //alert("Please Enter Minutes");
+                toastr.warning("Please Enter Make Me Look Busy Value Below 50% or Equal", "warning");
+                return false;
+            }
+            else if (typeof ($scope.MinimumSlots) == "undefined" || $scope.MinimumSlots == "0" || $scope.MinimumSlots == '') {
+                //alert("Please Enter Minutes");
+                toastr.warning("Please Enter Minimum Slots", "warning");
                 return false;
             }
             //else if (($scope.FromDate !== null) && ($scope.ToDate !== null)) {
@@ -3239,6 +3290,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     $scope.AddReminderParameters = data.ReminderTimeInterval;
                     $scope.AutoEnable = data.IsAutoReschedule;
                     $scope.ReduceNumberofavailableAppointmentes = data.MinRescheduleDays;
+                    $scope.Minimumslots = data.MinimumSlots;
                     var weekly = data.DefaultWorkingDays.split(',');
 
                     angular.forEach(weekly, function (value, index) {
@@ -3357,6 +3409,11 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             else if (typeof ($scope.Minutest) == "undefined" || $scope.Minutest == "0") {
                 //alert("Please Enter Minutes");
                 toastr.warning("Please Enter Minutes", "warning");
+                return false;
+            }
+            if ($scope.ReduceNumberofavailableAppointmentes > 50) {
+                //alert("Please Enter Minutes");
+                toastr.warning("Please Enter the Value of Make Me Look Busy Should be 50% and Below ", "warning");
                 return false;
             }
 
