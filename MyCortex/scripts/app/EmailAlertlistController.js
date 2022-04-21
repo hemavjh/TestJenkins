@@ -72,8 +72,8 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
                     $scope.Eventtype = Selected.EventCode
                 }
             })
-            if ($scope.Eventtype == "DOCTOR_APPOINTMENT_REMINDER" || $scope.Eventtype == "PAT_APPOINTMENT_REMINDER" ||
-                $scope.Eventtype == "PASSWORD_EXPIRY" || $scope.Eventtype == "NEAR_PAT_LIMIT" || $scope.Eventtype == "NEAR_USR_LIMIT" ||
+            //if ($scope.Eventtype == "DOCTOR_APPOINTMENT_REMINDER" || $scope.Eventtype == "PAT_APPOINTMENT_REMINDER" ||
+               if ($scope.Eventtype == "PASSWORD_EXPIRY" || $scope.Eventtype == "NEAR_PAT_LIMIT" || $scope.Eventtype == "NEAR_USR_LIMIT" ||
                 $scope.Eventtype == "TARGET_DAILY" || $scope.Eventtype == "TARGET_WEEKLY") {
                 if ($scope.AlertDays != null) {
                     if (($scope.AlertDays + "") == "") {

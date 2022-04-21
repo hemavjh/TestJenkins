@@ -311,7 +311,7 @@
                                        ng-model="row.ReminderMinutes" maxlength="2"
                                        ng-maxlength="2" onkeypress="OnlySpecCharNum(event)" style="width:50px;" id="minutesst">
                                 <p>Minutes</p>
-                                <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Delete' ng-click="remindDelete(row.Id,0)" ng-model="row.SelectedDelete" style="width: 20px;margin-left:10px;" id="ReminderDelete" />
+                                <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Delete' ng-click="remindDelete(row.Id,$index)" ng-model="row.SelectedDelete" style="width: 20px;margin-left:10px;" id="ReminderDelete" />
                             </div>
 
                         </div>
