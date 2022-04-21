@@ -90,7 +90,14 @@ namespace MyCortex.Repositories.EmailAlert
                             TagName = dtRow1["TagsName"].ToString();
                             FieldName = dtRow1["FieldName"].ToString();
                             EncryptFlag = int.Parse(dtRow1["ENCRYPT_FLAG"].ToString());
-                            TagsReplaceData = dtRow[FieldName].ToString();
+                            if (Result_dt.Columns.Contains(FieldName))
+                            {
+                                TagsReplaceData = dtRow[FieldName].ToString();
+                            }
+                            else
+                            {
+
+                            }
 
                             //if (EncryptFlag == 1)
                             //{
@@ -390,6 +397,36 @@ namespace MyCortex.Repositories.EmailAlert
                 param.Add(new DataParameter("@Entity_Id", Entity_Id));
                 param.Add(new DataParameter("@CG_type", CGtype));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_SP_PATIENT_APPOINTMENTCREATION_GETEMAIL]", param);
+                List<EmailListModel> lst = (from p in dt.AsEnumerable()
+                                            select new EmailListModel()
+                                            {
+                                                UserId = p.Field<long>("UserId"),
+                                                UserName = p.Field<string>("FullName"),
+                                                EmailId = p.Field<string>("EmailId"),
+                                                EmailType_Flag = p.Field<int>("EmailSentType"),
+                                                mobile_no = p.Field<string>("mobile_no"),
+                                                SMSSourceId = p.Field<string>("SOURCE_ID"),
+                                                SMSUserName = p.Field<string>("USERNAME"),
+                                                SMSApiId = p.Field<string>("API_ID"),
+                                            }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+        public IList<EmailListModel> DoctorShift_AlertEvent(long Institution_Id, long Entity_Id, string type = null)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                param.Add(new DataParameter("@Institution_Id", Institution_Id));
+                param.Add(new DataParameter("@Entity_Id", Entity_Id));
+                param.Add(new DataParameter("@type", type));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_SP_DOCTOR_SHIFT_GETEMAIL]", param);
                 List<EmailListModel> lst = (from p in dt.AsEnumerable()
                                             select new EmailListModel()
                                             {

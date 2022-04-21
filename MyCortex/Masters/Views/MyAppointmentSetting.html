@@ -212,119 +212,120 @@
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" version="1.1" width="24" height="24" x="0" y="0" viewBox="0 0 515.555 515.555" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path xmlns="http://www.w3.org/2000/svg" d="m303.347 18.875c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138c25.166-25.167 65.97-25.167 91.138 0" fill="#cecece" data-original="#000000" style="" class="" /><path xmlns="http://www.w3.org/2000/svg" d="m303.347 212.209c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138c25.166-25.167 65.97-25.167 91.138 0" fill="#cecece" data-original="#000000" style="" class="" /><path xmlns="http://www.w3.org/2000/svg" d="m303.347 405.541c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138c25.166-25.167 65.97-25.167 91.138 0" fill="#cecece" data-original="#000000" style="" class="" /></g></svg>
             </div>
 
-        </div>
-    </div>
-    <div class="flex padding-1 border-b">
-        <div class="col-sm-6 p-0">
-            <p class="main">Holiday Booking</p>
-            <p class="secondary">Allowing user to book during holiday</p>
-        </div>
-        <div class="col-sm-6 flex justify-end p-0">
-            <div class="flex align-items-center m-right-3">
-                <input type="radio" id="bookenable_yes" name="bookenable" class="mr-1" value="1" ng-model="BookEnable" style="margin-right: 0.5rem;">
-                <p class="input-text text-right">Enable</p>
-            </div>
-            <div class="flex align-items-center">
-                <input type="radio" id="bookenable_no" name="bookenable" class="mr-1" value="0" ng-model="BookEnable" style="margin-right: 0.5rem;">
-                <p class="input-text text-right">Disable</p>
             </div>
         </div>
-    </div>
-    <div class="flex padding-1 border-b">
-        <div class="col-sm-6 p-0">
-            <p class="main">Booking Permissions</p>
-            <p class="secondary">Allowing user to book during holiday</p>
-        </div>
-        <div class="col-sm-6 flex justify-end">
-            <div class="m-right-4">
-                <div class="flex justify-center">
-                    <input type="checkbox" class="input-checkbox" name="cc" ng-init="checked=true" value="1" ng-model="cc">
+        <div class="flex padding-1 border-b">
+            <div class="col-sm-6 p-0">
+                <p class="main">Holiday Booking</p>
+                <p class="secondary">Allowing user to book during holiday</p>
+            </div>
+            <div class="col-sm-6 flex justify-end p-0">
+                <div class="flex align-items-center m-right-3">
+                    <input type="radio" id="bookenable_yes" name="bookenable" class="mr-1" value="1" ng-model="BookEnable" style="margin-right: 0.5rem;">
+                    <p class="input-text text-right">Enable</p>
                 </div>
-                <p class="input-text text-center mt-2">CC</p>
-            </div>
-            <div class="m-right-4">
-                <div class="flex justify-center">
-                    <input type="checkbox" class="input-checkbox" name="cg" ng-init="checked=true" value="1" ng-model="cg">
+                <div class="flex align-items-center">
+                    <input type="radio" id="bookenable_no" name="bookenable" class="mr-1" value="0" ng-model="BookEnable" style="margin-right: 0.5rem;">
+                    <p class="input-text text-right">Disable</p>
                 </div>
-                <p class="input-text text-center mt-2">CG</p>
-            </div>
-            <div class="m-right-4">
-                <div class="flex justify-center">
-                    <input type="checkbox" class="input-checkbox" name="cl" ng-init="checked=true" value="1" ng-model="cl">
-                </div>
-                <p class="input-text text-center mt-2">CL</p>
-            </div>
-            <div class="m-right-4">
-                <div class="flex justify-center">
-                    <input type="checkbox" class="input-checkbox" name="sc" ng-init="checked=true" value="1" ng-model="sc">
-                </div>
-                <p class="input-text text-center mt-2">SC</p>
-            </div>
-            <div class="">
-                <div class="flex justify-center">
-                    <input type="checkbox" class="input-checkbox" name="userpatient" ng-init="checked=true" value="1" ng-model="userpatient">
-                </div>
-                <p class="input-text text-center mt-2">USER</p>
             </div>
         </div>
-    </div>
-    <div class="flex padding-1 border-b">
-        <div class="col-sm-6 p-0">
-            <p class="main">Default Booking Confirmation</p>
-            <p class="secondary">Confirm the appointment directly if a person is booking an appointment or keep it pending CG/CC to check and approve. Once the appointment is confirmed it should be notified to the people involved in the appointment.</p>
-        </div>
-        <div class="col-sm-6 flex justify-end">
-            <div class="flex align-items-center m-right-3">
-                <input type="radio" name="confirm" id="confirmbook_yes" class="mr-1" value="1" ng-model="confirmBook" ng-init="checked=true" style="margin-right: 0.5rem;">
-                <p class="input-text text-right">Confirmed</p>
+        <div class="flex padding-1 border-b">
+            <div class="col-sm-6 p-0">
+                <p class="main">Booking Permissions</p>
+                <p class="secondary">Allowing user to book during holiday</p>
             </div>
-            <div class="flex align-items-center">
-                <input type="radio" name="confirm" id="confirmbook_no" class="mr-1" value="0" ng-model="confirmBook" ng-init="checked=false" style="margin-right: 0.5rem;">
-                <p class="input-text text-right">Waiting for CG</p>
-            </div>
-        </div>
-    </div>
-    <div class="flex padding-1 border-b">
-        <div class="col-sm-6 p-0">
-            <p class="main">Reminder to the User</p>
-            <p class="secondary">Time Interval to trigger reminders before the appointment</p>
-        </div>
-        <div class="col-sm-6 flex p-0">
-            <div class="col-sm-12 p-0">
-                <div class="col-sm-12 flex p-0" style="margin-left:100px;" ng-repeat="row in AddReminderParameters | filter : {IsActive :  1}">
-                    <p class="col-sm-3 p-0 reminder1">Reminder {{$index+1}}</p>
-                    <div class="col-sm-7 flex p-0">
-                        <div class="col-sm-4 flex reminder p-0">
-                            <input type="text" class="form-control"
-                                   ng-model="row.ReminderDays" maxlength="2"
-                                   ng-maxlength="2" onkeypress="OnlySpecCharNum(event)" style="width:50px;" id="Dayst">
-                            <p>Days</p>
-                        </div>
-                        <div class="col-sm-4 flex reminder p-0">
-                            <input type="text" class="form-control"
-                                   ng-model="row.ReminderHours" maxlength="2"
-                                   ng-maxlength="2" onkeypress="OnlySpecCharNum(event)" style="width:50px;" id="hoursst">
-                            <p>Hours</p>
-                        </div>
-                        <div class="col-sm-4 flex reminder p-0">
-                            <input type="text" class="form-control"
-                                   ng-model="row.ReminderMinutes" maxlength="2"
-                                   ng-maxlength="2" onkeypress="OnlySpecCharNum(event)" style="width:50px;" id="minutesst">
-                            <p>Minutes</p>
-                        </div>
-
+            <div class="col-sm-6 flex justify-end">
+                <div class="m-right-4">
+                    <div class="flex justify-center">
+                        <input type="checkbox" class="input-checkbox" name="cc" ng-init="checked=true" value="1" ng-model="cc">
                     </div>
-                    <!--<div class="col-sm-1">
-                    </div>-->
+                    <p class="input-text text-center mt-2">CC</p>
                 </div>
-                <div class="col-sm-2 flex justify-end align-items-center p-0">
-                    <!--<input type="image" src="../../Images/deleteNewIcon.png" title='Click to Delete Reminder Slot'
-                           ng-click="MyAppointmentDelete(row.ID,$index)" ng-model="row.SelectedReminder" style="width: 20px;" id="Deleteimage" />
-                    <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Add Reminder Slot'
-                           ng-click="MyAppointmentAdd(row.ID,$index)" ng-model="row.SelectedReminder" style="width: 20px;" id="Addimage" />-->
-                    <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Decrease' ng-click="remindDelete(row.Id,0)" ng-model="row.SelectedDelete" style="width: 20px;" id="ReminderDelete" />
-                    <a href="javascript:" title="Click to Add" style="color: #337ab7;" id="AppointmentReminderUser" ng-click="ReminderUserAdd()">|Add|</a>
+                <div class="m-right-4">
+                    <div class="flex justify-center">
+                        <input type="checkbox" class="input-checkbox" name="cg" ng-init="checked=true" value="1" ng-model="cg">
+                    </div>
+                    <p class="input-text text-center mt-2">CG</p>
                 </div>
+                <div class="m-right-4">
+                    <div class="flex justify-center">
+                        <input type="checkbox" class="input-checkbox" name="cl" ng-init="checked=true" value="1" ng-model="cl">
+                    </div>
+                    <p class="input-text text-center mt-2">CL</p>
+                </div>
+                <div class="m-right-4">
+                    <div class="flex justify-center">
+                        <input type="checkbox" class="input-checkbox" name="sc" ng-init="checked=true" value="1" ng-model="sc">
+                    </div>
+                    <p class="input-text text-center mt-2">SC</p>
+                </div>
+                <div class="">
+                    <div class="flex justify-center">
+                        <input type="checkbox" class="input-checkbox" name="userpatient" ng-init="checked=true" value="1" ng-model="userpatient">
+                    </div>
+                    <p class="input-text text-center mt-2">USER</p>
+                </div>
+            </div>
+        </div>
+        <div class="flex padding-1 border-b">
+            <div class="col-sm-6 p-0">
+                <p class="main">Default Booking Confirmation</p>
+                <p class="secondary">Confirm the appointment directly if a person is booking an appointment or keep it pending CG/CC to check and approve. Once the appointment is confirmed it should be notified to the people involved in the appointment.</p>
+            </div>
+            <div class="col-sm-6 flex justify-end">
+                <div class="flex align-items-center m-right-3">
+                    <input type="radio" name="confirm" id="confirmbook_yes" class="mr-1" value="1" ng-model="confirmBook" ng-init="checked=true" style="margin-right: 0.5rem;">
+                    <p class="input-text text-right">Confirmed</p>
+                </div>
+                <div class="flex align-items-center">
+                    <input type="radio" name="confirm" id="confirmbook_no" class="mr-1" value="0" ng-model="confirmBook" ng-init="checked=false" style="margin-right: 0.5rem;">
+                    <p class="input-text text-right">Waiting for CG</p>
+                </div>
+            </div>
+        </div>
+        <div class="flex padding-1 border-b">
+            <div class="col-sm-6 p-0">
+                <p class="main">Reminder to the User</p>
+                <p class="secondary">Time Interval to trigger reminders before the appointment</p>
+            </div>
+            <div class="col-sm-6 flex p-0">
+                <div class="col-sm-12 p-0">
+                    <div class="col-sm-12 flex p-0" style="margin-left:100px;" ng-repeat="row in AddReminderParameters | filter : {IsActive :  1}">
+                        <p class="col-sm-3 p-0 reminder1">Reminder {{$index+1}}</p>
+                        <div class="col-sm-7 flex p-0">
+                            <div class="col-sm-4 flex reminder p-0">
+                                <input type="text" class="form-control"
+                                       ng-model="row.ReminderDays" maxlength="2"
+                                       ng-maxlength="2" onkeypress="OnlySpecCharNum(event)" style="width:50px;" id="Dayst">
+                                <p>Days</p>
+                            </div>
+                            <div class="col-sm-4 flex reminder p-0">
+                                <input type="text" class="form-control"
+                                       ng-model="row.ReminderHours" maxlength="2"
+                                       ng-maxlength="2" onkeypress="OnlySpecCharNum(event)" style="width:50px;" id="hoursst">
+                                <p>Hours</p>
+                            </div>
+                            <div class="col-sm-4 flex reminder p-0">
+                                <input type="text" class="form-control"
+                                       ng-model="row.ReminderMinutes" maxlength="2"
+                                       ng-maxlength="2" onkeypress="OnlySpecCharNum(event)" style="width:50px;" id="minutesst">
+                                <p>Minutes</p>
+                                <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Delete' ng-click="remindDelete(row.Id,$index)" ng-model="row.SelectedDelete" style="width: 20px;margin-left:10px;" id="ReminderDelete" />
+                            </div>
+
+                        </div>
+                        <!--<div class="col-sm-1">
+                        </div>-->
+                    </div>
+                    <div class="col-sm-2 flex justify-end align-items-center p-0">
+                        <!--<input type="image" src="../../Images/deleteNewIcon.png" title='Click to Delete Reminder Slot'
+                               ng-click="MyAppointmentDelete(row.ID,$index)" ng-model="row.SelectedReminder" style="width: 20px;" id="Deleteimage" />
+                        <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Add Reminder Slot'
+                               ng-click="MyAppointmentAdd(row.ID,$index)" ng-model="row.SelectedReminder" style="width: 20px;" id="Addimage" />-->
+                        <!--<input type="image" src="../../Images/deleteNewIcon.png" title='Click to Decrease' ng-click="remindDelete(row.Id,0)" ng-model="row.SelectedDelete" style="width: 20px;" id="ReminderDelete" />-->
+                        <a href="javascript:" title="Click to Add" style="color: #337ab7;" id="AppointmentReminderUser" ng-click="ReminderUserAdd()">|Add|</a>
+                    </div>
 
             </div>
         </div>
@@ -355,7 +356,7 @@
                 <div class="d-flex justify-end reminder">
                     <input type="text" class="form-control myhomedropdown"
                            ng-model="ReduceNumberofavailableAppointmentes" maxlength="2"
-                           ng-maxlength="2" style="width:240px;" id="reduceappointments" onkeypress="OnlySpecCharNum(event)">
+                           ng-maxlength="2" style="width:240px;margin-right:10px" id="reduceappointments" onkeypress="OnlySpecCharNum(event)">
                 </div>
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" version="1.1" width="10" height="10" x="0" y="0" viewBox="0 0 443.615 443.615" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g>
                 <g xmlns="http://www.w3.org/2000/svg">
@@ -385,7 +386,7 @@
                 <div class="d-flex justify-end reminder">
                     <input type="text" class="form-control myhomedropdown"
                            ng-model="Minimumslots" maxlength="2"
-                           ng-maxlength="2" style="width:240px;" id="MinSlots" onkeypress="OnlySpecCharNum(event)">
+                           ng-maxlength="2" style="width:242px;margin-right:19px;" id="MinSlots" onkeypress="OnlySpecCharNum(event)">
                 </div>
                 
             </div>

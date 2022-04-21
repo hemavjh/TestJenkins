@@ -1528,6 +1528,35 @@ namespace MyCortex.User.Controller
             }
         }
 
+        [HttpGet]
+        public HttpResponseMessage IntegrationAppHistory_Details(long Patient_Id, Guid Login_Session_Id)
+        {
+            IntegrationAppHistoryModel ModelData = new IntegrationAppHistoryModel();
+            IntegrationAppHistoryReturnModel model = new IntegrationAppHistoryReturnModel();
+            try
+            {
+                ModelData = repository.IntegrationAppHistory_Details(Patient_Id, Login_Session_Id);
+                model.Status = "True";
+                model.Message = "";
+                model.Error_Code = "";
+                model.ReturnFlag = 1;
+                model.IntegrationAppHistory = ModelData;
+
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in getting Integration App History";
+                model.Error_Code = ex.Message;
+                model.ReturnFlag = 0;
+                model.IntegrationAppHistory = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>
