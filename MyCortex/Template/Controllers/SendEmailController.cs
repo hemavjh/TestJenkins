@@ -23,6 +23,7 @@ using MyCortex.Provider;
 using System.Net.Http.Headers;
 using System.Security.Cryptography.Xml;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 namespace MyCortex.Template.Controllers
 {
@@ -257,6 +258,14 @@ namespace MyCortex.Template.Controllers
                                 //{
                                 //    Console.WriteLine("{0}", d.Name);
                                 //}
+                                var dataObj1 = smsResponse.Content.ReadAsStringAsync().Result.ToString();
+                                var dataObj = JsonConvert.DeserializeObject<SMSResponseData>(dataObj1);
+
+                                model1.Id = ModelData[0].Id;
+                                model1.Email_Subject = model1.Email_Subject;
+                                model1.Email_Body = model1.Email_Body;
+                                model1.ResponseId = dataObj.Id;
+                                ModelData = repository.SendEmail_AddEdit(model1);
                                 repository.SendEmail_Update(ModelData[0].Id, "", 1, "");
                             }
                             else
@@ -598,6 +607,7 @@ namespace MyCortex.Template.Controllers
 
                             // List data response.
                             HttpResponseMessage smsResponse = client.GetAsync(SMSURL).Result;  // Blocking call! Program will wait here until a response is received or a timeout occurs.
+                            Console.WriteLine(client.GetAsync(SMSURL).Result);
                             if (smsResponse.IsSuccessStatusCode)
                             {
                                 repository.SendEmail_Update(ModelData[0].Id, "", 1, "");
