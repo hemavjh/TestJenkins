@@ -16,6 +16,7 @@ using MyCortex.Template.Models;
 using System.Text.RegularExpressions;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace MyCortex.Notification
 {
@@ -46,6 +47,9 @@ namespace MyCortex.Notification
         }
         public void SendAlert_Email_Notification(AlertEventResultModel alertList, EmailConfigurationModel emailModel, long Institution_Id, int emailType, long EntityId)
         {
+            IList<SendEmailModel> ModelData = new List<SendEmailModel>();
+            SendEmailModel model1 = new SendEmailModel();
+
             foreach (AlertEventModel alert in alertList.AlertEventTemplateList)
             {
                 if (alertList.AlertEventEmailList != null)
@@ -162,6 +166,19 @@ namespace MyCortex.Notification
                                 //    Console.WriteLine("{0}", d.Name);
                                 //}
                                 //sendemailrepository.SendEmail_Update(EntityId, "", 1, "");
+                                var dataObj = smsResponse.Content.ReadAsStringAsync().Result.ToString();
+                                var dataObj1 = JsonConvert.DeserializeObject<SMSResponseData>(dataObj);
+
+                                model.Id =sendEmailModel[0].Id;
+                                model.Institution_Id = Institution_Id;
+                                model.Template_Id = alert.Template_Id;
+                                model.UserId = alertList.AlertEventEmailList[0].UserId;
+                                model.Email_Body = alert.TempBody;
+                                model.Email_Subject = alert.TempSubject;
+                                model.Created_By = alertList.AlertEventEmailList[0].UserId;
+                                model.ResponseId = dataObj1.Id;                               
+                                ModelData = sendemailrepository.SendEmail_AddEdit(model);
+
                                 sendemailrepository.SendEmail_Update(sendEmailModel[0].Id, "", 1, "");
                             }
                             else
