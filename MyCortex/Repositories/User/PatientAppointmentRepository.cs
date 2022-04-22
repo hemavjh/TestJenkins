@@ -675,6 +675,19 @@ namespace MyCortex.Repositories.Uesr
             retid = ClsDataBase.Insert("[MYCORTEX].[PAYMENTPROVIDER_PAYMENTINFO]", param, true);
             return retid;
         }
+        public int SMSStatus_Update(string MessageId, string PNumber, string Status, string StatusCode, string MessageStatus)
+        {
+            int retid = 0;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@MESSAGEID", MessageId));
+            param.Add(new DataParameter("@PNUMBER", PNumber));
+            param.Add(new DataParameter("@STATUS", Status));
+            param.Add(new DataParameter("@STATUSCODE", StatusCode));
+            param.Add(new DataParameter("@MESSAGESTATUS", MessageStatus));
+            
+            retid = ClsDataBase.Insert("[MYCORTEX].[SMS_STATUS_UPDATE_SP]", param, true);
+            return retid;
+        }
 
         public int PaymentRefundStatusInfo_Insert(string merchantOrderNo, string originMerchantOrderNo, string amount, string OrderNo, string status, string notifyId, long notifyTimeStamp)
         {
