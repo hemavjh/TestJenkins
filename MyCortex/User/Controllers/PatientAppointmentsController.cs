@@ -15,6 +15,8 @@ using MyCortex.User.Model;
 using MyCortex.Notification;
 using MyCortex.Notification.Models;
 using MyCortex.Provider;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace MyCortex.User.Controller
 {
@@ -130,7 +132,8 @@ namespace MyCortex.User.Controller
         {
             IList<PatientAppointmentsModel> ModelData = new List<PatientAppointmentsModel>();
             PatientAppointmentsReturnModel model = new PatientAppointmentsReturnModel();
-
+            string TimeZoneName = insobj.TimeZoneName;
+            string UtcOffSet = insobj.UtcOffSet;
             if (!ModelState.IsValid)
             {
                 model.Status = "False";
@@ -188,6 +191,31 @@ namespace MyCortex.User.Controller
                     //EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)ModelData[0].Id, (long)insobj.Institution_Id);
 
                     //AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, ModelData[0].Id, (long)insobj.Institution_Id, EmailList);
+
+                    test(ModelData[0].Id, ModelData[0].AppointmentFromTime, ModelData[0].AppointmentToTime, TimeZoneName, UtcOffSet);
+
+                    //var calendar = new Ical.Net.Calendar();
+                    //foreach (var res in reg.Reservations)
+                    //{
+                    //    calendar.Events.Add(new Event
+                    //    {
+                    //        Class = "PUBLIC",
+                    //        Summary = res.Summary,
+                    //        Created = new CalDateTime(DateTime.Now),
+                    //        Description = res.Details,
+                    //        Start = new CalDateTime(Convert.ToDateTime(res.BeginDate)),
+                    //        End = new CalDateTime(Convert.ToDateTime(res.EndDate)),
+                    //        Sequence = 0,
+                    //        Uid = Guid.NewGuid().ToString(),
+                    //        Location = res.Location,
+                    //    });
+                    //}
+                    //var serializer = new CalendarSerializer(new SerializationContext());
+                    //var serializedCalendar = serializer.SerializeToString(calendar);
+                    //var bytesCalendar = Encoding.UTF8.GetBytes(serializedCalendar);
+                    //MemoryStream ms = new MemoryStream(bytesCalendar);
+                    //System.Net.Mail.Attachment attachment = new System.Net.Mail.Attachment(ms, "event.ics", "text/calendar");
+
                 }
 
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
@@ -202,6 +230,99 @@ namespace MyCortex.User.Controller
                 model.ReturnFlag = 0;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
+        }
+
+        public void test(long id, DateTime appoint_from, DateTime appoint_to, string TimeZoneName, string UtcOffSet)
+        {
+            try
+            {
+                UtcOffSet = UtcOffSet.Replace(":", "");
+                TimeZoneName = "Etc/UTC";
+                //some variables for demo purposes
+                DateTime DateStart = appoint_from;
+                DateTime DateEnd = appoint_to;
+                string Summary = "Appointment Details";
+                string Location = "Event location";
+                string Description = "Appointment Details";
+
+                //create a new stringbuilder instance
+                StringBuilder sb = new StringBuilder();
+
+                //start the calendar item
+                sb.AppendLine("BEGIN:VCALENDAR");
+                sb.AppendLine("VERSION:2.0");
+                sb.AppendLine("METHOD:REQUEST");
+                sb.AppendLine("PRODID:mycortexdev1.vjhsoftware.in");
+                sb.AppendLine("CALSCALE:GREGORIAN");
+                //create a time zone if needed, TZID to be used in the event itself
+                sb.AppendLine("BEGIN:VTIMEZONE");
+                sb.AppendLine("TZID:" + TimeZoneName);
+                sb.AppendLine("BEGIN:STANDARD");
+                sb.AppendLine("TZOFFSETTO:" + UtcOffSet);
+                sb.AppendLine("TZOFFSETFROM:" + UtcOffSet);
+                sb.AppendLine("END:STANDARD");
+                sb.AppendLine("END:VTIMEZONE");
+
+                //add the event
+                sb.AppendLine("BEGIN:VEVENT");
+                sb.AppendLine(string.Format("UID:{0}", Guid.NewGuid()));
+                sb.AppendLine(string.Format("DESCRIPTION:{0}", "Please Attend the Appointment with this schedule"));
+                sb.AppendLine(string.Format("X-ALT-DESC;FMTTYPE=text/html:{0}", "Please Attend the Appointment with this schedule"));
+                //with time zone specified
+                sb.AppendLine("DTSTART;TZID=" + TimeZoneName + ":" + DateStart.ToString("yyyyMMddTHHmm00"));
+                sb.AppendLine("DTEND;TZID=" + TimeZoneName + ":" + DateEnd.ToString("yyyyMMddTHHmm00"));
+                //or without
+                sb.AppendLine("DTSTART:" + DateStart.ToString("yyyyMMddTHHmm00"));
+                sb.AppendLine("DTEND:" + DateEnd.ToString("yyyyMMddTHHmm00"));
+                sb.AppendLine("SUMMARY:" + Summary + "");
+                sb.AppendLine("LOCATION:" + Location + "");
+                sb.AppendLine("DESCRIPTION:" + Description + "");
+                sb.AppendLine("PRIORITY:3");
+                sb.AppendLine("BEGIN:VALARM");
+                sb.AppendLine("TRIGGER:-PT15M");
+                sb.AppendLine("ACTION:DISPLAY");
+                sb.AppendLine("DESCRIPTION:Reminder");
+                sb.AppendLine("END:VALARM");
+                sb.AppendLine("END:VEVENT");
+
+                //end calendar item
+                sb.AppendLine("END:VCALENDAR");
+
+                //create a string from the stringbuilder
+                string CalendarItem = sb.ToString();
+
+                var createfolder = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("/Appointments/" + id.ToString() + "/"), "");  // DateTime.Now.ToString("dd-MM-yyyy")
+                if (!Directory.Exists(createfolder))
+                {
+                    System.IO.Directory.CreateDirectory(createfolder);
+                }
+                string fileName = createfolder + "/" + id.ToString() + ".ics";
+                if (File.Exists(fileName))
+                {
+                    File.Delete(fileName);
+                }
+
+                using (StreamWriter sw = File.CreateText(fileName))
+                {
+                    sw.WriteLine(CalendarItem);
+                }
+
+                ////send the calendar item to the browser
+                //HttpContext.Current.Response.ClearHeaders();
+                //HttpContext.Current.Response.Clear();
+                //HttpContext.Current.Response.Buffer = true;
+                //HttpContext.Current.Response.ContentType = "text/calendar";
+                //HttpContext.Current.Response.AddHeader("content-length", CalendarItem.Length.ToString());
+                //HttpContext.Current.Response.AddHeader("content-disposition", "attachment; filename=\"" + FileName + ".ics\"");
+                //HttpContext.Current.Response.Write(CalendarItem);
+                //HttpContext.Current.Response.Flush();
+                //HttpContext.Current.ApplicationInstance.CompleteRequest();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+            }
+
         }
 
         [HttpPost]

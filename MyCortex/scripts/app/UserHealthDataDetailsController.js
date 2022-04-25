@@ -1128,6 +1128,13 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
 
                             if ($scope.OldAppointmentID == null) {
+                                var TZ = $scope.TimeZoneList.filter(x => x.TimeZoneId == $scope.TimeZoneID);
+                                var TZname = "";
+                                var UtcOffSet = "";
+                                if (TZ.length > 0) {
+                                    TZname = TZ[0].TimeZoneDisplayName;
+                                    UtcOffSet = TZ[0].UtcOffSet;
+                                }
                                 var objectSave = {
                                     "Institution_Id": $scope.SelectedInstitutionId,
                                     "Doctor_Id": $scope.DoctorID,
@@ -1136,6 +1143,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                     "AppointmentFromTime": $scope.AppoiFromTime,
                                     "AppointmentToTime": $scope.AppoiToTime,
                                     "TimeZone_Id": $scope.TimeZoneID,
+                                    "TimeZoneName": TZname,
+                                    "UtcOffSet": UtcOffSet,
                                     "Appointment_Type": "1",
                                     "ReasonForVisit": document.getElementById("TextArea1").value,
                                     "Status": 1,

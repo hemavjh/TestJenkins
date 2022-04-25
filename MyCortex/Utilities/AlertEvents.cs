@@ -44,7 +44,7 @@ namespace MyCortex.Notification
             }
             return EventTemplatemodel;
         }
-        public void SendAlert_Email_Notification(AlertEventResultModel alertList, EmailConfigurationModel emailModel, long Institution_Id, int emailType, long EntityId)
+        public void SendAlert_Email_Notification(AlertEventResultModel alertList, EmailConfigurationModel emailModel, long Institution_Id, int emailType, long EntityId, string EventCode)
         {
             foreach (AlertEventModel alert in alertList.AlertEventTemplateList)
             {
@@ -87,7 +87,7 @@ namespace MyCortex.Notification
                                     SendGridApiManager mail = new SendGridApiManager();
                                     IList<EmailListModel> em = new List<EmailListModel>();
                                     em.Add(email);
-                                    var res = mail.SendComposedSMTPEmail(emailModel, alert, em, sendEmailModel[0].Id);
+                                    var res = mail.SendComposedSMTPEmail(emailModel, alert, em, sendEmailModel[0].Id, EventCode, EntityId);
 
                                 }
 
@@ -191,7 +191,7 @@ namespace MyCortex.Notification
                 AlertEventResultList.AlertEventTemplateList = AlertEventTemplate;
                 AlertEventResultList.AlertEventEmailList = EmailList;
 
-                SendAlert_Email_Notification(AlertEventResultList, null, Institution_Id, (int)EmailTypeVal.SendGrid, EntityId);
+                SendAlert_Email_Notification(AlertEventResultList, null, Institution_Id, (int)EmailTypeVal.SendGrid, EntityId, EventCode);
                 return 1;
             }
             catch(Exception ex)
@@ -217,7 +217,7 @@ namespace MyCortex.Notification
                 AlertEventResultList.AlertEventEmailList = EmailList;
 
 
-                SendAlert_Email_Notification(AlertEventResultList, emailModel, Institution_Id, (int)EmailTypeVal.SMTP, EntityId);
+                SendAlert_Email_Notification(AlertEventResultList, emailModel, Institution_Id, (int)EmailTypeVal.SMTP, EntityId, EventCode);
                 return 1;
             }
             catch (Exception ex)

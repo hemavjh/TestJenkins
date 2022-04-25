@@ -17,6 +17,7 @@ using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
 using MyCortex.Admin.Models;
+using System.IO;
 
 namespace MyCortex.Email.SendGrid
 {
@@ -98,7 +99,7 @@ namespace MyCortex.Email.SendGrid
         }
 
 
-        public Boolean SendComposedSMTPEmail(EmailConfigurationModel emailModel, AlertEventModel alert, IList<EmailListModel> EmailList, long mailId)
+        public Boolean SendComposedSMTPEmail(EmailConfigurationModel emailModel, AlertEventModel alert, IList<EmailListModel> EmailList, long mailId, string EventCode, long? EntityId)
         {
             try
             {
@@ -118,7 +119,7 @@ namespace MyCortex.Email.SendGrid
                 NetworkCredential nw = new NetworkCredential(Email, Password);
 
                 Boolean mailStatus = false;
-                mailStatus = SendComposedSMTPEmail(alert, nw, SMTPServer, ClientPort, DisplayName, SSL, EmailList, mailId);
+                mailStatus = SendComposedSMTPEmail(alert, nw, SMTPServer, ClientPort, DisplayName, SSL, EmailList, mailId, EventCode, EntityId);
                 return mailStatus;
             }
             catch
@@ -126,7 +127,7 @@ namespace MyCortex.Email.SendGrid
                 return false;
             }
         }
-        private Boolean SendComposedSMTPEmail(AlertEventModel alert, NetworkCredential nw, string SMTPServer, int Clientport, string DisplayName, Boolean SSL, IList<EmailListModel> EmailList, long mailId)
+        private Boolean SendComposedSMTPEmail(AlertEventModel alert, NetworkCredential nw, string SMTPServer, int Clientport, string DisplayName, Boolean SSL, IList<EmailListModel> EmailList, long mailId, string EventCode, long? EntityId)
         {
             try {
                 SmtpClient client = new SmtpClient(SMTPServer);
@@ -164,8 +165,28 @@ namespace MyCortex.Email.SendGrid
                     //    msg.CC.Add(email.EmailId);
                 }
 
+                if (EventCode == "PAT_APPOINTMENT_CREATION" || EventCode == "APPOINTMENT_APPROVAL" || EventCode == "APPOINTMENT_APPROVED")
+                {
+                    if (EntityId != 0)
+                    {
+                        var createfolder = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("/Appointments/" + EntityId.ToString() + "/"), "");  // DateTime.Now.ToString("dd-MM-yyyy")
+                        if (Directory.Exists(createfolder))
+                        {
+                            string fileName = createfolder + "/" + EntityId.ToString() + ".ics";
+                            if (File.Exists(fileName))
+                            {
+                                string contents = File.ReadAllText(fileName);
 
-                    msg.Subject = alert.TempSubject;
+                                System.Net.Mime.ContentType contype = new System.Net.Mime.ContentType("text/calendar");
+                                contype.Parameters.Add("method", "REQUEST");
+                                AlternateView avCal = AlternateView.CreateAlternateViewFromString(contents.ToString(), contype);
+                                msg.AlternateViews.Add(avCal);
+                            }
+                        }
+                    }
+                }
+
+                msg.Subject = alert.TempSubject;
                     msg.Body = alert.TempBody;
                     msg.IsBodyHtml = true;
                     msg.Priority = MailPriority.High;
