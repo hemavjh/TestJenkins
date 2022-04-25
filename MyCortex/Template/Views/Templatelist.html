@@ -49,7 +49,7 @@
 <h1 class="page-title">Email Template</h1>
 
 
-<div ng-init="EmailTemplatelist()">
+<div ng-init="EmailTemplatelist(); Eventselected();">
     <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
         <div></div>
         <div></div>
@@ -200,6 +200,34 @@
                                 <option value="1">User Creation</option>
                                 <option value="2">Institution And Subscription Creation</option>
                             </select>
+                            </div>
+                            <div class="inputGroups" ng-show="UserTypeId == 3">
+                                <label class="sub-title">
+                                    Select Alert Tag Type<sup>
+                                        <!--<font class='mandatory-field'>*</font>-->
+                                    </sup>
+                                </label>
+                                <select class="" data-style="form-control" ng-model="Event" id="AlertEventList" data-live-search="true"
+                                        data-selectpicker data-collection-name="AlertEvent"
+                                        ng-change="OnChangeTypeBasedTagList(Event)">
+                                    <option value="0">Select</option>
+                                    <option ng-repeat="sel in AlertEvent" ng-selected="Event==sel.Id" value="{{sel.EventName}}">
+                                        {{sel.EventName}}
+                                    </option>
+                                </select>
+                                <!--<select ng-model="SelectedDepartment" multiple="multiple" id="TagType" ng-change="onChangeDepartment()"
+                                        ng-options="item1.Id as item1.Department_Name for item1 in DepartmentList"
+                                        multiselect-dropdown style="width: 220px;"></select>-->
+                                                            <!--<select class="form-control" style="width: 382px;"
+                                ng-model="TagType" ng-change="OnChangeTypeBasedTagList(TagType)">
+                                <option ng-selected="true" value="0">Select</option>
+                                <option value="1">User Creation</option>
+                                <option value="2">Institution And Subscription Creation</option>-->
+                               <!-- <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="AppointmentReasonTypeList" ng-model="ReasonTypeId">
+                                    <option ng-repeat="sel in AppointmentReasonTypeList" ng-required="true" class="doc-res" value="{{sel.ReasonTypeId}}">
+                                        {{sel.ReasonType}}
+                                    </option>
+                                </select>-->
                             </div>
                         </div>
                         <div class="col-sm-8">
