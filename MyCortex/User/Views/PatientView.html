@@ -520,7 +520,20 @@
                                                         </table>
                                                     </td>
                                                 </tr>
+                                            </table>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="inputGroups">
+                                                        <label>
+                                                            Is there a family history of the health
+                                                            problem(s) ?
 
+                                                        </label>
+                                                        <span>{{FAMILYHEALTH_PROBLEMHISTORY==1?'Yes':FAMILYHEALTH_PROBLEMHISTORY==2?'No':""}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
                                                 <tr ng-hide="FAMILYHEALTH_PROBLEMHISTORY==2">
                                                     <td colspan="2">
                                                         <table class="table themeTable"
@@ -564,16 +577,9 @@
                                                 </tr>
 
                                             </table>
+
                                             <div class="row">
                                                 <div class="col-sm-6">
-                                                    <div class="inputGroups">
-                                                        <label>
-                                                            Is there a family history of the health
-                                                            problem(s) ?
-
-                                                        </label>
-                                                        <span>{{FAMILYHEALTH_PROBLEMHISTORY==1?'Yes':FAMILYHEALTH_PROBLEMHISTORY==2?'No':""}}</span>
-                                                    </div>
                                                     <div class="inputGroups">
                                                         <label>Immunizations/vaccinations ? </label>
                                                         <span> {{VACCINATIONS==1?'Yes':VACCINATIONS==2?'No':""}}</span>
@@ -626,8 +632,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
+                                            </div>
+                                        </div>
 
                                 <div class="panel panel-default bt-0 m-0 b-0 bs-0" ng-show="currentTab=='6'">
                                     <div id="collapse11" class="panel-collapse">

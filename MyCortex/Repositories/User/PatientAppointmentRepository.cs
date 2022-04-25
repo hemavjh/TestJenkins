@@ -637,6 +637,14 @@ namespace MyCortex.Repositories.Uesr
             retid = ClsDataBase.Insert("[MYCORTEX].[PAYMENTPROVIDER_NOTIFY_LOG]", param, true);
             return retid;
         }
+        public int Sms_Notify_Log(string LogText)
+        {
+            int retid = 0;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@LOG_TEXT", LogText));
+            retid = ClsDataBase.Insert("[MYCORTEX].[SMS_NOTIFY_LOG]", param, true);
+            return retid;
+        }
 
         public int PaymentStatus_Update(long appointmentId,string status, string merchantOrderNo)
         {

@@ -803,7 +803,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             if (data.IsCl) { $scope.bookCl = 4; }
                             if (data.IsSc) { $scope.bookSc = 7; }
                             if (data.IsPatient) { $scope.bookpa = 2; }
-                            $scope.NewAppointmentDuration = data.NewAppointmentDuration;
+                            if (data.MinRescheduleDays) { $scope.MakeMeLookBusy = data.MinRescheduleDays; }
+                            if (data.MinimumSlots) { $scope.MinimumSlots = data.MinimumSlots; }
+                            $scope.NewAppointmentDuration = data.NewAppointmentDuration; 
                             $scope.FollowUpDuration = data.FollowUpDuration;
                             if (data.MaxScheduleDays) {
                                 var futu_date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + data.MaxScheduleDays);
@@ -925,7 +927,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         var dt = moment(new Date()).format('DD-MM-YYYY');
                         var AppointmentDate = moment($scope.AppoimDate).format('DD-MM-YYYY');
                         $scope.DoctorListWithTimeZone = [];
-                        document.getElementById("show").disabled = true;
+                        document.getElementById("show").disabled = false;
                         if (($scope.AppoimDate != "" || $scope.AppoimDate != undefined) && (ParseDate(dt) > ParseDate($scope.AppoimDate))) {
                             toastr.warning("Please avoid past date as AppointmentDate", "warning");
                         }
@@ -1006,20 +1008,107 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $scope.AppoiFromTime = [];
                         $scope.AppoiToTime = [];
                         $scope.newAppoiTimeSlot = [];
+                        $scope.newAppoiTimeSlot1 = [];
+                        $scope.randomno = [];
                         var DoctorIDs = $scope.DoctorID;
                         var AppoDate = $scope.AppoimDate;
                         var res1 = convert(AppoDate);
                         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+
                         $http.get(baseUrl + '/api/PatientAppointments/GetDoctorAppointmentTimeSlot/?DoctorId=' + DoctorIDs + '&Date=' + res1 + '&IsNew=' + $scope.IsNew + '&Login_Session_Id=' + $scope.LoginSessionId + '&TimeZoneId=' + $scope.TimeZoneID + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data1) {
                             $("#appoint_waveLoader").hide();
                             $scope.newAppoiTimeSlot = data1.DoctorAppointmentTimeSlotList;
+                           
                             if ($scope.newAppoiTimeSlot.length == 0) {
                                 $scope.DataNotAvailible = 1;
                             } else {
                                 $scope.DataNotAvailible = 0;
                             }
+                            // This area for calculate make me look busy
+                            if ($scope.newAppoiTimeSlot.length > 0) {
+                                $scope.BookedSlot = 0;
+                                angular.forEach($scope.newAppoiTimeSlot, function (value, index) {
+                                    if (value.IsBooked == 1) {
+                                        $scope.BookedSlot = $scope.BookedSlot + 1;
+                                    }
+                                });
+                                $scope.AvailSlot = $scope.newAppoiTimeSlot.length - $scope.BookedSlot;
+                                $scope.CalcMakemeLookBusy = Math.round($scope.AvailSlot * ($scope.MakeMeLookBusy / 100));
+                                if ($scope.AvailSlot > $scope.MinimumSlots) {
+                                    for (i = 0; i < $scope.CalcMakemeLookBusy; i++) {
+                                        //get the random number
+                                        $scope.randomno1 = randomInt(1, $scope.AvailSlot);
+                                        //check slot is already booked and the index is equal to random no.
+                                        angular.forEach($scope.newAppoiTimeSlot, function (value, index) {
+                                            if (value.IsBooked == false && index == $scope.randomno1) {
+                                                //check current random number already exists in random array.
+                                                if ($scope.randomno.lastIndexOf($scope.randomno1) == -1) {
+                                                    $scope.randomno.push($scope.randomno1);
+                                                } else {
+                                                    i = i - 1;
+                                                }
+                                            }
+                                            //} else {
+                                            //    i = i - 1;
+                                            //}
+                                        });
+                                       
+                                    }
+                                    angular.forEach($scope.newAppoiTimeSlot, function (value, index) {
+                                        var object = {
+                                            AppointmentFromDateTime: value.AppointmentFromDateTime,
+                                            AppointmentToDateTime: value.AppointmentToDateTime,
+                                            FromTime: value.FromTime,
+                                            ToTime: value.ToTime,
+                                            AppointmentTime: value.AppointmentTime,
+                                            IsBooked: value.IsBooked==true ? 1 : false,
+                                            IdNo: index,
+                                            IsBusy: $scope.randomno.lastIndexOf(index + 1) == -1 ? false : true
+                                        }
+                                        $scope.newAppoiTimeSlot1.push(object);
+                                    });
+                                } else {
+                                    angular.forEach($scope.newAppoiTimeSlot, function (value, index) {
+                                        var object = {
+                                            AppointmentFromDateTime: value.AppointmentFromDateTime,
+                                            AppointmentToDateTime: value.AppointmentToDateTime,
+                                            FromTime: value.FromTime,
+                                            ToTime: value.ToTime,
+                                            AppointmentTime: value.AppointmentTime,
+                                            IsBooked: value.IsBooked == true ? 1 : false,
+                                            IdNo: index,
+                                            IsBusy: false
+                                        }
+                                        $scope.newAppoiTimeSlot1.push(object);
+                                    });
+                                    //$scope.newAppoiTimeSlot1= $scope.newAppoiTimeSlot;
+                                }
+                               
+                            } else {
+                                //$scope.newAppoiTimeSlot1=$scope.newAppoiTimeSlot;
+                                angular.forEach($scope.newAppoiTimeSlot, function (value, index) {
+                                    var object = {
+                                        AppointmentFromDateTime: value.AppointmentFromDateTime,
+                                        AppointmentToDateTime: value.AppointmentToDateTime,
+                                        FromTime: value.FromTime,
+                                        ToTime: value.ToTime,
+                                        AppointmentTime: value.AppointmentTime,
+                                        IsBooked: value.IsBooked == true ? 1 : false,
+                                        IdNo: index,
+                                        IsBusy: false
+                                    }
+                                    $scope.newAppoiTimeSlot1.push(object);
+                                });
+                            }
+                        //---------------------------------
                         }).error(function (data) { $("#appoint_waveLoader").hide(); });
+                       
                     }
+
+                    function randomInt(min, range) {
+                        return Math.floor((Math.random() * (range + 1)) + min)
+                    }
+
                     $scope.ddltimezonechange = function () { TimeSlot(); }
                     $scope.clickNewBooking = function () {
                         $scope.IsNew = 1;
@@ -3069,7 +3158,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             //$http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
            // $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
             $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
-                
+
                 //$scope.NewAppointment = data.NewAppointmentDuration;  
                 //if (data == null || data.length == 0 || data.DefautTimeZone == "" || data.DefautTimeZone == 0) {
                 if (data.length == 0 || data.TimeZone_ID == "" || data.TimeZone_ID == 0) {
@@ -3748,6 +3837,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             
             $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValueCount/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data1) {
                 $scope.ParameterValueListCount = data1;
+                $scope.HighParamCount = 0;
+                $scope.LowParamCount = 0;
+                $scope.MediumParamCount = 0;
                 angular.forEach($scope.ParameterValueListCount, function (value, index) {
                     //console.log(value);
                     $scope.HighParamCount = value.HighCount;
@@ -3992,6 +4084,10 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.medium_count = 0;
         $scope.low_count = 0;
         $scope.AlertCountredDisplay = function (view_type) {
+            $('#noalertsyellow').hide();
+            $('#noalertsred').hide();
+            $('#noalerts').hide();
+            $('#noalertsgreen').hide();
             var x = document.getElementById("tableid");
             var i = document.getElementById("tableid_img");
             if (view_type !== '') {
@@ -4019,10 +4115,10 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             }
             else {
                 $scope.redcount = "";
-                i.src = "../../Images/expand.gif"
-                x.style.display = "none";
-                document.getElementById('tableid_img').title = 'Click to Expand';
-                $('#tableid').hide();
+                //i.src = "../../Images/expand.gif"
+                //x.style.display = "none";
+                //document.getElementById('tableid_img').title = 'Click to Expand';
+                //$('#tableid').hide();
             }
             if ($scope.yellowcount != 'medium' && $scope.yellowcount!=3) {
                 $scope.yellowcount = view_type;
@@ -4040,10 +4136,10 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             }
             else {
                 $scope.yellowcount = "";
-                i.src = "../../Images/expand.gif"
-                x.style.display = "none";
-                document.getElementById('tableid_img').title = 'Click to Expand';
-                $('#tableid').hide();
+                //i.src = "../../Images/expand.gif"
+                //x.style.display = "none";
+                //document.getElementById('tableid_img').title = 'Click to Expand';
+                //$('#tableid').hide();
 
             }
             if ($scope.greencount != "low" && $scope.greencount!=3) {
@@ -4061,13 +4157,16 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
             } else {
                 $scope.greencount = "";
-                i.src = "../../Images/expand.gif"
-                x.style.display = "none";
-                document.getElementById('tableid_img').title = 'Click to Expand';
-                $('#tableid').hide();
+                //i.src = "../../Images/expand.gif"
+                //x.style.display = "none";
+                //document.getElementById('tableid_img').title = 'Click to Expand';
+                //$('#tableid').hide();
             }
             if ($scope.redcount == 'high' && $scope.redcount != 3) {
                 $scope.HighCountVitalList = [];
+                $('#noalertsyellow').hide();
+                $('#noalertsgreen').hide();
+                $('#noalerts').hide();
                 $('#chatLoaderPVhigh').show();
 
                 $scope.ConfigCode = "PATIENTPAGE_COUNT";
@@ -4077,8 +4176,14 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.PageStart = 0
                     $scope.PageEnd = $scope.high_count
                     $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd + '&AlertType=1').success(function (data) {
-
-                        $scope.HighCountVitalList = data;
+                        if (data.length != 0) {
+                            $scope.HighCountVitalList = data;
+                            $('#noalertsred').hide();
+                        }
+                        else {
+                            $('#noalertsred').show();
+                            
+                        }
                         $('#chatLoaderPVhigh').hide();
 
                     });
@@ -4086,6 +4191,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             }
             else if ($scope.yellowcount == 'medium' && $scope.yellowcount != 3) {
                 $scope.MediumCountVitalList = [];
+                $('#noalertsgreen').hide();
+                $('#noalertsred').hide();
+                $('#noalerts').hide();
                 $('#chatLoaderPVhigh').show();
                 $scope.ConfigCode = "PATIENTPAGE_COUNT";
                 $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
@@ -4094,8 +4202,15 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.PageStart = 0
                     $scope.PageEnd = $scope.medium_count
                     $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd + '&AlertType=2').success(function (data) {
+                        if (data.length != 0) {
 
-                        $scope.MediumCountVitalList = data;
+
+                            $scope.MediumCountVitalList = data;
+                            $('#noalertsyellow').hide();
+                        } else {
+                            $('#noalertsyellow').show();
+                            
+                        }
                         $('#chatLoaderPVhigh').hide();
 
                     });
@@ -4104,6 +4219,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             else {
                 if ($scope.greencount == 'low' && $scope.greencount != 3) {
                     $scope.LowCountVitalList = [];
+                    $('#noalertsyellow').hide();
+                    $('#noalertsred').hide();
+                    $('#noalerts').hide();
                     $('#chatLoaderPVhigh').show();
                     $scope.ConfigCode = "PATIENTPAGE_COUNT";
                     $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
@@ -4112,13 +4230,31 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $scope.PageStart = 0
                         $scope.PageEnd = $scope.low_count
                         $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd + '&AlertType=3').success(function (data) {
-
-                            $scope.LowCountVitalList = data;
+                            if (data.length != 0) {
+                                $scope.LowCountVitalList = data;
+                                
+                                $('#noalertsgreen').hide();
+                            }
+                            else {
+                                $('#noalertsgreen').show();
+                                
+                            }
                             $('#chatLoaderPVhigh').hide();
 
                         });
                     });
                 }
+            }
+            if (i.title == 'Click to Expand') {
+                $('#noalerts').hide();
+            } else {
+                $('#noalerts').show();
+                $('#noalertsred').hide();
+                $('#noalertsyellow').hide();
+                $('#noalertsgreen').hide();
+
+
+               
             }
             
             //$scope.yellowcount = view_type;

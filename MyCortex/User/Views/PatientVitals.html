@@ -25,6 +25,14 @@
         $('#ptDateTimePicker').attr('min', maxDate);      
     });
 </script>
+<style>
+    .lablewrap {
+        max-width: 54px;
+        height: 23px;
+        overflow: hidden;
+        float: left;
+    }
+</style>
 <!--<script src='Scripts/jquery-proper-slider.js'></script>
 <script src='Scripts/mixer.js'></script>-->
 <body>
@@ -782,7 +790,7 @@
 
                     <div class="mynotificationsWarnings mymediumPosition" ng-show="MediumParamCount>=0" ng-click="AlertCountredDisplay('medium')">
                         <div class="jinglebellmedium">
-                            <i ng-class="{'fas fa-bell mymediumBell': yellowcount == 'medium','fa fa-bell-o mymediumBell':yellowcount != 'medium'}" id="Medcount"  ng-show="MediumParamCount>=0"></i>
+                            <i ng-class="{'fas fa-bell mymediumBell': yellowcount == 'medium','fa fa-bell-o mymediumBell':yellowcount != 'medium'}" id="Medcount" ng-show="MediumParamCount>=0"></i>
                             <span ng-show="MediumParamCount>=0">{{MediumParamCount}}</span>
                         </div>
                     </div>
@@ -856,7 +864,16 @@
 
 
                     <br ng-if="ParameterValueList.length>=0" />
-                    <div class="row centerScroll" ng-show="ParameterValueList.length>=0" infinityscroll="NextPage('tableid',0)" style="display:none; height:425px;" id="tableid">
+                    <div style="display:none" id="noalerts">
+                        <div ng-show="ParameterValueList.length==0" style="text-align:center">
+                            NO ALERTS ARE AVAILABLE
+
+                        </div>
+                        <br />
+
+                    </div>
+
+                    <div class="row centerScroll" ng-show="ParameterValueList.length>=0" infinityscroll="NextPage('tableid',0)" ng-style="ParameterValueList.length !== 0 && {'height':425px}" style="display:none; " id="tableid">
                         <div class="col-sm-3" ng-repeat="row in ParameterValueList">
                             <div ng-class="{'alert alert-success nibp':row.LowCount>0,'alert alert-danger nibp':row.HighCount>0,'alert alert-warning nibp':row.MediumCount>0}">
                                 <div class="notificationsWarnings" ng-show="row.HighCount>0">
@@ -868,23 +885,35 @@
                                 <div class="notificationsWarnings" ng-show="row.LowCount>0">
                                     <i class="fas fa-bell lowBell" ng-show="row.LowCount>0"></i>
                                 </div>
-                                <strong>{{row.PageType}}:</strong>
-                                <strong>{{row.ParameterName}}</strong>&nbsp;&nbsp;{{row.UnitName =='' ?  '' : (row.UnitName)}}<br />
-                                <label>Set Value</label>
-                                <span>{{row.Average}}&nbsp;&nbsp;{{row.Com_DurationType =='' ?  '' : (row.Com_DurationType)}}</span><br />
-                                <label>Actual Value</label>
-                                <span>{{row.ParameterValue}}</span><br />
-                                <span ng-show="row.PageType=='C'"><br /></span>
-                                <span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-show="row.PageType=='D'">{{row.Device_No}}/</span>
-                                <span ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
-                                <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
+                                <div>
+                                    <strong>{{row.PageType}}:</strong>
+                                    <strong>{{row.ParameterName}}</strong>&nbsp;&nbsp;{{row.UnitName =='' ?  '' : (row.UnitName)}}<br />
+                                    <label>Set Value</label>
+                                    <span>{{row.Average}}&nbsp;&nbsp;{{row.Com_DurationType =='' ?  '' : (row.Com_DurationType)}}</span><br />
+                                    <label>Actual Value</label>
+                                    <span>{{row.ParameterValue}}</span><br />
+                                    <span ng-show="row.PageType=='C'"><br /></span>
+                                    <span class="lablewrap" data-toggle="tooltip" title={{row.DeviceType}} ng-show="row.PageType=='D'">{{row.DeviceType}}</span><span style="float:left">/</span><span class="lablewrap" data-toggle="tooltip" title={{row.Device_No}} ng-show="row.PageType=='D'">{{row.Device_No}}/</span><br />
+                                    <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                    <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
+                                </div>
                             </div>
+
                         </div>
                     </div>
 
 
+                    
+                    <div style="display:none" id="noalertsred">
+                        <br ng-if="HighCountVitalList.length>=0" />
+                        <div ng-show="HighCountVitalList.length==0" style="text-align:center">
+                            NO ALERTS ARE AVAILABLE
 
-                    <br ng-if="redcount=='high'" />
+                        </div>
+                        <br />
+
+                    </div>
+                    <!--<br ng-if="redcount=='high'" />-->
 
                     <div class="row centerScroll" ng-show="redcount=='high'&& HighCountVitalList.length>0" infinityscroll="NextPage('high',1)" style="height:425px;" id="high">
 
@@ -901,8 +930,8 @@
                                 <label>Actual Value</label>
                                 <span>{{row.ParameterValue}}</span><br />
                                 <span ng-show="row.PageType=='C'"><br /></span>
-                                <span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-show="row.PageType=='D'">{{row.Device_No}}/</span>
-                                <span ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                <span class="lablewrap" data-toggle="tooltip" title={{row.DeviceType}} ng-show="row.PageType=='D'">{{row.DeviceType}}</span><span style="float:left">/</span><span class="lablewrap" data-toggle="tooltip" title={{row.Device_No}} ng-show="row.PageType=='D'">{{row.Device_No}}/</span><br />
+                                <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
                                 <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                             </div>
                         </div>
@@ -927,14 +956,23 @@
                                 <label>Actual Value</label>
                                 <span>{{row.ParameterValue}}</span><br />
                                 <span ng-show="row.PageType=='C'"><br /></span>
-                                <span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-show="row.PageType=='D'">{{row.Device_No}}/</span>
-                                <span ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                <span class="lablewrap" data-toggle="tooltip" title={{row.DeviceType}} ng-show="row.PageType=='D'">{{row.DeviceType}}</span><span style="float:left">/</span><span class="lablewrap" data-toggle="tooltip" title={{row.Device_No}} ng-show="row.PageType=='D'">{{row.Device_No}}/</span><br />
+                                <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
                                 <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                             </div>
                         </div>
                     </div>
 
+                    
+                    <div style="display:none" id="noalertsyellow">
+                        <br ng-if="MediumCountVitalList.length>=0" />
+                        <div ng-show="MediumCountVitalList.length==0" style="text-align:center">
+                            NO ALERTS ARE AVAILABLE
 
+                        </div>
+                        <br />
+
+                    </div>
                     <div class="row centerScroll" ng-show="yellowcount=='medium'&&MediumCountVitalList.length>0" infinityscroll="NextPage('medium',2)" style="height:412px;" id="medium">
                         <!--<br  />-->
                         <div class="col-sm-3" ng-repeat="row in MediumCountVitalList">
@@ -949,8 +987,8 @@
                                 <label>Actual Value</label>
                                 <span>{{row.ParameterValue}}</span><br />
                                 <span ng-show="row.PageType=='C'"><br /></span>
-                                <span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-show="row.PageType=='D'">{{row.Device_No}}/</span>
-                                <span ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                <span class="lablewrap" data-toggle="tooltip" title={{row.DeviceType}} ng-show="row.PageType=='D'">{{row.DeviceType}}</span><span style="float:left">/</span><span class="lablewrap" data-toggle="tooltip" title={{row.Device_No}} ng-show="row.PageType=='D'">{{row.Device_No}}/</span><br />
+                                <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
                                 <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                             </div>
                         </div>
@@ -975,13 +1013,23 @@
                                 <label>Actual Value</label>
                                 <span>{{row.ParameterValue}}</span><br />
                                 <span ng-show="row.PageType=='C'"><br /></span>
-                                <span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-show="row.PageType=='D'">{{row.Device_No}}/</span>
-                                <span ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                <span class="lablewrap" data-toggle="tooltip" title={{row.DeviceType}} ng-show="row.PageType=='D'">{{row.DeviceType}}</span><span style="float:left">/</span><span class="lablewrap" data-toggle="tooltip" title={{row.Device_No}} ng-show="row.PageType=='D'">{{row.Device_No}}/</span><br />
+                                <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
                                 <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                             </div>
                         </div>
                     </div>
                     <!--<br ng-if="greencount==2" />-->
+                    
+                    <div style="display:none" id="noalertsgreen">
+                        <br ng-if="LowCountVitalList.length>=0" />
+                        <div ng-show="LowCountVitalList.length==0" style="text-align:center">
+                            NO ALERTS ARE AVAILABLE
+
+                        </div>
+                        <br />
+
+                    </div>
                     <div class="row centerScroll" ng-show="greencount=='low' && LowCountVitalList.length>0" infinityscroll="NextPage('low',3)" style="height:412px;" id="low">
                         <br />
                         <div class="col-sm-3" ng-repeat="row in LowCountVitalList">
@@ -996,11 +1044,15 @@
                                 <label>Actual Value</label>
                                 <span>{{row.ParameterValue}}</span><br />
                                 <span ng-show="row.PageType=='C'"><br /></span>
-                                <span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-if="row.PageType=='D'">{{row.Device_No}}/</span>
-                                <span ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                <span class="lablewrap" data-toggle="tooltip" title={{row.DeviceType}} ng-show="row.PageType=='D'">{{row.DeviceType}}</span><span style="float:left">/</span><span class="lablewrap" data-toggle="tooltip" title={{row.Device_No}} ng-show="row.PageType=='D'">{{row.Device_No}}/</span><br />
+                                <!--<span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-if="row.PageType=='D'">{{row.Device_No}}/</span>-->
+                                <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
                                 <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
+     v>
                             </div>
+                            di
                         </div>
+                        /d
                     </div>
                     <br ng-if="greencount==3" />
                     <div class="row" ng-show="ParameterValueList.length>=0" style="display: none" id="tableid6">
@@ -1022,8 +1074,9 @@
                                 <label>Actual Value</label>
                                 <span>{{row.ParameterValue}}</span><br />
                                 <span ng-show="row.PageType=='C'"><br /></span>
-                                <span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-show="row.PageType=='D'">{{row.Device_No}}/</span>
-                                <span ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                <span class="lablewrap" data-toggle="tooltip" title={{row.DeviceType}} ng-show="row.PageType=='D'">{{row.DeviceType}}</span><span style="float:left">/</span><span class="lablewrap" data-toggle="tooltip" title={{row.Device_No}} ng-show="row.PageType=='D'">{{row.Device_No}}/</span><br />
+                                <!--<span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-show="row.PageType=='D'">{{row.Device_No}}/</span>-->
+                                <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
                                 <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                             </div>
                         </div>
@@ -1146,7 +1199,7 @@
                             </ul>
 
                             <div class="panel panel-default patientProfileInfo bt-0">
-                                <div class="panel-body" style="overflow: auto;max-width: 787px;max-height: 605px;">
+                                <div class="panel-body" style="overflow: auto;max-width: 827px;max-height: 605px;">
 
                                     <div id="accordion">
 
@@ -1850,7 +1903,7 @@
                                                             </td>
                                                         </tr>
                                                         <tr ng-repeat="Allen in PatientAllergyemptydata">
-                                                            
+
                                                             <td class="textalign">{{((current_PatientAllergyPages-1)*page_size)+$index+1}}</td>
                                                             <td style="text-align: left; ">
                                                                 {{Allen.AllergyTypeName}} <input type="hidden" id="{{'alltypename'+ Allen.Id}}" ng-model="alltypename" value="{{Allen.AllergyTypeName}}" />
@@ -2220,7 +2273,7 @@
                                                         </a>
                                                     </div>
                                                     <div class="alert alert-success nibp" ng-if="row.Type_Id==2 && LiveData_IsImage(row.UOM_Name)==true">
-                                                        <img width="180" height="110" class="responsiveProfileImage" 
+                                                        <img width="180" height="110" class="responsiveProfileImage"
                                                              src="{{'data:image/png;base64,'+ row.LiveData_Blob}}" /><br />
                                                         <a href="javascript:" ng-click="Patient_OtherData_Image_View(row.Id,row.ParameterId)" title="View">
                                                             {{row.UOM_Name}}
@@ -2245,22 +2298,13 @@
 
                                     </div>
 
-
                                 </div>
-
 
                             </div>
 
-
-
-
-                            </
-
-
-
-
                         </div>
                     </div>
+
                     <!--<div class="col-sm-4">
     <div class="mt-15" ng-if="UserTypeId==2">
 
@@ -5846,8 +5890,8 @@
                                     <label>Sorry, slots not available for the day</label>
                                 </div>
                                 <div class="col-sm-12 flex flex-wrap mt-10">
-                                    <div class="col-sm-4 pointerview" ng-repeat="list in newAppoiTimeSlot">
-                                        <p class="time text-center" ng-click="ClickAppointment(list)" ng-class="{highframe : list === idSelectedAppoi, 'div-disabled': list.IsBooked}">{{list.AppointmentTime}}</p>
+                                    <div class="col-sm-4 pointerview" ng-repeat="list in newAppoiTimeSlot1">
+                                        <p class="time text-center" ng-click="ClickAppointment(list)" id="" ng-class="{highframe : list === idSelectedAppoi,  'div-disabled' : (list.IsBusy || list.IsBooked)}">{{list.AppointmentTime}}</p>
                                     </div>
                                 </div>
                                 <div ng-switch="AppointmoduleID" class="col-sm-12 flex mt-10">

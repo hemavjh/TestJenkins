@@ -198,6 +198,7 @@ namespace MyCortex.Masters.Models
         public int ReminderMinutes { get; set; }
         public string DefaultWorkingDays { get; set; }
         public string DefaultHoliDays { get; set; }
+        public int MinimumSlots { get; set; }
         public int Flag { get; set; }
         public IList<ReminderUserLists> ReminderTimeInterval { get; set; }
         //public IList<DefaultWorkingDays> DefaultWorkingDays { get; set; }
