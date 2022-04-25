@@ -178,6 +178,27 @@ namespace MyCortex.EmailAlert.Controllers
         }
 
         /// <summary>
+        /// to get list of Email alert detail of a institution
+        /// </summary>
+        /// <param name="Institution_Id">Institution Id</param>
+        /// <returns>list of Email alert detail of a institution</returns>
+        [HttpGet]
+        public IList<EventModel> DefaultAlertEvent_List(int Institution_Id)
+        {
+            IList<EventModel> model;
+            try
+            {
+                model = repository.DefaultAlertEvent_List(Institution_Id);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Email Template name list for the given filter
         /// </summary>
         /// <param name="TemplateType_Id">TemplateType Id</param>

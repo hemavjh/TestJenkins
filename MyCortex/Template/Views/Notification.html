@@ -57,7 +57,7 @@
 
 <h1 class="page-title">Notification Template</h1>
 <div ng-init="PageParameter='2'">
-    <div ng-init="EmailTemplatelist()">
+    <div ng-init="EmailTemplatelist(); Eventselected();">
         <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
             <div></div>
             <div></div>
@@ -171,7 +171,7 @@
 
 <!--Add&Edit Modal-->
 <div id="EmailTemplateModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog" style="width:70%">
+    <div class="modal-dialog" style="width:85%">
         <div class="modal-content" ng-init="EmailTemplatelist();TempMappinglist()">
             <form class="form-horizontal" role="form" ng-class="{'submitted': submitted}" ng-submit="EmailTemplateAddEdit()">
                 <div class="modal-header">
@@ -183,7 +183,7 @@
                 <div class="modal-body">
                     <!-- <form class="form-horizontal" role="form">-->
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-8">
                             <div class="inputGroups">
                                 <label>
                                     Template Name<sup>
@@ -195,7 +195,40 @@
                                        maxlength="100" onkeypress="" required />
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
+                            <div class="inputGroups" ng-show="UserTypeId == 1">
+                                <label class="sub-title">
+                                    Select Tag Type<sup>
+                                        <!--<font class='mandatory-field'>*</font>-->
+                                    </sup>
+                                </label>
+                                <!--<select ng-model="SelectedDepartment" multiple="multiple" id="TagType" ng-change="onChangeDepartment()"
+                                        ng-options="item1.Id as item1.Department_Name for item1 in DepartmentList"
+                                        multiselect-dropdown style="width: 220px;"></select>-->
+                                <select class="form-control" style="width: 382px;"
+                                ng-model="TagType" ng-change="OnChangeTypeBasedTagList(TagType)">
+                                <option ng-selected="true" value="0">Select</option>
+                                <option value="1">User Creation</option>
+                                <option value="2">Institution And Subscription Creation</option>
+                            </select>
+                            </div>
+                            <div class="inputGroups" ng-show="UserTypeId == 3">
+                                <label class="sub-title">
+                                    Select Alert Tag Type<sup>
+                                        <!--<font class='mandatory-field'>*</font>-->
+                                    </sup>
+                                </label>
+                                <select class="" data-style="form-control" ng-model="Event" id="AlertEventList" data-live-search="true"
+                                        data-selectpicker data-collection-name="AlertEvent"
+                                        ng-change="OnChangeTypeBasedTagList(Event)">
+                                    <option value="0">Select</option>
+                                    <option ng-repeat="sel in AlertEvent" ng-selected="Event==sel.Id" value="{{sel.EventName}}">
+                                        {{sel.EventName}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
                             <div class="inputGroups">
                                 <label>
                                     Notification Title<sup>
@@ -207,7 +240,7 @@
                                        maxlength="100" onkeypress="" required />
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-8">
                             <div class="inputGroups">
                                 <label>
                                     Notification Message<sup>
@@ -224,10 +257,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="inputGroups">
                                 <label>Tag Name</label>
-                                <ul style="list-style-type:none;padding:15px; border:1px solid #b5b5b7; width: 100%;border-radius:3%;max-height: 250px;overflow: auto;"
+                                <ul style="list-style-type:none;padding:10px; border:1px solid #b5b5b7; width: 100%;border-radius:3%;max-height: 350px;overflow: auto;"
                                     id="allfields">
                                     <li class="list" id="node1" draggable="true" ondragstart="dragstart_handler(event);"
                                         ng-repeat="row in TemplateTagMappingList" ng-model="TagName">
@@ -257,7 +290,7 @@
 
 <!--View Modal-->
 <div id="EmailTemplateViewModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog" style="width:50%">
+    <div class="modal-dialog" style="width: 70%">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopup()">

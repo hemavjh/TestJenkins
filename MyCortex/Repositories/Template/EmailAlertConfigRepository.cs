@@ -252,6 +252,42 @@ namespace MyCortex.Repositories.EmailAlert
                 return null;
             }
         }
+
+        /// <summary>
+        /// to get list of Email alert detail of a institution
+        /// </summary>
+        /// <param name="Institution_Id">Institution Id</param>
+        /// <returns>list of Email alert detail of a institution</returns>
+        public IList<EventModel> DefaultAlertEvent_List(int Institution_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                param.Add(new DataParameter("@Institution_Id", Institution_Id));
+                //param.Add(new DataParameter("@Status", status));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALL_ALERTEVENTMASTER_SP_LIST]", param);
+                List<EventModel> lst = (from p in dt.AsEnumerable()
+                                        select new EventModel()
+                                        {
+                                            Id = p.Field<long>("Id"),
+                                            Institution_Id = p.Field<long>("INSTITUTION_ID"),
+                                            Institution_Name = p.Field<string>("INSTITUTION_NAME"),
+                                            EventName = p.Field<string>("EVENTNAME"),
+                                            EventType_Id = p.Field<long>("EVENTTYPE_ID"),
+                                            Name = p.Field<string>("EVENTTYPENAME"),
+                                            IsActive = p.Field<int>("ISACTIVE"),
+                                            EventCode = p.Field<string>("EVENT_CODE"),
+                                        }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
         /// <summary>
         /// Email Template name list for the given filter
         /// </summary>
