@@ -139,11 +139,20 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
             else if (EmailSectionType == "Notify to Admin for Expiring Doctor Shift Expiry")
                 $scope.SectionType = "DOCTOR_SHIFT";
             else if (EmailSectionType == "Payment Success")
-                $scope.SectionType = "BASIC,DOCTOR_SHIFT";
+                $scope.SectionType = "APPOINTMENT,DOCTOR_SHIFT";
             else if (EmailSectionType == "Payment Failure")
-                $scope.SectionType = "BASIC,DOCTOR_SHIFT";
+                $scope.SectionType = "APPOINTMENT,DOCTOR_SHIFT";
             else (EmailSectionType == "0" || EmailSectionType == null || EmailSectionType == undefined || EmailSectionType == "")
                 $scope.TemplateTagMappingList = [];
+            if ($scope.PageParameter == 1) {
+                $scope.Type = "1"; //For Email
+            }
+            else if ($scope.PageParameter == 2) {
+                $scope.Type = "2";//For Notification
+            }
+            else if ($scope.PageParameter == 3) {
+                $scope.Type = "3";//For SMS
+            }
             $http.get(baseUrl + '/api/EmailTemplate/SectionEmailTemplateTagMapping_List/?Id=' + $scope.Type + '&Institution_Id=' + $scope.InstituteId + '&SectionName=' + $scope.SectionType).success(function (data) {
                 $scope.TemplateTagMappingList = data;
             });
