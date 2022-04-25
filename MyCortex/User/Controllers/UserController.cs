@@ -323,7 +323,16 @@ namespace MyCortex.User.Controller
 
                 _logger.Info("GeneratePassword_ByPasswordPolicy");
                 userObj.PASSWORD = generatedPwd;
-                if (userObj.PASSWORD == "") userObj.PASSWORD = defaultPwd;   // this is for demo // default pwd when password policy not exist for the institution
+                if (userObj.PASSWORD == "")
+                {
+                    AppConfigmodel = commonrepository.AppConfigurationDetails("User.defaultPassword", userObj.INSTITUTION_ID.Value);
+                    if (AppConfigmodel.Count > 0)
+                    {
+                        defaultPwd = AppConfigmodel[0].ConfigValue;
+                    }
+                    if (defaultPwd == "") defaultPwd = "P@ssw0rd";
+                }
+                userObj.PASSWORD = defaultPwd;   // this is for demo // default pwd when password policy not exist for the institution
                 DataEncryption EncryptPassword = new DataEncryption();
                 string CHANGE_URl_PASSWORD = EncryptPassword.Encrypt(userObj.PASSWORD);
                 string FormulaforFullName = "";
