@@ -377,7 +377,7 @@ namespace MyCortexService
 
                 try
                 {
-                    dt = ClsDataBase.GetDataTable("[MYCORTEX].RESET_APPOINTMENTS_BY_SYSTEM");
+                    ClsDataBase.GetDataTable("[MYCORTEX].RESET_APPOINTMENTS_BY_SYSTEM");
                 }
                 catch(Exception ex)
                 {
@@ -390,7 +390,7 @@ namespace MyCortexService
                 // Start
                 try
                 {
-                    dt = ClsDataBase.GetDataTable("[MYCORTEX].[DEACTIVATE_PAST_DOCTORSHIFT]");
+                    ClsDataBase.GetDataTable("[MYCORTEX].[DEACTIVATE_PAST_DOCTORSHIFT]");
                 }
                 catch (Exception ex)
                 {
