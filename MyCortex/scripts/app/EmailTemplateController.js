@@ -36,36 +36,36 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
         }
 
         $scope.TemplateTagMappingList = [];
-        $scope.TempMappinglist = function () {
-            if ($scope.UserTypeId != 1) {
-                if ($scope.PageParameter == 1) {
-                    $scope.Type = "1"; //For Email
-                }
-                else if ($scope.PageParameter == 2) {
-                    $scope.Type = "2";//For Notification
-                }
-                else if ($scope.PageParameter == 3) {
-                    $scope.Type = "3";//For SMS
-                }
-                $http.get(baseUrl + '/api/EmailTemplate/EmailTemplateTagMapping_List/?Id=' + $scope.Type + '&Institution_Id=' + $scope.InstituteId).success(function (data) {
-                    $scope.TemplateTagMappingList = data;
-                });
-            }
-            else {
-                if ($scope.PageParameter == 1) {
-                    $scope.Type = "1"; //For Email
-                }
-                else if ($scope.PageParameter == 2) {
-                    $scope.Type = "2";//For Notification
-                }
-                else if ($scope.PageParameter == 3) {
-                    $scope.Type = "3";//For SMS
-                }
-                $http.get(baseUrl + '/api/EmailTemplate/EmailTemplateTagMapping_List/?Id=' + $scope.Type + '&Institution_Id=' + $scope.InstituteId).success(function (data) {
-                    $scope.TemplateTagMappingList = data;
-                });
-            }
-        };
+        //$scope.TempMappinglist = function () {
+        //    if ($scope.UserTypeId != 1) {
+        //        if ($scope.PageParameter == 1) {
+        //            $scope.Type = "1"; //For Email
+        //        }
+        //        else if ($scope.PageParameter == 2) {
+        //            $scope.Type = "2";//For Notification
+        //        }
+        //        else if ($scope.PageParameter == 3) {
+        //            $scope.Type = "3";//For SMS
+        //        }
+        //        $http.get(baseUrl + '/api/EmailTemplate/EmailTemplateTagMapping_List/?Id=' + $scope.Type + '&Institution_Id=' + $scope.InstituteId).success(function (data) {
+        //            $scope.TemplateTagMappingList = data;
+        //        });
+        //    }
+        //    else {
+        //        if ($scope.PageParameter == 1) {
+        //            $scope.Type = "1"; //For Email
+        //        }
+        //        else if ($scope.PageParameter == 2) {
+        //            $scope.Type = "2";//For Notification
+        //        }
+        //        else if ($scope.PageParameter == 3) {
+        //            $scope.Type = "3";//For SMS
+        //        }
+        //        $http.get(baseUrl + '/api/EmailTemplate/EmailTemplateTagMapping_List/?Id=' + $scope.Type + '&Institution_Id=' + $scope.InstituteId).success(function (data) {
+        //            $scope.TemplateTagMappingList = data;
+        //        });
+        //    }
+        //};
 
         $scope.OnChangeTypeBasedTagList = function (TagType) {
             var EmailSectionType = TagType;
@@ -167,16 +167,29 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
             } else {
                 $scope.status = 1;
             }
-            $http.get(baseUrl + '/api/EmailAlertConfig/AlertEvent_List/?Institution_Id=' + $scope.InstituteId + '&Id=' + 0
-                + '&status=' + $scope.status).success(function (data) {
-                    $scope.AlertListTemp = [];
-                    $scope.AlertListTemp = data;
-                    if (data != null) {
-                        /*var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
-                        $scope.AlertListTemp.splice(0, 0, obj);*/
-                        $scope.AlertEvent = angular.copy($scope.AlertListTemp);
-                    }
-                });
+            if ($scope.UserTypeId == 1) {
+                $http.get(baseUrl + '/api/EmailAlertConfig/AlertEvent_List/?Institution_Id=' + $scope.InstituteId + '&Id=' + 0
+                    + '&status=' + $scope.status).success(function (data) {
+                        $scope.AlertListTemp = [];
+                        $scope.AlertListTemp = data;
+                        if (data != null) {
+                            /*var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+                            $scope.AlertListTemp.splice(0, 0, obj);*/
+                            $scope.AlertEvent = angular.copy($scope.AlertListTemp);
+                        }
+                    });
+            }
+            else if ($scope.UserTypeId == 3) {
+                $http.get(baseUrl + '/api/EmailAlertConfig/DefaultAlertEvent_List/?Institution_Id=' + $scope.InstituteId).success(function (data) {
+                        $scope.AlertListTemp = [];
+                        $scope.AlertListTemp = data;
+                        if (data != null) {
+                            /*var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+                            $scope.AlertListTemp.splice(0, 0, obj);*/
+                            $scope.AlertEvent = angular.copy($scope.AlertListTemp);
+                        }
+                    });
+            }
         };
 
         /* THIS IS FOR VALIDATION CONTROL */
