@@ -3735,7 +3735,12 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             $location.path("/Thirtydays_appointments/");
         }
 
-        $scope.CancelAppointmentModal = function (AppointmentId) {
+        $scope.CancelAppointmentModal = function (Row, Appointment_Id) {
+            var appid = "";
+            if (Row != undefined)
+                appid = Row;
+            if (Appointment_Id != undefined)
+                appid = Appointment_Id
             Swal.fire({
                 title: 'Do you like to Cancel the Patient Appointment',
                 html: '',
@@ -3749,7 +3754,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
                     $scope.Cancelled_Remarks = "";
-                    $scope.Appointment_Id = AppointmentId;
+                    $scope.Appointment_Id = appid;
                     angular.element('#PatientAppointmentModal').modal('show');
                     $scope.ReasonTypeDropList();
                 } else if (result.isDenied) {
@@ -3784,7 +3789,12 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
 
-        $scope.Update_CancelledAppointment = function (Appointment_Id) {
+        $scope.Update_CancelledAppointment = function (Row, Appointment_Id) {
+            var appid = "";
+            if (Row != undefined)
+                appid = Row;
+            if (Appointment_Id != undefined)
+                appid = Appointment_Id
             if (typeof ($scope.ReasonTypeId) == "undefined" || $scope.ReasonTypeId == "0") {
                 //alert("Please select Reason Type");
                 toastr.warning("Please select Reason Type", "warning");
@@ -3793,7 +3803,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             else {
                 var obj = {
                     CancelledBy_Id: $scope.SelectedPatientId,
-                    Id: $scope.Appointment_Id,
+                    Id: appid,
                     Cancelled_Remarks: $scope.Cancelled_Remarks,
                     ReasonTypeId: $scope.ReasonTypeId
                 }
@@ -7505,7 +7515,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
 
         $scope.Patient_OtherData_Image_View = function (Id, ParameterId, filetype) {
-            $http.get(baseUrl + '/api/User/Patient_OtherData_GetDocument?Id=' + Id + ParameterId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            $http.get(baseUrl + '/api/User/Patient_OtherData_GetDocument?Id=' + Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 //var mtype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
                 //\var url = 'data:' + mtype + ';base64,' + data.DocumentBlobData.toString();
                 /*window.open(url);*/
