@@ -179,7 +179,7 @@ namespace MyCortex.Template.Controllers
                             elList.Add(el);
 
                             SendGridApiManager mail = new SendGridApiManager();
-                            var res = mail.SendComposedSMTPEmail(emailModel, alert, elList, ModelData[0].Id);
+                            var res = mail.SendComposedSMTPEmail(emailModel, alert, elList, ModelData[0].Id, "", 0);
 
                         }
                     }
@@ -438,7 +438,7 @@ namespace MyCortex.Template.Controllers
                             elList.Add(el);
 
                             SendGridApiManager mail = new SendGridApiManager();
-                            var res = mail.SendComposedSMTPEmail(emailModel, alert, elList, ModelData[0].Id);
+                            var res = mail.SendComposedSMTPEmail(emailModel, alert, elList, ModelData[0].Id, "", 0);
                         }
                     }
                     else
