@@ -1031,9 +1031,36 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                     if (value.IsBooked == 1) {
                                         $scope.BookedSlot = $scope.BookedSlot + 1;
                                     }
+                                    // value bind from doctorshift 
+                                    if (value.MakeMeLookBusy != "") {
+                                        $scope.MMLB = value.MakeMeLookBusy;
+                                    }
+                                    if (value.MinimumSlots != "") {
+                                        $scope.MS = value.MinimumSlots;
+                                    }
                                 });
+                                //check and assign fetched data. 
+                                if ($scope.MMLB == $scope.MakeMeLookBusy) {
+                                    $scope.MakeMeLookBusy = $scope.MakeMeLookBusy;
+                                } else {
+                                    if ($scope.MMLB == null || $scope.MMLB == '') {
+                                        $scope.MakeMeLookBusy = $scope.MakeMeLookBusy;
+                                    } else {
+                                        $scope.MakeMeLookBusy = $scope.MMLB;
+                                    }
+                                }
+                                if ($scope.MS == $scope.MinimumSlots) {
+                                    $scope.MinimumSlots = $scope.MinimumSlots;
+                                } else {
+                                    if ($scope.MS == null || $scope.MS =='') {
+                                        $scope.MinimumSlots = $scope.MinimumSlots;
+                                    } else {
+                                        $scope.MinimumSlots = $scope.MS;
+                                    }
+                                }
+
                                 $scope.AvailSlot = $scope.newAppoiTimeSlot.length - $scope.BookedSlot;
-                                $scope.CalcMakemeLookBusy = Math.round($scope.AvailSlot * ($scope.MakeMeLookBusy / 100));
+                                $scope.CalcMakemeLookBusy = Math.round(($scope.AvailSlot * ($scope.MakeMeLookBusy / 100)));
                                 if ($scope.AvailSlot > $scope.MinimumSlots) {
                                     for (i = 0; i < $scope.CalcMakemeLookBusy; i++) {
                                         //get the random number

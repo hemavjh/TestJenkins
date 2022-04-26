@@ -392,6 +392,8 @@ namespace MyCortex.Repositories.Uesr
                                                                 ToTime = p.Field<string>("ToTime"),
                                                                 AppointmentTime = p.Field<string>("APPOINTMENTTIME"),
                                                                 IsBooked = p.Field<bool>("ISBOOKED"),
+                                                                MakeMeLookBusy= p.Field<long?>("MIN_SCHEDULE_DAYS"),
+                                                                MinimumSlots = p.Field<long?>("MINIMUM_SLOTS"),
                                                             }).ToList();
                 return lst;
             }
@@ -457,6 +459,8 @@ namespace MyCortex.Repositories.Uesr
                 param.Add(new DataParameter("@CUSTOMSLOT", obj.CustomSlot));
                 param.Add(new DataParameter("@BOOKINGOPEN", obj.BookingOpen));
                 param.Add(new DataParameter("@BOOKINGCANCELLOCK", obj.BookingCancelLock));
+                param.Add(new DataParameter("@MAKEMELOOKBUSY", obj.MakeMeLookBusy));
+                param.Add(new DataParameter("@MINIMUMSLOTS", obj.MinimumSlots));
                 param.Add(new DataParameter("@CREATED_BY", obj.CreatedBy));
                 param.Add(new DataParameter("@MODIFIED_BY", obj.CreatedBy));
                 //param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
@@ -669,6 +673,19 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@NOTIFYID", notifyId));
             param.Add(new DataParameter("@NOTIFYTIMESTAMP", notifyTimeStamp));
             retid = ClsDataBase.Insert("[MYCORTEX].[PAYMENTPROVIDER_PAYMENTINFO]", param, true);
+            return retid;
+        }
+        public int SMSStatus_Update(string MessageId, string PNumber, string Status, string StatusCode, string MessageStatus)
+        {
+            int retid = 0;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@MESSAGEID", MessageId));
+            param.Add(new DataParameter("@PNUMBER", PNumber));
+            param.Add(new DataParameter("@STATUS", Status));
+            param.Add(new DataParameter("@STATUSCODE", StatusCode));
+            param.Add(new DataParameter("@MESSAGESTATUS", MessageStatus));
+            
+            retid = ClsDataBase.Insert("[MYCORTEX].[SMS_STATUS_UPDATE_SP]", param, true);
             return retid;
         }
 

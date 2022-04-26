@@ -11,5 +11,6 @@ namespace MyCortex.Repositories
       
         long SMSConfiguration_AddEdit(SMSConfigurationModel obj);
         SMSConfigurationModel SMSConfiguration_View(long Institution_Id);
+        IList<SendSMSModel> SendEmail_AddEdit(SendSMSModel obj);
     }
 }
