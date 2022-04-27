@@ -720,5 +720,30 @@ namespace MyCortex.Repositories.Uesr
                 return 0;
             }
         }
+
+        public IList<AppointmentsData_For_ICSFile> GetAppointmentDetails_For_ICSFile(long? Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ID", Id));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_APPOINTMENT_DETAILS_FOR_ICSFILE]", param);
+                List<AppointmentsData_For_ICSFile> lst = (from p in dt.AsEnumerable()
+                                                            select new AppointmentsData_For_ICSFile()
+                                                            {
+                                                                AppointmentFromDateTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
+                                                                AppointmentToDateTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
+                                                                AppointmentDateTime = p.Field<DateTime>("APPOINTMENT_DATE"),
+                                                                TimeZoneName = p.Field<string>("TIMEZONE_NAME"),
+                                                                TimeZoneOffset = p.Field<string>("TIMEZONE_OFFSET")
+                                                            }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
     }
 }

@@ -118,6 +118,15 @@ namespace MyCortex.User.Model
         public long? MinimumSlots { get; set; }
     }
 
+    public class AppointmentsData_For_ICSFile
+    {
+        public DateTime AppointmentDateTime { get; set; }
+        public DateTime AppointmentFromDateTime { get; set; }
+        public DateTime AppointmentToDateTime { get; set; }
+        public string TimeZoneName { get; set; }
+        public string TimeZoneOffset { get; set; }
+    }
+
     public class DoctorAppointmentTimeSlotReturnModel
     {
         public string Status { get; set; }
