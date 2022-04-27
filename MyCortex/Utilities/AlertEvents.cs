@@ -184,8 +184,8 @@ namespace MyCortex.Notification
                                 model.Email_Body = alert.TempBody;
                                 model.Email_Subject = alert.TempSubject;
                                 model.Created_By = alertList.AlertEventEmailList[0].UserId;
-                                model.ResponseId = dataObj1.Id;                               
-                                ModelData = sendemailrepository.SendEmail_AddEdit(model);
+                                model.ResponseId = dataObj1.Id;
+                                sendEmailModel = sendemailrepository.SendEmail_AddEdit(model);
 
                                 sendemailrepository.SendEmail_Update(sendEmailModel[0].Id, "", 1, "");
                             }

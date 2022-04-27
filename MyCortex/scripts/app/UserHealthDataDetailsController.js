@@ -823,7 +823,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         }
                         if (data == null) {
                             //alert('Please Check OrgSettings, Appointment User Is Empty!');
-                            toastr.info("Please Check OrgSettings, Appointment User Is Empty!", "info");
+                            toastr.info("Please Check Appointment Settings are Missing!", "info");
                             return false;
                         }
                     });
