@@ -123,6 +123,7 @@ namespace MyCortex.User.Model
         public DateTime AppointmentToDateTime { get; set; }
         public string TimeZoneName { get; set; }
         public string TimeZoneOffset { get; set; }
+        public string DoctorName { get; set; }
     }
 
     public class DoctorAppointmentTimeSlotReturnModel
