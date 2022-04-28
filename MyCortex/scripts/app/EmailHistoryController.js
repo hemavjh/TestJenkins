@@ -12,6 +12,7 @@ EmailHistorycontroller.controller("EmailHistoryController", ['$scope', '$http', 
         $scope.currentTab = "1";
         $scope.Id = "0";
         $scope.IsActive = true;
+        $scope.ActiveStatus = 1;
         $scope.Filter_GenderId = "0";
         $scope.filter_NationalityId = "0";
         $scope.filter_EthinicGroupId = "0";
