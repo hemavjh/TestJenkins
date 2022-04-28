@@ -114,6 +114,8 @@ namespace MyCortex.User.Model
         public bool IsBooked { get; set; }
         public string PatientName { get; set; }
         public long? id { get; set; }
+        public long? MakeMeLookBusy { get; set; }
+        public long? MinimumSlots { get; set; }
     }
 
     public class AppointmentsData_For_ICSFile
@@ -157,6 +159,8 @@ namespace MyCortex.User.Model
         public long Intervel { get; set; }
         public long CustomSlot { get; set; }
         public long BookingOpen { get; set; }
+        public long MakeMeLookBusy { get; set; }
+        public long MinimumSlots { get; set; }
         public long BookingCancelLock { get; set; }
         public long Institution_Id { get; set; }
         public long CreatedBy { get; set; }

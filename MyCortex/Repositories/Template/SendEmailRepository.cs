@@ -167,6 +167,7 @@ namespace MyCortex.Repositories.Template
                 param.Add(new DataParameter("@USER_ID", obj.UserId));
                 param.Add(new DataParameter("@EMAIL_BODY", obj.Email_Body));
                 param.Add(new DataParameter("@EMAIL_SUBJECT", obj.Email_Subject));
+                param.Add(new DataParameter("@API_RETURN_ID", obj.ResponseId));
                 param.Add(new DataParameter("@CREATED_BY", obj.Created_By));
                 {
                     DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].SENDEMAIL_INSERTUPDATE ", param);

@@ -16,6 +16,7 @@ using MyCortex.Template.Models;
 using System.Text.RegularExpressions;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace MyCortex.Notification
 {
@@ -31,6 +32,8 @@ namespace MyCortex.Notification
         static readonly IAlertEventRepository repository = new AlertEventRepository();
         static readonly IEmailConfigurationRepository emailrepository = new EmailConfigurationRepository();
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string _AppLogger = string.Empty, _AppMethod = string.Empty;
         public IList<AlertEventModel> AlertEvent_GenerateTemplate(long Entity_Id, long Institution_Id, string Event_Code)
         {
             IList<AlertEventModel> EventTemplatemodel;
@@ -46,6 +49,8 @@ namespace MyCortex.Notification
         }
         public void SendAlert_Email_Notification(AlertEventResultModel alertList, EmailConfigurationModel emailModel, long Institution_Id, int emailType, long EntityId, string EventCode)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             foreach (AlertEventModel alert in alertList.AlertEventTemplateList)
             {
                 if (alertList.AlertEventEmailList != null)
@@ -69,6 +74,7 @@ namespace MyCortex.Notification
                         {
                             if (alert.FromEmail_Id != null || emailModel.Sender_Email_Id != null)
                             {
+                                _MyLogger.Exceptions("INFO", _AppLogger, "Email: " + alert.TempBody, null, _AppMethod);
                                 if (emailType == 1)
                                 {
                                     SendGridMessage msg = SendGridApiManager.ComposeMailMessage(
@@ -99,7 +105,7 @@ namespace MyCortex.Notification
                             PushNotificationMessage message = new PushNotificationMessage();
                             message.Title = alert.TempSubject;
                             message.Message = alert.TempBody;
-
+                            _MyLogger.Exceptions("INFO", _AppLogger, "Notification: Title: " + message.Title + "Message: " + message.Message + "UserId: " + email.UserId, null, _AppMethod);
                             PushNotificationApiManager.sendNotification(message, sendEmailModel[0].Id, email.UserId, alert.TemplateFor);
                         }
                         else if (alert.TemplateType_Id == 3)  // 3 for SMS
@@ -140,10 +146,16 @@ namespace MyCortex.Notification
                             SMSUserName = alertList.AlertEventEmailList[0].SMSUserName;
                             SMSSource = alertList.AlertEventEmailList[0].SMSSourceId;
 
-                            SMSBody = SMSBody.Replace("&nbsp;", " ").Replace("\n\n", Environment.NewLine).Replace("\r\n", " ");
+                            SMSBody = SMSBody.Replace("<br>", "");
+                            SMSBody = SMSBody.Replace("<br /> ", "");
+                            SMSBody = SMSBody.Replace("<p>", "");
+                            SMSBody = SMSBody.Replace("</p>", "");
+                            SMSBody = SMSBody.Replace("&nbsp;", " ");
+                            SMSBody = SMSBody.Replace("\n", " ");
 
                             SMSURL = "https://txt.speroinfotech.ae/API/SendSMS?" + "username=" + SMSUserName + "&apiId=" + SMSApiId + "&json=True&destination=" + SMSMbNO + "&source=" + SMSSource + "&text=" + SMSBody;
 
+                            _MyLogger.Exceptions("INFO", _AppLogger, SMSURL, null, _AppMethod);
                             HttpClient client = new HttpClient();
                             client.BaseAddress = new Uri(SMSURL);
 
@@ -162,6 +174,19 @@ namespace MyCortex.Notification
                                 //    Console.WriteLine("{0}", d.Name);
                                 //}
                                 //sendemailrepository.SendEmail_Update(EntityId, "", 1, "");
+                                var dataObj = smsResponse.Content.ReadAsStringAsync().Result.ToString();
+                                var dataObj1 = JsonConvert.DeserializeObject<SMSResponseData>(dataObj);
+
+                                model.Id =sendEmailModel[0].Id;
+                                model.Institution_Id = Institution_Id;
+                                model.Template_Id = alert.Template_Id;
+                                model.UserId = alertList.AlertEventEmailList[0].UserId;
+                                model.Email_Body = alert.TempBody;
+                                model.Email_Subject = alert.TempSubject;
+                                model.Created_By = alertList.AlertEventEmailList[0].UserId;
+                                model.ResponseId = dataObj1.Id;
+                                sendEmailModel = sendemailrepository.SendEmail_AddEdit(model);
+
                                 sendemailrepository.SendEmail_Update(sendEmailModel[0].Id, "", 1, "");
                             }
                             else

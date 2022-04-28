@@ -479,17 +479,28 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
         var Login_regionName = "";
         var Login_timeZoneName = "";
         var Login_zipCode = "";
-        $http.get("http://ip-api.com/json").then(function (response) {
-            Login_Country = response.data.country;
+        //$http.get("http://ip-api.com/json").then(function (response) {
+        $http.get("https://ipapi.co/json/").then(function (response) {
+            //Login_Country = response.data.country;
+            //Login_City = response.data.city;
+            //IpAddress = response.data.query;
+            //Login_CountryCode = response.data.countryCode;
+            //Login_Latitude = response.data.lat;
+            //Login_Longitude = response.data.lon;
+            //Login_region = response.data.region;
+            //Login_regionName = response.data.regionName;
+            //Login_timeZoneName = response.data.timezone;
+            //Login_zipCode = response.data.zip;
+            Login_Country = response.data.country_name;
             Login_City = response.data.city;
-            IpAddress = response.data.query;
-            Login_CountryCode = response.data.countryCode;
-            Login_Latitude = response.data.lat;
-            Login_Longitude = response.data.lon;
-            Login_region = response.data.region;
-            Login_regionName = response.data.regionName;
+            IpAddress = response.data.ip;
+            Login_CountryCode = response.data.country_code;
+            Login_Latitude = response.data.latitude;
+            Login_Longitude = response.data.longitude;
+            Login_region = response.data.region_code;
+            Login_regionName = response.data.region;
             Login_timeZoneName = response.data.timezone;
-            Login_zipCode = response.data.zip;
+            Login_zipCode = response.data.postal;
         });
 
         navigator.sayswho = (function () {
@@ -1270,8 +1281,11 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
 
         var Login_Country = "";
         var Login_City = "";
-        $http.get("http://ip-api.com/json").then(function (response) {
-            Login_Country = response.data.country;
+        //$http.get("http://ip-api.com/json").then(function (response) {
+        $http.get("https://ipapi.co/json/").then(function (response) {
+            //Login_Country = response.data.country;
+            //Login_City = response.data.city;
+            Login_Country = response.data.country_name;
             Login_City = response.data.city
         });
 
