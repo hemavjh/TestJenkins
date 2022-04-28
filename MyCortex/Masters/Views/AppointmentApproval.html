@@ -28,6 +28,7 @@
             <tr style="text-align: center">
                 <th st-ratio="5">S.No</th>
                 <th st-ratio="10" st-sort="Generic_Name">Patient Name</th>
+                <th st-ratio="10" st-sort="Generic_Name">Doctor Name</th>
                 <th st-ratio="10" st-sort="Generic_Name">Appointment Date</th>
                 <th st-ratio="8" st-sort="ToDate">Appointment Start Time</th>
                 <th st-ratio="8" st-sort="ToDate">Appointment End Time</th>
@@ -46,6 +47,9 @@
 
                 <td style="text-align: left; max-width: 150px; word-wrap: break-word; ">
                     <div class="textwrap">{{row.PatientName.length > 25 ? row.PatientName.substring(0,25)+"..." : row.PatientName}}</div>
+                </td>
+                <td style="text-align: left; max-width: 150px; word-wrap: break-word; ">
+                    <div class="textwrap">{{row.DoctorName.length > 25 ? row.DoctorName.substring(0,25)+"..." : row.DoctorName}}</div>
                 </td>
                 <td style="text-align: left">
                     {{row.Appointment_Date | date :'dd-MMM-yyyy' }}

@@ -39,6 +39,8 @@ namespace MyCortex.Masters.Models
         public IList<DoctorsId> Doctor_Id { get; set; }
         public long INSTITUTION_ID { get; set; }
         public int IsActive { get; set; }
+        public long? MakeMeLookBusy { get; set; }
+        public long? MinimumSlots { get; set; }
 
         public long DepartmentId { get; set; }
 

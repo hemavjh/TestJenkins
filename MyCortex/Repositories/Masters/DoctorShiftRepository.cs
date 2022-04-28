@@ -435,6 +435,8 @@ namespace MyCortex.Repositories.Masters
                                             BookingOpen = p.Field<int>("BOOKING_OPEN"),
                                             BookingCancelLock = p.Field<int>("BOOKING_CANCEL_LOCK"),
                                             DepartmentId = p.Field<long>("DEPARTMENT_ID"),
+                                            MakeMeLookBusy= p.Field<long?>("MIN_SCHEDULE_DAYS"),
+                                            MinimumSlots = p.Field<long?>("MINIMUM_SLOTS"),
                                         }).FirstOrDefault();
                 INS.SelectedDaysList = DoctorShiftDayDetails_View(INS.ID, Login_Session_Id);
                 INS.CC_CG = DoctorShift_CCCG_View(INS.ID);

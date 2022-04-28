@@ -851,16 +851,15 @@ namespace MyCortex.Home.Controllers
             req.Seek(0, System.IO.SeekOrigin.Begin);
             string json = new StreamReader(req).ReadToEnd();
             retid = patientAppointmentsRepository.Sms_Notify_Log(json);
-            //dynamic data = JsonConvert.DeserializeObject(json);
+            dynamic data = JsonConvert.DeserializeObject(json);
 
-            //string OrderNumber = data.acquireOrder.orderNo;
-            //string merchantOrderNumber = data.acquireOrder.merchantOrderNo;
-            //string amount = data.acquireOrder.totalAmount.amount;
-            //string status = data.acquireOrder.status;
-            //long requestTime = data.acquireOrder.requestTime;
-            //string notifyId = data.notify_id;
-            //long notifyTimeStamp = data.notify_timestamp;
-            ////string data1 = data.toString();
+            //{ "version":"1.0","messageId":"33d21322-04eb-4992-b950-d41d0a7e2a71","toNumber":"971551911260","status":"sms_sent","statusCode":0,"MessageStatus":1}
+            string MessageId = data.messageId;
+            string PNumber = data.toNumber;
+            string Status = data.status;
+            string StatusCode = data.statusCode;
+            string MessageStatus = data.MessageStatus;
+            retid = patientAppointmentsRepository.SMSStatus_Update(MessageId,PNumber,Status,StatusCode,MessageStatus);
             //retid = patientAppointmentsRepository.PaymentStatusInfo_Insert(merchantOrderNumber, amount, OrderNumber, status, requestTime, notifyId, notifyTimeStamp);
             return Content("SUCCESS");
         }

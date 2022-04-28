@@ -455,16 +455,16 @@
                                                                     </div>
                                                                 </div>
                                                                 <!--<div class="row m-top-2">
-                        <div class="col-sm-3">
-                            <p>Custom Slot<sup>
-                    <font class='mandatory-field'>*</font>
-                </sup></p>
-                            <div class="input-slot">
-                                <input type="text" id="CustomSlot" ng-model="CustomSlot" onkeypress="OnlySpecCharNum(event)" class="input-size">
-                                <p>Min</p>
-                            </div>
+                    <div class="col-sm-3">
+                        <p>Custom Slot<sup>
+                <font class='mandatory-field'>*</font>
+            </sup></p>
+                        <div class="input-slot">
+                            <input type="text" id="CustomSlot" ng-model="CustomSlot" onkeypress="OnlySpecCharNum(event)" class="input-size">
+                            <p>Min</p>
                         </div>
-                    </div>-->
+                    </div>
+                </div>-->
                                                             </div>
                                                         </div>
                                                         <div class="mt-4">
@@ -500,6 +500,40 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="mt-4">
+                                                            <p class="mt-4" style="font-weight: bold; font-size: 16px; margin-left: 9px;">Make Me Look Busy</p>
+                                                            <div class="row" style="margin-right: -63px; margin-left: -7px;">
+                                                                <div class="col-sm-3">
+                                                                    <input type="checkbox" ng-model="OrgBookInfoBusyDefault" onkeypress="OnlySpecCharNum(event)"
+                                                                           id="OrgBookBusyInfoId" ng-click="OrgBookInfoBusyDefaultClick($event)" class="m-right-1">Use Org Default
+                                                                </div>
+                                                                <div class="col-sm-9 row">
+                                                                    <div class="col-sm-3">
+                                                                        <p>
+                                                                            Make Me Look Busy<sup>
+                                                                                <font class='mandatory-field'>*</font>
+                                                                            </sup>
+                                                                        </p>
+                                                                        <div class="input-slot">
+                                                                            <input type="text" id="MakeMeLookBusy" onkeypress="OnlySpecCharNum(event)" ng-model="MakeMeLookBusy" class="input-size">
+                                                                            <p>%</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-3">
+                                                                        <p>
+                                                                            Minimum Slots<sup>
+                                                                                <font class='mandatory-field'>*</font>
+                                                                            </sup>
+                                                                        </p>
+                                                                        <div class="input-slot">
+                                                                            <input type="text" id="MinimumSlots" onkeypress="OnlySpecCharNum(event)" ng-model="MinimumSlots" class="input-size">
+                                                                            <p>Slot(s)</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
                                                     </div>
 
                                                 </div>

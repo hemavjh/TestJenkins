@@ -1031,9 +1031,36 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                     if (value.IsBooked == 1) {
                                         $scope.BookedSlot = $scope.BookedSlot + 1;
                                     }
+                                    // value bind from doctorshift 
+                                    if (value.MakeMeLookBusy != "") {
+                                        $scope.MMLB = value.MakeMeLookBusy;
+                                    }
+                                    if (value.MinimumSlots != "") {
+                                        $scope.MS = value.MinimumSlots;
+                                    }
                                 });
+                                //check and assign fetched data. 
+                                if ($scope.MMLB == $scope.MakeMeLookBusy) {
+                                    $scope.MakeMeLookBusy = $scope.MakeMeLookBusy;
+                                } else {
+                                    if ($scope.MMLB == null || $scope.MMLB == '') {
+                                        $scope.MakeMeLookBusy = $scope.MakeMeLookBusy;
+                                    } else {
+                                        $scope.MakeMeLookBusy = $scope.MMLB;
+                                    }
+                                }
+                                if ($scope.MS == $scope.MinimumSlots) {
+                                    $scope.MinimumSlots = $scope.MinimumSlots;
+                                } else {
+                                    if ($scope.MS == null || $scope.MS =='') {
+                                        $scope.MinimumSlots = $scope.MinimumSlots;
+                                    } else {
+                                        $scope.MinimumSlots = $scope.MS;
+                                    }
+                                }
+
                                 $scope.AvailSlot = $scope.newAppoiTimeSlot.length - $scope.BookedSlot;
-                                $scope.CalcMakemeLookBusy = Math.round($scope.AvailSlot * ($scope.MakeMeLookBusy / 100));
+                                $scope.CalcMakemeLookBusy = Math.round(($scope.AvailSlot * ($scope.MakeMeLookBusy / 100)));
                                 if ($scope.AvailSlot > $scope.MinimumSlots) {
                                     for (i = 0; i < $scope.CalcMakemeLookBusy; i++) {
                                         //get the random number
@@ -1217,6 +1244,13 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
 
                             if ($scope.OldAppointmentID == null) {
+                                var TZ = $scope.TimeZoneList.filter(x => x.TimeZoneId == $scope.TimeZoneID);
+                                var TZname = "";
+                                var UtcOffSet = "";
+                                if (TZ.length > 0) {
+                                    TZname = TZ[0].TimeZoneDisplayName;
+                                    UtcOffSet = TZ[0].UtcOffSet;
+                                }
                                 var objectSave = {
                                     "Institution_Id": $scope.SelectedInstitutionId,
                                     "Doctor_Id": $scope.DoctorID,
@@ -1225,6 +1259,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                     "AppointmentFromTime": $scope.AppoiFromTime,
                                     "AppointmentToTime": $scope.AppoiToTime,
                                     "TimeZone_Id": $scope.TimeZoneID,
+                                    "TimeZoneName": TZname,
+                                    "UtcOffSet": UtcOffSet,
                                     "Appointment_Type": "1",
                                     "ReasonForVisit": document.getElementById("TextArea1").value,
                                     "Status": 1,

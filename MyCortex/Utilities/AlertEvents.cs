@@ -16,6 +16,7 @@ using MyCortex.Template.Models;
 using System.Text.RegularExpressions;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace MyCortex.Notification
 {
@@ -48,7 +49,7 @@ namespace MyCortex.Notification
             }
             return EventTemplatemodel;
         }
-        public void SendAlert_Email_Notification(AlertEventResultModel alertList, EmailConfigurationModel emailModel, long Institution_Id, int emailType, long EntityId)
+        public void SendAlert_Email_Notification(AlertEventResultModel alertList, EmailConfigurationModel emailModel, long Institution_Id, int emailType, long EntityId, string EventCode)
         {
             _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -94,7 +95,7 @@ namespace MyCortex.Notification
                                     SendGridApiManager mail = new SendGridApiManager();
                                     IList<EmailListModel> em = new List<EmailListModel>();
                                     em.Add(email);
-                                    var res = mail.SendComposedSMTPEmail(emailModel, alert, em, sendEmailModel[0].Id);
+                                    var res = mail.SendComposedSMTPEmail(emailModel, alert, em, sendEmailModel[0].Id, EventCode, EntityId);
 
                                 }
 
@@ -175,6 +176,19 @@ namespace MyCortex.Notification
                                 //    Console.WriteLine("{0}", d.Name);
                                 //}
                                 //sendemailrepository.SendEmail_Update(EntityId, "", 1, "");
+                                var dataObj = smsResponse.Content.ReadAsStringAsync().Result.ToString();
+                                var dataObj1 = JsonConvert.DeserializeObject<SMSResponseData>(dataObj);
+
+                                model.Id =sendEmailModel[0].Id;
+                                model.Institution_Id = Institution_Id;
+                                model.Template_Id = alert.Template_Id;
+                                model.UserId = alertList.AlertEventEmailList[0].UserId;
+                                model.Email_Body = alert.TempBody;
+                                model.Email_Subject = alert.TempSubject;
+                                model.Created_By = alertList.AlertEventEmailList[0].UserId;
+                                model.ResponseId = dataObj1.Id;
+                                sendEmailModel = sendemailrepository.SendEmail_AddEdit(model);
+
                                 sendemailrepository.SendEmail_Update(sendEmailModel[0].Id, "", 1, "");
                             }
                             else
@@ -206,7 +220,7 @@ namespace MyCortex.Notification
                 AlertEventResultList.AlertEventTemplateList = AlertEventTemplate;
                 AlertEventResultList.AlertEventEmailList = EmailList;
 
-                SendAlert_Email_Notification(AlertEventResultList, null, Institution_Id, (int)EmailTypeVal.SendGrid, EntityId);
+                SendAlert_Email_Notification(AlertEventResultList, null, Institution_Id, (int)EmailTypeVal.SendGrid, EntityId, EventCode);
                 return 1;
             }
             catch(Exception ex)
@@ -234,7 +248,7 @@ namespace MyCortex.Notification
                 AlertEventResultList.AlertEventEmailList = EmailList;
 
 
-                SendAlert_Email_Notification(AlertEventResultList, emailModel, Institution_Id, (int)EmailTypeVal.SMTP, EntityId);
+                SendAlert_Email_Notification(AlertEventResultList, emailModel, Institution_Id, (int)EmailTypeVal.SMTP, EntityId, EventCode);
                 return 1;
             }
             catch (Exception ex)

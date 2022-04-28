@@ -414,6 +414,8 @@ namespace MyCortex.Repositories.Uesr
                                                                 ToTime = p.Field<string>("ToTime"),
                                                                 AppointmentTime = p.Field<string>("APPOINTMENTTIME"),
                                                                 IsBooked = p.Field<bool>("ISBOOKED"),
+                                                                MakeMeLookBusy= p.Field<long?>("MIN_SCHEDULE_DAYS"),
+                                                                MinimumSlots = p.Field<long?>("MINIMUM_SLOTS"),
                                                             }).ToList();
                 return lst;
             }
@@ -484,6 +486,8 @@ namespace MyCortex.Repositories.Uesr
                 param.Add(new DataParameter("@CUSTOMSLOT", obj.CustomSlot));
                 param.Add(new DataParameter("@BOOKINGOPEN", obj.BookingOpen));
                 param.Add(new DataParameter("@BOOKINGCANCELLOCK", obj.BookingCancelLock));
+                param.Add(new DataParameter("@MAKEMELOOKBUSY", obj.MakeMeLookBusy));
+                param.Add(new DataParameter("@MINIMUMSLOTS", obj.MinimumSlots));
                 param.Add(new DataParameter("@CREATED_BY", obj.CreatedBy));
                 param.Add(new DataParameter("@MODIFIED_BY", obj.CreatedBy));
                 //param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
@@ -702,6 +706,19 @@ namespace MyCortex.Repositories.Uesr
             retid = ClsDataBase.Insert("[MYCORTEX].[PAYMENTPROVIDER_PAYMENTINFO]", param, true);
             return retid;
         }
+        public int SMSStatus_Update(string MessageId, string PNumber, string Status, string StatusCode, string MessageStatus)
+        {
+            int retid = 0;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@MESSAGEID", MessageId));
+            param.Add(new DataParameter("@PNUMBER", PNumber));
+            param.Add(new DataParameter("@STATUS", Status));
+            param.Add(new DataParameter("@STATUSCODE", StatusCode));
+            param.Add(new DataParameter("@MESSAGESTATUS", MessageStatus));
+            
+            retid = ClsDataBase.Insert("[MYCORTEX].[SMS_STATUS_UPDATE_SP]", param, true);
+            return retid;
+        }
 
         public int PaymentRefundStatusInfo_Insert(string merchantOrderNo, string originMerchantOrderNo, string amount, string OrderNo, string status, string notifyId, long notifyTimeStamp)
         {
@@ -734,6 +751,31 @@ namespace MyCortex.Repositories.Uesr
             {
                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return 0;
+            }
+        }
+
+        public IList<AppointmentsData_For_ICSFile> GetAppointmentDetails_For_ICSFile(long? Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ID", Id));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_APPOINTMENT_DETAILS_FOR_ICSFILE]", param);
+                List<AppointmentsData_For_ICSFile> lst = (from p in dt.AsEnumerable()
+                                                            select new AppointmentsData_For_ICSFile()
+                                                            {
+                                                                AppointmentFromDateTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
+                                                                AppointmentToDateTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
+                                                                AppointmentDateTime = p.Field<DateTime>("APPOINTMENT_DATE"),
+                                                                TimeZoneName = p.Field<string>("TIMEZONE_NAME"),
+                                                                TimeZoneOffset = p.Field<string>("TIMEZONE_OFFSET")
+                                                            }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
             }
         }
     }

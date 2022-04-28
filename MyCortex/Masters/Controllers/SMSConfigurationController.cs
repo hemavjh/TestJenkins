@@ -17,6 +17,7 @@ using System.Web.Http;
 using System.Net.Http.Formatting;
 using System.Security.Cryptography.Xml;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace MyCortex.Admin.Controllers
 {
@@ -87,6 +88,8 @@ namespace MyCortex.Admin.Controllers
         [HttpPost]
         public bool CheckSMSConfiguration(CheckSMSConfiguration smsModel)
         {
+            IList<SendSMSModel> ModelData = new List<SendSMSModel>();
+            SendSMSModel model1 = new SendSMSModel();
             try
             {
                     string
@@ -138,13 +141,24 @@ namespace MyCortex.Admin.Controllers
                     // Parse the response body.
                     //var dataObjects = smsResponse.Content.ReadAsAsync<IEnumerable<DataObject>>().Result;  //Make sure to add a reference to System.Net.Http.Formatting.dll
                     var dataObj = smsResponse.Content.ReadAsStringAsync().Result.ToString();
-                        //foreach (var d in dataObjects)
-                        //{
-                        //    Console.WriteLine("{0}", d.Name);
-                        //}
-                        //sendemailrepository.SendEmail_Update(EntityId, "", 1, "");
-                        //sendemailrepository.SendEmail_Update(sendEmailModel[0].Id, "", 1, "");
-                    }
+                    var dataObj1 = JsonConvert.DeserializeObject<SMSResponseData>(dataObj);
+
+                    model1.Id =0;
+                    model1.Institution_Id = smsModel.Institution_Id;
+                    model1.Template_Id = 0;
+                    model1.UserId = smsModel.Created_By;
+                    model1.Email_Subject = smsModel.Subject;
+                    model1.Email_Body = smsModel.Body;
+                    model1.ResponseId = dataObj1.Id;
+                    model1.Created_By = smsModel.Created_By;
+                    ModelData = repository.SendEmail_AddEdit(model1);
+                    //foreach (var d in dataObjects)
+                    //{
+                    //    Console.WriteLine("{0}", d.Name);
+                    //}
+                    //sendemailrepository.SendEmail_Update(EntityId, "", 1, "");
+                    //sendemailrepository.SendEmail_Update(sendEmailModel[0].Id, "", 1, "");
+                }
                     else
                     {
                         Console.WriteLine("{0} ({1})", (int)smsResponse.StatusCode, smsResponse.ReasonPhrase);
