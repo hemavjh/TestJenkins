@@ -9,7 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web;
 using System.IO;
-using log4net;
+  
 using MyCortex.Notification;
 using MyCortex.Notification.Models;
 using MyCortex.Provider;
@@ -22,7 +22,11 @@ namespace MyCortex.User.Controllers
     public class PatientApprovalController : ApiController
     {
         static readonly IPatientApprovalRepository repository = new PatientApprovalRepository();
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
+
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         /// <summary>
         /// to get list of patients pending for approval based on given filter
@@ -46,6 +50,8 @@ namespace MyCortex.User.Controllers
         [HttpGet]
         public IList<PatientApprovalModel> PatientApproval_List(long? InstitutionId, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<PatientApprovalModel> model;
@@ -54,7 +60,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
 
             }
@@ -68,6 +74,8 @@ namespace MyCortex.User.Controllers
         [HttpPost]
         public HttpResponseMessage Multiple_PatientApproval_Active(List<PatientApprovalModel> obj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             string messagestr = "";
             PatientApprovalReturnModel model = new PatientApprovalReturnModel();
             try
@@ -111,7 +119,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Invalid data";
                 model.Error_Code = ex.Message;
@@ -128,6 +136,8 @@ namespace MyCortex.User.Controllers
         /// <returns>to insert patient approval required additional info/</returns>
         public HttpResponseMessage PatientApproval_History_Insert(PatientApprovalModel model)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 long id = repository.PatientApproval_History_Insert(model);
@@ -146,7 +156,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
         }
@@ -159,6 +169,8 @@ namespace MyCortex.User.Controllers
         [HttpGet]
         public IList<PatientApprovalModel> Get_PatientCount(long InstitutionId)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<PatientApprovalModel> model;
@@ -167,7 +179,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
 
             }

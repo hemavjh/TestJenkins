@@ -9,7 +9,7 @@ using System.Web.Http;
 using System.Web;
 using System.IO;
 using MyCortex.Repositories.Menu;
-using log4net;
+  
 using MyCortex.Provider;
 
 namespace MyCortex.CommonMenu.Controllers
@@ -18,7 +18,11 @@ namespace MyCortex.CommonMenu.Controllers
     public class CommonMenuController : ApiController
     {
         static readonly ICommonMenuRepository repository = new CommonMenuRepository();
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
+
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         /// <summary>
         /// menu list based on user login
@@ -28,17 +32,21 @@ namespace MyCortex.CommonMenu.Controllers
         [HttpGet]
         public IList<CommonMenuModel> CommonMenu_Listall(long Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<CommonMenuModel> model;
             try
             {
-                if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                 
+                    //_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.CommonMenu_Listall(Id);
                 return model;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -51,17 +59,21 @@ namespace MyCortex.CommonMenu.Controllers
         [HttpGet]
         public IList<CommonModuleList> CommonModule_List(long InsId)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<CommonModuleList> model;
             try
             {
-                if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                 
+                   // _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.CommonModule_List(InsId);
                 return model;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }

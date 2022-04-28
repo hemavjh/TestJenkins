@@ -9,7 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web;
 using System.IO;
-using log4net;
+  
 using Newtonsoft.Json;
 using MyCortex.Repositories.Masters;
 using MyCortex.Masters.Models;
@@ -20,9 +20,11 @@ namespace MyCortex.Masters.Controllers
     public class MasterAllergyController : ApiController
     {
         static readonly IMasterAllergyReposistory repository = new MasterAllergyRepository();
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
 
-
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         /// <summary>
         /// to get allergy type name list of a institution
@@ -32,17 +34,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<MasterAllergyTypeModel> MasterAllergyTypeList(long Institution_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<MasterAllergyTypeModel> model;
             try
             {
-                if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.MasterAllergyTypeList(Institution_Id);
                 return model;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
 
@@ -58,17 +62,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<MasterAllergyenModel> MasterAllergenList(long ALLERGYTYPE_ID, long Institution_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<MasterAllergyenModel> model;
             try
             {
-                if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.MasterAllergenList(ALLERGYTYPE_ID, Institution_Id);
                 return model;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
 
@@ -135,16 +141,18 @@ namespace MyCortex.Masters.Controllers
         //  [CheckSessionOutFilter]
         public MasterAllergyModel MasterAllergyView(long Id, Guid Login_Session_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             MasterAllergyModel model = new MasterAllergyModel();
             try
             {
-                if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.MasterAllergyView(Id, Login_Session_Id);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
             return model;
         }
@@ -178,6 +186,8 @@ namespace MyCortex.Masters.Controllers
         [HttpPost]
         public HttpResponseMessage AllergyMaster_Active([FromBody] MasterAllergyModel noteobj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<MasterAllergyModel> ModelData = new List<MasterAllergyModel>();
             MasterAllergyReturnModels model = new MasterAllergyReturnModels();
             if (!ModelState.IsValid)
@@ -206,7 +216,8 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating Allergy";
                 model.ReturnFlag = 0;

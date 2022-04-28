@@ -9,7 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web;
 using System.IO;
-using log4net;
+  
 using Newtonsoft.Json;
 using MyCortex.Repositories.Masters;
 using MyCortex.Masters.Models;
@@ -23,8 +23,11 @@ namespace MyCortex.Admin.Controllers
     public class DrugDBMasterController : ApiController
      {
          static readonly IDrugDBMasterRepository repository = new DrugDBMasterRepository();
-         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+  
 
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
         /// <summary>
         /// drug strength name list of a institution
         /// </summary>
@@ -33,7 +36,9 @@ namespace MyCortex.Admin.Controllers
         [HttpGet]
          public IList<DrugStrengthMasterModel> DrugStrengthList(long Institution_Id)
          {
-             IList<DrugStrengthMasterModel> model;
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<DrugStrengthMasterModel> model;
              try
              {
                  model = repository.DrugStrengthList(Institution_Id);
@@ -41,7 +46,7 @@ namespace MyCortex.Admin.Controllers
              }
              catch (Exception ex)
              {
-                 _logger.Error(ex.Message, ex);
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                  return null;
              }
          }
@@ -55,7 +60,9 @@ namespace MyCortex.Admin.Controllers
         [HttpGet]
          public IList<DosageFormMasterModel> DosageFormList(long Institution_Id)
          {
-             IList<DosageFormMasterModel> model;
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<DosageFormMasterModel> model;
              try
              {
                  model = repository.DosageFormList(Institution_Id);
@@ -63,7 +70,7 @@ namespace MyCortex.Admin.Controllers
              }
              catch (Exception ex)
              {
-                 _logger.Error(ex.Message, ex);
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                  return null;
              }
          }

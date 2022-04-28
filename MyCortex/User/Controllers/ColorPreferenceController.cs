@@ -1,4 +1,4 @@
-﻿using log4net;
+﻿  
 using MyCortex.Provider;
 using MyCortex.Repositories;
 using MyCortex.Repositories.User;
@@ -16,19 +16,23 @@ namespace MyCortex.User.Controllers
     public class ColorPreferenceController : ApiController
     {
         static readonly IColorPreferenceRepository repository = new ColorPreferenceRepository();
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
 
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
         [HttpGet]
         [ActionName("List")]
         public HttpResponseMessage ListColorPreference(long UserId)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             ColorPreferenceModel model = new ColorPreferenceModel();
             ColorPreferenceReturnModel result = new ColorPreferenceReturnModel();
             
             try
             {
-                if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.ColorPreference_List(UserId);
                 if (model != null)
                 {
@@ -45,7 +49,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return Request.CreateResponse(HttpStatusCode.BadRequest, result);
             }
         }
@@ -54,6 +58,8 @@ namespace MyCortex.User.Controllers
         [ActionName("Save")]
         public HttpResponseMessage SaveColorPreference([FromBody] ColorPreferenceModel insobj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             ColorPreferenceModel ModelData = new ColorPreferenceModel();
             ColorPreferenceReturnModel model = new ColorPreferenceReturnModel();
             
@@ -97,7 +103,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Message = "Error in creating Configuration";
                 model.ColorPreferences = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);

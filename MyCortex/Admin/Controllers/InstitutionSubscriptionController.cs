@@ -1,7 +1,7 @@
 ﻿using MyCortex.Admin.Models;
 using MyCortex.Repositories;
 using MyCortex.Repositories.Admin;
-using log4net;
+  
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +24,11 @@ namespace MyCortex.Admin.Controllers
     public class InstitutionSubscriptionController : ApiController
     {
         static readonly IInstitutionSubscriptionRepository repository = new InstitutionSubscriptionRepository();
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
+
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         /// <summary>
         /// Institution subscription details of a institution subscription
@@ -45,7 +49,8 @@ namespace MyCortex.Admin.Controllers
         /// <returns></returns>
         public HttpResponseMessage InstitutionSubscription_AddEdit(Guid Login_Session_Id, [FromBody] InstitutionSubscriptionModel insobj)
         {
-
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<InstitutionSubscriptionModel> ModelData = new List<InstitutionSubscriptionModel>();
             InstitutionSubscriptionReturnModels model = new InstitutionSubscriptionReturnModels();
             if (!ModelState.IsValid)
@@ -94,7 +99,8 @@ namespace MyCortex.Admin.Controllers
             }
             catch(Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating Subscription";
                 model.Institute = ModelData;

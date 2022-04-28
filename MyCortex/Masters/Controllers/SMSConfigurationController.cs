@@ -1,4 +1,4 @@
-﻿using log4net;
+﻿  
 using MyCortex.Admin.Models;
 using MyCortex.Provider;
 using MyCortex.Repositories;
@@ -26,7 +26,10 @@ namespace MyCortex.Admin.Controllers
     public class SMSConfigurationController : ApiController
     {
         static readonly ISMSConfigurationRepository repository = new SMSConfigurationRepository();
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         /// <summary>
         /// to Insert/Update the entered SMS Configuration Information into database of a institution
@@ -36,6 +39,8 @@ namespace MyCortex.Admin.Controllers
         [HttpPost]
         public HttpResponseMessage SMSConfiguration_AddEdit(SMSConfigurationModel model)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             if (ModelState.IsValid)
             {
                 try
@@ -45,7 +50,7 @@ namespace MyCortex.Admin.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error(ex.Message, ex);
+                   _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                     return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
                 }
             }
@@ -63,16 +68,17 @@ namespace MyCortex.Admin.Controllers
         [HttpGet]
         public SMSConfigurationModel SMSConfiguration_View(long Institution_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             SMSConfigurationModel model = new SMSConfigurationModel();
             try
             {
-                if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.SMSConfiguration_View(Institution_Id);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
 
             return model;

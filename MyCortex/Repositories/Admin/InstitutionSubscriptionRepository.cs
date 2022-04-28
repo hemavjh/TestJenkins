@@ -1,7 +1,7 @@
 ﻿using MyCortex.Admin.Controllers;
 using MyCortex.Admin.Models;
 using MyCortexDB;
-using log4net;
+  
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,8 +15,12 @@ namespace MyCortex.Repositories.Admin
     public class InstitutionSubscriptionRepository : IInstitutionSubscriptionRepository
     {
         ClsDataBase db;
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         public InstitutionSubscriptionRepository()
         {
@@ -164,7 +168,10 @@ namespace MyCortex.Repositories.Admin
         {
             List<DataParameter> param = new List<DataParameter>();
 
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].MODULEMASTER_SP_MODULENAME");
@@ -179,7 +186,8 @@ namespace MyCortex.Repositories.Admin
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -187,8 +195,10 @@ namespace MyCortex.Repositories.Admin
         public IList<LanguageMasterModel> LanguageNameList()
         {
             List<DataParameter> param = new List<DataParameter>();
-
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].LANGUAGEMASTER_SP_LANGUAGENAME");
@@ -203,7 +213,8 @@ namespace MyCortex.Repositories.Admin
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+                //_MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -231,8 +242,10 @@ namespace MyCortex.Repositories.Admin
         public IList<GatewayMasterModel> PaymentModule_List()
         {
             List<DataParameter> param = new List<DataParameter>();
-
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[INSTITUTIONPAYMENTMETHODS_SP_LIST]");
@@ -247,7 +260,8 @@ namespace MyCortex.Repositories.Admin
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }

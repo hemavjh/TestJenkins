@@ -1,4 +1,4 @@
-﻿using log4net;
+﻿  
 using MyCortex.Admin.Models;
 using MyCortex.Repositories;
 using MyCortex.Repositories.Admin;
@@ -21,7 +21,10 @@ namespace MyCortex.Masters.Controllers
     public class WebConfigurationController : ApiController
     {
         static readonly IWebConfigurationRepository repository = new WebConfigurationRepository();
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
 
         /// <summary>      
@@ -34,6 +37,8 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<WebConfigurationModel> WebConfiguration_List(int? IsActive, int? Institution_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<WebConfigurationModel> model;
             try
             {
@@ -42,6 +47,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -49,17 +55,18 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public WebConfigurationModel WebConfiguration_View(long Id, Guid Login_Session_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             WebConfigurationModel model = new WebConfigurationModel();
             try
             {
-                if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.WebConfiguration_View(Id, Login_Session_Id);
                 return model;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -67,6 +74,8 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<WebConfigurationModel> ChronicCodeList()
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<WebConfigurationModel> model;
             try
             {
@@ -75,6 +84,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -82,6 +92,8 @@ namespace MyCortex.Masters.Controllers
         [HttpPost]
         public HttpResponseMessage WebConfiguration_InsertUpdate(Guid Login_Session_Id, [FromBody] List<WebConfigurationModel> insobj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<WebConfigurationModel> ModelData = new List<WebConfigurationModel>();
             WebConfigurationReturnModels model = new WebConfigurationReturnModels();
             if (!ModelState.IsValid)
@@ -114,7 +126,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating Configuration";
                 model.Configuration = ModelData;
@@ -125,6 +137,8 @@ namespace MyCortex.Masters.Controllers
         [HttpPost]
         public HttpResponseMessage Configuration_AddEdit(List<WebConfigurationModel> model)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 if (ModelState.IsValid)
@@ -136,7 +150,7 @@ namespace MyCortex.Masters.Controllers
                     }
                     catch (Exception ex)
                     {
-                        _logger.Error(ex.Message, ex);
+                       _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                         return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
                     }
                 }
@@ -147,7 +161,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
         }
@@ -156,6 +170,8 @@ namespace MyCortex.Masters.Controllers
 
         public HttpResponseMessage WebConfiguration_InActive([FromBody] WebConfigurationModel noteobj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<WebConfigurationModel> ModelData = new List<WebConfigurationModel>();
             WebConfigurationReturnModels model = new WebConfigurationReturnModels();
             if (!ModelState.IsValid)
@@ -184,7 +200,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating WebConfiguration";
                 model.ReturnFlag = 0;
@@ -196,6 +212,8 @@ namespace MyCortex.Masters.Controllers
         [HttpPost]
         public HttpResponseMessage WebConfiguration_Active([FromBody] WebConfigurationModel noteobj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<WebConfigurationModel> ModelData = new List<WebConfigurationModel>();
             WebConfigurationReturnModels model = new WebConfigurationReturnModels();
             if (!ModelState.IsValid)
@@ -224,7 +242,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating WebConfiguration";
                 model.ReturnFlag = 0;
