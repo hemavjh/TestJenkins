@@ -327,7 +327,6 @@ namespace MyCortex.Repositories.Uesr
 
             if(insobj.Id == 0)
             {
-                //_logger.Info("BEFORE MRN_AUTOCREATIION_SP");
                 _MyLogger.Exceptions("INFO", _AppLogger, "BEFORE MRN_AUTOCREATIION_SP", null, _AppMethod);
                 List<DataParameter> param_2 = new List<DataParameter>();
                 param_2.Add(new DataParameter("@INSTITUTION_ID", insobj.INSTITUTION_ID));
@@ -337,7 +336,6 @@ namespace MyCortex.Repositories.Uesr
                 var senddata = new JavaScriptSerializer().Serialize(param_2.Select(x => new { x.ParameterName, x.Value }));
                 _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
                 DataTable dt_2 = ClsDataBase.GetDataTable("[MYCORTEX].[MRN_AUTOCREATIION_SP]", param_2);
-                //_logger.Info("MRN_AUTOCREATIION_SP");
                 _MyLogger.Exceptions("INFO", _AppLogger, "MRN_AUTOCREATIION_SP", null, _AppMethod);
                 UserModel Get_Patient_Mrn = (from p in dt_2.AsEnumerable()
                                              select new UserModel()
@@ -360,7 +358,6 @@ namespace MyCortex.Repositories.Uesr
             insobj.PATIENTNO = Get_Patient_No.PATIENTNO;
             param.Add(new DataParameter("@PATIENTNO", insobj.PATIENTNO));
             param.Add(new DataParameter("@IS_MASTER", insobj.IS_MASTER));
-            //_logger.Info("GET_PATIENTID_SP_LIST");
             _MyLogger.Exceptions("INFO", _AppLogger, "GET_PATIENTID_SP_LIST", null, _AppMethod);
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USER_ADMIN_SP_INSERTUPDATE]", param);
             //string strXMLIn = string.Empty;

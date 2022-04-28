@@ -126,7 +126,6 @@ namespace MyCortexDB
 
             if (string.IsNullOrEmpty(Connstr_FromINI))
             {
-                //_logger.Error("Connection string empty", null);
                 _MyLogger.Exceptions("Error", _AppLogger, "Connection string empty", null, _AppMethod);
                 //    StringBuilder ConnectionStr = new StringBuilder();
                 //    ConnectionStr.Append("server="
@@ -231,8 +230,6 @@ namespace MyCortexDB
                     {
                         _MyLogger.Exceptions("INFO", _AppLogger, ServerName, null, _AppMethod);
                         _MyLogger.Exceptions("INFO", _AppLogger, FilePath, null, _AppMethod);
-                        //_logger.Info("ServerName" + ServerName);
-                        //_logger.Info("File Path: " + FilePath);
                     }
                 }
 

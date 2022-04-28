@@ -301,7 +301,7 @@ namespace MyCortex.Repositories.Login
                     lst.UserDetails.DOB = dt1;
                 }
                 //lst.UserDetails.DOB = Convert.ToDateTime(lst.UserDetails.DOB_Encrypt);
-                /*_logger.Info(lst.UserDetails.DOB_Encrypt);
+                /*_MyLogger.Exceptions("INFO", _AppLogger, lst.UserDetails.DOB_Encrypt, null, _AppMethod);
                 string[] tokens = lst.UserDetails.DOB_Encrypt.Split('/');
                 
                 //lst.UserDetails.DOB = new DateTime(int.Parse(tokens[2].Substring(0, 4)), int.Parse(tokens[0]), int.Parse(tokens[1]));

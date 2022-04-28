@@ -259,7 +259,6 @@ namespace MyCortex.User.Controller
                     //Ins_model = repository.GetInstitutionForWebURL(request);
                     //   userObj.INSTITUTION_ID = Ins_model.INSTITUTION_ID;
                 }
-                //_logger.Info("GetInstitutionFromShortName");
                 _MyLogger.Exceptions("INFO", _AppLogger, "GetInstitutionFromShortName", null, _AppMethod);
                 if (userObj.INSTITUTION_ID == 0)
                 {
@@ -334,7 +333,6 @@ namespace MyCortex.User.Controller
                 if (userObj.Id == 0)
                     generatedPwd = egmodel.GeneratePassword_ByPasswordPolicy(userObj.INSTITUTION_ID.Value);
 
-                //_logger.Info("GeneratePassword_ByPasswordPolicy");
                 _MyLogger.Exceptions("INFO", _AppLogger, "GeneratePassword_ByPasswordPolicy", null, _AppMethod);
                 userObj.PASSWORD = generatedPwd;
                 if (userObj.PASSWORD == "")
@@ -364,7 +362,8 @@ namespace MyCortex.User.Controller
                 // //}
 
                 //modelLF_Formula = commonrepository.AppConfigurationDetails(FullNameFormula, userObj.INSTITUTION_ID.Value);
-                //_logger.Info("AppConfigurationDetails");
+                //_MyLogger.Exceptions("INFO", _AppLogger, AppConfigurationDetails, null, _AppMethod);
+
                 //if (modelLF_Formula[0].ConfigValue != null)
                 //{
                 //    FormulaforFullName = modelLF_Formula[0].ConfigValue;
@@ -407,7 +406,6 @@ namespace MyCortex.User.Controller
                 {
                     userObj.Patient_Type = 1;
                 }
-                //_logger.Info("before Admin_InsertUpdate");
                 _MyLogger.Exceptions("INFO", _AppLogger, "before Admin_InsertUpdate", null, _AppMethod);
                 ModelData = repository.Admin_InsertUpdate(Login_Session_Id, userObj);
                 if ((ModelData.flag == 1) == true)

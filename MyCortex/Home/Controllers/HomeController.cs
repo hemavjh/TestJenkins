@@ -98,7 +98,6 @@ namespace MyCortex.Home.Controllers
             try
             {
                 long UserId = Convert.ToInt32(Session["UserId"].ToString());
-                //_logger.Warn("Session UserId" + UserId);
                 _MyLogger.Exceptions("Warn", _AppLogger, "Session UserId" + UserId, null, _AppMethod);
                 if (UserId > 0)
                 {
@@ -110,7 +109,6 @@ namespace MyCortex.Home.Controllers
                 }
                 else
                 {
-                    //_logger.Warn("page go to login");
                     _MyLogger.Exceptions("Warn", _AppLogger, "page go to login", null, _AppMethod);
                     return RedirectToAction("LoginIndex");
                 }
@@ -129,7 +127,6 @@ namespace MyCortex.Home.Controllers
             {
                 _AppLogger = this.GetType().FullName;
                 _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
-                //_logger.Warn("session is null so page go to login");
                 _MyLogger.Exceptions("Warn", _AppLogger, "session is null so page go to login", null, _AppMethod);
                 Response.Redirect("LoginIndex");
             }
@@ -190,7 +187,6 @@ namespace MyCortex.Home.Controllers
                 //HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
 
                 returnError = "";
-                //_logger.Warn("LoginOut button clicked");
                 _MyLogger.Exceptions("Warn", _AppLogger, "LoginOut button clicked", null, _AppMethod);
                 return RedirectToAction("LoginIndex");
             }
@@ -1035,8 +1031,7 @@ namespace MyCortex.Home.Controllers
                     object objResponse = jsonSerializer.ReadObject(res.GetResponseStream());
                     PayByCreateOrderResponse tokenRes = objResponse as PayByCreateOrderResponse;
                     var toekndata = new JavaScriptSerializer().Serialize(tokenRes);
-                    _MyLogger.Exceptions("INFO", _AppLogger, toekndata, null, _AppMethod);
-                    //_logger.Info(tokenRes.body.interActionParams.tokenUrl);
+                    _MyLogger.Exceptions("INFO", _AppLogger, tokenRes.body.interActionParams.tokenUrl, null, _AppMethod);
                     if (tokenRes != null && tokenRes.body != null && tokenRes.body.interActionParams != null && !string.IsNullOrEmpty(tokenRes.body.interActionParams.tokenUrl))
                     {
                         redirectUrl = tokenRes.body.interActionParams.tokenUrl;
@@ -1045,7 +1040,6 @@ namespace MyCortex.Home.Controllers
             }
             catch (WebException wx)
             {
-                //_logger.Error(wx.Message, wx);
                 _MyLogger.Exceptions("ERROR", _AppLogger, wx.Message, wx, _AppMethod);
                 if (wx.Message != null)
                 {
@@ -1072,7 +1066,6 @@ namespace MyCortex.Home.Controllers
                 _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
-            //_logger.Warn(redirectUrl);
             _MyLogger.Exceptions("Warn", _AppLogger, redirectUrl, null, _AppMethod);
             return new RedirectResult(redirectUrl);
         }
@@ -1174,7 +1167,6 @@ namespace MyCortex.Home.Controllers
                 }
                 catch (WebException wx)
                 {
-                    //_logger.Error(wx.Message, wx);
                     _MyLogger.Exceptions("ERROR", _AppLogger, wx.Message, wx, _AppMethod);
                     if (wx.Message != null)
                     {

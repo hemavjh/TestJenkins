@@ -161,7 +161,6 @@ namespace MyCortex.Admin.Controllers
             }
             catch (WebException wx)
             {
-                // _logger.Error(wx.Message, wx);
                 _MyLogger.Exceptions("ERROR", _AppLogger, wx.Message, wx, _AppMethod);
 
                 if (wx.Message != null)

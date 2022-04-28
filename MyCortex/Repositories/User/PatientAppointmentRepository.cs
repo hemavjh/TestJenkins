@@ -598,7 +598,6 @@ namespace MyCortex.Repositories.Uesr
                         param3.Add(new DataParameter("@isedit", obj.ID));
                         param3.Add(new DataParameter("@INSTITUTION_ID", obj.Institution_Id));
                         param3.Add(new DataParameter("@DOCTOR_ID", item.DoctorId));
-                        //_logger.Info(serializer.Serialize(param3.Select(x => new { x.ParameterName, x.Value })));
                         var senddata2 = new JavaScriptSerializer().Serialize(param3.Select(x => new { x.ParameterName, x.Value }));
                         _MyLogger.Exceptions("INFO", _AppLogger, senddata2, null, _AppMethod);
                         try
