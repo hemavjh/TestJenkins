@@ -774,7 +774,7 @@ namespace MyCortex.Repositories.Uesr
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }

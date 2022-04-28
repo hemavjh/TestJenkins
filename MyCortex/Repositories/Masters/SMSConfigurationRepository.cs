@@ -61,7 +61,8 @@ namespace MyCortex.Repositories.Admin
         public IList<SendSMSModel> SendEmail_AddEdit(SendSMSModel obj)
         {
             List<DataParameter> param = new List<DataParameter>();
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 param.Add(new DataParameter("@ID", obj.Id));
@@ -94,7 +95,7 @@ namespace MyCortex.Repositories.Admin
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
