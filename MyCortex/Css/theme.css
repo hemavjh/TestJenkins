@@ -711,12 +711,13 @@ li.customDropdownlast-child:hover {
 }
 
 .chronictIcon {
-    display: flex;
+    /*display: flex;*/
     align-items: center;
     justify-content: center;
     position: relative;
     flex-basis: 100%;
     margin-bottom: 10px;
+    margin-left: -80px;
 }
 
 .patientHeaderProfile {
@@ -726,7 +727,7 @@ li.customDropdownlast-child:hover {
     justify-content: center;
     position: relative;
     flex-basis: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 4px;
 }
 
     .patientHeaderProfile > i {
@@ -804,7 +805,7 @@ li.customDropdownlast-child:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    /*min-width: 460px;*/
+    min-width: 417px;
     flex-wrap: wrap;
 }
 
