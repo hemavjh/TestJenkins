@@ -805,7 +805,7 @@ li.customDropdownlast-child:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 417px;
+    /*min-width: 417px;*/
     flex-wrap: wrap;
 }
 
