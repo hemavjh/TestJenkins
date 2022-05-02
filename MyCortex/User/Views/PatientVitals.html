@@ -1401,9 +1401,9 @@
                                                                     <label>Search</label>
                                                                     <div class="modernSearch">
                                                                         <input type="text" ng-model="searchquery"
-                                                                               ng-change="filterParameterList()"
+
                                                                                placeholder="" />
-                                                                        <i class="fa fa-search"></i>
+                                                                        <i class="fa fa-search" ng-click="filterParameterList()"></i>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1576,9 +1576,9 @@
                                                     <div class="inputGroups">
                                                         <label>Search</label>
                                                         <div class="modernSearch">
-                                                            <input type="text" ng-model="Medicationsearchquery" ng-change="filterMedicationList()"
+                                                            <input type="text" ng-model="Medicationsearchquery" 
                                                                    placeholder="" />
-                                                            <i class="fa fa-search"></i>
+                                                            <i class="fa fa-search" ng-click="filterMedicationList()"></i>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1727,8 +1727,8 @@
                                                             <div class="inputGroups">
                                                                 <label>Search</label>
                                                                 <div class="modernSearch">
-                                                                    <input type="text" ng-model="searchquerydata" ng-change="filterICD10List()" placeholder="" />
-                                                                    <i class="fa fa-search"></i>
+                                                                    <input type="text" ng-model="searchquerydata" placeholder="" />
+                                                                    <i class="fa fa-search" ng-click="filterICD10List()"></i>
                                                                 </div>
                                                             </div>
 
@@ -1854,9 +1854,9 @@
                                                         <div class="inputGroups">
                                                             <label>Search</label>
                                                             <div class="modernSearch">
-                                                                <input type="text" ng-model="Allergysearchquery" ng-change="filterAllergyList()"
+                                                                <input type="text" ng-model="Allergysearchquery"
                                                                        placeholder="" />
-                                                                <i class="fa fa-search"></i>
+                                                                <i class="fa fa-search" ng-click="filterAllergyList()"></i>
                                                             </div>
                                                         </div>
 
@@ -1991,9 +1991,9 @@
                                                         <div class="inputGroups">
                                                             <label>Search</label>
                                                             <div class="modernSearch">
-                                                                <input type="text" ng-model="searchNotesData" ng-change="filterPatientNotesList()"
+                                                                <input type="text" ng-model="searchNotesData"
                                                                        placeholder="" />
-                                                                <i class="fa fa-search"></i>
+                                                                <i class="fa fa-search" ng-click="filterPatientNotesList()"></i>
                                                             </div>
                                                         </div>
 
@@ -2111,9 +2111,9 @@
                                                         <div class="inputGroups">
                                                             <label>Search</label>
                                                             <div class="modernSearch">
-                                                                <input type="text" ng-model="OtherData_searchquery" ng-change="filter_OtherData()"
+                                                                <input type="text" ng-model="OtherData_searchquery"
                                                                        placeholder="" />
-                                                                <i class="fa fa-search"></i>
+                                                                <i class="fa fa-search" ng-click="filter_OtherData()"></i>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -3797,8 +3797,8 @@
                     <div class="modal-body">
                         <div class="modal-footer" style="text-align: center;">
                             <div class="modernSearch">
-                                <input type="text" ng-model="CodeSearch" id="txtdrugCodeSearch" ng-keyup="Drugcodesearchkey()" placeholder="Search Drug Code" />
-                                <i class="fa fa-search"></i>
+                                <input type="text" ng-model="CodeSearch" id="txtdrugCodeSearch" placeholder="Search Drug Code" />
+                                <i class="fa fa-search" ng-click="Drugcodesearchkey()"></i>
                             </div>
                         </div>
                         <form>
@@ -3994,8 +3994,8 @@
                         <div class="modal-footer" style="text-align: center;">
                             <div class="modernSearch">
 
-                                <input type="text" ng-model="ICD10CodeSearch" id="txtICD10CodeSearch" ng-keyup="ICD10codesearchkey()" placeholder="Search ICD Code" />
-                                <i class="fa fa-search"></i>
+                                <input type="text" ng-model="ICD10CodeSearch" id="txtICD10CodeSearch" placeholder="Search ICD Code" />
+                                <i class="fa fa-search" ng-click="ICD10codesearchkey()"></i>
                             </div>
                         </div>
                         <form>

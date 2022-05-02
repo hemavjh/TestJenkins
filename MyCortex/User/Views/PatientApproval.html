@@ -64,9 +64,9 @@
                                 <div class="inputGroups">
                                     <label>Search</label>
                                     <div class="modernSearch">
-                                        <input type="text" ng-model="searchquery" ng-change="filterPatientList()"
+                                        <input type="text" ng-model="searchquery" 
                                                placeholder="" />
-                                        <i class="fa fa-search"></i>
+                                        <i class="fa fa-search" ng-click="filterPatientList()"></i>
                                     </div>
                                 </div>
                             </div>
@@ -238,7 +238,7 @@
                             <input type="checkbox" ng-model="SelectedAllPatient" ng-click="checkAll()"/>
                         </th>
                         <th st-ratio="30" st-sort="FullName">Name</th>
-                        <th st-ratio="15" st-sort="MNR">MRN</th>
+                        <th st-ratio="15" st-sort="MRN">MRN</th>
                         <th st-ratio="20" st-sort="MobileNo">Mobile No.</th>
                         <th st-ratio="15" st-sort="EmailId">Email</th>
                         <th st-ratio="15" st-sort="PendingSince">Pending Since</th>

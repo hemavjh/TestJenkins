@@ -7237,8 +7237,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         angular.lowercase(value.AllergenName).match(searchstring) ||
                         angular.lowercase(value.AllergySeverityName).match(searchstring) ||
                         angular.lowercase(value.AllergyOnsetName).match(searchstring) ||
-                        angular.lowercase(value.AllergyReactionName).match(searchstring) ||
-                        angular.lowercase(($filter('date')(value.OnSetDate, "dd-MMM-yyyy hh:mm:ss a"))).match(searchstring);
+                        angular.lowercase(value.AllergyReactionName).match(searchstring) 
+                        angular.lowercase(($filter('date')(value.OnSetDate, "dd-MMM-yyyy"))).match(searchstring)
+                        
                 });
                 if ($scope.PatientAssignedAllergyDataList.length > 0) {
                     $scope.flag = 1;
@@ -7961,8 +7962,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     return angular.lowercase(value.DocumentName).match(searchstring) ||
                         angular.lowercase(value.FileName).match(searchstring) ||
                         angular.lowercase(value.Created_Name).match(searchstring) ||
-                        angular.lowercase(value.DocumentType).match(searchstring) ||
-                        angular.lowercase(value.Created_Date).match(searchstring);
+                        //angular.lowercase(value.DocumentType).match(searchstring) || 
+                        angular.lowercase($filter('date')(value.Created_Date, "dd-MMM-yyyy")).match(searchstring)
                 });
                 if ($scope.OtherData_ListData.length > 0) {
                     $scope.OtherDataflag = 1;
