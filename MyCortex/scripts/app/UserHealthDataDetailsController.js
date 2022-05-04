@@ -441,7 +441,10 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 $scope.files.push(e.files[0])                
             }
         }
-
+        $scope.appdocfileRemove = function (index) {
+           $scope.files.splice(index, 1);
+        }
+        
         $scope.UnitGroupPreference = function () {
             //$http.get(baseUrl + '/api/ParameterSettings/UnitGroupPreferenceGet/?institutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
             //    $scope.unitgrouptype = data.PreferenceType;
