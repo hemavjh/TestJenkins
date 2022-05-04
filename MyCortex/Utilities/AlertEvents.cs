@@ -104,6 +104,12 @@ namespace MyCortex.Notification
                         {
                             PushNotificationMessage message = new PushNotificationMessage();
                             message.Title = alert.TempSubject;
+                            alert.TempBody = alert.TempBody.Replace("<br>", "");
+                            alert.TempBody = alert.TempBody.Replace("<br />", "");
+                            alert.TempBody = alert.TempBody.Replace("<p>", "");
+                            alert.TempBody = alert.TempBody.Replace("</p>", "");
+                            alert.TempBody = alert.TempBody.Replace("&nbsp;", " ");
+                            alert.TempBody = alert.TempBody.Replace("\n", " ");
                             message.Message = alert.TempBody;
                             _MyLogger.Exceptions("INFO", _AppLogger, "Notification: Title: " + message.Title + "Message: " + message.Message + "UserId: " + email.UserId, null, _AppMethod);
                             PushNotificationApiManager.sendNotification(message, sendEmailModel[0].Id, email.UserId, alert.TemplateFor);
@@ -147,7 +153,7 @@ namespace MyCortex.Notification
                             SMSSource = alertList.AlertEventEmailList[0].SMSSourceId;
 
                             SMSBody = SMSBody.Replace("<br>", "");
-                            SMSBody = SMSBody.Replace("<br /> ", "");
+                            SMSBody = SMSBody.Replace("<br />", "");
                             SMSBody = SMSBody.Replace("<p>", "");
                             SMSBody = SMSBody.Replace("</p>", "");
                             SMSBody = SMSBody.Replace("&nbsp;", " ");

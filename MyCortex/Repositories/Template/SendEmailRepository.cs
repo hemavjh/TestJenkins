@@ -484,7 +484,8 @@ namespace MyCortex.Repositories.Template
                                            {
                                                User_Id = p.Field<long>("USER_ID"),
                                                FCMToken = p.Field<string>("FCMTOKEN"),
-                                               DeviceType = p.Field<string>("DEVICETYPE")
+                                               DeviceType = p.Field<string>("DEVICETYPE"),
+                                               SiteUrl = p.Field<string>("SITEURL")
                                            }).ToList();
                 return lst;
             }
