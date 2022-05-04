@@ -1,7 +1,7 @@
 ﻿using MyCortex.Admin.Controllers;
 using MyCortex.Admin.Models;
 using MyCortexDB;
-using log4net;
+  
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,8 +16,13 @@ namespace MyCortex.Repositories.Admin
     public class UsersLogRepository : IUsersLogRepository    
     {
         ClsDataBase db;
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
+
         public UsersLogRepository()
         {
             db = new ClsDataBase();
@@ -25,11 +30,14 @@ namespace MyCortex.Repositories.Admin
 
         public IList<AdminUsersLogModel> Admin_Userslog_List(long? Institution_Id, Guid login_session_id,long? User_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             
             param.Add(new DataParameter("@InstitutionId", Institution_Id));
             param.Add(new DataParameter("@UserId", User_Id));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].USERS_LOG_LIST",param);
             List<AdminUsersLogModel> list = (from p in dt.AsEnumerable()
                                              select new AdminUsersLogModel()
@@ -54,9 +62,12 @@ namespace MyCortex.Repositories.Admin
         }
         public IList<All_UserList> GetAll_UserLists(long InstitutionId)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTIONID", InstitutionId));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_ALL_USERLIST]", param);
@@ -74,7 +85,8 @@ namespace MyCortex.Repositories.Admin
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }

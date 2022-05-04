@@ -57,7 +57,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             $scope.Hcp_Pat = false;
             $scope.ClearInstitutionSubscriptionPopup();
             $scope.Contract_Period_From = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
-            $scope.Contract_Period_To = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            $scope.Contract_Period_To = DateFormatEdit($filter('date')(new Date(new Date().setMonth(new Date().getMonth() + 1)), 'dd-MMM-yyyy'));
             $('#btnsave').attr("disabled", false);
             $('#btnsave1').attr("disabled", false);
             $scope.EditInstSub = 0;
@@ -195,6 +195,17 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                 $scope.Institution_SubscriptionAddEdit();
             }
         }
+        //$scope.Contract_Period_To = DateFormatEdit($filter('date')(new Date(new Date().setMonth(new Date().getMonth() + 1)), 'dd-MMM-yyyy'));
+
+        $scope.ChangeDate = function (Contract_Period_From) {
+            $scope.sDate = moment(Contract_Period_From).format('DD-MMM-YYYY');
+            $scope.Contract_Period_To = moment($scope.sDate).add(30, 'days').format('YYYY-MM-DD');
+            //value.Contract_Period_To = DateFormatEdit($filter('date')($scope.EndDate, 'dd-MMM-yyyy'));
+            document.getElementById('Contract_Period_To').value = $scope.Contract_Period_To;
+
+
+        }
+
 
         $scope.Module_listAdd = [];
         $scope.ModulelistChange = function (Id, value) {

@@ -43,6 +43,8 @@ namespace MyCortex.User.Model
         public string Photo { get; set; }
         public string TimeDifference { get; set; }
         public long TimeZone_Id { get; set; }
+        public string TimeZoneName { get; set; }
+        public string UtcOffSet { get; set; }
         public string Smoker { get; set; }
         public byte[] PhotoBlob { get; set; }
         public string ViewGenderName { get; set; }
@@ -112,6 +114,18 @@ namespace MyCortex.User.Model
         public bool IsBooked { get; set; }
         public string PatientName { get; set; }
         public long? id { get; set; }
+        public long? MakeMeLookBusy { get; set; }
+        public long? MinimumSlots { get; set; }
+    }
+
+    public class AppointmentsData_For_ICSFile
+    {
+        public DateTime AppointmentDateTime { get; set; }
+        public DateTime AppointmentFromDateTime { get; set; }
+        public DateTime AppointmentToDateTime { get; set; }
+        public string TimeZoneName { get; set; }
+        public string TimeZoneOffset { get; set; }
+        public string DoctorName { get; set; }
     }
 
     public class DoctorAppointmentTimeSlotReturnModel
@@ -145,6 +159,8 @@ namespace MyCortex.User.Model
         public long Intervel { get; set; }
         public long CustomSlot { get; set; }
         public long BookingOpen { get; set; }
+        public long MakeMeLookBusy { get; set; }
+        public long MinimumSlots { get; set; }
         public long BookingCancelLock { get; set; }
         public long Institution_Id { get; set; }
         public long CreatedBy { get; set; }

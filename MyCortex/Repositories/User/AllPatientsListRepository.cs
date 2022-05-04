@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
 using System.Data;
-using log4net;
+  
 using MyCortex.User.Model;
 using MyCortexDB;
 using MyCortex.Utilities;
@@ -14,8 +14,12 @@ namespace MyCortex.Repositories.User
     public class AllPatientsListRepository : IAllPatientRepository
     {
         ClsDataBase db;
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         public AllPatientsListRepository()
         {
@@ -45,6 +49,8 @@ namespace MyCortex.Repositories.User
         /// <returns>All patient details for the logged in user</returns>
         public IList<AllPatientListModel> PatientList(long Doctor_Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, long? UserTypeId,int StartRowNumber, int EndRowNumber,string SearchQuery,string SearchEncryptedQuery)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@StartRowNumber",StartRowNumber));
             param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
@@ -66,7 +72,8 @@ namespace MyCortex.Repositories.User
             param.Add(new DataParameter("@UserTypeId", UserTypeId));
             param.Add(new DataParameter("@SearchQuery", SearchQuery));
             param.Add(new DataParameter("@SearchEncryptedQuery",SearchQuery));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataEncryption encrypt = new DataEncryption();
@@ -103,12 +110,14 @@ namespace MyCortex.Repositories.User
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
         public IList<AllPatientListModel> SearchPatientList(long Doctor_Id, string PATIENTNO, string INSURANCEID, string NATIONALITY_ID, string MOBILE_NO, string EMAILID, string FIRSTNAME, string LASTNAME, string MRN, long? UserTypeId, int StartRowNumber, int EndRowNumber, int? AdvanceFilter)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
             param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
@@ -123,7 +132,8 @@ namespace MyCortex.Repositories.User
             param.Add(new DataParameter("@Email", EMAILID == null ? "" : EMAILID.ToLower()));
             param.Add(new DataParameter("@UserTypeId", UserTypeId));
             param.Add(new DataParameter("@AdvanceFilter", AdvanceFilter));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataEncryption encrypt = new DataEncryption();
@@ -149,7 +159,7 @@ namespace MyCortex.Repositories.User
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -175,6 +185,8 @@ namespace MyCortex.Repositories.User
         /// <returns></returns>
         public IList<AllPatientListModel> GetPatientList_Count(long Doctor_Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, long? UserTypeId)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Doctor_Id", Doctor_Id));
             param.Add(new DataParameter("@PatientNo", PATIENTNO));
@@ -192,7 +204,8 @@ namespace MyCortex.Repositories.User
             param.Add(new DataParameter("@BloodGroupId", BLOODGROUP_ID));
             param.Add(new DataParameter("@GroupId", Group_Id));
             param.Add(new DataParameter("@UserTypeId", UserTypeId));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GETCOUNT_PATIENT_SP_LIST_BASEDONGROUPS]", param);
@@ -205,7 +218,7 @@ namespace MyCortex.Repositories.User
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }

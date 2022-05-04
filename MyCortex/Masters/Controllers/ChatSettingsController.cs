@@ -9,7 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web;
 using System.IO;
-using log4net;
+  
 using MyCortex.Repositories.Masters;
 using MyCortex.Masters.Models;
 using MyCortex.Provider;
@@ -25,7 +25,10 @@ namespace MyCortex.Masters.Controllers
     {
 
         static readonly IChatSettingsRepository repository = new ChatSettingsRepository();
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         /// <summary>      
         /// Admin -->  Chat Settings --> View page
@@ -36,17 +39,18 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<ChatSettingsModel> ViewEditChatSettings(int Id)
         {
-             IList<ChatSettingsModel> model;
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<ChatSettingsModel> model;
             try
             {
-                if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.ViewEditChatSettings(Id);
                 return model;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
            
@@ -60,6 +64,8 @@ namespace MyCortex.Masters.Controllers
         [HttpPost]
         public HttpResponseMessage ChatSettings_AddEdit([FromBody] ChatSettingsModel insobj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<ChatSettingsModel> ModelData = new List<ChatSettingsModel>();
             ChatReturnModels model = new ChatReturnModels();
             if (!ModelState.IsValid)
@@ -92,7 +98,7 @@ namespace MyCortex.Masters.Controllers
                 }
                   catch(Exception ex)
                 {
-                    _logger.Error(ex.Message, ex);
+                   _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                     model.Status = "False";
                     model.Message = "Error in creating Chat Settings";
                     model.chat = ModelData;
@@ -110,6 +116,8 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<UserTypeModel> ChatSettingsUserType_List()
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<UserTypeModel> model;
@@ -118,7 +126,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -127,13 +135,15 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public bool ChatPreferenceSave(Int64 institutionId, int preferenceType)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 return repository.ChatPreferenceSave(institutionId,preferenceType);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return false;
             }
         }
@@ -141,6 +151,8 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public HttpResponseMessage ChatPreferenceGet(Int64 institutionId)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 var prefType = repository.ChatPreferenceGet(institutionId);
@@ -152,7 +164,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
         }

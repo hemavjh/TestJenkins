@@ -1,6 +1,6 @@
 ﻿using MyCortex.Admin.Models;
 using MyCortex.Repositories;
-using log4net;
+  
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,13 +20,18 @@ namespace MyCortex.User.Controllers
     public class MyHomeController : ApiController
     {
         static readonly IMyHomeRepository repository = new MyHomeRepository(); 
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         [Authorize]
         [HttpGet]
         [CheckSessionOutFilter]
         public IList<TabListModel> Tab_List(int? IsActive, long Institution_Id, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<TabListModel> model;
             try
             {
@@ -35,6 +40,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -71,7 +77,8 @@ namespace MyCortex.User.Controllers
         [CheckSessionOutFilter]
         public HttpResponseMessage Tab_InsertUpdate([FromBody] TabListModel obj)
         {
-
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<TabListModel> ModelData = new List<TabListModel>();
             TabUserReturnModels model = new TabUserReturnModels();
             
@@ -103,7 +110,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating MyHome";
                 model.TabUserDetails = ModelData;
@@ -116,7 +123,8 @@ namespace MyCortex.User.Controllers
         [CheckSessionOutFilter]
         public HttpResponseMessage Tab_User_Pin_Update([FromBody] TabUserPinModel obj)
         {
-
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<TabUserPinModel> ModelData = new List<TabUserPinModel>();
             TabUserPinReturnModels model = new TabUserPinReturnModels();
 
@@ -143,7 +151,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating MyHome";
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
@@ -155,6 +163,8 @@ namespace MyCortex.User.Controllers
         [CheckSessionOutFilter]
         public HttpResponseMessage Get_Tab_ID(long InstitutionId, string Ref_ID)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             TabIdReturnModels model = new TabIdReturnModels();
             try
             {
@@ -171,7 +181,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in get TabID";
                 model.Message = "Error in get TabID";
@@ -183,6 +193,8 @@ namespace MyCortex.User.Controllers
         [HttpGet]
         public HttpResponseMessage TabDevice_List(long InstitutionId, long Tab_ID)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<TabDevicesModel> ModelData = new List<TabDevicesModel>();
             TabDeviceListReturnModels model = new TabDeviceListReturnModels();
             try
@@ -197,7 +209,7 @@ namespace MyCortex.User.Controllers
             }
             catch(Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in Listing Devices";
                 model.TabDeviceList = ModelData;
@@ -209,6 +221,8 @@ namespace MyCortex.User.Controllers
         [HttpGet]
         public HttpResponseMessage TabUser_List(long InstitutionId, long Tab_ID)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<TabUserModel> ModelData = new List<TabUserModel>();
             TabUserListReturnModels model = new TabUserListReturnModels();
             try
@@ -223,7 +237,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in Listing Users";
                 model.TabUserList = ModelData;
@@ -236,6 +250,8 @@ namespace MyCortex.User.Controllers
         [CheckSessionOutFilter]
         public HttpResponseMessage Parameter_List_GroupID(long ParamGroup_ID, long TabId)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<ParameterModels> ModelData = new List<ParameterModels>();
             ParameterReturnModels model = new ParameterReturnModels();
             try
@@ -250,7 +266,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in Listing Users";
                 model.ParameterList = ModelData;
@@ -262,6 +278,8 @@ namespace MyCortex.User.Controllers
         [HttpPost]
         public HttpResponseMessage TabPin_CheckValidity([FromBody] TabUserDetails TabLoginObj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             TabUserDetails ModelData = new TabUserDetails();
             TabUserReturnModels model = new TabUserReturnModels();
             string messagestr = "";
@@ -294,7 +312,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in Tab User Validation";
                 model.TabUserDetail = ModelData;
@@ -305,6 +323,8 @@ namespace MyCortex.User.Controllers
         [HttpPost]
         public HttpResponseMessage Tab_Logout_Validation([FromBody] TabAdminDetails TabAdminObj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             TabAdminDetails ModelData = new TabAdminDetails();
             TabAdminDetailsReturnModels model = new TabAdminDetailsReturnModels();
 
@@ -334,7 +354,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in Tab Admin User Validation";
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
@@ -346,6 +366,8 @@ namespace MyCortex.User.Controllers
         [CheckSessionOutFilter]
         public HttpResponseMessage TabDashboardDetails(long InstitutionId, long UserId, long TabId, Guid Login_Session_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             TabUserDashBordDetails ModelData = new TabUserDashBordDetails();
             TabUserListReturnModels model = new TabUserListReturnModels();
             string messagestr = "";
@@ -372,7 +394,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in DashBoard Tab Users";
                 model.TabDashBoardList = ModelData;
@@ -385,6 +407,8 @@ namespace MyCortex.User.Controllers
         [CheckSessionOutFilter]
         public HttpResponseMessage TabDashboardAlertsDetails(long PatientId, long UserTypeId, Guid Login_Session_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<TabDashBoardAlertDetails> ModelData = new List<TabDashBoardAlertDetails>();
             TabAlertsReturnModels model = new TabAlertsReturnModels();
             string messagestr = "";
@@ -399,7 +423,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in DashBoard Alerts";
                 model.TabDashBoardAlertDetails = ModelData;
@@ -412,6 +436,8 @@ namespace MyCortex.User.Controllers
         [CheckSessionOutFilter]
         public HttpResponseMessage Device_List(int? IsActive, long InstitutionId)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<TabDevicesModel> ModelData = new List<TabDevicesModel>();
             TabDeviceListReturnModels model = new TabDeviceListReturnModels();
             try
@@ -426,7 +452,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in Listing Devices";
                 model.TabDeviceList = ModelData;
@@ -439,6 +465,8 @@ namespace MyCortex.User.Controllers
         [CheckSessionOutFilter]
         public HttpResponseMessage DeviceName_List(int? IsActive)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<TabDevicesModel> ModelData = new List<TabDevicesModel>();
             TabDeviceListReturnModels model = new TabDeviceListReturnModels();
             try
@@ -453,7 +481,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in Listing DeviceName";
                 model.TabDeviceList = ModelData;
@@ -466,6 +494,8 @@ namespace MyCortex.User.Controllers
         [HttpPost]
         public HttpResponseMessage AddDeviceInsertUpdate([FromBody] TabDevicesModel obj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<TabDevicesModel> ModelData = new List<TabDevicesModel>();
             TabDeviceListReturnModels model = new TabDeviceListReturnModels();
 
@@ -496,7 +526,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating Add Device";
                 model.TabDeviceList = ModelData;
@@ -507,6 +537,8 @@ namespace MyCortex.User.Controllers
         [HttpGet]
         public IList<MonitoringProtocolModel> ParameterList(long UserId)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<MonitoringProtocolModel> model;
             try
             {
@@ -515,13 +547,15 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
         
         public HttpResponseMessage Dashboard_UserParametersettings_InsertUpdate([FromBody] DashboardUserParameterSettingsModel model)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<DashboardUserParameterSettingsModel> ModelData = new List<DashboardUserParameterSettingsModel>();
             try
             {
@@ -535,7 +569,7 @@ namespace MyCortex.User.Controllers
                     }
                     catch (Exception ex)
                     {
-                        _logger.Error(ex.Message, ex);
+                       _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                         return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
                     }
                 }
@@ -546,12 +580,14 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
         }
         public HttpResponseMessage Dashboard_UserParameterSettings_InActive(long Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             if (Id > 0)
             {
                 string messagestr = "";
@@ -581,7 +617,7 @@ namespace MyCortex.User.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error(ex.Message, ex);
+                   _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                     model.Status = "False";
                     model.Message = "Invalid data";
                     model.Error_Code = ex.Message;
@@ -598,6 +634,8 @@ namespace MyCortex.User.Controllers
 
         public HttpResponseMessage Dashboard_UserParameterSettings_Active(long Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             DashboardUserParameterSettingsModel ModelData = new DashboardUserParameterSettingsModel();
             DashboardUserParameterSettingsReturnModel model = new DashboardUserParameterSettingsReturnModel();
             if (!ModelState.IsValid)
@@ -630,7 +668,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Invalid data";
                 model.Error_Code = ex.Message;

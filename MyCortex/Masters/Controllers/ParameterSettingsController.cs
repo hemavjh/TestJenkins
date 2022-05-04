@@ -9,7 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web;
 using System.IO;
-using log4net;
+  
 using Newtonsoft.Json;
 using MyCortex.Repositories.Masters;
 using MyCortex.Masters.Models;
@@ -25,7 +25,10 @@ namespace MyCortex.Masters.Controllers
     public class ParameterSettingsController : ApiController
     {
         static readonly IParameterSettingsRepository repository = new ParameterSettingsRepository();
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         /// <summary>
         /// protocol parameter name list
@@ -57,6 +60,8 @@ namespace MyCortex.Masters.Controllers
         [HttpPost]
         public HttpResponseMessage ParameterSettings_AddEdit(List<ParamaterSettingsModel> model)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 if (ModelState.IsValid)
@@ -68,7 +73,7 @@ namespace MyCortex.Masters.Controllers
                     }
                     catch (Exception ex)
                     {
-                        _logger.Error(ex.Message, ex);
+                       _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                         return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
                     }
                 }
@@ -79,7 +84,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
         }
@@ -92,17 +97,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<ParamaterSettingsModel> ViewEditProtocolParameters(int Id, int Unitgroup_Type = 1)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<ParamaterSettingsModel> model;
             try
             {
-                if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                 
+                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.ViewEditProtocolParameters(Id, Unitgroup_Type);
                 return model;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }            
         }
@@ -130,13 +137,15 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public bool UnitGroupPreferenceSave(Int64 institutionId, int preferenceType)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 return repository.UnitGroupPreferenceSave(institutionId, preferenceType);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return false;
             }
         }
@@ -144,6 +153,8 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public HttpResponseMessage UnitGroupPreferenceGet(Int64 institutionId)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 var prefType = repository.UnitGroupPreferenceGet(institutionId);
@@ -155,7 +166,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
         }

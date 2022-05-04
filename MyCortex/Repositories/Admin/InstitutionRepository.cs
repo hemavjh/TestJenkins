@@ -1,7 +1,7 @@
 ﻿using MyCortex.Admin.Controllers;
 using MyCortex.Admin.Models;
 using MyCortexDB;
-using log4net;
+  
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,7 +17,7 @@ namespace MyCortex.Repositories.Admin
     public class InstitutionRepository : IInstitutionRepository
     {
         ClsDataBase db;
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
         public InstitutionRepository()
         {

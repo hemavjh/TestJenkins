@@ -1,4 +1,4 @@
-﻿using log4net;
+﻿  
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,11 +17,17 @@ namespace MyCortex.User.Controllers
     public class PatientDeviceDataController : ApiController
     {
         static readonly IPatientDeviceDataRepository repository = new PatientDeviceDataRepository();
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
+
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         [HttpPost]
         public HttpResponseMessage PatientDeviceData_AddEdit([FromBody] PatientDeviceDataModel insobj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<PatientDeviceDataModel> ModelData = new List<PatientDeviceDataModel>();
             PatientDeviceDataReturnModels model = new PatientDeviceDataReturnModels();
             if (!ModelState.IsValid)
@@ -55,7 +61,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating Appoinment slot";
                 model.DeviceData = ModelData;

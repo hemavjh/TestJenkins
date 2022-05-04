@@ -220,7 +220,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     return angular.lowercase(value.RefId).match(searchstring) ||
                         angular.lowercase(value.TabName).match(searchstring) ||
                         angular.lowercase(value.OS).match(searchstring) ||
-                        angular.lowercase(value.Model).match(searchstring)
+                        angular.lowercase(value.Model).match(searchstring) 
                 });
                 $scope.total_MyHomepage = Math.ceil(($scope.rowCollectionTabFilter) / ($scope.page_size));
             }
@@ -887,7 +887,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             });
         }
 
-        
+
         $scope.DeviceDropDown = function () {
             $("#chatLoaderPV").show();            
             //$http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {

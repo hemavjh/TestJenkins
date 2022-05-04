@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using log4net;
+  
 using System.Data;
 using System.Web.Script.Serialization;
 using MyCortex.Masters.Models;
@@ -15,9 +15,12 @@ namespace MyCortex.Repositories.Masters
     public class PlanMasterRepository : IPlanMasterRepository
     {
         ClsDataBase db;
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
 
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
         public PlanMasterRepository()
         {
 
@@ -27,7 +30,8 @@ namespace MyCortex.Repositories.Masters
         public IList<PlanMasterModel> PlanMaster_AddEdit(Guid Login_Session_Id, PlanMasterModel obj)
         {
             List<DataParameter> param = new List<DataParameter>();
-
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             param.Add(new DataParameter("@Id", obj.Id));
             param.Add(new DataParameter("@SELECTEDPAYOR", obj.SelectPayor));
             param.Add(new DataParameter("@PLANNAME", obj.PlanName));
@@ -42,7 +46,8 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@INSTITUTION_ID", obj.InstitutionId));
             param.Add(new DataParameter("@CREATED_BY", obj.CreatedBy));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PlanMaster_SP_INSERTUPDATE]", param);
@@ -71,20 +76,23 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
 
         public IList<PlanMasterModel> PlanMasterList(int IsActive, long InstitutionId, int StartRowNumber, int EndRowNumber, Guid Login_Session_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
             param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
             param.Add(new DataParameter("@IsActive", IsActive));
             param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PLANMASTER_SP_LIST]", param);
@@ -112,17 +120,20 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
 
         public PlanMasterModel PlanMasterView(Guid Login_Session_Id, int Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@ID", Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PLANMASTER_SP_VIEW]", param);
@@ -149,7 +160,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -162,16 +173,19 @@ namespace MyCortex.Repositories.Masters
         /// <returns>success response of deactivate</returns>
         public void PlanMaster_Delete(int Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 ClsDataBase.Update("[MYCORTEX].[PLANMASTER_SP_DELETE]", param);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
         }
         /// <summary>
@@ -181,24 +195,30 @@ namespace MyCortex.Repositories.Masters
         /// <returns>success response of activate</returns>
         public void PlanMaster_Active(int Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 ClsDataBase.Update("[MYCORTEX].[PLANMASTER_SP_ACTIVE]", param);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
         }
 
         public IList<PlanMasterModel> PayorBasedPlanList(int Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@SELECTEDPAYOR", Id));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PAYORBASEDPLAN_SP_LIST]", param);
@@ -225,7 +245,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }

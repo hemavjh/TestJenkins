@@ -1,4 +1,4 @@
-﻿using log4net;
+﻿  
 using MyCortex.Admin.Models;
 using MyCortex.Provider;
 using MyCortex.Repositories;
@@ -17,6 +17,7 @@ using System.Web.Http;
 using System.Net.Http.Formatting;
 using System.Security.Cryptography.Xml;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace MyCortex.Admin.Controllers
 {
@@ -26,7 +27,10 @@ namespace MyCortex.Admin.Controllers
     public class SMSConfigurationController : ApiController
     {
         static readonly ISMSConfigurationRepository repository = new SMSConfigurationRepository();
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         /// <summary>
         /// to Insert/Update the entered SMS Configuration Information into database of a institution
@@ -36,6 +40,8 @@ namespace MyCortex.Admin.Controllers
         [HttpPost]
         public HttpResponseMessage SMSConfiguration_AddEdit(SMSConfigurationModel model)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             if (ModelState.IsValid)
             {
                 try
@@ -45,7 +51,7 @@ namespace MyCortex.Admin.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error(ex.Message, ex);
+                   _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                     return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
                 }
             }
@@ -63,16 +69,17 @@ namespace MyCortex.Admin.Controllers
         [HttpGet]
         public SMSConfigurationModel SMSConfiguration_View(long Institution_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             SMSConfigurationModel model = new SMSConfigurationModel();
             try
             {
-                if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.SMSConfiguration_View(Institution_Id);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
 
             return model;
@@ -81,6 +88,8 @@ namespace MyCortex.Admin.Controllers
         [HttpPost]
         public bool CheckSMSConfiguration(CheckSMSConfiguration smsModel)
         {
+            IList<SendSMSModel> ModelData = new List<SendSMSModel>();
+            SendSMSModel model1 = new SendSMSModel();
             try
             {
                     string
@@ -132,13 +141,24 @@ namespace MyCortex.Admin.Controllers
                     // Parse the response body.
                     //var dataObjects = smsResponse.Content.ReadAsAsync<IEnumerable<DataObject>>().Result;  //Make sure to add a reference to System.Net.Http.Formatting.dll
                     var dataObj = smsResponse.Content.ReadAsStringAsync().Result.ToString();
-                        //foreach (var d in dataObjects)
-                        //{
-                        //    Console.WriteLine("{0}", d.Name);
-                        //}
-                        //sendemailrepository.SendEmail_Update(EntityId, "", 1, "");
-                        //sendemailrepository.SendEmail_Update(sendEmailModel[0].Id, "", 1, "");
-                    }
+                    var dataObj1 = JsonConvert.DeserializeObject<SMSResponseData>(dataObj);
+
+                    model1.Id =0;
+                    model1.Institution_Id = smsModel.Institution_Id;
+                    model1.Template_Id = 0;
+                    model1.UserId = smsModel.Created_By;
+                    model1.Email_Subject = smsModel.Subject;
+                    model1.Email_Body = smsModel.Body;
+                    model1.ResponseId = dataObj1.Id;
+                    model1.Created_By = smsModel.Created_By;
+                    ModelData = repository.SendEmail_AddEdit(model1);
+                    //foreach (var d in dataObjects)
+                    //{
+                    //    Console.WriteLine("{0}", d.Name);
+                    //}
+                    //sendemailrepository.SendEmail_Update(EntityId, "", 1, "");
+                    //sendemailrepository.SendEmail_Update(sendEmailModel[0].Id, "", 1, "");
+                }
                     else
                     {
                         Console.WriteLine("{0} ({1})", (int)smsResponse.StatusCode, smsResponse.ReasonPhrase);

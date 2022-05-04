@@ -10,12 +10,13 @@ using MyCortex.Repositories.Admin;
 using SendGrid.Helpers.Mail;
 using MyCortex.Email.SendGrid;
 using MyCortex.Notification.Firebase;
-using log4net;
+  
 using MyCortex.Repositories.Template;
 using MyCortex.Template.Models;
 using System.Text.RegularExpressions;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace MyCortex.Notification
 {
@@ -30,7 +31,11 @@ namespace MyCortex.Notification
         static readonly ISendEmailRepository sendemailrepository = new SendEmailRepository();
         static readonly IAlertEventRepository repository = new AlertEventRepository();
         static readonly IEmailConfigurationRepository emailrepository = new EmailConfigurationRepository();
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
+
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string 
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
         public IList<AlertEventModel> AlertEvent_GenerateTemplate(long Entity_Id, long Institution_Id, string Event_Code)
         {
             IList<AlertEventModel> EventTemplatemodel;
@@ -44,14 +49,18 @@ namespace MyCortex.Notification
             }
             return EventTemplatemodel;
         }
-        public void SendAlert_Email_Notification(AlertEventResultModel alertList, EmailConfigurationModel emailModel, long Institution_Id, int emailType, long EntityId)
+        public void SendAlert_Email_Notification(AlertEventResultModel alertList, EmailConfigurationModel emailModel, long Institution_Id, int emailType, long EntityId, string EventCode)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             foreach (AlertEventModel alert in alertList.AlertEventTemplateList)
             {
                 if (alertList.AlertEventEmailList != null)
                 {
-                    foreach (EmailListModel email in alertList.AlertEventEmailList)
+                    //foreach (EmailListModel email in alertList.AlertEventEmailList)
+                    for (int i = 0; i < alertList.AlertEventEmailList.Count; i++)
                     {
+                        EmailListModel email = alertList.AlertEventEmailList[i];
                         alert.TempBody = alert.TempBody.Replace("&nbsp;", " ").Replace("\n\n", Environment.NewLine);
                         IList<SendEmailModel> sendEmailModel = new List<SendEmailModel>();
                         SendEmailModel model = new SendEmailModel();
@@ -67,6 +76,7 @@ namespace MyCortex.Notification
                         {
                             if (alert.FromEmail_Id != null || emailModel.Sender_Email_Id != null)
                             {
+                                _MyLogger.Exceptions("INFO", _AppLogger, "Email: " + alert.TempBody, null, _AppMethod);
                                 if (emailType == 1)
                                 {
                                     SendGridMessage msg = SendGridApiManager.ComposeMailMessage(
@@ -83,7 +93,9 @@ namespace MyCortex.Notification
                                 else
                                 {
                                     SendGridApiManager mail = new SendGridApiManager();
-                                    var res = mail.SendComposedSMTPEmail(emailModel, alert, alertList.AlertEventEmailList, sendEmailModel[0].Id);
+                                    IList<EmailListModel> em = new List<EmailListModel>();
+                                    em.Add(email);
+                                    var res = mail.SendComposedSMTPEmail(emailModel, alert, em, sendEmailModel[0].Id, EventCode, EntityId);
 
                                 }
 
@@ -94,8 +106,14 @@ namespace MyCortex.Notification
                         {
                             PushNotificationMessage message = new PushNotificationMessage();
                             message.Title = alert.TempSubject;
+                            alert.TempBody = alert.TempBody.Replace("<br>", "");
+                            alert.TempBody = alert.TempBody.Replace("<br />", "");
+                            alert.TempBody = alert.TempBody.Replace("<p>", "");
+                            alert.TempBody = alert.TempBody.Replace("</p>", "");
+                            alert.TempBody = alert.TempBody.Replace("&nbsp;", " ");
+                            alert.TempBody = alert.TempBody.Replace("\n", " ");
                             message.Message = alert.TempBody;
-
+                            _MyLogger.Exceptions("INFO", _AppLogger, "Notification: Title: " + message.Title + "Message: " + message.Message + "UserId: " + email.UserId, null, _AppMethod);
                             PushNotificationApiManager.sendNotification(message, sendEmailModel[0].Id, email.UserId, alert.TemplateFor);
                         }
                         else if (alert.TemplateType_Id == 3)  // 3 for SMS
@@ -136,10 +154,16 @@ namespace MyCortex.Notification
                             SMSUserName = alertList.AlertEventEmailList[0].SMSUserName;
                             SMSSource = alertList.AlertEventEmailList[0].SMSSourceId;
 
-                            SMSBody = SMSBody.Replace("&nbsp;", " ").Replace("\n\n", Environment.NewLine).Replace("\r\n", " ");
+                            SMSBody = SMSBody.Replace("<br>", "");
+                            SMSBody = SMSBody.Replace("<br />", "");
+                            SMSBody = SMSBody.Replace("<p>", "");
+                            SMSBody = SMSBody.Replace("</p>", "");
+                            SMSBody = SMSBody.Replace("&nbsp;", " ");
+                            SMSBody = SMSBody.Replace("\n", " ");
 
                             SMSURL = "https://txt.speroinfotech.ae/API/SendSMS?" + "username=" + SMSUserName + "&apiId=" + SMSApiId + "&json=True&destination=" + SMSMbNO + "&source=" + SMSSource + "&text=" + SMSBody;
 
+                            _MyLogger.Exceptions("INFO", _AppLogger, SMSURL, null, _AppMethod);
                             HttpClient client = new HttpClient();
                             client.BaseAddress = new Uri(SMSURL);
 
@@ -158,6 +182,19 @@ namespace MyCortex.Notification
                                 //    Console.WriteLine("{0}", d.Name);
                                 //}
                                 //sendemailrepository.SendEmail_Update(EntityId, "", 1, "");
+                                var dataObj = smsResponse.Content.ReadAsStringAsync().Result.ToString();
+                                var dataObj1 = JsonConvert.DeserializeObject<SMSResponseData>(dataObj);
+
+                                model.Id =sendEmailModel[0].Id;
+                                model.Institution_Id = Institution_Id;
+                                model.Template_Id = alert.Template_Id;
+                                model.UserId = alertList.AlertEventEmailList[0].UserId;
+                                model.Email_Body = alert.TempBody;
+                                model.Email_Subject = alert.TempSubject;
+                                model.Created_By = alertList.AlertEventEmailList[0].UserId;
+                                model.ResponseId = dataObj1.Id;
+                                sendEmailModel = sendemailrepository.SendEmail_AddEdit(model);
+
                                 sendemailrepository.SendEmail_Update(sendEmailModel[0].Id, "", 1, "");
                             }
                             else
@@ -179,6 +216,8 @@ namespace MyCortex.Notification
         
         public int Generate_Email_Notification(string EventCode, long EntityId, long Institution_Id, IList<EmailListModel> EmailList)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<AlertEventModel> AlertEventTemplate;
@@ -187,18 +226,20 @@ namespace MyCortex.Notification
                 AlertEventResultList.AlertEventTemplateList = AlertEventTemplate;
                 AlertEventResultList.AlertEventEmailList = EmailList;
 
-                SendAlert_Email_Notification(AlertEventResultList, null, Institution_Id, (int)EmailTypeVal.SendGrid, EntityId);
+                SendAlert_Email_Notification(AlertEventResultList, null, Institution_Id, (int)EmailTypeVal.SendGrid, EntityId, EventCode);
                 return 1;
             }
             catch(Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return 0;
             }
         }
 
         public int Generate_SMTPEmail_Notification(string EventCode, long EntityId, long Institution_Id, IList<EmailListModel> EmailList)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<AlertEventModel> EventTemplatemodel;
@@ -213,18 +254,20 @@ namespace MyCortex.Notification
                 AlertEventResultList.AlertEventEmailList = EmailList;
 
 
-                SendAlert_Email_Notification(AlertEventResultList, emailModel, Institution_Id, (int)EmailTypeVal.SMTP, EntityId);
+                SendAlert_Email_Notification(AlertEventResultList, emailModel, Institution_Id, (int)EmailTypeVal.SMTP, EntityId, EventCode);
                 return 1;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return 0;
             }
         }
 
         public int Generate_SMTPEmail_Notification_For_ChangePwd(string url, long EntityId, long Institution_Id, IList<EmailListModel> EmailList)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<AlertEventModel> EventTemplatemodel = new List<AlertEventModel>();
@@ -252,7 +295,7 @@ namespace MyCortex.Notification
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return 0;
             }
         }
@@ -340,6 +383,12 @@ namespace MyCortex.Notification
         {
             IList<EmailListModel> EmailListModel;
             EmailListModel = repository.Patient_AppointmentCreation_AlertEvent(Institution_Id, Entity_Id, CGtype);
+            return EmailListModel;
+        }
+        public IList<EmailListModel> DoctorShift_AlertEvent(long Entity_Id, long Institution_Id, string CGtype = null)
+        {
+            IList<EmailListModel> EmailListModel;
+            EmailListModel = repository.DoctorShift_AlertEvent(Institution_Id, Entity_Id, CGtype);
             return EmailListModel;
         }
 

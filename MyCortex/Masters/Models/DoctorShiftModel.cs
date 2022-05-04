@@ -39,6 +39,8 @@ namespace MyCortex.Masters.Models
         public IList<DoctorsId> Doctor_Id { get; set; }
         public long INSTITUTION_ID { get; set; }
         public int IsActive { get; set; }
+        public long? MakeMeLookBusy { get; set; }
+        public long? MinimumSlots { get; set; }
 
         public long DepartmentId { get; set; }
 
@@ -198,6 +200,7 @@ namespace MyCortex.Masters.Models
         public int ReminderMinutes { get; set; }
         public string DefaultWorkingDays { get; set; }
         public string DefaultHoliDays { get; set; }
+        public int MinimumSlots { get; set; }
         public int Flag { get; set; }
         public IList<ReminderUserLists> ReminderTimeInterval { get; set; }
         //public IList<DefaultWorkingDays> DefaultWorkingDays { get; set; }

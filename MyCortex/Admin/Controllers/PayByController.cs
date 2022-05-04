@@ -1,7 +1,7 @@
 ﻿using MyCortex.Admin.Models;
 using MyCortex.Repositories;
 using MyCortex.Repositories.Admin;
-using log4net;
+  
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,13 +26,20 @@ namespace MyCortex.Admin.Controllers
     {
         static readonly IGatewaySettingsRepository gatewayrepository = new GatewaySettingsRepository();
         static readonly IPatientAppointmentsRepository patientAppointmentsRepository = new PatientAppointmentRepository();
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
+       
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
+
         IList<GatewaySettingsModel> gatewayModel;
         [HttpGet]
         [Authorize]
         [CheckSessionOutFilter]
         public HttpResponseMessage Token(double amount, string iapDeviceId = "", string appId = "", long Institution_Id = 0, long Department_Id = 0, long Appointment_Id = 0)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             ServicePointManager.Expect100Continue = true;
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             string token = string.Empty;
@@ -154,7 +161,8 @@ namespace MyCortex.Admin.Controllers
             }
             catch (WebException wx)
             {
-                _logger.Error(wx.Message, wx);
+                _MyLogger.Exceptions("ERROR", _AppLogger, wx.Message, wx, _AppMethod);
+
                 if (wx.Message != null)
                 {
                     using (WebResponse response = wx.Response)
@@ -176,7 +184,7 @@ namespace MyCortex.Admin.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
             return Request.CreateResponse(HttpStatusCode.OK, new { Token = token, Sign = payBySign });
@@ -193,6 +201,8 @@ namespace MyCortex.Admin.Controllers
         [HttpPost]
         public HttpResponseMessage RefundNotify(long id, string merchantorderno, [FromBody] Newtonsoft.Json.Linq.JObject refund)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 int retid = 0;
@@ -210,7 +220,8 @@ namespace MyCortex.Admin.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Error");
             }
         }
@@ -218,6 +229,8 @@ namespace MyCortex.Admin.Controllers
         [HttpPost]
         public HttpResponseMessage RefundPayByCheckoutSession([FromBody] Newtonsoft.Json.Linq.JObject form)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             string redirectUrl = string.Empty;
             string privateKey = string.Empty;
             string publicKey = string.Empty;
@@ -308,7 +321,7 @@ namespace MyCortex.Admin.Controllers
                 }
                 catch (WebException wx)
                 {
-                    _logger.Error(wx.Message, wx);
+                    _MyLogger.Exceptions("ERROR", _AppLogger, wx.Message, wx, _AppMethod);
                     if (wx.Message != null)
                     {
                         using (WebResponse response = wx.Response)
@@ -332,7 +345,8 @@ namespace MyCortex.Admin.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return Request.CreateResponse(HttpStatusCode.OK, new { status = 0 });
             }
         }

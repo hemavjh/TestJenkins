@@ -27,6 +27,7 @@ namespace MyCortex.Template.Models
         public string SMSSource_Id { get; set; }
         public string SMSUserName { get; set; }
         public string SMSApiId { get; set; }
+        public string ResponseId { get; set; }
     }
 
     public class SendEmailReturnModels
@@ -56,5 +57,6 @@ namespace MyCortex.Template.Models
         public long User_Id { get; set; }
         public string FCMToken { get; set; }
         public string DeviceType { get; set; }
+        public string SiteUrl { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
-using log4net;
+  
 using MyCortex.User.Models;
 using MyCortexDB;
 
@@ -13,10 +13,17 @@ namespace MyCortex.Repositories.User
     public class PatientDeviceDataRepository : IPatientDeviceDataRepository
     {
         ClsDataBase db;
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
+
         public long PatientDeviceData_InsertUpdate(PatientDeviceDataModel insobj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 string flag = "";
@@ -39,7 +46,7 @@ namespace MyCortex.Repositories.User
 
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
 
             }
             return 0;
