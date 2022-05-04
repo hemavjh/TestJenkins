@@ -1,4 +1,4 @@
-﻿using log4net;
+﻿  
 using MyCortex.Admin.Models;
 using MyCortex.Repositories;
 using MyCortex.Repositories.Admin;
@@ -21,12 +21,17 @@ namespace MyCortex.Masters.Controllers
     public class LanguageSettingsController : ApiController
     {
         static readonly ILanguageSettingsRepository repository = new LanguageSettingsRepository();
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         [AllowAnonymous]
         [HttpGet]
         public IList<LanguageSettingsModel> LanguageSettings_List(long Institution_Id, Guid Login_Session_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<LanguageSettingsModel> model;
             try
             {
@@ -35,6 +40,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -43,6 +49,8 @@ namespace MyCortex.Masters.Controllers
         [CheckSessionOutFilter]
         public HttpResponseMessage LanguageSettings_AddEdit(List<LanguageSettingsModel> model)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 if (ModelState.IsValid)
@@ -54,7 +62,7 @@ namespace MyCortex.Masters.Controllers
                     }
                     catch (Exception ex)
                     {
-                        _logger.Error(ex.Message, ex);
+                       _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                         return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
                     }
                 }
@@ -65,7 +73,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
         }
@@ -74,6 +82,8 @@ namespace MyCortex.Masters.Controllers
         [CheckSessionOutFilter]
         public HttpResponseMessage LanguageDefault_Save(long Institution_Id, int Language_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 int id = repository.LanguageDefault_Save(Institution_Id, Language_Id);
@@ -81,7 +91,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
         }
@@ -91,6 +101,8 @@ namespace MyCortex.Masters.Controllers
         [ActionName("InstituteLanguages")]
         public IList<InstituteLanguageModel> InstituteLanguage_List(long Institution_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<InstituteLanguageModel> model;
@@ -99,7 +111,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -109,6 +121,8 @@ namespace MyCortex.Masters.Controllers
         [ActionName("List")]
         public HttpResponseMessage LanguageKeyValue_List(int Language_Id = 1, long Institution_Id = 0)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             StringBuilder jsonOutput = new StringBuilder();
             try
             {
@@ -118,7 +132,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }

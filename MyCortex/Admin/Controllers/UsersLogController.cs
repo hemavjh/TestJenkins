@@ -1,7 +1,7 @@
 ﻿using MyCortex.Admin.Models;
 using MyCortex.Repositories;
 using MyCortex.Repositories.Admin;
-using log4net;
+  
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,8 +20,11 @@ namespace MyCortex.Admin.Controllers
     public class UsersLogController : ApiController
     {
         static readonly IUsersLogRepository repository = new UsersLogRepository();
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
 
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
         /// <summary>
         /// get the list of Users Log for the filter
         /// </summary>
@@ -38,17 +41,19 @@ namespace MyCortex.Admin.Controllers
         [HttpGet]
         public IList<All_UserList> GetAll_UserLists(long InstitutionId)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<All_UserList> model;
             try
             {
-                if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.GetAll_UserLists(InstitutionId);
                 return model;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }

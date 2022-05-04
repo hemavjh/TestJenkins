@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using log4net;
+  
 using System.Data;
 using System.Web.Script.Serialization;
 using MyCortex.Utilities;
@@ -15,8 +15,12 @@ namespace MyCortex.Repositories.User
     public class PatientApprovalRepository : IPatientApprovalRepository
     {
         ClsDataBase db;
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         public PatientApprovalRepository()
         {
@@ -44,6 +48,8 @@ namespace MyCortex.Repositories.User
         /// <returns>list of patients pending for approval based on given filter</returns>
         public IList<PatientApprovalModel> PatientApproval_List(long? InstitutionId, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@PatientNo", PATIENTNO));
             param.Add(new DataParameter("@InsuranceNo", INSURANCEID));
@@ -60,7 +66,8 @@ namespace MyCortex.Repositories.User
             param.Add(new DataParameter("@BloodGroupId", BLOODGROUP_ID));
             param.Add(new DataParameter("@GroupId", Group_Id));
             param.Add(new DataParameter("@InstitutionId", InstitutionId));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENTAPPROVAL_SP_LIST]", param);
@@ -81,7 +88,7 @@ namespace MyCortex.Repositories.User
 
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
 
@@ -89,9 +96,12 @@ namespace MyCortex.Repositories.User
 
         public PatientApprovalReturnModel PatientApproval_Active(long Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENT_APPROVAL_SP_UPDATE]", param);
@@ -104,7 +114,7 @@ namespace MyCortex.Repositories.User
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -116,13 +126,16 @@ namespace MyCortex.Repositories.User
 
         public PatientApprovalReturnModel Multiple_PatientApproval_Active(List<PatientApprovalModel> obj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             string Message = "";
             int Flag = 0;
             foreach (PatientApprovalModel item in obj)
             {
                 List<DataParameter> param = new List<DataParameter>();
                 param.Add(new DataParameter("@Id", item.Patient_Id));
-                _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+                var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+                _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
                 try
                 {
                     DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENT_SP_APPROVE_VALIDATION]", param);
@@ -157,7 +170,7 @@ namespace MyCortex.Repositories.User
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error(ex.Message, ex);
+                   _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                     return null;
                 }
             }
@@ -176,13 +189,15 @@ namespace MyCortex.Repositories.User
         public long PatientApproval_History_Insert(PatientApprovalModel obj)
         {
             long retid;
-
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", obj.Id));
             param.Add(new DataParameter("@Patient_Id", obj.Patient_Id));
             param.Add(new DataParameter("@Remarks", obj.Remarks));
             param.Add(new DataParameter("@Created_By", obj.Created_By));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 retid = ClsDataBase.Insert("[MYCORTEX].[PATIENTAPPROVAL_HISTORY_SP_INSERT]", param, true);
@@ -190,7 +205,7 @@ namespace MyCortex.Repositories.User
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return 0;
             }
         }
@@ -202,8 +217,11 @@ namespace MyCortex.Repositories.User
         public IList<PatientApprovalModel> Get_PatientCount(long InstitutionId)
         {
             List<DataParameter> param = new List<DataParameter>();
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             param.Add(new DataParameter("@INSTITUTIONID", InstitutionId));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_PATIENTLICENCE_COUNT]", param);
@@ -217,7 +235,7 @@ namespace MyCortex.Repositories.User
 
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
 

@@ -286,15 +286,26 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                         CheckTrue = 2;
                     }
                 }
+                if ($scope.rowCollectionWebConfiguration[index]["CONFIGCODE"] == "User.defaultPassword") {
+                    var id = value.CONFIGCODE;
+                    var UserDefaultPassword	 = document.getElementById(id).value;
+                    if (UserDefaultPassword == "0" || UserDefaultPassword	 == "") {
+                        CheckTrue = 3;
+                    }
+                }
             });
             if (CheckTrue == 1) {
-                toastr.info("ATIENT_MIN_AGE Config Value Is Below 1 Year", "info");
+                toastr.info("PATIENT_MIN_AGE Config Value Is Below 1 Year", "info");
                 $('#save').attr("disabled", false);
                 return false
             } else if (CheckTrue == 2) {
                 toastr.info("PROFILE_PICTURE Config Value is less than or equal to 5MB(5242880)", "info");                
                 $('#save').attr("disabled", false);
                 return false
+            }
+            else if (CheckTrue == 3) {
+                toastr.info("Please Enter Password", "info");
+                $('#save').attr("disabled", false);
             }
             else {
                 return true

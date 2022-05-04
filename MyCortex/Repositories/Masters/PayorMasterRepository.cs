@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using log4net;
+  
 using System.Data;
 using System.Web.Script.Serialization;
 using MyCortex.Masters.Models;
@@ -15,9 +15,12 @@ namespace MyCortex.Repositories.Masters
     public class PayorMasterRepository : IPayorMasterRepository
     {
         ClsDataBase db;
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
 
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
         public PayorMasterRepository()
         {
 
@@ -27,7 +30,8 @@ namespace MyCortex.Repositories.Masters
         public IList<PayorMasterModel> PayorMaster_AddEdit(PayorMasterModel obj)
         {
             List<DataParameter> param = new List<DataParameter>();
-
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             param.Add(new DataParameter("@Id", obj.Id));
             param.Add(new DataParameter("@PAYORNAME", obj.PayorName));
             param.Add(new DataParameter("@DESCRIPTION", obj.Description));
@@ -35,7 +39,8 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@REFERCODE", obj.ReferCode));
             param.Add(new DataParameter("@INSTITUTION_ID", obj.InstitutionId));
             param.Add(new DataParameter("@CREATED_BY", obj.CreatedBy));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PayorMaster_SP_INSERTUPDATE]", param);
@@ -57,19 +62,22 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
 
         public IList<PayorMasterModel> PayorMasterList(int IsActive, long InstitutionId, int StartRowNumber, int EndRowNumber)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
             param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
             param.Add(new DataParameter("@IsActive", IsActive));
             param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PAYORMASTER_SP_LIST]", param);
@@ -90,16 +98,19 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
 
         public PayorMasterModel PayorMasterView(int Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@ID", Id));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PAYORMASTER_SP_VIEW]", param);
@@ -119,7 +130,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -132,16 +143,19 @@ namespace MyCortex.Repositories.Masters
         /// <returns>success response of deactivate</returns>
         public void PayorMaster_Delete(int Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 ClsDataBase.Update("[MYCORTEX].[PAYORMASTER_SP_DELETE]", param);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
         }
         /// <summary>
@@ -151,16 +165,19 @@ namespace MyCortex.Repositories.Masters
         /// <returns>success response of activate</returns>
         public void PayorMaster_Active(int Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 ClsDataBase.Update("[MYCORTEX].[PAYORMASTER_SP_ACTIVE]", param);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
         }
     }

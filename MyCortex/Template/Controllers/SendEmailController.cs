@@ -1,4 +1,4 @@
-﻿using log4net;
+﻿  
 using MyCortex.Template.Models;
 using MyCortex.Repositories;
 using MyCortex.Repositories.Template;
@@ -37,8 +37,12 @@ namespace MyCortex.Template.Controllers
         static readonly IEmailConfigurationRepository emailrepository = new EmailConfigurationRepository();
         static readonly IUserRepository userrepository = new UserRepository();
 
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        
+ 
+
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
+
         /// <summary>
         /// Email User Type name List
         /// </summary>
@@ -47,16 +51,17 @@ namespace MyCortex.Template.Controllers
         public IEnumerable<SendEmail_UsertypeModal> Email_UserTypeList()
         {
             IEnumerable<SendEmail_UsertypeModal> model;
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
-                if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.Email_UserTypeList();
                 return model;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }   
         }
@@ -70,17 +75,18 @@ namespace MyCortex.Template.Controllers
         [HttpGet]
         public IList<SendEmailTemplateModel> Email_TemplateTypeList(long InstitutionId, long TemplateType_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<SendEmailTemplateModel> model;
             try
             {
-                if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.Email_TemplateTypeList(InstitutionId, TemplateType_Id);
                 return model;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -106,17 +112,18 @@ namespace MyCortex.Template.Controllers
         /// <returns></returns>
         public IList<SendEmailModel> Get_SendEmail_UserList(string UserTypeId, long Institution_Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<SendEmailModel> model;
             try
             {
-                if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.Get_SendEmail_UserList(UserTypeId, Institution_Id, PATIENTNO, INSURANCEID, GENDER_ID, NATIONALITY_ID, ETHINICGROUP_ID, MOBILE_NO, HOME_PHONENO, EMAILID, MARITALSTATUS_ID, COUNTRY_ID, STATE_ID, CITY_ID, BLOODGROUP_ID, Group_Id);
                 return model;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -129,6 +136,8 @@ namespace MyCortex.Template.Controllers
         [HttpPost]
         public HttpResponseMessage SendEmail_AddEdit([FromBody]List<SendEmailModel> Emailobj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<SendEmailModel> ModelData = new List<SendEmailModel>();
             SendEmailReturnModels model = new SendEmailReturnModels();
             if (!ModelState.IsValid)
@@ -323,7 +332,7 @@ namespace MyCortex.Template.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating Send Email";
                 model.Error_Code = ex.Message;
@@ -342,17 +351,18 @@ namespace MyCortex.Template.Controllers
         /// <returns></returns>
         public SendEmailModel GenerateTemplate(long Id, long Template_Id, long Institution_Id, long TemplateType_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
-                if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 SendEmailModel model = new SendEmailModel();
                 model = repository.GenerateTemplate(Id, Template_Id, Institution_Id, TemplateType_Id);
                 return model;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -392,7 +402,7 @@ namespace MyCortex.Template.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -405,6 +415,8 @@ namespace MyCortex.Template.Controllers
         [HttpPost]
         public HttpResponseMessage UndeliveredEmail_Insert([FromBody]List<SendEmailModel> Emailobj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<SendEmailModel> ModelData = new List<SendEmailModel>();
             SendEmailReturnModels model = new SendEmailReturnModels();
             if (!ModelState.IsValid)
@@ -497,7 +509,7 @@ namespace MyCortex.Template.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating Send Email";
                 model.Error_Code = ex.Message;
@@ -515,6 +527,8 @@ namespace MyCortex.Template.Controllers
         [HttpPost]
         public HttpResponseMessage UndeliveredEmail_Edit([FromBody] SendEmailModel Emailobj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<SendEmailModel> ModelData = new List<SendEmailModel>();
             SendEmailReturnModels model = new SendEmailReturnModels();
             if (!ModelState.IsValid)
@@ -633,7 +647,7 @@ namespace MyCortex.Template.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating Send Email";
                 model.Error_Code = ex.Message;
@@ -651,6 +665,8 @@ namespace MyCortex.Template.Controllers
         [HttpPost]
         public HttpResponseMessage UpdateUser_FCMTocken([FromBody]NotifictaionUserFCM UserFCM)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             NotifictaionUserFCM model = new NotifictaionUserFCM();
             if (!ModelState.IsValid)
             {
@@ -665,7 +681,7 @@ namespace MyCortex.Template.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);                
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);                
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
@@ -677,6 +693,8 @@ namespace MyCortex.Template.Controllers
         [HttpGet]
         public List<NotifictaionUserFCM> UserFCMToken_Get_List(long User_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<NotifictaionUserFCM> model = new List<NotifictaionUserFCM>();
             if (!ModelState.IsValid)
             {
@@ -690,7 +708,7 @@ namespace MyCortex.Template.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -702,6 +720,8 @@ namespace MyCortex.Template.Controllers
         [HttpGet]
         public UserNotificationListModel User_get_NotificationList(long User_Id,Guid Login_Session_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             UserNotificationListModel model = new UserNotificationListModel();
             if (!ModelState.IsValid)
             {
@@ -715,7 +735,7 @@ namespace MyCortex.Template.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -728,6 +748,8 @@ namespace MyCortex.Template.Controllers
         [HttpGet]
         public UserNotificationListModel ClearNotification_Update(long User_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             UserNotificationListModel model = new UserNotificationListModel();
             if (!ModelState.IsValid)
             {
@@ -741,7 +763,7 @@ namespace MyCortex.Template.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -753,6 +775,8 @@ namespace MyCortex.Template.Controllers
         [HttpGet]
         public UserNotificationListModel CountNotification_Update(long User_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             UserNotificationListModel model = new UserNotificationListModel();
             if (!ModelState.IsValid)
             {
@@ -766,7 +790,7 @@ namespace MyCortex.Template.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -778,6 +802,8 @@ namespace MyCortex.Template.Controllers
         [HttpPost]
         public HttpResponseMessage Notification_Update(Guid Login_Session_Id, [FromBody]SendEmailModel sendEmailModel)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             UserNotificationModel ModelData = new UserNotificationModel();
             NotificationReturnModel model = new NotificationReturnModel();
             if (!ModelState.IsValid)
@@ -800,7 +826,7 @@ namespace MyCortex.Template.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in Update Notification";
                 model.Error_Code = ex.Message;

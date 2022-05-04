@@ -9,7 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web;
 using System.IO;
-using log4net;
+  
 using Newtonsoft.Json;
 using MyCortex.Repositories.Masters;
 using MyCortex.Masters.Models;
@@ -22,7 +22,10 @@ namespace MyCortex.Masters.Controllers
     public class MasterICDController : ApiController
     {
         static readonly IMasterICDReposistory repository = new MasterICDRepository();
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         /// <summary>
         /// ICD category master name list
@@ -32,6 +35,8 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<CategoryMasterModel> CategoryMasterList(long Institution_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<CategoryMasterModel> model;
             try
             {
@@ -40,7 +45,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }

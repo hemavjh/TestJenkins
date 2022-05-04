@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data;
-using log4net;
+  
 using System.Web.Script.Serialization;
 
 namespace MyCortex.Repositories.Menu
@@ -14,8 +14,13 @@ namespace MyCortex.Repositories.Menu
     {
         ClsDataBase db;
 
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
+
         /// <summary>
         /// Initializes a new instance of the class.       
         /// </summary>
@@ -32,9 +37,12 @@ namespace MyCortex.Repositories.Menu
         /// <returns>menu list with page URL</returns>
         public IList<CommonMenuModel> CommonMenu_Listall(long Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@USERID", Id));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[COMMON_SP_MENU_LIST]", param);
@@ -54,7 +62,8 @@ namespace MyCortex.Repositories.Menu
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
 
@@ -67,9 +76,12 @@ namespace MyCortex.Repositories.Menu
         /// <returns>menu list with page URL</returns>
         public IList<CommonModuleList> CommonModule_List(long InsId)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@InsId", InsId));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_INSTITUTION_MODULELIST]", param);
@@ -83,7 +95,8 @@ namespace MyCortex.Repositories.Menu
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
 
