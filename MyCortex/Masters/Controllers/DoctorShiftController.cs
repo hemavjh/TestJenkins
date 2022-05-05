@@ -1,7 +1,7 @@
 ﻿using MyCortex.Masters.Models;
 using MyCortex.Repositories;
 using MyCortex.Repositories.Masters;
-using log4net;
+  
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,8 +21,11 @@ namespace MyCortex.Masters.Controllers
     public class DoctorShiftController : ApiController
     {
         static readonly IDoctorShiftRepository repository = new DoctorShiftRepository();
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
 
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
         /* THIS IS FOR ADD EDIT FUNCTION */
         /// <summary>
         /// Settings  --> Doctor Shift Details --> Add/Edit Page
@@ -91,17 +94,18 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<New_DoctorShiftModel> DoctorShift_List(int IsActive, long InstitutionId, Guid Login_Session_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<New_DoctorShiftModel> model;
             try
             {
-                if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.DoctorShift_List(IsActive, InstitutionId, Login_Session_Id);
                 return model;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -115,17 +119,18 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<SelectedDaysList> DoctorShiftDayDetails_View(long Id, Guid Login_Session_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<SelectedDaysList> model;
             try
             {
-                if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.DoctorShiftDayDetails_View(Id, Login_Session_Id);
                 return model;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -154,16 +159,17 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public New_DoctorShiftModel DoctorShift_View(long DoctorId, long Id, Guid Login_Session_Id, long institution_id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             New_DoctorShiftModel model = new New_DoctorShiftModel();
             try
             {
-                if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.DoctorShift_View(DoctorId, Id, Login_Session_Id, institution_id);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
             return model;
         }
@@ -177,6 +183,8 @@ namespace MyCortex.Masters.Controllers
         [HttpPost]
         public HttpResponseMessage DoctorShift_Active([FromBody] DoctorShiftModel noteobj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<DoctorShiftModel> ModelData = new List<DoctorShiftModel>();
             DoctorShiftReturnModels model = new DoctorShiftReturnModels();
            if (!ModelState.IsValid)
@@ -203,7 +211,7 @@ namespace MyCortex.Masters.Controllers
                }
                catch (Exception ex)
                {
-                   _logger.Error(ex.Message, ex);
+                  _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                    model.Status = "False";
                    model.Message = "Error in creating doctor Shift";
                    model.ReturnFlag = 0;
@@ -221,7 +229,8 @@ namespace MyCortex.Masters.Controllers
         [HttpPost]
         public HttpResponseMessage DoctorShift_Delete([FromBody] DoctorShiftModel noteobj)
         {
-
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<DoctorShiftModel> ModelData = new List<DoctorShiftModel>();
             DoctorShiftReturnModels model = new DoctorShiftReturnModels();
             if (!ModelState.IsValid)
@@ -253,7 +262,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating doctor Shift";
                 model.ReturnFlag = 0;
@@ -272,17 +281,18 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<ShiftTimingsModel> Shift_List(long Institution_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<ShiftTimingsModel> model;
             try
             {
-                if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.Shift_List(Institution_Id);
                 return model;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -297,17 +307,18 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<WeekDayModel> Days_List(long Institution_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<WeekDayModel> model;
             try
             {
-                if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.Days_List(Institution_Id);
                 return model;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }            
         }
@@ -325,6 +336,8 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public DoctorShiftModel ActivateDoctorShift_List(long Id, long Institution_Id, long Doctor_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             DoctorShiftModel model = new DoctorShiftModel();
             try
             {
@@ -333,6 +346,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
 
@@ -342,17 +356,18 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<AppointmentTimeZone> TimeZoneList()
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<AppointmentTimeZone> model;
             try
             {
-                if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.GetTimeZoneList();
                 return model;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -361,17 +376,18 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<AppointmentModule> AppointmentModuleList()
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<AppointmentModule> model;
             try
             {
-                if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.GetAppointmentModuleList();
                 return model;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -379,6 +395,8 @@ namespace MyCortex.Masters.Controllers
         [HttpPost]
         public HttpResponseMessage Org_AppointmentSettings_InsertUpdate(Guid Login_Session_Id, [FromBody] OrgAppointmentSettings obj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<OrgAppointmentSettings> ModelData = new List<OrgAppointmentSettings>();
             OrgAppointmentSettingsReturnModels model = new OrgAppointmentSettingsReturnModels();
             string messagestr = "";
@@ -408,7 +426,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating OrgAppointmentSettings";
                 model.OrgAppointmentSettingDetails = ModelData;

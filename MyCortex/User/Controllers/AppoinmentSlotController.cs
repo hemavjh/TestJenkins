@@ -1,6 +1,6 @@
 ﻿using MyCortex.Admin.Models;
 using MyCortex.Repositories;
-using log4net;
+  
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,8 +21,11 @@ namespace MyCortex.User.Controllers
     public class AppoinmentSlotController : ApiController
     {
         static readonly IAppoinmentSlotRepository repository = new AppoinmentSlotRepository();
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
 
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
         /// <summary>
         /// Settings -->AppoinmentSlot Details --> Add/Edit Page
         /// to Insert/Update the entered AppoinmentSlot Information into database.
@@ -33,6 +36,8 @@ namespace MyCortex.User.Controllers
         [HttpPost]
         public HttpResponseMessage AppoinmentSlot_AddEdit([FromBody] List<AppoinmentSlotModel> insobj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<AppoinmentSlotModel> ModelData = new List<AppoinmentSlotModel>();
             AppoinmentSlotReturnModels model = new AppoinmentSlotReturnModels();
             if (!ModelState.IsValid)
@@ -71,7 +76,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating Appoinment slot";
                 model.Appoinment = ModelData;
@@ -89,6 +94,8 @@ namespace MyCortex.User.Controllers
         [HttpGet]
         public IList<AppoinmentSlotModel> AppoinmentSlot_List(int? IsActive, long Institution_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<AppoinmentSlotModel> model;
             try
             {
@@ -97,6 +104,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -111,6 +119,8 @@ namespace MyCortex.User.Controllers
         [HttpGet]
         public AppoinmentSlotModel AppoinmentSlot_View(long Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             AppoinmentSlotModel model = new AppoinmentSlotModel();
             try
             {
@@ -119,6 +129,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -134,6 +145,8 @@ namespace MyCortex.User.Controllers
                     [HttpPost]
         public HttpResponseMessage AppoinmentSlot_Delete([FromBody] AppoinmentSlotModel noteobj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<AppoinmentSlotModel> ModelData = new List<AppoinmentSlotModel>();
             AppoinmentSlotReturnModels model = new AppoinmentSlotReturnModels();
             if (!ModelState.IsValid)
@@ -160,7 +173,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating Patient Shift Slot";
                 model.ReturnFlag = 0;
@@ -179,6 +192,8 @@ namespace MyCortex.User.Controllers
                 [HttpPost]
                 public HttpResponseMessage AppoinmentSlot_Active([FromBody] AppoinmentSlotModel noteobj)
                 {
+                    _AppLogger = this.GetType().FullName;
+                    _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
                     IList<AppoinmentSlotModel> ModelData = new List<AppoinmentSlotModel>();
                     AppoinmentSlotReturnModels model = new AppoinmentSlotReturnModels();
                     if (!ModelState.IsValid)
@@ -205,7 +220,7 @@ namespace MyCortex.User.Controllers
                     }
                     catch (Exception ex)
                     {
-                        _logger.Error(ex.Message, ex);
+                       _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                         model.Status = "False";
                         model.Message = "Error in creating Patient Shift Slot";
                         model.ReturnFlag = 0;
@@ -226,6 +241,8 @@ namespace MyCortex.User.Controllers
         [HttpGet]
         public IList<DoctorAppoinmentSlotModel> Doctors_List(long? Institution_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<DoctorAppoinmentSlotModel> model;
             try
             {
@@ -234,6 +251,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -241,6 +259,8 @@ namespace MyCortex.User.Controllers
         [HttpGet]
         public IList<DoctorAppoinmentSlotModel> CG_Doctors_List(long? Institution_Id, long? CC_CG)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<DoctorAppoinmentSlotModel> model;
             try
             {
@@ -249,6 +269,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -265,6 +286,8 @@ namespace MyCortex.User.Controllers
         [HttpGet]
         public AppoinmentSlotModel ActivateDoctorSlot_List(long Id, long Institution_Id, long Doctor_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             AppoinmentSlotModel model = new AppoinmentSlotModel();
             try
             {
@@ -273,6 +296,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
            

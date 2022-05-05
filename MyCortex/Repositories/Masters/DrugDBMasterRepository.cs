@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using log4net;
+  
 using System.Data;
 using System.Web.Script.Serialization;
 using MyCortex.Masters.Models;
@@ -15,8 +15,11 @@ namespace MyCortex.Repositories.Masters
     public class DrugDBMasterRepository : IDrugDBMasterRepository
     {
         ClsDataBase db;
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         public DrugDBMasterRepository()
         {
@@ -34,9 +37,12 @@ namespace MyCortex.Repositories.Masters
 
         public IList<DrugStrengthMasterModel> DrugStrengthList(long Institution_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>(); 
             param.Add(new DataParameter("@Institution_Id", Institution_Id));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].DRUG_STRENGTHMASTER_SP_LIST", param);
@@ -52,7 +58,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
 
@@ -65,9 +71,12 @@ namespace MyCortex.Repositories.Masters
 
         public IList<DosageFormMasterModel> DosageFormList(long Institution_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Institution_Id", Institution_Id));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].DOSAGEFORM_MASTER_SP_LIST", param);
@@ -82,7 +91,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
 
@@ -97,12 +106,15 @@ namespace MyCortex.Repositories.Masters
 
         public IList<DrugDBMasterModel> DrugDBMasterList(int IsActive, long InstitutionId, int StartRowNumber, int EndRowNumber)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
             param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
             param.Add(new DataParameter("@IsActive", IsActive));
             param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
 
             try
             {//DRUGDBMASTER_SP_LIST
@@ -127,7 +139,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -140,9 +152,12 @@ namespace MyCortex.Repositories.Masters
 
         public DrugDBMasterModel DrugDBMasterView(int Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@ID", Id));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].DRUGDBMASTER_SP_VIEW", param);
@@ -165,7 +180,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -178,6 +193,8 @@ namespace MyCortex.Repositories.Masters
 
         public IList<DrugDBMasterModel> DrugDBMaster_AddEdit(DrugDBMasterModel obj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
 
             param.Add(new DataParameter("@ID", obj.Id));
@@ -188,7 +205,8 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@DRUGCODE", obj.Drug_Code));
             param.Add(new DataParameter("@INSTITUTION_ID", obj.InstitutionId));
             param.Add(new DataParameter("@CREATED_BY", obj.Created_By));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].DRUGDBMASTER_SP_INSERTUPDATE", param);
@@ -211,7 +229,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
 
@@ -226,16 +244,19 @@ namespace MyCortex.Repositories.Masters
 
         public void DrugDBMaster_Delete(int Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 ClsDataBase.Update("[MYCORTEX].DRUGDBMASTER_SP_Delete", param);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
         }
         /// <summary>
@@ -245,16 +266,19 @@ namespace MyCortex.Repositories.Masters
         /// <returns>success/failure response of activation</returns>
         public void DrugDBMaster_Active(int Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 ClsDataBase.Update("[MYCORTEX].DRUGDBMASTER_SP_ACTIVE", param);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
         }
 

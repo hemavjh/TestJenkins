@@ -8,7 +8,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using MyCortex.User.Model;
-using log4net;
+  
 using System.Security.Cryptography;
 using MyCortex.Repositories.Admin;
 using MyCortex.Repositories;
@@ -25,8 +25,11 @@ namespace MyCortex.User.Controllers
     public class CareCoordinnatorController : ApiController
     {
         static readonly ICarecoordinatorRepository repository = new CareCoordinatorRepository();
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
 
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
         /// <summary>
         /// to get the diagnostic and compliance patient list for the selected filter
         /// </summary>
@@ -51,6 +54,8 @@ namespace MyCortex.User.Controllers
         [HttpPost]
         public IList<CareCoordinatorModel> CareCoordinator_PatientList(long Coordinator_Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int TypeId, long UserTypeId, Guid Login_Session_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<CareCoordinatorModel> model;
@@ -59,7 +64,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -67,6 +72,8 @@ namespace MyCortex.User.Controllers
         [HttpPost]
         public IList<CareCoordinatorModel> CareCoordinator_FilterPatientList(long Coordinator_Id, string PATIENTNO, string INSURANCEID, string NATIONALITY_ID, string MOBILE_NO, string EMAILID, long UserTypeId, string FIRSTNAME, string LASTNAME, string MRN, int TypeId, Guid Login_Session_Id, int? AdvanceFilter = 0)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<CareCoordinatorModel> model;
@@ -75,7 +82,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -85,6 +92,8 @@ namespace MyCortex.User.Controllers
         /// <returns> Care Giver List based on users groups</returns>
         public IList<CareGiverListModel> CareGiver_List(long Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<CareGiverListModel> model;
@@ -93,7 +102,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -103,6 +112,8 @@ namespace MyCortex.User.Controllers
         /// <returns>Inserted Care Giver Records with Status</returns>
         public HttpResponseMessage Assign_CareGiver([FromBody] AssignCareGiverModel Obj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<AssignCareGiverModel> ModelData = new List<AssignCareGiverModel>();
             ReturnModel model = new ReturnModel();
             string messagestr = "";
@@ -154,7 +165,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in Assign the Care Giver";
                 model.Error_Code = ex.Message;
@@ -171,6 +182,8 @@ namespace MyCortex.User.Controllers
         /// <returns></returns>
         public IList<GetParameterValueModel> Get_ParameterValue(long PatientId, long UserTypeId, Guid Login_Session_Id, int StartRowNumber = 0, int EndRowNumber = 0, int AlertType = 0)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<GetParameterValueModel> model;
@@ -179,12 +192,14 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
         public IList<GetParameterValueCountModel> Get_ParameterValueCount(long PatientId, long UserTypeId, Guid Login_Session_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<GetParameterValueCountModel> model;
@@ -193,7 +208,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -204,6 +219,8 @@ namespace MyCortex.User.Controllers
         [HttpGet]
         public IList<AssignCareGiverModel> Care_Coordinatorhistory(long CareGiverId, Guid Login_Session_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<AssignCareGiverModel> model;
@@ -212,7 +229,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -239,6 +256,8 @@ namespace MyCortex.User.Controllers
         /// <returns></returns>
         public IList<CareCoordinatorModel> Diagnostic_GetPatientList_Count(long Coordinator_Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int TypeId, long UserTypeId, Guid Login_Session_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<CareCoordinatorModel> model;
@@ -247,7 +266,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }

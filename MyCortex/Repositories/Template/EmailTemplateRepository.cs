@@ -1,7 +1,7 @@
 ﻿using MyCortex.Admin.Controllers;
 using MyCortex.Admin.Models;
 using MyCortexDB;
-using log4net;
+  
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,8 +17,13 @@ namespace MyCortex.Repositories.Template
     public class EmailTemplateRepository : IEmailTemplateRepository
     {
         ClsDataBase db;
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
+
         public EmailTemplateRepository()
         {
             db = new ClsDataBase();
@@ -33,9 +38,12 @@ namespace MyCortex.Repositories.Template
         /// <returns>Template details of a Id</returns>
         public EmailTemplateDesignModel EmailTemplateDetails_View(long Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
-             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TBLEMAILTEMPLATE_SP_VIEW]", param);
@@ -57,7 +65,7 @@ namespace MyCortex.Repositories.Template
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -71,6 +79,8 @@ namespace MyCortex.Repositories.Template
         /// <returns>template details of the Inserted/Updated record</returns>
         public  IList<EmailTemplateDesignModel> EmailTemplateTag_AddEdit(EmailTemplateDesignModel obj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             long InsSubModId;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@ID", obj.Id));
@@ -83,7 +93,8 @@ namespace MyCortex.Repositories.Template
             param.Add(new DataParameter("@CREATED_BY", obj.Created_By));
             param.Add(new DataParameter("@TemplateName", obj.TemplateName));
             //param.Add(new DataParameter("@CREATEDBY_ID", HttpContext.Current.Session["BYID"]));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 // InsSubId = ClsDataBase.Insert("INS_SUb_EX", param, true);
@@ -122,7 +133,7 @@ namespace MyCortex.Repositories.Template
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -135,8 +146,11 @@ namespace MyCortex.Repositories.Template
         /// <returns>template tag details of a template</returns>
         public IList<EmailTemplateTagModel> EmailTemplateTag_View(long Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 param.Add(new DataParameter("@Id", Id));
@@ -155,7 +169,7 @@ namespace MyCortex.Repositories.Template
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -167,8 +181,11 @@ namespace MyCortex.Repositories.Template
         /// <returns>Template details tag details</returns>
         public IList<EmailTemplateDesignModel> EmailTemplateTag_List(long Id, int IsActive, long TemplateType_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 param.Add(new DataParameter("@Id", Id));
@@ -192,7 +209,7 @@ namespace MyCortex.Repositories.Template
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -204,16 +221,19 @@ namespace MyCortex.Repositories.Template
         /// <returns>success response of deactivate</returns>
         public void EmailTemplate_Delete(int Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 ClsDataBase.Update("[MYCORTEX].TBLEMAILTEMPLATE_SP_DELETE", param);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
         }
 
@@ -224,16 +244,19 @@ namespace MyCortex.Repositories.Template
         /// <returns>success response of activate</returns>
         public void EmailTemplate_Active(int Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 ClsDataBase.Update("[MYCORTEX].TBLEMAILTEMPLATE_SP_ACTIVE", param);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
         }
 
@@ -244,8 +267,11 @@ namespace MyCortex.Repositories.Template
         /// <returns>Template tag list</returns>
         public IList<TagListModels> TemplateTag_List(long Institution_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 param.Add(new DataParameter("@Institution_Id", Institution_Id));
@@ -263,7 +289,7 @@ namespace MyCortex.Repositories.Template
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -277,8 +303,11 @@ namespace MyCortex.Repositories.Template
         /// <returns>Section Based Email Template and Tag mapping list for the institution</returns>
         public IList<TagListMappingModels> SectionEmailTemplateTagMapping_List(long Id, long Institution_Id, string SectionName)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 param.Add(new DataParameter("@Id", Id));
@@ -300,7 +329,7 @@ namespace MyCortex.Repositories.Template
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -313,8 +342,11 @@ namespace MyCortex.Repositories.Template
         /// <returns>Email Template and Tag mapping list for the institution</returns>
         public IList<TagListMappingModels> EmailTemplateTagMapping_List(long Id, long Institution_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 param.Add(new DataParameter("@Id", Id));
@@ -335,7 +367,7 @@ namespace MyCortex.Repositories.Template
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }

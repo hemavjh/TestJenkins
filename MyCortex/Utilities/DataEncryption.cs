@@ -12,7 +12,7 @@ using MyCortex.Repositories;
 using MyCortex.Repositories.Login;
 using MyCortex.Login.Model;
 using System.Web;
-using log4net;
+  
 namespace MyCortex.Utilities
 {
     public class DataEncryption
