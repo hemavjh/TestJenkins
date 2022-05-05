@@ -2193,6 +2193,10 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             var callFunction = true;
             $scope.current_page = 1;
             $scope.inputPageNo = 1;
+            if ($window.localStorage['CurrentTabId'] == 9) {
+                $scope.currentTab = localStorage['CurrentTabId'];
+                localStorage.setItem('CurrentTabId', TabClicked);
+            }
             $('.chartTabs').removeClass('charTabsNone');
             $scope.ParamGroup_Id = 0;
             if (TabClicked == "1" && $scope.LifestyleTab_Clicked == "0") {
