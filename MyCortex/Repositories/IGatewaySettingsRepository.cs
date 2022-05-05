@@ -12,6 +12,6 @@ namespace MyCortex.Repositories
         IList<GatewaySettingsModel> GatewaySettings_Details(long InstitutionId, long GatewayId, string GatewayKey);
         int GatewaySettings_Update(List<GatewaySettingsModel> model);
         int GatewayDefault_Save(long InstitutionId, long GatewayTypeId, long GatewayId);
-        string PatientAmount(long Institution_Id, long Department_Id);
+        string PatientAmount(long Institution_Id, long Department_Id, long Appointment_Id);
     }
 }
