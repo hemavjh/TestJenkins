@@ -916,7 +916,7 @@ namespace MyCortex.Home.Controllers
             long departmentId = Convert.ToInt64(form["paymentdepartmentId"]);
             long PInstitutionId = Convert.ToInt64(form["paymentInstitutionId"]);
             string redirectParam = Convert.ToString(form["RedirectParam"]);
-            double amount2 = Convert.ToDouble(gatewayrepository.PatientAmount(PInstitutionId, departmentId));
+            double amount2 = Convert.ToDouble(gatewayrepository.PatientAmount(PInstitutionId, departmentId, appointmentId));
             string merchantOrderNumber = Guid.NewGuid().ToString().Replace("-", "").PadLeft(10);
             int retid = patientAppointmentsRepository.PaymentStatus_Update(appointmentId, "Payment Initiated", merchantOrderNumber);
             string baseUrl = HttpContext.Request.Url.Host.ToString();
