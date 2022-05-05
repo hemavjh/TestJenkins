@@ -134,6 +134,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             param.Add(new DataParameter("@TIMEZONE_ID", obj.TimeZone_Id));
             param.Add(new DataParameter("@APPOINTMENT_MODULE_ID", obj.Appointment_Module_Id));
+            param.Add(new DataParameter("@APPOINTMENT_PRICE", obj.Appointment_Price));
 
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENTAPPOINTMENT_SP_INSERTUPDATE", param);
 
@@ -214,6 +215,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@Page_Type", obj.Page_Type));
             param.Add(new DataParameter("@TIMEZONE_ID", obj.TimeZone_Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@APPOINTMENT_PRICE", obj.Appointment_Price));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENTAPPOINTMENT_SP_UPDATE_RESCHEDULEAPPOINTMENT", param);
             DataRow dr = dt.Rows[0];
             flag = (dr["flag"].ToString());
@@ -416,6 +418,7 @@ namespace MyCortex.Repositories.Uesr
                                                                 IsBooked = p.Field<bool>("ISBOOKED"),
                                                                 MakeMeLookBusy= p.Field<long?>("MIN_SCHEDULE_DAYS"),
                                                                 MinimumSlots = p.Field<long?>("MINIMUM_SLOTS"),
+                                                                appointment_price = p.Field<long?>("APPOINTMENT_PRICE")
                                                             }).ToList();
                 return lst;
             }

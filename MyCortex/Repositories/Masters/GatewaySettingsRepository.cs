@@ -133,7 +133,7 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public string PatientAmount(long Institution_Id, long Department_Id)
+        public string PatientAmount(long Institution_Id, long Department_Id, long Appointment_Id)
         {
             _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -142,6 +142,7 @@ namespace MyCortex.Repositories.Masters
                 List<DataParameter> param = new List<DataParameter>();
                 param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
                 param.Add(new DataParameter("@Department_Id", Department_Id));
+                param.Add(new DataParameter("@Appointment_Id", Appointment_Id));
                 var retid = ClsDataBase.GetScalar("[MYCORTEX].[GET_PATIENT_AMOUNT_SP]", param).ToString();
                 return retid;
             }

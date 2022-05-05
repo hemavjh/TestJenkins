@@ -70,7 +70,7 @@ namespace MyCortex.Admin.Controllers
             string privateKey = string.Empty;
             string publicKey = string.Empty;
             string partnetId = string.Empty;
-            double amount2 = Convert.ToDouble(gatewayrepository.PatientAmount(Institution_Id,Department_Id));
+            double amount2 = Convert.ToDouble(gatewayrepository.PatientAmount(Institution_Id,Department_Id, Appointment_Id));
             gatewayModel = gatewayrepository.GatewaySettings_Details(Institution_Id, 2, "RSAPrivateKey");
             if (gatewayModel.Count > 0)
             {
