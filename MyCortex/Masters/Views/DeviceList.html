@@ -24,9 +24,9 @@
                         <div class="inputGroups">
                             <label>Search</label>
                             <div class="modernSearch">
-                                <input type="text" ng-model="searchquery" ng-change="filterTabList()"
+                                <input type="text" ng-model="searchquery"
                                        placeholder="" style="width: 200px" />
-                                <i class="fa fa-search"></i>
+                                <i class="fa fa-search" ng-click="filterDeviceListed()"></i>
                             </div>
 
                         </div>
@@ -66,7 +66,7 @@
     </thead>
     <tbody>
         <tr ng-if="rowCollectionDeviceFilter.length==0">
-            <td colspan="8" style="text-align:center;">
+            <td colspan="6" style="text-align:center;">
                 No Data Available
             </td>
         </tr>
@@ -107,15 +107,15 @@
             </td>
         </tr>
     </tbody>
-    <tfoot ng-show="rowCollection.length >30">
+    <tfoot ng-show="rowCollection.length >10">
         <tr>
-            <td colspan="5" class="text-center">
-                <div st-items-by-page="30" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+            <td colspan="7" class="text-center">
+                <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
                      st-template="Masters/Views/pagination.custom.html"></div>
             </td>
         </tr>
     </tfoot>
-    <!--<tfoot ng-show="total_page>1">
+   <!--<tfoot ng-show="total_page>1">
         <tr>
             <td colspan="8" class="text-center">
                 <ul class="pagination">

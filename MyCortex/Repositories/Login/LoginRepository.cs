@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
-using log4net;
+  
 using System.Web.Script.Serialization;
 using MyCortex.User.Model;
 using MyCortex.Utilities;
@@ -21,8 +21,13 @@ namespace MyCortex.Repositories.Login
     public class LoginRepository : ILoginRepository
     {
         ClsDataBase db;
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
+
         /// <summary>
         /// Initializes a new instance of the class.       
         /// </summary>
@@ -296,7 +301,7 @@ namespace MyCortex.Repositories.Login
                     lst.UserDetails.DOB = dt1;
                 }
                 //lst.UserDetails.DOB = Convert.ToDateTime(lst.UserDetails.DOB_Encrypt);
-                /*_logger.Info(lst.UserDetails.DOB_Encrypt);
+                /*_MyLogger.Exceptions("INFO", _AppLogger, lst.UserDetails.DOB_Encrypt, null, _AppMethod);
                 string[] tokens = lst.UserDetails.DOB_Encrypt.Split('/');
                 
                 //lst.UserDetails.DOB = new DateTime(int.Parse(tokens[2].Substring(0, 4)), int.Parse(tokens[0]), int.Parse(tokens[1]));
@@ -312,9 +317,13 @@ namespace MyCortex.Repositories.Login
         public LoginModel UserDetails_Get_GoogleMail(string EmailId)
         {
             List<DataParameter> param = new List<DataParameter>();
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             //param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@EMAIL", EmailId));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            //var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 //bool chk = ClsDataBase.checkConnection();
@@ -455,7 +464,8 @@ namespace MyCortex.Repositories.Login
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -467,10 +477,14 @@ namespace MyCortex.Repositories.Login
         /// <returns>User details</returns>
         public LoginModel UserDetails_Get_FBMail(string EmailId)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             //param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@EMAIL", EmailId));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            //var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 //bool chk = ClsDataBase.checkConnection();
@@ -611,7 +625,8 @@ namespace MyCortex.Repositories.Login
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -622,11 +637,16 @@ namespace MyCortex.Repositories.Login
         /// <returns>logout response</returns>
         public long User_LogOut(long UserId, string SessionId)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             long retid;
+            //string sendvalue="";
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@USERID", UserId));
             param.Add(new DataParameter("@SESSIONID", SessionId));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            //var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 retid = ClsDataBase.Update("[MYCORTEX].USER_SP_LOGOUT", param);
@@ -634,17 +654,22 @@ namespace MyCortex.Repositories.Login
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return 0;
             }
         }
 
         public long User_LogOutAllDevice(long UserId)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             long retid;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@USERID", UserId));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            //var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 retid = ClsDataBase.Update("[MYCORTEX].USER_SP_LOGOUTALLDEVICE", param);
@@ -652,17 +677,22 @@ namespace MyCortex.Repositories.Login
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return 0;
             }
         }
 
         public long Get_UserInstitution(string EmailId)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             long InstitutionId;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@EMAILID", EmailId));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            //var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USER_INSTITUTION_GET]", param);
@@ -684,16 +714,21 @@ namespace MyCortex.Repositories.Login
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return 0;
             }
         }
         public long Get_UserType(string EmailId)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             long InstitutionId;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@EMAILID", EmailId));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            //var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USER_TYPE_GET]", param);
@@ -715,7 +750,8 @@ namespace MyCortex.Repositories.Login
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+                //_MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return 0;
             }
         }
@@ -739,9 +775,13 @@ namespace MyCortex.Repositories.Login
         /// <returns>Build version details</returns>
         public IList<EmployeeLoginModel> BuildVersion_Details()
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             //  param.Add(new DataParameter("@Id", Id));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            //var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].AppBuild_SP_VersionDetails", param);
@@ -759,7 +799,8 @@ namespace MyCortex.Repositories.Login
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -771,11 +812,15 @@ namespace MyCortex.Repositories.Login
         /// <returns>returns basic user information as serialized JSON object</returns>
         public IList<EmployeeLoginModel> UserLogged_Details(long Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             DataEncryption decrypt = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@SESSION_ID", HttpContext.Current.Session["Login_Session_Id"]));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            //var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USERLOGIN_SP_DETAILS]", param);
@@ -807,7 +852,8 @@ namespace MyCortex.Repositories.Login
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -821,6 +867,8 @@ namespace MyCortex.Repositories.Login
         /// <returns>success/failure of change password</returns>
         public int ChangePassword(long Id, string NewPassword, string OldPassword, string Confirmpassword, long ModifiedUser_Id, long InstitutionId, int PageTypeId)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             int flag = 0;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
@@ -830,14 +878,17 @@ namespace MyCortex.Repositories.Login
             param.Add(new DataParameter("@ModifiedUser_Id", Id));
             param.Add(new DataParameter("@InstitutionId", InstitutionId));
             param.Add(new DataParameter("@PAGETYPEID", PageTypeId));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            //var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 flag = ClsDataBase.Update("[MYCORTEX].[LOGIN_SP_CHANGEPASSWORD]", param);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
             return flag;
         }
@@ -850,6 +901,8 @@ namespace MyCortex.Repositories.Login
         /// <returns>success/failure response</returns>
         public ResetPasswordReturnModel ResetPassword(long Id, string NewPassword, string ReenterPassword, long Institution_Id, long createdBy, string EmailId)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@NewPassword", NewPassword));
@@ -859,7 +912,9 @@ namespace MyCortex.Repositories.Login
             param.Add(new DataParameter("@INSTITUTIONID", Institution_Id));
 
             //  param.Add(new DataParameter("@FullName", FullName));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            //var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[LOGIN_SP_RESETPASSWORD]", param);
@@ -878,7 +933,8 @@ namespace MyCortex.Repositories.Login
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -892,10 +948,14 @@ namespace MyCortex.Repositories.Login
         /// <returns>user basic details list model</returns>
         public IList<UsertypeModal> Userdetailslist(int UserTypeId, long InstitutionId)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@USERTYPEID", UserTypeId));
             param.Add(new DataParameter("@INSTITUTIONID", InstitutionId));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            //var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USERTYPE_BASIC_DETAILS]", param);
@@ -916,7 +976,8 @@ namespace MyCortex.Repositories.Login
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -926,6 +987,8 @@ namespace MyCortex.Repositories.Login
         /// <returns>User Type Details </returns>
         public IList<UsertypeModal> Usertypedetailslist()
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USERTYPE_DETAILS_LIST]");
@@ -940,7 +1003,8 @@ namespace MyCortex.Repositories.Login
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -952,9 +1016,13 @@ namespace MyCortex.Repositories.Login
         /// <returns>change password history count</returns>
         public LoginModel GetPasswordHistory_Count(long UserId)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@UserId", UserId));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            //var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
 
@@ -968,7 +1036,8 @@ namespace MyCortex.Repositories.Login
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -976,7 +1045,11 @@ namespace MyCortex.Repositories.Login
         {
             UserNotificationListModel model = new UserNotificationListModel();
             List<DataParameter> param = new List<DataParameter>();
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            //var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
             try
             {
                 param.Add(new DataParameter("@USER_ID", User_Id));
@@ -991,7 +1064,8 @@ namespace MyCortex.Repositories.Login
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+                //_MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -1004,7 +1078,11 @@ namespace MyCortex.Repositories.Login
         public UsertypeModal LastPasswordChangeTime(long UserId)
         {
             List<DataParameter> param = new List<DataParameter>();
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            //var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
             try
             {
                 param.Add(new DataParameter("@USERID", UserId));
@@ -1018,7 +1096,8 @@ namespace MyCortex.Repositories.Login
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -1055,6 +1134,8 @@ namespace MyCortex.Repositories.Login
         //  public bool CheckExpiryDate(Int64 InstanceId)
         public bool CheckExpiryDate()
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             bool isExpired = true;
             DataEncryption DecryptFields = new DataEncryption();
             try
@@ -1072,7 +1153,8 @@ namespace MyCortex.Repositories.Login
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+                //_MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
             return isExpired;
         }
@@ -1082,6 +1164,8 @@ namespace MyCortex.Repositories.Login
         /// <returns>Product details</returns>
         public IList<EmployeeLoginModel> GetProduct_Details()
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].GET_SP_EXPIRYDATE");
@@ -1098,7 +1182,8 @@ namespace MyCortex.Repositories.Login
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+ 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }

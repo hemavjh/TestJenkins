@@ -1975,7 +1975,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             else {
                 $scope.rowCollectionFilter = $ff($scope.rowCollection, function (value) {
                     return angular.lowercase(value.Doctor_Name).match(searchstring) ||
-                        angular.lowercase(value.ShiftName).match(searchstring) ||
+                        //angular.lowercase(value.ShiftName).match(searchstring) ||
                         angular.lowercase(($filter('date')(value.FromDate, "dd-MMM-yyyy hh:mm:ss a"))).match(searchstring) ||
                         angular.lowercase(($filter('date')(value.ToDate, "dd-MMM-yyyy hh:mm:ss a"))).match(searchstring)
                 });

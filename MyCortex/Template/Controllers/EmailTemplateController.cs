@@ -9,7 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web;
 using System.IO;
-using log4net;
+  
 using Newtonsoft.Json;
 using MyCortex.Repositories.Template;
 using MyCortex.Template.Models;
@@ -23,8 +23,11 @@ namespace MyCortex.Template.Controllers
     public class EmailTemplateController : ApiController
     {
         static readonly IEmailTemplateRepository repository = new EmailTemplateRepository();
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
 
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
         /// <summary>
         /// Email Template --> Email Template  Details --> Add/Edit Page
         /// to Insert/Update the entered Email Template  Information
@@ -92,6 +95,8 @@ namespace MyCortex.Template.Controllers
         [HttpGet]
         public IList<EmailTemplateTagModel> EmailTemplateTag_View(long Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<EmailTemplateTagModel> model;
             try
             {
@@ -100,7 +105,7 @@ namespace MyCortex.Template.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -126,6 +131,8 @@ namespace MyCortex.Template.Controllers
         [HttpGet]
         public IList<EmailTemplateDesignModel> EmailTemplateTag_List(long Id, int IsActive, long TemplateType_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<EmailTemplateDesignModel> model;
             try
             {
@@ -134,7 +141,7 @@ namespace MyCortex.Template.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -189,6 +196,8 @@ namespace MyCortex.Template.Controllers
         [HttpGet]
         public IList<TagListModels> TemplateTag_List(long Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<TagListModels> model;
             try
             {
@@ -197,7 +206,7 @@ namespace MyCortex.Template.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -212,6 +221,8 @@ namespace MyCortex.Template.Controllers
         [HttpGet]
         public IList<TagListMappingModels> SectionEmailTemplateTagMapping_List(long Id, long Institution_Id, string SectionName)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<TagListMappingModels> model;
             try
             {
@@ -220,7 +231,7 @@ namespace MyCortex.Template.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -234,6 +245,8 @@ namespace MyCortex.Template.Controllers
         [HttpGet]
         public IList<TagListMappingModels> EmailTemplateTagMapping_List(long Id, long Institution_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<TagListMappingModels> model;
             try
             {
@@ -242,7 +255,7 @@ namespace MyCortex.Template.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
