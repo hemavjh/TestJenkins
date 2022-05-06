@@ -50,7 +50,8 @@ namespace MyCortex.Repositories.Template
                                                 TemplateName = p.Field<string>("TEMPLATENAME"),
                                                 EmailSubject = p.Field<string>("EMAILSUBJECT"),
                                                 EmailTemplate = p.Field<string>("EMAILTEMPLATE"),
-                                                Type_Name = p.Field<string>("TAGTYPENAME")
+                                                Type_Name = p.Field<string>("TAGTYPENAME"),
+                                                TemplateAlertType= p.Field<long>("TEMPLATEALERT_TYPE_ID")
                                             }).FirstOrDefault();
             INS.EmailTemplateTagList = EmailTemplateTag_View(INS.Id);
             return INS;
@@ -82,6 +83,7 @@ namespace MyCortex.Repositories.Template
             param.Add(new DataParameter("@MODIFIEDUSERID", obj.ModifiedUser_Id));
             param.Add(new DataParameter("@CREATED_BY", obj.Created_By));
             param.Add(new DataParameter("@TemplateName", obj.TemplateName));
+            param.Add(new DataParameter("@TEMPLATEALERT_TYPE_ID", obj.TemplateAlertType));
             //param.Add(new DataParameter("@CREATEDBY_ID", HttpContext.Current.Session["BYID"]));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
@@ -104,6 +106,7 @@ namespace MyCortex.Repositories.Template
                                                                //ModifiedUser_Id = p.Field<long>("MODIFIEDUSERID"),
                                                                Created_By = p.Field<long>("CREATED_BY"),
                                                                flag = p.Field<int>("flag"),
+                                                               TemplateAlertType = p.Field<long>("TEMPLATEALERT_TYPE_ID"),
                                                                //SubscriptionId = p.Field<int>("SubScription_Id"),
                                                            }).ToList();
 

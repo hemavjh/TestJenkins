@@ -14,6 +14,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
         $scope.flag = 0;
         $scope.IsActive = true;
         $scope.TemplateName = "";
+        $scope.AlertTagName = "";
         $scope.Event = "";
         /*List Page Pagination*/
         $scope.listdata = [];
@@ -68,8 +69,16 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
         //};
 
         $scope.OnChangeTypeBasedTagList = function (TagType) {
-            var EmailSectionType = TagType;
+            var TZ = $scope.AlertEvent.filter(x => x.Id == TagType);
+            var EmailSectionType = TZ[0].EventName;
+            $scope.AlertTagName = TagType;
             $scope.SectionType = "";
+            //if (EmailSectionType == "1")
+            //    $scope.SectionType = "BASIC";
+            //    $scope.AlertTagName = "User Creation";
+            //if (EmailSectionType == "2")
+            //    $scope.SectionType = "INS_SUB_DETAILS";
+            //    $scope.AlertTagName = "Institution And Subscription Creation";
             if (EmailSectionType == "Appointment approval for CG")
                 $scope.SectionType = "BASIC,APPOINTMENT";
             else if (EmailSectionType == "Appointment approved by CG")
@@ -131,7 +140,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
             else if (EmailSectionType == "New data captured - indication")
                 $scope.SectionType = "BASIC";
             else if (EmailSectionType == "CG assignment by CC email")
-                $scope.SectionType = "BASIC";
+                $scope.SectionType = "BASIC,CG_ASSIGN";
             else if (EmailSectionType == "Password Expiry Period")
                 $scope.SectionType = "BASIC";
             else if (EmailSectionType == "Licence expiry")
@@ -304,7 +313,8 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                     ModifiedUser_Id: $scope.Patient_Id,
                     Created_By: $scope.Patient_Id,
                     EmailTemplateTagList: $scope.EmailTemplateTagDetails,
-                    TemplateName: $scope.TemplateName
+                    TemplateName: $scope.TemplateName,
+                    TemplateAlertType: $scope.AlertTagName
                 }
                 $("#chatLoaderPV").show();
                 $('#btnsave').attr("disabled", true);
@@ -386,7 +396,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                 $scope.Id = $routeParams.Id;
                 $scope.DuplicatesId = $routeParams.Id;
             }
-
+            $scope.Eventselected();
             $http.get(baseUrl + '/api/EmailTemplate/EmailTemplateDetails_View/?Id=' + $scope.Id).success(function (data) {
 
                 $scope.DuplicatesId = data.Id;
@@ -402,7 +412,9 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                 //if ($scope.TemplateType_Id == 1 || $scope.TemplateType_Id == 3) {
                 $scope.ViewTemplate = CKEDITOR.instances.editor1.setData($scope.Template);
                 //}
-                $scope.TempMappinglist();
+                //$scope.TempMappinglist();
+                $scope.TagType = data.TemplateAlertType.toString();
+                $scope.OnChangeTypeBasedTagList($scope.TagType);
                 $("#chatLoaderPV").hide();
             });
         }
@@ -531,7 +543,9 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
 
         /* THIS IS CANCEL POPUP FUNCTION */
         $scope.CancelPopUP = function () {
-            angular.element('#EmailTemplateModal').modal('hide')
+            angular.element('#EmailTemplateModal').modal('hide');
+            $scope.TagType = "";
+            $scope.TemplateTagMappingList = [];
         }
 
         /* THIS IS CANCEL VIEW POPUP FUNCTION*/
@@ -552,6 +566,8 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
             $scope.Template = "";
             //if ($scope.PageParameter == 1 || $scope.PageParameter == 3) {
             $scope.Template = CKEDITOR.instances.editor1.setData($scope.Template);
+            $scope.TagType = "";
+            $scope.TemplateTagMappingList = [];
             //}
         }
 
