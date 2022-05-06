@@ -190,14 +190,14 @@ namespace MyCortex.EmailAlert.Controllers
         /// <param name="Institution_Id">Institution Id</param>
         /// <returns>list of Email alert detail of a institution</returns>
         [HttpGet]
-        public IList<EventModel> DefaultAlertEvent_List(int Institution_Id)
+        public IList<EventModel> DefaultAlertEvent_List(int Institution_Id , int Status)
         {
             _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<EventModel> model;
             try
             {
-                model = repository.DefaultAlertEvent_List(Institution_Id);
+                model = repository.DefaultAlertEvent_List(Institution_Id, Status);
                 return model;
             }
             catch (Exception ex)

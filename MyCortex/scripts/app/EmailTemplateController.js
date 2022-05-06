@@ -176,6 +176,15 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
             } else {
                 $scope.status = 1;
             }
+            if ($scope.PageParameter == 1) {
+                $scope.Type = "1"; //For Email
+            }
+            else if ($scope.PageParameter == 2) {
+                $scope.Type = "2";//For Notification
+            }
+            else if ($scope.PageParameter == 3) {
+                $scope.Type = "3";//For SMS
+            }
             if ($scope.UserTypeId == 1) {
                 $http.get(baseUrl + '/api/EmailAlertConfig/AlertEvent_List/?Institution_Id=' + $scope.InstituteId + '&Id=' + 0
                     + '&status=' + $scope.status).success(function (data) {
@@ -189,7 +198,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                     });
             }
             else if ($scope.UserTypeId == 3) {
-                $http.get(baseUrl + '/api/EmailAlertConfig/DefaultAlertEvent_List/?Institution_Id=' + $scope.InstituteId).success(function (data) {
+                $http.get(baseUrl + '/api/EmailAlertConfig/DefaultAlertEvent_List/?Institution_Id=' + $scope.InstituteId + '&Status=' + $scope.Type).success(function (data) {
                         $scope.AlertListTemp = [];
                         $scope.AlertListTemp = data;
                         if (data != null) {
