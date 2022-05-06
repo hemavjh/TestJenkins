@@ -179,11 +179,11 @@ namespace MyCortex.Email.SendGrid
                             if (lis.Count > 0)
                             {
                                 string UtcOffSet = lis[0].TimeZoneOffset.Replace(":", "");
-                                string TimeZoneName = lis[0].TimeZoneName;
+                                string TimeZoneName = "Etc/UTC";  //lis[0].TimeZoneName;
                                 //some variables for demo purposes
                                 DateTime DateStart = lis[0].AppointmentFromDateTime;
                                 DateTime DateEnd = lis[0].AppointmentToDateTime;
-                                string Summary = "Appointment Details";
+                                string Summary = "Appointment with Doctor (" + lis[0].DoctorName + ")";
                                 string Location = "Event location";
                                 string Description = "Appointment Details";
 
@@ -241,6 +241,7 @@ namespace MyCortex.Email.SendGrid
                                 var bytesCalendar = Encoding.UTF8.GetBytes(CalendarItem);
                                 MemoryStream ms = new MemoryStream(bytesCalendar);
                                 System.Net.Mail.Attachment attachment = new System.Net.Mail.Attachment(ms, "appointment.ics", "text/calendar");
+                                msg.Attachments.Add(attachment);
                             }
                         }
                     }

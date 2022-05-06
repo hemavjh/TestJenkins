@@ -735,7 +735,8 @@ namespace MyCortex.Repositories.Uesr
                                                                 AppointmentToDateTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
                                                                 AppointmentDateTime = p.Field<DateTime>("APPOINTMENT_DATE"),
                                                                 TimeZoneName = p.Field<string>("TIMEZONE_NAME"),
-                                                                TimeZoneOffset = p.Field<string>("TIMEZONE_OFFSET")
+                                                                TimeZoneOffset = p.Field<string>("TIMEZONE_OFFSET"),
+                                                                DoctorName = p.Field<string>("FULLNAME")
                                                             }).ToList();
                 return lst;
             }
