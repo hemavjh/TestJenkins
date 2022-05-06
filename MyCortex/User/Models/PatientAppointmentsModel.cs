@@ -45,6 +45,7 @@ namespace MyCortex.User.Model
         public long TimeZone_Id { get; set; }
         public string TimeZoneName { get; set; }
         public string UtcOffSet { get; set; }
+        public long Appointment_Price { get; set; }
         public string Smoker { get; set; }
         public byte[] PhotoBlob { get; set; }
         public string ViewGenderName { get; set; }
@@ -116,6 +117,7 @@ namespace MyCortex.User.Model
         public long? id { get; set; }
         public long? MakeMeLookBusy { get; set; }
         public long? MinimumSlots { get; set; }
+        public long? appointment_price { get; set; }
     }
 
     public class AppointmentsData_For_ICSFile

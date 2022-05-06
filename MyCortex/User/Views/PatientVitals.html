@@ -1401,9 +1401,9 @@
                                                                     <label>Search</label>
                                                                     <div class="modernSearch">
                                                                         <input type="text" ng-model="searchquery"
-                                                                               ng-change="filterParameterList()"
+
                                                                                placeholder="" />
-                                                                        <i class="fa fa-search"></i>
+                                                                        <i class="fa fa-search" ng-click="filterParameterList()"></i>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1576,9 +1576,9 @@
                                                     <div class="inputGroups">
                                                         <label>Search</label>
                                                         <div class="modernSearch">
-                                                            <input type="text" ng-model="Medicationsearchquery" ng-change="filterMedicationList()"
+                                                            <input type="text" ng-model="Medicationsearchquery" 
                                                                    placeholder="" />
-                                                            <i class="fa fa-search"></i>
+                                                            <i class="fa fa-search" ng-click="filterMedicationList()"></i>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1727,8 +1727,8 @@
                                                             <div class="inputGroups">
                                                                 <label>Search</label>
                                                                 <div class="modernSearch">
-                                                                    <input type="text" ng-model="searchquerydata" ng-change="filterICD10List()" placeholder="" />
-                                                                    <i class="fa fa-search"></i>
+                                                                    <input type="text" ng-model="searchquerydata" placeholder="" />
+                                                                    <i class="fa fa-search" ng-click="filterICD10List()"></i>
                                                                 </div>
                                                             </div>
 
@@ -1854,9 +1854,9 @@
                                                         <div class="inputGroups">
                                                             <label>Search</label>
                                                             <div class="modernSearch">
-                                                                <input type="text" ng-model="Allergysearchquery" ng-change="filterAllergyList()"
+                                                                <input type="text" ng-model="Allergysearchquery"
                                                                        placeholder="" />
-                                                                <i class="fa fa-search"></i>
+                                                                <i class="fa fa-search" ng-click="filterAllergyList()"></i>
                                                             </div>
                                                         </div>
 
@@ -1991,9 +1991,9 @@
                                                         <div class="inputGroups">
                                                             <label>Search</label>
                                                             <div class="modernSearch">
-                                                                <input type="text" ng-model="searchNotesData" ng-change="filterPatientNotesList()"
+                                                                <input type="text" ng-model="searchNotesData"
                                                                        placeholder="" />
-                                                                <i class="fa fa-search"></i>
+                                                                <i class="fa fa-search" ng-click="filterPatientNotesList()"></i>
                                                             </div>
                                                         </div>
 
@@ -2111,9 +2111,9 @@
                                                         <div class="inputGroups">
                                                             <label>Search</label>
                                                             <div class="modernSearch">
-                                                                <input type="text" ng-model="OtherData_searchquery" ng-change="filter_OtherData()"
+                                                                <input type="text" ng-model="OtherData_searchquery"
                                                                        placeholder="" />
-                                                                <i class="fa fa-search"></i>
+                                                                <i class="fa fa-search" ng-click="filter_OtherData()"></i>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -3797,8 +3797,8 @@
                     <div class="modal-body">
                         <div class="modal-footer" style="text-align: center;">
                             <div class="modernSearch">
-                                <input type="text" ng-model="CodeSearch" id="txtdrugCodeSearch" ng-keyup="Drugcodesearchkey()" placeholder="Search Drug Code" />
-                                <i class="fa fa-search"></i>
+                                <input type="text" ng-model="CodeSearch" id="txtdrugCodeSearch" placeholder="Search Drug Code" />
+                                <i class="fa fa-search" ng-click="Drugcodesearchkey()"></i>
                             </div>
                         </div>
                         <form>
@@ -3994,8 +3994,8 @@
                         <div class="modal-footer" style="text-align: center;">
                             <div class="modernSearch">
 
-                                <input type="text" ng-model="ICD10CodeSearch" id="txtICD10CodeSearch" ng-keyup="ICD10codesearchkey()" placeholder="Search ICD Code" />
-                                <i class="fa fa-search"></i>
+                                <input type="text" ng-model="ICD10CodeSearch" id="txtICD10CodeSearch" placeholder="Search ICD Code" />
+                                <i class="fa fa-search" ng-click="ICD10codesearchkey()"></i>
                             </div>
                         </div>
                         <form>
@@ -5767,10 +5767,10 @@
             <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ DoctorDetailList.Photo}}" />
         </div>-->
                                             <div ng-if="(DoctorDetailList.GENDER_NAME| lowercase)=='male' && (uploadme2==null)" valign="top" rowspan="6">
-                                                <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/male.png" />
+                                                <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/Clinician_Male.png" />
                                             </div>
                                             <div ng-if="(DoctorDetailList.GENDER_NAME| lowercase)=='female' && (uploadme2==null)" valign="top" rowspan="6">
-                                                <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/female.png" />
+                                                <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/Clinician_Female.png" />
                                             </div>
                                             <div ng-if="(DoctorDetailList.GENDER_NAME| lowercase)!='female' && (DoctorDetailList.GENDER_NAME| lowercase)!='male' && (uploadme2==null)" valign="top" rowspan="6">
                                                 <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/Others.png" />
@@ -5915,19 +5915,19 @@
                             <div class="col-sm-5">
                                 <p class="font-semibold m-bottom-0">Upload Reports and Documents</p>
                                 <div class="col-sm-12 custom-file mt-10">
-                                    <div class="preview-zone hidden">
+                                    <!--<div class="preview-zone hidden">
                                         <div class="box box-solid">
                                             <div class="box-header with-border">
                                                 <div style="text-align:left;"><b>Preview</b></div>
                                                 <div class="box-tools pull-right">
-                                                    <button type="button" class="btn btn-danger btn-xs remove-preview">
+                                                    <button type="button" class="btn btn-danger btn-xs remove-preview" onclick="angular.element(this).scope().appdocfileRemove(this, angular.element(this).scope().$index)">
                                                         <i class="fa fa-times"></i> Reset The Field
                                                     </button>
                                                 </div>
                                             </div>
                                             <div class="box-body"></div>
                                         </div>
-                                    </div>
+                                    </div>-->
                                     <div class="dropzone-wrapper">
                                         <div class="dropzone-desc">
                                             <i class="glyphicon glyphicon-download-alt"></i>
@@ -5942,10 +5942,12 @@
                                             <p class="m-bottom-0 mt-10 text-center">Browser File</p>
                                         </label>-->                                    
                                 </div>
-                                <div class="col-sm-12">
-                                    <div class="col-sm-12 file" ng-repeat="list in files">
-                                        <p class="m-bottom-0">{{list.name}}</p>
-                                    </div>
+                                <div class="col-sm-12"  id="fileslist">
+                                    <div class="col-sm-12 file" ng-repeat="list in files" ><button type="button" class="close" title="Close"
+        ng-click="appdocfileRemove($index)">
+    &times;
+</button><div class="m-bottom-0">{{list.name}}</div>
+</div>
                                 </div>
                             </div>
                         </div>
@@ -7184,9 +7186,16 @@ Works in Mozilla, Webkit & IE.
             var dropzone = $(this).parents('.form-group').find('.dropzone');
             //var resetfile = $(this).parents('.preview-zone').find('.box-body').find('<p>').val();
             //alert(resetfile);
+            
             boxZone.empty();
             previewZone.addClass('hidden');
             reset(dropzone);
+            //$('#fileslist div').slice(-1).remove();
+            
+
+            //var paragraphs = document.getElementById("fileslist").getElementsByTagName("div");
+            //var lastParagraph = paragraphs[paragraphs.length - 1];
+            //lastParagraph.parentNode.removeChild(lastParagraph);
         });
         $('#show').on('click', function () {
             

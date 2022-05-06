@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
-using log4net;
+  
 using System.Web.Script.Serialization;
 using MyCortex.User.Model;
 using MyCortex.Utilities;
@@ -17,6 +17,10 @@ namespace MyCortex.Repositories.LogHandler
 {
     public class LogHandlerRepository : ILogHandlerRepository
     {
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
+
         public LogHandlerRepository()
         {
 
@@ -30,6 +34,8 @@ namespace MyCortex.Repositories.LogHandler
             ,DateTime? ResponseTimestamp
             ,string SessionId)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             DataEncryption EncryptContent = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@RequestUrl", RequestUrl));
@@ -48,6 +54,7 @@ namespace MyCortex.Repositories.LogHandler
             }
             catch (Exception ex)
             {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return false;
             }
         }

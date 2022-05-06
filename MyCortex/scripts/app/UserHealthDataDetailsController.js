@@ -441,7 +441,10 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 $scope.files.push(e.files[0])                
             }
         }
-
+        $scope.appdocfileRemove = function (index) {
+           $scope.files.splice(index, 1);
+        }
+        
         $scope.UnitGroupPreference = function () {
             //$http.get(baseUrl + '/api/ParameterSettings/UnitGroupPreferenceGet/?institutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
             //    $scope.unitgrouptype = data.PreferenceType;
@@ -467,11 +470,10 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
         $scope.DefaultChronic = function () {
             var Brain = document.getElementById('Brain');
-            Brain.innerHTML = '<img src="images/image004.png">';
+            //Brain.innerHTML = '<img src="images/image004.png">';
+            Brain.innerHTML = '';
 
             var detail = document.getElementById('Alzheimer');
-            detail.innerHTML = "";
-            var detail = document.getElementById('Arthritis');
             detail.innerHTML = "";
             var detail = document.getElementById('Epilepsy');
             detail.innerHTML = "";
@@ -482,8 +484,15 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             var detail = document.getElementById('Stroke');
             detail.innerHTML = "";
 
+            var Bone = document.getElementById('Bone');
+            //Brain.innerHTML = '<img src="images/image004.png">';
+            Bone.innerHTML = '';
+            var detail = document.getElementById('Arthritis');
+            detail.innerHTML = "";
+
             var Lungs = document.getElementById('Lungs');
-            Lungs.innerHTML = '<img src="images/image006.png">';
+            //Lungs.innerHTML = '<img src="images/image006.png">';
+            Lungs.innerHTML = '';
 
             var detail = document.getElementById('Pulmonary_Disease');
             detail.innerHTML = "";
@@ -491,65 +500,112 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             detail.innerHTML = "";
             var detail = document.getElementById('Asthma');
             detail.innerHTML = "";
+
+
+            var Ribbon = document.getElementById('Ribbon');
+            //Heart.innerHTML = '<img src="images/image007.png">';
+            Ribbon.innerHTML = '';
             var detail = document.getElementById('Cancer');
             detail.innerHTML = "";
+
+            var Diabetes = document.getElementById('Diabetes');
+            //Heart.innerHTML = '<img src="images/image008.png">';
+            Diabetes.innerHTML = '';
             var detail = document.getElementById('Diabetes');
             detail.innerHTML = "";
 
             var Heart = document.getElementById('Heart');
-            Heart.innerHTML = '<img src="images/image009.png">';
+            //Heart.innerHTML = '<img src="images/image009.png">';
+            Heart.innerHTML = '';
+
             var detail = document.getElementById('Heart_Disease');
             detail.innerHTML = "";
             var detail = document.getElementById('Hypertension');
             detail.innerHTML = "";
+
+            var Kidney = document.getElementById('Kidney');
+            //Heart.innerHTML = '<img src="images/image010.png">';
+            Kidney.innerHTML = '';
             var detail = document.getElementById('Kidney_Disease');
-            detail.innerHTML = "";
+            Kidney.innerHTML = "";
         }
 
         $scope.ChronicDetails = function () {
+            $scope.DefaultChronic();
             $http.get(baseUrl + '/api/User/Chronic_Conditions/?PatientId=' + $scope.SelectedPatientId).success(function (data) {
                 if (data.length !== 0 && data != null && data != undefined) {
-                    $scope.DefaultChronic();
+                    /*$scope.DefaultChronic();*/
                     for (let i = 0; i < data.length; i++) {
                         if (data[i].ChronicGroup == 1) {
-                            var Brain = document.getElementById('Brain');
-                            Brain.innerHTML = '<img src="images/image004Active.png">';
+                            //var Brain = document.getElementById('Brain');
+                            //Brain.innerHTML = '<img src="images/image004.png">';
+                            // Brain.innerHTML = '<img src="images/image004Active.png">';
 
                             if (data[i].ChronicCondition === "Alzheimer") {
+                                var Brain = document.getElementById('Brain');
+                                Brain.innerHTML = '<img src="images/image004.png">';
+                                Brain.innerHTML = '<img src="images/image004Active.png">';
+
                                 var detail = document.getElementById('Alzheimer');
+                                detail.innerHTML = '<img src="images/image004.png">';
                                 detail.innerHTML = "<img src='images/image004Active.png' /> <label class='LetFont1'>Alzheimer</label>";
                             }
-                            else if (data[i].ChronicCondition === "Arthritis") {
-                                var Arthritis = document.getElementById('Bone');
-                                Arthritis.innerHTML = '<img src="images/image005Active.png">';
-
-                                var detail = document.getElementById('Arthritis');
-                                detail.innerHTML = "<img src='images/image005Active.png' /> <label class='LetFont1'>Arthritis</label>";
-                            }
                             else if (data[i].ChronicCondition === "Epilepsy") {
+                                var Brain = document.getElementById('Brain');
+                                Brain.innerHTML = '<img src="images/image004.png">';
+                                Brain.innerHTML = '<img src="images/image004Active.png">';
+
                                 var detail = document.getElementById('Epilepsy');
+                                detail.innerHTML = '<img src="images/image004.png">';
                                 detail.innerHTML = "<img src='images/image004Active.png' /> <label class='LetFont1'>Epilepsy</label>";
                             }
                             else if (data[i].ChronicCondition === "Parkinson Disease") {
+                                var Brain = document.getElementById('Brain');
+                                Brain.innerHTML = '<img src="images/image004.png">';
+                                Brain.innerHTML = '<img src="images/image004Active.png">';
+
                                 var detail = document.getElementById('Parkinson_Disease');
+                                detail.innerHTML = '<img src="images/image004.png">';
                                 detail.innerHTML = "<img src='images/image004Active.png' /> <label class='LetFont1'>Parkinson Disease</label>";
                             }
                             else if (data[i].ChronicCondition === "Sclerosis") {
+                                var Brain = document.getElementById('Brain');
+                                Brain.innerHTML = '<img src="images/image004.png">';
+                                Brain.innerHTML = '<img src="images/image004Active.png">';
+
                                 var detail = document.getElementById('Sclerosis');
+                                detail.innerHTML = '<img src="images/image004.png">';
                                 detail.innerHTML = "<img src='images/image004Active.png' /> <label class='LetFont1'>Sclerosis</label>";
                             }
                             else if (data[i].ChronicCondition === "Stroke") {
+                                var Brain = document.getElementById('Brain');
+                                Brain.innerHTML = '<img src="images/image004.png">';
+                                Brain.innerHTML = '<img src="images/image004Active.png">';
+
                                 var detail = document.getElementById('Stroke');
+                                detail.innerHTML = '<img src="images/image004.png">';
                                 detail.innerHTML = "<img src='images/image004Active.png' /> <label class='LetFont1'>Stroke</label>";
                             }
+                            else if (data[i].ChronicCondition === "Arthritis") {
+                                var Arthritis = document.getElementById('Bone');
+                                Arthritis.innerHTML = '<img src="images/image005.png">';
+                                Arthritis.innerHTML = '<img src="images/image005Active.png">';
+
+                                var detail = document.getElementById('Arthritis');
+                                detail.innerHTML = '<img src="images/image005.png">';
+                                detail.innerHTML = "<img src='images/image005Active.png' /> <label class='LetFont1'>Arthritis</label>";
+                            }
+
                         }
 
                         if (data[i].ChronicGroup == 2) {
                             if (data[i].ChronicCondition === "Pulmonary Disease") {
                                 var Lungs = document.getElementById('Lungs');
+                                Lungs.innerHTML = '<img src="images/image006.png">'
                                 Lungs.innerHTML = '<img src="images/image006Active.png">';
 
                                 var detail = document.getElementById('Pulmonary_Disease');
+                                detail.innerHTML = '<img src="images/image006.png">'
                                 detail.innerHTML = "<img src='images/image006Active.png' /> <label class='LetFont1'>Pulmonary Disease</label>";
                             }
                             else if (data[i].ChronicCondition === "Lung Disease") {
@@ -557,6 +613,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                 Lungs.innerHTML = '<img src="images/image006Active.png">';
 
                                 var detail = document.getElementById('Lung_Disease');
+                                detail.innerHTML = '<img src="images/image006.png">'
                                 detail.innerHTML = "<img src='images/image006Active.png' /> <label class='LetFont1'>Lung Disease</label>";
                             }
                             else if (data[i].ChronicCondition === "Asthma") {
@@ -564,6 +621,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                 Lungs.innerHTML = '<img src="images/image006Active.png">';
 
                                 var detail = document.getElementById('Asthma');
+                                detail.innerHTML = '<img src="images/image006.png">'
                                 detail.innerHTML = "<img src='images/image006Active.png' /> <label class='LetFont1'>Asthma</label>";
                             }
                             else if (data[i].ChronicCondition === "Cancer") {
@@ -583,22 +641,35 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         }
 
                         if (data[i].ChronicGroup == 3) {
-                            var Heart = document.getElementById('Heart');
-                            Heart.innerHTML = '<img src="images/image009Active.png">';
+                            //  var Heart = document.getElementById('Heart');
+                            //  Heart.innerHTML = '<img src="images/image009.png">'
+                            //  Heart.innerHTML = '<img src="images/image009Active.png">';
 
                             if (data[i].ChronicCondition === "Heart Disease") {
+                                var Heart = document.getElementById('Heart');
+                                Heart.innerHTML = '<img src="images/image009.png">'
+                                Heart.innerHTML = '<img src="images/image009Active.png">';
+
                                 var detail = document.getElementById('Heart_Disease');
+                                detail.innerHTML = '<img src="images/image009.png">'
                                 detail.innerHTML = "<img src='images/image009Active.png' /> <label class='LetFont1'>Heart Disease</label>";
                             }
                             else if (data[i].ChronicCondition === "Hypertension") {
+                                var Heart = document.getElementById('Heart');
+                                Heart.innerHTML = '<img src="images/image009.png">'
+                                Heart.innerHTML = '<img src="images/image009Active.png">';
+
                                 var detail = document.getElementById('Hypertension');
+                                detail.innerHTML = '<img src="images/image009.png">'
                                 detail.innerHTML = "<img src='images/image009Active.png' /> <label class='LetFont1'>Hypertension</label>";
                             }
                             else if (data[i].ChronicCondition === "Kidney Disease") {
-                                var Diabetes = document.getElementById('Kidney');
-                                Diabetes.innerHTML = '<img src="images/image0010Active.png">';
+                                var Kidney = document.getElementById('Kidney');
+                                Kidney.innerHTML = '<img src="images/image0010.png">';
+                                Kidney.innerHTML = '<img src="images/image0010Active.png">';
 
                                 var detail = document.getElementById('Kidney_Disease');
+                                detail.innerHTML = '<img src="images/image0010.png">';
                                 detail.innerHTML = "<img src='images/image0010Active.png' /> <label class='LetFont1'>Kidney Disease</label>";
                             }
                         }
@@ -634,6 +705,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $("#chatLoaderPV").hide();
                     $scope.Id = data.PatientId;
                     $scope.FullName = data.FullName;
+                    document.getElementById("fullname").title = data.FullName;
                     $scope.MobileNo = data.MOBILE_NO;
                     $scope.Photo = data.Photo;
                     $scope.FileName = data.FileName;
@@ -1007,6 +1079,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         //$scope.AppoiDate = [];
                         $scope.AppoiFromTime = [];
                         $scope.AppoiToTime = [];
+                        $scope.AppoiPrice = 0;
                         $scope.newAppoiTimeSlot = [];
                         $scope.newAppoiTimeSlot1 = [];
                         $scope.randomno = [];
@@ -1090,7 +1163,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                             AppointmentTime: value.AppointmentTime,
                                             IsBooked: value.IsBooked==true ? 1 : false,
                                             IdNo: index,
-                                            IsBusy: $scope.randomno.lastIndexOf(index + 1) == -1 ? false : true
+                                            IsBusy: $scope.randomno.lastIndexOf(index + 1) == -1 ? false : true,
+                                            appointment_price: value.appointment_price
                                         }
                                         $scope.newAppoiTimeSlot1.push(object);
                                     });
@@ -1104,7 +1178,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                             AppointmentTime: value.AppointmentTime,
                                             IsBooked: value.IsBooked == true ? 1 : false,
                                             IdNo: index,
-                                            IsBusy: false
+                                            IsBusy: false,
+                                            appointment_price: value.appointment_price
                                         }
                                         $scope.newAppoiTimeSlot1.push(object);
                                     });
@@ -1185,6 +1260,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.idSelectedAppoi = null;
                     $scope.AppoiFromTime = [];
                     $scope.AppoiToTime = [];
+                    $scope.AppoiPrice = 0;
                     $scope.ClickAppointment = function (list) {
                         $scope.idSelectedAppoi = list;
                         //var AppointmentFrom = list.AppointmentFromDateTime;
@@ -1195,7 +1271,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         //$scope.AppoiToTime = To.slice(0, 5);
                         $scope.AppoiFromTime = list.AppointmentFromDateTime;
                         $scope.AppoiToTime = list.AppointmentToDateTime;
-
+                        $scope.AppoiPrice = list.appointment_price;
                     }
                     $scope.ClosePaymentAppointmentHistory = function () {
                         angular.element('#appointment_payment_history').modal('hide');
@@ -1266,7 +1342,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                     "Status": 1,
                                     "Created_By": $window.localStorage['UserId'],
                                     "Page_Type": 0,
-                                    "Appointment_Module_Id": Appointment_Module
+                                    "Appointment_Module_Id": Appointment_Module,
+                                    "Appointment_Price": $scope.AppoiPrice
                                 }
                                 $('#shown').attr("disabled", true);
                                 $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
@@ -1334,6 +1411,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                                     //$scope.AppoiDate = [];
                                                     $scope.AppoiFromTime = [];
                                                     $scope.AppoiToTime = [];
+                                                    $scope.AppoiPrice = 0;
                                                     $scope.IsNew = 1;
                                                     $scope.OldAppointmentID = null;
                                                     if ($scope.AppointmoduleID1 == 2 && $window.localStorage["UserTypeId"] == 2) {
@@ -1388,6 +1466,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                             //$scope.AppoiDate = [];
                                             $scope.AppoiFromTime = [];
                                             $scope.AppoiToTime = [];
+                                            $scope.AppoiPrice = 0;
                                             $scope.IsNew = 1;
                                             $scope.OldAppointmentID = null;
                                             if ($scope.AppointmoduleID1 == 2 && $window.localStorage["UserTypeId"] == 2) {
@@ -1419,6 +1498,13 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
                                 }).error(function (data) { $("#appoint_waveLoader").hide(); });;
                             } else {
+                                var TZ = $scope.TimeZoneList.filter(x => x.TimeZoneId == $scope.TimeZoneID);
+                                var TZname = "";
+                                var UtcOffSet = "";
+                                if (TZ.length > 0) {
+                                    TZname = TZ[0].TimeZoneDisplayName;
+                                    UtcOffSet = TZ[0].UtcOffSet;
+                                }
                                 var objectReshedule = {
                                     "Id": $scope.OldAppointmentID,
                                     "CancelledBy_Id": $window.localStorage['UserId'],
@@ -1436,7 +1522,10 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                     "Created_By": $window.localStorage['UserId'],
                                     "Page_Type": "0",
                                     "TimeZone_Id": $scope.TimeZoneID,
-                                    "Appointment_Module_Id": Appointment_Module
+                                    "Appointment_Module_Id": Appointment_Module,
+                                    "TimeZoneName": TZname,
+                                    "UtcOffSet": UtcOffSet,
+                                    "Appointment_Price": $scope.AppoiPrice
                                 }
                                 $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
                                 $http.post(baseUrl + '/api/PatientAppointments/AppointmentReSchedule_InsertUpdate?Login_Session_Id=' + $scope.LoginSessionId, objectReshedule).success(function (data) {
@@ -1508,6 +1597,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                         //$scope.AppoiDate = [];
                                         $scope.AppoiFromTime = [];
                                         $scope.AppoiToTime = [];
+                                        $scope.AppoiPrice = 0;
                                         $scope.IsNew = 1;
                                         var objectCancel = {
                                             "Id": $scope.OldAppointmentID,
@@ -1587,6 +1677,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $scope.AppoiDate = [];
                         $scope.AppoiFromTime = [];
                         $scope.AppoiToTime = [];
+                        $scope.AppoiPrice = 0;
                         $scope.files = []; // drag and drop files are cleared 
                         $scope.IsNew = 1;
                     }
@@ -7237,8 +7328,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         angular.lowercase(value.AllergenName).match(searchstring) ||
                         angular.lowercase(value.AllergySeverityName).match(searchstring) ||
                         angular.lowercase(value.AllergyOnsetName).match(searchstring) ||
-                        angular.lowercase(value.AllergyReactionName).match(searchstring) ||
-                        angular.lowercase(($filter('date')(value.OnSetDate, "dd-MMM-yyyy hh:mm:ss a"))).match(searchstring);
+                        angular.lowercase(value.AllergyReactionName).match(searchstring) 
+                        angular.lowercase(($filter('date')(value.OnSetDate, "dd-MMM-yyyy"))).match(searchstring)
+                        
                 });
                 if ($scope.PatientAssignedAllergyDataList.length > 0) {
                     $scope.flag = 1;
@@ -7961,8 +8053,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     return angular.lowercase(value.DocumentName).match(searchstring) ||
                         angular.lowercase(value.FileName).match(searchstring) ||
                         angular.lowercase(value.Created_Name).match(searchstring) ||
-                        angular.lowercase(value.DocumentType).match(searchstring) ||
-                        angular.lowercase(value.Created_Date).match(searchstring);
+                        //angular.lowercase(value.DocumentType).match(searchstring) || 
+                        angular.lowercase($filter('date')(value.Created_Date, "dd-MMM-yyyy")).match(searchstring)
                 });
                 if ($scope.OtherData_ListData.length > 0) {
                     $scope.OtherDataflag = 1;

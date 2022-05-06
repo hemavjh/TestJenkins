@@ -9,7 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web;
 using System.IO;
-using log4net;
+  
 using Newtonsoft.Json;
 using MyCortex.Repositories.Masters;
 using MyCortex.Masters.Models;
@@ -23,7 +23,7 @@ namespace MyCortex.Masters.Controllers
     public class PlanMasterController : ApiController
     {
         static readonly IPlanMasterRepository repository = new PlanMasterRepository();
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
 
         /// <summary>
         /// to insert/update a Plan Master list
