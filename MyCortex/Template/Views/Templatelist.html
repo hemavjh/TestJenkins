@@ -207,11 +207,11 @@
                                         <!--<font class='mandatory-field'>*</font>-->
                                     </sup>
                                 </label>
-                                <select class="" data-style="form-control" ng-model="Event" id="AlertEventList" data-live-search="true"
+                                <select class="" data-style="form-control" ng-model="TagType" id="AlertEventList" data-live-search="true"
                                         data-selectpicker data-collection-name="AlertEvent"
-                                        ng-change="OnChangeTypeBasedTagList(Event)">
+                                        ng-change="OnChangeTypeBasedTagList(TagType)">
                                     <option value="0">Select</option>
-                                    <option ng-repeat="sel in AlertEvent" ng-selected="Event==sel.Id" value="{{sel.EventName}}">
+                                    <option ng-repeat="sel in AlertEvent" ng-selected="Event==sel.Id" value="{{sel.Id}}">
                                         {{sel.EventName}}
                                     </option>
                                 </select>
