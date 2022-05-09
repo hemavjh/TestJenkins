@@ -1091,6 +1091,13 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $http.get(baseUrl + '/api/PatientAppointments/GetDoctorAppointmentTimeSlot/?DoctorId=' + DoctorIDs + '&Date=' + res1 + '&IsNew=' + $scope.IsNew + '&Login_Session_Id=' + $scope.LoginSessionId + '&TimeZoneId=' + $scope.TimeZoneID + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data1) {
                             $("#appoint_waveLoader").hide();
                             $scope.newAppoiTimeSlot = data1.DoctorAppointmentTimeSlotList;
+
+                            if (data1.DoctorAppointmentDurationList != null) {
+                                if (data1.DoctorAppointmentDurationList.length > 0) {
+                                    $scope.NewAppointmentDuration = data1.DoctorAppointmentDurationList[0].NewAppointmentDuration;
+                                    $scope.FollowUpDuration = data1.DoctorAppointmentDurationList[0].FollowUpDuration;
+                                }
+                            }
                            
                             if ($scope.newAppoiTimeSlot.length == 0) {
                                 $scope.DataNotAvailible = 1;

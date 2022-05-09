@@ -399,12 +399,15 @@ namespace MyCortex.User.Controller
             _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<DoctorAppointmentTimeSlotModel> ModelData = new List<DoctorAppointmentTimeSlotModel>();
+            IList<AppointmentDuration> ModelDuration = new List<AppointmentDuration>();
             DoctorAppointmentTimeSlotReturnModel model = new DoctorAppointmentTimeSlotReturnModel();
             string messagestr = "";
             try
             {
                 ModelData = repository.GetAppointmentTimeSlots(DoctorId, Date, IsNew, Login_Session_Id, TimeZoneId, Institution_Id);
+                ModelDuration = repository.GetAppointmentTypeDuration(DoctorId, Date, Login_Session_Id, Institution_Id);
                 model.DoctorAppointmentTimeSlotList = ModelData;
+                model.DoctorAppointmentDurationList = ModelDuration;
                 model.Status = "True";
                 model.Message = "List of Slots";
                 model.Error_Code = "";
