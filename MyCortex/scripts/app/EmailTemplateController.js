@@ -69,88 +69,99 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
         //};
 
         $scope.OnChangeTypeBasedTagList = function (TagType) {
-            var TZ = $scope.AlertEvent.filter(x => x.Id == TagType);
-            var EmailSectionType = TZ[0].EventName;
-            $scope.AlertTagName = TagType;
-            $scope.SectionType = "";
-            //if (EmailSectionType == "1")
-            //    $scope.SectionType = "BASIC";
-            //    $scope.AlertTagName = "User Creation";
-            //if (EmailSectionType == "2")
-            //    $scope.SectionType = "INS_SUB_DETAILS";
-            //    $scope.AlertTagName = "Institution And Subscription Creation";
-            if (EmailSectionType == "Appointment approval for CG")
-                $scope.SectionType = "BASIC,APPOINTMENT";
-            else if (EmailSectionType == "Appointment approved by CG")
-                $scope.SectionType = "BASIC,APPOINTMENT";
-            else if (EmailSectionType == "Appointment Cancellation Reason")
-                $scope.SectionType = "BASIC,APPOINTMENT";
-            else if (EmailSectionType == "Business User Creation")
-                $scope.SectionType = "BASIC";
-            else if (EmailSectionType == "CG assignment by CC email")
-                $scope.SectionType = "BASIC,CG_ASSIGN";
-            else if (EmailSectionType == "Change Password")
-                $scope.SectionType = "BASIC";
-            else if (EmailSectionType == "Clinicians note")
-                $scope.SectionType = "BASIC,CLINICIAN_NOTE";
-            else if (EmailSectionType == "Compliance Alert High")
-                $scope.SectionType = "BASIC";
-            else if (EmailSectionType == "Compliance Alert low")
-                $scope.SectionType = "BASIC";
-            else if (EmailSectionType == "Compliance Alert medium")
-                $scope.SectionType = "BASIC";
-            else if (EmailSectionType == "Diagnostic Alert High")
-                $scope.SectionType = "BASIC,DIAG_COMP_ALERT";
-            else if (EmailSectionType == "Diagnostic Alert low")
-                $scope.SectionType = "BASIC,DIAG_COMP_ALERT";
-            else if (EmailSectionType == "Diagnostic Alert medium")
-                $scope.SectionType = "BASIC,DIAG_COMP_ALERT";
-            else if (EmailSectionType == "Missed Call by doctor")
-                $scope.SectionType = "BASIC";
-            else if (EmailSectionType == "Missed Call by patient")
-                $scope.SectionType = "BASIC";
-            else if (EmailSectionType == "Patient Appointment Cancellation")
-                $scope.SectionType = "BASIC,APPOINTMENT";
-            else if (EmailSectionType == "Patient Appointment Creation")
-                $scope.SectionType = "BASIC,APPOINTMENT";
-            else if (EmailSectionType == "Patient Appointment Reminder(to doctor)")
-                $scope.SectionType = "BASIC,APPOINTMENT";
-            else if (EmailSectionType == "Patient Appointment Reminder(to Patient)")
-                $scope.SectionType = "BASIC,APPOINTMENT";
-            else if (EmailSectionType == "Patient sign up")
-                $scope.SectionType = "BASIC";
-            else if (EmailSectionType == "Patient sign up approved")
-                $scope.SectionType = "BASIC";
-            else if (EmailSectionType == "Patient sign up more information required")
-                $scope.SectionType = "BASIC,PATIENT_MOREINFO";
-            else if (EmailSectionType == "Patient SignUp for Hospital Admin")
-                $scope.SectionType = "BASIC";
-            else if (EmailSectionType == "Reset Password")
-                $scope.SectionType = "BASIC";
-            else if (EmailSectionType == "Doctor Shift Expiry")
-                $scope.SectionType = "DOCTOR_SHIFT";
-            else if (EmailSectionType == "Nearing user limit")
-                $scope.SectionType = "BASIC";
-            else if (EmailSectionType == "Nearing patient limit")
-                $scope.SectionType = "BASIC";
-            else if (EmailSectionType == "Target Achieved Daily")
-                $scope.SectionType = "BASIC";
-            else if (EmailSectionType == "Target Achieved weekly")
-                $scope.SectionType = "BASIC";
-            else if (EmailSectionType == "New data captured - indication")
-                $scope.SectionType = "BASIC";
-            else if (EmailSectionType == "CG assignment by CC email")
-                $scope.SectionType = "BASIC,CG_ASSIGN";
-            else if (EmailSectionType == "Password Expiry Period")
-                $scope.SectionType = "BASIC";
-            else if (EmailSectionType == "Licence expiry")
-                $scope.SectionType = "BASIC";
-            else if (EmailSectionType == "Notify to Admin for Expiring Doctor Shift Expiry")
-                $scope.SectionType = "DOCTOR_SHIFT";
-            else if (EmailSectionType == "Payment Success")
-                $scope.SectionType = "APPOINTMENT,DOCTOR_SHIFT";
-            else if (EmailSectionType == "Payment Failure")
-                $scope.SectionType = "APPOINTMENT,DOCTOR_SHIFT";
+            var Mode = "";
+            if ($scope.UserTypeId == '1')
+                Mode = 1;
+            if ($scope.UserTypeId == '3')
+                Mode = 2;
+            if (Mode == 2) {
+                var TZ = $scope.AlertEvent.filter(x => x.Id == TagType);
+                var EmailSectionType = TZ[0].EventName;
+                $scope.AlertTagName = TagType;
+                $scope.SectionType = "";
+                if (EmailSectionType == "Appointment approval for CG")
+                    $scope.SectionType = "BASIC,APPOINTMENT";
+                else if (EmailSectionType == "Appointment approved by CG")
+                    $scope.SectionType = "BASIC,APPOINTMENT";
+                else if (EmailSectionType == "Appointment Cancellation Reason")
+                    $scope.SectionType = "BASIC,APPOINTMENT";
+                else if (EmailSectionType == "Business User Creation")
+                    $scope.SectionType = "BASIC";
+                else if (EmailSectionType == "CG assignment by CC email")
+                    $scope.SectionType = "BASIC,CG_ASSIGN";
+                else if (EmailSectionType == "Change Password")
+                    $scope.SectionType = "BASIC";
+                else if (EmailSectionType == "Clinicians note")
+                    $scope.SectionType = "BASIC,CLINICIAN_NOTE";
+                else if (EmailSectionType == "Compliance Alert High")
+                    $scope.SectionType = "BASIC";
+                else if (EmailSectionType == "Compliance Alert low")
+                    $scope.SectionType = "BASIC";
+                else if (EmailSectionType == "Compliance Alert medium")
+                    $scope.SectionType = "BASIC";
+                else if (EmailSectionType == "Diagnostic Alert High")
+                    $scope.SectionType = "BASIC,DIAG_COMP_ALERT";
+                else if (EmailSectionType == "Diagnostic Alert low")
+                    $scope.SectionType = "BASIC,DIAG_COMP_ALERT";
+                else if (EmailSectionType == "Diagnostic Alert medium")
+                    $scope.SectionType = "BASIC,DIAG_COMP_ALERT";
+                else if (EmailSectionType == "Missed Call by doctor")
+                    $scope.SectionType = "BASIC";
+                else if (EmailSectionType == "Missed Call by patient")
+                    $scope.SectionType = "BASIC";
+                else if (EmailSectionType == "Patient Appointment Cancellation")
+                    $scope.SectionType = "BASIC,APPOINTMENT";
+                else if (EmailSectionType == "Patient Appointment Creation")
+                    $scope.SectionType = "BASIC,APPOINTMENT";
+                else if (EmailSectionType == "Patient Appointment Reminder(to doctor)")
+                    $scope.SectionType = "BASIC,APPOINTMENT";
+                else if (EmailSectionType == "Patient Appointment Reminder(to Patient)")
+                    $scope.SectionType = "BASIC,APPOINTMENT";
+                else if (EmailSectionType == "Patient sign up")
+                    $scope.SectionType = "BASIC";
+                else if (EmailSectionType == "Patient sign up approved")
+                    $scope.SectionType = "BASIC";
+                else if (EmailSectionType == "Patient sign up more information required")
+                    $scope.SectionType = "BASIC,PATIENT_MOREINFO";
+                else if (EmailSectionType == "Patient SignUp for Hospital Admin")
+                    $scope.SectionType = "BASIC";
+                else if (EmailSectionType == "Reset Password")
+                    $scope.SectionType = "BASIC";
+                else if (EmailSectionType == "Doctor Shift Expiry")
+                    $scope.SectionType = "DOCTOR_SHIFT";
+                else if (EmailSectionType == "Nearing user limit")
+                    $scope.SectionType = "BASIC";
+                else if (EmailSectionType == "Nearing patient limit")
+                    $scope.SectionType = "BASIC";
+                else if (EmailSectionType == "Target Achieved Daily")
+                    $scope.SectionType = "BASIC";
+                else if (EmailSectionType == "Target Achieved weekly")
+                    $scope.SectionType = "BASIC";
+                else if (EmailSectionType == "New data captured - indication")
+                    $scope.SectionType = "BASIC";
+                else if (EmailSectionType == "CG assignment by CC email")
+                    $scope.SectionType = "BASIC,CG_ASSIGN";
+                else if (EmailSectionType == "Password Expiry Period")
+                    $scope.SectionType = "BASIC";
+                else if (EmailSectionType == "Licence expiry")
+                    $scope.SectionType = "BASIC";
+                else if (EmailSectionType == "Notify to Admin for Expiring Doctor Shift Expiry")
+                    $scope.SectionType = "DOCTOR_SHIFT";
+                else if (EmailSectionType == "Payment Success")
+                    $scope.SectionType = "APPOINTMENT,DOCTOR_SHIFT";
+                else if (EmailSectionType == "Payment Failure")
+                    $scope.SectionType = "APPOINTMENT,DOCTOR_SHIFT";
+            }
+            else if (Mode == 1) {
+                if (TagType == "1") {
+                    $scope.SectionType = "BASIC";
+                    $scope.AlertTagName = TagType;
+                }
+                if (TagType == "2") {
+                    $scope.SectionType = "INS_SUB_DETAILS";
+                    $scope.AlertTagName = TagType;
+                }
+            }
             else (EmailSectionType == "0" || EmailSectionType == null || EmailSectionType == undefined || EmailSectionType == "")
                 $scope.TemplateTagMappingList = [];
             if ($scope.PageParameter == 1) {
