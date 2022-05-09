@@ -1347,6 +1347,9 @@ const chatService = function () {
             $.each(userDataLoad, function (contIndex, contValue) {
                 if (contValue.User_Id.toString() === window.COMETCHAT_TO_USER && contValue.GroupName === "U") {
                     window.location = '/Home/Index#/PatientVitals/' + window.COMETCHAT_TO_USER + '/' + window.localStorage['UserTypeId'];
+                    localStorage.setItem('CurrentTabId', 9);
+                    $('.themeTabActive').removeClass('themeTabActive');
+                    $('#live').addClass('themeTabActive');
                 }
             });
         },
