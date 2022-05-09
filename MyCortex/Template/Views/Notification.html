@@ -171,7 +171,7 @@
 
 <!--Add&Edit Modal-->
 <div id="EmailTemplateModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog" style="width:85%">
+    <div class="modal-dialog" style="width:90%">
         <div class="modal-content" ng-init="EmailTemplatelist();TempMappinglist()">
             <form class="form-horizontal" role="form" ng-class="{'submitted': submitted}" ng-submit="EmailTemplateAddEdit()">
                 <div class="modal-header">
@@ -222,7 +222,7 @@
                                         data-selectpicker data-collection-name="AlertEvent"
                                         ng-change="OnChangeTypeBasedTagList(TagType)">
                                     <option value="0">Select</option>
-                                    <option ng-repeat="sel in AlertEvent" ng-selected="Event==sel.Id" value="{{sel.Id}}">
+                                    <option ng-repeat="sel in AlertEvent" ng-selected="TagType==sel.Id" value="{{sel.Id}}">
                                         {{sel.EventName}}
                                     </option>
                                 </select>
