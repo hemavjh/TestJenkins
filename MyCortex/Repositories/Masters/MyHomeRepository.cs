@@ -29,7 +29,7 @@ namespace MyCortex.Repositories.Masters
             db = new ClsDataBase();
         }
        
-        public IList<TabListModel> Tab_List(int? IsActive, long Institution_Id, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber)
+        public IList<TabListModel> Tab_List(int? IsActive, long Institution_Id, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber, long HiveType)
         {
             _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -39,6 +39,7 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
             param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
+            param.Add(new DataParameter("@HIVETYPE", HiveType));
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("MYCORTEX.MYHOME_TAB_SP_LIST", param);
@@ -81,6 +82,7 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@OS", insobj.OS));
             param.Add(new DataParameter("@CREATED_BY", insobj.CreatedBy));
             param.Add(new DataParameter("@VENDOR", ""));
+            param.Add(new DataParameter("@HIVETYPE", insobj.HiveType));
 
             if (insobj.ID == 0)
             {
@@ -739,13 +741,14 @@ namespace MyCortex.Repositories.Masters
 
         }
 
-        public IList<TabDevicesModel> Get_DeviceList(int? IsActive, long Institution_ID)
+        public IList<TabDevicesModel> Get_DeviceList(int? IsActive, long Institution_ID, long HiveType)
         {
             _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_ID));
             param.Add(new DataParameter("@ISACTIVE", IsActive));
+            param.Add(new DataParameter("@HIVETYPE", HiveType));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
             _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
@@ -823,6 +826,7 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@MAKE", insobj.Make));
             param.Add(new DataParameter("@CREATED_BY", insobj.CreatedBy));
             param.Add(new DataParameter("@ISTAB", insobj.ISTAB));
+            param.Add(new DataParameter("@HIVETYPE", insobj.HiveType));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
             _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try

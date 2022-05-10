@@ -10,7 +10,7 @@
     <li><a href="Home/Index#/DeviceList">Device List</a></li>
 </ul>
 <h1 class="page-title">Hive</h1>
-<div ng-init="TabList();currentTab='1';">
+<div ng-init="TabList(1);currentTab='1';">
     <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
         <div></div>
         <div></div>
@@ -35,7 +35,7 @@
                         <div class="inputGroups">
                             <label>Active</label>
                         </div>
-                        <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="TabList();" title="Active / All">
+                        <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="TabList(1);" title="Active / All">
                     </div>
                     <div class="col-sm-4">
                         <div class="inputGroups">
@@ -315,7 +315,7 @@
                     </div>
                     <div style="text-align: center;">
                         <button type="button" ng-show="showSave == true" class="theme-btn-1 mr-10 mtb-15 btn-save" id="savemytab" ng-disabled="false" title="Click to Save"
-                                ng-click="MYTAB_InsertUpdate()">
+                                ng-click="MYTAB_InsertUpdate(1)">
                             Save
                         </button>
                         <button type="button" class="theme-btn-2  btn-save mtb-15" title="Click to Cancel" id="cancelmytab"
@@ -538,7 +538,7 @@
 
                     <div style="text-align: center;">
                         <button type="button" ng-show="showSave == true" class="theme-btn-1 mr-10 mtb-15 btn-save" id="savemytabview" title="Click to Save"
-                                ng-click="MYTAB_InsertUpdate()">
+                                ng-click="MYTAB_InsertUpdate(1)">
                             Save
                         </button>
                         <button type="button" class="theme-btn-2  btn-save mtb-15" title="Click to Cancel" id="cancelmytabview"

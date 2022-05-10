@@ -10,7 +10,7 @@
     <li><a href="Home/Index#/DeviceListChart">Device List Chart</a></li>
 </ul>
 <h1 class="page-title">Hive Chart</h1>
-<div ng-init="TabList();currentTab='1';">
+<div ng-init="TabList(2);currentTab='1';">
     <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
         <div></div>
         <div></div>
@@ -35,7 +35,7 @@
                         <div class="inputGroups">
                             <label>Active</label>
                         </div>
-                        <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="TabList();" title="Active / All">
+                        <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="TabList(2);" title="Active / All">
                     </div>
                     <div class="col-sm-4">
                         <div class="inputGroups">
@@ -85,9 +85,9 @@
                         <img src="../../Images/EditIcon.png" ng-if="row.IsActive==0" />
                     </a>
                 </a>
-                <a href="javascript:" ng-click="DeleteMYTAB(row.ID)" title="Active">
+                <a href="javascript:" ng-click="DeleteMYTAB(row.ID, 2)" title="Active">
                     <i class="fa fa-check-circle-o ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
-                    <a href="javascript:" ng-click="DeleteMYTABDeactive(row.ID)" title="Inactive">
+                    <a href="javascript:" ng-click="DeleteMYTABDeactive(row.ID, 2)" title="Inactive">
                         <img src="../../Images/inactive.png" ng-if="row.IsActive==0" />
                     </a>
                 </a>
@@ -99,18 +99,18 @@
             <td colspan="8" class="text-center" style="text-align:center">
                 <ul class="pagination">
                     <li>
-                        <a ng-click="setMyHomePage(1)">First</a>
+                        <a ng-click="setMyHomePage(1, 2)">First</a>
                     </li>
                     <li>
-                        <a ng-click="setMyHomePage(current_MyHomepage - 1)">&lt;</a>
+                        <a ng-click="setMyHomePage(current_MyHomepage - 1, 2)">&lt;</a>
                     </li>
                     <li>
-                        <a><input style="width: 50px" class="text-center" type="number" min="1" max="{{total_MyHomepage}}" step="1" ng-model="inputPageNo" ng-value="current_MyHomepage" ng-change="setMyHomePage(0);"> of {{total_MyHomepage}}</a>
+                        <a><input style="width: 50px" class="text-center" type="number" min="1" max="{{total_MyHomepage}}" step="1" ng-model="inputPageNo" ng-value="current_MyHomepage" ng-change="setMyHomePage(0, 2);"> of {{total_MyHomepage}}</a>
                     </li>
                     <li>
-                        <a ng-click="setMyHomePage(current_MyHomepage + 1)">&gt;</a>
+                        <a ng-click="setMyHomePage(current_MyHomepage + 1, 2)">&gt;</a>
                     </li>
-                    <li><a ng-click="setMyHomePage(total_MyHomepage)">Last</a></li>
+                    <li><a ng-click="setMyHomePage(total_MyHomepage, 2)">Last</a></li>
                 </ul>
             </td>
         </tr>
@@ -315,7 +315,7 @@
                     </div>
                     <div style="text-align: center;">
                         <button type="button" ng-show="showSave == true" class="theme-btn-1 mr-10 mtb-15 btn-save" id="savemytab" ng-disabled="false" title="Click to Save"
-                                ng-click="MYTAB_InsertUpdate()">
+                                ng-click="MYTAB_InsertUpdate(2)">
                             Save
                         </button>
                         <button type="button" class="theme-btn-2  btn-save mtb-15" title="Click to Cancel" id="cancelmytab"
@@ -538,7 +538,7 @@
 
                     <div style="text-align: center;">
                         <button type="button" ng-show="showSave == true" class="theme-btn-1 mr-10 mtb-15 btn-save" id="savemytabview" title="Click to Save"
-                                ng-click="MYTAB_InsertUpdate()">
+                                ng-click="MYTAB_InsertUpdate(2)">
                             Save
                         </button>
                         <button type="button" class="theme-btn-2  btn-save mtb-15" title="Click to Cancel" id="cancelmytabview"

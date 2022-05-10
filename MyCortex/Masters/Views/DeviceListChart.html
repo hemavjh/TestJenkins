@@ -10,7 +10,7 @@
     <li><a href="Home/Index#/DeviceListChart" class="secondaryMenuActive" data-menu="Hive Chart">Device List Chart</a></li>
 </ul>
 <h1 class="page-title">Device List Chart</h1>
-<div ng-init="DeviceList();">
+<div ng-init="DeviceList(2);">
     <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
         <div></div>
         <div></div>
@@ -35,7 +35,7 @@
                         <div class="inputGroups">
                             <label>Active</label>
                         </div>
-                        <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="DeviceList();" title="Active / All">
+                        <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="DeviceList(2);" title="Active / All">
                     </div>
                     <div class="col-sm-4">
                         <div class="inputGroups">
@@ -48,7 +48,7 @@
     </div>
 </div>
 
-<table st-table="emptydataTab" style="width: 100%" st-safe-src="rowCollectionTabFilter" st-search="query" class="table themeTable">
+<table st-table="emptydataTab" style="width: 100%" st-safe-src="rowCollectionDeviceFilter" st-search="query" class="table themeTable">
     <thead>
         <tr style="text-align: center">
             <th st-ratio="5">#</th>
@@ -92,9 +92,9 @@
 
                     </a>
                 </a>
-                <a href="javascript:" ng-click="DeleteDevice(row.ID)" title="Active">
+                <a href="javascript:" ng-click="DeleteDevice(row.ID, 2)" title="Active">
                     <i class="fa fa-check-circle-o ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
-                    <a href="javascript:" ng-click="ReInsertDevice(row.ID)" title="Inactive">
+                    <a href="javascript:" ng-click="ReInsertDevice(row.ID, 2)" title="Inactive">
                         <img src="../../Images/inactive.png" ng-if="row.IsActive==0" />
                     </a>
                 </a>
@@ -143,7 +143,7 @@
 <div id="DeviceAddModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form class="form-horizontal" role="form" ng-class="{'submitted': submitted}" ng-submit="Device_InsertUpdate();">
+            <form class="form-horizontal" role="form" ng-class="{'submitted': submitted}" ng-submit="Device_InsertUpdate(2);">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopup()" style="color:#fff;">&times;</button>
                     <h4 class="modal-title" ng-if="Id>0 && DisplayView==''">Edit Device</h4>
