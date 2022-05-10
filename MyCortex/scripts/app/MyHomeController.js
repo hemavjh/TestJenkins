@@ -136,6 +136,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         $scope.Cancel_MYTAB = function () {
             $scope.currentTab = "1";
             $location.path("/Hive");
+            $location.path("/HiveChart");
             $scope.ClearPopUp();
         }
 

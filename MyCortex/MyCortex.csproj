@@ -500,12 +500,14 @@
     <Content Include="Masters\Views\AppointmentApproval.html" />
     <Content Include="Masters\Views\AttendanceDetails.html" />
     <Content Include="Masters\Views\DeviceList.html" />
+    <Content Include="Masters\Views\DeviceListChart.html" />
     <Content Include="Masters\Views\DoctorAppointmentDetails_For_Others.html" />
     <Content Include="Masters\Views\DoctorShift.html" />
     <Content Include="Masters\Views\AdminEmailConfiguration.html" />
     <Content Include="Masters\Views\GateWaySettings.html" />
     <Content Include="Masters\Views\LanguageSettings.html" />
     <Content Include="Masters\Views\MyAppointmentSetting.html" />
+    <Content Include="Masters\Views\MyhomeChart.html" />
     <Content Include="Masters\Views\Payor.html" />
     <Content Include="Masters\Views\PlanMaster.html" />
     <Content Include="Masters\Views\SlotTiming.html" />
