@@ -36,17 +36,17 @@
                         <div class="modernSearch">
                             <input type="text" ng-model="coordinator_searchquery"
                                    placeholder="" />
-                            <i class="fa fa-search"></i>
+                            <i class="fa fa-search" ng-click="CareCoordinator_Filter()"></i>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-1">
+                <!--<div class="col-sm-1">
                     <div class="inputGroups">
                         <a href="javascript:" ng-click="CareCoordinator_Filter()" class="theme-btn-1 pull-right mt-20 btn-autosize pull-right ml-10">
                             Submit
                         </a>
                     </div>
-                </div>
+                </div>-->
                 <div class="col-sm-3">
                     <div class="inputGroups">
                         <label>Alert Filter</label>
@@ -259,7 +259,7 @@
             <div class="patientListCard">
                 <div ng-if="(row.ViewGenderName| lowercase)=='male' && (row.PhotoBlob == null || row.PhotoBlob==0)"
                      valign="top" rowspan="6">
-                    <img class="patientDetimg" src="../../Images/male.png" />
+                    <img class="patientDetimg" src="../../Images/Patient_Male.png" />
                 </div>
                 <div ng-if="(row.ViewGenderName| lowercase)=='female' && (row.PhotoBlob == null || row.PhotoBlob==0)"
                      valign="top" rowspan="6">

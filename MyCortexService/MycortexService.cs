@@ -22,6 +22,7 @@ namespace MyCortexService
     public partial class MycortexService : ServiceBase
     {
         Timer timer = new Timer();
+        Timer timer2 = new Timer();
         private string executedTime="";
         private string lastexecutedTime="";
         private string executedTimeNow = "";
@@ -41,6 +42,10 @@ namespace MyCortexService
             timer.Elapsed += new ElapsedEventHandler(OnElapsedTime);
             timer.Interval = 60000; //number in milisecinds     // 60000 = one minute
             timer.Enabled = true;
+
+            timer2.Elapsed += new ElapsedEventHandler(OnElapsedTime2);
+            timer2.Interval = 300000; //number in milisecinds     // 300000 = 5 minute
+            timer2.Enabled = true;
         }
 
         public void onDebug()
@@ -58,7 +63,7 @@ namespace MyCortexService
 
                 AlertEvents AlertEventReturn = new AlertEvents();
                 IList<EmailListModel> EmailList;
-                Int64 Id = 0, Institution_Id, Patient_Id, Doctor_Id;
+                Int64 Id = 0, Institution_Id, Patient_Id, Doctor_Id, APPOINTMENT_ID;
 
                 // to execute the service daily once at the day start(at 12AM)
                 var dateAndTime = DateTime.Now;
@@ -66,108 +71,115 @@ namespace MyCortexService
 
                 if (executedTime == "" || executedTime != lastexecutedTime)
                 {
-                    // archiving mail and notification > 365 days
-                    emailrepository.SendArchivedetails();
-                    lastexecutedTime = executedTime;
-
-                    IList<PasswordExpiry_AlertEventModel> PwdEmailList;
-
-                    // pwd expiry notification to user ex. before 90 days, 60 days,...
-                    Event_Code = "PASSWORD_EXPIRY";
-                    PwdEmailList = alertrepository.AlertEvent_Get_PasswordExpiry_List();
-
-                    foreach (PasswordExpiry_AlertEventModel modobj in PwdEmailList)
+                    try
                     {
-                        EmailList = alertrepository.UserSpecificEmailList((long)modobj.Institution_Id, modobj.UserId);
-                        // send email & notification
-                        AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, modobj.UserId, (long)modobj.Institution_Id, EmailList);
-                    }
+                        // archiving mail and notification > 365 days
+                        emailrepository.SendArchivedetails();
+                        lastexecutedTime = executedTime;
 
-                    IList<TargetAchived_AlertEventModel> targetweekly;
-                    // target achived weekly alerts
-                    // execute once a day
-                    Event_Code = "TARGET_WEEKLY";
-                    targetweekly = alertrepository.AlertEvent_TargetAchievedWeekly_List();
+                        IList<PasswordExpiry_AlertEventModel> PwdEmailList;
 
-                    foreach (TargetAchived_AlertEventModel modobj in targetweekly)
-                    {
-                        EmailList = alertrepository.UserSpecificEmailList((long)modobj.Institution_Id, modobj.UserId);
-                        // send email & notification
-                        AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, modobj.UserId, (long)modobj.Institution_Id, EmailList);
-                    }
+                        // pwd expiry notification to user ex. before 90 days, 60 days,...
+                        Event_Code = "PASSWORD_EXPIRY";
+                        PwdEmailList = alertrepository.AlertEvent_Get_PasswordExpiry_List();
 
-                    IList<LicenceExpiry_AlertEventModel> LincenseExpiry;
-                    // license expiry reminder
-                    Event_Code = "LICENCE_EXPIRY";
-                    LincenseExpiry = alertrepository.AlertEvent_Get_LicenceExpiry_List();
-
-                    foreach (LicenceExpiry_AlertEventModel modobj in LincenseExpiry)
-                    {
-                        EmailList = alertrepository.InstitutionCreateEvent((long)modobj.Institution_Id, modobj.HosAdmin_Id);
-                        // send email & notification
-                        AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, modobj.HosAdmin_Id, (long)modobj.Institution_Id, EmailList);
-                    }
-
-                    IList<PatientHealthDataModel> complist;
-                    // target achived weekly alerts
-                    // execute once a day
-                    Event_Code = "";
-                    complist = alertrepository.PatientHealthData_Compliance_List();
-
-                    foreach (PatientHealthDataModel modobj in complist)
-                    {
-                        if (modobj.HighCount > 0)
-                            Event_Code = "COMP_HIGH";
-                        else if (modobj.MediumCount > 0)
-                            Event_Code = "COMP_MEDIUM";
-                        else if (modobj.LowCount > 0)
-                            Event_Code = "COMP_LOW";
-                        if (Event_Code != "")
+                        foreach (PasswordExpiry_AlertEventModel modobj in PwdEmailList)
                         {
-                            EmailList = alertrepository.UserSpecificEmailList((long)modobj.Institution_Id, modobj.Patient_Id);
+                            EmailList = alertrepository.UserSpecificEmailList((long)modobj.Institution_Id, modobj.UserId);
                             // send email & notification
-                            AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, modobj.Patient_Id, (long)modobj.Institution_Id, EmailList);
+                            AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, modobj.UserId, (long)modobj.Institution_Id, EmailList);
+                        }
+
+                        IList<TargetAchived_AlertEventModel> targetweekly;
+                        // target achived weekly alerts
+                        // execute once a day
+                        Event_Code = "TARGET_WEEKLY";
+                        targetweekly = alertrepository.AlertEvent_TargetAchievedWeekly_List();
+
+                        foreach (TargetAchived_AlertEventModel modobj in targetweekly)
+                        {
+                            EmailList = alertrepository.UserSpecificEmailList((long)modobj.Institution_Id, modobj.UserId);
+                            // send email & notification
+                            AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, modobj.UserId, (long)modobj.Institution_Id, EmailList);
+                        }
+
+                        IList<LicenceExpiry_AlertEventModel> LincenseExpiry;
+                        // license expiry reminder
+                        Event_Code = "LICENCE_EXPIRY";
+                        LincenseExpiry = alertrepository.AlertEvent_Get_LicenceExpiry_List();
+
+                        foreach (LicenceExpiry_AlertEventModel modobj in LincenseExpiry)
+                        {
+                            EmailList = alertrepository.InstitutionCreateEvent((long)modobj.Institution_Id, modobj.HosAdmin_Id);
+                            // send email & notification
+                            AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, modobj.HosAdmin_Id, (long)modobj.Institution_Id, EmailList);
+                        }
+
+                        IList<PatientHealthDataModel> complist;
+                        // target achived weekly alerts
+                        // execute once a day
+                        Event_Code = "";
+                        complist = alertrepository.PatientHealthData_Compliance_List();
+
+                        foreach (PatientHealthDataModel modobj in complist)
+                        {
+                            if (modobj.HighCount > 0)
+                                Event_Code = "COMP_HIGH";
+                            else if (modobj.MediumCount > 0)
+                                Event_Code = "COMP_MEDIUM";
+                            else if (modobj.LowCount > 0)
+                                Event_Code = "COMP_LOW";
+                            if (Event_Code != "")
+                            {
+                                EmailList = alertrepository.UserSpecificEmailList((long)modobj.Institution_Id, modobj.Patient_Id);
+                                // send email & notification
+                                AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, modobj.Patient_Id, (long)modobj.Institution_Id, EmailList);
+                            }
                         }
                     }
-                }
-
-                // generate the appointment schedule
-                alertrepository.Get_AlertSchedule();
-
-                // get open appointment schedule
-                IList<Appointment_AlertEventModel> apptmodel = new List<Appointment_AlertEventModel>();
-                apptmodel = alertrepository.Get_AlertSchedule_List();
-
-                var timeNow = DateTime.Now;
-                // loop thru schedule list
-                foreach (Appointment_AlertEventModel modobj in apptmodel)
-                {
-                    timeNow = DateTime.Now;
-                    executedTimeNow = timeNow.ToString("dd/MM/yyyy HH:mm");
-                    WriteToFile("appt " + executedTimeNow);
-                    WriteToFile("modobj.Remainder_SentTime " + modobj.Remainder_SentTime.ToString("dd/MM/yyyy HH:mm"));
-                    if (executedTimeNow == modobj.Remainder_SentTime.ToString("dd/MM/yyyy HH:mm"))
+                    catch (Exception ex)
                     {
-                        // get email list
-                        if (modobj.Event_Code == "PAT_APPOINTMENT_REMINDER")
-                        {
-                            Event_Code = modobj.Event_Code;
-                            EmailList = alertrepository.UserSpecificEmailList((long)modobj.Institution_Id, modobj.Patient_Id);
-                        }
-                        else
-                        {
-                            Event_Code = modobj.Event_Code;
-                            EmailList = alertrepository.UserSpecificEmailList((long)modobj.Institution_Id, modobj.Doctor_Id);
-                        }
-
-                        WriteToFile("PAT_APPOINTMENT_REMINDER");
-                        // send email & notification
-                        AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, modobj.Appointment_Id, (long)modobj.Institution_Id, EmailList);
-                        WriteToFile("PAT_APPOINTMENT_REMINDER check mail status");
-                        // update appointment schedule
-                        alertrepository.Appointment_Schedule_UpdateList(modobj.Id);
+                        TraceException(ex);
                     }
                 }
+
+                //// generate the appointment schedule
+                //alertrepository.Get_AlertSchedule();
+
+                //// get open appointment schedule
+                //IList<Appointment_AlertEventModel> apptmodel = new List<Appointment_AlertEventModel>();
+                //apptmodel = alertrepository.Get_AlertSchedule_List();
+
+                //var timeNow = DateTime.Now;
+                //// loop thru schedule list
+                //foreach (Appointment_AlertEventModel modobj in apptmodel)
+                //{
+                //    timeNow = DateTime.Now;
+                //    executedTimeNow = timeNow.ToString("dd/MM/yyyy HH:mm");
+                //    WriteToFile("appt " + executedTimeNow);
+                //    WriteToFile("modobj.Remainder_SentTime " + modobj.Remainder_SentTime.ToString("dd/MM/yyyy HH:mm"));
+                //    if (executedTimeNow == modobj.Remainder_SentTime.ToString("dd/MM/yyyy HH:mm"))
+                //    {
+                //        // get email list
+                //        if (modobj.Event_Code == "PAT_APPOINTMENT_REMINDER")
+                //        {
+                //            Event_Code = modobj.Event_Code;
+                //            EmailList = alertrepository.UserSpecificEmailList((long)modobj.Institution_Id, modobj.Patient_Id);
+                //        }
+                //        else
+                //        {
+                //            Event_Code = modobj.Event_Code;
+                //            EmailList = alertrepository.UserSpecificEmailList((long)modobj.Institution_Id, modobj.Doctor_Id);
+                //        }
+
+                //        WriteToFile("PAT_APPOINTMENT_REMINDER");
+                //        // send email & notification
+                //        AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, modobj.Appointment_Id, (long)modobj.Institution_Id, EmailList);
+                //        WriteToFile("PAT_APPOINTMENT_REMINDER check mail status");
+                //        // update appointment schedule
+                //        alertrepository.Appointment_Schedule_UpdateList(modobj.Id);
+                //    }
+                //}
 
                 // TBLPATIENT_LIFESTYLEDATA_FOR_EMAIL_NOTIFICATION
                 // Start
@@ -229,6 +241,7 @@ namespace MyCortexService
                             param1.Add(new DataParameter("@id", Id));
                             dt = ClsDataBase.GetDataTable("[MYCORTEX].GET_UPDATE_TBLPATIENT_LIFESTYLEDATA_FOR_EMAIL_NOTIFICATION", param1);
                         }
+                        TraceException(ex);
                     }
                 }
                 // End
@@ -282,6 +295,7 @@ namespace MyCortexService
                             param1.Add(new DataParameter("@id", Id));
                             dt = ClsDataBase.GetDataTable("[MYCORTEX].GET_UPDATE_TBLPATIENT_APPOINTMENTS_FOR_EMAIL_NOTIFICATION", param1);
                         }
+                        TraceException(ex);
                     }
                 }
 
@@ -314,6 +328,7 @@ namespace MyCortexService
                             param1.Add(new DataParameter("@id", Id));
                             dt = ClsDataBase.GetDataTable("[MYCORTEX].GET_UPDATE_TBLPATIENT_APPOINTMENTS_FOR_EMAIL_NOTIFICATION", param1);
                         }
+                        TraceException(ex);
                     }
                 }
                 // End
@@ -332,7 +347,7 @@ namespace MyCortexService
                         Institution_Id = Convert.ToInt64(dt.Rows[0]["INSTITUTION_ID"].ToString());
                         Patient_Id = Convert.ToInt64(dt.Rows[0]["PATIENT_ID"].ToString());
 
-                        EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)Id, (long)Institution_Id);
+                        EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)Id, (long)Institution_Id, null);
 
                         AlertEventReturn.Generate_SMTPEmail_Notification("PAT_APPOINTMENT_CANCEL", Id, (long)Institution_Id, EmailList);
 
@@ -351,6 +366,7 @@ namespace MyCortexService
                             param1.Add(new DataParameter("@id", Id));
                             dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_TBLPATIENT_APPOINTMENTS_FOR_CANCEL_EMAIL_NOTIFICATION]", param1);
                         }
+                        TraceException(ex);
                     }
                 }
 
@@ -359,16 +375,27 @@ namespace MyCortexService
                 // APPointments RESET by System
                 // Start
 
-                List<DataParameter> li = new List<DataParameter>();
-                li.Add(new DataParameter("@INST", 1));
-                dt = ClsDataBase.GetDataTable("[MYCORTEX].RESET_APPOINTMENTS_BY_SYSTEM", li);
+                try
+                {
+                    ClsDataBase.GetDataTable("[MYCORTEX].RESET_APPOINTMENTS_BY_SYSTEM");
+                }
+                catch(Exception ex)
+                {
+                    TraceException(ex);
+                }
 
                 // END
 
                 // Deactivate Past Doctor Shift Details
                 // Start
-
-                dt = ClsDataBase.GetDataTable("[MYCORTEX].[DEACTIVATE_PAST_DOCTORSHIFT]");
+                try
+                {
+                    ClsDataBase.GetDataTable("[MYCORTEX].[DEACTIVATE_PAST_DOCTORSHIFT]");
+                }
+                catch (Exception ex)
+                {
+                    TraceException(ex);
+                }
 
                 // END
 
@@ -386,7 +413,7 @@ namespace MyCortexService
                         Institution_Id = Convert.ToInt64(dt.Rows[0]["INSTITUTION_ID"].ToString());
                         Patient_Id = Convert.ToInt64(dt.Rows[0]["PATIENT_ID"].ToString());
 
-                        EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)Id, (long)Institution_Id);
+                        EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)Id, (long)Institution_Id, null);
 
                         AlertEventReturn.Generate_SMTPEmail_Notification("PAT_APPOINT_PAYMENT_SUCCESS", Id, (long)Institution_Id, EmailList);
 
@@ -405,6 +432,7 @@ namespace MyCortexService
                             param1.Add(new DataParameter("@id", Id));
                             dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_TBLAPPOINTMENT_PAYMENT_STATUS_FOR_EMAIL_NOTIFICATION]", param1);
                         }
+                        TraceException(ex);
                     }
                 }
 
@@ -424,7 +452,7 @@ namespace MyCortexService
                         Institution_Id = Convert.ToInt64(dt.Rows[0]["INSTITUTION_ID"].ToString());
                         Patient_Id = Convert.ToInt64(dt.Rows[0]["PATIENT_ID"].ToString());
 
-                        EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)Id, (long)Institution_Id);
+                        EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)Id, (long)Institution_Id, null);
 
                         AlertEventReturn.Generate_SMTPEmail_Notification("PAT_APPOINT_PAYMENT_FAILURE", Id, (long)Institution_Id, EmailList);
 
@@ -443,12 +471,13 @@ namespace MyCortexService
                             param1.Add(new DataParameter("@id", Id));
                             dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_TBLAPPOINTMENT_PAYMENT_STATUS_FOR_EMAIL_NOTIFICATION]", param1);
                         }
+                        TraceException(ex);
                     }
                 }
 
                 // End
 
-                // Appointment Reminder Notification for Patient
+                // Appointment Reminder Notification for Patient and Doctor
                 // Start
 
                 List<DataParameter> appoint_rem = new List<DataParameter>();
@@ -463,55 +492,20 @@ namespace MyCortexService
                             Id = Convert.ToInt64(dt.Rows[i]["id"].ToString());
                             Institution_Id = Convert.ToInt64(dt.Rows[i]["INSTITUTION_ID"].ToString());
                             Patient_Id = Convert.ToInt64(dt.Rows[i]["PATIENT_ID"].ToString());
+                            APPOINTMENT_ID = Convert.ToInt64(dt.Rows[i]["APPOINTMENT_ID"].ToString());
 
-                            EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)Id, (long)Institution_Id);
+                            EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)APPOINTMENT_ID, (long)Institution_Id, null);
 
-                            AlertEventReturn.Generate_SMTPEmail_Notification("PAT_APPOINTMENT_REMINDER", Id, (long)Institution_Id, EmailList);
+                            IList<EmailListModel> EmailList2 = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)APPOINTMENT_ID, (long)Institution_Id, "Doctor_Reminder");
+
+                            AlertEventReturn.Generate_SMTPEmail_Notification("PAT_APPOINTMENT_REMINDER", APPOINTMENT_ID, (long)Institution_Id, EmailList);
+
+                            AlertEventReturn.Generate_SMTPEmail_Notification("DOCTOR_APPOINTMENT_REMINDER", APPOINTMENT_ID, (long)Institution_Id, EmailList2);
 
                             List<DataParameter> param1 = new List<DataParameter>();
                             param1.Add(new DataParameter("@TYPE", "Update_Mail_Notification"));
                             param1.Add(new DataParameter("@ID", Id));
                             dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_TBLPATIENT_APPOINTMENTS_REMINDER_EMAIL_NOTIFICATION]", param1);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (Id != 0)
-                        {
-                            List<DataParameter> param1 = new List<DataParameter>();
-                            param1.Add(new DataParameter("@TYPE", "Failed_Mail_Notification"));
-                            param1.Add(new DataParameter("@ID", Id));
-                            dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_TBLPATIENT_APPOINTMENTS_REMINDER_EMAIL_NOTIFICATION]", param1);
-                        }
-                    }
-                }
-
-                // End
-
-
-                // Appointment Reminder Notification for Doctor
-                // Start
-
-                List<DataParameter> appoint_doc = new List<DataParameter>();
-                appoint_doc.Add(new DataParameter("@TYPE", "Get_Mail"));
-                dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_DOCTOR_APPOINTMENTS_REMINDER_EMAIL_NOTIFICATION]", appoint_doc);
-                if (dt.Rows.Count > 0)
-                {
-                    try
-                    {
-                        for (int i = 0; i < dt.Rows.Count; i++)
-                        {
-                            Id = Convert.ToInt64(dt.Rows[i]["id"].ToString());
-                            Institution_Id = Convert.ToInt64(dt.Rows[i]["INSTITUTION_ID"].ToString());
-                            Doctor_Id = Convert.ToInt64(dt.Rows[i]["DOCTOR_ID"].ToString());
-
-                            EmailList = alertrepository.UserSpecificEmailList((long)Institution_Id, Doctor_Id);
-
-                            AlertEventReturn.Generate_SMTPEmail_Notification("DOCTOR_APPOINTMENT_REMINDER", Id, (long)Institution_Id, EmailList);
-
-                            List<DataParameter> param1 = new List<DataParameter>();
-                            param1.Add(new DataParameter("@TYPE", "Update_Mail_Notification"));
-                            param1.Add(new DataParameter("@ID", Id));
                             dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_DOCTOR_APPOINTMENTS_REMINDER_EMAIL_NOTIFICATION]", param1);
                         }
                     }
@@ -522,12 +516,15 @@ namespace MyCortexService
                             List<DataParameter> param1 = new List<DataParameter>();
                             param1.Add(new DataParameter("@TYPE", "Failed_Mail_Notification"));
                             param1.Add(new DataParameter("@ID", Id));
+                            dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_TBLPATIENT_APPOINTMENTS_REMINDER_EMAIL_NOTIFICATION]", param1);
                             dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_DOCTOR_APPOINTMENTS_REMINDER_EMAIL_NOTIFICATION]", param1);
                         }
+                        TraceException(ex);
                     }
                 }
 
                 // End
+
             }
             catch (Exception ex)
             {
@@ -536,6 +533,74 @@ namespace MyCortexService
                 WriteToFile(new String('-', 50));
             }
         }
+
+        private void OnElapsedTime2(object source, ElapsedEventArgs e)
+        {
+            WriteToFile("Service started at " + DateTime.Now);
+
+            // Doctor Shift Expiry Notification to Doctor and Admin
+            // Start
+
+            try
+            {
+                string Event_Code = "";
+
+                AlertEvents AlertEventReturn = new AlertEvents();
+                IList<EmailListModel> EmailList;
+                Int64 Id = 0, Institution_Id, Patient_Id, Doctor_Id, APPOINTMENT_ID;
+
+                List<DataParameter> appoint_shi = new List<DataParameter>();
+                appoint_shi.Add(new DataParameter("@TYPE", "Get_Mail"));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_DOCTOR_SHIFT_FOR_EMAIL_NOTIFICATION]", appoint_shi);
+                if (dt.Rows.Count > 0)
+                {
+                    try
+                    {
+                        Id = Convert.ToInt64(dt.Rows[0]["id"].ToString());
+                        Institution_Id = Convert.ToInt64(dt.Rows[0]["INSTITUTION_ID"].ToString());
+                        Doctor_Id = Convert.ToInt64(dt.Rows[0]["DOCTOR_ID"].ToString());
+
+                        EmailList = AlertEventReturn.DoctorShift_AlertEvent((long)Id, (long)Institution_Id, "DOCTOR");
+
+                        IList<EmailListModel> EmailList2 = AlertEventReturn.DoctorShift_AlertEvent((long)Id, (long)Institution_Id, "HA");
+
+                        AlertEventReturn.Generate_SMTPEmail_Notification("DOCTOR_SHIFT_EXPIRY", Id, (long)Institution_Id, EmailList);
+
+                        AlertEventReturn.Generate_SMTPEmail_Notification("NOTIFY_ADMIN_DOCTOR_SHIFT_EXPIRY", Id, (long)Institution_Id, EmailList2);
+
+                        List<DataParameter> param1 = new List<DataParameter>();
+                        param1.Add(new DataParameter("@TYPE", "Update_Mail"));
+                        param1.Add(new DataParameter("@ID", Id));
+                        dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_DOCTOR_SHIFT_FOR_EMAIL_NOTIFICATION]", param1);
+                    }
+                    catch (Exception ex)
+                    {
+                        if (Id != 0)
+                        {
+                            List<DataParameter> param1 = new List<DataParameter>();
+                            param1.Add(new DataParameter("@TYPE", "Failed_Mail"));
+                            param1.Add(new DataParameter("@ID", Id));
+                            dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_DOCTOR_SHIFT_FOR_EMAIL_NOTIFICATION]", param1);
+                        }
+                        TraceException(ex);
+                    }
+                }
+
+                // End
+            }
+            catch (Exception ex)
+            {
+                TraceException(ex);
+            }
+        }
+
+        public void TraceException(Exception ex)
+        {
+            WriteToFile(new String('-', 50));
+            WriteToFile(ex.StackTrace);
+            WriteToFile(new String('-', 50));
+        }
+
         protected override void OnStop()
         {
             WriteToFile("Service is stopped at " + DateTime.Now);

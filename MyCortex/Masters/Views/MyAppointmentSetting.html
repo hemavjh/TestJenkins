@@ -15,177 +15,202 @@
 
 <h1 class="page-title ng-scope">Organization Settings</h1>
 <div ng-init="AppointmentSettings();">
-        <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
-            <div></div>
-            <div></div>
+    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
+        <div></div>
+        <div></div>
+    </div>
+    <div class="flex padding-1 border-b">
+        <div class="col-sm-6 p-0">
+            <p class="main">Time slot (in Minutes)</p>
+            <p class="secondary">Pre-defined default time Interval for Appointments</p>
         </div>
-        <div class="flex padding-1 border-b">
-            <div class="col-sm-6 p-0">
-                <p class="main">Time slot (in Minutes)</p>
-                <p class="secondary">Pre-defined default time invertal for Appointments</p>
+        <div class="col-sm-6 p-0 flex justify-end">
+            <div class="col-sm-4 p-0">
+                <div class="flex justify-end">
+                    <input type="text" class="input-size" ng-model="NewAppointment" ng-required="true"
+                           ng-init="NewAppointment=''" id="NewAppointment" onkeypress="OnlySpecCharNum(event)" name="NewAppointment"
+                           placeholder="" ng-maxlength="10" maxlength="10">
+                </div>
+                <p class="input-text text-right">
+                    New Appointment
+                    <sup>
+                        <font class='mandatory-field'>*</font>
+                    </sup>
+                </p>
             </div>
-            <div class="col-sm-6 p-0 flex justify-end">
-                <div class="col-sm-4 p-0">
-                    <div class="flex justify-end">
-                        <input type="text" class="input-size" ng-model="NewAppointment" ng-required="true"
-                               ng-init="NewAppointment=''" id="NewAppointment" onkeypress="OnlySpecCharNum(event)" name="NewAppointment"
-                               placeholder="" ng-maxlength="10" maxlength="10">
-                    </div>
-                    <p class="input-text text-right">
-                        New Appointment
-                        <sup>
-                            <font class='mandatory-field'>*</font>
-                        </sup>
-                    </p>
+            <div class="col-sm-4 p-0">
+                <div class="flex justify-end">
+                    <input type="text" class="input-size" ng-model="NewAppointmentPrice" ng-required="true"
+                           ng-init="NewAppointmentPrice=''" id="NewAppointmentPrice" onkeypress="OnlySpecCharNum(event)" name="NewAppointmentPrice"
+                           placeholder="" ng-maxlength="10" maxlength="10">
                 </div>
-                <div class="col-sm-4 p-0">
-                    <div class="flex justify-end">
-                        <input type="text" class="input-size" ng-model="followup"
-                               ng-init="followup=''" id="FollowUp"
-                               ng-required="true" onkeypress="OnlySpecCharNum(event)" name="FollowUp" placeholder="" ng-maxlength="2" maxlength="2">
-                    </div>
-                    <p class="input-text text-right">
-                        Follow-Up<sup>
-                            <font class='mandatory-field'>*</font>
-                        </sup>
-                    </p>
+                <p class="input-text text-right">
+                    Price
+                    <sup>
+                        <font class='mandatory-field'>*</font>
+                    </sup>
+                </p>
+            </div>
+            <div class="col-sm-4 p-0">
+                <div class="flex justify-end">
+                    <input type="text" class="input-size" ng-model="followup"
+                           ng-init="followup=''" id="FollowUp"
+                           ng-required="true" onkeypress="OnlySpecCharNum(event)" name="FollowUp" placeholder="" ng-maxlength="2" maxlength="2">
                 </div>
-                <div class="col-sm-4 p-0" style="padding-right: 0px;">
-                    <div class="flex justify-end">
-                        <input type="text" class="input-size" ng-model="IntervalBt"
-                               ng-init="IntervalBt=''" id="IntervalBt" ng-required="true"
-                               onkeypress="OnlySpecCharNum(event)" name="IntervalBt" placeholder="" ng-maxlength="2" maxlength="2">
-                    </div>
-                    <p class="input-text text-right">
-                        Interval Between<sup>
-                            <font class='mandatory-field'>*</font>
-                        </sup>
-                    </p>
+                <p class="input-text text-right">
+                    Follow-Up<sup>
+                        <font class='mandatory-field'>*</font>
+                    </sup>
+                </p>
+            </div>
+            <div class="col-sm-4 p-0">
+                <div class="flex justify-end">
+                    <input type="text" class="input-size" ng-model="followupPrice" ng-required="true"
+                           ng-init="followupPrice=''" id="followupPrice" onkeypress="OnlySpecCharNum(event)" name="followupPrice"
+                           placeholder="" ng-maxlength="10" maxlength="10">
                 </div>
+                <p class="input-text text-right">
+                    Price
+                    <sup>
+                        <font class='mandatory-field'>*</font>
+                    </sup>
+                </p>
+            </div>
+            <div class="col-sm-4 p-0" style="padding-right: 0px;">
+                <div class="flex justify-end">
+                    <input type="text" class="input-size" ng-model="IntervalBt"
+                           ng-init="IntervalBt=''" id="IntervalBt" ng-required="true"
+                           onkeypress="OnlySpecCharNum(event)" name="IntervalBt" placeholder="" ng-maxlength="2" maxlength="2">
+                </div>
+                <p class="input-text text-right">
+                    Interval Between<sup>
+                        <font class='mandatory-field'>*</font>
+                    </sup>
+                </p>
             </div>
         </div>
+    </div>
 
-        <div class="flex padding-1 border-b">
-            <div class="col-sm-6 p-0">
-                <p class="main">Allow Appointment Open (in Days)</p>
-                <p class="secondary">Do Not Allow user to schedule more than</p>
+    <div class="flex padding-1 border-b">
+        <div class="col-sm-6 p-0">
+            <p class="main">Allow Appointment Open (in Days)</p>
+            <p class="secondary">Do Not Allow user to schedule more than</p>
+        </div>
+        <div class="col-sm-6 p-0 flex justify-end">
+            <div>
+                <div class="flex justify-end">
+                    <input type="text" class="input-size" ng-model="AppointmentDay"
+                           ng-init="Days=''" id="Days"
+                           ng-required="true" onkeypress="OnlySpecCharNum(event)" name="Days" placeholder="" ng-maxlength="2" maxlength="2">
+                </div>
+                <p class="input-text text-right">
+                    Days<sup>
+                        <font class='mandatory-field'>*</font>
+                    </sup>
+                </p>
             </div>
-            <div class="col-sm-6 p-0 flex justify-end">
-                <div>
-                    <div class="flex justify-end">
-                        <input type="text" class="input-size" ng-model="AppointmentDay"
-                               ng-init="Days=''" id="Days"
-                               ng-required="true" onkeypress="OnlySpecCharNum(event)" name="Days" placeholder="" ng-maxlength="2" maxlength="2">
-                    </div>
-                    <p class="input-text text-right">
-                        Days<sup>
-                            <font class='mandatory-field'>*</font>
-                        </sup>
-                    </p>
+        </div>
+    </div>
+    <div class="flex padding-1 border-b">
+        <div class="col-sm-6 p-0">
+            <p class="main">Appointment Cancellation Lock (in Minutes)</p>
+            <p class="secondary">Do Not Allow user to Cancel or Reschedule Appointment less than</p>
+        </div>
+        <div class="col-sm-6 flex justify-end p-0">
+            <div>
+                <div class="flex justify-end">
+                    <input type="text" class="input-size" ng-model="Minutest"
+                           ng-init="Minutest=''" id="Minutest"
+                           ng-required="true" onkeypress="OnlySpecCharNum(event)" name="Minutest" placeholder="" ng-maxlength="2" maxlength="2">
+                </div>
+                <p class="input-text text-right">
+                    Minutes<sup>
+                        <font class='mandatory-field'>*</font>
+                    </sup>
+                </p>
+            </div>
+        </div>
+    </div>
+    <!--<div class="flex padding-1 border-b">
+        <div class="col-sm-6 p-0">
+            <p class="main">Default Time Zone</p>
+            <p class="secondary">The default time zone for the calendar events</p>
+        </div>
+        <div class="col-sm-6 flex justify-end p-0">
+            <div class="flex align-items-center" style="z-index:1;">
+                <div class="flex justify-end" style="width: 425px;">
+                    <select class="form-control" data-style="form-control" id="TimeZone" ng-model="SelectedTimeZone" data-live-search="true" data-selectpicker data-collection-name="TimeZoneList"
+                            ng-options="item1.TimeZoneDisplayName as item1.TimeZoneDisplayName for item1 in TimeZoneList">
+                        <option value="">Select TimeZone</option>
+                    </select>
                 </div>
             </div>
         </div>
-        <div class="flex padding-1 border-b">
-            <div class="col-sm-6 p-0">
-                <p class="main">Appointment Cancellation Lock (in Minutes)</p>
-                <p class="secondary">Do Not Allow user to Cancel or Reschedule Appointment less than</p>
-            </div>
-            <div class="col-sm-6 flex justify-end p-0">
-                <div>
-                    <div class="flex justify-end">
-                        <input type="text" class="input-size" ng-model="Minutest"
-                               ng-init="Minutest=''" id="Minutest"
-                               ng-required="true" onkeypress="OnlySpecCharNum(event)" name="Minutest" placeholder="" ng-maxlength="2" maxlength="2">
-                    </div>
-                    <p class="input-text text-right">
-                        Minutes<sup>
-                            <font class='mandatory-field'>*</font>
-                        </sup>
-                    </p>
+    </div>-->
+    <div class="flex padding-1 border-b">
+        <div class="col-sm-6 p-0">
+            <p class="main">Default Working Days</p>
+            <p class="secondary">The default Working Days for the week</p>
+        </div>
+        <div class="col-sm-6 flex justify-end p-0">
+            <div class="m-right-3">
+                <div class="flex justify-center">
+                    <input type="checkbox" class="input-checkbox" id="sunday" value="sunday" name="sunday" ng-init="checked=true" ng-model="sunday">
                 </div>
+                <p class="input-text text-center mt-2">Sunday</p>
+            </div>
+            <div class="m-right-3">
+                <div class="flex justify-center">
+                    <input type="checkbox" class="input-checkbox" id="monday" value="monday" name="monday" ng-init="checked=true" ng-model="monday">
+                </div>
+                <p class="input-text text-center mt-2">Monday</p>
+            </div>
+            <div class="m-right-3">
+                <div class="flex justify-center">
+                    <input type="checkbox" class="input-checkbox" id="tuesday" value="tuesday" name="tuesday" ng-init="checked=true" ng-model="tuesday">
+                </div>
+                <p class="input-text text-center mt-2">Tuesday</p>
+            </div>
+            <div class="m-right-3">
+                <div class="flex justify-center">
+                    <input type="checkbox" class="input-checkbox" id="wednesday" value="wednesday" name="wednesday" ng-init="checked=true" ng-model="wednesday">
+                </div>
+                <p class="input-text text-center mt-2">Wednesday</p>
+            </div>
+            <div class="m-right-3">
+                <div class="flex justify-center">
+                    <input type="checkbox" class="input-checkbox" id="thursday" value="thursday" name="thursday" ng-init="checked=true" ng-model="thursday">
+                </div>
+                <p class="input-text text-center mt-2">Thursday</p>
+            </div>
+            <div class="m-right-3">
+                <div class="flex justify-center">
+                    <input type="checkbox" class="input-checkbox" id="friday" value="friday" name="friday" ng-init="checked=true" ng-model="friday">
+                </div>
+                <p class="input-text text-center mt-2">Friday</p>
+            </div>
+            <div class="">
+                <div class="flex justify-center">
+                    <input type="checkbox" class="input-checkbox" id="saturday" value="saturday" name="saturday" ng-init="checked=true" ng-model="saturday">
+                </div>
+                <p class="input-text text-center mt-2">Saturday</p>
             </div>
         </div>
-        <div class="flex padding-1 border-b">
-            <div class="col-sm-6 p-0">
-                <p class="main">Default Time Zone</p>
-                <p class="secondary">The default time zone for the calendar events</p>
-            </div>
-            <div class="col-sm-6 flex justify-end p-0">
-                <div class="flex align-items-center" style="z-index:1;">
-                    <div class="flex justify-end" style="width: 425px;">
-                        <select class="form-control" data-style="form-control" id="TimeZone" ng-model="SelectedTimeZone" data-live-search="true" data-selectpicker data-collection-name="TimeZoneList"
-                                ng-options="item1.TimeZoneDisplayName as item1.TimeZoneDisplayName for item1 in TimeZoneList">
-                            <option value="">Select TimeZone</option>
-                        </select>
-
-                    </div>
-                </div>
-            </div>
+    </div>
+    <div class="flex padding-1 border-b">
+        <div class="col-sm-6 p-0">
+            <p class="main">Default Holidays</p>
+            <p class="secondary">The list of default holidays</p>
         </div>
-        <div class="flex padding-1 border-b">
-            <div class="col-sm-6 p-0">
-                <p class="main">Default Working Days</p>
-                <p class="secondary">The default Working Days for the week</p>
+        <div class="col-sm-6 flex justify-end p-0">
+            <div class="flex align-items-center m-right-1">
+                <div class="flex justify-end" style="width: 400px;">
+                    <select class="form-control" data-style="form-control" id="Defaultholiday" data-live-search="true" data-selectpicker data-collection-name="DefaultHolidayList" ng-model="SelectedDefaultholiday" ng-options="item1.ID as item1.Name for item1 in DefaultHolidayList">
+                        <option value="">Select List of Holidays</option>
+                    </select>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" version="1.1" width="24" height="24" x="0" y="0" viewBox="0 0 515.555 515.555" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path xmlns="http://www.w3.org/2000/svg" d="m303.347 18.875c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138c25.166-25.167 65.97-25.167 91.138 0" fill="#cecece" data-original="#000000" style="" class="" /><path xmlns="http://www.w3.org/2000/svg" d="m303.347 212.209c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138c25.166-25.167 65.97-25.167 91.138 0" fill="#cecece" data-original="#000000" style="" class="" /><path xmlns="http://www.w3.org/2000/svg" d="m303.347 405.541c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138c25.166-25.167 65.97-25.167 91.138 0" fill="#cecece" data-original="#000000" style="" class="" /></g></svg>
             </div>
-            <div class="col-sm-6 flex justify-end p-0">
-                <div class="m-right-3">
-                    <div class="flex justify-center">
-                        <input type="checkbox" class="input-checkbox" id="sunday" value="sunday" name="sunday" ng-init="checked=true" ng-model="sunday">
-                    </div>
-                    <p class="input-text text-center mt-2">Sunday</p>
-                </div>
-                <div class="m-right-3">
-                    <div class="flex justify-center">
-                        <input type="checkbox" class="input-checkbox" id="monday" value="monday" name="monday" ng-init="checked=true" ng-model="monday">
-                    </div>
-                    <p class="input-text text-center mt-2">Monday</p>
-                </div>
-                <div class="m-right-3">
-                    <div class="flex justify-center">
-                        <input type="checkbox" class="input-checkbox" id="tuesday" value="tuesday" name="tuesday" ng-init="checked=true" ng-model="tuesday">
-                    </div>
-                    <p class="input-text text-center mt-2">Tuesday</p>
-                </div>
-                <div class="m-right-3">
-                    <div class="flex justify-center">
-                        <input type="checkbox" class="input-checkbox" id="wednesday" value="wednesday" name="wednesday" ng-init="checked=true" ng-model="wednesday">
-                    </div>
-                    <p class="input-text text-center mt-2">Wednesday</p>
-                </div>
-                <div class="m-right-3">
-                    <div class="flex justify-center">
-                        <input type="checkbox" class="input-checkbox" id="thursday" value="thursday" name="thursday" ng-init="checked=true" ng-model="thursday">
-                    </div>
-                    <p class="input-text text-center mt-2">Thursday</p>
-                </div>
-                <div class="m-right-3">
-                    <div class="flex justify-center">
-                        <input type="checkbox" class="input-checkbox" id="friday" value="friday" name="friday" ng-init="checked=true" ng-model="friday">
-                    </div>
-                    <p class="input-text text-center mt-2">Friday</p>
-                </div>
-                <div class="">
-                    <div class="flex justify-center">
-                        <input type="checkbox" class="input-checkbox" id="saturday" value="saturday" name="saturday" ng-init="checked=true" ng-model="saturday">
-                    </div>
-                    <p class="input-text text-center mt-2">Saturday</p>
-                </div>
-            </div>
-        </div>
-        <div class="flex padding-1 border-b">
-            <div class="col-sm-6 p-0">
-                <p class="main">Default Holidays</p>
-                <p class="secondary">The list of default holidays</p>
-            </div>
-            <div class="col-sm-6 flex justify-end p-0">
-                <div class="flex align-items-center m-right-1">
-                    <div class="flex justify-end" style="width: 400px;">
-                        <select class="form-control" data-style="form-control" id="Defaultholiday" data-live-search="true" data-selectpicker data-collection-name="DefaultHolidayList" ng-model="SelectedDefaultholiday" ng-options="item1.ID as item1.Name for item1 in DefaultHolidayList">
-                            <option value="">Select List of Holidays</option>
-                        </select>
-                    </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" version="1.1" width="24" height="24" x="0" y="0" viewBox="0 0 515.555 515.555" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path xmlns="http://www.w3.org/2000/svg" d="m303.347 18.875c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138c25.166-25.167 65.97-25.167 91.138 0" fill="#cecece" data-original="#000000" style="" class="" /><path xmlns="http://www.w3.org/2000/svg" d="m303.347 212.209c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138c25.166-25.167 65.97-25.167 91.138 0" fill="#cecece" data-original="#000000" style="" class="" /><path xmlns="http://www.w3.org/2000/svg" d="m303.347 405.541c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138c25.166-25.167 65.97-25.167 91.138 0" fill="#cecece" data-original="#000000" style="" class="" /></g></svg>
-                </div>
 
             </div>
         </div>
@@ -245,7 +270,7 @@
         </div>
         <div class="flex padding-1 border-b">
             <div class="col-sm-6 p-0">
-                <p class="main">Default Booking Conformation</p>
+                <p class="main">Default Booking Confirmation</p>
                 <p class="secondary">Confirm the appointment directly if a person is booking an appointment or keep it pending CG/CC to check and approve. Once the appointment is confirmed it should be notified to the people involved in the appointment.</p>
             </div>
             <div class="col-sm-6 flex justify-end">
@@ -262,7 +287,7 @@
         <div class="flex padding-1 border-b">
             <div class="col-sm-6 p-0">
                 <p class="main">Reminder to the User</p>
-                <p class="secondary">Time intervel to trigger reminders before the appointment</p>
+                <p class="secondary">Time Interval to trigger reminders before the appointment</p>
             </div>
             <div class="col-sm-6 flex p-0">
                 <div class="col-sm-12 p-0">
@@ -286,6 +311,7 @@
                                        ng-model="row.ReminderMinutes" maxlength="2"
                                        ng-maxlength="2" onkeypress="OnlySpecCharNum(event)" style="width:50px;" id="minutesst">
                                 <p>Minutes</p>
+                                <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Delete' ng-click="remindDelete(row.Id,$index)" ng-model="row.SelectedDelete" style="width: 20px;margin-left:10px;" id="ReminderDelete" />
                             </div>
 
                         </div>
@@ -297,70 +323,86 @@
                                ng-click="MyAppointmentDelete(row.ID,$index)" ng-model="row.SelectedReminder" style="width: 20px;" id="Deleteimage" />
                         <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Add Reminder Slot'
                                ng-click="MyAppointmentAdd(row.ID,$index)" ng-model="row.SelectedReminder" style="width: 20px;" id="Addimage" />-->
-                        <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Decrease' ng-click="remindDelete(row.Id,0)" ng-model="row.SelectedDelete" style="width: 20px;" id="ReminderDelete" />
+                        <!--<input type="image" src="../../Images/deleteNewIcon.png" title='Click to Decrease' ng-click="remindDelete(row.Id,0)" ng-model="row.SelectedDelete" style="width: 20px;" id="ReminderDelete" />-->
                         <a href="javascript:" title="Click to Add" style="color: #337ab7;" id="AppointmentReminderUser" ng-click="ReminderUserAdd()">|Add|</a>
                     </div>
 
-                </div>
             </div>
         </div>
-        <div class="flex padding-1 border-b">
-            <div class="col-sm-6 p-0">
-                <p class="main">Auto Rescheduling</p>
-                <p class="secondary">Enable or Disable auto Rescheduling</p>
+    </div>
+    <div class="flex padding-1 border-b">
+        <div class="col-sm-6 p-0">
+            <p class="main">Auto Rescheduling</p>
+            <p class="secondary">Enable or Disable auto Rescheduling</p>
+        </div>
+        <div class="col-sm-6 flex justify-end p-0">
+            <div class="flex align-items-center m-right-2">
+                <input type="radio" id="autoenable_yes" name="autoenable" class="mr-1" value="1" ng-model="AutoEnable" ng-init="checked=true" style="margin-right: 0.5rem;">
+                <p class="input-text text-right">Enable</p>
             </div>
-            <div class="col-sm-6 flex justify-end p-0">
-                <div class="flex align-items-center m-right-2">
-                    <input type="radio" id="autoenable_yes" name="autoenable" class="mr-1" value="1" ng-model="AutoEnable" ng-init="checked=true" style="margin-right: 0.5rem;">
-                    <p class="input-text text-right">Enable</p>
-                </div>
-                <div class="flex align-items-center">
-                    <input type="radio" id="autoenable_no" name="autoenable" class="mr-1" value="0" ng-model="AutoEnable" ng-init="checked=false" style="margin-right: 0.5rem;">
-                    <p class="input-text text-right">Disable</p>
-                </div>
+            <div class="flex align-items-center">
+                <input type="radio" id="autoenable_no" name="autoenable" class="mr-1" value="0" ng-model="AutoEnable" ng-init="checked=false" style="margin-right: 0.5rem;">
+                <p class="input-text text-right">Disable</p>
             </div>
         </div>
-        <div class="flex padding-1">
-            <div class="col-sm-6 p-0">
-                <p class="main">Make Me Look Busy</p>
-                <p class="secondary">Reduce the number of available appointments by</p>
-            </div>
-            <div class="col-sm-6 flex justify-end">
-                <div class="flex align-items-center m-right-2">
-                    <div class="d-flex justify-end reminder">
-                        <input type="text" class="form-control myhomedropdown"
-                               ng-model="ReduceNumberofavailableAppointmentes" maxlength="2"
-                               ng-maxlength="2" style="width:240px;" id="reduceappointments" onkeypress="OnlySpecCharNum(event)">
-                    </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" version="1.1" width="10" height="10" x="0" y="0" viewBox="0 0 443.615 443.615" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g>
-                    <g xmlns="http://www.w3.org/2000/svg">
-                    <path d="M209.949,100.813C209.949,45.232,164.725,0,109.144,0C53.562,0,8.346,45.232,8.346,100.813   c0,55.566,45.216,100.782,100.798,100.782C164.725,201.596,209.949,156.38,209.949,100.813z M58.419,100.813   c0-27.986,22.754-50.74,50.725-50.74c27.969,0,50.732,22.754,50.732,50.74c0,27.954-22.763,50.709-50.732,50.709   C81.173,151.522,58.419,128.768,58.419,100.813z" fill="#282828" data-original="#000000" style="" class="" />
+    </div>
+    <div class="flex padding-1  border-b">
+        <div class="col-sm-6 p-0">
+            <p class="main">Make Me Look Busy</p>
+            <p class="secondary">Reduce the number of available appointments by</p>
+        </div>
+        <div class="col-sm-6 flex justify-end">
+            <div class="flex align-items-center m-right-2">
+                <div class="d-flex justify-end reminder">
+                    <input type="text" class="form-control myhomedropdown"
+                           ng-model="ReduceNumberofavailableAppointmentes" maxlength="2"
+                           ng-maxlength="2" style="width:240px;margin-right:10px" id="reduceappointments" onkeypress="OnlySpecCharNum(event)">
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" version="1.1" width="10" height="10" x="0" y="0" viewBox="0 0 443.615 443.615" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g>
+                <g xmlns="http://www.w3.org/2000/svg">
+                <path d="M209.949,100.813C209.949,45.232,164.725,0,109.144,0C53.562,0,8.346,45.232,8.346,100.813   c0,55.566,45.216,100.782,100.798,100.782C164.725,201.596,209.949,156.38,209.949,100.813z M58.419,100.813   c0-27.986,22.754-50.74,50.725-50.74c27.969,0,50.732,22.754,50.732,50.74c0,27.954-22.763,50.709-50.732,50.709   C81.173,151.522,58.419,128.768,58.419,100.813z" fill="#282828" data-original="#000000" style="" class="" />
 
 
 
-                    <path d="M334.473,242.02c-55.583,0-100.799,45.216-100.799,100.782c0,55.582,45.216,100.814,100.799,100.814   c55.581,0,100.797-45.231,100.797-100.814C435.27,287.235,390.054,242.02,334.473,242.02z M334.473,393.542   c-27.971,0-50.726-22.755-50.726-50.74c0-27.954,22.755-50.709,50.726-50.709c27.969,0,50.724,22.755,50.724,50.709   C385.196,370.787,362.441,393.542,334.473,393.542z" fill="#282828" data-original="#000000" style="" class="" />
+                <path d="M334.473,242.02c-55.583,0-100.799,45.216-100.799,100.782c0,55.582,45.216,100.814,100.799,100.814   c55.581,0,100.797-45.231,100.797-100.814C435.27,287.235,390.054,242.02,334.473,242.02z M334.473,393.542   c-27.971,0-50.726-22.755-50.726-50.74c0-27.954,22.755-50.709,50.726-50.709c27.969,0,50.724,22.755,50.724,50.709   C385.196,370.787,362.441,393.542,334.473,393.542z" fill="#282828" data-original="#000000" style="" class="" />
 
 
 
-                    <path d="M337.577,12.925c-13.081-7.254-29.616-2.574-36.91,10.515L94.896,392.923c-7.294,13.089-2.59,29.616,10.505,36.919   c4.181,2.314,8.713,3.423,13.179,3.423c9.527,0,18.77-5.02,23.733-13.936L348.083,49.845   C355.376,36.755,350.675,20.228,337.577,12.925z" fill="#282828" data-original="#000000" style="" class="" />
+                <path d="M337.577,12.925c-13.081-7.254-29.616-2.574-36.91,10.515L94.896,392.923c-7.294,13.089-2.59,29.616,10.505,36.919   c4.181,2.314,8.713,3.423,13.179,3.423c9.527,0,18.77-5.02,23.733-13.936L348.083,49.845   C355.376,36.755,350.675,20.228,337.577,12.925z" fill="#282828" data-original="#000000" style="" class="" />
 
 
 
              </svg>
+            </div>
+        </div>
+    </div>
+    <div class="flex padding-1  border-b">
+        <div class="col-sm-6 p-0">
+            <p class="main">Minimum Slots</p>
+            <p class="secondary">Minimum Slots to Stop Look Busy Concept</p>
+        </div>
+        <div class="col-sm-6 flex justify-end">
+            <div class="flex align-items-center m-right-2">
+                <div class="d-flex justify-end reminder">
+                    <input type="text" class="form-control myhomedropdown"
+                           ng-model="Minimumslots" maxlength="2"
+                           ng-maxlength="2" style="width:242px;margin-right:19px;" id="MinSlots" onkeypress="OnlySpecCharNum(event)">
                 </div>
+                
             </div>
         </div>
-        <div class="flex p-2 center-block">
-            <div>
-                <button type="button" class="theme-btn-1 mr-10" title="Click to Save" id="save" ng-disabled="false" ng-click="MyAppointment_InsertUpdate();">
-                    Save
-                </button>
-                <button type="button" class="theme-btn-1 mr-10" title="Click to Reset" ng-click="Reset_MyAppointment()">
-                    Reset
-                </button>
-            </div>
+    </div>
+    <div class="flex p-2 center-block">
+        <div>
+            <button type="button" class="theme-btn-1 mr-10" title="Click to Save" id="save" ng-disabled="false" ng-click="MyAppointment_InsertUpdate();">
+                Save
+            </button>
+            <button type="button" class="theme-btn-1 mr-10" title="Click to Reset" ng-click="Reset_MyAppointment()">
+                Reset
+            </button>
         </div>
-        <br />
-        <br />
+    </div>
+    <br />
+    <br />
 </div>
 

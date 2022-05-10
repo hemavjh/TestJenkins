@@ -6,26 +6,36 @@
             <li><a data-toggle="tab" href="#Past">Past</a></li>
         </ul>
         <ul ng-if="userTypeId == 5" class="nav nav-tabs">
-            <li style="width:33.3% !important;" class="active"><a data-toggle="tab" href="#appt">Upcoming</a></li>
-            <li style="width:33.3% !important;"><a data-toggle="tab" href="#Past">Past</a></li>
-            <li style="width:33.4% !important;"><a data-toggle="tab" href="#Waiting_Appointment">Waiting</a></li>
+            <!--style="width:33.3% !important;"-->
+            <li class="active"><a data-toggle="tab" href="#appt">Upcoming</a></li>
+            <li><a data-toggle="tab" href="#Past">Past</a></li>
+            <!--<li style="width:33.4% !important;"><a data-toggle="tab" href="#Waiting_Appointment">Waiting</a></li>-->
         </ul>
-        <div class="tab-content centerScroll" style="display:inherit !important; height: 212px;">
+        <div infinityscroll="NextPage('appt','apptscrol')" id="apptscrol" class="tab-content centerScroll" style="display:inherit !important; height: 212px;">
 
             <div id="Past" class="tab-pane fade">
                 <div class="" ng-repeat="Row in PreviousAppointmentDetails" ng-hide="PreviousAppointmentCount == 0">
                     <div class=" upcoming-doctor">
                         <div class="flex justify-content-between align-items-center mb-4">
                             <p class="up-time">
-                                {{Row.Appointment_FromTime | date:'hh: mm' }} &nbsp; - {{Row.Appointment_ToTime | date:'hh: mm a' }},
-                                {{Row.Appointment_Date | date :'dd-MMM-yyyy'}} ({{Row.TimeDifference}} )
+                                {{Row.Appointment_FromTime+'Z' | date:'hh: mm' }} &nbsp; - {{Row.Appointment_ToTime+'Z' | date:'hh: mm a' }},
+                                {{Row.Appointment_Date+'Z' | date :'dd-MMM-yyyy'}} ({{Row.TimeDifference}} )
                             </p>
                             <i class="fa fa-angle-down" aria-hidden="true"></i>
                         </div>
                         <div class="flex">
                             <div class="" style="width:20%">
+                                <div ng-if="(Row.ViewGenderName| lowercase)=='male' && (Row.PhotoBlob==null)" valign="top" rowspan="6">
+                                    <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/Clinician_Male.png" />
+                                </div>
+                                <div ng-if="(Row.ViewGenderName| lowercase)=='female' && (Row.PhotoBlob==null)" valign="top" rowspan="6">
+                                    <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/Clinician_Female.png" />
+                                </div>
+                                <div ng-if="(Row.ViewGenderName| lowercase)!='female' && (Row.ViewGenderName| lowercase)!='male' && (Row.PhotoBlob==null)" valign="top" rowspan="6">
+                                    <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/Others.png" />
+                                </div>
                                 <div ng-if="(Row.PhotoBlob!=null && Row.PhotoBlob!='')" valign="top" rowspan="6">
-                                    <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
+                                    <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ Row.PhotoBlob}}" />
                                 </div>
                             </div>
                             <div class="" style="width:80%">
@@ -57,27 +67,44 @@
                     <div class=" upcoming-doctor">
                         <div class="flex justify-content-between align-items-center mb-4">
                             <p class="up-time">
-                                {{Row.Appointment_FromTime | date:'hh: mm' }} &nbsp; - {{Row.Appointment_ToTime | date:'hh: mm a' }},
-                                {{Row.Appointment_Date | date :'dd-MMM-yyyy'}} (In {{Row.TimeDifference}} )
+                                {{Row.Appointment_FromTime+'Z' | date:'hh: mm'}} &nbsp; - {{Row.Appointment_ToTime+'Z' | date:'hh: mm a'}},
+                                {{Row.Appointment_Date+'Z' | date :'dd-MMM-yyyy'}} (In {{Row.TimeDifference}} )
                             </p>
                             <i class="fa fa-angle-down" aria-hidden="true"></i>
                         </div>
                         <div class="flex">
                             <div class="" style="width:20%">
+                                <div ng-if="(Row.ViewGenderName| lowercase)=='male' && (Row.PhotoBlob==null)" valign="top" rowspan="6">
+                                    <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/Clinician_Male.png" />
+                                </div>
+                                <div ng-if="(Row.ViewGenderName| lowercase)=='female' && (Row.PhotoBlob==null)" valign="top" rowspan="6">
+                                    <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/Clinician_Female.png" />
+                                </div>
+                                <div ng-if="(Row.ViewGenderName| lowercase)!='female' && (Row.ViewGenderName| lowercase)!='male' && (Row.PhotoBlob==null)" valign="top" rowspan="6">
+                                    <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/Others.png" />
+                                </div>
                                 <div ng-if="(Row.PhotoBlob!=null && Row.PhotoBlob!='')" valign="top" rowspan="6">
-                                    <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
+                                    <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ Row.PhotoBlob}}" />
                                 </div>
                             </div>
-                            <div class="" style="width:80%">
+                            <div class="" style="width:80%" ng-if="(AppointmoduleID==1)">
+                                <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
+                                <p class="m-bottom-0 secondary-text1">{{Row.Doctor_DepartmentName}}</p>
+                            </div>
+                            <div class="" style="width:80%" ng-if="(AppointmoduleID==2 || AppointmoduleID==3) && (Row.Payment_Status!=0 || Row.Payment_Status>0)">
                                 <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
                                 <p class="m-bottom-0 secondary-text1">{{Row.Doctor_DepartmentName}} / <a href="" ng-click="show_payment_history(Row)">{{Row.Payment_Status}}</a></p>
+                            </div>
+                            <div class="" style="width:80%" ng-if="(AppointmoduleID==2 || AppointmoduleID==3) && (Row.Payment_Status==0 || Row.Payment_Status=='' || Row.Payment_Status==null)">
+                                <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
+                                <p class="m-bottom-0 secondary-text1">{{Row.Doctor_DepartmentName}} / <a href="" ng-click="show_payment_history(Row)">UNPAID</a></p>
                             </div>
                         </div>
                         <div class="flex">
                             <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px" ng-click="ViewDoctorBio(Row.Doctor_Id)"> View Doctor Bio |</a>
                             <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">View Uploaded Records |</a>
                             <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px" ng-click="RescheduleDocAppointment(Row)">Reschedule |</a>
-                            <a href="" class="font-semibold m-bottom-0" style="font-size: 9px; margin-right: 2px" ng-click="CancelDocAppointment(Row)"> Cancel |</a>
+                            <a href="" class="font-semibold m-bottom-0" style="font-size: 9px; margin-right: 2px" ng-click="CancelAppointmentModal(Row,Appointment_Id)"> Cancel |</a>
                             <a href="" class="font-semibold m-bottom-0" style="font-size:9px" ng-show="Row.Payment_Status === 'UNPAID'" ng-click="AppointmentPayment(Row)">  Pay</a>
                         </div>
                         <div class="flex">
@@ -86,7 +113,7 @@
                             <button id="videoDisable" style="cursor: pointer" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon Video" onclick="openChatWindow();videoCallUser()">
                                 <img style=" margin-top: -7px; padding-left: 0px; padding-top: 0px; padding-bottom: 0px; padding-right: 4px; width: 41px; margin-left: -9px;" src="images/Video-Icon.png">
                             </button>
-                            <a class="homepadamicon trashs" style="cursor: pointer" ng-click="CancelAppointmentModal(Appointment_Id)"><img class="kutticon" src="images/trashs-icon.png"> </a>
+                            <a class="homepadamicon trashs" style="cursor: pointer" ng-click="CancelAppointmentModal(Row,Appointment_Id)"><img class="kutticon" src="images/trashs-icon.png"> </a>
                         </div>
                     </div>
                 </div>
@@ -94,7 +121,7 @@
                     No Upcoming Appointment...
                 </div>
             </div>
-            <div id="Waiting_Appointment" ng-if="userTypeId == 5" class="tab-pane fade in active">
+            <!--<div id="Waiting_Appointment" ng-if="userTypeId == 5" class="tab-pane fade in active">
                 <div class="" ng-repeat="Row in UpComingWaitingAppointmentDetails" ng-hide="UpComingWaitingAppointmentCount == 0">
                     <div class=" upcoming-doctor">
                         <div class="flex justify-content-between align-items-center mb-4">
@@ -120,11 +147,11 @@
                             <a href="" class="font-semibold m-bottom-0" style="font-size:9px" ng-click="CancelDocAppointment(Row)"> Cancel</a>
                         </div>
                     </div>
-                </div>
+                </div>-->
                 <!--<div class="myAppoinments" ng-hide="UpComingWaitingAppointmentCount !== 0">
         No Upcoming Waiting Appointment...
     </div>-->
-            </div>
+            <!--</div>-->
             <div id="StripePayOptions" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
                 <div class="modal-dialog" style="width: 70%">
                     <!-- Modal content-->

@@ -188,7 +188,7 @@ PatientApproval.controller("PatientApprovalController", ['$scope', '$http', '$ro
             else {
                 $scope.rowCollectionFilter = $ff($scope.rowCollection, function (value) {
                     return angular.lowercase(value.FullName).match(searchstring) ||
-                        angular.lowercase(value.MRN_NO).match(searchstring) ||
+                        //angular.lowercase(value.MRN_NO).match(searchstring) ||
                         angular.lowercase(value.Mobile_No).match(searchstring) ||
                         angular.lowercase(value.EmailId).match(searchstring) ||
                         angular.lowercase(value.PendingSince).match(searchstring);

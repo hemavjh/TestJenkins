@@ -9,7 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web;
 using System.IO;
-using log4net;
+  
 using Newtonsoft.Json;
 using MyCortex.EmailAlert.Models;
 using MyCortex.Provider;
@@ -21,8 +21,11 @@ namespace MyCortex.EmailAlert.Controllers
     public class EmailAlertConfigController : ApiController
     {
         static readonly IEmailAlertConfigRepository repository = new EmailAlertConfigRepository();
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
 
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         /* THIS IS FOR ADD EDIT FUNCTION */
         /// <summary>
@@ -101,6 +104,8 @@ namespace MyCortex.EmailAlert.Controllers
         [HttpGet]
         public IList<EmailAlertmodel> EmailAlert_List(long Id, int IsActive)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<EmailAlertmodel> model;
             try
             {
@@ -109,7 +114,7 @@ namespace MyCortex.EmailAlert.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -164,6 +169,8 @@ namespace MyCortex.EmailAlert.Controllers
         [HttpGet]
         public IList<EventModel> AlertEvent_List(int Institution_Id, int Id,int status)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<EventModel> model;
             try
             {
@@ -172,7 +179,30 @@ namespace MyCortex.EmailAlert.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// to get list of Email alert detail of a institution
+        /// </summary>
+        /// <param name="Institution_Id">Institution Id</param>
+        /// <returns>list of Email alert detail of a institution</returns>
+        [HttpGet]
+        public IList<EventModel> DefaultAlertEvent_List(int Institution_Id , int Status)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<EventModel> model;
+            try
+            {
+                model = repository.DefaultAlertEvent_List(Institution_Id, Status);
+                return model;
+            }
+            catch (Exception ex)
+            {
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -186,6 +216,8 @@ namespace MyCortex.EmailAlert.Controllers
         [HttpGet]
         public IList<EmailAlertmodel> Template_List(int TemplateType_Id, int Institution_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<EmailAlertmodel> model;
             try
             {
@@ -194,7 +226,7 @@ namespace MyCortex.EmailAlert.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -206,6 +238,8 @@ namespace MyCortex.EmailAlert.Controllers
         [HttpGet]
         public IList<EmailAlertmodel> EventTo_List(long EventId)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<EmailAlertmodel> model;
             try
             {
@@ -214,7 +248,7 @@ namespace MyCortex.EmailAlert.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }

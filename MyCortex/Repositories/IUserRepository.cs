@@ -14,6 +14,7 @@ namespace MyCortex.Repositories
     {
         IList<DoctorInstitutionModel> DoctorInstitutionList();
         IList<DepartmentModel> DepartmentList();
+        IList<DepartmentModel> DepartmentListByInstitution(long Institution_Id);
         IList<DocumentTypeModel> DocumentTypeList();
         IList<BusinessUser_UserTypeListModel> BusinessUser_UserTypeList();
         UserModel Admin_InsertUpdate(Guid Login_Session_Id, UserModel insobj);
@@ -25,14 +26,15 @@ namespace MyCortex.Repositories
         UserReturnModel UserDetails_Active(long Id);
         IList<ItemizedUserDetailsModel> UserDetails_List(long Id, long InstitutionId, int? IsActive, Guid Login_Session_Id);
         IList<ItemizedUserDetailsModel> Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber,string SearchQuery,string SearchEncryptedQuery);
-        List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber, string NATIONALITY_ID, String SearchQuery, string PATIENTNO, string INSURANCEID, string MOBILE_NO, string EMAILID, string FIRSTNAME, string LASTNAME, string MRNNO);
+        List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber, string NATIONALITY_ID, String SearchQuery, string PATIENTNO, string INSURANCEID, string MOBILE_NO, string EMAILID, string FIRSTNAME, string LASTNAME, string MRNNO, int? AdvanceFilter);
         GroupCreateModel GroupMaster_Insert(GroupCreateModel insobj);
         long AssignedGroup_Insert(List<AssignedGroupModel> obj);
         ItemizedUserDetailsModel PatientBasicDetailsList(long PatientId);
         IList<ItemizedUserDetailsModel> PatientGroupNameList(long? PatientId);
         IList<PatientAllergiesNameListModels> PatientAllergiesNameList(long? PatientId);
         long GetInstitutionForWebURL(string request);
-        long GetInstitutionFromShortName(string INSTITUTION_CODE);
+        //long GetInstitutionFromShortName(string INSTITUTION_CODE);
+        IList<InstitutionShortCode> GetInstitutionFromShortName(string INSTITUTION_CODE);
 
         int Get_Exist_AnyUnEncryptedUser();
         string GetInstitutionName(string INSTITUTION_CODE);
@@ -43,10 +45,12 @@ namespace MyCortex.Repositories
         IList<MasterListModel> GetParameterNameList();
         PatientHealthDataModel PatientHealthData_Insert_Update(Guid Login_Session_Id, PatientHealthDataModel insobj);
         PatientHealthDataModel PatientHealthData_Sync_Insert_Update(Guid Login_Session_Id, PatientHealthDataModel insobj);
+        IntegrationAppHistoryModel IntegrationAppHistory_Update(Guid Login_Session_Id, IntegrationAppHistoryModel insobj);
+        IntegrationAppHistoryModel IntegrationAppHistory_Details(long Patient_Id, Guid Login_Session_Id);
         IList<PatientAppointmentsModel> PatientAppointmentList(long PatientId, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber);
         IList<PatientAppointmentsModel> CG_PatientAppointmentList(long Institution_Id, Guid Login_Session_Id, long UserId);
         IList<PatientAppointmentsModel> CG_Confirm_PatientAppointments(CG_PatientAppointmentConfirm obj);
-        IList<PatientAppointmentsModel> PatientPreviousAppointmentList(long PatientId, Guid Login_Session_Id);
+        IList<PatientAppointmentsModel> PatientPreviousAppointmentList(long PatientId, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber);
         IList<PatientChronicCondition_List> Chronic_Conditions(long PatientId);
         IList<ParametersListModel> GroupParameterNameList(long Patient_Id, long UnitGroupType_Id);
         IList<PatientInstituteModel> GETPATIENTINSTITUTION(long ID);

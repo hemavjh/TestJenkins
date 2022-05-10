@@ -11,6 +11,12 @@
             day = '0' + day.toString();
 
         var maxDate = year + '-' + month + '-' + day;
+       // $('#Contract_Period_From').attr('min', maxDate);
+        $('#Contract_Period_To').attr('min', maxDate);
+       // $scope.Contract_Period_From = maxDate;
+        $scope.Contract_Period_To = maxDate;
+       // $scope.startDateMin = maxDate;
+        $scope.EndDateMin = maxDate;
         //document.getElementById("Contract_Period_From").value = maxDate;
         //document.getElementById("Contract_Period_To").value = maxDate;
     });
@@ -34,9 +40,9 @@
                     <div class="inputGroups">
                         <label>Search</label>
                         <div class="modernSearch">
-                            <input type="text" ng-model="searchquery" ng-change="filterInstitutionSubscriptionList()"
+                            <input type="text" ng-model="searchquery"
                                    placeholder="" style="width: 200px" />
-                            <i class="fa fa-search"></i>
+                            <i class="fa fa-search" ng-click="filterInstitutionSubscriptionList()"></i>
                         </div>
                     </div>
                 </div>
@@ -67,8 +73,8 @@
             <th st-ratio="5" st-sort="Health_Care_Professionals">No.of HCP</th>
             <th st-ratio="5" st-sort="Created_No_Of_Patient">Created No.of Patient</th>
             <th st-ratio="5" st-sort="Created_No_Of_HealthCareProf">Created No.of HCP</th>
-            <th st-ratio="5" st-sort="Remaining_No_Of_Patient">Remind Patient</th>
-            <th st-ratio="5" st-sort="Remaining_No_Of_HealthCareProf">Remind HCP</th>
+            <th st-ratio="5" st-sort="Remaining_No_Of_Patient">Available Patient</th>
+            <th st-ratio="5" st-sort="Remaining_No_Of_HealthCareProf">Available HCP</th>
             <th st-ratio="8">Action</th>
         </tr>
     </thead>
@@ -140,7 +146,7 @@
                                             <Lable>Institution Name<sup><font class='mandatory-field'>*</font></sup></Lable>
                                         </td>
                                         <td width="25%">
-                                           <!-- <div id="divInssInstitute" class="ng-invalid ddlValidationBorder" ng-required="true">-->
+                                            <!-- <div id="divInssInstitute" class="ng-invalid ddlValidationBorder" ng-required="true">-->
                                             <div style="max-width: 240px; word-wrap: break-word;">
                                                 <select class="form-control" data-style="form-control" id="insselectpicker" data-live-search="true"
                                                         data-selectpicker data-collection-name="InstitutiondetailsList" ng-model="Institution_Id"
@@ -215,15 +221,15 @@
                                                     </td>
                                                     <td width="25%">
                                                         <!--<div id="divInssTimeZone" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                                            <select class="form-control" data-style="form-control" data-live-search="true"
-                                                                    data-selectpicker data-collection-name="TimeZoneListID" id="TimeZoneID"
-                                                                    ng-model="TimeZone_Id">
-                                                                <option value="0">Select Time Zone</option>
-                                                                <option ng-repeat="set in TimeZoneListID"
-                                                                        ng-selected="TimeZoneId == set.TimeZoneId" value="{{set.TimeZoneId}}">
-                                                                    {{set.TimeZoneDisplayName}}
-                                                                </option>
-                                                            </select>
+                                                        <select class="form-control" data-style="form-control" data-live-search="true"
+                                                                data-selectpicker data-collection-name="TimeZoneListID" id="TimeZoneID"
+                                                                ng-model="TimeZone_Id">
+                                                            <option value="0">Select Time Zone</option>
+                                                            <option ng-repeat="set in TimeZoneListID"
+                                                                    ng-selected="TimeZoneId == set.TimeZoneId" value="{{set.TimeZoneId}}">
+                                                                {{set.TimeZoneDisplayName}}
+                                                            </option>
+                                                        </select>
                                                         <!--</div>-->
                                                     </td>
                                                 </tr>
@@ -232,7 +238,7 @@
                                                         <label>No. of Health Care Professionals<sup><font class='mandatory-field'>*</font></sup></label>
                                                     </td>
                                                     <td width="20%">
-                                                        <input type="text" class="form-control" id="text9" ng-model="Health_Care_Professionals" maxlength="9" 
+                                                        <input type="text" class="form-control" id="text9" ng-model="Health_Care_Professionals" maxlength="9"
                                                                ng-maxlength="9" style="width:190px" onkeypress="varifyNumberPositive(event)" ng-required="true">
                                                     </td>
                                                 </tr>
@@ -241,7 +247,7 @@
                                                         <label>No. of Patients<sup><font class='mandatory-field'>*</font></sup></label>
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control" id="text1" ng-model="Patients" style="width:190px" maxlength="9" 
+                                                        <input type="text" class="form-control" id="text1" ng-model="Patients" style="width:190px" maxlength="9"
                                                                ng-maxlength="9" onkeypress="varifyNumberPositive(event)" ng-required="true">
                                                     </td>
                                                 </tr>
@@ -255,15 +261,15 @@
                                                                 <td>
                                                                     <div>
                                                                         <!--<input type="text" class="form-control" ng-model="Contract_Period_From" ng-init="Contract_Period_From=''" style="width:152px" ng-required="true"> <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>-->
-                                                                        <input type="date" id="Contract_Period_From" placeholder="" max="2099-12-31" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required"
-                                                                               ng-model="Contract_Period_From" style="width:165px" 
+                                                                        <input type="date" id="Contract_Period_From" min="{{startDateMin}}" placeholder="" max="2099-12-31" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required"  
+                                                                               ng-model="Contract_Period_From" style="width:165px" ng-change="ChangeDate(Contract_Period_From);"
                                                                                ng-required="true">
                                                                     </div>
                                                                 </td>
                                                                 <td>
                                                                     <div>
                                                                         <!--<input type="text" class="form-control" id="Text5" ng-model="Contract_Period_To" ng-init="Contract_Period_To=''" style="width:152px" ng-required="true"> <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>-->
-                                                                        <input type="date" id="Contract_Period_To" placeholder="" max="2099-12-31" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required"
+                                                                        <input type="date" id="Contract_Period_To" min="{{Contract_Period_To}}" title="The Minimum Contract Period is 30 Days" placeholder="" max="2099-12-31" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required"
                                                                                ng-model="Contract_Period_To" style="width:165px" 
                                                                                ng-required="true">
                                                                     </div>
@@ -281,8 +287,8 @@
                                                             <tr>
                                                                 <td>
                                                                     <!--<div id="divInssType" class="ng-valid ddlValidationBorder" ng-required="true">-->
-                                                                        <input type="radio" value="1" ng-model="Subscription_Type" ng-checked="checked='true'"> Standard
-                                                                        <input type="radio" value="2" ng-model="Subscription_Type"> Premium
+                                                                    <input type="radio" value="1" ng-model="Subscription_Type" ng-checked="checked='true'"> Standard
+                                                                    <input type="radio" value="2" ng-model="Subscription_Type"> Premium
                                                                     <!--</div>-->
                                                                 </td>
                                                             </tr>
@@ -297,13 +303,13 @@
                                                         <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
                                                             <tr>
                                                                 <td>-->
-                                                            <!--<div id="divInssChronicEdit" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                                                        <!--<input type="checkbox" class="input-checkbox" name="Chroniccc"  ng-model="Chroniccc">CC
-                                                                        <input type="checkbox" class="input-checkbox" name="Chroniccg"  ng-model="Chroniccg">CG
-                                                                        <input type="checkbox" class="input-checkbox" name="Chroniccl"  ng-model="Chroniccl">CL
-                                                                        <input type="checkbox" class="input-checkbox" name="Chronicsc"  ng-model="Chronicsc">SC-->
-                                                                   <!--</div>-->
-                                                                <!--</td>
+                                                <!--<div id="divInssChronicEdit" class="ng-invalid ddlValidationBorder" ng-required="true">-->
+                                                <!--<input type="checkbox" class="input-checkbox" name="Chroniccc"  ng-model="Chroniccc">CC
+                                                <input type="checkbox" class="input-checkbox" name="Chroniccg"  ng-model="Chroniccg">CG
+                                                <input type="checkbox" class="input-checkbox" name="Chroniccl"  ng-model="Chroniccl">CL
+                                                <input type="checkbox" class="input-checkbox" name="Chronicsc"  ng-model="Chronicsc">SC-->
+                                                <!--</div>-->
+                                                <!--</td>
                                                             </tr>
                                                         </table>
                                                     </td>
@@ -314,15 +320,15 @@
                                                     </td>
                                                     <td width="25%">
                                                         <!--<div id="divInssApModule" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                                            <select class="form-control" data-style="form-control" data-live-search="true"
-                                                                    data-selectpicker data-collection-name="AppointmentModuleListID" id="AppointmentModuleID"
-                                                                    ng-model="AppointmentModule_Id">
-                                                                <option value="0">Select</option>
-                                                                <option ng-repeat="set in AppointmentModuleListID"
-                                                                        ng-selected="AppointmentModuleId == set.Id" value="{{set.Id}}">
-                                                                    {{set.Name}}
-                                                                </option>
-                                                            </select>
+                                                        <select class="form-control" data-style="form-control" data-live-search="true"
+                                                                data-selectpicker data-collection-name="AppointmentModuleListID" id="AppointmentModuleID"
+                                                                ng-model="AppointmentModule_Id">
+                                                            <option value="0">Select</option>
+                                                            <option ng-repeat="set in AppointmentModuleListID"
+                                                                    ng-selected="AppointmentModuleId == set.Id" value="{{set.Id}}">
+                                                                {{set.Name}}
+                                                            </option>
+                                                        </select>
                                                         <!--</div>-->
                                                     </td>
                                                 </tr>
@@ -340,13 +346,13 @@
                                                 </tr>
                                                 <tr ng-show="Hcp_Pat == true">
                                                     <td>
-                                                        <label>Remind Patient</label>
+                                                        <label>Available   Patient</label>
                                                     </td>
                                                     <td><span>{{Remaining_No_Of_Patient}}</span></td>
                                                 </tr>
                                                 <tr ng-show="Hcp_Pat == true">
                                                     <td>
-                                                        <label>Remind HCP</label>
+                                                        <label>Available   HCP</label>
                                                     </td>
                                                     <td><span>{{Remaining_No_Of_HealthCareProf}}</span></td>
                                                 </tr>
@@ -559,23 +565,23 @@
                                                         </table>
                                                     </td>
                                                 </tr>
-                                               <!-- <tr>
-                                                    <td>
-                                                        <label>Chronic Edit<sup><font class='mandatory-field'>*</font></sup></label>
-                                                    </td>
-                                                    <td class="nopadding">
-                                                        <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
-                                                            <tr>
-                                                                <td>
-                                                                    <input type="checkbox" class="input-checkbox" name="Chroniccc" ng-init="checked=true" value="1" ng-model="Chroniccc" disabled>CC
-                                                                    <input type="checkbox" class="input-checkbox" name="Chroniccg" ng-init="checked=true" value="1" ng-model="Chroniccg" disabled>CG
-                                                                    <input type="checkbox" class="input-checkbox" name="Chroniccl" ng-init="checked=true" value="1" ng-model="Chroniccl" disabled>CL
-                                                                    <input type="checkbox" class="input-checkbox" name="Chronicsc" ng-init="checked=true" value="1" ng-model="Chronicsc" disabled>SC
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                    </td>
-                                                </tr>-->
+                                                <!-- <tr>
+                                                     <td>
+                                                         <label>Chronic Edit<sup><font class='mandatory-field'>*</font></sup></label>
+                                                     </td>
+                                                     <td class="nopadding">
+                                                         <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
+                                                             <tr>
+                                                                 <td>
+                                                                     <input type="checkbox" class="input-checkbox" name="Chroniccc" ng-init="checked=true" value="1" ng-model="Chroniccc" disabled>CC
+                                                                     <input type="checkbox" class="input-checkbox" name="Chroniccg" ng-init="checked=true" value="1" ng-model="Chroniccg" disabled>CG
+                                                                     <input type="checkbox" class="input-checkbox" name="Chroniccl" ng-init="checked=true" value="1" ng-model="Chroniccl" disabled>CL
+                                                                     <input type="checkbox" class="input-checkbox" name="Chronicsc" ng-init="checked=true" value="1" ng-model="Chronicsc" disabled>SC
+                                                                 </td>
+                                                             </tr>
+                                                         </table>
+                                                     </td>
+                                                 </tr>-->
                                                 <tr>
                                                     <td width="7%">
                                                         <label>Appointment Module</label>
@@ -601,13 +607,13 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <label>Remind Patient</label>
+                                                        <label>Available   Patient</label>
                                                     </td>
                                                     <td><span>{{Remaining_No_Of_Patient}}</span></td>
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <label>Remind HCP</label>
+                                                        <label>Available   HCP</label>
                                                     </td>
                                                     <td><span>{{Remaining_No_Of_HealthCareProf}}</span></td>
                                                 </tr>

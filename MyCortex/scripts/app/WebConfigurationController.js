@@ -21,6 +21,7 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
 
         $scope.WebConfigCancel = function () {
             $scope.WebConfigurationList();
+            //$scope.ChronicEdit();
             $scope.IsEdit = false;
         }
 
@@ -29,6 +30,12 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
             var EditChronicEdit = [];
             var EditChronicId = "";
             angular.forEach($scope.rowCollectionWebConfiguration, function (SplitChronic, Id) {
+                //if (SplitChronic["CONFIGVALUE"] != "" && SplitChronic["CONFIGCODE"] == "LIVEDATA_STARTFROM") {
+                //    if (SplitChronic["CONFIGVALUE"] > 2) {
+                //        //$('#livedatastartfrom1').attr('checked','checked');
+                //        angular.element('#livedatastartfrom1').attr('checked', 'checked');
+                //    }
+                //}
                 if (SplitChronic["CONFIGVALUE"] != "" && SplitChronic["CONFIGCODE"] == "CHRONIC CODE") {
                     var ConfigListValue = $scope.Config_value[SplitChronic["ID"]];
                     EditChronicId = SplitChronic["ID"];
@@ -37,33 +44,37 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                         if (SplitChronic.length > 0) {
                             var option = SplitChronic[a];
                             if (option != "") {
-                                if (option == "CL") {
+                                if (option == "CL") {                                   
                                     EditChronicEdit.push(option);
                                     var status = $('#chkCL').is(":checked");
                                     if (status == false) {
                                         
-                                    }
+                                    }                                    
                                 }
                                 if (option == "CG") {
+                                    
                                     EditChronicEdit.push(option);
                                     var status = $('#chkCG').is(":checked");
                                     if (status == false) {
-
+                                        
                                     }
+                                    
                                 }
                                 if (option == "CC") {
+                                   
                                     EditChronicEdit.push(option);
                                     var status = $('#chkCC').is(":checked");
                                     if (status == false) {
-
+                                       
                                     }
+                                   
                                 }
-                                if (option == "SC") {
+                                if (option == "SC") {                                    
                                     EditChronicEdit.push(option);
                                     var status = $('#chkSC').is(":checked");
                                     if (status == false) {
-
-                                    }
+                                      
+                                    }                                    
                                 }
                             }
                         }
@@ -145,13 +156,53 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                     $("#chatLoaderPV").hide();
                     angular.forEach($scope.rowCollectionWebConfiguration, function (masterVal, masterInd) {
                         $scope.Config_value[masterVal.ID] = masterVal.CONFIGVALUE;
-                    });
+                        if (masterVal.CONFIGCODE == "LIVEDATA_STARTFROM") {
+                            if (masterVal.CONFIGVALUE != 2 || masterVal.CONFIGVALUE==1) {
+                                //$('#livedatastartfrom1').attr('checked', 'checked');
+                                $scope.Config_value[masterVal.ID] = "1";
+                               // angular.element('#livedatastartfrom1').attr('checked', 'checked');
+                            }
+                        }
+                        if (masterVal.CONFIGCODE == "AUTO_SIGNUP_APPROVAL") {
+                            if (masterVal.CONFIGVALUE ==null || masterVal.CONFIGVALUE =='') {
+                                //$('#livedatastartfrom1').attr('checked', 'checked');
+                                $scope.Config_value[masterVal.ID] = 'Active';
+                                // angular.element('#livedatastartfrom1').attr('checked', 'checked');
+                            }
+                        }
+                       /* if (masterVal.CONFIGVALUE != "" && masterVal.CONFIGCODE == "CHRONIC CODE") {
+                            var ConfigListValue = $scope.Config_value[masterVal.ID];
+                            EditChronicId = masterVal.ID;
+                            var SplitChronic = ConfigListValue.split(',');
+                            for (var a = 0; a < SplitChronic.length; a++) {
+                                if (SplitChronic.length > 0) {
+                                    var option = SplitChronic[a];
+                                    if (option != "") {
+                                        if (option == "CL") {
+
+                                            $("#chkCL").prop("checked", 'true');                                            
+                                        }
+                                        else if (option == "CG") {
+                                            $("#chkCG").prop("checked", 'true');
+                                        }
+                                        else if (option == "CC") {                                            
+                                            $("#chkCC").prop("checked", 'true');
+                                        }
+                                        else if (option == "SC") {
+                                            $("#chkSC").prop("checked", 'true');
+                                        }
+                                    }
+                                }
+                            }
+                        }*/
+                    });                  
+                    $scope.ChronicEdit();
                 }).error(function (data) {
                     $scope.error = "AN error has occured while Listing the records!" + data;
                 })
-                //$http.get(baseUrl + '/api/WebConfiguration/ChronicCodeList/').success(function (data) {
-                //    $scope.ChronicCodeList = data;
-                //});
+               /* $http.get(baseUrl + '/api/WebConfiguration/ChronicCodeList/').success(function (data) {
+                    $scope.ChronicCodeList = data;
+                });*/
             }
             else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
@@ -235,15 +286,26 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                         CheckTrue = 2;
                     }
                 }
+                if ($scope.rowCollectionWebConfiguration[index]["CONFIGCODE"] == "User.defaultPassword") {
+                    var id = value.CONFIGCODE;
+                    var UserDefaultPassword	 = document.getElementById(id).value;
+                    if (UserDefaultPassword == "0" || UserDefaultPassword	 == "") {
+                        CheckTrue = 3;
+                    }
+                }
             });
             if (CheckTrue == 1) {
-                toastr.info("ATIENT_MIN_AGE Config Value Is Below 1 Year", "info");
+                toastr.info("PATIENT_MIN_AGE Config Value Is Below 1 Year", "info");
                 $('#save').attr("disabled", false);
                 return false
             } else if (CheckTrue == 2) {
                 toastr.info("PROFILE_PICTURE Config Value is less than or equal to 5MB(5242880)", "info");                
                 $('#save').attr("disabled", false);
                 return false
+            }
+            else if (CheckTrue == 3) {
+                toastr.info("Please Enter Password", "info");
+                $('#save').attr("disabled", false);
             }
             else {
                 return true
@@ -283,7 +345,7 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                             INSTITUTION_ID: value.INSTITUTION_ID,
                             CONFIGVALUE: CHRONIC_CODE == 0 || CHRONIC_CODE == "" ? '' : CHRONIC_CODE,
                         }
-                    }
+                    } 
                     else {
                         obj = {
                             Id: value.ID,

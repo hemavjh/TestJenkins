@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
-using log4net;
+  
 using System.Security.Cryptography;
 using MyCortex.Repositories.Admin;
 using MyCortex.Repositories;
@@ -15,6 +15,8 @@ using MyCortex.User.Model;
 using MyCortex.Notification;
 using MyCortex.Notification.Models;
 using MyCortex.Provider;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace MyCortex.User.Controller
 {
@@ -23,8 +25,11 @@ namespace MyCortex.User.Controller
     public class PatientAppointmentsController : ApiController
     {
         static readonly IPatientAppointmentsRepository repository = new PatientAppointmentRepository();
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
 
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
         /// <summary>
         /// Doctor's Patient Appointment list for a date
         /// </summary>
@@ -35,6 +40,8 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public IList<PatientAppointmentsModel> DoctorAppointmentList(long Doctor_Id, int flag, DateTime? ViewDate, Guid Login_Session_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<PatientAppointmentsModel> model;
@@ -43,7 +50,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -55,6 +62,8 @@ namespace MyCortex.User.Controller
         /// <returns>cancelled patient appointment</returns>
         public HttpResponseMessage CancelPatient_Appointment(Guid Login_Session_Id,[FromBody] PatientAppointmentsModel Obj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             PatientAppointmentsModel ModelData = new PatientAppointmentsModel();
             PatientAppointmentsReturnModel model = new PatientAppointmentsReturnModel();
 
@@ -110,7 +119,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in Cancelling Appointment";
                 model.Error_Code = ex.Message;
@@ -128,9 +137,12 @@ namespace MyCortex.User.Controller
         [HttpPost]
         public HttpResponseMessage PatientAppointment_InsertUpdate(Guid Login_Session_Id,[FromBody] PatientAppointmentsModel insobj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<PatientAppointmentsModel> ModelData = new List<PatientAppointmentsModel>();
             PatientAppointmentsReturnModel model = new PatientAppointmentsReturnModel();
-
+            string TimeZoneName = insobj.TimeZoneName;
+            string UtcOffSet = insobj.UtcOffSet;
             if (!ModelState.IsValid)
             {
                 model.Status = "False";
@@ -195,7 +207,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating Subscription";
                 model.PatientAppointmentList = ModelData;
@@ -207,6 +219,8 @@ namespace MyCortex.User.Controller
         [HttpPost]
         public HttpResponseMessage AppointmentReSchedule_InsertUpdate(Guid Login_Session_Id, [FromBody] PatientAppointmentsModel insobj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<PatientAppointmentsModel> ModelData = new List<PatientAppointmentsModel>();
             PatientAppointmentsReturnModel model = new PatientAppointmentsReturnModel();
             if (!ModelState.IsValid)
@@ -257,7 +271,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating Subscription";
                 model.PatientAppointmentList = ModelData;
@@ -274,6 +288,8 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public IList<PatientAppointmentsModel> PatientBasedGroupBasedClinicianList(long Patient_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<PatientAppointmentsModel> model;
@@ -282,7 +298,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -290,6 +306,8 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public IList<AppointmentPaymentHistory> AppointmentPaymentHistory(long appointmentId, Guid Login_Session_Id, long Institution_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<AppointmentPaymentHistory> model;
@@ -298,7 +316,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -306,6 +324,8 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public IList<PatientAppointmentsModel> DepartmentwiseDoctorList(string DepartmentIds,long InstitutionId,DateTime Date,Int32 IsShift = 0)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<PatientAppointmentsModel> model;
@@ -314,7 +334,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -327,6 +347,8 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public IList<AppointmentReasonType> AppointmentReasonType_List(long Institution_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<AppointmentReasonType> model;
@@ -335,7 +357,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -343,6 +365,8 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public HttpResponseMessage GetScheduledDates(Guid Login_Session_Id,long InstitutionId)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<ScheduledDaysListModel> ModelData = new List<ScheduledDaysListModel>();
             ScheduledDaysListReturnModel model = new ScheduledDaysListReturnModel();
             string messagestr = "";
@@ -359,7 +383,7 @@ namespace MyCortex.User.Controller
             }
             catch(Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in getting Scheduled Date";
                 model.Error_Code = ex.Message;
@@ -372,6 +396,8 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public HttpResponseMessage GetDoctorAppointmentTimeSlot(long DoctorId,DateTime Date, int IsNew, Guid Login_Session_Id, long TimeZoneId, long Institution_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<DoctorAppointmentTimeSlotModel> ModelData = new List<DoctorAppointmentTimeSlotModel>();
             DoctorAppointmentTimeSlotReturnModel model = new DoctorAppointmentTimeSlotReturnModel();
             string messagestr = "";
@@ -388,7 +414,38 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                model.Status = "False";
+                model.Message = "Error in getting Scheduled Date";
+                model.Error_Code = ex.Message;
+                model.ReturnFlag = 0;
+                model.DoctorAppointmentTimeSlotList = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetDoctorAppointmentDetails(long DoctorId, DateTime Date, Guid Login_Session_Id, long TimeZoneId, long Institution_Id)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<DoctorAppointmentTimeSlotModel> ModelData = new List<DoctorAppointmentTimeSlotModel>();
+            DoctorAppointmentTimeSlotReturnModel model = new DoctorAppointmentTimeSlotReturnModel();
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.GetDoctorAppointmentDetails(DoctorId, Date, Login_Session_Id, TimeZoneId, Institution_Id);
+                model.DoctorAppointmentTimeSlotList = ModelData;
+                model.Status = "True";
+                model.Message = "List of Slots";
+                model.Error_Code = "";
+                model.ReturnFlag = 0;
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in getting Scheduled Date";
                 model.Error_Code = ex.Message;
@@ -401,7 +458,8 @@ namespace MyCortex.User.Controller
         [HttpPost]
         public HttpResponseMessage AddDoctorShiftInsertUpdate([FromBody] DoctorShiftModel obj, Guid Login_Session_Id)
         {
-
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<DoctorShiftModel> ModelData = new List<DoctorShiftModel>();
             DoctorAppointmentTimeSlotReturnModel model = new DoctorAppointmentTimeSlotReturnModel();
 
@@ -453,11 +511,28 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating Add DoctorShift";
                 model.DoctorShiftAddList = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+        [HttpGet]
+        public int DoctorShift_Editable(long Id)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            try
+            {
+                int y = repository.DoctorShift_Editable(Id);
+                return y;
+            }
+            catch(Exception ex)
+            {
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return 0;
             }
         }
 

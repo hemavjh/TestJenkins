@@ -1,7 +1,7 @@
 ﻿using MyCortex.Admin.Controllers;
 using MyCortex.Admin.Models;
 using MyCortexDB;
-using log4net;
+  
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,8 +16,12 @@ namespace MyCortex.Repositories.EmailAlert
     public class EmailAlertConfigRepository : IEmailAlertConfigRepository
     {
          ClsDataBase db;
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
         public EmailAlertConfigRepository()
         {
             db = new ClsDataBase();
@@ -30,9 +34,12 @@ namespace MyCortex.Repositories.EmailAlert
         /// <returns>Email Alert detail of a selected record</returns>
         public EmailAlertmodel EmailAlert_View(long Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TBLALERTCONFIGURATION_SP_VIEW]", param);
@@ -64,7 +71,7 @@ namespace MyCortex.Repositories.EmailAlert
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -79,6 +86,8 @@ namespace MyCortex.Repositories.EmailAlert
         public IList<EmailAlertmodel> EmailAlertDetails_AddEdit(EmailAlertmodel obj)
         {
             long InsSubModId;
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@ID", obj.Id));
             param.Add(new DataParameter("@INSTITUTION_ID", obj.Institution_Id));
@@ -95,7 +104,8 @@ namespace MyCortex.Repositories.EmailAlert
             param.Add(new DataParameter("@MODIFIEDUSERID", obj.ModifiedUser_Id));
             param.Add(new DataParameter("@CREATED_BY", obj.Created_By));
             //param.Add(new DataParameter("@CREATEDBY_ID", HttpContext.Current.Session["BYID"]));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 // InsSubId = ClsDataBase.Insert("INS_SUb_EX", param, true);
@@ -127,7 +137,7 @@ namespace MyCortex.Repositories.EmailAlert
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -139,8 +149,11 @@ namespace MyCortex.Repositories.EmailAlert
         /// <returns>Email Alert list of a selected record</returns>
         public IList<EmailAlertmodel> EmailAlert_List(long Id, int IsActive)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 param.Add(new DataParameter("@Id", Id));
@@ -173,7 +186,7 @@ namespace MyCortex.Repositories.EmailAlert
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -185,16 +198,19 @@ namespace MyCortex.Repositories.EmailAlert
         /// <returns>success response of email alert deactivated</returns>
         public void EmailAlert_Delete(int Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 ClsDataBase.Update("[MYCORTEX].TBLALERTCONFIGURATION_SP_DELETE", param);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
         }
 
@@ -205,16 +221,19 @@ namespace MyCortex.Repositories.EmailAlert
         /// <returns>success response of email alert activated</returns>
         public void EmailAlert_Active(int Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 ClsDataBase.Update("[MYCORTEX].TBLALERTCONFIGURATION_SP_ACTIVE", param);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
         }
 
@@ -225,8 +244,11 @@ namespace MyCortex.Repositories.EmailAlert
         /// <returns>list of Email alert detail of a institution</returns>
         public IList<EventModel> AlertEvent_List(int Institution_Id ,int Id,int status)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 param.Add(new DataParameter("@Institution_Id", Institution_Id));
@@ -248,10 +270,49 @@ namespace MyCortex.Repositories.EmailAlert
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
+
+        /// <summary>
+        /// to get list of Email alert detail of a institution
+        /// </summary>
+        /// <param name="Institution_Id">Institution Id</param>
+        /// <returns>list of Email alert detail of a institution</returns>
+        public IList<EventModel> DefaultAlertEvent_List(int Institution_Id , int Status)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                param.Add(new DataParameter("@Institution_Id", Institution_Id));
+                param.Add(new DataParameter("@Status", Status));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALL_ALERTEVENTMASTER_SP_LIST]", param);
+                List<EventModel> lst = (from p in dt.AsEnumerable()
+                                        select new EventModel()
+                                        {
+                                            Id = p.Field<long>("Id"),
+                                            Institution_Id = p.Field<long>("INSTITUTION_ID"),
+                                            Institution_Name = p.Field<string>("INSTITUTION_NAME"),
+                                            EventName = p.Field<string>("EVENTNAME"),
+                                            EventType_Id = p.Field<long>("EVENTTYPE_ID"),
+                                            Name = p.Field<string>("EVENTTYPENAME"),
+                                            IsActive = p.Field<int>("ISACTIVE"),
+                                            EventCode = p.Field<string>("EVENT_CODE"),
+                                        }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
         /// <summary>
         /// Email Template name list for the given filter
         /// </summary>
@@ -260,8 +321,11 @@ namespace MyCortex.Repositories.EmailAlert
         /// <returns>Email Template name list</returns>
         public IList<EmailAlertmodel> Template_List(int TemplateType_Id, int Institution_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 param.Add(new DataParameter("@Institution_Id", Institution_Id));
@@ -278,7 +342,7 @@ namespace MyCortex.Repositories.EmailAlert
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -289,8 +353,11 @@ namespace MyCortex.Repositories.EmailAlert
         /// <returns>get the "To" and "CC" users types of a event </returns>
         public IList<EmailAlertmodel> EventTo_List(long EventId)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 param.Add(new DataParameter("@EVENTID", EventId));
@@ -306,7 +373,7 @@ namespace MyCortex.Repositories.EmailAlert
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }

@@ -48,10 +48,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.0.1011, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -335,6 +331,7 @@
     <Content Include="Images\delete_icon_consult.png" />
     <Content Include="Images\DOB.png" />
     <Content Include="Images\document.png" />
+    <Content Include="Images\download1.png" />
     <Content Include="Images\downloadimage.png" />
     <Content Include="Images\dr1.jpg" />
     <Content Include="Images\dr2.jpg" />
@@ -345,6 +342,7 @@
     <Content Include="Images\expand.png" />
     <Content Include="Images\expinactiveexpinactive.png" />
     <Content Include="Images\favicon.png" />
+    <Content Include="Images\favicon_MyH.png" />
     <Content Include="Images\favmenu.png" />
     <Content Include="Images\fb.png" />
     <Content Include="Images\female.png" />
@@ -499,8 +497,10 @@
     <Content Include="Login\Views\Loginhome.html" />
     <Content Include="Login\Views\Signup.html" />
     <Content Include="Masters\Views\AllergyMasterList.html" />
+    <Content Include="Masters\Views\AppointmentApproval.html" />
     <Content Include="Masters\Views\AttendanceDetails.html" />
     <Content Include="Masters\Views\DeviceList.html" />
+    <Content Include="Masters\Views\DoctorAppointmentDetails_For_Others.html" />
     <Content Include="Masters\Views\DoctorShift.html" />
     <Content Include="Masters\Views\AdminEmailConfiguration.html" />
     <Content Include="Masters\Views\GateWaySettings.html" />
@@ -516,6 +516,7 @@
     <Content Include="Masters\Views\pagination.custom.html" />
     <Content Include="Masters\Views\ParameterSettings.html" />
     <Content Include="Masters\Views\PasswordPolicy.html" />
+    <Content Include="Masters\Views\SMSConfiguration.html" />
     <Content Include="Masters\Views\WebConfiguration.html" />
     <Content Include="National_Female.png" />
     <Content Include="National_Male.png" />
@@ -532,6 +533,7 @@
     <Content Include="scripts\angular-ui.js" />
     <Content Include="scripts\angular.js" />
     <Content Include="scripts\angular.min.js" />
+    <Content Include="scripts\app\AppointmentApprovalController.js" />
     <Content Include="scripts\app\AlertConfigurationController.js" />
     <Content Include="scripts\app\AllergyMasterListController.js" />
     <Content Include="scripts\app\AllPatientListController.js" />
@@ -547,6 +549,7 @@
     <Content Include="scripts\app\CoordinatorController.js" />
     <Content Include="scripts\app\DirectCallController.js" />
     <Content Include="scripts\app\DirectVideoCallController.js" />
+    <Content Include="scripts\app\DoctorAppointmentDetailsForOthersController.js" />
     <Content Include="scripts\app\DoctorProfileController.js" />
     <Content Include="scripts\app\DoctorShiftController.js" />
     <Content Include="scripts\app\DrugDBController.js" />
@@ -582,6 +585,7 @@
     <Content Include="scripts\app\ProtocolController.js" />
     <Content Include="scripts\app\SendEmailController.js" />
     <Content Include="scripts\app\SlotTimingController.js" />
+    <Content Include="scripts\app\SMSConfigurationController.js" />
     <Content Include="scripts\app\toaster.js" />
     <Content Include="scripts\app\UnderConstructionController.js" />
     <Content Include="scripts\app\UserController.js" />
@@ -1310,6 +1314,7 @@
     <Compile Include="Masters\Controllers\PayorMasterController.cs" />
     <Compile Include="Masters\Controllers\PlanMasterController.cs" />
     <Compile Include="Masters\Controllers\ShiftTmingsController.cs" />
+    <Compile Include="Masters\Controllers\SMSConfigurationController.cs" />
     <Compile Include="Masters\Controllers\WebConfigurationController.cs" />
     <Compile Include="Masters\Models\AllergyMasterModel.cs" />
     <Compile Include="Masters\Models\AppConfigurationModel.cs" />
@@ -1340,6 +1345,7 @@
     <Compile Include="Masters\Models\PlanMasterModel.cs" />
     <Compile Include="Masters\Models\ProtocolParameterMasterModel.cs" />
     <Compile Include="Masters\Models\ShiftTimingsModel.cs" />
+    <Compile Include="Masters\Models\SMSConfigurationModel.cs" />
     <Compile Include="Masters\Models\StateMasterModel.cs" />
     <Compile Include="Masters\Models\UnitsMasterModel.cs" />
     <Compile Include="Masters\Models\WebConfigurationModel.cs" />
@@ -1395,6 +1401,7 @@
     <Compile Include="Repositories\IProtocolRepository.cs" />
     <Compile Include="Repositories\ISendEmailRepository.cs" />
     <Compile Include="Repositories\IShiftTimingsRepository.cs" />
+    <Compile Include="Repositories\ISMSConfigurationRepository.cs" />
     <Compile Include="Repositories\ISMSTemplateRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Repositories\IColorPreferenceRepository.cs" />
@@ -1418,6 +1425,7 @@
     <Compile Include="Repositories\Masters\PayorMasterRepository.cs" />
     <Compile Include="Repositories\Masters\PlanMasterRepository.cs" />
     <Compile Include="Repositories\Masters\ShiftTimingsRepository.cs" />
+    <Compile Include="Repositories\Masters\SMSConfigurationRepository.cs" />
     <Compile Include="Repositories\Template\SMSTemplateRepository.cs" />
     <Compile Include="Repositories\User\ColorPreferenceRepository.cs" />
     <Compile Include="Repositories\Masters\WebConfigurationRepository.cs" />
@@ -1573,9 +1581,6 @@
     <Content Include="Css\font\summernote.eot" />
     <Content Include="Css\font\summernote.ttf" />
     <Content Include="Css\font\summernote.woff" />
-    <Content Include="log4net.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="GlobalReport.xsc">
       <DependentUpon>GlobalReport.xsd</DependentUpon>
     </Content>

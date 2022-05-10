@@ -15,6 +15,7 @@ var EmpApp = angular.module('EmpApp', [
     'ChatSettingsController',
     'PasswordController',
     'EmailConfigurationController',
+    'SMSConfigurationController',
     'EmailAlertlistController',
     'WebConfigurationController',
     'LanguageSettingsController',
@@ -56,7 +57,9 @@ var EmpApp = angular.module('EmpApp', [
     'CoordinatorController',
     'CommonController',
     'AppointmentSlotController',
-    'SlotTimingController'
+    'SlotTimingController',
+    'DoctorAppointmentDetailsForOthersController',
+    "AppointmentApprovalController"
 ]);
 
 
@@ -349,6 +352,10 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
              templateUrl: baseUrl + 'Masters/Views/EmailConfiguration.html',
              controller: 'EmailConfigurationController'
          }).
+        when('/MasterSmsConfigurationList', {
+            templateUrl: baseUrl + 'Masters/Views/SMSConfiguration.html',
+            controller: 'SMSConfigurationController'
+        }).
         when('/AdminEmailConfigurationList/:LoginUserType', {
             templateUrl: baseUrl + 'Masters/Views/EmailConfiguration.html',
             controller: 'EmailConfigurationController'
@@ -421,6 +428,14 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         when('/Admin_Userslog_List', {
             templateUrl: baseUrl + 'Admin/Views/HospitalAdmin_Userslog.html',
             controller: 'UsersLogController'
+        }).
+        when('/DoctorAppointmentDetails', {
+            templateUrl: baseUrl + 'Masters/Views/DoctorAppointmentDetails_For_Others.html',
+            controller: 'DoctorAppointmentDetailsForOthersController'
+        }).
+        when('/AppointmentApproval', {
+            templateUrl: baseUrl + 'Masters/Views/AppointmentApproval.html',
+            controller: 'AppointmentApprovalController'
         }).
     otherwise({
         redirectTo: '/Googlehome'

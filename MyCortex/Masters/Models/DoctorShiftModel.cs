@@ -23,6 +23,8 @@ namespace MyCortex.Masters.Models
         public DateTime ToDate { get; set; }
         public int NewAppointment { get; set; }
         public int FollowUp { get; set; }
+        public long NewAppointmentPrice { get; set; }
+        public long FollowUpPrice { get; set; }
         public int Intervel { get; set; }
         public int CustomSlot { get; set; }
         public int BookingOpen { get; set; }
@@ -37,6 +39,8 @@ namespace MyCortex.Masters.Models
         public IList<DoctorsId> Doctor_Id { get; set; }
         public long INSTITUTION_ID { get; set; }
         public int IsActive { get; set; }
+        public long? MakeMeLookBusy { get; set; }
+        public long? MinimumSlots { get; set; }
 
         public long DepartmentId { get; set; }
 
@@ -188,12 +192,15 @@ namespace MyCortex.Masters.Models
         public long MyAppConfigId { get; set; }
         public int NewAppointmentDuration { get; set; }
         public int FollowUpDuration { get; set; }
+        public long NewAppointmentPrice { get; set; }
+        public long FollowUpPrice { get; set; }
         public int AppointmentInterval { get; set; }
         public int ReminderDays { get; set; }
         public int ReminderHours { get; set; }
         public int ReminderMinutes { get; set; }
         public string DefaultWorkingDays { get; set; }
         public string DefaultHoliDays { get; set; }
+        public int MinimumSlots { get; set; }
         public int Flag { get; set; }
         public IList<ReminderUserLists> ReminderTimeInterval { get; set; }
         //public IList<DefaultWorkingDays> DefaultWorkingDays { get; set; }

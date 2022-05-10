@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
 using System.Data;
-using log4net;
+  
 using MyCortex.User.Model;
 using MyCortexDB;
 using MyCortex.Utilities;
@@ -14,9 +14,12 @@ namespace MyCortex.Repositories.User
     public class CareCoordinatorRepository : ICarecoordinatorRepository
     {
          ClsDataBase db;
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
 
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
         public CareCoordinatorRepository()
         {
             db = new ClsDataBase();
@@ -44,6 +47,8 @@ namespace MyCortex.Repositories.User
         /// <returns></returns>
         public IList<CareCoordinatorModel> CareCoordinator_PatientList(long Coordinator_Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int TypeId, long UserTypeId, Guid Login_Session_Id)  
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Coordinator_Id", Coordinator_Id));
             param.Add(new DataParameter("@PatientNo", PATIENTNO));
@@ -61,7 +66,8 @@ namespace MyCortex.Repositories.User
             param.Add(new DataParameter("@BloodGroupId", BLOODGROUP_ID));
             param.Add(new DataParameter("@GroupId", Group_Id));
             param.Add(new DataParameter("@UserTypeId", UserTypeId));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataEncryption decrypt = new DataEncryption();
@@ -98,13 +104,15 @@ namespace MyCortex.Repositories.User
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
 
-        public IList<CareCoordinatorModel> CareCoordinator_FilterPatientList(long Coordinator_Id, string PATIENTNO, string INSURANCEID, string NATIONALITY_ID, string MOBILE_NO, string EMAILID, long UserTypeId, string FIRSTNAME, string LASTNAME, string MRN, int TypeId, Guid Login_Session_Id)
+        public IList<CareCoordinatorModel> CareCoordinator_FilterPatientList(long Coordinator_Id, string PATIENTNO, string INSURANCEID, string NATIONALITY_ID, string MOBILE_NO, string EMAILID, long UserTypeId, string FIRSTNAME, string LASTNAME, string MRN, int TypeId, Guid Login_Session_Id, int? AdvanceFilter)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Coordinator_Id", Coordinator_Id));
             param.Add(new DataParameter("@PatientNo", string.IsNullOrEmpty(PATIENTNO)? "" : PATIENTNO.ToLower()));
@@ -116,10 +124,12 @@ namespace MyCortex.Repositories.User
             param.Add(new DataParameter("@LASTNAME", string.IsNullOrEmpty(LASTNAME) ? "" : LASTNAME.ToLower()));
             param.Add(new DataParameter("@MRN", string.IsNullOrEmpty(MRN) ? "" : MRN.ToLower()));
             param.Add(new DataParameter("@UserTypeId", UserTypeId));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            param.Add(new DataParameter("@AdvanceFilter", AdvanceFilter));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
-                DataEncryption decrypt = new DataEncryption();
+                //DataEncryption decrypt = new DataEncryption();
                 DataTable dt = new DataTable();
                 if (TypeId == 1)
                 {
@@ -175,7 +185,7 @@ namespace MyCortex.Repositories.User
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -185,10 +195,13 @@ namespace MyCortex.Repositories.User
         /// <returns> Care Giver List based on users groups</returns>
         public IList<CareGiverListModel> CareGiver_List(long Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Patient_Id", Id));
 
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[CAREGIVER_SP_LIST_BASEDONGROUP]", param);
@@ -203,7 +216,7 @@ namespace MyCortex.Repositories.User
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -213,6 +226,8 @@ namespace MyCortex.Repositories.User
         /// <returns>Inserted Care Giver Records with Status</returns>
         public List<AssignCareGiverModel> Assign_CareGiver(AssignCareGiverModel obj)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", obj.Id));
             param.Add(new DataParameter("@Coordinator_Id", obj.Coordinator_Id));
@@ -222,7 +237,8 @@ namespace MyCortex.Repositories.User
             param.Add(new DataParameter("@Created_By", obj.Created_By));
             param.Add(new DataParameter("@CC_Date", obj.CC_Date));
             param.Add(new DataParameter("@Page_Type", obj.Page_Type));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].CAREGIVER_SP_ASSIGN", param);
@@ -245,7 +261,7 @@ namespace MyCortex.Repositories.User
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -255,11 +271,16 @@ namespace MyCortex.Repositories.User
         /// <param name="PatientId"></param>
         /// <param name="UserTypeId"></param>
         /// <returns></returns>
-        public IList<GetParameterValueModel> Get_ParameterValue(long PatientId, long UserTypeId, Guid Login_Session_Id)
+        public IList<GetParameterValueModel> Get_ParameterValue(long PatientId, long UserTypeId, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber, int Alert_Type)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@PatientId", PatientId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
+            param.Add(new DataParameter("@AlertType", Alert_Type));
             try
             {
                 DataTable dt = new DataTable();
@@ -297,7 +318,7 @@ namespace MyCortex.Repositories.User
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -309,16 +330,19 @@ namespace MyCortex.Repositories.User
         /// <returns></returns>
         public IList<GetParameterValueCountModel> Get_ParameterValueCount(long PatientId, long UserTypeId, Guid Login_Session_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@PatientId", PatientId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
+                //DataEncryption DecryptFields = new DataEncryption();
                 DataTable dt = new DataTable();
                 if (UserTypeId == 6)
                 {
-                    dt = ClsDataBase.GetDataTable("[MYCORTEX].[GETPARAMETERVALUE_SP_LIST]", param);
+                    //dt = ClsDataBase.GetDataTable("[MYCORTEX].[GETPARAMETERVALUE_SP_LIST]", param);
+                    dt = ClsDataBase.GetDataTable("[MYCORTEX].[GETPARAMETERVALUELISTCOUNT_SP_LIST]", param);
                 }
                 else
                 {
@@ -350,7 +374,7 @@ namespace MyCortex.Repositories.User
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -361,11 +385,14 @@ namespace MyCortex.Repositories.User
         /// <returns> assign caregiver history list</returns>
         public IList<AssignCareGiverModel> Care_Coordinatorhistory(long CareGiverId, Guid Login_Session_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             DataEncryption decrypt = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@CAREGIVER_ID", CareGiverId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].ASSIGNCAREGIVERHISTORY_SP_VIEW", param);
@@ -393,7 +420,7 @@ namespace MyCortex.Repositories.User
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -420,6 +447,8 @@ namespace MyCortex.Repositories.User
         /// <returns></returns>
         public IList<CareCoordinatorModel> Diagnostic_GetPatientList_Count(long Coordinator_Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int TypeId, long UserTypeId, Guid Login_Session_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Coordinator_Id", Coordinator_Id));
             param.Add(new DataParameter("@PatientNo", PATIENTNO));
@@ -438,7 +467,8 @@ namespace MyCortex.Repositories.User
             param.Add(new DataParameter("@GroupId", Group_Id));
             param.Add(new DataParameter("@UserTypeId", UserTypeId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = new DataTable();
@@ -459,7 +489,7 @@ namespace MyCortex.Repositories.User
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }

@@ -9,7 +9,6 @@ using MyCortex.Template.Models;
 using System.Collections.Generic;
 using System.Web;
 using Newtonsoft.Json.Linq;
-using log4net;
 using MyCortex.Masters.Models;
 using MyCortex.Repositories.Masters;
 
@@ -19,8 +18,9 @@ namespace MyCortex.Notification.Firebase
     {
         static readonly ISendEmailRepository repository = new SendEmailRepository();
         static readonly ICommonRepository commonrepository = new CommonRepository();
-
-        private readonly static ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly static MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
         /// <summary>
         /// sends Firebase Push Notification
         /// </summary>
@@ -29,6 +29,11 @@ namespace MyCortex.Notification.Firebase
         /// <returns></returns>
         private async static Task<IRestResponse> SendPushNotification(PushNotificationMessage message, long templateId, string Url)
         {
+            string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
+            _AppLogger = "MyCortex.Notification.Firebase.PushNotificationApiManager";
+            _AppMethod = "MoveNext";
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<AppConfigurationModel> model;
             model = commonrepository.AppConfigurationDetails("FIREBASE_APITOKEN", Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]));
 
@@ -37,7 +42,9 @@ namespace MyCortex.Notification.Firebase
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/json");
             request.AddHeader("Authorization", "key=" + model[0].ConfigValue);
-                        
+
+            message.Message = message.Message.Replace("\n\n", Environment.NewLine);
+
             // HttpContext.Current.Request.Url.Host;
             // localhost
             var my_jsondata = new
@@ -54,8 +61,7 @@ namespace MyCortex.Notification.Firebase
             //Tranform it to Json object
             string json_data = JsonConvert.SerializeObject(my_jsondata);
 
-            _logger.Info(json_data);
-
+            _MyLogger.Exceptions("INFO", _AppLogger, json_data, null, _AppMethod);
             request.AddParameter("application/json", json_data, ParameterType.RequestBody);
 
             int deliveryStatus = 2;
@@ -83,7 +89,7 @@ namespace MyCortex.Notification.Firebase
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message);
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
             finally
             {
@@ -99,13 +105,13 @@ namespace MyCortex.Notification.Firebase
         {
             List<NotifictaionUserFCM> model = new List<NotifictaionUserFCM>();
             model = repository.UserFCMToken_Get_List(User_Id);
-            string url = HttpContext.Current.Request.Url.Authority;
+            //string url = HttpContext.Current.Request.Url.Authority;
             foreach (NotifictaionUserFCM itemData in model)
             {
                 if ((NotificationFor == 3 && itemData.DeviceType == "web") || (NotificationFor == 2 && itemData.DeviceType != "web") || NotificationFor == 4)
                 {
                     message.FCMToken = itemData.FCMToken;
-                    SendPushNotification(message, templateId, url);
+                    SendPushNotification(message, templateId, itemData.SiteUrl);
                 }
             }
         }

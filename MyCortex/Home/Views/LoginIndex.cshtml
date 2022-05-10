@@ -13,15 +13,18 @@
 
     <link href="@Url.Content("~/Css/login.css?V1.01")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Css/spacing.css?v1.0")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Css/theme.css?v1.37")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/theme.css?v1.38")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Css/jquery.datetimepicker.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/intlTelInput.css?v1.0")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/scripts/intlTelInput.js?v1.0")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/intlTelInput-jquery.js?v1.0")" type="text/javascript"></script>
     <link href="~/Css/toaster.css?v1.0.0" rel="stylesheet" type="text/css" />
     @*<script src="~/scripts/angular.js?v1.0.0"></script>*@
     <script src="~/scripts/app/toaster.js?v1.0.0"></script>
     <script src="@Url.Content("~/scripts/angular-ui.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/scripts/ui-bootstrap.js?v1.0")" type="text/javascript"></script>
     <script src="@Url.Content("~/scripts/ui-bootstrap-tpls.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/app/controllerLogin.js?v1.44")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/app/controllerLogin.js?v1.46")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/smart-table.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/jquery.marquee.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/jquery.mCustomScrollbar.js")" type="text/javascript"></script>
@@ -43,21 +46,48 @@
             }
         });
     </script>
+   
+    <script>
+        $(function () {
+            setTimeout(function () {
+
+                $('.preload').hide();
+            }, 3000);
+        });
+    </script>
+    <style>
+        .content {
+            display: none;
+        }
+
+        .preload {
+            width: 100px;
+            height: 100px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+        }
+    </style>
 </head>
 <body id="idbody">
     <div id="loginhead" style="display:none;">
         <header class="loginHeader">
             <div class="wrapper">
-                <img src="" style="height: 66px; width: 120px;" id="InstLogo">
+                @* // id="InstLogo"*@
+                <img src="images/logo.png" style="height: 66px; width: 120px;">
             </div>
         </header>
     </div>
-    <div id="loginCor" style="display:none;">
-        <section class="loginBgCor" ng-view></section>
+    <div>
+        <div class="preload"> <img src="https://i.gifer.com/ZKZg.gif" style="width:100%; height:100%; "></div>
+        <section id="LoginSection" class="loginBg" ng-view></section>
     </div>
-    <div id="loginHel" style="display:none;">
-        <section class="loginBgHel" ng-view></section>
-    </div>
+    @*<div id="loginCor" style="display:none;">
+            <section class="loginBgCor" ng-view></section>
+        </div>
+        <div id="loginHel" style="display:none;">
+                <section class="loginBgHel" ng-view></section>
+        </div>*@
     <footer class="webfooter">
         <div class="wrapper">
             <p>Copyright © <span id="Copyrightspan"></span>. All Rights Reserved. <span style="float:right;">Build Version <span id="Buildnamespan"></span></span></p>

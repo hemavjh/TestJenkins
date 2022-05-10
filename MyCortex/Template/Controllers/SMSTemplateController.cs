@@ -9,7 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web;
 using System.IO;
-using log4net;
+  
 using Newtonsoft.Json;
 using MyCortex.Repositories.Template;
 using MyCortex.Template.Models;
@@ -23,8 +23,11 @@ namespace MyCortex.Template.Controllers
     public class SMSTemplateController : ApiController
     {
         static readonly ISMSTemplateRepository repository = new SMSTemplateRepository();
-        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
 
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
         /// <summary>
         /// SMS Template --> SMS Template  Details --> Add/Edit Page
         /// to Insert/Update the entered SMS Template  Information
@@ -135,6 +138,8 @@ namespace MyCortex.Template.Controllers
         [HttpGet]
         public IList<TagListModels> TemplateTag_List(long Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<TagListModels> model;
             try
             {
@@ -143,7 +148,7 @@ namespace MyCortex.Template.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -157,6 +162,8 @@ namespace MyCortex.Template.Controllers
         [HttpGet]
         public IList<TagListMappingModels> SMSTemplateTagMapping_List(long Id, long Institution_Id)
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<TagListMappingModels> model;
             try
             {
@@ -165,7 +172,7 @@ namespace MyCortex.Template.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
