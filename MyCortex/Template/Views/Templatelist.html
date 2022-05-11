@@ -195,11 +195,11 @@
                                         ng-options="item1.Id as item1.Department_Name for item1 in DepartmentList"
                                         multiselect-dropdown style="width: 220px;"></select>-->
                                 <select class="form-control" style="width: 382px;"
-                                ng-model="TagType" ng-change="OnChangeTypeBasedTagList(TagType)">
-                                <option ng-selected="true" value="0">Select</option>
-                                <option value="1">User Creation</option>
-                                <option value="2">Institution And Subscription Creation</option>
-                            </select>
+                                        ng-model="TagType" ng-change="OnChangeTypeBasedTagList(TagType)">
+                                    <option ng-selected="true" value="0">Select</option>
+                                    <option ng-selected="true" value="1">User Creation</option>
+                                    <option ng-selected="true" value="2">Institution And Subscription Creation</option>
+                                </select>
                             </div>
                             <div class="inputGroups" ng-show="UserTypeId == 3">
                                 <label class="sub-title">
@@ -207,11 +207,11 @@
                                         <!--<font class='mandatory-field'>*</font>-->
                                     </sup>
                                 </label>
-                                <select class="" data-style="form-control" ng-model="Event" id="AlertEventList" data-live-search="true"
+                                <select class="" data-style="form-control" ng-model="TagType" id="AlertEventList" data-live-search="true"
                                         data-selectpicker data-collection-name="AlertEvent"
-                                        ng-change="OnChangeTypeBasedTagList(Event)">
+                                        ng-change="OnChangeTypeBasedTagList(TagType)">
                                     <option value="0">Select</option>
-                                    <option ng-repeat="sel in AlertEvent" ng-selected="Event==sel.Id" value="{{sel.EventName}}">
+                                    <option ng-repeat="sel in AlertEvent" ng-selected="TagType==sel.Id" value="{{sel.Id}}">
                                         {{sel.EventName}}
                                     </option>
                                 </select>

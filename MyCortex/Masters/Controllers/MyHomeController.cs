@@ -28,14 +28,14 @@ namespace MyCortex.User.Controllers
         [Authorize]
         [HttpGet]
         [CheckSessionOutFilter]
-        public IList<TabListModel> Tab_List(int? IsActive, long Institution_Id, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber)
+        public IList<TabListModel> Tab_List(int? IsActive, long Institution_Id, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber, long HiveType = 1)
         {
             _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<TabListModel> model;
             try
             {
-                model = repository.Tab_List(IsActive, Institution_Id, Login_Session_Id,StartRowNumber,EndRowNumber);
+                model = repository.Tab_List(IsActive, Institution_Id, Login_Session_Id,StartRowNumber,EndRowNumber, HiveType);
                 return model;
             }
             catch (Exception ex)
@@ -434,7 +434,7 @@ namespace MyCortex.User.Controllers
         [Authorize]
         [HttpGet]
         [CheckSessionOutFilter]
-        public HttpResponseMessage Device_List(int? IsActive, long InstitutionId)
+        public HttpResponseMessage Device_List(int? IsActive, long InstitutionId, long HiveType = 1)
         {
             _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -442,7 +442,7 @@ namespace MyCortex.User.Controllers
             TabDeviceListReturnModels model = new TabDeviceListReturnModels();
             try
             {
-                ModelData = repository.Get_DeviceList(IsActive, InstitutionId);
+                ModelData = repository.Get_DeviceList(IsActive, InstitutionId, HiveType);
 
                 model.TabDeviceList = ModelData;
                 model.Message = "";// "User created successfully";

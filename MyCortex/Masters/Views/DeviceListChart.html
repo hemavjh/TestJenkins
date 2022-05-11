@@ -2,15 +2,15 @@
     $(document).ready(function () {
         $('.activeButton').removeClass('activeButton');
         var element = document.getElementById($('.secondaryMenuActive').data('menu'));
-        $(element).addClass('activeButton');        
+        $(element).addClass('activeButton');
     });
 </script>
 <ul class="secondaryMenu">
-    <li><a href="Home/Index#/Hive">Hive</a></li>
-    <li><a href="Home/Index#/DeviceList" class="secondaryMenuActive" data-menu="Hive">Device List</a></li>
+    <li><a href="Home/Index#/HiveChart">Hive Chart</a></li>
+    <li><a href="Home/Index#/DeviceListChart" class="secondaryMenuActive" data-menu="Hive Chart">Device List Chart</a></li>
 </ul>
-<h1 class="page-title">Device List</h1>
-<div ng-init="DeviceList(1);">
+<h1 class="page-title">Device List Chart</h1>
+<div ng-init="DeviceList(2);">
     <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
         <div></div>
         <div></div>
@@ -35,7 +35,7 @@
                         <div class="inputGroups">
                             <label>Active</label>
                         </div>
-                        <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="DeviceList(1);" title="Active / All">
+                        <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="DeviceList(2);" title="Active / All">
                     </div>
                     <div class="col-sm-4">
                         <div class="inputGroups">
@@ -88,13 +88,13 @@
                 <a href="javascript:" ng-click="row.IsActive == 0 ||  EditDevicePopUP(row.ID)" title="Edit">
                     <i class="fa fa-pencil ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
                     <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
-                      <i class="fa fa-pencil" aria-hidden="true" ng-if="row.IsActive==0"></i>
+                        <i class="fa fa-pencil" aria-hidden="true" ng-if="row.IsActive==0"></i>
 
                     </a>
                 </a>
-                <a href="javascript:" ng-click="DeleteDevice(row.ID, 1)" title="Active">
+                <a href="javascript:" ng-click="DeleteDevice(row.ID, 2)" title="Active">
                     <i class="fa fa-check-circle-o ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
-                    <a href="javascript:" ng-click="ReInsertDevice(row.ID, 1)" title="Inactive">
+                    <a href="javascript:" ng-click="ReInsertDevice(row.ID, 2)" title="Inactive">
                         <img src="../../Images/inactive.png" ng-if="row.IsActive==0" />
                     </a>
                 </a>
@@ -115,27 +115,27 @@
             </td>
         </tr>
     </tfoot>
-   <!--<tfoot ng-show="total_page>1">
-        <tr>
-            <td colspan="8" class="text-center">
-                <ul class="pagination">
-                    <li>
-                        <a ng-click="setPage(1)">First</a>
-                    </li>
-                    <li>
-                        <a ng-click="setPage(current_page - 1)">&lt;</a>
-                    </li>
-                    <li>
-                        <a><input style="width: 50px" class="text-center" type="number" min="1" max="{{total_page}}" step="1" ng-model="inputPageNo" ng-value="current_page" ng-change="setPage(0);"> of {{total_page}}</a>
-                    </li>
-                    <li>
-                        <a ng-click="setPage(current_page + 1)">&gt;</a>
-                    </li>
-                    <li><a ng-click="setPage(total_page)">Last</a></li>
-                </ul>
-            </td>
-        </tr>
-    </tfoot>-->
+    <!--<tfoot ng-show="total_page>1">
+         <tr>
+             <td colspan="8" class="text-center">
+                 <ul class="pagination">
+                     <li>
+                         <a ng-click="setPage(1)">First</a>
+                     </li>
+                     <li>
+                         <a ng-click="setPage(current_page - 1)">&lt;</a>
+                     </li>
+                     <li>
+                         <a><input style="width: 50px" class="text-center" type="number" min="1" max="{{total_page}}" step="1" ng-model="inputPageNo" ng-value="current_page" ng-change="setPage(0);"> of {{total_page}}</a>
+                     </li>
+                     <li>
+                         <a ng-click="setPage(current_page + 1)">&gt;</a>
+                     </li>
+                     <li><a ng-click="setPage(total_page)">Last</a></li>
+                 </ul>
+             </td>
+         </tr>
+     </tfoot>-->
 </table>
 
 
@@ -143,13 +143,13 @@
 <div id="DeviceAddModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form class="form-horizontal" role="form" ng-class="{'submitted': submitted}" ng-submit="Device_InsertUpdate(1);">
+            <form class="form-horizontal" role="form" ng-class="{'submitted': submitted}" ng-submit="Device_InsertUpdate(2);">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopup()" style="color:#fff;">&times;</button>
                     <h4 class="modal-title" ng-if="Id>0 && DisplayView==''">Edit Device</h4>
                     <h4 class="modal-title" ng-if="Id==0">Add Device</h4>
                     <h4 class="modal-title" ng-if="DisplayView=='View'">View Device</h4>
-                    
+
                 </div>
                 <div class="modal-body">
 
@@ -161,15 +161,16 @@
                         </label>
 
                         <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="AllDeviceNameList" id="DeviceName" ng-model="DeviceName"
-                                ng-options="item2.DeviceName as item2.DeviceName for item2 in AllDeviceNameList" ><!--ng-change="onCategoryChange();"-->
+                                ng-options="item2.DeviceName as item2.DeviceName for item2 in AllDeviceNameList">
+                            <!--ng-change="onCategoryChange();"-->
                             <option value="">Select</option>
                         </select>
 
                         <div class="inputGroups" style="display:none;">
                             <label>
                                 DeviceId<sup>
-    <!--<font class='mandatory-field'>*</font>  ng-required="true;"-->
-</sup>
+                                    <!--<font class='mandatory-field'>*</font>  ng-required="true;"-->
+                                </sup>
                             </label>
                             <input type="text" class="form-control" id="DeviceId"
                                    ng-model="DeviceId" .ng-init="DeviceId=''" ng-maxlength="50"
@@ -213,16 +214,16 @@
                             </div>
 
                             <!--<div class="inputGroups">
-                        <label>Parameter</label>
-                        <select ng-model="Parameter_Id" class="form-control"
-                                ng-options="item.Id as item.Name for item in ParameterTypeList">
-                            <option ng-repeat="" ng-selected="" ng-required="true"
-                                    value="{{sel.Id}}">
-                                Select
-                            </option>
-                        </select>
+                                <label>Parameter</label>
+                                <select ng-model="Parameter_Id" class="form-control"
+                                        ng-options="item.Id as item.Name for item in ParameterTypeList">
+                                    <option ng-repeat="" ng-selected="" ng-required="true"
+                                            value="{{sel.Id}}">
+                                        Select
+                                    </option>
+                                </select>
 
-                    </div>-->
+                            </div>-->
                             <div class="inputGroups">
                                 <label>
                                     Parameter<sup>
@@ -240,26 +241,26 @@
 
 
                                 <!--<select class="form-control" style="width:300px;">
-                        <option value="0">Select</option>
-                        <option ng-repeat="sel in DevicesLists" ng-selected="DevicesListid==sel.ID"
-                                value="{{sel.ID}}">
-                            {{sel.DeviceName}}
-                        </option>-->
+                                <option value="0">Select</option>
+                                <option ng-repeat="sel in DevicesLists" ng-selected="DevicesListid==sel.ID"
+                                        value="{{sel.ID}}">
+                                    {{sel.DeviceName}}
+                                </option>-->
                                 <!--</select>-->
                             </div>
                             <div class="modal-footer" style="text-align:center;">
                                 <button type="submit" ng-show="showSave == true" id="btnsave" ng-disabled="false" class="theme-btn-1 mr-10 btn-save" ng-click="submitted= true" title="Click to Save">Save</button>
                                 <button type="button" class="theme-btn-2  btn-save" ng-click="CancelDeviceList()" title="Click to Cancel">Cancel</button>
                             </div>
-                            </div>
                         </div>
                     </div>
+                </div>
             </form>
         </div>
     </div>
 </div>
 <script>
-   
+
 </script>
 
 

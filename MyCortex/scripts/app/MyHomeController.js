@@ -48,15 +48,27 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         //$http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
         //    $scope.DevicesLists = data;
         //});
-        $http.get(baseUrl + '/api/MyHome/Device_List/?IsActive=' + $scope.ISact + '&InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
-            $scope.DevicesLists = data.TabDeviceList;
-        });
+        if ($location.$$path == "/Hive") {
+            $http.get(baseUrl + '/api/MyHome/Device_List/?IsActive=' + $scope.ISact + '&InstitutionId=' + $window.localStorage['InstitutionId'] + '&HiveType=' + 1).success(function (data) {
+                $scope.DevicesLists = data.TabDeviceList;
+            });
+        } else {
+            $http.get(baseUrl + '/api/MyHome/Device_List/?IsActive=' + $scope.ISact + '&InstitutionId=' + $window.localStorage['InstitutionId'] + '&HiveType=' + 2).success(function (data) {
+                $scope.DevicesLists = data.TabDeviceList;
+            });
+        }
         //$http.get(baseUrl + '/api/Common/UserList/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
         //    $scope.UserLists = data;
         //});
-        $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + 2 + '&InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
-            $scope.UserLists = data;
-        });
+        if ($location.$$path == "/Hive") {
+            $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + 2 + '&InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
+                $scope.UserLists = data;
+            });
+        } else {
+            $http.get(baseUrl + '/api/User/UserDetails_List/?Id=' + 2 + '&InstitutionId=' + $window.localStorage['InstitutionId'] + '&IsActive=' + 1 + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $scope.UserLists = data;
+            });
+        }
 
 
         $scope.checkTab = function () {
@@ -135,7 +147,8 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         }
         $scope.Cancel_MYTAB = function () {
             $scope.currentTab = "1";
-            $location.path("/Hive");
+            //$location.path("/Hive");
+            //$location.path("/HiveChart");
             $scope.ClearPopUp();
         }
 
@@ -144,7 +157,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         }
 
 
-        $scope.setMyHomePage = function (PageNo) {
+        $scope.setMyHomePage = function (PageNo, HiveChart = 1) {
             if (PageNo == 0) {
                 PageNo = $scope.inputPageNo;
             }
@@ -152,13 +165,13 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 $scope.inputPageNo = PageNo;
             }
             $scope.current_MyHomepage = PageNo;
-            $scope.TabList();
+            $scope.TabList(HiveChart);
 
         }
         /*THIS IS FOR LIST FUNCTION*/
         $scope.ViewParamList = [];
         $scope.ViewParamList1 = [];
-        $scope.TabList = function () {
+        $scope.TabList = function (HiveType = 1) {
             $("#chatLoaderPV").show();
             $scope.emptydataTab = [];
             $scope.rowCollectionTab = [];
@@ -177,7 +190,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     $scope.ISact = 0 //all
                 }
 
-                $http.get(baseUrl + '/api/MyHome/Tab_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                $http.get(baseUrl + '/api/MyHome/Tab_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd + '&HiveType=' + HiveType).success(function (data) {
                     $("#chatLoaderPV").hide();
                     if (data != null && data !== undefined) {
                         $scope.emptydataTab = [];
@@ -307,12 +320,12 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         }
 
         /* THIS IS FOR DELETE FUNCTION*/
-        $scope.DeleteMYTAB = function (DId) {
+        $scope.DeleteMYTAB = function (DId, HiveChart = 1) {
             $scope.Id = DId;
-            $scope.MyTAB_Delete();
+            $scope.MyTAB_Delete(HiveChart);
         };
         /*THIS IS FOR DELETE FUNCTION */
-        $scope.MyTAB_Delete = function () {
+        $scope.MyTAB_Delete = function (HiveChart) {
             Swal.fire({
                 title: 'Do you like to deactivate the selected My Home details?',
                 html: '',
@@ -328,7 +341,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     $http.get(baseUrl + '/api/MyHome/Tab_List_Delete/?Id=' + $scope.Id).success(function (data) {
                         //alert(" My Home details has been deactivated Successfully");
                         toastr.success(" My Home details has been deactivated Successfully", "success");
-                        $scope.TabList();
+                        $scope.TabList(HiveChart);
                     }).error(function (data) {
                         $scope.error = "An error has occurred while deleting  My Home details" + data;
                     });
@@ -348,12 +361,12 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             }*/
         };
 
-        $scope.DeleteMYTABDeactive = function (DId) {
+        $scope.DeleteMYTABDeactive = function (DId, HiveChart = 1) {
             $scope.Id = DId;
-            $scope.MyTAB_DeleteDeactive();
+            $scope.MyTAB_DeleteDeactive(HiveChart);
         };
         /*THIS IS FOR DELETE FUNCTION */
-        $scope.MyTAB_DeleteDeactive = function () {
+        $scope.MyTAB_DeleteDeactive = function (HiveChart) {
             Swal.fire({
                 title: 'Do you like to activate the selected My Home details?',
                 html: '',
@@ -369,7 +382,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     $http.get(baseUrl + '/api/MyHome/Tab_List_Delete/?Id=' + $scope.Id).success(function (data) {
                         //alert(" My Home details has been  Activated Successfully");
                         toastr.success(" My Home details has been  Activated Successfully", "success");
-                        $scope.TabList();
+                        $scope.TabList(HiveChart);
                     }).error(function (data) {
                         $scope.error = "An error has occurred while deleting  My Home details" + data;
                     });
@@ -760,7 +773,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             return true;
         }
 
-        $scope.MYTAB_InsertUpdate = function () {
+        $scope.MYTAB_InsertUpdate = function (HiveType = 1) {
             if ($scope.Validationcontrols() == true) {
                 if ($scope.MYTAB_InsertUpdate_validation() == true) {
                     $("#chatLoaderPV").show();
@@ -799,7 +812,8 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                         CreatedBy: $scope.CREATED_BY,
                         UserList: $scope.AddUserParameters,
                         DevicesList: $scope.DevicesLists,
-                        SelectedTabDeviceList: $scope.UserDeviceDetails_List
+                        SelectedTabDeviceList: $scope.UserDeviceDetails_List,
+                        HiveType: HiveType
                     };
                     $('#savemytab').attr("disabled", true);
                     $http.post(baseUrl + '/api/MyHome/Tab_InsertUpdate/', obj).success(function (data) {
@@ -812,7 +826,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                             toastr.info(data.Message, "info");
                         }
                         $('#savemytab').attr("disabled", false);
-                        $scope.TabList();
+                        $scope.TabList(HiveType);
                         $scope.Cancel_MYTAB();
                     }).error(function (data) {
                         $scope.error = "An error has occurred while deleting Parameter" + data;
@@ -836,7 +850,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $scope.DeviceList();
         }
         /* Device List */
-        $scope.DeviceList = function () {
+        $scope.DeviceList = function (HiveType = 1) {
             $("#chatLoaderPV").show();
             $scope.emptydataDevice = [];
             $scope.rowCollectionDevice = [];
@@ -857,7 +871,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 else if ($scope.IsActive == false) {
                     $scope.ISact = -1 //all
                 }
-                $http.get(baseUrl + '/api/MyHome/Device_List/?IsActive=' + $scope.ISact + '&InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
+                $http.get(baseUrl + '/api/MyHome/Device_List/?IsActive=' + $scope.ISact + '&InstitutionId=' + $window.localStorage['InstitutionId'] + '&HiveType=' + HiveType).success(function (data) {
                     $("#chatLoaderPV").hide();
                     $scope.emptydataDevice = data.TabDeviceList;
                     $scope.rowCollectionDevice = [];
@@ -1063,16 +1077,16 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         }
 
         /*Active the Device*/
-        $scope.ReInsertDevice = function (comId) {
+        $scope.ReInsertDevice = function (comId, HiveType = 1) {
             $scope.Id = comId;
-            $scope.ReInsertDeviceDetails();
+            $scope.ReInsertDeviceDetails(HiveType);
 
         };
         /* 
         Calling the api method to inactived the details of the Device List,
         and redirected to the list page.
         */
-        $scope.ReInsertDeviceDetails = function () {
+        $scope.ReInsertDeviceDetails = function (HiveType) {
             Swal.fire({
                 title: 'Do you like to activate the selected Device?',
                 html: '',
@@ -1090,7 +1104,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                         //alert("Selected Device has been activated successfully");
                         toastr.success("Selected Device has been activated successfully", "success");
                         $("#chatLoaderPV").hide();
-                        $scope.DeviceList();
+                        $scope.DeviceList(HiveType);
                     }).error(function (data) {
                         $scope.error = "An error has occurred while ReInsertDeviceDetails" + data;
                     });
@@ -1112,12 +1126,12 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
 
 
         /* THIS IS FOR DEACTIVATE FUNCTION*/
-        $scope.DeleteDevice = function (DId) {
+        $scope.DeleteDevice = function (DId, HiveType = 1) {
             $scope.Id = DId;
-            $scope.Device_Delete();
+            $scope.Device_Delete(HiveType);
         };
         /*THIS IS FOR DEACTIVE FUNCTION */
-        $scope.Device_Delete = function () {
+        $scope.Device_Delete = function (HiveType) {
             Swal.fire({
                 title: 'Do you like to deactivate the selected Device?',
                 html: '',
@@ -1135,7 +1149,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                         //alert(" Device details has been deactivated Successfully");
                         toastr.success(" Device details has been deactivated Successfully", "success");
                         $("#chatLoaderPV").hide();
-                        $scope.DeviceList();
+                        $scope.DeviceList(HiveType);
                     }).error(function (data) {
                         $scope.error = "An error has occurred while deleting  Device details" + data;
                     });
@@ -1165,7 +1179,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             angular.element('#DeviceAddModal').modal('hide');
         }
 
-        $scope.Device_InsertUpdate = function () {
+        $scope.Device_InsertUpdate = function (HiveType = 1) {
             if ($scope.DeviceValidationcontrols() == true) {
                 //if ($scope.Device_InsertUpdate_validation() == true) {
                 $("#chatLoaderPV").show();
@@ -1216,6 +1230,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     ParameterList: $scope.ParameterTypeList,
                     SelectedDeviceParameterList: $scope.ParameterDetails_List,
                     CreatedBy: $window.localStorage['UserId'],
+                    HiveType: HiveType
                 };
                 $('#btnsave').attr("disabled", true);
                 $http.post(baseUrl + '/api/MyHome/AddDeviceInsertUpdate/', obj).success(function (data) {
@@ -1228,7 +1243,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                         toastr.info(data.Message, "info");
                     }
                     $('#btnsave').attr("disabled", false);
-                    $scope.DeviceList();
+                    $scope.DeviceList(HiveType);
                     $scope.CancelDeviceList();
 
                 }).error(function (data) {

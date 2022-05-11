@@ -9,7 +9,7 @@ namespace MyCortex.Repositories
 {
     interface IMyHomeRepository
     {
-        IList<TabListModel> Tab_List(int? IsActive, long Institution_Id, Guid Login_Session_Id,long StartRowNumber, long EndRowNumber);
+        IList<TabListModel> Tab_List(int? IsActive, long Institution_Id, Guid Login_Session_Id,long StartRowNumber, long EndRowNumber, long HiveType);
         TabListModel Tab_ListView(int id);
         void Tab_List_Delete(int Id);
         IList<TabListModel> Tab_InsertUpdate(TabListModel obj);
@@ -21,7 +21,7 @@ namespace MyCortex.Repositories
         TabUserDetails Tab_User_Validation(TabUserDetails TabLoginObj);
         TabAdminDetails Tab_Logout_Validation(TabAdminDetails TabLoginObj);
         TabUserDashBordDetails GetDashBoardListDetails(long InstitutionId, long UserId, long TabId,Guid Login_Session_Id);
-        IList<TabDevicesModel> Get_DeviceList(int? IsActive, long Institution_ID); 
+        IList<TabDevicesModel> Get_DeviceList(int? IsActive, long Institution_ID, long HiveType); 
         IList<TabDevicesModel> Get_DeviceNameList(int? IsActive);
         IList<TabDevicesModel> Device_InsertUpdate(TabDevicesModel obj);
         IList<DashboardUserParameterSettingsModel> Dashboard_UserParameterSettings_InsertUpdate(DashboardUserParameterSettingsModel obj);

@@ -158,7 +158,12 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                 $scope.PageStart = 0
                 $scope.PageEnd = $scope.Patient_PerPage
                 //$scope.Input_Type = 1;
-                //$scope.SearchEncryptedQuery = $scope.searchquery;
+                //$scope.SearchEncryptedQuery = $scope.searchquery;                
+
+                // get the appointment payment status from subscription settings
+                $http.get(baseUrl + '/api/User/UserDetails_View?Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    $scope.AppointmoduleID = data.Appointment_Module_Id;
+                });
 
                 $http.get(baseUrl + '/api/User/PatientAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
                     $scope.UpComingAppointmentDetails = [];

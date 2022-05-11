@@ -15,7 +15,7 @@ namespace MyCortex.Repositories
         void EmailAlert_Delete(int Id);
         IList<EmailAlertmodel> EmailAlertDetails_AddEdit(EmailAlertmodel obj);    
         IList<EventModel> AlertEvent_List(int Institution_Id, int Id,int status);
-        IList<EventModel> DefaultAlertEvent_List(int Institution_Id);
+        IList<EventModel> DefaultAlertEvent_List(int Institution_Id, int Status);
         IList<EmailAlertmodel> Template_List(int TemplateType_Id, int Institution_Id);
         IList<EmailAlertmodel> EventTo_List(long EventId);
     }

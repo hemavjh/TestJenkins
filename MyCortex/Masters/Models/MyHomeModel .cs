@@ -28,6 +28,7 @@ namespace MyCortex.Masters.Models
         public IList<UserTabUserList> SelectedTabUserList { get; set; }
         public IList<TabDevicesList> DevicesList { get; set; }
         public IList<UserTabDevicesList> SelectedTabDeviceList { get; set; }
+        public long HiveType { get; set; }
     }
 
     public class TabIdReturnModels
@@ -66,6 +67,7 @@ namespace MyCortex.Masters.Models
         public long InstitutionId { get; set; }
         public int ISTAB { get; set; }
         public long DeviceTypeId { get; set; }
+        public long HiveType { get; set; }
     }
 
     public class TabUserModel
