@@ -13,5 +13,6 @@ namespace MyCortex.Masters.Models
         public Byte[] InsurancePhotoBlob { get; set; }
         public Byte[] CertificateBlob { get; set; }
         public string FileName { get; set; }
+        public string FileType { get; set; }
     }
 }

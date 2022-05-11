@@ -2141,19 +2141,25 @@ namespace MyCortex.User.Controller
                                 fileData = binaryReader.ReadBytes(postedFile.ContentLength);
                             }
                             //Image x = (Bitmap)((new ImageConverter()).ConvertFrom(fileData));
-                            Image img = ToImage(fileData);
-                            Size thumbnailSize = GetThumbnailSize(img);
-                            Image ThumImage = ResizeImage(img, thumbnailSize.Width, thumbnailSize.Height);
-                            Image Cimage = ResizeImage(img, 40, 40);
-                            //ImageConverter Class convert Image object to Byte array.
-                            byte[] compressimage = (byte[])(new ImageConverter()).ConvertTo(Cimage, typeof(byte[]));
-                            byte[] compressimage1 = (byte[])(new ImageConverter()).ConvertTo(ThumImage, typeof(byte[]));
-
-
+                            //Image img = ToImage(fileData);
+                            //Size thumbnailSize = GetThumbnailSize(img);
+                            //Image ThumImage = ResizeImage(img, thumbnailSize.Width, thumbnailSize.Height);
+                            //Image Cimage = ResizeImage(img, 40, 40);
+                            ////ImageConverter Class convert Image object to Byte array.
+                            //byte[] compressimage = (byte[])(new ImageConverter()).ConvertTo(Cimage, typeof(byte[]));
+                            //byte[] compressimage1 = (byte[])(new ImageConverter()).ConvertTo(ThumImage, typeof(byte[]));
                             if (Photo == 1)
                             {
+                                Image img = ToImage(fileData);
+                                Size thumbnailSize = GetThumbnailSize(img);
+                                Image ThumImage = ResizeImage(img, thumbnailSize.Width, thumbnailSize.Height);
+                                Image Cimage = ResizeImage(img, 40, 40);
+                                //ImageConverter Class convert Image object to Byte array.
+                                byte[] compressimage = (byte[])(new ImageConverter()).ConvertTo(Cimage, typeof(byte[]));
+                                byte[] compressimage1 = (byte[])(new ImageConverter()).ConvertTo(ThumImage, typeof(byte[]));
                                 repository.UserDetails_PhotoUpload(fileData, UserId);
                                 repository.UserDetails_PhotoImageCompress(compressimage, compressimage1, UserId, Created_By);
+                                Photo = 0;
                             }
                             else if (Certificate == 1)
                             {
