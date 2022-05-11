@@ -34,6 +34,7 @@ namespace MyCortex.Template.Models
          public long Type_Id { get; set; }
          public string Type_Name { get; set; }
          public string Result { get; set; }
+        public long TemplateAlertType { get; set; }
          public IList<EmailTemplateTagModel> EmailTemplateTagList { get; set; }
     }
      public class EmailTemplateReturnListModels

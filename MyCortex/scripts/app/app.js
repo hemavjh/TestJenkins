@@ -425,6 +425,14 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             templateUrl: baseUrl + 'Masters/Views/DeviceList.html',
             controller: 'MyHomeController'
         }).
+        when('/HiveChart', {
+            templateUrl: baseUrl + 'Masters/Views/MyhomeChart.html',
+            controller: 'MyHomeController'
+        }).
+        when('/DeviceListChart', {
+            templateUrl: baseUrl + 'Masters/Views/DeviceListChart.html',
+            controller: 'MyHomeController'
+        }).
         when('/Admin_Userslog_List', {
             templateUrl: baseUrl + 'Admin/Views/HospitalAdmin_Userslog.html',
             controller: 'UsersLogController'
