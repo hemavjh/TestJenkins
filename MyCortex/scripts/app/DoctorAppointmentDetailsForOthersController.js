@@ -31,12 +31,12 @@ DoctorAppointmentDetails.controller("DoctorAppointmentDetailsForOthersController
         $scope.ReasonTypeId = 0;
         $scope.Cancelled_Remarks = "";
         $scope.Appointment_Id = 0;
-        $scope.TimeZone_ID = 0;
+        //$scope.TimeZone_ID = 0;
         $("#chatLoaderPV").show();
-        $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-            $scope.TimeZone_ID = data.DefautTimeZone;
-            $scope.getTimeZoneList();
-        });
+        //$http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+        //    $scope.TimeZone_ID = data.DefautTimeZone;
+        //    $scope.getTimeZoneList();
+        //});
         $http.get(baseUrl + '/api/PatientAppointments/AppointmentReasonType_List/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
             $scope.AppointmentReasonTypeListTemp = [];
             $scope.AppointmentReasonTypeListTemp = data;
@@ -71,20 +71,24 @@ DoctorAppointmentDetails.controller("DoctorAppointmentDetailsForOthersController
                 $scope.TimeZoneCopy = data;
                 var obj = { "TimeZoneId": 0, "TimeZoneName": "", "UtcOffSet": "", "TimeZoneDisplayName": "Select", "IsActive": 1 };
                 $scope.TimeZoneCopy.splice(0, 0, obj);
+                angular.forEach($scope.TimeZoneCopy, function (value, index) {
+                    $scope.TimeZoneCopy[index].TimeZoneName = $scope.TimeZoneCopy[index].TimeZoneName.replaceAll(' ', '_')
+                });
                 $scope.TimeZoneList = angular.copy($scope.TimeZoneCopy);
+                var BrowserTZ = new Date().toString().match(/\(([A-Za-z\s].*)\)/)[1];
                 angular.forEach($scope.TimeZoneList, function (value, index) {
-                    if (value.TimeZoneDisplayName == $scope.TimeZone_ID) {
+                    if (value.TimeZoneName == BrowserTZ) {
                         $scope.TimeZone_ID = value.TimeZoneId;
                     }
                 });
                 $scope.TimeZoneID = $scope.TimeZone_ID;
                 setTimeout(() => {
-                    settimezone(0);
-                    settimezone($scope.TimeZone_ID);
+                    settimezone(BrowserTZ.replaceAll(' ', '_'));
                    $("#chatLoaderPV").hide();
                 }, 1000);
             });
         }
+        $scope.getTimeZoneList();
         $scope.current_page = 1;
         $scope.page_size = $window.localStorage['Pagesize'];
 
