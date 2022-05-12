@@ -27,7 +27,7 @@
     function setres() { $('ul li .doc-res:first').click(); }
     function settimezone(id) {
         //$('#timezone').val(id);
-        $('ul li .time'+id).click();
+        $('ul li .' + id).click();
     }
 </script>
 
@@ -78,7 +78,7 @@
                         </sup>
                     </label>
                     <select id="timezone" class="col-sm-12" ng-model="TimeZoneID" data-live-search="true" data-selectpicker data-collection-name="TimeZoneList">
-        <option ng-repeat="list in TimeZoneList" ng-selected="TimeZoneID == set.TimeZoneId" class="time{{list.TimeZoneId}}" value="{{list.TimeZoneId}}">{{list.TimeZoneDisplayName}}</option>
+        <option ng-repeat="list in TimeZoneList" ng-selected="TimeZoneID == set.TimeZoneId" class="{{list.TimeZoneName}}" value="{{list.TimeZoneId}}">{{list.TimeZoneDisplayName}}</option>
     </select>
                     <!--<select id="timezone" class="form-control" ng-model="TimeZoneID">
                         <option ng-repeat="set in TimeZoneList" ng-required="true" ng-selected="TimeZoneID == set.TimeZoneId"
