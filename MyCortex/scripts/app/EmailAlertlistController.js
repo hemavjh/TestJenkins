@@ -64,7 +64,7 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
                 //alert("Please select Email or App or Web for alert");
                 toastr.warning("Please select Email or App or Web or Sms for alert", "warning");
                 return false;
-            }
+            } 
             $scope.EventCodeName = "";
             angular.forEach($scope.AlertEvent, function (Selected, index) {
                 if ($scope.Event == Selected.Id) {
