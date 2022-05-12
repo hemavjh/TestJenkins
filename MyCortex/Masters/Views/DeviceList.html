@@ -52,7 +52,7 @@
     <thead>
         <tr style="text-align: center">
             <th st-ratio="5">#</th>
-            <th st-ratio="10" st-sort="TAB_NAME">Device Id</th>
+            <!--<th st-ratio="10" st-sort="TAB_NAME">Device Id</th>-->
             <th st-ratio="10" st-sort="TAB_REF_ID">Device Name</th>
             <th st-ratio="10" st-sort="TAB_MODEL">Device Make</th>
             <th st-ratio="10" st-sort="TAB_OS">Device Model</th>
@@ -72,7 +72,7 @@
         </tr>
         <tr ng-repeat="row in emptydataDevice">
             <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
-            <td style="text-align: left;width: 200px;word-break:break-word;"> <div class="textwrap">{{row.DeviceId}}</div> </td>
+            <!--<td style="text-align: left;width: 200px;word-break:break-word;"> <div class="textwrap">{{row.DeviceId}}</div> </td>-->
             <td style="text-align: left;width: 200px;word-break:break-word;">{{row.DeviceName}}</td>
             <td style="text-align: left;width: 200px;word-break:break-word;">{{row.Make}}</td>
             <td style="text-align: left;width: 200px;word-break:break-word;">{{row.ModelNumber}}</td>
