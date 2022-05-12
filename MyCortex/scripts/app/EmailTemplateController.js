@@ -352,7 +352,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                     angular.element('#EmailTemplateModal').modal('hide');
                 })
             }
-        }
+        } 
 
         /* THIS IS FOR LIST PROCEDURE */
         $scope.emptydata = [];
@@ -374,7 +374,11 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                 $http.get(baseUrl + '/api/EmailTemplate/EmailTemplateTag_List/?Id=' + $scope.InstituteId + '&IsActive=' + $scope.ISact + '&TemplateType_Id=' + $scope.PageParameter).success(function (data) {
                     $scope.emptydata = [];
                     $scope.rowCollection = [];
+                    $scope.EmailTempalteCollection  = [];
                     $scope.rowCollection = data;
+                    angular.forEach($scope.rowCollection, function (value, index) {
+                        value.EmailTemplate = value.EmailTemplate.replace("<p>", "").replace("</p>", "").replace("<br>", "").replace("</br>", "").replace("?\r\n", "").replace("<p>", "");
+                    });
                     $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
                     if ($scope.rowCollectionFilter.length > 0) {
                         $scope.flag = 1;
