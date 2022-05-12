@@ -711,9 +711,9 @@ li.customDropdownlast-child:hover {
 }
 
 .chronictIcon {
-    /*display: flex;*/
+    display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     position: relative;
     flex-basis: 100%;
     margin-bottom: 10px;
@@ -804,7 +804,7 @@ li.customDropdownlast-child:hover {
 .patientShortInfo {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     /*min-width: 417px;*/
     flex-wrap: wrap;
 }
