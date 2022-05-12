@@ -1648,7 +1648,7 @@ namespace MyCortex.User.Controller
 
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage CG_PatientAppointmentList(long Institution_Id, Guid Login_Session_Id, long UserId)
+        public HttpResponseMessage CG_PatientAppointmentList(long Institution_Id, Guid Login_Session_Id, long UserId, string TimeZoneName)
         {
             _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -1657,7 +1657,7 @@ namespace MyCortex.User.Controller
             try
             {
 
-                ModelData = repository.CG_PatientAppointmentList(Institution_Id, Login_Session_Id, UserId);
+                ModelData = repository.CG_PatientAppointmentList(Institution_Id, Login_Session_Id, UserId, TimeZoneName);
                 model.Status = "True";
                 model.Message = "Patient Appointment";
                 model.Error_Code = "";

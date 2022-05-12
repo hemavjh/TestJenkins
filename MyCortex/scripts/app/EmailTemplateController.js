@@ -91,35 +91,35 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                     $scope.SectionType = "BASIC,CG_ASSIGN";
                 else if (EmailSectionType == "Change Password")
                     $scope.SectionType = "BASIC";
-                else if (EmailSectionType == "Clinicians note")
+                else if (EmailSectionType == "Clinicians Note")
                     $scope.SectionType = "BASIC,CLINICIAN_NOTE";
                 else if (EmailSectionType == "Compliance Alert High")
                     $scope.SectionType = "BASIC";
-                else if (EmailSectionType == "Compliance Alert low")
+                else if (EmailSectionType == "Compliance Alert Low")
                     $scope.SectionType = "BASIC";
-                else if (EmailSectionType == "Compliance Alert medium")
+                else if (EmailSectionType == "Compliance Alert Medium")
                     $scope.SectionType = "BASIC";
                 else if (EmailSectionType == "Diagnostic Alert High")
                     $scope.SectionType = "BASIC,DIAG_COMP_ALERT";
-                else if (EmailSectionType == "Diagnostic Alert low")
+                else if (EmailSectionType == "Diagnostic Alert Low")
                     $scope.SectionType = "BASIC,DIAG_COMP_ALERT";
-                else if (EmailSectionType == "Diagnostic Alert medium")
+                else if (EmailSectionType == "Diagnostic Alert Medium")
                     $scope.SectionType = "BASIC,DIAG_COMP_ALERT";
                 else if (EmailSectionType == "Missed Call by doctor")
-                    $scope.SectionType = "BASIC";
+                    $scope.SectionType = "APPOINTMENT,CG_ASSIGN";
                 else if (EmailSectionType == "Missed Call by patient")
-                    $scope.SectionType = "BASIC";
+                    $scope.SectionType = "APPOINTMENT,CG_ASSIGN";
                 else if (EmailSectionType == "Patient Appointment Cancellation")
                     $scope.SectionType = "BASIC,APPOINTMENT";
                 else if (EmailSectionType == "Patient Appointment Creation")
                     $scope.SectionType = "BASIC,APPOINTMENT";
-                else if (EmailSectionType == "Patient Appointment Reminder(to doctor)")
+                else if (EmailSectionType == "Patient Appointment Reminder(to Doctor)")
                     $scope.SectionType = "BASIC,APPOINTMENT";
                 else if (EmailSectionType == "Patient Appointment Reminder(to Patient)")
                     $scope.SectionType = "BASIC,APPOINTMENT";
-                else if (EmailSectionType == "Patient sign up")
+                else if (EmailSectionType == "Patient Sign up")
                     $scope.SectionType = "BASIC";
-                else if (EmailSectionType == "Patient sign up approved")
+                else if (EmailSectionType == "Patient Sign up Approved")
                     $scope.SectionType = "BASIC";
                 else if (EmailSectionType == "Patient sign up more information required")
                     $scope.SectionType = "BASIC,PATIENT_MOREINFO";
@@ -134,9 +134,9 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                 else if (EmailSectionType == "Nearing patient limit")
                     $scope.SectionType = "BASIC";
                 else if (EmailSectionType == "Target Achieved Daily")
-                    $scope.SectionType = "BASIC";
+                    $scope.SectionType = "BASIC,APPOINTMENT,CG_ASSIGN";
                 else if (EmailSectionType == "Target Achieved weekly")
-                    $scope.SectionType = "BASIC";
+                    $scope.SectionType = "BASIC,APPOINTMENT,CG_ASSIGN";
                 else if (EmailSectionType == "New data captured - indication")
                     $scope.SectionType = "BASIC";
                 else if (EmailSectionType == "CG assignment by CC email")
@@ -352,7 +352,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                     angular.element('#EmailTemplateModal').modal('hide');
                 })
             }
-        }
+        } 
 
         /* THIS IS FOR LIST PROCEDURE */
         $scope.emptydata = [];
@@ -374,7 +374,11 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                 $http.get(baseUrl + '/api/EmailTemplate/EmailTemplateTag_List/?Id=' + $scope.InstituteId + '&IsActive=' + $scope.ISact + '&TemplateType_Id=' + $scope.PageParameter).success(function (data) {
                     $scope.emptydata = [];
                     $scope.rowCollection = [];
+                    $scope.EmailTempalteCollection  = [];
                     $scope.rowCollection = data;
+                    angular.forEach($scope.rowCollection, function (value, index) {
+                        value.EmailTemplate = value.EmailTemplate.replace("<p>", "").replace("</p>", "").replace("<br>", "").replace("</br>", "").replace("?\r\n", "").replace("<p>", "");
+                    });
                     $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
                     if ($scope.rowCollectionFilter.length > 0) {
                         $scope.flag = 1;

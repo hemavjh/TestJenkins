@@ -31,7 +31,8 @@ AppointmentApprovalController.controller("AppointmentApprovalController", ['$sco
         $scope.page_size = $window.localStorage['Pagesize'];
         $scope.CG_PatientAppointmentList = function () {
             $("#chatLoaderPV").show();
-            $http.get(baseUrl + '/api/User/CG_PatientAppointmentList/?UserId=' + $window.localStorage['UserId'] + '&Login_Session_Id=' + $scope.LoginSessionId + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data1) {
+            var BrowserTZ = new Date().toString().match(/\(([A-Za-z\s].*)\)/)[1];
+            $http.get(baseUrl + '/api/User/CG_PatientAppointmentList/?UserId=' + $window.localStorage['UserId'] + '&Login_Session_Id=' + $scope.LoginSessionId + '&Institution_Id=' + $window.localStorage['InstitutionId'] + '&TimeZoneName=' + BrowserTZ).success(function (data1) {
                 $("#chatLoaderPV").hide();
                 $scope.rowCollectionFilter = data1.PatientAppointmentList;
                 if (data1.PatientAppointmentList.length == 0) {
