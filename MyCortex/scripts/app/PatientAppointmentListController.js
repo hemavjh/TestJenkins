@@ -261,6 +261,13 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
             });
         }
         $scope.$on("appointment_list", intial_loading);
+
+        $scope.openvideocall = function (patientName) {
+            $('#Patient_AppointmentPanel').addClass('hidden');
+            $('#Patient_VideoCall').addClass('show');
+            var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=Test&isadmin=true&displayname=' + patientName + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+            document.getElementById('Patient_VideoCall').innerHTML = tag;
+        }
     }
 ]);
 
