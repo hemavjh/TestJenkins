@@ -518,13 +518,16 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public TabUserDashBordDetails GetDashBoardListDetails(long InstitutionId, long UserId, long TabId, Guid Login_Session_Id)
+        public TabUserDashBordDetails GetDashBoardListDetails(long InstitutionId, long UserId, long TabId, Guid Login_Session_Id, long PatientId)
         {
             _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             DataEncryption decrypt = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             string DeviceType = "TAB";
+
+            if (PatientId == 0)
+                PatientId = UserId;
 
             param.Add(new DataParameter("@INSTITUTIONID", InstitutionId));
             param.Add(new DataParameter("@USERID", UserId));
@@ -554,10 +557,10 @@ namespace MyCortex.Repositories.Masters
                                               }).FirstOrDefault();
                 if (lst != null)
                 {
-                    lst.TabParameterList = GroupParameterNameLists(lst.InstitutionId, lst.UserId);
+                    lst.TabParameterList = GroupParameterNameLists(lst.InstitutionId, PatientId);
                     //lst.TabAlertsList = Get_ParameterValue(lst.UserId, lst.UserTypeId, Login_Session_Id);
-                    lst.TabAppointmentList = PatientAppoinmentsList(lst.UserId, Login_Session_Id);
-                    lst.TabMedicationList = MedicationView(lst.UserId, Login_Session_Id);
+                    lst.TabAppointmentList = PatientAppoinmentsList(PatientId, Login_Session_Id);
+                    lst.TabMedicationList = MedicationView(PatientId, Login_Session_Id);
                 }
 
                 return lst;
