@@ -856,6 +856,32 @@ namespace MyCortex.Repositories.Uesr
             //list.FullName = list.FullName;
             return list;
         }
+
+        /// <summary>      
+        /// Getting user list of doctor
+        /// </summary>          
+        /// <returns> user list of doctor</returns>
+        //  [CheckSessionOut]
+        public IList<ItemizedUserDetailsModel> Doctor_Group_CCCG_List(long DoctorId, long InstitutionId, int? IsActive, Guid Login_Session_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@IsActive", IsActive));
+            param.Add(new DataParameter("@InstitutionId", InstitutionId));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@DoctorId", DoctorId));
+
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].DOCTOR_GROUP_CCCG_SP_LIST", param);
+            List<ItemizedUserDetailsModel> list = (from p in dt.AsEnumerable()
+                                                   select new ItemizedUserDetailsModel()
+                                                   {
+                                                       Id = p.Field<long>("Id"),
+                                                       INSTITUTION_ID = p.Field<long?>("INSTITUTION_ID"),
+                                                       FullName = p.Field<string>("FullName"),
+                                                   }).ToList();
+            //list.FullName = list.FullName;
+            return list;
+        }
+
         /// <summary>
         /// to get list of patients based on given filter
         /// </summary>
@@ -876,7 +902,7 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Group_Id"></param>
         /// <param name="IsActive"></param>
         /// <param name="INSTITUTION_ID"></param>
-         /// <param name="StartRowNumber"></param>
+        /// <param name="StartRowNumber"></param>
         ///  <param name="EndRowNumber"></param>
         /// <returns></returns>
         public IList<ItemizedUserDetailsModel> Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber,string SearchQuery,string SearchEncryptedQuery)
