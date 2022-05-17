@@ -3643,7 +3643,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 var ChartORData = 2;
             }
             //var ChartORData = 2;
-            $scope.AllDetailsList($scope.TabClicked, ChartORData);
+            if ($scope.VitalChart == '2') {
+                $scope.AllDetailsList($scope.TabClicked, ChartORData);
+            } else {
+
+            }
         };
 
         $scope.VitalParametersDetailsHistory = function () {
