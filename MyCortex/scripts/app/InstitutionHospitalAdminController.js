@@ -678,8 +678,30 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
         };
 
         $scope.InstitueConfigurationStep16 = function () {
-            $("#runConfig").text('Processing(100%)....');
+            /*$("#runConfig").text('Processing(98%)....');*/
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=16', $scope.InstituteId).success(function (data) {
+                $("#runConfig").text('Processing(98%)....');
+                $scope.InstitueConfigurationStep17();
+                //setTimeout(function () {
+                //    //alert("Configuration Steps Completed!");
+                //    toastr.success("Configuration Steps Completed!", "success");
+                //}, 5000);
+                //$("#runConfig").text('Re-run configuration');
+                //$("#runConfig").removeClass('disabled');
+            }).error(function (data) {
+                //$("#runConfig").text('Processing(98%)....');
+                //alert("Error In Step 16");
+                toastr.info("Error In Step 16", "info");
+                $("#runConfig").text('Processing(98%)....');
+                $scope.InstitueConfigurationStep17();
+                //$("#runConfig").text('Re-run configuration');
+                //$("#runConfig").removeClass('disabled');
+            });
+        };
+
+        $scope.InstitueConfigurationStep17 = function () {
+            $("#runConfig").text('Processing(100%)....');
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=17', $scope.InstituteId).success(function (data) {
                 $("#runConfig").text('Processing(100%)....');
                 setTimeout(function () {
                     //alert("Configuration Steps Completed!");
@@ -691,7 +713,7 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
             }).error(function (data) {
                 $("#runConfig").text('Processing(100%)....');
                 //alert("Error In Step 16");
-                toastr.info("Error In Step 16", "info");
+                toastr.info("Error In Step 17", "info");
                 $("#runConfig").text('Re-run configuration');
                 $("#runConfig").removeClass('disabled');
             });
