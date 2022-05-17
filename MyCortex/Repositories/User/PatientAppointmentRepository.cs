@@ -501,7 +501,7 @@ namespace MyCortex.Repositories.Uesr
             long[] arr = new long[obj.Doctor_Id.Count];
             int i = 0;
             string CgIds = (obj.CC_CG.Select(x => x.CcCg_Id.ToString())).Aggregate((a, b) => (a + ", " + b));
-            long CG_HAVE_NOHOLIDAY = 0;
+            long DOC_HAVE_NOHOLIDAY = 0, CG_HAVE_SHIFT = 0;
             foreach (DoctorsId item in obj.Doctor_Id)
             {
                 List<DataParameter> param = new List<DataParameter>();
@@ -551,24 +551,9 @@ namespace MyCortex.Repositories.Uesr
                     }
                     arr[i] = InsertId;
                     i = i + 1;
-                    if (InsertId > 0)
-                    {
-                        foreach (CcCg item3 in obj.CC_CG)
-                        {
-                            List<DataParameter> param2 = new List<DataParameter>();
-                            param2.Add(new DataParameter("@Id", item3.Id));
-                            param2.Add(new DataParameter("@DOCTORSHIFT_ID", InsertId));
-                            param2.Add(new DataParameter("@CC_CG", item3.CcCg_Id));
-                            param2.Add(new DataParameter("@ISACTIVE", item3.IsActive));
-                            param2.Add(new DataParameter("@CREATED_BY", obj.CreatedBy));
-                            param2.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
-
-                            DataTable dt_1 = ClsDataBase.GetDataTable("[MYCORTEX].[DoctorShift_CcCg_INSERTUPDATE]", param2);
-                            DataRow dr_1 = dt_1.Rows[0];
-                        }
-                    }
                     if (InsertId > 0 && (Flag == 2 || Flag == 3))
                     {
+                        var xy = 0;
                         foreach (SelectedDaysList item1 in obj.SelectedDaysList)
                         {
                             DataTable dt_shift = new DataTable();
@@ -583,11 +568,18 @@ namespace MyCortex.Repositories.Uesr
                             List<DataParameter> param5 = new List<DataParameter>();
                             param5.Add(new DataParameter("@INSTITUTION_ID", obj.Institution_Id));
                             param5.Add(new DataParameter("@SHIFT_DETAILS", dt_shift));
-                            param5.Add(new DataParameter("@CgIds", CgIds));
-                            DataTable dt3 = ClsDataBase.GetDataTable("[MYCORTEX].[TBLCG_Duplicate_Check]", param5);
+                            param5.Add(new DataParameter("@DocIds", item.DoctorId.ToString()));
+                            DataTable dt3 = ClsDataBase.GetDataTable("[MYCORTEX].[TBLDOC_HOLIDAY_CHECK_FOR_APPOINTMENT]", param5);  // this procedure check doctors put holiday in particular appointment dates
                             DataRow dr3 = dt3.Rows[0];
-                            CG_HAVE_NOHOLIDAY = long.Parse((dr3["DuplicateCount"].ToString()));
-                            if (CG_HAVE_NOHOLIDAY == 1)
+                            DOC_HAVE_NOHOLIDAY = long.Parse((dr3["DuplicateCount"].ToString()));
+                            List<DataParameter> cg_param = new List<DataParameter>();
+                            cg_param.Add(new DataParameter("@INSTITUTION_ID", obj.Institution_Id));
+                            cg_param.Add(new DataParameter("@SHIFT_DETAILS", dt_shift));
+                            cg_param.Add(new DataParameter("@CgIds", CgIds));
+                            DataTable cg_dt = ClsDataBase.GetDataTable("[MYCORTEX].[CHECK_DUPLICATE_APPOINTMENT_SHIFT_FOR_CG]", cg_param);  // this procedure check cg/cc have shifts in particular appointment dates
+                            DataRow cg_dr = cg_dt.Rows[0];
+                            CG_HAVE_SHIFT = long.Parse((cg_dr["DuplicateCount"].ToString()));
+                            if (DOC_HAVE_NOHOLIDAY == 1 && CG_HAVE_SHIFT == 1)
                             {
                                 foreach (SlotsList item2 in item1.TimeSlot)
                                 {
@@ -619,7 +611,24 @@ namespace MyCortex.Repositories.Uesr
                             }
                             else
                             {
+                                xy = 1;
                                 break;
+                            }
+                        }
+                        if (xy == 0)
+                        {
+                            foreach (CcCg item3 in obj.CC_CG)
+                            {
+                                List<DataParameter> param2 = new List<DataParameter>();
+                                param2.Add(new DataParameter("@Id", item3.Id));
+                                param2.Add(new DataParameter("@DOCTORSHIFT_ID", InsertId));
+                                param2.Add(new DataParameter("@CC_CG", item3.CcCg_Id));
+                                param2.Add(new DataParameter("@ISACTIVE", item3.IsActive));
+                                param2.Add(new DataParameter("@CREATED_BY", obj.CreatedBy));
+                                param2.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+
+                                DataTable dt_1 = ClsDataBase.GetDataTable("[MYCORTEX].[DoctorShift_CcCg_INSERTUPDATE]", param2);
+                                DataRow dr_1 = dt_1.Rows[0];
                             }
                         }
                     }
@@ -652,12 +661,12 @@ namespace MyCortex.Repositories.Uesr
                     return null;
 
                 }
-                if (CG_HAVE_NOHOLIDAY == 0)
+                if (DOC_HAVE_NOHOLIDAY == 0 || CG_HAVE_SHIFT == 0)
                 {
                     break;
                 }
             }
-            if (CG_HAVE_NOHOLIDAY == 1 || InsertId == 0)
+            if ((DOC_HAVE_NOHOLIDAY == 1 && CG_HAVE_SHIFT == 1) || InsertId == 0)
             {
                 int y = arr.Count(x => x == 0);
                 if (y != arr.Length)
@@ -682,6 +691,17 @@ namespace MyCortex.Repositories.Uesr
                                                    }).ToList();
                     return INS;
                 }
+            }
+            else if (DOC_HAVE_NOHOLIDAY == 0)
+            {
+                IList<DoctorShiftModel> INS = (from p in Dt3.AsEnumerable()
+                                               select
+                                               new DoctorShiftModel()
+                                               {
+                                                   ID = 0,
+                                                   Flag = 5,
+                                               }).ToList();
+                return INS;
             }
             else
             {
