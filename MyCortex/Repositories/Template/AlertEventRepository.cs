@@ -80,9 +80,10 @@ namespace MyCortex.Repositories.EmailAlert
                     Result_param.Add(new DataParameter("@SectionName", Section));
                     Result_param.Add(new DataParameter("@PrimaryKey_Id", EntityId));
                     DataTable Result_dt = ClsDataBase.GetDataTable("[MYCORTEX].[TEMPLATE_RESULTLIST]", Result_param);
+                    string Time = DateTime.Now.ToString("h:mm:ss tt");
 
                     //Replaced Process
-                     foreach (DataRow dtRow in Result_dt.Rows)
+                    foreach (DataRow dtRow in Result_dt.Rows)
                     {
                         List<DataParameter> param2 = new List<DataParameter>();
                         param2.Add(new DataParameter("@TemplateType_Id", Template_Id));
@@ -96,12 +97,28 @@ namespace MyCortex.Repositories.EmailAlert
                             EncryptFlag = int.Parse(dtRow1["ENCRYPT_FLAG"].ToString());
                             if (Result_dt.Columns.Contains(FieldName))
                             {
-                                if(FieldName == "LoginURL")
+                                if(TagName == "Time")
+                                {
+                                    TagsReplaceData = Time;
+                                }
+                                if(TagName == "Login Url")
                                 {
                                     var URLConvert = "";
                                     URLConvert = dtRow[FieldName].ToString();
                                     TagsReplaceData = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
                                     //< a href =\" + URLConvert + " + "#/login </a>"
+                                }
+                                else if (TagName == "Reset")
+                                {
+                                    var URLConvert = "";
+                                    URLConvert = dtRow[FieldName].ToString();
+                                    TagsReplaceData = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
+                                }
+                                else if (TagName == "Link")
+                                {
+                                    var URLConvert = "";
+                                    URLConvert = dtRow[FieldName].ToString();
+                                    TagsReplaceData = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
                                 }
                                 else
                                 {
