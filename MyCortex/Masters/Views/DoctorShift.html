@@ -288,9 +288,19 @@
                                                                 <font class='mandatory-field'>*</font>
                                                             </sup>
                                                         </label>
-                                                        <select id="Specialist" ng-model="SelectedSpecialist" multiple="multiple"
+                                                        <!--<select id="Specialist" ng-model="SelectedSpecialist" multiple="multiple" ng-change="onChangeSpecialist()"
                                                                 ng-options="item2.Doctor_Id as item2.DoctorName for item2 in SelectedDoctorList"
-                                                                multiselect-dropdown style="width: 220px;"></select>
+                                                                multiselect-dropdown style="width: 220px;"></select>-->
+
+                                                        <select class="" data-style="form-control" ng-model="SelectedDoctor" id="doctorlist"
+                                                                data-live-search="true" data-selectpicker data-collection-name="SelectedDoctorList"
+                                                                ng-change="onChangeSpecialist()">
+                                                            <option value="0" selected>Select</option>
+                                                            <option ng-repeat="sel in SelectedDoctorList" ng-selected="SelectedDoctor==sel.Doctor_Id"
+                                                                    value="{{sel.Doctor_Id}}">
+                                                                {{sel.DoctorName}}
+                                                            </option>
+                                                        </select>
                                                     </div>
 
                                                 </div>
