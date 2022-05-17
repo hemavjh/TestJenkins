@@ -429,6 +429,35 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
+        public IList<AppointmentDuration> GetAppointmentTypeDuration(long DoctorId, DateTime Date, Guid Login_Session_Id, long Institution_Id)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@DOCTORID", DoctorId));
+            param.Add(new DataParameter("@DATE", Date));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_APPOINTMENTTYPE_DURATION]", param);
+                List<AppointmentDuration> lst = (from p in dt.AsEnumerable()
+                                                            select new AppointmentDuration()
+                                                            {
+                                                                NewAppointmentDuration = p.Field<Int32>("NEWAPPOINTMNET"),
+                                                                FollowUpDuration = p.Field<Int32>("FOLLOWUP")
+                                                            }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
         public IList<DoctorAppointmentTimeSlotModel> GetDoctorAppointmentDetails(long DoctorId, DateTime Date, Guid Login_Session_Id, long TimeZoneId, long Institution_Id)
         {
             _AppLogger = this.GetType().FullName;

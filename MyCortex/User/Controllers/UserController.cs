@@ -1648,7 +1648,7 @@ namespace MyCortex.User.Controller
 
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage CG_PatientAppointmentList(long Institution_Id, Guid Login_Session_Id, long UserId)
+        public HttpResponseMessage CG_PatientAppointmentList(long Institution_Id, Guid Login_Session_Id, long UserId, string TimeZoneName)
         {
             _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -1657,7 +1657,7 @@ namespace MyCortex.User.Controller
             try
             {
 
-                ModelData = repository.CG_PatientAppointmentList(Institution_Id, Login_Session_Id, UserId);
+                ModelData = repository.CG_PatientAppointmentList(Institution_Id, Login_Session_Id, UserId, TimeZoneName);
                 model.Status = "True";
                 model.Message = "Patient Appointment";
                 model.Error_Code = "";
@@ -2141,19 +2141,25 @@ namespace MyCortex.User.Controller
                                 fileData = binaryReader.ReadBytes(postedFile.ContentLength);
                             }
                             //Image x = (Bitmap)((new ImageConverter()).ConvertFrom(fileData));
-                            Image img = ToImage(fileData);
-                            Size thumbnailSize = GetThumbnailSize(img);
-                            Image ThumImage = ResizeImage(img, thumbnailSize.Width, thumbnailSize.Height);
-                            Image Cimage = ResizeImage(img, 40, 40);
-                            //ImageConverter Class convert Image object to Byte array.
-                            byte[] compressimage = (byte[])(new ImageConverter()).ConvertTo(Cimage, typeof(byte[]));
-                            byte[] compressimage1 = (byte[])(new ImageConverter()).ConvertTo(ThumImage, typeof(byte[]));
-
-
+                            //Image img = ToImage(fileData);
+                            //Size thumbnailSize = GetThumbnailSize(img);
+                            //Image ThumImage = ResizeImage(img, thumbnailSize.Width, thumbnailSize.Height);
+                            //Image Cimage = ResizeImage(img, 40, 40);
+                            ////ImageConverter Class convert Image object to Byte array.
+                            //byte[] compressimage = (byte[])(new ImageConverter()).ConvertTo(Cimage, typeof(byte[]));
+                            //byte[] compressimage1 = (byte[])(new ImageConverter()).ConvertTo(ThumImage, typeof(byte[]));
                             if (Photo == 1)
                             {
+                                Image img = ToImage(fileData);
+                                Size thumbnailSize = GetThumbnailSize(img);
+                                Image ThumImage = ResizeImage(img, thumbnailSize.Width, thumbnailSize.Height);
+                                Image Cimage = ResizeImage(img, 40, 40);
+                                //ImageConverter Class convert Image object to Byte array.
+                                byte[] compressimage = (byte[])(new ImageConverter()).ConvertTo(Cimage, typeof(byte[]));
+                                byte[] compressimage1 = (byte[])(new ImageConverter()).ConvertTo(ThumImage, typeof(byte[]));
                                 repository.UserDetails_PhotoUpload(fileData, UserId);
                                 repository.UserDetails_PhotoImageCompress(compressimage, compressimage1, UserId, Created_By);
+                                Photo = 0;
                             }
                             else if (Certificate == 1)
                             {

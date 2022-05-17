@@ -1091,6 +1091,13 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $http.get(baseUrl + '/api/PatientAppointments/GetDoctorAppointmentTimeSlot/?DoctorId=' + DoctorIDs + '&Date=' + res1 + '&IsNew=' + $scope.IsNew + '&Login_Session_Id=' + $scope.LoginSessionId + '&TimeZoneId=' + $scope.TimeZoneID + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data1) {
                             $("#appoint_waveLoader").hide();
                             $scope.newAppoiTimeSlot = data1.DoctorAppointmentTimeSlotList;
+
+                            if (data1.DoctorAppointmentDurationList != null) {
+                                if (data1.DoctorAppointmentDurationList.length > 0) {
+                                    $scope.NewAppointmentDuration = data1.DoctorAppointmentDurationList[0].NewAppointmentDuration;
+                                    $scope.FollowUpDuration = data1.DoctorAppointmentDurationList[0].FollowUpDuration;
+                                }
+                            }
                            
                             if ($scope.newAppoiTimeSlot.length == 0) {
                                 $scope.DataNotAvailible = 1;
@@ -2212,6 +2219,10 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             var callFunction = true;
             $scope.current_page = 1;
             $scope.inputPageNo = 1;
+            if ($window.localStorage['CurrentTabId'] == 9) {
+                $scope.currentTab = localStorage['CurrentTabId'];
+                localStorage.setItem('CurrentTabId', TabClicked);
+            }
             $('.chartTabs').removeClass('charTabsNone');
             $scope.ParamGroup_Id = 0;
             if (TabClicked == "1" && $scope.LifestyleTab_Clicked == "0") {
@@ -6130,11 +6141,24 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.NumberOfDays = function (NoOfDays, rowItem, EndDate) {
             $scope.sDate = moment($scope.StartDate).format('DD-MMM-YYYY');
             $scope.EndDate = moment($scope.sDate).add(NoOfDays, 'days').format('YYYY-MM-DD');
-            angular.forEach($scope.AddMedicationDetails, function (value, index) {
-                if (rowItem == index) {
-                    value.EndDate = DateFormatEdit($filter('date')($scope.EndDate, 'dd-MMM-yyyy'));
-                }
-            });
+            if (NoOfDays == "0" || NoOfDays == "" || NoOfDays == null) {
+                angular.forEach($scope.AddMedicationDetails, function (value, index) {
+                    if (rowItem == index) {
+                        $scope.EndDate = "";
+                        value.EndDate = DateFormatEdit($filter('date')($scope.EndDate, 'dd-MMM-yyyy'));
+                    }
+                });
+            }
+            else
+            {
+                angular.forEach($scope.AddMedicationDetails, function (value, index) {
+                    if (rowItem == index) {
+                        value.EndDate = DateFormatEdit($filter('date')($scope.EndDate, 'dd-MMM-yyyy'));
+                    }
+                });
+            }
+               
+            
             $scope.AddMedicationDetails = angular.copy($scope.AddMedicationDetails);
             //document.getElementById('End_Date').value = $scope.EndDate;
         }
@@ -6142,11 +6166,23 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.ChangeDate = function (NoOfDays, StartDate, rowItem) {
             $scope.sDate = moment(StartDate).format('DD-MMM-YYYY');
             $scope.EndDate = moment($scope.sDate).add(NoOfDays, 'days').format('YYYY-MM-DD');
-            angular.forEach($scope.AddMedicationDetails, function (value, index) {
-                if (rowItem == index) {
-                    value.EndDate = DateFormatEdit($filter('date')($scope.EndDate, 'dd-MMM-yyyy'));
-                }
-            });
+            if (NoOfDays == "0" || NoOfDays == "" || NoOfDays == null) {
+                angular.forEach($scope.AddMedicationDetails, function (value, index) {
+                    if (rowItem == index) {
+                        $scope.EndDate = "";
+                        value.EndDate = DateFormatEdit($filter('date')($scope.EndDate, 'dd-MMM-yyyy'));
+                    }
+                });
+            } else {
+
+                angular.forEach($scope.AddMedicationDetails, function (value, index) {
+                    if (rowItem == index) {
+                        value.EndDate = DateFormatEdit($filter('date')($scope.EndDate, 'dd-MMM-yyyy'));
+                    }
+                });
+            }
+            
+           
             $scope.AddMedicationDetails = angular.copy($scope.AddMedicationDetails);
         }
         // Add row concept  for Patient MedicationDetails
@@ -6158,7 +6194,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             'RouteId': 0,
             'NoOfDays': "",
             'StartDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
-            'EndDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
+            //'EndDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
+            'EndDate':"",
             ' Created_By': 0
 
         }];
@@ -6173,7 +6210,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     'RouteId': 0,
                     'NoOfDays': "",
                     'StartDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
-                    'EndDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
+                    //'EndDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
+                    'EndDate':"",
                     ' Created_By': 0
                 }
                 $scope.AddMedicationDetails.push(obj);
@@ -6187,7 +6225,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     'RouteId': 0,
                     'NoOfDays': "",
                     'StartDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
-                    'EndDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
+                   // 'EndDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
+                    'EndDate':"",
                     ' Created_By': 0
                 }];
             }
@@ -6247,7 +6286,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                 'RouteId': 0,
                                 'NoOfDays': "",
                                 'StartDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
-                                'EndDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
+                                //'EndDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
+                                'EndDate':"",
                                 'Created_By': 0
                             }];
                         }
@@ -6283,13 +6323,17 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 if (value.StartDate == null || value.StartDate == "") {
                     Startdate = 1;
                 }
-                if ((value.EndDate == null || value.EndDate == "") && $scope.Medication_End_Date=='True') {
+                if ((value.EndDate == null || value.EndDate == "") && $scope.Medication_End_Date == 'True') {
                     Enddate = 1;
                 }
                 if ((value.StartDate !== null) && (value.EndDate !== null)) {
                     value.StartDate = moment(value.StartDate).format('DD-MMM-YYYY');
-                    value.EndDate = moment(value.EndDate).format('DD-MMM-YYYY');
-
+                    if (value.EndDate == undefined || value.EndDate == null || value.EndDate == "" ) {
+                        value.EndDate = "";
+                    }
+                    else {
+                        value.EndDate = moment(value.EndDate).format('DD-MMM-YYYY');
+                    }
                     if ((ParseDate(value.EndDate) < ParseDate(value.StartDate))) {
                         dateval = 1;
                     }
@@ -6452,7 +6496,13 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             }
             else if (($scope.StartDate !== null) && ($scope.EndDate !== null)) {
                 $scope.StartDate = moment($scope.StartDate).format('DD-MMM-YYYY');
-                $scope.EndDate = moment($scope.EndDate).format('DD-MMM-YYYY');
+                //$scope.EndDate = moment($scope.EndDate).format('DD-MMM-YYYY');
+                if ($scope.EndDate == undefined || $scope.EndDate == null || $scope.EndDate == 0) {
+                    $scope.EndDate = "";
+                }
+                else {
+                    $scope.EndDate = moment($scope.EndDate).format('DD-MMM-YYYY');
+                }
 
                 if ((ParseDate($scope.EndDate) < ParseDate($scope.StartDate))) {
                     //alert("Start Date Should not be greater than End Date");
@@ -6469,15 +6519,30 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.NoOfDaysEdit = function (NoOfDays, EndDate) {
             $scope.sDate = moment($scope.StartDate).format('DD-MMM-YYYY');
             $scope.EndDate = moment($scope.sDate).add(NoOfDays, 'days').format('YYYY-MM-DD');
-            document.getElementById('E_Date').value = $scope.EndDate;
-            $scope.EndDate = DateFormatEdit($filter('date')($scope.EndDate, 'dd-MMM-yyyy'));
+            if (NoOfDays == "0" || NoOfDays == "" || NoOfDays == null) {
+                $scope.EndDate = "";
+                document.getElementById('E_Date').value = $scope.EndDate;
+                $scope.EndDate = DateFormatEdit($filter('date')($scope.EndDate, 'dd-MMM-yyyy'));
+            }
+            else {
+                document.getElementById('E_Date').value = $scope.EndDate;
+                $scope.EndDate = DateFormatEdit($filter('date')($scope.EndDate, 'dd-MMM-yyyy'));
+            }
         }
 
         $scope.EditChangeDate = function (NoOfDays, StartDate) {
             $scope.sDate = moment(StartDate).format('DD-MMM-YYYY');
             $scope.EndDate = moment($scope.sDate).add(NoOfDays, 'days').format('YYYY-MM-DD');
-            document.getElementById('E_Date').value = $scope.EndDate;
-            $scope.EndDate = DateFormatEdit($filter('date')($scope.EndDate, 'dd-MMM-yyyy'));
+            if (NoOfDays == "0" || NoOfDays == "" || NoOfDays == null) {
+                $scope.EndDate = "";
+                document.getElementById('E_Date').value = $scope.EndDate;
+                $scope.EndDate = DateFormatEdit($filter('date')($scope.EndDate, 'dd-MMM-yyyy'));
+            }
+            else {
+                document.getElementById('E_Date').value = $scope.EndDate;
+                $scope.EndDate = DateFormatEdit($filter('date')($scope.EndDate, 'dd-MMM-yyyy'));
+            }
+            
         }
         $scope.MedicationList = [];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
@@ -6702,7 +6767,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 'NoOfDays': '',
                 'RouteId': 0,
                 'StartDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
-                'EndDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'))
+                //'EndDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'))
+                'EndDate':''
             }];
         }
         $scope.CancelEditMedicationPopUp = function () {

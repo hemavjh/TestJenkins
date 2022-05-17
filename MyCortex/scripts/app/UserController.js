@@ -61,6 +61,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.MiddleName = "";
         $scope.LastName = "";
         $scope.Employee_No = "";
+        $scope.editcertificate = "";
         $scope.EmailId = "";
         $scope.MobileNo = "";
         $scope.MobileNo_CC = "";
@@ -159,6 +160,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.Filter_MRN = "";
         $scope.filter_InsuranceId = "";
         $scope.filter_MOBILE_NO = "";
+        $scope.FileType = "";
         $scope.filter_HomePhoneNo = "";
         $scope.filter_Email = "";
         $scope.Filter_GenderId = "0";
@@ -255,7 +257,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 if (data[0] != undefined) {
                     $scope.PatientMinAge = parseInt(data[0].ConfigValue);
                     $scope.maxdateDOB = moment().subtract($scope.PatientMinAge, 'years').format("YYYY-MM-DD");
-                    var MDOB = $scope.maxdateDOB;                    
+                    var MDOB = $scope.maxdateDOB;
                     angular.element(document.getElementById('maxdateDOB')).val(MDOB);
                     angular.element('#Date_Birth').attr('max', $scope.maxdateDOB);
                 }
@@ -276,6 +278,45 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.ClearGroup = function () {
             $scope.SelectedGroup = "0";
         }
+
+        $http.get(baseUrl + '/api/Common/ChronicConditionList/').success(function (data) {
+            $scope.ChronicConditionList = data;
+        });
+        $http.get(baseUrl + '/api/Common/GenderList/').success(function (data) {
+            $scope.GenderList = data;
+        });
+        $http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
+            $scope.DepartmentList = data;
+        });
+        $http.get(baseUrl + '/api/User/BusinessUser_UserTypeList/').success(function (data) {
+            $scope.UserTypeList = data;
+        });
+        $http.get(baseUrl + '/api/Common/NationalityList/').success(function (data) {
+            $scope.NationalityList = data;
+        });
+        $http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (data) {
+            $scope.MaritalStatusListTemp = [];
+            $scope.MaritalStatusListTemp = data;
+            $scope.MaritalStatusList = angular.copy($scope.MaritalStatusListTemp);
+        });
+        $http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (data) {
+            $scope.EthnicGroupListTemp = [];
+            $scope.EthnicGroupListTemp = data;
+            $scope.EthnicGroupList = angular.copy($scope.EthnicGroupListTemp);
+            //validation checking for ethnic group
+            //$scope.PatientEthnicChange();
+        });
+        $http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (data) {
+            $scope.BloodGroupListTemp = [];
+            $scope.BloodGroupListTemp = data;
+            $scope.BloodGroupList = angular.copy($scope.BloodGroupListTemp);
+        });
+        $http.get(baseUrl + '/api/Common/RelationshipList/').success(function (data) {
+            $scope.RelationshipList = data;
+        });
+        $http.get(baseUrl + '/api/Common/DietTypeList/').success(function (data) {
+            $scope.DietTypeList = data;
+        });
 
         //$scope.genderChange = function () {
         //    var genderId = document.getElementById('Select3').value;
@@ -411,6 +452,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $('#divCity').addClass("ng-invalid");
             $('#divState').addClass("ng-invalid");
             $scope.submitted = false;
+            $scope.editcertificate = false;
             $('#btnsave').attr("disabled", false);
             $('#btnsave2').attr("disabled", false);
             $("#UserLogo").val('');
@@ -525,6 +567,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             }
 
             $scope.submitted = false;
+            $scope.editcertificate = true;
             $('#btnsave').attr("disabled", true);
             $('#btnsave2').attr("disabled", true);
             $scope.uploadme = null;
@@ -603,10 +646,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.Gender_Name;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
-                        maleId = value.Id;
+                        maleId = value.Id.toString();
                     }
                     else if ($scope.Gender_Name.toLowerCase() == "female") {
-                        feMaleId = value.Id;
+                        feMaleId = value.Id.toString();
                     }
                 });
 
@@ -686,10 +729,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.Gender_Name;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
-                        maleId = value.Id;
+                        maleId = value.Id.toString();
                     }
                     else if ($scope.Gender_Name.toLowerCase() == "female") {
-                        feMaleId = value.Id;
+                        feMaleId = value.Id.toString();
                     }
                 });
 
@@ -779,10 +822,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.Gender_Name;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
-                        maleId = value.Id;
+                        maleId = value.Id.toString();
                     }
                     else if ($scope.Gender_Name.toLowerCase() == "female") {
-                        feMaleId = value.Id;
+                        feMaleId = value.Id.toString();
                     }
                 });
 
@@ -803,7 +846,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         var reader = new FileReader();
                         reader.readAsDataURL(request.response);
                         reader.onload = function (e) {
-                            $scope.uploadmes = e.target.result;                            
+                            $scope.uploadmes = e.target.result;
                             $scope.uploadme = $scope.uploadmes;
                             $scope.$apply();
                         };
@@ -819,10 +862,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.Gender_Name;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
-                        maleId = value.Id;
+                        maleId = value.Id.toString();
                     }
                     else if ($scope.Gender_Name.toLowerCase() == "female") {
-                        feMaleId = value.Id;
+                        feMaleId = value.Id.toString();
                     }
                 });
 
@@ -835,7 +878,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         picPath1 = "../../Images/National_Male.png";
                     }
 
-                      if (photoview == false) {
+                if (photoview == false) {
                     var request1 = new XMLHttpRequest();
                     request1.open('GET', picPath1, true);
                     request1.responseType = 'blob';
@@ -848,7 +891,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $scope.$apply();
                         };
                     };
-                    request1.send();                    
+                    request1.send();
                 }
             }
         };
@@ -859,10 +902,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.Gender_Name;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
-                        maleId = value.Id;
+                        maleId = value.Id.toString();
                     }
                     else if ($scope.Gender_Name.toLowerCase() == "female") {
-                        feMaleId = value.Id;
+                        feMaleId = value.Id.toString();
                     }
                 });
 
@@ -900,10 +943,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.Gender_Name;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
-                        maleId = value.Id;
+                        maleId = value.Id.toString();
                     }
                     else if ($scope.Gender_Name.toLowerCase() == "female") {
-                        feMaleId = value.Id;
+                        feMaleId = value.Id.toString();
                     }
                 });
 
@@ -984,7 +1027,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.InstitutionSubscriptionLicensecheck(UserTypeId);
             $scope.AppConfigurationProfileImageList();
             $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
-           
+
             /*$scope.ConfigCode = "PATIENT_MIN_AGE";
             $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
             $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).
@@ -993,10 +1036,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.PatientMinAge = parseInt(data[0].ConfigValue);
                     $scope.maxdateDOB = moment().subtract($scope.PatientMinAge, 'years').format("YYYY-MM-DD");*/
             $scope.maxdateDOB = $scope.maxdateDOB;
-                    angular.element('#maxdateDOB').val($scope.maxdateDOB);
-                    angular.element('#Date_Birth').attr('max', $scope.maxdateDOB);
-                /*}
-            });*/
+            angular.element('#maxdateDOB').val($scope.maxdateDOB);
+            angular.element('#Date_Birth').attr('max', $scope.maxdateDOB);
+            /*}
+        });*/
 
             $location.path("/PatientCreate/" + "2" + "/" + "3");
         }
@@ -1151,6 +1194,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.resumedoc = "";
             $('#Userdocument').val('');
             $scope.CertificateFileName = "";
+            $scope.FileType = "";
             $scope.Google_EmailId = "";
             $scope.FB_EmailId = "";
             $scope.SelectedChronicCondition = "0";
@@ -1220,30 +1264,49 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     }
 
                 });
-                $http.get(baseUrl + '/api/Common/GenderList/').success(
-                    function (data) {
-                        $scope.GenderList = data;
-                        if ($scope.GenderId != "0") {
-                            $('#divGender').removeClass("ng-invalid");
-                            $('#divGender').addClass("ng-valid");
-                        }
-                        else {
-                            $('#divGender').removeClass("ng-valid");
-                            $('#divGender').addClass("ng-invalid");
-                        }
-                    });
 
-                $http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
-                    $scope.DepartmentList = data;
-                    if ($scope.DepartmentId != "0") {
-                        $('#divDepartment').removeClass("ng-invalid");
-                        $('#divDepartment').addClass("ng-valid");
-                    }
-                    else {
-                        $('#divDepartment').removeClass("ng-valid");
-                        $('#divDepartment').addClass("ng-invalid");
-                    }
-                });
+                //$http.get(baseUrl + '/api/Common/GenderList/').success(
+                //    function (data) {
+                //        $scope.GenderList = data;
+                //        if ($scope.GenderId != "0") {
+                //            $('#divGender').removeClass("ng-invalid");
+                //            $('#divGender').addClass("ng-valid");
+                //        }
+                //        else {
+                //            $('#divGender').removeClass("ng-valid");
+                //            $('#divGender').addClass("ng-invalid");
+                //        }
+                //    });
+
+                if ($scope.GenderId != "0") {
+                    $('#divGender').removeClass("ng-invalid");
+                    $('#divGender').addClass("ng-valid");
+                }
+                else {
+                    $('#divGender').removeClass("ng-valid");
+                    $('#divGender').addClass("ng-invalid");
+                }
+
+                //$http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
+                //    $scope.DepartmentList = data;
+                //    if ($scope.DepartmentId != "0") {
+                //        $('#divDepartment').removeClass("ng-invalid");
+                //        $('#divDepartment').addClass("ng-valid");
+                //    }
+                //    else {
+                //        $('#divDepartment').removeClass("ng-valid");
+                //        $('#divDepartment').addClass("ng-invalid");
+                //    }
+                //});
+
+                if ($scope.DepartmentId != "0") {
+                    $('#divDepartment').removeClass("ng-invalid");
+                    $('#divDepartment').addClass("ng-valid");
+                }
+                else {
+                    $('#divDepartment').removeClass("ng-valid");
+                    $('#divDepartment').addClass("ng-invalid");
+                }
             }
         }
 
@@ -1264,24 +1327,35 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $('#divUserType').addClass("ng-invalid");
                     }
                 });
+                $scope.Businesstab1 = $scope.Businesstab1 + 1;
 
-                $http.get(baseUrl + '/api/Common/GenderList/').success(
-                    function (data) {
-                        $scope.GenderList = data;
-                        $scope.Businesstab1 = $scope.Businesstab1 + 1;
-                    });
-                $http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
-                    $scope.DepartmentList = data;
-                    $scope.Businesstab1 = $scope.Businesstab1 + 1;
-                    if ($scope.DepartmentId != "0") {
-                        $('#divDepartment').removeClass("ng-invalid");
-                        $('#divDepartment').addClass("ng-valid");
-                    }
-                    else {
-                        $('#divDepartment').removeClass("ng-valid");
-                        $('#divDepartment').addClass("ng-invalid");
-                    }
-                });
+                //$http.get(baseUrl + '/api/Common/GenderList/').success(
+                //    function (data) {
+                //        $scope.GenderList = data;
+                //        $scope.Businesstab1 = $scope.Businesstab1 + 1;
+                //    });
+
+                //$http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
+                //    $scope.DepartmentList = data;
+                //    $scope.Businesstab1 = $scope.Businesstab1 + 1;
+                //    if ($scope.DepartmentId != "0") {
+                //        $('#divDepartment').removeClass("ng-invalid");
+                //        $('#divDepartment').addClass("ng-valid");
+                //    }
+                //    else {
+                //        $('#divDepartment').removeClass("ng-valid");
+                //        $('#divDepartment').addClass("ng-invalid");
+                //    }
+                //});
+
+                if ($scope.DepartmentId != "0") {
+                    $('#divDepartment').removeClass("ng-invalid");
+                    $('#divDepartment').addClass("ng-valid");
+                }
+                else {
+                    $('#divDepartment').removeClass("ng-valid");
+                    $('#divDepartment').addClass("ng-invalid");
+                }
             }
             $scope.Businessuesrclickcount = $scope.Businessuesrclickcount + 1;
         }
@@ -1591,10 +1665,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.BusinessUser_List = function (MenuType) {
             if ($window.localStorage['UserTypeId'] == 3) {
                 $("#chatLoaderPV").show();
-                
+
                 $scope.MenuTypeId = MenuType;
                 $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
-                                
+
                 $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                     $scope.BusineessUseremptydata = [];
                     $scope.BusinessUserList = [];
@@ -1609,7 +1683,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     }
                     else {
                         $scope.BusinessUserflag = 0;
-                    }                    
+                    }
                     $("#chatLoaderPV").hide();
                     $scope.SearchMsg = "No Data Available";
                 });
@@ -2097,6 +2171,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.EditdocfileChange = function (e) {
             if ($('#EditDocument')[0].files[0] != undefined) {
                 $scope.CertificateFileName = $('#EditDocument')[0].files[0]['name'];
+                $scope.FileType = $('#EditDocument')[0].files[0]['type'];
             }
             //$scope.Editfile = []
             //$scope.Editfile.push(e.files[0])
@@ -2742,44 +2817,46 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             if (($scope.LoginType == 3 || $scope.LoginType == 2) && $scope.EditParameter == 4) {
                 $scope.DropDownListValue = 4;
             }
-            $http.get(baseUrl + '/api/Common/ChronicConditionList/').success(function (data) {
-                $scope.ChronicConditionList = data;
-            });
-            $http.get(baseUrl + '/api/Common/GenderList/').success(function (data) {
-                $scope.GenderList = data;
-            });
-            $http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
-                $scope.DepartmentList = data;
-            });
-            $http.get(baseUrl + '/api/User/BusinessUser_UserTypeList/').success(function (data) {
-                $scope.UserTypeList = data;
-            });
-            $http.get(baseUrl + '/api/Common/NationalityList/').success(function (data) {
-                $scope.NationalityList = data;
-            });
-            $http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (data) {
-                $scope.MaritalStatusListTemp = [];
-                $scope.MaritalStatusListTemp = data;
-                $scope.MaritalStatusList = angular.copy($scope.MaritalStatusListTemp);
-            });
-            $http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (data) {
-                $scope.EthnicGroupListTemp = [];
-                $scope.EthnicGroupListTemp = data;
-                $scope.EthnicGroupList = angular.copy($scope.EthnicGroupListTemp);
-                //validation checking for ethnic group
-                //$scope.PatientEthnicChange();
-            });
-            $http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (data) {
-                $scope.BloodGroupListTemp = [];
-                $scope.BloodGroupListTemp = data;
-                $scope.BloodGroupList = angular.copy($scope.BloodGroupListTemp);
-            });
-            $http.get(baseUrl + '/api/Common/RelationshipList/').success(function (data) {
-                $scope.RelationshipList = data;
-            });
-            $http.get(baseUrl + '/api/Common/DietTypeList/').success(function (data) {
-                $scope.DietTypeList = data;
-            });
+
+            //$http.get(baseUrl + '/api/Common/ChronicConditionList/').success(function (data) {
+            //    $scope.ChronicConditionList = data;
+            //});
+            //$http.get(baseUrl + '/api/Common/GenderList/').success(function (data) {
+            //    $scope.GenderList = data;
+            //});
+            //$http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
+            //    $scope.DepartmentList = data;
+            //});
+            //$http.get(baseUrl + '/api/User/BusinessUser_UserTypeList/').success(function (data) {
+            //    $scope.UserTypeList = data;
+            //});
+            //$http.get(baseUrl + '/api/Common/NationalityList/').success(function (data) {
+            //    $scope.NationalityList = data;
+            //});
+            //$http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (data) {
+            //    $scope.MaritalStatusListTemp = [];
+            //    $scope.MaritalStatusListTemp = data;
+            //    $scope.MaritalStatusList = angular.copy($scope.MaritalStatusListTemp);
+            //});
+            //$http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (data) {
+            //    $scope.EthnicGroupListTemp = [];
+            //    $scope.EthnicGroupListTemp = data;
+            //    $scope.EthnicGroupList = angular.copy($scope.EthnicGroupListTemp);
+            //    //validation checking for ethnic group
+            //    //$scope.PatientEthnicChange();
+            //});
+            //$http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (data) {
+            //    $scope.BloodGroupListTemp = [];
+            //    $scope.BloodGroupListTemp = data;
+            //    $scope.BloodGroupList = angular.copy($scope.BloodGroupListTemp);
+            //});
+            //$http.get(baseUrl + '/api/Common/RelationshipList/').success(function (data) {
+            //    $scope.RelationshipList = data;
+            //});
+            //$http.get(baseUrl + '/api/Common/DietTypeList/').success(function (data) {
+            //    $scope.DietTypeList = data;
+            //});
+
             $http.get(baseUrl + 'api/User/AllergyTypeList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
                 $scope.AlergySubstanceList = data;
             })
@@ -2982,7 +3059,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             }
                             $scope.MobileNoView = typeof (mNumber) == "undefined" ? isccodeavail : mNumberCC; //mNumber //data.MOBILE_NO : mNumber;
                             $scope.MobileNo = typeof (mNumber) == "undefined" ? isccodeavail : mNumber; //mNumber //data.MOBILE_NO : mNumber;
-                          
+
                             $scope.ViewDepartmentName = data.Department_Name;
                             $scope.ViewInstitutionName = data.InstitutionName;
                             $scope.Photo = data.Photo;
@@ -2990,6 +3067,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             //$scope.uploadme = data.Photo;
                             $scope.FileName = data.FileName;
                             $scope.PhotoFullpath = data.Photo_Fullpath;
+
                             $scope.NationalPhotoFullpath = data.NationalPhotoFullpath;
                             $scope.InsurancePhotoFullpath = data.InsurancePhotoFullpath;
                             $scope.UserTypeId = data.UserType_Id.toString();
@@ -3003,7 +3081,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             //}
                             $scope.Health_License = data.HEALTH_LICENSE;
                             $scope.File_Name = data.FILE_NAME;
-                            $scope.CertificateFileName = data.FILE_NAME; 
+                            $scope.CertificateFileName = data.FILE_NAME;
+                            $scope.FileType = data.FILETYPE;
                             $scope.Resume = data.FILE_NAME;
                             $scope.resumedoc = data.FILE_NAME;
                             $scope.File_FullPath = data.FILE_FULLPATH;
@@ -3208,7 +3287,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                 $scope.GenderId = data.GENDER_ID.toString();
                                 $scope.NationalityId = data.NATIONALITY_ID.toString();
                                 $scope.MaritalStatusId = data.MARITALSTATUS_ID.toString();
-                               /* $scope.EthnicGroupId = data.ETHINICGROUP_ID;*/
+                                /* $scope.EthnicGroupId = data.ETHINICGROUP_ID;*/
                                 $scope.BloodGroupId = data.BLOODGROUP_ID.toString();
                                 $scope.DepartmentId = data.DEPARTMENT_ID.toString();
                                 $scope.EthnicGroup = data.EthnicGroup;
@@ -3321,20 +3400,23 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             }
 
         }
-        $scope.CertificateView = function (Id) {
-            $http.get(baseUrl + '/api/User/UserDetails_GetCertificate?Id=' + Id+ '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                //var mtype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-                //\var url = 'data:' + mtype + ';base64,' + data.DocumentBlobData.toString();
-                /*window.open(url);*/
-                console.log(typeof (data.CertificateBlob))
-                let pdfWindow = window.open("", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=500,width=500,height=400");
-                pdfWindow.document.write("<html><head><title>Test</title><style>body{margin: 0px;}iframe{border-width: 0px;}</style></head>");
-               // pdfWindow.document.write("<body><embed width='100%' height='100%' src='data:" + data.UPLOAD_FILENAME.toString() + ";base64, " + data.CertificateBlob.toString() + "#toolbar=0&navpanes=0&scrollbar=0'></embed></body></html>");
-                pdfWindow.document.write("<body><img width='100%' height='100%' src='data:" + data.FileName.toString() + ";base64, " + data.CertificateBlob.toString() + "#toolbar=0&navpanes=0&scrollbar=0'></img></body></html>");
-                //pdfWindow.document.write("<body><img width='100%' height='100%' src='data:" + data.FileName.toString() + ";base64, " + data.CertificateBlob.toString() + "#toolbar=0&navpanes=0&scrollbar=0'></img></body></html>");
-                // /*pdfWindow.target = '_top';*/
-            });
+       
+        $scope.CertificateView = function (Id, filetype) {
+            if ($scope.editcertificate == true) {
+                $http.get(baseUrl + '/api/User/UserDetails_GetCertificate?Id=' + Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&FILETYPE=' + $scope.FileType,).success(function (data) {
+                    //var mtype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                    //\var url = 'data:' + mtype + ';base64,' + data.DocumentBlobData.toString();
+                    /*window.open(url);*/
+                    console.log("data: " + data.FileType.toString() + "; base64, " + data.CertificateBlob.toString() + "#toolbar = 0 & navpanes=0 & scrollbar=0")
+                    let pdfWindow = window.open("", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=500,width=500,height=400");
+                    pdfWindow.document.write("<html><head><title>Test</title><style>body{margin: 0px;}iframe{border-width: 0px;}</style></head>");
+                    pdfWindow.document.write("<body><embed width='100%' height='100%' src='data:" + data.FileType.toString() + ";base64, " + data.CertificateBlob.toString() + "#toolbar=0&navpanes=0&scrollbar=0'></embed></body></html>");
+                });
+            } else {
+
+            }
         }
+
         $scope.PhotoUplaodSelected = function () {
             $scope.PhotoValue = 1;
             $scope.UserPhotoValue = 1;
@@ -3744,6 +3826,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     });
                     var FileName = "";
                     var CertificateFileName = "";
+                    var FileType = "";
                     var Licensefilename = "";
                     var fd = new FormData();
                     var imgBlob;
@@ -3782,6 +3865,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             MOBILE_NO: $scope.MobileNo_CC,
                             FileName: $scope.FileName,
                             Photo_Fullpath: $scope.PhotoFullpath,
+
                             NationalPhotoFullpath: $scope.NationalPhotoFullpath,
                             NationalPhotoFilename: $scope.NationalPhotoFilename,
                             InsurancePhotoFullpath: $scope.InsurancePhotoFullpath,
@@ -3793,6 +3877,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             TITLE_ID: $scope.Title_Id == 0 ? null : $scope.Title_Id,
                             HEALTH_LICENSE: $scope.Health_License,
                             FILE_NAME: $scope.CertificateFileName,
+                            FILETYPE: $scope.FileType,
                             FILE_FULLPATH: "",
                             UPLOAD_FILENAME: $scope.Resume,
                             
@@ -3956,6 +4041,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             TITLE_ID: $scope.Title_Id == 0 ? null : $scope.Title_Id,
                             HEALTH_LICENSE: $scope.Health_License,
                             FILE_NAME: $scope.CertificateFileName,
+                            FILETYPE: $scope.FileType,
                             FILE_FULLPATH: "",
                             UPLOAD_FILENAME: $scope.Resume,
                             GENDER_ID: $scope.GenderId == 0 ? null : $scope.GenderId,
@@ -4327,6 +4413,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             var userid = userid;
             var FileName = "";
             var CertificateFileName = "";
+            var FileType = "";
             var Licensefilename = "";
             var fd = new FormData();
             var imgBlob;
@@ -4689,6 +4776,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 if ($scope.MenuTypeId == 2) {
                     if ($('#EditDocument')[0].files[0] != undefined) {
                         $scope.CertificateFileName = $('#EditDocument')[0].files[0]['name'];
+                        $scope.FileType = $('#EditDocument')[0].files[0]['type'];
                         imgBlobfile = $scope.dataURItoBlob($scope.Editresumedoc);
                         if (itemIndexLogo == -1) {
                             itemIndexfile = 0;
@@ -4883,6 +4971,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.Editresumedoc = "";
             $('#EditDocument').val('');
             $scope.CertificateFileName = "";
+            $scope.FileType = "";
         };
         $scope.RemoveMedicine_Item = function (Delete_Id, rowIndex) {
            
