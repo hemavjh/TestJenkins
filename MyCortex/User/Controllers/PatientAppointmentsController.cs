@@ -182,8 +182,14 @@ namespace MyCortex.User.Controller
                 else if (ModelData.Any(item => item.flag == 4) == true)
                 {
                     model.Status = "False";
-                    model.ReturnFlag = 1;
+                    model.ReturnFlag = 0;
                     messagestr = "Patient Appointment Can't Added, Subscription Timezone Missing!";
+                }
+                else if (ModelData.Any(item => item.flag == 5) == true)
+                {
+                    model.Status = "False";
+                    model.ReturnFlag = 0;
+                    messagestr = "Patient already have Appointment with another doctor!";
                 }
                 model.PatientAppointmentList = ModelData;
                 model.Message = messagestr;// "User created successfully";

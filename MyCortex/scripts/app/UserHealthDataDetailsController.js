@@ -1335,6 +1335,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                     UtcOffSet = TZ[0].UtcOffSet;
                                 }
                                 var objectSave = {
+                                    "Id": 0,
                                     "Institution_Id": $scope.SelectedInstitutionId,
                                     "Doctor_Id": $scope.DoctorID,
                                     "Patient_Id": $scope.SelectedPatientId,
@@ -1501,8 +1502,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                             }
                                             $scope.appdocfilename = "";
                                         }
-                                    }
-
+                                    } else { $("#appoint_waveLoader").hide();}
                                 }).error(function (data) { $("#appoint_waveLoader").hide(); });;
                             } else {
                                 var TZ = $scope.TimeZoneList.filter(x => x.TimeZoneId == $scope.TimeZoneID);
@@ -1654,7 +1654,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                                 $scope.$broadcast("appointment_list");
                                             }
                                         });
-                                    }
+                                    } else { $("#appoint_waveLoader").hide(); }
 
                                 }).error(function (data) { $("#appoint_waveLoader").hide(); });;
                             }
