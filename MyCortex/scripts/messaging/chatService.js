@@ -42,6 +42,9 @@ const utilService = function () {
             $("#call-reject").attr("style", "display:none");
             $("#call-page").attr("style", "display:none");
             $("#showchatIcon").hide();
+            $('#Appointment').prop('disabled', false);
+            $("[id='All Patients']").prop('disabled', false);
+            $("[id='Monitoring Protocol']").prop('disabled', false);
         },
         callEndAction: function () {
             checkCallStatus = false;
@@ -54,6 +57,9 @@ const utilService = function () {
             $("#call-reject").attr("style", "display:none");
             $("#call-page").attr("style", "display:none");
             $("#showchatIcon").hide();
+            $('#Appointment').prop('disabled', false);
+            $("[id='All Patients']").prop('disabled', false);
+            $("[id='Monitoring Protocol']").prop('disabled', false);
         },
         initializeChat: function () {
             /*$.get(baseUrl + '/api/Common/getCometchatAppId')
@@ -741,6 +747,9 @@ const chatService = function () {
                     $("#call-page").attr("style", "display:flex");
                     $("#showchatIcon").show();
                     $('#addressBook').hide();
+                    $('#Appointment').prop('disabled', true);
+                    $("[id='All Patients']").prop('disabled', true);
+                    $("[id='Monitoring Protocol']").prop('disabled', true);
 
                     //console.log("Call initiated successfully:", outGoingCall);
                     // perform action on success. Like show your calling screen.
@@ -826,6 +835,9 @@ const chatService = function () {
                     $("#showchatIcon").show();
                     $('#addressBook').hide();
                     $.playSound('/images/vivo-ringtone.mp3');
+                    $('#Appointment').prop('disabled', true);
+                    $("[id='All Patients']").prop('disabled', true);
+                    $("[id='Monitoring Protocol']").prop('disabled', true);
                     //console.log("Call initiated successfully:", outGoingCall);
                     // perform action on success. Like show your calling screen.
                 },
@@ -881,6 +893,9 @@ const chatService = function () {
                         $("#call-reject").attr("style", "display:flex");
                         $("#call-page").attr("style", "display:flex");
                         $("#showchatIcon").show();
+                        $('#Appointment').prop('disabled', true);
+                        $("[id='All Patients']").prop('disabled', true);
+                        $("[id='Monitoring Protocol']").prop('disabled', true);
                         // Handle incoming call
                     },
                     onOutgoingCallAccepted(call) {
