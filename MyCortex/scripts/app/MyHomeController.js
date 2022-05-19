@@ -28,6 +28,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         $scope.SelectedDevice = "0";
         $scope.SelectedTabPIN = "0";
         $scope.DevicesLists = [];
+        $scope.InstituteId = $window.localStorage['InstitutionId'];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
         $scope.InstitutionId = $window.localStorage['InstitutionId'];
         $scope.CREATED_BY = $window.localStorage['UserId'];
@@ -44,6 +45,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         $scope.ISact = 1;
         $scope.PIN = "1234";
         $scope.DisplayView = '';
+        $scope.hivelength = '';
 
         //$http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
         //    $scope.DevicesLists = data;
@@ -196,6 +198,13 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                         $scope.emptydataTab = [];
                         $scope.rowCollectionTab = [];
                         $scope.rowCollectionTab = data;
+                        $scope.hivelength = data.length;
+                        $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                            $scope.Remaining_No_Of_Hive = data.Remaining_No_Of_Hive;
+                            $scope.No_Of_Hive = data.No_Of_Hive;
+                            $scope.Remaining_No_Of_Hivechart = data.Remaining_No_Of_Hivechart;
+                            $scope.No_Of_HiveChart = data.No_Of_HiveChart;
+                        });
                         if ($scope.rowCollectionTab.length > 0) {
                             $scope.TabDataCount = $scope.rowCollectionTab[0].TotalRecord;
                         } else {

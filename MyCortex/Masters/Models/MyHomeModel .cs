@@ -95,6 +95,7 @@ namespace MyCortex.Masters.Models
         public int ReturnFlag { get; set; }
         public string Status { get; set; }
         public string Message { get; set; }
+        public string Error_Code { get; set; }
         public IList<TabListModel> TabUserDetails { get; set; }
         public TabUserDetails TabUserDetail { get; set; }
 

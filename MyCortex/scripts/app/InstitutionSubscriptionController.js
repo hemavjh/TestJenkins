@@ -19,6 +19,8 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
         $scope.AppointmentModuleId = "0";
         $scope.Health_Care_Professionals = "";
         $scope.Patients = "";
+        $scope.Hive = "";
+        $scope.HiveChart = "";
         $scope.Contract_Period_From = "";
         $scope.Contract_Period_To = "";
         $scope.V_Contract_Period_From = "";
@@ -313,6 +315,16 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                 toastr.warning("Please enter No. of Patients", "warning");
                 return false;
             }
+            else if (typeof ($scope.Hive) == "undefined" || $scope.Hive == "") {
+                //alert("Please enter No. of Health Care Professionals");
+                toastr.warning("Please enter No. of Hive", "warning");
+                return false;
+            }
+            else if (typeof ($scope.HiveChart) == "undefined" || $scope.HiveChart == "") {
+                //alert("Please enter No. of Health Care Professionals");
+                toastr.warning("Please enter No. of HiveChart", "warning");
+                return false;
+            }
             else if (typeof ($scope.Contract_Period_From) == "undefined" || $scope.Contract_Period_From == "") {
                 //alert("Please select Contract Period From");
                 toastr.warning("Please select Contract Period From", "warning");
@@ -423,6 +435,8 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     Institution_Id: $scope.Institution_Id,
                     Health_Care_Professionals: $scope.Health_Care_Professionals,
                     No_Of_Patients: $scope.Patients,
+                    No_Of_Hive: $scope.Hive,
+                    No_Of_HiveChart: $scope.HiveChart,
                     Contract_PeriodFrom: moment($scope.Contract_Period_From).format('DD-MMM-YYYY'),
                     Contract_PeriodTo: moment($scope.Contract_Period_To).format('DD-MMM-YYYY'),
                     Subscription_Type: $scope.Subscription_Type,
@@ -581,6 +595,8 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     $scope.Contract_Period_From = DateFormatEdit($filter('date')(data.Contract_PeriodFrom, "dd-MMM-yyyy"));
                     $scope.Health_Care_Professionals = data.Health_Care_Professionals;
                     $scope.Patients = data.No_Of_Patients;
+                    $scope.Hive = data.No_Of_Hive;
+                    $scope.HiveChart = data.No_Of_HiveChart;
                     //$scope.Contract_Period_To = $filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy");
                     $scope.Contract_Period_To = DateFormatEdit($filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy"));
                     $scope.Subscription_Type = data.Subscription_Type;
@@ -594,6 +610,10 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     $scope.Created_No_Of_HealthCareProf = data.Created_No_Of_HealthCareProf;
                     $scope.Remaining_No_Of_Patient = data.Remaining_No_Of_Patient;
                     $scope.Remaining_No_Of_HealthCareProf = data.Remaining_No_Of_HealthCareProf;
+                    $scope.Created_No_Of_Hive = data.Created_No_Of_Hive;
+                    $scope.Created_No_Of_Hivechart = data.Created_No_Of_Hivechart;
+                    $scope.Remaining_No_Of_Hive= data.Remaining_No_Of_Hive;
+                    $scope.Remaining_No_Of_Hivechart = data.Remaining_No_Of_Hivechart;
 
                     angular.forEach($scope.InstitutiontypeList, function (item, modIndex) {
 
@@ -653,6 +673,8 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
         $scope.ClearInstitutionSubscriptionPopup = function () {
             $scope.Health_Care_Professionals = "";
             $scope.Patients = "";
+            $scope.Hive = "";
+            $scope.HiveChart = "";
             $scope.Contract_Period_From = "";
             $scope.Contract_Period_To = "";
             $scope.Subscription_Type = "1";
@@ -685,6 +707,10 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             $scope.Created_No_Of_HealthCareProf = "";
             $scope.Remaining_No_Of_Patient = "";
             $scope.Remaining_No_Of_HealthCareProf = "";
+            $scope.Created_No_Of_Hive = "";
+            $scope.Created_No_Of_HiveChart = "";
+            $scope.Remaining_No_Of_Hive = "";
+            $scope.Remaining_No_Of_HiveChart = "";
 
         }
         $scope.InstitutionSubscription_Delete = function () {

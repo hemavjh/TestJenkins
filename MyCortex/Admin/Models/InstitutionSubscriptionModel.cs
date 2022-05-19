@@ -23,6 +23,9 @@ namespace MyCortex.Admin.Models
         [Required]
         public int No_Of_Patients { get; set; }
         [Required]
+        public int No_Of_Hive { get; set; }
+        [Required]
+        public int No_Of_HiveChart { get; set; }
         public DateTime Contract_PeriodFrom { get; set; }
         [Required]
         public DateTime Contract_PeriodTo { get; set; }
@@ -57,6 +60,11 @@ namespace MyCortex.Admin.Models
         public int Created_No_Of_HealthCareProf { get; set; }
         public int Remaining_No_Of_Patient { get; set; }
         public int Remaining_No_Of_HealthCareProf { get; set; }
+
+        public int Created_No_Of_Hive { get; set; }
+        public int Created_No_Of_Hivechart { get; set; }
+        public int Remaining_No_Of_Hive { get; set; }
+        public int Remaining_No_Of_Hivechart { get; set; }
     }
 
   

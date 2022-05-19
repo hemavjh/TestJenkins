@@ -253,6 +253,24 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
+                                                        <label>No. of Hive<sup><font class='mandatory-field'>*</font></sup></label>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control" id="text10" ng-model="Hive" style="width:190px" maxlength="9"
+                                                               ng-maxlength="9" onkeypress="varifyNumberPositive(event)" ng-required="true">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>No. of Hive Chart<sup><font class='mandatory-field'>*</font></sup></label>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control" id="text11" ng-model="HiveChart" style="width:190px" maxlength="9"
+                                                               ng-maxlength="9" onkeypress="varifyNumberPositive(event)" ng-required="true">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
                                                         <label>Contract Period<sup><font class='mandatory-field'>*</font></sup></label>
                                                     </td>
                                                     <td>
@@ -261,7 +279,7 @@
                                                                 <td>
                                                                     <div>
                                                                         <!--<input type="text" class="form-control" ng-model="Contract_Period_From" ng-init="Contract_Period_From=''" style="width:152px" ng-required="true"> <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>-->
-                                                                        <input type="date" id="Contract_Period_From" min="{{startDateMin}}" placeholder="" max="2099-12-31" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required"  
+                                                                        <input type="date" id="Contract_Period_From" min="{{startDateMin}}" placeholder="" max="2099-12-31" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required"
                                                                                ng-model="Contract_Period_From" style="width:165px" ng-change="ChangeDate(Contract_Period_From);"
                                                                                ng-required="true">
                                                                     </div>
@@ -270,7 +288,7 @@
                                                                     <div>
                                                                         <!--<input type="text" class="form-control" id="Text5" ng-model="Contract_Period_To" ng-init="Contract_Period_To=''" style="width:152px" ng-required="true"> <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>-->
                                                                         <input type="date" id="Contract_Period_To" min="{{Contract_Period_To}}" title="The Minimum Contract Period is 30 Days" placeholder="" max="2099-12-31" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required"
-                                                                               ng-model="Contract_Period_To" style="width:165px" 
+                                                                               ng-model="Contract_Period_To" style="width:165px"
                                                                                ng-required="true">
                                                                     </div>
                                                                 </td>
@@ -296,24 +314,24 @@
                                                     </td>
                                                 </tr>
                                                 <!--<tr>
-                                                    <td>
-                                                        <label>Chronic Edit<sup><font class='mandatory-field'>*</font></sup></label>
-                                                    </td>
-                                                    <td class="nopadding">
-                                                        <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
-                                                            <tr>
-                                                                <td>-->
+    <td>
+        <label>Chronic Edit<sup><font class='mandatory-field'>*</font></sup></label>
+    </td>
+    <td class="nopadding">
+        <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
+            <tr>
+                <td>-->
                                                 <!--<div id="divInssChronicEdit" class="ng-invalid ddlValidationBorder" ng-required="true">-->
                                                 <!--<input type="checkbox" class="input-checkbox" name="Chroniccc"  ng-model="Chroniccc">CC
-                                                <input type="checkbox" class="input-checkbox" name="Chroniccg"  ng-model="Chroniccg">CG
-                                                <input type="checkbox" class="input-checkbox" name="Chroniccl"  ng-model="Chroniccl">CL
-                                                <input type="checkbox" class="input-checkbox" name="Chronicsc"  ng-model="Chronicsc">SC-->
+    <input type="checkbox" class="input-checkbox" name="Chroniccg"  ng-model="Chroniccg">CG
+    <input type="checkbox" class="input-checkbox" name="Chroniccl"  ng-model="Chroniccl">CL
+    <input type="checkbox" class="input-checkbox" name="Chronicsc"  ng-model="Chronicsc">SC-->
                                                 <!--</div>-->
                                                 <!--</td>
-                                                            </tr>
-                                                        </table>
-                                                    </td>
-                                                </tr>-->
+                </tr>
+            </table>
+        </td>
+    </tr>-->
                                                 <tr>
                                                     <td width="13%">
                                                         <Lable>Appointment Module<sup><font class='mandatory-field'>*</font></sup></Lable>
@@ -355,6 +373,31 @@
                                                         <label>Available   HCP</label>
                                                     </td>
                                                     <td><span>{{Remaining_No_Of_HealthCareProf}}</span></td>
+                                                </tr>
+
+                                                <tr ng-show="Hcp_Pat == true">
+                                                    <td>
+                                                        <label>Created No.of Hive</label>
+                                                    </td>
+                                                    <td><span>{{Created_No_Of_Hive}}</span></td>
+                                                </tr>
+                                                <tr ng-show="Hcp_Pat == true">
+                                                    <td>
+                                                        <label>Created No.of HiveChart</label>
+                                                    </td>
+                                                    <td><span>{{Created_No_Of_Hivechart}}</span></td>
+                                                </tr>
+                                                <tr ng-show="Hcp_Pat == true">
+                                                    <td>
+                                                        <label>Available   Hive</label>
+                                                    </td>
+                                                    <td><span>{{Remaining_No_Of_Hive}}</span></td>
+                                                </tr>
+                                                <tr ng-show="Hcp_Pat == true">
+                                                    <td>
+                                                        <label>Available   HiveChart</label>
+                                                    </td>
+                                                    <td><span>{{Remaining_No_Of_Hivechart}}</span></td>
                                                 </tr>
                                             </table>
                                         </td>
@@ -545,6 +588,22 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
+                                                        <label>No. of Hive</label>
+                                                    </td>
+                                                    <td>
+                                                        {{Hive}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>No. of HiveChart</label>
+                                                    </td>
+                                                    <td>
+                                                        {{HiveChart}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
                                                         <label>Contract Period</label>
                                                     </td>
                                                     <td>
@@ -566,22 +625,22 @@
                                                     </td>
                                                 </tr>
                                                 <!-- <tr>
-                                                     <td>
-                                                         <label>Chronic Edit<sup><font class='mandatory-field'>*</font></sup></label>
-                                                     </td>
-                                                     <td class="nopadding">
-                                                         <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
-                                                             <tr>
-                                                                 <td>
-                                                                     <input type="checkbox" class="input-checkbox" name="Chroniccc" ng-init="checked=true" value="1" ng-model="Chroniccc" disabled>CC
-                                                                     <input type="checkbox" class="input-checkbox" name="Chroniccg" ng-init="checked=true" value="1" ng-model="Chroniccg" disabled>CG
-                                                                     <input type="checkbox" class="input-checkbox" name="Chroniccl" ng-init="checked=true" value="1" ng-model="Chroniccl" disabled>CL
-                                                                     <input type="checkbox" class="input-checkbox" name="Chronicsc" ng-init="checked=true" value="1" ng-model="Chronicsc" disabled>SC
-                                                                 </td>
-                                                             </tr>
-                                                         </table>
-                                                     </td>
-                                                 </tr>-->
+        <td>
+            <label>Chronic Edit<sup><font class='mandatory-field'>*</font></sup></label>
+        </td>
+        <td class="nopadding">
+            <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
+                <tr>
+                    <td>
+                        <input type="checkbox" class="input-checkbox" name="Chroniccc" ng-init="checked=true" value="1" ng-model="Chroniccc" disabled>CC
+                        <input type="checkbox" class="input-checkbox" name="Chroniccg" ng-init="checked=true" value="1" ng-model="Chroniccg" disabled>CG
+                        <input type="checkbox" class="input-checkbox" name="Chroniccl" ng-init="checked=true" value="1" ng-model="Chroniccl" disabled>CL
+                        <input type="checkbox" class="input-checkbox" name="Chronicsc" ng-init="checked=true" value="1" ng-model="Chronicsc" disabled>SC
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>-->
                                                 <tr>
                                                     <td width="7%">
                                                         <label>Appointment Module</label>
@@ -616,6 +675,30 @@
                                                         <label>Available   HCP</label>
                                                     </td>
                                                     <td><span>{{Remaining_No_Of_HealthCareProf}}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Created No.of Hive</label>
+                                                    </td>
+                                                    <td><span>{{Created_No_Of_Hive}}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Created No.of HiveChart</label>
+                                                    </td>
+                                                    <td><span>{{Created_No_Of_Hivechart}}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Available   Hive</label>
+                                                    </td>
+                                                    <td><span>{{Remaining_No_Of_Hive}}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Available   HiveChart</label>
+                                                    </td>
+                                                    <td><span>{{Remaining_No_Of_Hivechart}}</span></td>
                                                 </tr>
                                             </table>
                                     <tr>

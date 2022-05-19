@@ -20,7 +20,7 @@
         <form class="form-horizontal" role="form">
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <div class="inputGroups">
                             <label>Search</label>
                             <div class="modernSearch">
@@ -31,13 +31,19 @@
 
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <div class="inputGroups">
                             <label>Active</label>
                         </div>
                         <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="TabList(1);" title="Active / All">
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
+                        <div class="inputGroups" style="text-align:center">
+                            <label>Available Hive User/ Total Hive user: </label>
+                            <span style=" margin-left:0px; font-weight: bold;"> {{Remaining_No_Of_Hive}} / {{No_Of_Hive}}</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
                         <div class="inputGroups">
                             <a href="javascript:" ng-click="ClearPopup();AddTabPopUP();" class="theme-btn-1 pull-right mt-15 btn-autosize pull-right ml-10" title="Click to Add New TAB">Add New</a>
                         </div>
