@@ -198,15 +198,18 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
         //$scope.Contract_Period_To = DateFormatEdit($filter('date')(new Date(new Date().setMonth(new Date().getMonth() + 1)), 'dd-MMM-yyyy'));
 
         $scope.ChangeDate = function (Contract_Period_From) {
-            $scope.sDate = moment(Contract_Period_From).format('DD-MMM-YYYY');
-            $scope.Contract_Period_To = moment($scope.sDate).add(30, 'days').format('YYYY-MM-DD');
-            //value.Contract_Period_To = DateFormatEdit($filter('date')($scope.EndDate, 'dd-MMM-yyyy'));
-            document.getElementById('Contract_Period_To').value = $scope.Contract_Period_To;
-
-
+            var StartDate = moment($scope.Contract_Period_From);
+            var EndDate = moment($scope.Contract_Period_To);
+            $scope.IsDate = moment(EndDate).diff(moment(StartDate), 'days');
+            if ($scope.IsDate <= 30) {
+                $scope.sDate = moment(Contract_Period_From).format('DD-MMM-YYYY');
+                $scope.Contract_Period_To = moment($scope.sDate).add(30, 'days').format('YYYY-MM-DD');
+                //value.Contract_Period_To = DateFormatEdit($filter('date')($scope.EndDate, 'dd-MMM-yyyy'));
+                document.getElementById('Contract_Period_To').value = $scope.Contract_Period_To;
+            }
+            else {
+            }
         }
-
-
         $scope.Module_listAdd = [];
         $scope.ModulelistChange = function (Id, value) {
             var checked = $('#' + Id).is(":checked");

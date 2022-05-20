@@ -38,7 +38,8 @@ namespace MyCortex.User.Model
         public long? TITLE_ID { get; set; }
 	    public string HEALTH_LICENSE { get; set; }
 	    public string FILE_NAME { get; set; }
-	    public string FILE_FULLPATH { get; set; }
+        public string FILETYPE { get; set; }
+        public string FILE_FULLPATH { get; set; }
 	    public string  UPLOAD_FILENAME { get; set; }
         public long? GENDER_ID { get; set; }
         public long? NATIONALITY_ID { get; set; }

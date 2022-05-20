@@ -120,6 +120,12 @@ namespace MyCortex.User.Model
         public long? appointment_price { get; set; }
     }
 
+    public class AppointmentDuration
+    {
+        public Int32 NewAppointmentDuration { get; set; }        
+        public Int32 FollowUpDuration { get; set; }        
+    }
+
     public class AppointmentsData_For_ICSFile
     {
         public DateTime AppointmentDateTime { get; set; }
@@ -140,6 +146,8 @@ namespace MyCortex.User.Model
         public IList<DoctorAppointmentTimeSlotModel> DoctorAppointmentTimeSlotList { get; set; }
 
         public IList<DoctorShiftModel> DoctorShiftAddList { get; set; }
+
+        public IList<AppointmentDuration> DoctorAppointmentDurationList { get; set; }
     }
 
     public class AppointmentReasonType

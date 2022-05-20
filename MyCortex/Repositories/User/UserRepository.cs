@@ -257,6 +257,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@TITLE_ID", insobj.TITLE_ID));
             param.Add(new DataParameter("@HEALTH_LICENSE", insobj.HEALTH_LICENSE));
             param.Add(new DataParameter("@FILE_NAME", insobj.FILE_NAME));
+            param.Add(new DataParameter("@FILETYPE", insobj.FILETYPE));
             param.Add(new DataParameter("@FILE_FULLPATH", insobj.FILE_FULLPATH));
             param.Add(new DataParameter("@UPLOAD_FILENAME", insobj.UPLOAD_FILENAME));
             param.Add(new DataParameter("@GENDER_ID", insobj.GENDER_ID));
@@ -637,6 +638,7 @@ namespace MyCortex.Repositories.Uesr
                                     Photo_Fullpath = p.Field<string>("PHOTO_FULLPATH"),
                                     FileName = p.Field<string>("PHOTO_FILENAME"),
                                     FILE_NAME = p.Field<string>("FILE_NAME"),
+                                    FILETYPE = p.Field<string>("FILETYPE"),
                                     FILE_FULLPATH = p.Field<string>("FILE_FULLPATH"),
                                     UPLOAD_FILENAME = p.Field<string>("UPLOAD_FILENAME"),
                                     UserType_Id = p.Field<long?>("UserType_Id"),
@@ -1003,6 +1005,7 @@ namespace MyCortex.Repositories.Uesr
                                   Photo_Fullpath =  p.Field<string>("PHOTO_FULLPATH"),
                                   FileName = p.Field<string>("PHOTO_FILENAME"),
                                   FILE_NAME = p.Field<string>("FILE_NAME"),
+                                  FILETYPE = p.Field<string>("FILETYPE"),
                                   FILE_FULLPATH = p.Field<string>("FILE_FULLPATH"),
                                   UPLOAD_FILENAME = p.Field<string>("UPLOAD_FILENAME"),
                                   UserType_Id = p.Field<long?>("UserType_Id"),
@@ -2002,7 +2005,7 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
-        public IList<PatientAppointmentsModel> CG_PatientAppointmentList(long Institution_Id, Guid Login_Session_Id, long UserId)
+        public IList<PatientAppointmentsModel> CG_PatientAppointmentList(long Institution_Id, Guid Login_Session_Id, long UserId, string TimeZoneName)
         {
             _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -2010,6 +2013,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@Institution_Id", Institution_Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             param.Add(new DataParameter("@UserId", UserId));
+            param.Add(new DataParameter("@TimeZoneName", TimeZoneName));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
             _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
@@ -2561,12 +2565,14 @@ namespace MyCortex.Repositories.Uesr
             {
                 byte[] returnCertificate = (byte[])dt.Rows[0]["CERTIFICATEBLOBDATA"];
                 string FileName = (string)dt.Rows[0]["FILE_NAME"];
+                string FileType = (string)dt.Rows[0]["FILETYPE"];
 
                 return new PhotoUploadModal
                 {
                     Id = Id,
                     CertificateBlob = decrypt.DecryptFile(returnCertificate),
-                    FileName = FileName
+                    FileName = FileName,
+                    FileType = FileType
                 };
 
                 //return decrypt.DecryptFile(returnPhoto);
@@ -4395,6 +4401,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@TITLE_ID", 1));
             param.Add(new DataParameter("@HEALTH_LICENSE", insobj.HEALTH_LICENSE));
             param.Add(new DataParameter("@FILE_NAME", insobj.FILE_NAME));
+            param.Add(new DataParameter("@FILETYPE", insobj.FILETYPE));
             param.Add(new DataParameter("@FILE_FULLPATH", insobj.FILE_FULLPATH));
             param.Add(new DataParameter("@UPLOAD_FILENAME", insobj.UPLOAD_FILENAME));
             param.Add(new DataParameter("@GENDER_ID", 1));
@@ -4490,6 +4497,7 @@ namespace MyCortex.Repositories.Uesr
                                     Photo_Fullpath = p.Field<string>("PHOTO_FULLPATH"),
                                     FileName = p.Field<string>("PHOTO_FILENAME"),
                                     FILE_NAME = p.Field<string>("FILE_NAME"),
+                                    FILETYPE = p.Field<string>("FILETYPE"),
                                     FILE_FULLPATH = p.Field<string>("FILE_FULLPATH"),
                                     UPLOAD_FILENAME = p.Field<string>("UPLOAD_FILENAME"),
                                     UserType_Id = p.Field<long?>("UserType_Id"),
