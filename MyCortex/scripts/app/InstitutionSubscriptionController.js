@@ -420,6 +420,8 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     Institution_Id: $scope.Institution_Id,
                     Health_Care_Professionals: $scope.Health_Care_Professionals,
                     No_Of_Patients: $scope.Patients,
+                    No_Of_HiveChartUsers: $scope.HiveChartUsers,
+                    No_Of_HiveUsers: $scope.HiveUsers,
                     Contract_PeriodFrom: moment($scope.Contract_Period_From).format('DD-MMM-YYYY'),
                     Contract_PeriodTo: moment($scope.Contract_Period_To).format('DD-MMM-YYYY'),
                     Subscription_Type: $scope.Subscription_Type,
