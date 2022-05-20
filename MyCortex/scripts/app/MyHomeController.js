@@ -886,7 +886,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     $scope.rowCollectionDevice = [];
                     $scope.rowCollectionDevice = data.TabDeviceList;
                     if ($scope.rowCollectionDevice.length > 0) {
-                        $scope.DeviceDataCount = $scope.rowCollectionDevice[0].TotalRecord;
+                        $scope.TabDataCount = $scope.rowCollectionDevice[0].TotalRecord;
                     } else {
                         $scope.TabDataCount = 0;
                     }
@@ -910,6 +910,28 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             });
         }
 
+        $scope.searchquery = "";
+        /* FILTER THE  MyHome  LIST FUNCTION.*/
+        $scope.filterDeviceListed = function () {
+            $scope.ResultListFiltered = [];
+            $scope.emptydataDevice = [];
+            $scope.rowCollectionTabFiltertab = [];
+            var searchstring = angular.lowercase($scope.searchquery);
+            if ($scope.searchquery == "") {
+                $scope.rowCollectionTabFiltertab = angular.copy($scope.rowCollectionDevice);
+                $scope.emptydataDevice = $scope.rowCollectionTabFiltertab;
+            }
+            else {
+                $scope.rowCollectionTabFiltertab = $ff($scope.rowCollectionDevice, function (value) {
+                    return angular.lowercase(value.DeviceName).match(searchstring) ||
+                        angular.lowercase(value.Make).match(searchstring) ||
+                        angular.lowercase(value.ModelNumber).match(searchstring) ||
+                        angular.lowercase(value.DeviceType).match(searchstring)
+                });
+                $scope.emptydataDevice = $scope.rowCollectionTabFiltertab;
+                $scope.total_MyHomepage = Math.ceil(($scope.rowCollectionTabFiltertab) / ($scope.page_size));
+            }
+        }
 
         $scope.DeviceDropDown = function () {
             $("#chatLoaderPV").show();            
