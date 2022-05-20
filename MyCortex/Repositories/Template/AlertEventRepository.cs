@@ -97,24 +97,24 @@ namespace MyCortex.Repositories.EmailAlert
                             EncryptFlag = int.Parse(dtRow1["ENCRYPT_FLAG"].ToString());
                             if (Result_dt.Columns.Contains(FieldName))
                             {
-                                if(TagName == "Time")
+                                if(TagName == "{Time}")
                                 {
                                     TagsReplaceData = Time;
                                 }
-                                if(TagName == "Login Url")
+                                else if(TagName == "{Login Url}")
                                 {
                                     var URLConvert = "";
                                     URLConvert = dtRow[FieldName].ToString();
                                     TagsReplaceData = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
                                     //< a href =\" + URLConvert + " + "#/login </a>"
                                 }
-                                else if (TagName == "Reset")
+                                else if (TagName == "{Reset}")
                                 {
                                     var URLConvert = "";
                                     URLConvert = dtRow[FieldName].ToString();
                                     TagsReplaceData = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
                                 }
-                                else if (TagName == "Link")
+                                else if (TagName == "{Link}")
                                 {
                                     var URLConvert = "";
                                     URLConvert = dtRow[FieldName].ToString();
