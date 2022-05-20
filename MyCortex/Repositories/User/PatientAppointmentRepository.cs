@@ -113,14 +113,17 @@ namespace MyCortex.Repositories.Uesr
         /// <returns>inserted patient appointment</returns>
         public IList<PatientAppointmentsModel> PatientAppointment_InsertUpdate(Guid Login_Session_Id, PatientAppointmentsModel obj)
         {
+            string app_Date = obj.Appointment_Date.Year.ToString() + "-" + obj.Appointment_Date.Month.ToString() + "-" + obj.Appointment_Date.Day.ToString();
+            string app_FromTime = obj.Appointment_Date.Year.ToString() + "-" + obj.Appointment_Date.Month.ToString() + "-" + obj.Appointment_Date.Day.ToString() + " " + obj.AppointmentFromTime.TimeOfDay.ToString();
+            string app_ToTime = obj.Appointment_Date.Year.ToString() + "-" + obj.Appointment_Date.Month.ToString() + "-" + obj.Appointment_Date.Day.ToString() + " " + obj.AppointmentToTime.TimeOfDay.ToString();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", obj.Id));
             //param.Add(new DataParameter("@INSTITUTION_ID", obj.Institution_Id));
             param.Add(new DataParameter("@DOCTOR_ID", obj.Doctor_Id));
             param.Add(new DataParameter("@PATIENT_ID", obj.Patient_Id));
-            param.Add(new DataParameter("@APPOINTMENTDATE", obj.Appointment_Date));
-            param.Add(new DataParameter("@APPOINTMENT_FROMTIME", obj.AppointmentFromTime));
-            param.Add(new DataParameter("@APPOINTMENT_TOTIME", obj.AppointmentToTime));
+            param.Add(new DataParameter("@APPOINTMENTDATE", app_Date));
+            param.Add(new DataParameter("@APPOINTMENT_FROMTIME", app_FromTime));
+            param.Add(new DataParameter("@APPOINTMENT_TOTIME", app_ToTime));
             param.Add(new DataParameter("@APPOINTMENTTYPE_ID", obj.Appointment_Type));
             param.Add(new DataParameter("@REASONFOR_VISIT", obj.ReasonForVisit));
            // param.Add(new DataParameter("@REASONTYPE_ID", obj.ReasonTypeId));
@@ -142,7 +145,7 @@ namespace MyCortex.Repositories.Uesr
                                                    select
                                                    new PatientAppointmentsModel()
                                                    {
-                                                       Id = p.Field<long>("Id"),
+                                                       Id = p.Field<long?>("Id"),
                                                        //Institution_Id = p.Field<long>("INSTITUTION_ID"),
                                                        Doctor_Id = p.Field<long>("DOCTOR_ID"),
                                                        Patient_Id = p.Field<long>("PATIENT_ID"),
