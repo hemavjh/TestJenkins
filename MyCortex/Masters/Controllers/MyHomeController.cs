@@ -376,7 +376,7 @@ namespace MyCortex.User.Controllers
         [Authorize]
         [HttpGet]
         [CheckSessionOutFilter]
-        public HttpResponseMessage TabDashboardDetails(long InstitutionId, long UserId, long TabId, Guid Login_Session_Id, long PatientId = 0)
+        public HttpResponseMessage TabDashboardDetails(long InstitutionId, long UserId, long TabId, Guid Login_Session_Id)
         {
             _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -385,7 +385,7 @@ namespace MyCortex.User.Controllers
             string messagestr = "";
             try
             {
-                ModelData = repository.GetDashBoardListDetails(InstitutionId, UserId, TabId, Login_Session_Id, PatientId);
+                ModelData = repository.GetDashBoardListDetails(InstitutionId, UserId, TabId, Login_Session_Id);
                 if (ModelData.Flag == 1)
                 {
 
