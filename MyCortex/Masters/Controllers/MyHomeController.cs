@@ -102,6 +102,18 @@ namespace MyCortex.User.Controllers
                     messagestr = "MyHome updated Successfully";
                     model.ReturnFlag = 1;
                 }
+                else if (ModelData.Any(item => item.Flag == 7) == true)
+                {
+                    messagestr = "Maximum Number of Hive License reached already, new Hive user cannot be created";
+                    model.ReturnFlag = 0;
+                    model.Status = "False";
+                }
+                else if (ModelData.Any(item => item.Flag == 8) == true)
+                {
+                    messagestr = "Maximum Number of HiveChart License reached already, new HiveChart user cannot be created";
+                    model.ReturnFlag = 0;
+                    model.Status = "False";
+                }
                 model.TabUserDetails = ModelData;
                 model.Message = messagestr;
                 model.Status = "True";
@@ -117,7 +129,7 @@ namespace MyCortex.User.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
-
+       
         [AllowAnonymous]
         [HttpPost]
         [CheckSessionOutFilter]

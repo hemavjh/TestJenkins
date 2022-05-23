@@ -84,6 +84,8 @@ InstitutionSubscriptionHAcontroller.controller("InstitutionSubscriptionHospitalA
                     $scope.Contract_Period_From = $filter('date')(data.Contract_PeriodFrom, "dd-MMM-yyyy");
                     $scope.Health_Care_Professionals = data.Health_Care_Professionals;
                     $scope.Patients = data.No_Of_Patients;
+                    $scope.No_Of_Hive = data.No_Of_Hive;
+                    $scope.No_Of_HiveChart = data.No_Of_HiveChart;
                     $scope.Contract_Period_To = $filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy");
                     $scope.Subscription_Type = data.Subscription_Type;
                     $scope.InsSub_Id = data.SubscriptionId;
@@ -98,6 +100,11 @@ InstitutionSubscriptionHAcontroller.controller("InstitutionSubscriptionHospitalA
                     $scope.Created_No_Of_HealthCareProf = data.Created_No_Of_HealthCareProf;
                     $scope.Remaining_No_Of_Patient = data.Remaining_No_Of_Patient;
                     $scope.Remaining_No_Of_HealthCareProf = data.Remaining_No_Of_HealthCareProf;
+                    $scope.Created_No_Of_Hive = data.Created_No_Of_Hive;
+                    $scope.Created_No_Of_Hivechart = data.Created_No_Of_Hivechart;
+                    $scope.Remaining_No_Of_Hive = data.Remaining_No_Of_Hive;
+                    $scope.Remaining_No_Of_Hivechart = data.Remaining_No_Of_Hivechart;
+
                     $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data2) {
                         $scope.TimeZoneList = data2;
                         for (i in data2) {

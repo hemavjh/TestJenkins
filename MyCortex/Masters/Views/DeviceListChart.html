@@ -25,7 +25,7 @@
                             <label>Search</label>
                             <div class="modernSearch">
                                 <input type="text" ng-model="searchquery"
-                                       placeholder="" style="width: 200px" />
+                                       placeholder="" style="width: 200px"/>
                                 <i class="fa fa-search" ng-click="filterDeviceListed()"></i>
                             </div>
 
@@ -48,7 +48,7 @@
     </div>
 </div>
 
-<table st-table="emptydataTab" style="width: 100%" st-safe-src="rowCollectionDeviceFilter" st-search="query" class="table themeTable">
+<table st-table="emptydataTab" style="width: 100%" st-safe-src="rowCollectionTabFilter" st-search="query" class="table themeTable">
     <thead>
         <tr style="text-align: center">
             <th st-ratio="5">#</th>
@@ -65,7 +65,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-if="rowCollectionDeviceFilter.length==0">
+        <tr ng-if="rowCollectionTabFilter.length==0">
             <td colspan="6" style="text-align:center;">
                 No Data Available
             </td>
@@ -107,9 +107,9 @@
             </td>
         </tr>
     </tbody>
-    <tfoot ng-show="rowCollection.length >10">
+    <tfoot ng-show="rowCollectionFilter.length >10">
         <tr>
-            <td colspan="7" class="text-center">
+            <td colspan="12" class="text-center">
                 <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
                      st-template="Masters/Views/pagination.custom.html"></div>
             </td>
