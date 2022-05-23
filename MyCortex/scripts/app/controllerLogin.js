@@ -304,6 +304,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
         });
         $http.get(baseUrl + '/api/Login/GetProduct_Details/').success(function (data) {
             $scope.PrdImg = data[0].ProductImg;
+            $scope.PrdDefaultLogo = data[0].ProductDefaultlogo;
             $scope.prdtname = data[0].ProductName;
         });
         $http.get(baseUrl + '/api/Login/getProductName/').success(function (data) {
