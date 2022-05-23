@@ -59,7 +59,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             $scope.Hcp_Pat = false;
             $scope.ClearInstitutionSubscriptionPopup();
             $scope.Contract_Period_From = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
-            $scope.Contract_Period_To = DateFormatEdit($filter('date')(new Date(new Date().setMonth(new Date().getMonth() + 1)), 'dd-MMM-yyyy'));
+            $scope.Contract_Period_To = DateFormatEdit($filter('date')(new Date(new Date().setDate(new Date().getDate() + 30)), 'dd-MMM-yyyy'));
             $('#btnsave').attr("disabled", false);
             $('#btnsave1').attr("disabled", false);
             $scope.EditInstSub = 0;

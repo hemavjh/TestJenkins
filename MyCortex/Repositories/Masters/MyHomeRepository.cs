@@ -554,10 +554,10 @@ namespace MyCortex.Repositories.Masters
                                               }).FirstOrDefault();
                 if (lst != null)
                 {
-                    lst.TabParameterList = GroupParameterNameLists(lst.InstitutionId, lst.UserId);
+                    lst.TabParameterList = GroupParameterNameLists(lst.InstitutionId, UserId);
                     //lst.TabAlertsList = Get_ParameterValue(lst.UserId, lst.UserTypeId, Login_Session_Id);
-                    lst.TabAppointmentList = PatientAppoinmentsList(lst.UserId, Login_Session_Id);
-                    lst.TabMedicationList = MedicationView(lst.UserId, Login_Session_Id);
+                    lst.TabAppointmentList = PatientAppoinmentsList(UserId, Login_Session_Id);
+                    lst.TabMedicationList = MedicationView(UserId, Login_Session_Id);
                 }
 
                 return lst;

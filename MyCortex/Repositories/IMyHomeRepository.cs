@@ -20,7 +20,7 @@ namespace MyCortex.Repositories
         IList<ParameterModels> Parameter_Lists(long ParamGroup_ID, long TabId);
         TabUserDetails Tab_User_Validation(TabUserDetails TabLoginObj);
         TabAdminDetails Tab_Logout_Validation(TabAdminDetails TabLoginObj);
-        TabUserDashBordDetails GetDashBoardListDetails(long InstitutionId, long UserId, long TabId,Guid Login_Session_Id);
+        TabUserDashBordDetails GetDashBoardListDetails(long InstitutionId, long UserId, long TabId, Guid Login_Session_Id);
         IList<TabDevicesModel> Get_DeviceList(int? IsActive, long Institution_ID, long HiveType); 
         IList<TabDevicesModel> Get_DeviceNameList(int? IsActive);
         IList<TabDevicesModel> Device_InsertUpdate(TabDevicesModel obj);

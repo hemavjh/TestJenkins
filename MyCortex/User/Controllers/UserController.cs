@@ -179,6 +179,30 @@ namespace MyCortex.User.Controller
                 return null;
             }
         }
+
+        /// <summary>      
+        /// Getting user list of doctor
+        /// </summary>          
+        /// <returns> user list of doctor</returns>
+        //  [CheckSessionOutFilter]
+        [HttpGet]
+        public IList<ItemizedUserDetailsModel> Doctor_Group_CCCG_UserType_List(long DoctorId, int? IsActive, Guid Login_Session_Id)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            try
+            {
+                IList<ItemizedUserDetailsModel> model;
+                model = repository.Doctor_Group_CCCG_List(DoctorId, Int32.Parse(HttpContext.Current.Session["InstitutionId"].ToString()), IsActive, Login_Session_Id);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
         /// <summary>      
         /// Getting user list of a institution
         /// </summary>          
