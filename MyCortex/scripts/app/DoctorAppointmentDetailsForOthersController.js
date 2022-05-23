@@ -32,11 +32,19 @@ DoctorAppointmentDetails.controller("DoctorAppointmentDetailsForOthersController
         $scope.Cancelled_Remarks = "";
         $scope.Appointment_Id = 0;
         $scope.TimeZone_ID = 0;
-        $("#chatLoaderPV").show();
-        $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-            $scope.TimeZone_ID = data.DefautTimeZone;
+        $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            $("#chatLoaderPV").show();
+            if (data.TimeZone_ID != "") {
+                $scope.TimeZone_ID = data.TimeZone_ID;
+            } else {
+                toastr.warning("Please Set Timezone for Institution", "warning");
+            }
             $scope.getTimeZoneList();
         });
+        //$http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+        //    $scope.TimeZone_ID = data.DefautTimeZone;
+        //    $scope.getTimeZoneList();
+        //});
         $http.get(baseUrl + '/api/PatientAppointments/AppointmentReasonType_List/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
             $scope.AppointmentReasonTypeListTemp = [];
             $scope.AppointmentReasonTypeListTemp = data;
