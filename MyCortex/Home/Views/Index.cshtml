@@ -539,12 +539,12 @@
                         <ul class="dropdown-menu customDropdown logoutDrop">
                             <li class="customDropdownlast-child" onclick="location.href = 'Home/Index#/ChangePassword/2'"
                                 style="padding: 5px 20px !important;">Change Password</li>
-                            <li id="logout" class="customDropdownlast-child" onclick="location.href='@Url.Action("LoginOut", "Home" )'"
+                            <li id="logout" class="customDropdownlast-child" onclick="logout()"
                                 style="padding: 5px 20px !important;">
                                 Log Out
 
                             </li>
-                            <li id="logoutalldevice" class="customDropdownlast-child" onclick="location.href='@Url.Action("LoginOutAllDevice", "Home" )'"
+                            <li id="logoutalldevice" class="customDropdownlast-child" onclick="logoutAlldevice()"
                                 style="padding: 5px 20px !important;">
                                 Log Out From All Device
 
@@ -1603,4 +1603,20 @@
     }
 
     makeResizableDiv('.resizable')
+
+    function logout() {
+        clearFirebaseToken();
+        location.href = 'Home/LoginOut';
+    }
+
+    function logoutAlldevice() {
+        clearFirebaseToken();
+        location.href = 'Home/LoginOutAllDevice';
+    }
+
+    function clearFirebaseToken() {
+        var msgSenderId = window.localStorage.getItem('fcmsgid');
+        firebase.messaging().deleteToken(msgSenderId, 'FCM').then(function () { console.log('succ') }).catch(function () { console.log('err') });
+        window.localStorage.removeItem('fcmsgid');
+    }
 </script>
