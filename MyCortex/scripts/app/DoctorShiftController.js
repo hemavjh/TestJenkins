@@ -15,7 +15,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
         $scope.DoctorSave = true;
         $scope.DevicesLists = [];
         $scope.SelectedDepartment = [];
-        $scope.SelectedSpecialist = [];
+        $scope.SelectedDoctorList = [];
         $scope.SelectedCCCG = [];
         $scope.ConfigCode = "PAGINATION";
         $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
@@ -139,10 +139,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
         $http.get(baseUrl + '/api/User/DepartmentListByInstitution/').success(function (data) {
             $scope.DepartmentList = data;
         });
-        $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.CC_Id + '&IsActive=' + 1 + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-            $scope.CCCG_DetailsList = data;
-        });
-
+        $scope.SelectedDoctor = "0";
+        $scope.CCCG_DetailsList = [];
         $scope.AddSlot = function () {
             $("#chatLoaderPV").show();
             $scope.Id = 0;
@@ -166,6 +164,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             angular.element('#DoctorShiftModal').modal('show');
             $("#chatLoaderPV").hide();
         }
+
         $scope.onChangeDepartment = function () {
             $("#chatLoaderPV").show();
             var today = moment(new Date()).format('DD-MMM-YYYY');
@@ -189,6 +188,17 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     });
             } else {
                 $scope.SelectedDoctorList = [];
+            }
+            $("#chatLoaderPV").hide();
+        }
+
+        $scope.onChangeSpecialist = function () {
+            $("#chatLoaderPV").show();
+            $scope.CCCG_DetailsList = [];
+            if ($scope.SelectedDoctor != 0 || $scope.SelectedDoctor != '') {
+                $http.get(baseUrl + '/api/User/Doctor_Group_CCCG_UserType_List/?DoctorId=' + $scope.SelectedDoctor + '&IsActive=' + 1 + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    $scope.CCCG_DetailsList = data;
+                });
             }
             $("#chatLoaderPV").hide();
         }
@@ -1157,14 +1167,19 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     $scope.SelectedDepartment_List.push(obj);
                 });
                 $scope.SelectedSpecialist_List = [];
-                angular.forEach($scope.SelectedSpecialist, function (value, index) {
-                    var obj = {
-                        //ID: 0,
-                        DoctorId: value,
-                        IsActive: 1
-                    }
-                    $scope.SelectedSpecialist_List.push(obj);
-                });
+                //angular.forEach($scope.SelectedSpecialist, function (value, index) {
+                //    var obj = {
+                //        //ID: 0,
+                //        DoctorId: value,
+                //        IsActive: 1
+                //    }
+                //    $scope.SelectedSpecialist_List.push(obj);
+                //});
+                var obj = {
+                    DoctorId: $scope.SelectedDoctor,
+                    IsActive: 1
+                }
+                $scope.SelectedSpecialist_List.push(obj);
                 $scope.SelectedCCCG_List = [];
                 angular.forEach($scope.SelectedCCCG, function (value, index) {
                     var obj = {
@@ -1549,7 +1564,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 toastr.warning("Please Select Department", "warning");
                 return false;
             }
-            else if (typeof ($scope.SelectedSpecialist) == "undefined" || $scope.SelectedSpecialist == "") {
+            else if (typeof ($scope.SelectedDoctor) == "undefined" || $scope.SelectedDoctor == "") {
                 //alert("Please Select Specialist");
                 toastr.warning("Please Select Specialist", "warning");
                 return false;
@@ -2237,7 +2252,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             $("#chatLoaderPV").show();
             $scope.currentTab = "1";
             $scope.SelectedDepartment = [];
-            $scope.SelectedSpecialist = [];
+            $scope.SelectedDoctor = "0";
             $scope.SelectedCCCG = [];
             $scope.FromDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
             $scope.ToDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
@@ -2547,9 +2562,22 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 if (data != null) {
                     $scope.EditSelectedDepartment.push(data.DepartmentId);
                     $scope.SelectedDepartment = $scope.EditSelectedDepartment;
-                    $scope.onChangeDepartment();
-                    $scope.EditSelectedDoctor.push(data.DoctorId);
-                    $scope.SelectedSpecialist = $scope.EditSelectedDoctor;
+                    var today = moment(new Date()).format('DD-MMM-YYYY');
+                    $http.get(baseUrl + '/api/PatientAppointments/DepartmentwiseDoctorList/?DepartmentIds=' + data.DepartmentId.toString() + '&InstitutionId=' + $window.localStorage['InstitutionId'] +
+                        '&Date=' + today + '&Login_Session_Id=' + $scope.LoginSessionId + '&IsShift=1').success(function (response_data) {
+                            $scope.SelectedDoctorList = response_data;
+                            $scope.EditSelectedDoctor.push(data.DoctorId);
+                            $scope.SelectedDoctor = data.DoctorId.toString();
+                            if ($scope.SelectedDoctor != 0 || $scope.SelectedDoctor != '') {
+                                $http.get(baseUrl + '/api/User/Doctor_Group_CCCG_UserType_List/?DoctorId=' + $scope.SelectedDoctor + '&IsActive=' + 1 + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (resp_data) {
+                                    $scope.CCCG_DetailsList = resp_data;
+                                });
+                            }
+                            angular.forEach(data.CC_CG, function (value, index) {
+                                $scope.EditSelectedCCCG.push(value.CcCg_Id);
+                            });
+                            $scope.SelectedCCCG = $scope.EditSelectedCCCG;
+                    });
                     $scope.FromDate = DateFormatEdit($filter('date')(data.FromDate, "dd-MMM-yyyy"));
                     $scope.ToDate = DateFormatEdit($filter('date')(data.ToDate, "dd-MMM-yyyy"));
                     $scope.onDateRange();
@@ -2566,10 +2594,6 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     $scope.Minutes = data.BookingCancelLock;
                     $scope.MakeMeLookBusy = data.MakeMeLookBusy;
                     $scope.MinimumSlots = data.MinimumSlots;
-                    angular.forEach(data.CC_CG, function (value, index) {
-                        $scope.EditSelectedCCCG.push(value.CcCg_Id);
-                    });
-                    $scope.SelectedCCCG = $scope.EditSelectedCCCG;
                     angular.forEach(data.SelectedDaysList, function (value, index) {
                         //Day = value.Day.toString();
                         Day = DateFormatEdit($filter('date')(value.Day, "dd-MMM-yyyy")).toString();

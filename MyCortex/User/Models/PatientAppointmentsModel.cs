@@ -8,7 +8,7 @@ namespace MyCortex.User.Model
 {
     public class PatientAppointmentsModel
     {
-        public long Id { get; set; }
+        public long? Id { get; set; }
         public int id { get; set; }
         public long Institution_Id { get; set; }
         public long Doctor_Id { get; set; }
@@ -30,8 +30,8 @@ namespace MyCortex.User.Model
         public long Appointment_Type { get; set; }
         public string ReasonForVisit { get; set; }
         public string Remarks { get; set; }
-        public long Status { get; set; }
-        public long Created_By { get; set; }
+        public int Status { get; set; }
+        public int Created_By { get; set; }
         public string Created_By_Name { get; set; }
         public string Cancelled_Remarks { get; set; }
         public DateTime? Cancelled_Date { get; set; }

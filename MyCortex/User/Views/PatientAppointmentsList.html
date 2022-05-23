@@ -113,7 +113,10 @@
                             <button id="videoDisable" style="cursor: pointer" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon Video" onclick="openChatWindow();videoCallUser()">
                                 <img style=" margin-top: -7px; padding-left: 0px; padding-top: 0px; padding-bottom: 0px; padding-right: 4px; width: 41px; margin-left: -9px;" src="images/Video-Icon.png">
                             </button>
-                            <a class="homepadamicon trashs" style="cursor: pointer" ng-click="CancelAppointmentModal(Row,Appointment_Id)"><img class="kutticon" src="images/trashs-icon.png"> </a>
+                                <button id="videoDisable" title="my meeting" style="cursor: pointer" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon Video" ng-click="openvideocall(Row.PatientName)">
+                                    <img title="my meeting" style=" margin-top: -7px; padding-left: 0px; padding-top: 0px; padding-bottom: 0px; padding-right: 4px; width: 41px; margin-left: -9px;" src="images/Video-Icon.png">
+                                </button>
+                                <a class="homepadamicon trashs" style="cursor: pointer" ng-click="CancelAppointmentModal(Row,Appointment_Id)"><img class="kutticon" src="images/trashs-icon.png"> </a>
                         </div>
                     </div>
                 </div>

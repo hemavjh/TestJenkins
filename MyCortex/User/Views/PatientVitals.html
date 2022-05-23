@@ -19,7 +19,7 @@
         $('#ATDate').attr('min', maxDate);
         $('#S_Date').attr('min', maxDate);
         $('#E_Date').attr('min', maxDate);
-        $('#SD_Date').attr('min', maxDate);
+        $('#SD_Date').attr('max', maxDate);
         $('#start_Date').attr('min', maxDate);
         $('#End_Date').attr('min', maxDate);
         $('#ptDateTimePicker').attr('min', maxDate);      
@@ -224,7 +224,7 @@
                 <!--<div class="mainbody resBody ng-scope">
                 <div class="rows">-->
                 <h4 class="page-title" style="margin-left: 18px;"></h4>
-                <div class="col-sm-4 p-15 centerScroll" style="z-index:2;">
+                <div id="Patient_AppointmentPanel" class="col-sm-4 p-15 centerScroll" style="z-index:2;">
                     <div style="border: 1px solid #ccc;box-shadow: 2px 2px 10px #ccc;background:#fff">
                         <div id="DemoChart" style="max-width:80%;margin: 0 auto;">
                         </div>
@@ -2693,6 +2693,9 @@
         </div>
     </div>-->
                     <!--</div>-->
+                </div>
+                <div class="col-sm-4 hide" id="Patient_VideoCall">
+                    
                 </div>
             </div>
         </div>

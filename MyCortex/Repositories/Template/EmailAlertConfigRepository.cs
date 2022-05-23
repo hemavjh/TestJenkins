@@ -280,7 +280,7 @@ namespace MyCortex.Repositories.EmailAlert
         /// </summary>
         /// <param name="Institution_Id">Institution Id</param>
         /// <returns>list of Email alert detail of a institution</returns>
-        public IList<EventModel> DefaultAlertEvent_List(int Institution_Id , int Status)
+        public IList<EventModel> DefaultAlertEvent_List(int Institution_Id)
         {
             _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -290,7 +290,7 @@ namespace MyCortex.Repositories.EmailAlert
             try
             {
                 param.Add(new DataParameter("@Institution_Id", Institution_Id));
-                param.Add(new DataParameter("@Status", Status));
+                //param.Add(new DataParameter("@Status", Status));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALL_ALERTEVENTMASTER_SP_LIST]", param);
                 List<EventModel> lst = (from p in dt.AsEnumerable()
                                         select new EventModel()
