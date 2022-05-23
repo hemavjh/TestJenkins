@@ -74,6 +74,8 @@ namespace MyCortex.Repositories.Admin
             param.Add(new DataParameter("@INSTITUTION_ID", obj.Institution_Id));
             param.Add(new DataParameter("@NOOF_HEALTHCHAR", obj.Health_Care_Professionals));
             param.Add(new DataParameter("@NOOF_PATIENT", obj.No_Of_Patients));
+            param.Add(new DataParameter("@NOOF_HIVEUSERS", obj.No_Of_HiveUsers));
+            param.Add(new DataParameter("@NOOF_HIVECHARTUSERS", obj.No_Of_HiveChartUsers));
             param.Add(new DataParameter("@CONTRACT_PERIODFROM", obj.Contract_PeriodFrom));
             param.Add(new DataParameter("@CONTRACT_PERIODTO", obj.Contract_PeriodTo));
             param.Add(new DataParameter("@SUBSCRIPTION_TYPE", obj.Subscription_Type));
@@ -100,6 +102,8 @@ namespace MyCortex.Repositories.Admin
                                                                Contract_PeriodFrom = p.Field<DateTime>("CONTRACT_PERIODFROM"),
                                                                Health_Care_Professionals = p.Field<int>("NOOF_HEALTHCARE"),
                                                                No_Of_Patients = p.Field<int>("NOOF_PATIENT"),
+                                                               No_Of_HiveUsers = p.Field<int>("NOOF_HIVE_USER"),
+                                                               No_Of_HiveChartUsers = p.Field<int>("NOOF_HIVECHART_USER"),
                                                                Contract_PeriodTo = p.Field<DateTime>("CONTRACT_PERIODTO"),
                                                                Subscription_Type = p.Field<int>("SUBSCRIPTION_TYPE"),
                                                                TimeZone_ID = p.Field<int>("TIMEZONE_ID"),
@@ -354,6 +358,8 @@ namespace MyCortex.Repositories.Admin
                                                     Contract_PeriodFrom = p.Field<DateTime>("CONTRACT_PERIODFROM"),
                                                     Health_Care_Professionals = p.Field<int>("NOOF_HEALTHCARE"),
                                                     No_Of_Patients = p.Field<int>("NOOF_PATIENT"),
+                                                    No_Of_HiveUsers = p.Field<int>("NOOF_HIVE_USER"),
+                                                    No_Of_HiveChartUsers = p.Field<int>("NOOF_HIVECHART_USER"),
                                                     Contract_PeriodTo = p.Field<DateTime>("CONTRACT_PERIODTO"),
                                                     Subscription_Type = p.Field<int>("SUBSCRIPTION_TYPE"),
                                                     TimeZone_ID = p.IsNull("TIMEZONE_ID") ? 0 : p.Field<int>("TIMEZONE_ID"),

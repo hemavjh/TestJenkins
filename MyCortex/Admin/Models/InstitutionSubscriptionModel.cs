@@ -22,6 +22,8 @@ namespace MyCortex.Admin.Models
         public int Health_Care_Professionals { get; set; }
         [Required]
         public int No_Of_Patients { get; set; }
+        public int No_Of_HiveUsers { get; set; }
+        public int No_Of_HiveChartUsers { get; set; }
         [Required]
         public DateTime Contract_PeriodFrom { get; set; }
         [Required]
