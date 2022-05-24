@@ -22,12 +22,12 @@ namespace MyCortex.Admin.Models
         public int Health_Care_Professionals { get; set; }
         [Required]
         public int No_Of_Patients { get; set; }
-        public int No_Of_HiveUsers { get; set; }
-        public int No_Of_HiveChartUsers { get; set; }
+        public int? No_Of_HiveUsers { get; set; }
+        public int? No_Of_HiveChartUsers { get; set; }
         [Required]
-        public int No_Of_Hive { get; set; }
+        public int? No_Of_Hive { get; set; }
         [Required]
-        public int No_Of_HiveChart { get; set; }
+        public int? No_Of_HiveChart { get; set; }
         public DateTime Contract_PeriodFrom { get; set; }
         [Required]
         public DateTime Contract_PeriodTo { get; set; }
@@ -63,10 +63,15 @@ namespace MyCortex.Admin.Models
         public int Remaining_No_Of_Patient { get; set; }
         public int Remaining_No_Of_HealthCareProf { get; set; }
 
-        public int Created_No_Of_Hive { get; set; }
-        public int Created_No_Of_Hivechart { get; set; }
-        public int Remaining_No_Of_Hive { get; set; }
-        public int Remaining_No_Of_Hivechart { get; set; }
+        public int? Created_No_Of_Hive { get; set; }
+        public int? Created_No_Of_Hivechart { get; set; }
+        public int? Remaining_No_Of_Hive { get; set; }
+        public int? Remaining_No_Of_Hivechart { get; set; }
+
+        public int? Created_No_Of_Hive_Users { get; set; }
+        public int? Created_No_Of_Hivechart_Users { get; set; }
+        public int? Remaining_No_Of_Hive_Users { get; set; }
+        public int? Remaining_No_Of_Hivechart_Users { get; set; }
     }
 
   

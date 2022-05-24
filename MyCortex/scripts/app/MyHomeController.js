@@ -45,8 +45,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         $scope.ISact = 1;
         $scope.PIN = "1234";
         $scope.DisplayView = '';
-        $scope.hivelength = '';
-
+        
         //$http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
         //    $scope.DevicesLists = data;
         //});
@@ -173,7 +172,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         /*THIS IS FOR LIST FUNCTION*/
         $scope.ViewParamList = [];
         $scope.ViewParamList1 = [];
-        $scope.PendingUsersCount = 0;
+        
         $scope.TabList = function (HiveType = 1) {
             $("#chatLoaderPV").show();
             $scope.emptydataTab = [];
@@ -192,14 +191,14 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 else if ($scope.IsActive == false) {
                     $scope.ISact = 0 //all
                 }
-                $scope.UsersCount = 0;
+                $scope.HiveUsersCount = 0;
                 $http.get(baseUrl + '/api/MyHome/Tab_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd + '&HiveType=' + HiveType).success(function (data) {
                     $("#chatLoaderPV").hide();
                     if (data != null && data !== undefined) {
                         $scope.emptydataTab = [];
                         $scope.rowCollectionTab = [];
                         $scope.rowCollectionTab = data;
-                        $scope.hivelength = data.length;
+                                             
                         $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                             $scope.Remaining_No_Of_Hive = data.Remaining_No_Of_Hive;
                             $scope.No_Of_Hive = data.No_Of_Hive;
@@ -208,13 +207,15 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
 
                             $scope.No_Of_HiveChart_User = data.No_Of_HiveChartUsers;
                             $scope.No_Of_Hive_User = data.No_Of_HiveUsers;
-                            if ($scope.rowCollectionTab.length > 0) {
-                                angular.forEach($scope.rowCollectionTab, function (value, index) {
-                                    $scope.UsersCount = $scope.UsersCount + value.UsersCount;
-                                });
-                            }
-                            //get the pending users count
-                            $scope.PendingUsersCount = $scope.No_Of_Hive_User - $scope.UsersCount;
+                            $scope.Remaining_No_Of_Hive_Users = data.Remaining_No_Of_Hive_Users;
+                            $scope.Remaining_No_Of_Hivechart_Users = data.Remaining_No_Of_Hivechart_Users;
+                            //if ($scope.rowCollectionTab.length > 0) {
+                            //    angular.forEach($scope.rowCollectionTab, function (value, index) {
+                            //        $scope.UsersCount = $scope.UsersCount + value.UsersCount;
+                            //    });
+                            //}
+                            ////get the pending users count
+                            //$scope.PendingUsersCount = $scope.Remaining_No_Of_Hive_Users;
                         });
                         if ($scope.rowCollectionTab.length > 0) {
                             $scope.TabDataCount = $scope.rowCollectionTab[0].TotalRecord;
@@ -752,13 +753,13 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 if (valuser.UserId == undefined && (valuser.ID == "0" || valuser.ID == 0))
                     valuser.IsActive = false;
             });
-            if ($scope.AddUserParameters.length > 0) {
-                $scope.CurrentUsersCount = $scope.AddUserParameters.length;
-            }
-            if ($scope.CurrentUsersCount > $scope.PendingUsersCount) {
-                toastr.info("No. of users count exceeded from allocated users count", "info");
-                return false;
-            }
+            //if ($scope.AddUserParameters.length > 0) {
+            //    $scope.CurrentUsersCount = $scope.AddUserParameters.length;
+            //}
+            //if ($scope.CurrentUsersCount > $scope.PendingUsersCount) {
+            //    toastr.info("No. of users count exceeded from allocated users count", "info");
+            //    return false;
+            //}
             if (TSDuplicate == 1) {
                 //alert('User Name already exist, cannot be Duplicated');
                 toastr.info("User Name already exist, cannot be Duplicated", "info");
@@ -1298,7 +1299,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     $scope.CancelDeviceList();
 
                 }).error(function (data) {
-                    $scope.error = "An error has occurred while Addeing Device" + data;
+                    $scope.error = "An error has occurred while Adding Device" + data;
                 });
 
                 //}
