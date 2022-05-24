@@ -47,6 +47,7 @@ namespace MyCortex.Login.Model
 
         public string ProductName { get; set; }
         public string ProductImg { get; set; }
+        public string ProductDefaultlogo { get; set; }
         public string ProductCopyRight { get; set; }
         public string PoweredBy { get; set; }
     }
