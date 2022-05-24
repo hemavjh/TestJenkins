@@ -4016,6 +4016,29 @@ namespace MyCortex.User.Controller
         }
 
         /// <summary>
+        /// to get patient appointment data document
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public IList<Patient_OtherDataModel> Patient_Appointment_GetDocument(long Id)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            try
+            {
+                IList<Patient_OtherDataModel> model = new List<Patient_OtherDataModel>();
+                model = repository.Patient_Appointment_GetDocument(Id);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
+        /// <summary>
         /// list of users with group exist in selected user list
         /// </summary>
         /// <param name="User_Id">User Id</param>
