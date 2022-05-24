@@ -123,6 +123,7 @@ namespace MyCortex.Repositories
         AppointmentFeeModel GetAppointmentFee(long Institution_Id, long Department_Id);
         IList<Patient_OtherDataModel> Patient_OtherData_List(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber);
         Patient_OtherDataModel Patient_OtherData_GetDocument(long Id);
+        IList<Patient_OtherDataModel> Patient_Appointment_GetDocument(long Id);
         Patient_OtherDataModel Patient_OtherData_InActive(long Id, long Modified_By);
         Patient_OtherDataModel Patient_OtherData_Active(long Id, long Modified_By);
         IList<UserGroupDetails_List> GroupBasedUserList_ByUser(long User_Id);
