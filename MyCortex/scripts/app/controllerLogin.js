@@ -304,6 +304,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
         });
         $http.get(baseUrl + '/api/Login/GetProduct_Details/').success(function (data) {
             $scope.PrdImg = data[0].ProductImg;
+            $scope.PrdDefaultLogo = data[0].ProductDefaultlogo;
             $scope.prdtname = data[0].ProductName;
         });
         $http.get(baseUrl + '/api/Login/getProductName/').success(function (data) {
@@ -1281,13 +1282,13 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
 
         var Login_Country = "";
         var Login_City = "";
-        //$http.get("http://ip-api.com/json").then(function (response) {
-        $http.get("https://ipapi.co/json/").then(function (response) {
-            //Login_Country = response.data.country;
-            //Login_City = response.data.city;
-            Login_Country = response.data.country_name;
-            Login_City = response.data.city
-        });
+        ////$http.get("http://ip-api.com/json").then(function (response) {
+        //$http.get("https://ipapi.co/json/").then(function (response) {
+        //    //Login_Country = response.data.country;
+        //    //Login_City = response.data.city;
+        //    Login_Country = response.data.country_name;
+        //    Login_City = response.data.city
+        //});
 
         navigator.sayswho = (function () {
             var ua = navigator.userAgent, tem,

@@ -110,7 +110,20 @@ namespace MyCortex.User.Controllers
                 }
                 else if (ModelData.Any(item => item.Flag == 8) == true)
                 {
-                    messagestr = "Maximum Number of HiveChart License reached already, new HiveChart user cannot be created";
+                    messagestr = "Maximum Number of Hive Chart License reached already, new Hive Chart user cannot be created";
+                    model.ReturnFlag = 0;
+                    model.Status = "False";
+                }
+
+                else if (ModelData.Any(item => item.Flag == 9) == true)
+                {
+                    messagestr = "Maximum Number of Hive Users License reached already, new Hive user cannot be created";
+                    model.ReturnFlag = 0;
+                    model.Status = "False";
+                }
+                else if (ModelData.Any(item => item.Flag == 10) == true)
+                {
+                    messagestr = "Maximum Number of Hive Chart Users License reached already, new Hive Chart user cannot be created";
                     model.ReturnFlag = 0;
                     model.Status = "False";
                 }

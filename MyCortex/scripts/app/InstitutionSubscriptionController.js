@@ -599,6 +599,8 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     $scope.Patients = data.No_Of_Patients;
                     $scope.Hive = data.No_Of_Hive;
                     $scope.HiveChart = data.No_Of_HiveChart;
+                    $scope.Hive_Users = data.No_Of_HiveUsers;
+                    $scope.HiveChart_Users = data.No_Of_HiveChartUsers;
                     //$scope.Contract_Period_To = $filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy");
                     $scope.Contract_Period_To = DateFormatEdit($filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy"));
                     $scope.Subscription_Type = data.Subscription_Type;
@@ -616,6 +618,10 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     $scope.Created_No_Of_Hivechart = data.Created_No_Of_Hivechart;
                     $scope.Remaining_No_Of_Hive= data.Remaining_No_Of_Hive;
                     $scope.Remaining_No_Of_Hivechart = data.Remaining_No_Of_Hivechart;
+                    $scope.Created_No_Of_Hive_Users = data.Created_No_Of_Hive_Users;
+                    $scope.Created_No_Of_Hivechart_Users = data.Created_No_Of_Hivechart_Users;
+                    $scope.Remaining_No_Of_Hive_Users = data.Remaining_No_Of_Hive_Users;
+                    $scope.Remaining_No_Of_Hivechart_Users = data.Remaining_No_Of_Hivechart_Users;
 
                     angular.forEach($scope.InstitutiontypeList, function (item, modIndex) {
 

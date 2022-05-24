@@ -45,8 +45,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         $scope.ISact = 1;
         $scope.PIN = "1234";
         $scope.DisplayView = '';
-        $scope.hivelength = '';
-
+        
         //$http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
         //    $scope.DevicesLists = data;
         //});
@@ -173,6 +172,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         /*THIS IS FOR LIST FUNCTION*/
         $scope.ViewParamList = [];
         $scope.ViewParamList1 = [];
+        
         $scope.TabList = function (HiveType = 1) {
             $("#chatLoaderPV").show();
             $scope.emptydataTab = [];
@@ -191,25 +191,38 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 else if ($scope.IsActive == false) {
                     $scope.ISact = 0 //all
                 }
-
+                $scope.HiveUsersCount = 0;
                 $http.get(baseUrl + '/api/MyHome/Tab_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd + '&HiveType=' + HiveType).success(function (data) {
                     $("#chatLoaderPV").hide();
                     if (data != null && data !== undefined) {
                         $scope.emptydataTab = [];
                         $scope.rowCollectionTab = [];
                         $scope.rowCollectionTab = data;
-                        $scope.hivelength = data.length;
+                                             
                         $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                             $scope.Remaining_No_Of_Hive = data.Remaining_No_Of_Hive;
                             $scope.No_Of_Hive = data.No_Of_Hive;
                             $scope.Remaining_No_Of_Hivechart = data.Remaining_No_Of_Hivechart;
                             $scope.No_Of_HiveChart = data.No_Of_HiveChart;
+
+                            $scope.No_Of_HiveChart_User = data.No_Of_HiveChartUsers;
+                            $scope.No_Of_Hive_User = data.No_Of_HiveUsers;
+                            $scope.Remaining_No_Of_Hive_Users = data.Remaining_No_Of_Hive_Users;
+                            $scope.Remaining_No_Of_Hivechart_Users = data.Remaining_No_Of_Hivechart_Users;
+                            //if ($scope.rowCollectionTab.length > 0) {
+                            //    angular.forEach($scope.rowCollectionTab, function (value, index) {
+                            //        $scope.UsersCount = $scope.UsersCount + value.UsersCount;
+                            //    });
+                            //}
+                            ////get the pending users count
+                            //$scope.PendingUsersCount = $scope.Remaining_No_Of_Hive_Users;
                         });
                         if ($scope.rowCollectionTab.length > 0) {
                             $scope.TabDataCount = $scope.rowCollectionTab[0].TotalRecord;
                         } else {
                             $scope.TabDataCount = 0;
                         }
+                        
                         $scope.TabData_ListFilterdata = data;
                         $scope.rowCollectionTabFilter = angular.copy($scope.rowCollectionTab);
                         if ($scope.rowCollectionTabFilter.length > 0) {
@@ -242,7 +255,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     return angular.lowercase(value.RefId).match(searchstring) ||
                         angular.lowercase(value.TabName).match(searchstring) ||
                         angular.lowercase(value.OS).match(searchstring) ||
-                        angular.lowercase(value.Model).match(searchstring) 
+                        angular.lowercase(value.Model).match(searchstring)
                 });
                 $scope.total_MyHomepage = Math.ceil(($scope.rowCollectionTabFilter) / ($scope.page_size));
             }
@@ -399,16 +412,16 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     //Swal.fire('Changes are not saved', '', 'info')
                 }
             })
-          /*  var del = confirm("Do you like to activate the selected My Home details?");
-            if (del == true) {
-                $http.get(baseUrl + '/api/MyHome/Tab_List_Delete/?Id=' + $scope.Id).success(function (data) {
-                    //alert(" My Home details has been  Activated Successfully");
-                    toastr.success(" My Home details has been  Activated Successfully", "success");
-                    $scope.TabList();
-                }).error(function (data) {
-                    $scope.error = "An error has occurred while deleting  My Home details" + data;
-                });
-            }*/
+            /*  var del = confirm("Do you like to activate the selected My Home details?");
+              if (del == true) {
+                  $http.get(baseUrl + '/api/MyHome/Tab_List_Delete/?Id=' + $scope.Id).success(function (data) {
+                      //alert(" My Home details has been  Activated Successfully");
+                      toastr.success(" My Home details has been  Activated Successfully", "success");
+                      $scope.TabList();
+                  }).error(function (data) {
+                      $scope.error = "An error has occurred while deleting  My Home details" + data;
+                  });
+              }*/
         };
 
         /*calling Alert message for cannot edit inactive record function */
@@ -539,7 +552,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             });
         };
 
-        $scope.MyHomeDelete = function (Delete_Id, rowIndex,UserId) {
+        $scope.MyHomeDelete = function (Delete_Id, rowIndex, UserId) {
 
             Swal.fire({
                 title: 'Do you like to delete this My Home Id Details?',
@@ -549,34 +562,34 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 confirmButtonText: 'Yes',
                 denyButtonText: 'No',
                 showCloseButton: true,
-                 allowOutsideClick: false,
+                allowOutsideClick: false,
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    $scope.$apply(() => { 
-                    var Previous_MyHomeItem = [];
-                    if ($scope.Id == 0) {
-                        angular.forEach($scope.AddUserParameters, function (selectedPre, index) {
-                            if (index != rowIndex)
-                                Previous_MyHomeItem.push(selectedPre);
-                        });
-                        $scope.AddUserParameters = Previous_MyHomeItem;
-                    } else if ($scope.Id > 0) {
-                        angular.forEach($scope.AddUserParameters, function (selectedPre, index) {
-                            //if (selectedPre.ID == Delete_Id) {
-                            //    selectedPre.IsActive = false;
-                            //    //$scope.AddUserParameters.splice(rowIndex, 1);
-                            //}
-                            if (index == rowIndex) {
-                                selectedPre.IsActive = false;
+                    $scope.$apply(() => {
+                        var Previous_MyHomeItem = [];
+                        if ($scope.Id == 0) {
+                            angular.forEach($scope.AddUserParameters, function (selectedPre, index) {
+                                if (index != rowIndex)
+                                    Previous_MyHomeItem.push(selectedPre);
+                            });
+                            $scope.AddUserParameters = Previous_MyHomeItem;
+                        } else if ($scope.Id > 0) {
+                            angular.forEach($scope.AddUserParameters, function (selectedPre, index) {
+                                //if (selectedPre.ID == Delete_Id) {
+                                //    selectedPre.IsActive = false;
+                                //    //$scope.AddUserParameters.splice(rowIndex, 1);
+                                //}
+                                if (index == rowIndex) {
+                                    selectedPre.IsActive = false;
+                                }
+                            });
+                            if ($ff($scope.AddUserParameters, { IsActive: true }).length > 0) {
+                                $scope.MyHomeflag = 1;
                             }
-                        });
-                        if ($ff($scope.AddUserParameters, { IsActive: true }).length > 0) {
-                            $scope.MyHomeflag = 1;
-                        }
-                        else {
-                            $scope.MyHomeflag = 0;
-                        }
+                            else {
+                                $scope.MyHomeflag = 0;
+                            }
                         }
                     });
                 } else if (result.isDenied) {
@@ -688,32 +701,32 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
                 }
-    });
-};
-            /*var del = confirm("Do you like to delete this My Home Device Details?");
-            if (del == true) {
-                var Previous_MyDeviceItem = [];
-                if ($scope.Id == 0) {
-                    angular.forEach($scope.AddDeviceParameters, function (selectedPre, index) {
-                        if (index != rowIndex)
-                            Previous_MyDeviceItem.push(selectedPre);
-                    });
-                    $scope.AddDeviceParameters = Previous_MyDeviceItem;
-                } else if ($scope.Id > 0) {
-                    angular.forEach($scope.AddDeviceParameters, function (selectedPre, index) {
-                        if (selectedPre.Id == Delete_Id) {
-                            selectedPre.IsActive = false;
-                        }
-                    });
-                    if ($ff($scope.AddDeviceParameters, { IsActive: true }).length > 0) {
-                        $scope.MyDeviceflag = 1;
+            });
+        };
+        /*var del = confirm("Do you like to delete this My Home Device Details?");
+        if (del == true) {
+            var Previous_MyDeviceItem = [];
+            if ($scope.Id == 0) {
+                angular.forEach($scope.AddDeviceParameters, function (selectedPre, index) {
+                    if (index != rowIndex)
+                        Previous_MyDeviceItem.push(selectedPre);
+                });
+                $scope.AddDeviceParameters = Previous_MyDeviceItem;
+            } else if ($scope.Id > 0) {
+                angular.forEach($scope.AddDeviceParameters, function (selectedPre, index) {
+                    if (selectedPre.Id == Delete_Id) {
+                        selectedPre.IsActive = false;
                     }
-                    else {
-                        $scope.MyDeviceflag = 0;
-                    }
+                });
+                if ($ff($scope.AddDeviceParameters, { IsActive: true }).length > 0) {
+                    $scope.MyDeviceflag = 1;
                 }
-            }*/
-        
+                else {
+                    $scope.MyDeviceflag = 0;
+                }
+            }
+        }*/
+
 
 
         $scope.MYTAB_InsertUpdate_validation = function () {
@@ -726,7 +739,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                         TSDuplicate = 1;
                         DuplicateUserId = DuplicateUserId + ' ' + value2.UserId + ',';
                     };
-                    if (value1.UserId == undefined && value1.ID == "0") 
+                    if (value1.UserId == undefined && value1.ID == "0")
                         value1.IsActive = false;
 
                     if (value2.UserId == undefined && value2.ID == "0")
@@ -740,6 +753,13 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 if (valuser.UserId == undefined && (valuser.ID == "0" || valuser.ID == 0))
                     valuser.IsActive = false;
             });
+            //if ($scope.AddUserParameters.length > 0) {
+            //    $scope.CurrentUsersCount = $scope.AddUserParameters.length;
+            //}
+            //if ($scope.CurrentUsersCount > $scope.PendingUsersCount) {
+            //    toastr.info("No. of users count exceeded from allocated users count", "info");
+            //    return false;
+            //}
             if (TSDuplicate == 1) {
                 //alert('User Name already exist, cannot be Duplicated');
                 toastr.info("User Name already exist, cannot be Duplicated", "info");
@@ -786,6 +806,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             if ($scope.Validationcontrols() == true) {
                 if ($scope.MYTAB_InsertUpdate_validation() == true) {
                     $("#chatLoaderPV").show();
+                    
                     angular.forEach($ff($scope.AddUserParameters, { IsActive: true }), function (value, index) {
                         return value.UserId != '';
                     });
@@ -934,7 +955,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         }
 
         $scope.DeviceDropDown = function () {
-            $("#chatLoaderPV").show();            
+            $("#chatLoaderPV").show();
             //$http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
             $scope.AllDevice = [
                 {
@@ -949,57 +970,57 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             //});
             $scope.AllDeviceNameList = [];
             $http.get(baseUrl + '/api/MyHome/DeviceName_List/?IsActive=' + 1).success(function (data1) {
-                $scope.AllDeviceNameList = data1.TabDeviceList;                
+                $scope.AllDeviceNameList = data1.TabDeviceList;
             });
 
             $http.get(baseUrl + '/api/Protocol/ParameterNameList/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
                 $("#chatLoaderPV").hide();
                 $scope.ParameterTypeList = data;
             });
-            
+
         };
 
-    /*    $scope.DeviceChange = function () {
-
-            var DeviceChange = document.getElementById('DeviceName').value;
-            if (DeviceChange != "") {
-                $('#divDeviceNameChange').removeClass("ng-invalid");
-                $('#divDeviceNameChange').addClass("ng-valid");
-            }
-            else {
-                $('#divDeviceNameChange').removeClass("ng-valid");
-                $('#divDeviceNameChange').addClass("ng-invalid");
-            }
-        }
-
-
-        $scope.DeviceTypeChange = function () {
-
-            var DeviceTypeChange = document.getElementById('DeviceType').value;
-            if (DeviceTypeChange != "") {
-                $('#divDeviceType').removeClass("ng-invalid");
-                $('#divDeviceType').addClass("ng-valid");
-            }
-            else {
-                $('#divDeviceType').removeClass("ng-valid");
-                $('#divDeviceType').addClass("ng-invalid");
-            }
-        }
-
-        $scope.DeviceParameter = function () {
-
-            var DeviceParameter = document.getElementById('Parameter').value;
-            if (DeviceParameter != "") {
-                $('#divDeviceParameter').removeClass("ng-invalid");
-                $('#divDeviceParameter').addClass("ng-valid");
-            }
-            else {
-                $('#divDeviceParameter').removeClass("ng-valid");
-                $('#divDeviceParameter').addClass("ng-invalid");
-            }
-        }
-*/
+        /*    $scope.DeviceChange = function () {
     
+                var DeviceChange = document.getElementById('DeviceName').value;
+                if (DeviceChange != "") {
+                    $('#divDeviceNameChange').removeClass("ng-invalid");
+                    $('#divDeviceNameChange').addClass("ng-valid");
+                }
+                else {
+                    $('#divDeviceNameChange').removeClass("ng-valid");
+                    $('#divDeviceNameChange').addClass("ng-invalid");
+                }
+            }
+    
+    
+            $scope.DeviceTypeChange = function () {
+    
+                var DeviceTypeChange = document.getElementById('DeviceType').value;
+                if (DeviceTypeChange != "") {
+                    $('#divDeviceType').removeClass("ng-invalid");
+                    $('#divDeviceType').addClass("ng-valid");
+                }
+                else {
+                    $('#divDeviceType').removeClass("ng-valid");
+                    $('#divDeviceType').addClass("ng-invalid");
+                }
+            }
+    
+            $scope.DeviceParameter = function () {
+    
+                var DeviceParameter = document.getElementById('Parameter').value;
+                if (DeviceParameter != "") {
+                    $('#divDeviceParameter').removeClass("ng-invalid");
+                    $('#divDeviceParameter').addClass("ng-valid");
+                }
+                else {
+                    $('#divDeviceParameter').removeClass("ng-valid");
+                    $('#divDeviceParameter').addClass("ng-invalid");
+                }
+            }
+    */
+
 
 
         $scope.AddDevicePopUP = function () {
@@ -1036,7 +1057,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $('#Parameter').prop('disabled', false);
             $scope.showSave = true;
             var $sel2 = $('#Parameter');
-            $sel2.multiselect('enable');            
+            $sel2.multiselect('enable');
             $scope.ViewDevice();
             $scope.DisplayView = '';
             angular.element('#DeviceAddModal').modal('show');
@@ -1070,12 +1091,12 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 $scope.Id = $routeParams.Id;
                 $scope.DuplicatesId = $routeParams.Id;
             }
-            $scope.AllDeviceNameList=[];
+            $scope.AllDeviceNameList = [];
             $http.get(baseUrl + '/api/MyHome/ViewDevice_List/?Id=' + $scope.Id).success(function (data) {
                 $("#chatLoaderPV").hide();
                 //$scope.DeviceId = data.DeviceId;
                 $scope.DeviceName = data.DeviceName;
-                
+
                 if (data.DeviceType == "Medical Device") {
                     $scope.DeviceType = 2;
                 }
@@ -1089,7 +1110,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 $scope.DeviceMake = data.Make;
                 $scope.DeviceModel = data.ModelNumber;
                 var pname = data.ParameterList[0].ParameterName.toString();
-                
+
                 if (pname.indexOf(',') > 0) {
                     var det = data.ParameterList[0].ParameterName.split(',');
                     if (det == 'undefined') {
@@ -1097,13 +1118,13 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     } else {
                         for (i = 0; i < det.length; i++) {
                             $scope.Editselectedparam.push(parseInt(det[i]));
-                        }                        
+                        }
                     }
                 } else {
                     $scope.Editselectedparam.push(parseInt(pname));
                 }
                 $scope.SelectedParamter = $scope.Editselectedparam;
-                               
+
             });
         }
 
@@ -1143,16 +1164,16 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     //Swal.fire('Changes are not saved', '', 'info')
                 }
             })
-           /* var Dev = confirm("Do you like to activate the selected Device?");
-            if (Dev == true) {
-                $http.get(baseUrl + '/api/MyHome/Device_Delete/?Id=' + $scope.Id).success(function (data) {
-                    //alert("Selected Device has been activated successfully");
-                    toastr.success("Selected Device has been activated successfully", "success");
-                    $scope.DeviceList();
-                }).error(function (data) {
-                    $scope.error = "An error has occurred while ReInsertDeviceDetails" + data;
-                });
-            };*/
+            /* var Dev = confirm("Do you like to activate the selected Device?");
+             if (Dev == true) {
+                 $http.get(baseUrl + '/api/MyHome/Device_Delete/?Id=' + $scope.Id).success(function (data) {
+                     //alert("Selected Device has been activated successfully");
+                     toastr.success("Selected Device has been activated successfully", "success");
+                     $scope.DeviceList();
+                 }).error(function (data) {
+                     $scope.error = "An error has occurred while ReInsertDeviceDetails" + data;
+                 });
+             };*/
         }
 
 
@@ -1223,7 +1244,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 //var devicetypechange = $scope.DeviceType.toString();
                 angular.forEach($scope.AllDeviceNameList, function (value, index) {
                     if (value.ID == $scope.DeviceName) {
-                    $scope.DeviceName = value.DeviceName;
+                        $scope.DeviceName = value.DeviceName;
                     }
                 });
                 angular.forEach($scope.AllDevice, function (value, index) {
@@ -1236,7 +1257,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                          $scope.DeviceName = value.DeviceName
                      }*/
                     if (value.DeviceId == $scope.DeviceName) {
-                    $scope.DeviceName = value.DeviceName;
+                        $scope.DeviceName = value.DeviceName;
                     }
                 });
 
@@ -1278,7 +1299,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     $scope.CancelDeviceList();
 
                 }).error(function (data) {
-                    $scope.error = "An error has occurred while Addeing Device" + data;
+                    $scope.error = "An error has occurred while Adding Device" + data;
                 });
 
                 //}
@@ -1292,7 +1313,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 toastr.warning("Please enter Device Id", "warning");
                 return false;
             }
-            else */ 
+            else */
             //$window.alert($scope.DeviceId);
             if (typeof ($scope.DeviceName) == "undefined" || $scope.DeviceName == "" || $scope.DeviceName == null) {
                 //alert("Please Select Device Name");
