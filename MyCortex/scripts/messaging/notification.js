@@ -23,6 +23,7 @@ jQuery.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=FIREBASE_C
             appId: jsonobj.appId,
             measurementId: jsonobj.measurementId
         };
+        window.localStorage.setItem('fcmsgid', jsonobj.messagingSenderId);
         firebase.initializeApp(firebaseConfig);
         firebase.analytics();
 

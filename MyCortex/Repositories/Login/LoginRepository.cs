@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
-  
 using System.Web.Script.Serialization;
 using MyCortex.User.Model;
 using MyCortex.Utilities;
@@ -1176,6 +1175,7 @@ namespace MyCortex.Repositories.Login
                                                  {
                                                      ProductName = p.Field<string>("PRODUCTNAME"),
                                                      ProductImg = p.Field<string>("PRODUCTIMAGE"),
+                                                     ProductDefaultlogo = p.Field<string>("PRODUCT_DEFAULT_LOGO"),
                                                      ProductCopyRight = p.Field<string>("COPYRIGHT"),
                                                      PoweredBy = p.Field<string>("POWEREDBY"),
                                                  }).ToList();

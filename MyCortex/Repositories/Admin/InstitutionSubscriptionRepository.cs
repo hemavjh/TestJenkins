@@ -74,8 +74,8 @@ namespace MyCortex.Repositories.Admin
             param.Add(new DataParameter("@INSTITUTION_ID", obj.Institution_Id));
             param.Add(new DataParameter("@NOOF_HEALTHCHAR", obj.Health_Care_Professionals));
             param.Add(new DataParameter("@NOOF_PATIENT", obj.No_Of_Patients));
-            param.Add(new DataParameter("@NOOF_HIVEUSERS", obj.No_Of_HiveUsers));
-            param.Add(new DataParameter("@NOOF_HIVECHARTUSERS", obj.No_Of_HiveChartUsers));
+            param.Add(new DataParameter("@NOOF_HIVE_USER", obj.No_Of_HiveUsers));
+            param.Add(new DataParameter("@NOOF_HIVECHART_USER", obj.No_Of_HiveChartUsers));
             param.Add(new DataParameter("@NOOF_HIVE", obj.No_Of_Hive));
             param.Add(new DataParameter("@NOOF_HIVECHART", obj.No_Of_HiveChart));
             param.Add(new DataParameter("@CONTRACT_PERIODFROM", obj.Contract_PeriodFrom));
@@ -362,10 +362,10 @@ namespace MyCortex.Repositories.Admin
                                                     Contract_PeriodFrom = p.Field<DateTime>("CONTRACT_PERIODFROM"),
                                                     Health_Care_Professionals = p.Field<int>("NOOF_HEALTHCARE"),
                                                     No_Of_Patients = p.Field<int>("NOOF_PATIENT"),
-                                                    No_Of_Hive = p.IsNull("NOOF_HIVE") ? 0 : p.Field<int>("NOOF_HIVE"),
-                                                    No_Of_HiveChart = p.IsNull("NOOF_HIVECHART") ? 0 : p.Field<int>("NOOF_HIVECHART"),
-                                                    No_Of_HiveUsers = p.Field<int>("NOOF_HIVE_USER"),
-                                                    No_Of_HiveChartUsers = p.Field<int>("NOOF_HIVECHART_USER"),
+                                                    No_Of_Hive = p.IsNull("NOOF_HIVE") ? 0 : p.Field<int?>("NOOF_HIVE"),
+                                                    No_Of_HiveChart = p.IsNull("NOOF_HIVECHART") ? 0 : p.Field<int?>("NOOF_HIVECHART"),
+                                                    No_Of_HiveUsers = p.IsNull("NOOF_HIVE_USER") ? 0 : p.Field<int?>("NOOF_HIVE_USER"),
+                                                    No_Of_HiveChartUsers = p.IsNull("NOOF_HIVECHART_USER") ? 0 : p.Field<int?>("NOOF_HIVECHART_USER"),
                                                     Contract_PeriodTo = p.Field<DateTime>("CONTRACT_PERIODTO"),
                                                     Subscription_Type = p.Field<int>("SUBSCRIPTION_TYPE"),
                                                     TimeZone_ID = p.IsNull("TIMEZONE_ID") ? 0 : p.Field<int>("TIMEZONE_ID"),
@@ -374,10 +374,14 @@ namespace MyCortex.Repositories.Admin
                                                     Created_No_Of_HealthCareProf = p.Field<int>("CREATED_NO_OF_HCP"),
                                                     Remaining_No_Of_Patient = p.Field<int>("REMAIND_NO_OF_PAT"),
                                                     Remaining_No_Of_HealthCareProf = p.Field<int>("REMAIND_NO_OF_HCP"),
-                                                    Created_No_Of_Hive = p.Field<int>("CREATED_NO_OF_HIVE"),
-                                                    Created_No_Of_Hivechart = p.Field<int>("CREATED_NO_OF_HIVECHART"),
-                                                    Remaining_No_Of_Hive = p.Field<int>("REMAIND_NO_OF_HIVE"),
-                                                    Remaining_No_Of_Hivechart = p.Field<int>("REMAIND_NO_OF_HIVECHART"),
+                                                    Created_No_Of_Hive = p.Field<int?>("CREATED_NO_OF_HIVE"),
+                                                    Created_No_Of_Hivechart = p.Field<int?>("CREATED_NO_OF_HIVECHART"),
+                                                    Remaining_No_Of_Hive = p.Field<int?>("REMAIND_NO_OF_HIVE"),
+                                                    Remaining_No_Of_Hivechart = p.Field<int?>("REMAIND_NO_OF_HIVECHART"),
+                                                    Created_No_Of_Hive_Users = p.Field<int?>("CREATED_NO_OF_HIVE_USER"),
+                                                    Created_No_Of_Hivechart_Users = p.Field<int?>("CREATED_NO_OF_HIVECHART_USER"),
+                                                    Remaining_No_Of_Hive_Users = p.Field<int?>("REMAIND_NO_OF_HIVE_USER"),
+                                                    Remaining_No_Of_Hivechart_Users = p.Field<int?>("REMAIND_NO_OF_HIVECHART_USER"),
                                                     //SubscriptionId = p.Field<int>("SubScription_Id"),
                                                 }).FirstOrDefault();
             //ViewId = INS.Id;

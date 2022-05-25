@@ -304,6 +304,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
         });
         $http.get(baseUrl + '/api/Login/GetProduct_Details/').success(function (data) {
             $scope.PrdImg = data[0].ProductImg;
+            $scope.PrdDefaultLogo = data[0].ProductDefaultlogo;
             $scope.prdtname = data[0].ProductName;
         });
         $http.get(baseUrl + '/api/Login/getProductName/').success(function (data) {
@@ -466,9 +467,9 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
         //alert(getOS());
 
         var IpAddress = "";
-        //$http.get("http://api.ipify.org/?format=json").then(function (response) {
-        //    IpAddress = response.data.ip;
-        //});
+        $http.get("http://api.ipify.org/?format=json").then(function (response) {
+            IpAddress = response.data.ip;
+        });
 
         var Login_Country = "";
         var Login_City = "";
@@ -480,28 +481,28 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
         var Login_timeZoneName = "";
         var Login_zipCode = "";
         //$http.get("http://ip-api.com/json").then(function (response) {
-        $http.get("https://ipapi.co/json/").then(function (response) {
-            //Login_Country = response.data.country;
-            //Login_City = response.data.city;
-            //IpAddress = response.data.query;
-            //Login_CountryCode = response.data.countryCode;
-            //Login_Latitude = response.data.lat;
-            //Login_Longitude = response.data.lon;
-            //Login_region = response.data.region;
-            //Login_regionName = response.data.regionName;
-            //Login_timeZoneName = response.data.timezone;
-            //Login_zipCode = response.data.zip;
-            Login_Country = response.data.country_name;
-            Login_City = response.data.city;
-            IpAddress = response.data.ip;
-            Login_CountryCode = response.data.country_code;
-            Login_Latitude = response.data.latitude;
-            Login_Longitude = response.data.longitude;
-            Login_region = response.data.region_code;
-            Login_regionName = response.data.region;
-            Login_timeZoneName = response.data.timezone;
-            Login_zipCode = response.data.postal;
-        });
+        //$http.get("https://ipapi.co/json/").then(function (response) {
+        //    //Login_Country = response.data.country;
+        //    //Login_City = response.data.city;
+        //    //IpAddress = response.data.query;
+        //    //Login_CountryCode = response.data.countryCode;
+        //    //Login_Latitude = response.data.lat;
+        //    //Login_Longitude = response.data.lon;
+        //    //Login_region = response.data.region;
+        //    //Login_regionName = response.data.regionName;
+        //    //Login_timeZoneName = response.data.timezone;
+        //    //Login_zipCode = response.data.zip;
+        //    Login_Country = response.data.country_name;
+        //    Login_City = response.data.city;
+        //    IpAddress = response.data.ip;
+        //    Login_CountryCode = response.data.country_code;
+        //    Login_Latitude = response.data.latitude;
+        //    Login_Longitude = response.data.longitude;
+        //    Login_region = response.data.region_code;
+        //    Login_regionName = response.data.region;
+        //    Login_timeZoneName = response.data.timezone;
+        //    Login_zipCode = response.data.postal;
+        //});
 
         navigator.sayswho = (function () {
             var ua = navigator.userAgent, tem,
@@ -1281,13 +1282,13 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
 
         var Login_Country = "";
         var Login_City = "";
-        //$http.get("http://ip-api.com/json").then(function (response) {
-        $http.get("https://ipapi.co/json/").then(function (response) {
-            //Login_Country = response.data.country;
-            //Login_City = response.data.city;
-            Login_Country = response.data.country_name;
-            Login_City = response.data.city
-        });
+        ////$http.get("http://ip-api.com/json").then(function (response) {
+        //$http.get("https://ipapi.co/json/").then(function (response) {
+        //    //Login_Country = response.data.country;
+        //    //Login_City = response.data.city;
+        //    Login_Country = response.data.country_name;
+        //    Login_City = response.data.city
+        //});
 
         navigator.sayswho = (function () {
             var ua = navigator.userAgent, tem,
