@@ -4099,6 +4099,51 @@ namespace MyCortex.Repositories.Uesr
                 };
             }
         }
+
+        /// <summary>
+        /// to get patient Appointment data document
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public IList<Patient_OtherDataModel> Patient_Appointment_GetDocument(long Id)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@APPOINTMENT_ID", Id));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENT_APPOINMENT_DOCUMENT]", param);
+                List<Patient_OtherDataModel> lis = new List<Patient_OtherDataModel>();
+                if (!Convert.IsDBNull(dt.Rows[0]["DOCUMENTBLOB"]))
+                {
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        Patient_OtherDataModel pa = new Patient_OtherDataModel();
+                        pa.Id = Convert.ToInt64(dt.Rows[i]["ID"].ToString());
+                        pa.DocumentBlobData = System.Text.Encoding.ASCII.GetBytes(dt.Rows[i]["DOCUMENTBLOB"].ToString());
+                        pa.FileName = dt.Rows[i]["FILE_NAME"].ToString();
+                        pa.Filetype = dt.Rows[i]["FILETYPE"].ToString();
+                        lis.Add(pa);
+                    }
+
+                    return lis;
+                }
+                else
+                {
+                    return null;
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
         /// <summary>
         /// to deactivate a patient's other data
         /// </summary>

@@ -1175,6 +1175,7 @@ namespace MyCortex.Repositories.Login
                                                  {
                                                      ProductName = p.Field<string>("PRODUCTNAME"),
                                                      ProductImg = p.Field<string>("PRODUCTIMAGE"),
+                                                     ProductDefaultlogo = p.Field<string>("PRODUCT_DEFAULT_LOGO"),
                                                      ProductCopyRight = p.Field<string>("COPYRIGHT"),
                                                      PoweredBy = p.Field<string>("POWEREDBY"),
                                                  }).ToList();

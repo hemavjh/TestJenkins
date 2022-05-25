@@ -253,10 +253,28 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
+                                                        <label>No. of Hive<sup><font class='mandatory-field'>*</font></sup></label>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control" id="text10" ng-model="Hive" style="width:190px" maxlength="9"
+                                                               ng-maxlength="9" onkeypress="varifyNumberPositive(event)" ng-required="true">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>No. of Hive Chart<sup><font class='mandatory-field'>*</font></sup></label>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control" id="text11" ng-model="HiveChart" style="width:190px" maxlength="9"
+                                                               ng-maxlength="9" onkeypress="varifyNumberPositive(event)" ng-required="true">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
                                                         <label>No. of Hive Users<sup><font class='mandatory-field'>*</font></sup></label>
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control" id="text12" ng-model="HiveUsers" style="width:190px" maxlength="9"
+                                                        <input type="text" class="form-control" id="text12" ng-model="Hive_Users" style="width:190px" maxlength="9"
                                                                ng-maxlength="9" onkeypress="varifyNumberPositive(event)" ng-required="true">
                                                     </td>
                                                 </tr>
@@ -265,16 +283,16 @@
                                                         <label>No. of Hive Chart Users<sup><font class='mandatory-field'>*</font></sup></label>
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control" id="text13" ng-model="HiveChartUsers" style="width:190px" maxlength="9"
+                                                        <input type="text" class="form-control" id="text13" ng-model="HiveChart_Users" style="width:190px" maxlength="9"
                                                                ng-maxlength="9" onkeypress="varifyNumberPositive(event)" ng-required="true">
                                                     </td>
-                                                    </tr>
+                                                </tr>
                                                 <tr>
                                                     <td>
                                                         <label>Contract Period<sup><font class='mandatory-field'>*</font></sup></label>
                                                     </td>
                                                     <td>
-                                                        <table>f
+                                                        <table>
                                                             <tr>
                                                                 <td>
                                                                     <div>
@@ -395,9 +413,33 @@
                                                 </tr>
                                                 <tr ng-show="Hcp_Pat == true">
                                                     <td>
-                                                        <label>Available   HiveChart</label>
+                                                        <label>Available   Hive Chart</label>
                                                     </td>
                                                     <td><span>{{Remaining_No_Of_Hivechart}}</span></td>
+                                                </tr>
+                                                <tr ng-show="Hcp_Pat == true">
+                                                    <td>
+                                                        <label>Created No.of Hive Users</label>
+                                                    </td>
+                                                    <td><span>{{Created_No_Of_Hive_Users}}</span></td>
+                                                </tr>
+                                                <tr ng-show="Hcp_Pat == true">
+                                                    <td>
+                                                        <label>Created No.of Hive Chart Users</label>
+                                                    </td>
+                                                    <td><span>{{Created_No_Of_Hivechart_Users}}</span></td>
+                                                </tr>
+                                                <tr ng-show="Hcp_Pat == true">
+                                                    <td>
+                                                        <label>Available   Hive Users</label>
+                                                    </td>
+                                                    <td><span>{{Remaining_No_Of_Hive_Users}}</span></td>
+                                                </tr>
+                                                <tr ng-show="Hcp_Pat == true">
+                                                    <td>
+                                                        <label>Available   Hive Chart Users</label>
+                                                    </td>
+                                                    <td><span>{{Remaining_No_Of_Hivechart_Users}}</span></td>
                                                 </tr>
                                             </table>
                                         </td>
@@ -596,10 +638,26 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <label>No. of HiveChart</label>
+                                                        <label>No. of Hive Chart</label>
                                                     </td>
                                                     <td>
                                                         {{HiveChart}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>No. of Hive Users</label>
+                                                    </td>
+                                                    <td>
+                                                        {{Hive_Users}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>No. of Hive Chart Users</label>
+                                                    </td>
+                                                    <td>
+                                                        {{HiveChart_Users}}
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -699,6 +757,30 @@
                                                         <label>Available   HiveChart</label>
                                                     </td>
                                                     <td><span>{{Remaining_No_Of_Hivechart}}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Created No.of Hive Users</label>
+                                                    </td>
+                                                    <td><span>{{Created_No_Of_Hive_Users}}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Created No.of Hive Chart Users</label>
+                                                    </td>
+                                                    <td><span>{{Created_No_Of_Hivechart_Users}}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Available   Hive Users</label>
+                                                    </td>
+                                                    <td><span>{{Remaining_No_Of_Hive_Users}}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Available   Hive Chart Users</label>
+                                                    </td>
+                                                    <td><span>{{Remaining_No_Of_Hivechart_Users}}</span></td>
                                                 </tr>
                                             </table>
                                     <tr>

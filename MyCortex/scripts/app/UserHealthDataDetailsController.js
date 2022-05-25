@@ -947,6 +947,13 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             $scope.DoctorDetailList = data;
                         })
                     }
+                    $scope.ViewUploadRecords = function (Appointment_Id) {
+                        angular.element('#PatientDocumentViewModal').modal('show');
+                        $http.get(baseUrl + '/api/User/Patient_Appointment_GetDocument?Id=' + Appointment_Id).success(function (data) {
+                            console.log(data);
+                            $scope.PatientAppointmentDocumentList = data;
+                        });
+                    }
                     $scope.DoctorDetailList = [];
                     $scope.idSelectedVote = null;
                     $scope.ProfileDetailList = [];
