@@ -278,6 +278,11 @@ namespace MyCortex.Masters.Controllers
                 if (ModelData.Any(item => item.Flag == 1) == true)
                 {
                     messagestr = "Holiday activated successfully";
+                    model.ReturnFlag = 1;
+                }
+                else if (ModelData.Any(item => item.Flag == 2) == true)
+                {
+                    messagestr = "Holiday cannot be activated because doctor have appointment";
                     model.ReturnFlag = 2;
                 }
 
