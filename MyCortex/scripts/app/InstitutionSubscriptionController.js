@@ -325,6 +325,16 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                 toastr.warning("Please enter No. of HiveChart", "warning");
                 return false;
             }
+            else if (typeof ($scope.HiveChart_Users) == "undefined" || $scope.HiveChart_Users == "") {
+                //alert("Please enter No. of Health Care Professionals");
+                toastr.warning("Please enter No. of HiveChart Users", "warning");
+                return false;
+            }
+            else if (typeof ($scope.Hive_Users) == "undefined" || $scope.Hive_Users == "") {
+                //alert("Please enter No. of Health Care Professionals");
+                toastr.warning("Please enter No. of Hive Users", "warning");
+                return false;
+            }            
             else if (typeof ($scope.Contract_Period_From) == "undefined" || $scope.Contract_Period_From == "") {
                 //alert("Please select Contract Period From");
                 toastr.warning("Please select Contract Period From", "warning");
@@ -435,8 +445,8 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     Institution_Id: $scope.Institution_Id,
                     Health_Care_Professionals: $scope.Health_Care_Professionals,
                     No_Of_Patients: $scope.Patients,
-                    No_Of_HiveChartUsers: $scope.HiveChartUsers,
-                    No_Of_HiveUsers: $scope.HiveUsers,
+                    No_Of_HiveChartUsers: $scope.HiveChart_Users,
+                    No_Of_HiveUsers: $scope.Hive_Users,
                     No_Of_Hive: $scope.Hive,
                     No_Of_HiveChart: $scope.HiveChart,
                     Contract_PeriodFrom: moment($scope.Contract_Period_From).format('DD-MMM-YYYY'),
