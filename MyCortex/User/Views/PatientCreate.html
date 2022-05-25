@@ -2,7 +2,7 @@
     $('#btnLogo').click(function () {
         $("#UserLogo").trigger('click');
     });
-    
+
     $(document).ready(function () {
 
         var image = $('#UserLogo').val();
@@ -166,13 +166,13 @@
 
         setTimeout(function () {
             var maxdatedob = document.getElementById('maxdatedob').value;
-            $('#Date_Birth').attr('max', maxdatedob);            
+            $('#Date_Birth').attr('max', maxdatedob);
         }, 5000);
         $("#maxdatedob").trigger("change");
-       
+
     });
     function SetmaxDateDOB() {
-        var maxdatedob = document.getElementById('maxdatedob').value;        
+        var maxdatedob = document.getElementById('maxdatedob').value;
         $('#Date_Birth').attr('max', maxdatedob);
     }
 </script>
@@ -195,7 +195,7 @@
 
     function txtPhoneChange() {
         //$("#btnsave1").removeAttr("ng-click");
-                
+
         //alert("event fired");
         //var phoneNo = document.getElementById("txtPhone");
 
@@ -234,11 +234,11 @@
                 swal.fire("Phone number invalid");
                 document.getElementById("txthdFullNumber").value = "";
                 //$("#btnsave1").removeAttr("ng-click");
-                
+
             }
             else {
                 document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
-               // $("#btnsave1").attr("ng-click", 'submitted=true');
+                // $("#btnsave1").attr("ng-click", 'submitted=true');
                 //$("#patientform").attr("ng-submit", 'User_InsertUpdate();');
                 //$("#patientform").trigger("submit");
                 //alert('sds');
@@ -253,7 +253,7 @@
 <input type="text" hidden="hidden" id="txthdCountryCode" ng-model="PhoneCountryCode" />
 <input type="text" hidden="hidden" id="txthdCountryiso2" ng-model="PhoneCountryiso2" />
 <input type="text" hidden="hidden" id="txthdFullNumber" />
-<div class="row" 
+<div class="row"
      ng-init="Patientcreatefunction();InstitutionBased_CountryStateList();Admin_View(3);PageParameter==1?currentTab=EditCurrentTab:currentTab='1';">
     <form class="form-horizontal" id="patientform" role="form" style="font-size: small" ng-submit="User_InsertUpdate();" ng-class="{'submitted': submitted}">
         <!-- ng-submit="User_InsertUpdate();"-->
@@ -355,13 +355,13 @@
 
                                 </div>
                                 <!--<div class="inputGroups">
-                                    <label valign="top">Patient ID</label>
-                                    <span>{{PatientNo}}</span>
-                            </div>
-                            <div class="inputGroups">
-                                    <label>Short Name</label>
-                                    <span>{{Createdby_ShortName}}</span>
-                            </div>-->
+                                        <label valign="top">Patient ID</label>
+                                        <span>{{PatientNo}}</span>
+                                </div>
+                                <div class="inputGroups">
+                                        <label>Short Name</label>
+                                        <span>{{Createdby_ShortName}}</span>
+                                </div>-->
 
                                 <div class="inputGroups">
                                     <label>
@@ -420,8 +420,8 @@
                                         </sup>
                                     </label>
                                     <!--<input type="text" class="form-control" id="Text6" name="MobileNo"
-                                ng-model="MobileNo" ng-init="MobileNo=''" ng-required="true" placeholder=""
-                                ng-maxlength="20" maxlength="20" onkeypress="OnlySpecCharNum(event)" />-->
+                                    ng-model="MobileNo" ng-init="MobileNo=''" ng-required="true" placeholder=""
+                                    ng-maxlength="20" maxlength="20" onkeypress="OnlySpecCharNum(event)" />-->
                                     <input type="text" class="form-control" id="txtMobile" name="tel"
                                            ng-model="MobileNo" ng-required="true" onblur="txtPhoneChange()" />
                                 </div>
@@ -443,8 +443,8 @@
                                     <label>
                                         Patient ID
                                         <!--<sup>
-                                        <font class='mandatory-field'>*</font>
-                                    </sup>-->
+                                            <font class='mandatory-field'>*</font>
+                                        </sup>-->
                                     </label>
                                     <input type="text" class="form-control" id="PATIENT_ID" name="PATIENT_ID" ng-model="PATIENT_ID"
                                            ng-init="PATIENT_ID=''" placeholder="" ng-maxlength="50"
@@ -525,14 +525,14 @@
                                                ng-click="NationalityPhotoUplaodSelected()" />
 
                                         <!--<div ng-if="(Gender_Name| lowercase)=='male' && (uploadme1==null || uploadme1=='' || uploadme1=='null' )" valign="top" rowspan="6">
-        <img id="item-img-output1" style=" width: 300px; height: 200px;" class="responsiveProfileImage2" src="../../Images/National_Male.png" />
-    </div>
-    <div ng-if="(Gender_Name| lowercase)=='female' && (uploadme1==null || uploadme1=='' || uploadme1=='null' )" valign="top" rowspan="6">
-        <img id="item-img-output1" style=" width: 300px; height: 200px;" class="responsiveProfileImage2" src="../../Images/National_Female.png" />
-    </div>
-    <div ng-if="(((Gender_Name| lowercase)!='female' && (Gender_Name| lowercase)!='male') && (uploadme1==null || uploadme1=='' || uploadme1=='null'))" valign="top" rowspan="6">
-        <img id="item-img-output1" style=" width: 300px; height: 200px;" class="responsiveProfileImage2" src="../../Images/National_Male.png" />
-    </div>-->
+                                            <img id="item-img-output1" style=" width: 300px; height: 200px;" class="responsiveProfileImage2" src="../../Images/National_Male.png" />
+                                        </div>
+                                        <div ng-if="(Gender_Name| lowercase)=='female' && (uploadme1==null || uploadme1=='' || uploadme1=='null' )" valign="top" rowspan="6">
+                                            <img id="item-img-output1" style=" width: 300px; height: 200px;" class="responsiveProfileImage2" src="../../Images/National_Female.png" />
+                                        </div>
+                                        <div ng-if="(((Gender_Name| lowercase)!='female' && (Gender_Name| lowercase)!='male') && (uploadme1==null || uploadme1=='' || uploadme1=='null'))" valign="top" rowspan="6">
+                                            <img id="item-img-output1" style=" width: 300px; height: 200px;" class="responsiveProfileImage2" src="../../Images/National_Male.png" />
+                                        </div>-->
                                         <div ng-if="(uploadme1!=null || uploadme1!='')" valign="top" rowspan="6">
                                             <img id="item-img-output1" style=" width: 300px; height: 200px;" class="responsiveProfileImage2" src="{{uploadme1}}" />
                                         </div>
@@ -649,8 +649,8 @@
                                     <!-- this hidden box for bind the maximum date then apply max attribute-->
                                     <input type="hidden" id="maxdatedob" ng-model="maxdateDOB" value="{{maxdateDOB}}" onchange="SetmaxDateDOB();" />
                                     <!--<span class="input-group-addon">
-        <i class="glyphicon glyphicon-th"></i>
-    </span>-->
+                                        <i class="glyphicon glyphicon-th"></i>
+                                    </span>-->
                                     <!--</div>-->
                                 </div>
                             </div>
@@ -889,12 +889,13 @@
                                     <div class="inputGroups">
                                         <label>Do you have any past medical history or problems ?</label>
                                         <div class="inputNxt">
-                                            <input class="vmiddle" type="radio" id="PAST_MEDICALHISTORY_YES"
-                                                   ng-model="PAST_MEDICALHISTORY" value="1" ng-change="ClearMedicalHistory()" ng-disabled="Pat_UserTypeId==2">
-                                            <label for="PAST_MEDICALHISTORY_YES" class="mr-5">Yes</label>
-
-                                            <input type="radio" id="PAST_MEDICALHISTORY_NO" ng-model="PAST_MEDICALHISTORY"
-                                                   class="vmiddle" value="2" ng-change="ClearMedicalHistory()" ng-disabled="Pat_UserTypeId==2">
+                                            <input type="radio" class="vmiddle" id="PAST_MEDICALHISTORY_YES"
+                                                   ng-model="PAST_MEDICALHISTORY" value="1"
+                                                   ng-change="ClearMedicalHistory()" ng-disabled="Pat_UserTypeId==2">
+                                            <label class="mr-5" for="PAST_MEDICALHISTORY_YES">Yes</label>
+                                            <input type="radio" id="PAST_MEDICALHISTORY_NO" class="vmiddle"
+                                                   ng-model="PAST_MEDICALHISTORY" value="2" ng-checked="checked='true'"
+                                                   ng-change="ClearMedicalHistory()" ng-disabled="Pat_UserTypeId==2">
                                             <label for="PAST_MEDICALHISTORY_NO">No</label>
                                         </div>
                                     </div>
@@ -948,7 +949,7 @@
                                         <a href="javascript:" ng-click="AddMedicine_Insert()" ng-hide="Pat_UserTypeId==2" class="theme-btn-1 mb-15">Add</a>
                                     </td>
                                 </tr>
-                                <tr ng-if="PAST_MEDICALHISTORY ==2">
+                                <tr ng-if="PAST_MEDICALHISTORY ==1">
 
                                     <td colspan="2">
                                         <table class="table themeTable" template-pagination="custom/pager">
@@ -974,7 +975,7 @@
                                                     </td>
                                                     <td style="text-align: left">
                                                         <select class="form-control" data-style="form-control" ng-model="Diabetic" id="Select7" data-live-search="true" data-selectpicker data-collection-name="OptionTypeList"
-                                                                ng-required="true" ng-disabled="Pat_UserTypeId==2">
+                                                                ng-required="true" ng-disabled="Pat_UserTypeId==2" ng-change="ChangeDiabetic(0)">
                                                             <option value="0">Select</option>
                                                             <option ng-repeat="sel in OptionTypeList"
                                                                     ng-selected="Diabetic==sel.Id" value="{{sel.Id}}">
@@ -984,11 +985,11 @@
                                                     </td>
                                                     <td style="text-align: center">
                                                         <!-- <input type="image"
-                                                    src="../../Images/deleteNewIcon.png"
-                                                    title='Click to delete'
-                                                    ng-click="RemoveMedicalHistory_Item(row.Id, $index)"
-                                                    ng-model="row.selectedMedicine"
-                                                    style="width: 20px;" id="Image3" />-->
+                                                        src="../../Images/deleteNewIcon.png"
+                                                        title='Click to delete'
+                                                        ng-click="RemoveMedicalHistory_Item(row.Id, $index)"
+                                                        ng-model="row.selectedMedicine"
+                                                        style="width: 20px;" id="Image3" />-->
 
                                                     </td>
                                                 </tr>
@@ -1000,7 +1001,7 @@
                                                     <td style="text-align: left">
 
                                                         <select class="form-control" data-style="form-control" ng-model="HyperTension" data-live-search="true" data-selectpicker data-collection-name="OptionTypeList"
-                                                                id="Select6" ng-required="true" ng-disabled="Pat_UserTypeId==2">
+                                                                id="Select6" ng-required="true" ng-disabled="Pat_UserTypeId==2" ng-change="ChangeHyperTension(1)">
                                                             <option value="0">Select</option>
                                                             <option ng-repeat="sel in OptionTypeList"
                                                                     ng-selected="HyperTension==sel.Id" value="{{sel.Id}}">
@@ -1010,11 +1011,11 @@
                                                     </td>
                                                     <td style="text-align: center">
                                                         <!-- <input type="image"
-                                                    src="../../Images/deleteNewIcon.png"
-                                                    title='Click to delete'
-                                                    ng-click="RemoveMedicalHistory_Item(row.Id, $index)"
-                                                    ng-model="row.selectedMedicine"
-                                                    style="width: 20px;" id="Image3" />-->
+                                                        src="../../Images/deleteNewIcon.png"
+                                                        title='Click to delete'
+                                                        ng-click="RemoveMedicalHistory_Item(row.Id, $index)"
+                                                        ng-model="row.selectedMedicine"
+                                                        style="width: 20px;" id="Image3" />-->
 
                                                     </td>
                                                 </tr>
@@ -1026,7 +1027,7 @@
 
                                                     <td style="text-align: left">
                                                         <select class="form-control" data-style="form-control" ng-model="Cholestrol" id="Select4" data-live-search="true" data-selectpicker data-collection-name="OptionTypeList"
-                                                                ng-required="true" ng-disabled="Pat_UserTypeId==2">
+                                                                ng-required="true" ng-disabled="Pat_UserTypeId==2" ng-change="ChangeCholestrol(2)">
                                                             <option value="0">Select</option>
                                                             <option ng-repeat="sel in OptionTypeList"
                                                                     ng-selected="Cholestrol==sel.Id" value="{{sel.Id}}">
@@ -1036,11 +1037,11 @@
                                                     </td>
                                                     <td style="text-align: center">
                                                         <!-- <input type="image"
-                                                    src="../../Images/deleteNewIcon.png"
-                                                    title='Click to delete'
-                                                    ng-click="RemoveMedicalHistory_Item(row.Id, $index)"
-                                                    ng-model="row.selectedMedicine"
-                                                    style="width: 20px;" id="Image3" />-->
+                                                        src="../../Images/deleteNewIcon.png"
+                                                        title='Click to delete'
+                                                        ng-click="RemoveMedicalHistory_Item(row.Id, $index)"
+                                                        ng-model="row.selectedMedicine"
+                                                        style="width: 20px;" id="Image3" />-->
 
                                                     </td>
                                                 </tr>
@@ -1071,7 +1072,26 @@
                                     </td>
 
                                 </tr>
+                            </table>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="inputGroups">
+                                        <label>Is there a family history of the health problem(s) ?</label>
+                                        <div class="inputNxt">
+                                            <input class="vmiddle" type="radio" ng-model="FAMILYHEALTH_PROBLEMHISTORY"
+                                                   id="FAMILYHEALTH_PROBLEMHISTORY_YES" value="1"
+                                                   ng-change="ClearHealthProblem()" ng-disabled="Pat_UserTypeId==2">
+                                            <label for="FAMILYHEALTH_PROBLEMHISTORY_YES" class="mr-5">Yes</label>
 
+                                            <input class="vmiddle" type="radio" ng-model="FAMILYHEALTH_PROBLEMHISTORY"
+                                                   id="FAMILYHEALTH_PROBLEMHISTORY_NO" value="2" ng-checked="checked='true'"
+                                                   ng-change="ClearHealthProblem()" ng-disabled="Pat_UserTypeId==2">
+                                            <label for="FAMILYHEALTH_PROBLEMHISTORY_NO">No</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
                                 <tr ng-hide="FAMILYHEALTH_PROBLEMHISTORY==2">
 
                                     <td colspan="2">
@@ -1135,22 +1155,9 @@
 
                                 </tr>
                             </table>
+
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <div class="inputGroups">
-                                        <label>Is there a family history of the health problem(s) ?</label>
-                                        <div class="inputNxt">
-                                            <input class="vmiddle" type="radio" ng-model="FAMILYHEALTH_PROBLEMHISTORY"
-                                                   id="FAMILYHEALTH_PROBLEMHISTORY_YES" value="1"
-                                                   ng-change="ClearHealthProblem()" ng-disabled="Pat_UserTypeId==2">
-                                            <label for="FAMILYHEALTH_PROBLEMHISTORY_YES" class="mr-5">Yes</label>
-
-                                            <input class="vmiddle" type="radio" ng-model="FAMILYHEALTH_PROBLEMHISTORY"
-                                                   id="FAMILYHEALTH_PROBLEMHISTORY_NO" value="2" ng-checked="checked='true'"
-                                                   ng-change="ClearHealthProblem()" ng-disabled="Pat_UserTypeId==2">
-                                            <label for="FAMILYHEALTH_PROBLEMHISTORY_NO">No</label>
-                                        </div>
-                                    </div>
 
                                     <div class="inputGroups">
                                         <label>
@@ -1295,9 +1302,9 @@
                                         <input max="2099-12-31" type="date" id="Expiry_Date" class="form-control" ng-model="ExpiryDate"
                                                style="width: 165px" ng-disabled="Pat_UserTypeId==2">
                                         <!--<input type="text" class="form-control" id="Text8"
-                                    ng-model="EMERG_CONT_MIDDLENAME" ng-init="EMERG_CONT_MIDDLENAME=''"
-                                    maxlength="100" ng-maxlength="100" placeholder=""
-                                    onkeypress="ParticularSpec(event)" ng-disabled="Pat_UserTypeId==2">-->
+                                        ng-model="EMERG_CONT_MIDDLENAME" ng-init="EMERG_CONT_MIDDLENAME=''"
+                                        maxlength="100" ng-maxlength="100" placeholder=""
+                                        onkeypress="ParticularSpec(event)" ng-disabled="Pat_UserTypeId==2">-->
                                     </div>
                                     <div class="inputGroups">
                                         <label>Payor Name</label>

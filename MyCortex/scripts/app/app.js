@@ -1,4 +1,3 @@
-/// <reference path="app.js" />
 var EmpApp = angular.module('EmpApp', [
     'ngRoute',
     'AllyControllers',

@@ -1,7 +1,4 @@
-﻿/// <reference path="angular.js" />
-/// <reference path="Employee.js" />
-
-app.service("SinglePageCRUDService", function ($http) {
+﻿app.service("SinglePageCRUDService", function ($http) {
 
     //Function to Read All Employees
     this.getEmployees = function () {
