@@ -100,7 +100,6 @@
     <Compile Include="ClsDataBase.cs" />
     <Compile Include="DataParameter.cs" />
     <Compile Include="DBConnectionStringBuilder.cs" />
-    <Compile Include="MyCortexLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -7014,7 +7014,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
                     var obj = {
                         Id: $scope.Id,
-                        OnSetDate: $scope.OnSetDate,
+                        OnSetDate: moment($scope.OnSetDate).format('DD-MMM-YYYY'),
                         AllergenId: $scope.AllergenId,
                         AllergyTypeId: $scope.AllergyTypeId,
                         AllergyOnsetId: $scope.AllergyOnsetId == 0 ? null : $scope.AllergyOnsetId,
