@@ -1616,7 +1616,9 @@
 
     function clearFirebaseToken() {
         var msgSenderId = window.localStorage.getItem('fcmsgid');
-        firebase.messaging().deleteToken(msgSenderId, 'FCM').then(function () { console.log('succ') }).catch(function () { console.log('err') });
-        window.localStorage.removeItem('fcmsgid');
+        if (msgSenderId != null) {
+            firebase.messaging().deleteToken(msgSenderId, 'FCM').then(function () { console.log('succ') }).catch(function () { console.log('err') });
+            window.localStorage.removeItem('fcmsgid');
+        }
     }
 </script>
