@@ -12,11 +12,11 @@
 
         var maxDate = year + '-' + month + '-' + day;
        // $('#Contract_Period_From').attr('min', maxDate);
-        $('#Contract_Period_To').attr('min', maxDate);
+        //$('#Contract_Period_To').attr('min', maxDate);
        // $scope.Contract_Period_From = maxDate;
-        $scope.Contract_Period_To = maxDate;
+        //$scope.Contract_Period_To = maxDate;
        // $scope.startDateMin = maxDate;
-        $scope.EndDateMin = maxDate;
+        //$scope.EndDateMin = maxDate;
         //document.getElementById("Contract_Period_From").value = maxDate;
         //document.getElementById("Contract_Period_To").value = maxDate;
     });
@@ -287,8 +287,8 @@
                                                                 <td>
                                                                     <div>
                                                                         <!--<input type="text" class="form-control" id="Text5" ng-model="Contract_Period_To" ng-init="Contract_Period_To=''" style="width:152px" ng-required="true"> <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>-->
-                                                                        <input type="date" id="Contract_Period_To" min="{{Contract_Period_To}}" title="The Minimum Contract Period is 30 Days" placeholder="" max="2099-12-31" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required"
-                                                                               ng-model="Contract_Period_To" style="width:165px"
+                                                                        <input type="date" id="Contract_Period_To" min="{{StartToDateMin}}" title="The Minimum Contract Period is 30 Days" placeholder="" max="2099-12-31" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required"
+                                                                               ng-model="Contract_Period_To" style="width:165px"  ng-click="DateChange();"
                                                                                ng-required="true">
                                                                     </div>
                                                                 </td>
