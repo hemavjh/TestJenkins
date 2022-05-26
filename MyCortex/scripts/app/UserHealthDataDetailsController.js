@@ -1350,14 +1350,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                     "AppointmentFromTime": $scope.AppoiFromTime,
                                     "AppointmentToTime": $scope.AppoiToTime,
                                     "TimeZone_Id": $scope.TimeZoneID,
-                                    "TimeZoneName": TZname,
-                                    "UtcOffSet": UtcOffSet,
                                     "Appointment_Type": "1",
                                     "ReasonForVisit": document.getElementById("TextArea1").value,
                                     "Status": 1,
                                     "Created_By": $window.localStorage['UserId'],
                                     "Page_Type": 0,
-                                    "Appointment_Module_Id": Appointment_Module,
                                     "Appointment_Price": $scope.AppoiPrice
                                 }
                                 $('#shown').attr("disabled", true);
@@ -1531,14 +1528,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                     "AppointmentFromTime": $scope.AppoiFromTime,
                                     "AppointmentToTime": $scope.AppoiToTime,
                                     "Appointment_Type": "1",
-                                    "ReasonForVisit": "Test",
+                                    "ReasonForVisit": document.getElementById("TextArea1").value,
                                     "Status": "1",
                                     "Created_By": $window.localStorage['UserId'],
                                     "Page_Type": "0",
                                     "TimeZone_Id": $scope.TimeZoneID,
-                                    "Appointment_Module_Id": Appointment_Module,
-                                    "TimeZoneName": TZname,
-                                    "UtcOffSet": UtcOffSet,
                                     "Appointment_Price": $scope.AppoiPrice
                                 }
                                 $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
