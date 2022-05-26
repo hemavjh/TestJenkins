@@ -425,7 +425,7 @@ namespace MyCortex.Repositories.Template
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            //_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 param.Add(new DataParameter("@EMAIL_ERROR_REASON", Error_Reason));
