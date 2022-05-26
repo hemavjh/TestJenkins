@@ -43,7 +43,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $scope.isPatientSignUp = $filter('filter')($rootScope.InsModuleList, { Module_Id: '24' })[0];
             }
         }
-
+        $http.get(baseUrl + '/Home/LoginLogoDetails/').success(function (resImage) {
+            document.getElementById("patient_ins").src = resImage[0];
+        });
         $scope.SearchMsg = "No Data Available";
         $scope.AdminFlowdata = InstSub.getSubID();
         $scope.currentTab = "1";
@@ -5132,6 +5134,41 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             angular.forEach($scope.PatientListFilter, function (SelectedPatient, index) {
                 SelectedPatient.SelectedPatient = false;
             });
+        }
+        $scope.Eligiblity_pupop = function () {
+            angular.element('#InsuranceModel').modal('show');
+            $http.get(baseUrl + '/api/User/UserDetails_View/Id?=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $scope.FirstName = data.FirstName;
+                $scope.MiddleName = data.MiddleName;
+                $scope.LastName = data.LastName;
+                $scope.ViewGender = data.GENDER_NAME;
+                $scope.DOB = DateFormatEdit($filter('date')(data.DOB, "dd-MMM-yyyy"));
+                $scope.MobileNo = data.MOBILE_NO;
+                var splitmobno = data.MOBILE_NO.includes('~');
+                if (splitmobno == true) {
+                    var mobilenoFields = data.MOBILE_NO.split('~');
+                    var countrycode = mobilenoFields[0];
+                    var mNumber = mobilenoFields[1];
+                } else {
+                    var countrycode = "";
+                    var mNumber = data.MOBILE_NO;
+                }
+                var mNumberCC = countrycode + mNumber;
+
+                if (countrycode == "") {
+                    var isccodeavail = data.MOBILE_NO;
+                }
+                else {
+                    var isccodeavail = mNumber;
+                }
+                $scope.MobileNoView = typeof (mNumber) == "undefined" ? isccodeavail : mNumberCC; //mNumber //data.MOBILE_NO : mNumber;
+                $scope.MobileNo = typeof (mNumber) == "undefined" ? isccodeavail : mNumber; //mNumber //data.MOBILE_NO : mNumber;
+                
+            });
+        }
+        $scope.CancelPopup = function () {
+            angular.element('#InsuranceModel').modal('hide');
+
         }
         $scope.AddGroupPopup = function () {
             angular.element('#GroupCreateModal').modal('show');
