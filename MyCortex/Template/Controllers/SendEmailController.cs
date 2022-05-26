@@ -295,7 +295,7 @@ namespace MyCortex.Template.Controllers
                         message.Title = itemData.Email_Subject;
                         message.Message = itemData.Email_Body;
 
-                        PushNotificationApiManager.sendNotification(message, itemData.Template_Id, itemData.UserId, 4);
+                        PushNotificationApiManager.sendNotification(message, ModelData[0].Id, itemData.UserId, 4);
                     }
                 }
 
@@ -468,7 +468,7 @@ namespace MyCortex.Template.Controllers
                         message.Title = itemData.Email_Subject;
                         message.Message = itemData.Email_Body;
 
-                        PushNotificationApiManager.sendNotification(message, ModelData[0].Id, itemData.Created_By, 4);
+                        PushNotificationApiManager.sendNotification(message, ModelData[0].Id, ModelData[0].UserId, 4);
                     }
                 }
 
