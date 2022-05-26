@@ -141,8 +141,6 @@ namespace MyCortex.User.Controller
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<PatientAppointmentsModel> ModelData = new List<PatientAppointmentsModel>();
             PatientAppointmentsReturnModel model = new PatientAppointmentsReturnModel();
-            string TimeZoneName = insobj.TimeZoneName;
-            string UtcOffSet = insobj.UtcOffSet;
             if (!ModelState.IsValid)
             {
                 model.Status = "False";

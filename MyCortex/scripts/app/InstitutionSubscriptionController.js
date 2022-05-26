@@ -12,7 +12,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
         var dtToday = new Date();
 
         var month = dtToday.getMonth() + 1;
-        var day = dtToday.getDate();
+        var day = dtToday.getDate() - 1;
         var year = dtToday.getFullYear();
         if (month < 10)
             month = '0' + month.toString();
@@ -74,7 +74,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             $scope.ClearInstitutionSubscriptionPopup();
             //document.getElementById("Contract_Period_To").min = $scope.StartToDateMin;
             $scope.Contract_Period_From = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
-            $scope.Contract_Period_To = DateFormatEdit($filter('date')(new Date(new Date().setDate(new Date().getDate() + 31)), 'dd-MMM-yyyy'));
+            $scope.Contract_Period_To = DateFormatEdit($filter('date')(new Date(new Date().setDate(new Date().getDate() + 30)), 'dd-MMM-yyyy'));
             $('#btnsave').attr("disabled", false);
             $('#btnsave1').attr("disabled", false);
             $scope.EditInstSub = 0;
@@ -216,7 +216,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
         //$scope.Contract_Period_To = DateFormatEdit($filter('date')(new Date(new Date().setMonth(new Date().getMonth() + 1)), 'dd-MMM-yyyy'));
 
         $scope.DateChange = function () {
-            document.getElementById('Contract_Period_To').min = moment($scope.Contract_Period_From).add(31, 'days').format('YYYY-MM-DD');
+            document.getElementById('Contract_Period_To').min = moment($scope.Contract_Period_From).add(30, 'days').format('YYYY-MM-DD');
         }
 
         $scope.ChangeDate = function (Contract_Period_From) {
