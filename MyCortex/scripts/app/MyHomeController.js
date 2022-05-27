@@ -109,17 +109,19 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $('#tabdevice').prop('disabled', false);
             $scope.IsEdit = false;
             $scope.IsShow = true;
-            $scope.AddUserParameters = [{
-                'Id': 0,
-                'UserId': 0,
-                'PIN': $scope.PIN,
-                'IsActive': true
-            }];
-            $scope.AddDeviceParameters = [{
-                'Id': 0,
-                'DeviceId': 0,
-                'IsActive': true
-            }];
+            $scope.AddUserParameters = [];
+            $scope.AddDeviceParameters = [];
+            //$scope.AddUserParameters = [{
+            //    'Id': 0,
+            //    'UserId': 0,
+            //    'PIN': $scope.PIN,
+            //    'IsActive': true
+            //}];
+            //$scope.AddDeviceParameters = [{
+            //    'Id': 0,
+            //    'DeviceId': 0,
+            //    'IsActive': true
+            //}];
             $scope.showSave = true;
             var $sel2 = $('#tabdevice');
             $sel2.multiselect('enable');
