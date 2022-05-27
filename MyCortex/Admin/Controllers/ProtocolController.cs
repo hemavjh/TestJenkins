@@ -21,9 +21,9 @@ namespace MyCortex.Admin.Controllers
     public class ProtocolController : ApiController
     {
         static readonly IProtocolRepository repository = new ProtocolRepository();
-        private MyCortexLogger _MyLogger = new MyCortexLogger();
-        string
-            _AppLogger = string.Empty, _AppMethod = string.Empty;
+        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
+        /*string*/
+        /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
         /// <summary>
         /// To insert/update monitoring protocol
         /// </summary>
@@ -139,19 +139,18 @@ namespace MyCortex.Admin.Controllers
         [HttpGet]
         public IList<ProtocolModel> StandardProtocol_List(int IsActive,long InstitutionId)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<ProtocolModel> model;
              try
             {
-                 _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
-                  model = repository.StandardProtocol_List(IsActive, InstitutionId);
+                /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
+                model = repository.StandardProtocol_List(IsActive, InstitutionId);
             return model;
             }
              catch (Exception ex)
              {
- 
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
              }
         }
@@ -165,19 +164,18 @@ namespace MyCortex.Admin.Controllers
         [HttpGet]
         public IList<ProtocolModel> StandardProtocol_View(long Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<ProtocolModel> model;
              try
             {
-                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.StandardProtocol_View(Id);
             return model;
             }
              catch (Exception ex)
              {
- 
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
              }
         }
@@ -191,18 +189,17 @@ namespace MyCortex.Admin.Controllers
         [HttpGet]
         public MonitoringProtocolModel ProtocolMonitoring_View(long Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             MonitoringProtocolModel model = new MonitoringProtocolModel();
              try
             {
-                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.ProtocolMonitoring_View(Id);
             }
              catch (Exception ex)
              {
- 
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
             }
             return model;
         }
@@ -213,19 +210,19 @@ namespace MyCortex.Admin.Controllers
         [HttpGet]
         public IList<DurationModel> DurationTypeDetails()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<DurationModel> model;
             try
             {
-                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+               
+                /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.DurationTypeDetails();
                  return model;
             }
             catch (Exception ex)
             {
- 
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
            
@@ -239,8 +236,8 @@ namespace MyCortex.Admin.Controllers
         [HttpGet]
         public HttpResponseMessage ProtocolMonitoring_InActive(int Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             if (Id > 0)
             {
                 try
@@ -250,8 +247,7 @@ namespace MyCortex.Admin.Controllers
                 }
                 catch (Exception ex)
                 {
-    
-                    _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                    /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                     return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
                 }
             }
@@ -269,8 +265,8 @@ namespace MyCortex.Admin.Controllers
         [HttpGet]
         public HttpResponseMessage ProtocolMonitoring_Active(int Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             if (Id > 0)
             {
                  try
@@ -280,8 +276,7 @@ namespace MyCortex.Admin.Controllers
                 }
                  catch (Exception ex)
                  {
-    
-                    _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                    /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                     return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
                  }
 
@@ -301,8 +296,8 @@ namespace MyCortex.Admin.Controllers
         [HttpGet]
         public HttpResponseMessage ProtocolMonitoring_Delete(int Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             if (Id > 0)
             {
                 try
@@ -314,8 +309,7 @@ namespace MyCortex.Admin.Controllers
 
                 catch (Exception ex)
                 {
-    
-                    _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                    /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                     return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
                 }
             }
@@ -334,19 +328,19 @@ namespace MyCortex.Admin.Controllers
         [HttpGet]
         public IList<MonitoringProtocolModel> ProtocolNameDetails(long InstitutionId)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<MonitoringProtocolModel> model;
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+               
+                /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.ProtocolNameDetails(InstitutionId);
                 return model;
             }
             catch (Exception ex)
             {
- 
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -359,19 +353,19 @@ namespace MyCortex.Admin.Controllers
         [HttpGet]
         public IList<MonitoringProtocolModel> ParameterNameList(long InstitutionId)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<MonitoringProtocolModel> model;
             try
             {
-                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+               
+                /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.ParameterNameList(InstitutionId);
                 return model;
             }
             catch (Exception ex)
             {
- 
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }

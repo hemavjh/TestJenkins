@@ -18,9 +18,9 @@ namespace MyCortex.Repositories.Masters
         ClsDataBase db;
  
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
-        private MyCortexLogger _MyLogger = new MyCortexLogger();
-        string
-            _AppLogger = string.Empty, _AppMethod = string.Empty;
+        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
+        /*string*/
+            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
 
         public DoctorShiftRepository()
         {
@@ -32,13 +32,13 @@ namespace MyCortex.Repositories.Masters
         /// <returns>list of department for Selected Date</returns>
         public IList<ByDateDepartmentModel> ByDateDept_List(long Institution_Id, DateTime Filter_Date, Guid Login_Session_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@InstitutionId", Institution_Id));
             param.Add(new DataParameter("@Date", Filter_Date));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
 
             try
             {                
@@ -53,7 +53,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -65,13 +65,13 @@ namespace MyCortex.Repositories.Masters
         /// <returns>Populated a Doctor Shift Details DataTable </returns>
         public IList<SelectedDaysList> DoctorShiftDayDetails_View(long Id, Guid Login_Session_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@DoctorShift_id", Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[Doctor_Shift_Details_WithDates_SP]", param);
@@ -101,7 +101,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -117,15 +117,15 @@ namespace MyCortex.Repositories.Masters
         /// <returns>Populated List of Doctor Shift list Details DataTable</returns>
         public IList<New_DoctorShiftModel> DoctorShift_List(int IsActive, long InstitutionId, Guid Login_Session_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             //param.Add(new DataParameter("@IsActive", IsActive));
             param.Add(new DataParameter("@INSTITUTIONID", InstitutionId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             param.Add(new DataParameter("@ISACTIVE", IsActive));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TBLDOCTORSHIFT_SP_VIEWLIST]", param);
@@ -155,7 +155,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -171,8 +171,8 @@ namespace MyCortex.Repositories.Masters
         /// <returns>Identity (Primary Key) value of the Inserted/Updated record</returns>
         public long DoctorShift_AddEdit(List<DoctorShiftModel> obj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             long InsSubModId;
             int insert;
             try
@@ -388,7 +388,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 // return null;
             }
             return 0;
@@ -403,15 +403,15 @@ namespace MyCortex.Repositories.Masters
         /// <returns>Populated List of Doctor Shift list Details DataTable</returns>
         public New_DoctorShiftModel DoctorShift_View(long DoctorId, long Id, Guid Login_Session_Id, long institution_id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@doctor_id", DoctorId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             param.Add(new DataParameter("@INSTITUTION_ID", institution_id));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[Doctor_Shift_Details_SP]", param);
@@ -444,7 +444,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -473,13 +473,13 @@ namespace MyCortex.Repositories.Masters
         /// <returns>Selected ID related Doctor Shift details to activate again from Doctor Shift database</returns>
         public IList<DoctorShiftModel> DoctorShift_Active(DoctorShiftModel noteobj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", noteobj.Id));
             param.Add(new DataParameter("@Modified_By", noteobj.Modified_By));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].TBLDOCTORSHIFT_SP_ACTIVE", param);
@@ -492,7 +492,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
 
@@ -506,13 +506,13 @@ namespace MyCortex.Repositories.Masters
         /// <returns>Selected ID related Doctor Shift details to Inactivated again from Doctor Shift database</returns>
         public IList<DoctorShiftModel> DoctorShift_Delete(DoctorShiftModel noteobj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", noteobj.Id));
             param.Add(new DataParameter("@Modified_By", noteobj.Modified_By));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].TBLDOCTORSHIFT_SP_INACTIVE", param);
@@ -525,7 +525,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -539,12 +539,12 @@ namespace MyCortex.Repositories.Masters
         /// <returns>Populated List of Doctor Shift list Details DataTable</returns>
         public IList<ShiftTimingsModel> Shift_List(long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[SHIFTNAME_SP_LIST]", param);
@@ -560,7 +560,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -574,12 +574,12 @@ namespace MyCortex.Repositories.Masters
         /// <returns>Populated List of Doctor Shift list Details DataTable</returns>
         public IList<WeekDayModel> Days_List(long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[WEEKDAYS_SP_LIST]", param);
@@ -598,7 +598,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -614,8 +614,8 @@ namespace MyCortex.Repositories.Masters
         /// <returns>Populated List of Doctor Shift list Details DataTable</returns>
         public DoctorShiftModel ActivateDoctorShift_List(long Id, long Institution_Id, long Doctor_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             // int returnval;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@ID", Id));
@@ -635,15 +635,15 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
 
         public IList<AppointmentTimeZone> GetTimeZoneList()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             // int returnval; 
             try
             {
@@ -663,15 +663,15 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
 
         public IList<AppointmentModule> GetAppointmentModuleList()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             // int returnval; 
             try
             {
@@ -689,7 +689,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -697,8 +697,8 @@ namespace MyCortex.Repositories.Masters
 
         public IList<OrgAppointmentSettings> GetOrgAppointmentSettings(Guid Login_Session_Id, OrgAppointmentSettings InObj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             long InsertId = 0;
             string flag = "";
             long Inserted_Group_Id;
@@ -721,7 +721,7 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@MinimumSlots", InObj.MinimumSlots));
 
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("MYCORTEX.ORGAPPOINTMENT_SETTINGS_INSERTUPDATE", param);
@@ -794,7 +794,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
 
             }
@@ -803,8 +803,8 @@ namespace MyCortex.Repositories.Masters
 
         public OrgAppointmentSettings APPOINTMENTLISTDETAILS(long InstitutionId, Guid Login_Session_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
            
             param.Add(new DataParameter("@InstitutionId", InstitutionId));
@@ -852,7 +852,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -860,8 +860,8 @@ namespace MyCortex.Repositories.Masters
         public OrgAppointmentModuleSettings ORG_APPOINTMENT_MODULE_SETTINGS(long InstitutionId)
         {
             List<DataParameter> param = new List<DataParameter>();
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
             try
             {
@@ -886,7 +886,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -911,19 +911,19 @@ namespace MyCortex.Repositories.Masters
         }
         public void APPOINTMENTRESETDETAILS(long InstitutionId)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@InstitutionId", InstitutionId));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
                 ClsDataBase.Update("MYCORTEX.ORGAPPOINTMENTLIST_DELETE", param);
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
             }
         }
     }

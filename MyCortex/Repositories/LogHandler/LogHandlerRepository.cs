@@ -17,9 +17,9 @@ namespace MyCortex.Repositories.LogHandler
 {
     public class LogHandlerRepository : ILogHandlerRepository
     {
-        private MyCortexLogger _MyLogger = new MyCortexLogger();
-        string
-            _AppLogger = string.Empty, _AppMethod = string.Empty;
+        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
+        /*string*/
+            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
 
         public LogHandlerRepository()
         {
@@ -34,8 +34,8 @@ namespace MyCortex.Repositories.LogHandler
             ,DateTime? ResponseTimestamp
             ,string SessionId)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             DataEncryption EncryptContent = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@RequestUrl", RequestUrl));
@@ -54,7 +54,7 @@ namespace MyCortex.Repositories.LogHandler
             }
             catch (Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return false;
             }
         }

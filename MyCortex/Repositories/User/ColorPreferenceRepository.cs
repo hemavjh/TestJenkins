@@ -17,9 +17,9 @@ namespace MyCortex.Repositories.User
  
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
 
-        private MyCortexLogger _MyLogger = new MyCortexLogger();
-        string
-            _AppLogger = string.Empty, _AppMethod = string.Empty;
+        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
+        /*string*/
+            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
 
         public ColorPreferenceRepository()
         {
@@ -27,8 +27,8 @@ namespace MyCortex.Repositories.User
         }
         public ColorPreferenceModel ColorPreference_List(long? InstitutionId)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
             try
@@ -75,7 +75,7 @@ namespace MyCortex.Repositories.User
             }
             catch (Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -83,8 +83,8 @@ namespace MyCortex.Repositories.User
 
         public ColorPreferenceReturnModel ColorPreference_InsertUpdate(ColorPreferenceModel insobj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             ColorPreferenceReturnModel insert = new ColorPreferenceReturnModel();
             try
             {               
@@ -169,7 +169,7 @@ namespace MyCortex.Repositories.User
 
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 insert.ReturnFlag = 0;
                 insert.Message = "Error occurred while creating";
             }

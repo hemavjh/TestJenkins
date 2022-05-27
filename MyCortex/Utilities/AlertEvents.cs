@@ -33,9 +33,9 @@ namespace MyCortex.Notification
         static readonly IEmailConfigurationRepository emailrepository = new EmailConfigurationRepository();
  
 
-        private MyCortexLogger _MyLogger = new MyCortexLogger();
-        string 
-            _AppLogger = string.Empty, _AppMethod = string.Empty;
+        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
+        /*string */
+            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
         public IList<AlertEventModel> AlertEvent_GenerateTemplate(long Entity_Id, long Institution_Id, string Event_Code)
         {
             IList<AlertEventModel> EventTemplatemodel;
@@ -51,8 +51,8 @@ namespace MyCortex.Notification
         }
         public void SendAlert_Email_Notification(AlertEventResultModel alertList, EmailConfigurationModel emailModel, long Institution_Id, int emailType, long EntityId, string EventCode)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             foreach (AlertEventModel alert in alertList.AlertEventTemplateList)
             {
                 if (alertList.AlertEventEmailList != null)
@@ -76,7 +76,7 @@ namespace MyCortex.Notification
                         {
                             if (alert.FromEmail_Id != null || emailModel.Sender_Email_Id != null)
                             {
-                                _MyLogger.Exceptions("INFO", _AppLogger, "Email: " + alert.TempBody, null, _AppMethod);
+                                /*_MyLogger.Exceptions("INFO", _AppLogger, "Email: " + alert.TempBody, null, _AppMethod);*/
                                 if (emailType == 1)
                                 {
                                     SendGridMessage msg = SendGridApiManager.ComposeMailMessage(
@@ -113,7 +113,7 @@ namespace MyCortex.Notification
                             alert.TempBody = alert.TempBody.Replace("&nbsp;", " ");
                             alert.TempBody = alert.TempBody.Replace("\n", " ");
                             message.Message = alert.TempBody;
-                            _MyLogger.Exceptions("INFO", _AppLogger, "Notification: Title: " + message.Title + "Message: " + message.Message + "UserId: " + email.UserId, null, _AppMethod);
+                            /*_MyLogger.Exceptions("INFO", _AppLogger, "Notification: Title: " + message.Title + "Message: " + message.Message + "UserId: " + email.UserId, null, _AppMethod);*/
                             PushNotificationApiManager.sendNotification(message, sendEmailModel[0].Id, email.UserId, alert.TemplateFor);
                         }
                         else if (alert.TemplateType_Id == 3)  // 3 for SMS
@@ -163,7 +163,7 @@ namespace MyCortex.Notification
 
                             SMSURL = "https://txt.speroinfotech.ae/API/SendSMS?" + "username=" + SMSUserName + "&apiId=" + SMSApiId + "&json=True&destination=" + SMSMbNO + "&source=" + SMSSource + "&text=" + SMSBody;
 
-                            _MyLogger.Exceptions("INFO", _AppLogger, SMSURL, null, _AppMethod);
+                            /*_MyLogger.Exceptions("INFO", _AppLogger, SMSURL, null, _AppMethod);*/
                             HttpClient client = new HttpClient();
                             client.BaseAddress = new Uri(SMSURL);
 
@@ -216,8 +216,8 @@ namespace MyCortex.Notification
         
         public int Generate_Email_Notification(string EventCode, long EntityId, long Institution_Id, IList<EmailListModel> EmailList)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 IList<AlertEventModel> AlertEventTemplate;
@@ -231,15 +231,15 @@ namespace MyCortex.Notification
             }
             catch(Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return 0;
             }
         }
 
         public int Generate_SMTPEmail_Notification(string EventCode, long EntityId, long Institution_Id, IList<EmailListModel> EmailList)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 IList<AlertEventModel> EventTemplatemodel;
@@ -259,15 +259,15 @@ namespace MyCortex.Notification
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return 0;
             }
         }
 
         public int Generate_SMTPEmail_Notification_For_ChangePwd(string url, long EntityId, long Institution_Id, IList<EmailListModel> EmailList)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 IList<AlertEventModel> EventTemplatemodel = new List<AlertEventModel>();
@@ -295,7 +295,7 @@ namespace MyCortex.Notification
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return 0;
             }
         }

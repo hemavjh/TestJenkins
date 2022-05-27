@@ -17,9 +17,9 @@ namespace MyCortex.Repositories.Admin
          ClsDataBase db;
  
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
-        private MyCortexLogger _MyLogger = new MyCortexLogger();
-        string
-            _AppLogger = string.Empty, _AppMethod = string.Empty;
+        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
+        /*string*/
+            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
         public EmailConfigurationRepository()
         {
             db = new ClsDataBase();
@@ -59,8 +59,8 @@ namespace MyCortex.Repositories.Admin
         /// <returns>Identity (Primary Key) value of the Inserted/Updated record</returns>
         public long EmailConfiguration_AddEdit(EmailConfigurationModel obj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             long retid;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@ID", obj.Id));
@@ -75,7 +75,7 @@ namespace MyCortex.Repositories.Admin
             param.Add(new DataParameter("@REMARKS", obj.Remarks));
             param.Add(new DataParameter("@CREATED_BY", obj.Created_By));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
                 retid = ClsDataBase.Insert("[MYCORTEX].EMAILCONFIGURAION_INSERTUPDATE", param, true);
@@ -83,7 +83,7 @@ namespace MyCortex.Repositories.Admin
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return 0;
             }
         }
@@ -95,12 +95,12 @@ namespace MyCortex.Repositories.Admin
         /// <returns>Email configuration details of a institution</returns>
         public EmailConfigurationModel EmailConfiguration_View(long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("MYCORTEX.EMAILCONFIGURATION_SP_VIEWEDIT", param);
@@ -125,7 +125,7 @@ namespace MyCortex.Repositories.Admin
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }

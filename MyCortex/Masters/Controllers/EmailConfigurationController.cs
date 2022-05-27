@@ -24,9 +24,9 @@ namespace MyCortex.Admin.Controllers
         static readonly IEmailConfigurationRepository repository = new EmailConfigurationRepository();
  
 
-        private MyCortexLogger _MyLogger = new MyCortexLogger();
-        string
-            _AppLogger = string.Empty, _AppMethod = string.Empty;
+        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
+       /* string*/
+            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
         /// <summary>
         /// to Insert/Update the entered Email Configuration Information into database of a institution
         /// </summary>
@@ -35,8 +35,8 @@ namespace MyCortex.Admin.Controllers
         [HttpPost]
         public HttpResponseMessage EmailConfiguration_AddEdit(EmailConfigurationModel model)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             if (ModelState.IsValid)
             {
                 try
@@ -46,7 +46,7 @@ namespace MyCortex.Admin.Controllers
                 }
                 catch (Exception ex)
                 {
-                   _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                  /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                     return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
                 }
             }
@@ -65,17 +65,17 @@ namespace MyCortex.Admin.Controllers
         [HttpGet]
         public EmailConfigurationModel EmailConfiguration_View(long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             EmailConfigurationModel model = new EmailConfigurationModel();
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.EmailConfiguration_View(Institution_Id);
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
             }
 
             return model;
