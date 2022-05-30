@@ -22,9 +22,9 @@ namespace MyCortex.Masters.Controllers
     {
         static readonly IPatientReportDetailsRepositoy repository = new PatientReportDetailsRepository();
  
-        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
-        /*string*/
-            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         /// <summary>
         /// Audit Report - Table short name list
@@ -34,8 +34,8 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<ReportDetailsModel> TableShortName_List()
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<ReportDetailsModel> model;
             try
             {
@@ -44,7 +44,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -60,8 +60,8 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<ReportDetailsModel> PatientReportDetails_List(DateTime Period_From, DateTime Period_To,string PeriodFromTime, string PeriodToTime, int StartRowNumber,int EndRowNumber, string ShortNameId, long UserNameId, Guid Login_Session_Id)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<ReportDetailsModel> model;
             try
             {
@@ -70,7 +70,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -81,8 +81,8 @@ namespace MyCortex.Masters.Controllers
         [HttpPost]
         public HttpResponseMessage AutomatedTestReport_InsertUpdate([FromBody] AutomatedTestReportDetails AutomatedObject)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             AutomatedTestReportDetails ModelData = new  AutomatedTestReportDetails();
             AutomatedTestReportReturnModels model = new AutomatedTestReportReturnModels();
             
@@ -116,7 +116,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating AutomatedReport";
                 model.AutomatedTestReportDetails1 = ModelData;
@@ -129,8 +129,8 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<AutomatedTestReportDetails> AutomatedTestReport_View(long rowid = 0)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<AutomatedTestReportDetails> model; 
@@ -138,7 +138,7 @@ namespace MyCortex.Masters.Controllers
                 return model;
             }catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/ 
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod); 
                 return null;
             }
         }

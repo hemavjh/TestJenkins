@@ -24,9 +24,9 @@ namespace MyCortex.Masters.Controllers
 
         static readonly IAttendanceRepository repository = new AttendanceRepository();
  
-        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
-        /*string*/
-            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
         /// <summary>      
         /// Settings  --> Doctor List details (menu) -- > List Page (result)
         /// to get the list of Doctor List for the specified filters
@@ -37,8 +37,8 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<AttendanceModel> UserType_List(long Institution_Id)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<AttendanceModel> model;
             try
             {
@@ -47,7 +47,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -55,8 +55,8 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<ClinicalUser_List> Clinician_UserList(long? Institution_Id)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<ClinicalUser_List> model;
             try
             {
@@ -65,7 +65,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -104,8 +104,8 @@ namespace MyCortex.Masters.Controllers
         [HttpPost]
         public HttpResponseMessage AttendanceDetails_InsertUpdate(Guid Login_Session_Id,[FromBody] List<AttendanceModel> insobj)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<AttendanceModel> ModelData = new List<AttendanceModel>();
             AttendanceReturnModels model = new AttendanceReturnModels();
             if (!ModelState.IsValid)
@@ -152,7 +152,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating Holiday";
                 model.Attendance = ModelData;
@@ -172,8 +172,8 @@ namespace MyCortex.Masters.Controllers
         [Authorize]
         public IList<AttendanceModel> Attendance_List(int? IsActive, long Institution_Id, Guid Login_Session_Id)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<AttendanceModel> model;
             try
             {
@@ -182,7 +182,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -196,18 +196,18 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public AttendanceModel Attendance_View(long Id, Guid Login_Session_Id, long institution_id)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             AttendanceModel model = new AttendanceModel();
             try
             {
-                /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
+               _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.Attendance_View(Id, Login_Session_Id, institution_id);
                 return model;
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -217,8 +217,8 @@ namespace MyCortex.Masters.Controllers
 
         public HttpResponseMessage Attendance_InActive([FromBody] AttendanceModel noteobj)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<AttendanceModel> ModelData = new List<AttendanceModel>();
             AttendanceReturnModels model = new AttendanceReturnModels();
             if (!ModelState.IsValid)
@@ -247,7 +247,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating Patient Holiday";
                 model.ReturnFlag = 0;
@@ -259,8 +259,8 @@ namespace MyCortex.Masters.Controllers
         [HttpPost]
         public HttpResponseMessage Attendance_Active([FromBody] AttendanceModel noteobj)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<AttendanceModel> ModelData = new List<AttendanceModel>();
             AttendanceReturnModels model = new AttendanceReturnModels();
             if (!ModelState.IsValid)
@@ -294,7 +294,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating Patient Holiday";
                 model.ReturnFlag = 0;

@@ -20,9 +20,9 @@ namespace MyCortex.Admin.Controllers
     {
         static readonly IUsersLogRepository repository = new UsersLogRepository();
 
-        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
-        /*string*/
-        /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+        _AppLogger = string.Empty, _AppMethod = string.Empty;
         /// <summary>
         /// get the list of Users Log for the filter
         /// </summary>
@@ -39,18 +39,18 @@ namespace MyCortex.Admin.Controllers
         [HttpGet]
         public IList<All_UserList> GetAll_UserLists(long InstitutionId)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<All_UserList> model;
             try
             {
-                /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
+               _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.GetAll_UserLists(InstitutionId);
                 return model;
             }
             catch (Exception ex)
             {
-                /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }

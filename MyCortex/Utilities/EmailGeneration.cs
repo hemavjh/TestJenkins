@@ -23,9 +23,9 @@ namespace MyCortex.Utilities
         static readonly IEmailConfigurationRepository repository = new EmailConfigurationRepository();
 
         static readonly IPasswordPolicyRepository pwdrepository = new PasswordPolicyRepository();
-        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
-        /*string*/
-            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
 
 
@@ -38,8 +38,8 @@ namespace MyCortex.Utilities
         /// <returns>Identity (Primary Key) value of the Inserted/Updated record</returns>
         public Boolean EmailHistory_AddEdit(EmailGenerateModel model)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             EmailTemplateModel ModelData = new EmailTemplateModel();
             EmailTemplateReturnModels modellist = new EmailTemplateReturnModels();
 
@@ -50,7 +50,7 @@ namespace MyCortex.Utilities
             }
             catch(Exception ex)
             {
-               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return false;
             }
         }

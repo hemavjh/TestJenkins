@@ -25,9 +25,9 @@ namespace MyCortex.Template.Controllers
         static readonly ISMSTemplateRepository repository = new SMSTemplateRepository();
  
 
-        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
-        /*string*/
-            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
         /// <summary>
         /// SMS Template --> SMS Template  Details --> Add/Edit Page
         /// to Insert/Update the entered SMS Template  Information
@@ -138,8 +138,8 @@ namespace MyCortex.Template.Controllers
         [HttpGet]
         public IList<TagListModels> TemplateTag_List(long Id)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<TagListModels> model;
             try
             {
@@ -148,7 +148,7 @@ namespace MyCortex.Template.Controllers
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -162,8 +162,8 @@ namespace MyCortex.Template.Controllers
         [HttpGet]
         public IList<TagListMappingModels> SMSTemplateTagMapping_List(long Id, long Institution_Id)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<TagListMappingModels> model;
             try
             {
@@ -172,7 +172,7 @@ namespace MyCortex.Template.Controllers
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
