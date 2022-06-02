@@ -5166,7 +5166,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 
             });
         }
-        $scope.CancelPopup = function () {
+        $scope.CancelInsurancePopup = function () {
             angular.element('#InsuranceModel').modal('hide');
 
         }

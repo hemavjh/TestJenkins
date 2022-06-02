@@ -1,8 +1,16 @@
 ﻿<script>
-    $(document).ready(function () {
+$(document).ready(function () {
+        //$('.activeButton').removeClass('activeButton');
+        //$('#Encrypt / Decrypt').addClass('activeButton');
+    $('.activeButton').removeClass('activeButton');
+    $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+    if ($('#' + $('.secondaryMenuActive').data('menu')).length === 0) {
         $('.activeButton').removeClass('activeButton');
-        $('#Encrypt / Decrypt').addClass('activeButton');
-    });
+            if (document.getElementById("Encrypt / Decrypt")) {
+                document.getElementById("Encrypt / Decrypt").className += 'activeButton';
+            }
+    }
+});
 </script>
 <h1 class="page-title">Encrypt/Decrypt</h1>
 <div>
