@@ -23,6 +23,7 @@ using MyCortex.Notification.Model;
 using MyCortex.Repositories.Admin;
 using MyCortex.Provider;
 using MyCortex.Repositories.Masters;
+using MyCortex.Repositories.LiveBox;
 using MyCortex.Repositories;
 using MyCortex.Utilities;
 using Stripe;
@@ -43,6 +44,7 @@ namespace MyCortex.Home.Controllers
         static readonly ICommonRepository commonrepository = new CommonRepository();
         static readonly IGatewaySettingsRepository gatewayrepository = new GatewaySettingsRepository();
         static readonly IPatientAppointmentsRepository patientAppointmentsRepository = new PatientAppointmentRepository();
+        static readonly ILiveBoxRepository liveBoxRepository = new LiveBoxRepository();
         private LoginRepository login = new LoginRepository();
         private UserRepository repository = new UserRepository();
 
@@ -858,6 +860,18 @@ namespace MyCortex.Home.Controllers
             string MessageStatus = data.MessageStatus;
             retid = patientAppointmentsRepository.SMSStatus_Update(MessageId,PNumber,Status,StatusCode,MessageStatus);
             //retid = patientAppointmentsRepository.PaymentStatusInfo_Insert(merchantOrderNumber, amount, OrderNumber, status, requestTime, notifyId, notifyTimeStamp);
+            return Content("SUCCESS");
+        }
+
+        [HttpPost]
+        public ActionResult LiveBoxNotify()
+        {
+            int retid = 0;
+            Stream req = Request.InputStream;
+            req.Seek(0, System.IO.SeekOrigin.Begin);
+            string json = new StreamReader(req).ReadToEnd();
+            retid = liveBoxRepository.LiveBox_Notify_Log(json);
+            
             return Content("SUCCESS");
         }
 
