@@ -12,12 +12,17 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
         $scope.DuplicateId = "0";
         $scope.UserTypeId = parseInt($window.localStorage["UserTypeId"]);
         $scope.flag = 0;
+        $scope.TagType = 0;
+        $scope.InsTagType = 0;
         $scope.IsActive = true;
         $scope.TemplateName = "";
         $scope.AlertTagName = "";
         $scope.Event = "";
         /*List Page Pagination*/
         $scope.listdata = [];
+        $scope.InsAlertEvent = [];
+        $scope.eventalertins = [];
+        $scope.eventalertins1 = [];
         $scope.current_page = 1;
         $scope.page_size = $window.localStorage['Pagesize'];
         $scope.rembemberCurrentPage = function (p) {
@@ -35,7 +40,13 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
         } else {
             window.location.href = baseUrl + "/Home/LoginIndex";
         }
-
+        //var selobj = { "EventName": "Select", "Id": "0", "IsActive": 1 };
+        //$scope.InsAlertEvent.push(selobj);
+        var obj = { "EventName": "User Creation", "Id": "1", "IsActive": 1 };
+        $scope.InsAlertEvent.push(obj);
+        var obj1 = { "EventName": "Institution And Subscription Creation", "Id": "2", "IsActive": 1 };
+        $scope.InsAlertEvent.push(obj1);
+        
         $scope.TemplateTagMappingList = [];
         //$scope.TempMappinglist = function () {
         //    if ($scope.UserTypeId != 1) {
@@ -67,6 +78,34 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
         //        });
         //    }
         //};
+
+        $scope.OnChangeIns_TypeBasedTagList = function (InsTagType) {
+            if (InsTagType == "1") {
+                $scope.SectionType = "BASIC";
+                //$scope.AlertTagName = TagType;
+                $scope.InsTagType = InsTagType.toString();
+            }
+            if (InsTagType == "2") {
+                $scope.SectionType = "INS_SUB_DETAILS";
+                //$scope.AlertTagName = TagType;
+                $scope.InsTagType = InsTagType.toString();
+            }
+            $scope.TemplateTagMappingList = [];
+            if ($scope.PageParameter == 1) {
+                $scope.Type = "1"; //For Email
+            }
+            else if ($scope.PageParameter == 2) {
+                $scope.Type = "2";//For Notification
+            }
+            else if ($scope.PageParameter == 3) {
+                $scope.Type = "3";//For SMS
+            }
+            if (InsTagType != "" && InsTagType != "0" && InsTagType != 0) {
+                $http.get(baseUrl + '/api/EmailTemplate/SectionEmailTemplateTagMapping_List/?Id=' + 0 + '&Institution_Id=' + $scope.InstituteId + '&SectionName=' + $scope.SectionType).success(function (data) {
+                    $scope.TemplateTagMappingList = data;
+                });
+            }
+        }
 
         $scope.OnChangeTypeBasedTagList = function (TagType) {
             var Mode = "";
@@ -155,11 +194,13 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
             else if (Mode == 1) {
                 if (TagType == "1") {
                     $scope.SectionType = "BASIC";
-                    $scope.AlertTagName = TagType;
+                    //$scope.AlertTagName = TagType;
+                    $scope.TagType = TagType.toString();
                 }
                 if (TagType == "2") {
                     $scope.SectionType = "INS_SUB_DETAILS";
-                    $scope.AlertTagName = TagType;
+                    //$scope.AlertTagName = TagType;
+                    $scope.TagType = TagType.toString();
                 }
             }
             else (EmailSectionType == "0" || EmailSectionType == null || EmailSectionType == undefined || EmailSectionType == "")
@@ -568,7 +609,8 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
         /* THIS IS CANCEL POPUP FUNCTION */
         $scope.CancelPopUP = function () {
             angular.element('#EmailTemplateModal').modal('hide');
-            $scope.TagType = "";
+            $scope.TagType = 0;
+            $scope.InsTagType = 0;
             $scope.TemplateTagMappingList = [];
         }
 
@@ -590,7 +632,8 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
             $scope.Template = "";
             //if ($scope.PageParameter == 1 || $scope.PageParameter == 3) {
             $scope.Template = CKEDITOR.instances.editor1.setData($scope.Template);
-            $scope.TagType = "";
+            $scope.TagType = 0;
+            $scope.InsTagType = 0;
             $scope.TemplateTagMappingList = [];
             //}
         }
