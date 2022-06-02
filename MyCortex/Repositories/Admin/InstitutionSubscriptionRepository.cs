@@ -18,9 +18,9 @@ namespace MyCortex.Repositories.Admin
  
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
 
-        private MyCortexLogger _MyLogger = new MyCortexLogger();
-        string
-            _AppLogger = string.Empty, _AppMethod = string.Empty;
+        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
+        /*string*/
+            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
 
         public InstitutionSubscriptionRepository()
         {
@@ -176,10 +176,10 @@ namespace MyCortex.Repositories.Admin
         {
             List<DataParameter> param = new List<DataParameter>();
 
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].MODULEMASTER_SP_MODULENAME");
@@ -195,7 +195,7 @@ namespace MyCortex.Repositories.Admin
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -203,10 +203,10 @@ namespace MyCortex.Repositories.Admin
         public IList<LanguageMasterModel> LanguageNameList()
         {
             List<DataParameter> param = new List<DataParameter>();
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].LANGUAGEMASTER_SP_LANGUAGENAME");
@@ -222,7 +222,7 @@ namespace MyCortex.Repositories.Admin
             catch (Exception ex)
             {
                 //_MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -250,10 +250,10 @@ namespace MyCortex.Repositories.Admin
         public IList<GatewayMasterModel> PaymentModule_List()
         {
             List<DataParameter> param = new List<DataParameter>();
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[INSTITUTIONPAYMENTMETHODS_SP_LIST]");
@@ -269,7 +269,7 @@ namespace MyCortex.Repositories.Admin
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }

@@ -18,9 +18,9 @@ namespace MyCortex.Masters.Controllers
         static readonly IPasswordPolicyRepository pwdrepository = new PasswordPolicyRepository();
         static readonly ILanguageSettingsRepository lngrepository = new LanguageSettingsRepository();
  
-        private MyCortexLogger _MyLogger = new MyCortexLogger();
-        string
-            _AppLogger = string.Empty, _AppMethod = string.Empty;
+        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
+        /*string*/
+            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
 
         /// <summary>      
         /// to get settings configuration of a institution
@@ -31,12 +31,12 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public HttpResponseMessage Settings(long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             MobileSettingsModel model = new MobileSettingsModel();
             try
             {
-                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model.Status = "True";
                 model.Error_Code = "";
                 model.Message = "Success";
@@ -47,7 +47,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error occured";
                 model.Error_Code = "1";

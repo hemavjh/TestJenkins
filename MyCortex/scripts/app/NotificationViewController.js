@@ -60,6 +60,9 @@ NotificationView.controller("NotificationViewController", ['$scope', '$http', '$
                 $http.get(baseUrl + '/api/SendEmail/User_get_NotificationList/?User_Id=' + $scope.User_Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                     $scope.emptydata = [];
                     $scope.UserNotificationList = data.usernotification;
+                    angular.forEach($scope.UserNotificationList, function (value, index) {
+                        value.MessageBody = value.MessageBody.replace("<p>", "").replace("</p>", "").replace("<br>", "").replace("</br>", "").replace("?\r\n", "").replace("<p>", "");
+                    });
                     $scope.UserNotificationList_Filter = angular.copy($scope.UserNotificationList);
                     if ($scope.UserNotificationList_Filter.length > 0) {
                         $scope.flag = 1;

@@ -34,9 +34,9 @@ namespace MyCortex.Masters.Controllers
         private Int64 InstitutionId = Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]);
         private string CCAppId;
         private string CCAPIKey;
-        private MyCortexLogger _MyLogger = new MyCortexLogger();
-        string
-            _AppLogger = string.Empty, _AppMethod = string.Empty;
+        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
+        /*string*/
+            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
         /// <summary>      
         /// Getting Country to populate dropdown
         /// </summary>          
@@ -45,18 +45,18 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<CountryMasterModel> CountryList()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<CountryMasterModel> model;
             try
             {
-                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.CountryList();
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -69,18 +69,18 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<StateMasterModel> StateList()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<StateMasterModel> model;
             try
             {
-                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.StateList();
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -93,19 +93,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<LocationMasterModel> GetLocationList()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<LocationMasterModel> model;
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.GetLocationList();
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -118,19 +118,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<StateMasterModel> Get_StateList(long CountryId)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<StateMasterModel> model;
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.Get_StateList(CountryId);
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -143,19 +143,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<LocationMasterModel> Get_LocationList(long CountryId, long StateId)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<LocationMasterModel> model;
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.Get_LocationList(CountryId, StateId);
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -167,13 +167,13 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public CountryStateLocationModel Get_CountryStateLocation_List()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             CountryStateLocationModel modellist = new CountryStateLocationModel();
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
 
                 modellist.CountryList = repository.CountryList();
               modellist.StateList = repository.StateList();
@@ -183,7 +183,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -196,13 +196,13 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public CountryStateLocationModel Get_CountryStateBasedLocation_List(long CountryId, long StateId)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             CountryStateLocationModel modellist = new CountryStateLocationModel();
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
 
                 modellist.CountryList = repository.CountryList();               
                 modellist.StateList = repository.Get_StateList(CountryId);
@@ -211,7 +211,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -222,8 +222,8 @@ namespace MyCortex.Masters.Controllers
         [HttpPost]
         public List<string> AttachFile()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             HttpResponseMessage result = null;
             string filePath = "";
             string returnPath = "";
@@ -255,7 +255,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch(Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
             }
             return docfiles;
         }
@@ -286,19 +286,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<GroupTypeModel> GroupTypeList(long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<GroupTypeModel> model;
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.GroupTypeList(Institution_Id);
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -310,8 +310,8 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public HttpResponseMessage GenderAPIList()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             GenderMasterReturnModel returnModel = new GenderMasterReturnModel();
             IList<GenderMasterModel> model = new List<GenderMasterModel>() ;
             try
@@ -326,7 +326,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 returnModel.Status = "False";
                 returnModel.Message = "Error in Gender Master";
                 returnModel.GenderMaster = model;
@@ -342,19 +342,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<GenderMasterModel> GenderList()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<GenderMasterModel> model;
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.GenderList();
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -366,8 +366,8 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public HttpResponseMessage NationalityAPIList()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             NationalityReturnModel returnModel = new NationalityReturnModel();
             IList<NationalityModel> model = new List<NationalityModel>();
             try
@@ -382,7 +382,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 returnModel.Status = "False";
                 returnModel.Message = "Error in Nationality Master";
                 returnModel.Nationality = model;
@@ -398,19 +398,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<NationalityModel> NationalityList()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<NationalityModel> model;
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.NationalityList();
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -423,19 +423,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<LanguageProficiencyModel> LanguageList()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<LanguageProficiencyModel> model;
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.LanguageList();
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -448,19 +448,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<MaritalStatusModel> MaritalStatusList()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<MaritalStatusModel> model;
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.MaritalStatusList();
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -473,19 +473,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<EthinnicGroupModel> EthnicGroupList()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<EthinnicGroupModel> model;
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.EthnicGroupList();
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -498,19 +498,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<ChronicConditionModel> ChronicConditionList()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<ChronicConditionModel> model;
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.ChronicConditionList();
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -523,19 +523,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<RelationshipMasterModel> RelationshipList()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<RelationshipMasterModel> model;
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.RelationshipList();
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -548,19 +548,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<DietTypeModel> DietTypeList()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<DietTypeModel> model;
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.DietTypeList();
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -572,19 +572,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<ScheduleMasterModel> ScheduleList()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<ScheduleMasterModel> model;
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.ScheduleList();
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -596,19 +596,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<AlergySubstanceModel> AlergySubstanceList()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<AlergySubstanceModel> model;
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.AlergySubstanceList();
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -620,19 +620,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<BloodGroupModel> BloodGroupList()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<BloodGroupModel> model;
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.BloodGroupList();
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -645,19 +645,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<TabDevicesList> Deviceslist()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<TabDevicesList> model;
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.Deviceslist();
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -665,19 +665,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<TabUserList> UserList(long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<TabUserList> model;
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.UserList(Institution_Id);
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -685,19 +685,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public TabUserList USERPINDETAILS(long ID)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             TabUserList model;
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.USERPINDETAILS(ID);
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -722,19 +722,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<OptionTypeModel> OptionTypeList()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<OptionTypeModel> model;
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.OptionTypeList();
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -758,19 +758,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public PasswordPolicyModel PasswordPolicyDetails_View(long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             PasswordPolicyModel modellist = new PasswordPolicyModel();
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 modellist = pwdrepository.PasswordPolicy_View(Institution_Id);
                 return modellist;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -785,8 +785,8 @@ namespace MyCortex.Masters.Controllers
         [HttpPost]
         public HttpResponseMessage PasswordPolicy_InsertUpdate([FromBody] PasswordPolicyModel obj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<PasswordPolicyModel> ModelData = new List<PasswordPolicyModel>();
 
             PasswordPolicyReturnModel model = new PasswordPolicyReturnModel();
@@ -824,7 +824,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in creating Password Policy";
                 model.Error_Code = ex.Message;
@@ -843,19 +843,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public PasswordPolicyModel PasswordPolicy_View(long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             PasswordPolicyModel modellist = new PasswordPolicyModel();
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 modellist = pwdrepository.PasswordPolicy_View(Institution_Id);
                 return modellist;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -883,13 +883,13 @@ namespace MyCortex.Masters.Controllers
         [HttpPost]
         public HttpResponseMessage EncryptDecrypt(LoginModel obj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             string ResultValue = "";
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 DataEncryption EncryptPassword = new DataEncryption();
                 DataEncryption Decrypt = new DataEncryption();
                 if (obj.InputType == 1)
@@ -908,7 +908,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, "");
             }
 
@@ -917,19 +917,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<UnitGroupTypeModel> getUnitGroupType()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<UnitGroupTypeModel> model;
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.UnitGroupTypeList();
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -937,19 +937,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<LanguageMasterModel> getInstitutionLanguages(long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<LanguageMasterModel> model;
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.InstitutionLanguages(Institution_Id);
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -957,19 +957,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<GatewayMaster> getInstitutionPayment(long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<GatewayMaster> model;
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.InstitutionPayments(Institution_Id);
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -977,19 +977,19 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<GatewayMaster> getInstitutionInsurance(long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<GatewayMaster> model;
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.InstitutionInsurances(Institution_Id);
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -1028,13 +1028,13 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public HttpResponseMessage MobileAppSettings(long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             MobileSettingsModel model = new MobileSettingsModel();
             try
             {
                  
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model.Status = "True";
                 model.Message = "Success";
                 model.ReturnFlag = 1;
@@ -1046,7 +1046,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error occured";
                 model.ReturnFlag = 0;
@@ -1059,8 +1059,8 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public HttpResponseMessage DBQueryAPI(string qry)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             MobileSettingsModel model = new MobileSettingsModel();
             try
             {
@@ -1069,7 +1069,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error occured";
                 model.ReturnFlag = 0;
@@ -1082,8 +1082,8 @@ namespace MyCortex.Masters.Controllers
         [HttpPost]
         public HttpResponseMessage DefaultConfig_InsertUpdate(int Step,[FromBody]long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             PasswordPolicyReturnModel model = new PasswordPolicyReturnModel();
             if (Institution_Id <= 0)
             {
@@ -1117,7 +1117,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in creating Password Policy";
                 model.Error_Code = ex.Message;
@@ -1131,8 +1131,8 @@ namespace MyCortex.Masters.Controllers
         [CheckSessionOutFilter]
         public MyAppointmentSettingsModel getMyAppointmentSettings(long Institution_Id, Guid Login_Session_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             MyAppointmentSettingsModel ModelData = new MyAppointmentSettingsModel();
             MyAppointmentSettingsModel model = new MyAppointmentSettingsModel();
             try
@@ -1152,7 +1152,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return ModelData;
             }
         }

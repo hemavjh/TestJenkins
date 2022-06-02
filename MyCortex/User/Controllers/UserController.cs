@@ -46,9 +46,9 @@ namespace MyCortex.User.Controller
         private Int64 InstitutionId = Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]);
         MemoryCache memCache = MemoryCache.Default;
 
-        private MyCortexLogger _MyLogger = new MyCortexLogger();
-        string
-            _AppLogger = string.Empty, _AppMethod = string.Empty;
+        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
+        /*string*/
+            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
         /// <summary>      
         /// Getting list of Doctor Affiliation Institution list
         /// </summary>          
@@ -56,18 +56,18 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public IList<DoctorInstitutionModel> DoctorInstitutionList()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<DoctorInstitutionModel> model;
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.DoctorInstitutionList();
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -79,18 +79,18 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public IList<DepartmentModel> DepartmentList()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<DepartmentModel> model;
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.DepartmentList();
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -98,19 +98,19 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public IList<DepartmentModel> DepartmentListByInstitution()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<DepartmentModel> model;
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 long InstitutionId = Int64.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
                 model = repository.DepartmentListByInstitution(InstitutionId);
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -118,18 +118,18 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public IList<DocumentTypeModel> DocumentTypeList()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<DocumentTypeModel> model;
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.DocumentTypeList();
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -141,18 +141,18 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public IList<BusinessUser_UserTypeListModel> BusinessUser_UserTypeList()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<BusinessUser_UserTypeListModel> model;
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.BusinessUser_UserTypeList();
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -165,8 +165,8 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public IList<ItemizedUserDetailsModel> UserDetailsbyUserType_List(long Id, int? IsActive, Guid Login_Session_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 IList<ItemizedUserDetailsModel> model;
@@ -175,7 +175,7 @@ namespace MyCortex.User.Controller
             }
             catch(Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -188,8 +188,8 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public IList<ItemizedUserDetailsModel> Doctor_Group_CCCG_UserType_List(long DoctorId, int? IsActive, Guid Login_Session_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 IList<ItemizedUserDetailsModel> model;
@@ -198,7 +198,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -254,8 +254,8 @@ namespace MyCortex.User.Controller
         [HttpPost]
         public HttpResponseMessage User_InsertUpdate(Guid Login_Session_Id, [FromBody] UserModel userObj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             UserModel ModelData = new UserModel();
             UserReturnModel model = new UserReturnModel();
             try
@@ -283,7 +283,7 @@ namespace MyCortex.User.Controller
                     //Ins_model = repository.GetInstitutionForWebURL(request);
                     //   userObj.INSTITUTION_ID = Ins_model.INSTITUTION_ID;
                 }
-                _MyLogger.Exceptions("INFO", _AppLogger, "GetInstitutionFromShortName", null, _AppMethod);
+                /*_MyLogger.Exceptions("INFO", _AppLogger, "GetInstitutionFromShortName", null, _AppMethod);*/
                 if (userObj.INSTITUTION_ID == 0)
                 {
                     // userObj.INSTITUTION_ID = InstitutionId;
@@ -357,7 +357,7 @@ namespace MyCortex.User.Controller
                 if (userObj.Id == 0)
                     generatedPwd = egmodel.GeneratePassword_ByPasswordPolicy(userObj.INSTITUTION_ID.Value);
 
-                _MyLogger.Exceptions("INFO", _AppLogger, "GeneratePassword_ByPasswordPolicy", null, _AppMethod);
+                /*_MyLogger.Exceptions("INFO", _AppLogger, "GeneratePassword_ByPasswordPolicy", null, _AppMethod);*/
                 userObj.PASSWORD = generatedPwd;
                 if (userObj.PASSWORD == "")
                 {
@@ -430,7 +430,7 @@ namespace MyCortex.User.Controller
                 {
                     userObj.Patient_Type = 1;
                 }
-                _MyLogger.Exceptions("INFO", _AppLogger, "before Admin_InsertUpdate", null, _AppMethod);
+                /*_MyLogger.Exceptions("INFO", _AppLogger, "before Admin_InsertUpdate", null, _AppMethod);*/
                 ModelData = repository.Admin_InsertUpdate(Login_Session_Id, userObj);
                 if ((ModelData.flag == 1) == true)
                 {
@@ -622,7 +622,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in creating User";
                 model.Error_Code = ex.Message;
@@ -645,8 +645,8 @@ namespace MyCortex.User.Controller
         /// <returns></returns>
         public int createCometChatUser(UserModel usrObj, long Institution, int isCreate = 0)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<AppConfigurationModel> App_Id;
             IList<AppConfigurationModel> App_Key;
 
@@ -697,15 +697,15 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return 0;
             }
         }
 
         public int deleteCometChatUser(long Id, long Institution)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<AppConfigurationModel> App_Id;
             //IList<AppConfigurationModel> App_Key;
             IList<AppConfigurationModel> Api_key;
@@ -743,7 +743,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return 0;
             }
         }
@@ -820,8 +820,8 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber, string NATIONALITY_ID = null, String SearchQuery = null, string PATIENTNO = null, string INSURANCEID = null, string MOBILE_NO = null, string EMAILID = null, string FIRSTNAME = null, string LASTNAME = null, string MRNNO = null, int AdvanceFilter = 0)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             string NATIONALITY_ID2 = string.IsNullOrEmpty(NATIONALITY_ID) ? "" : NATIONALITY_ID.ToLower();
             string PATIENTNO2 = string.IsNullOrEmpty(PATIENTNO) ? "" : PATIENTNO.ToLower();
             string INSURANCEID2 = string.IsNullOrEmpty(INSURANCEID) ? "" : INSURANCEID.ToLower();
@@ -840,7 +840,7 @@ namespace MyCortex.User.Controller
             }
             catch(Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
             }
             return model;
         }
@@ -853,8 +853,8 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public HttpResponseMessage UserDetails_InActive(long Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             if (Id > 0)
             {
                 string messagestr = "";
@@ -884,7 +884,7 @@ namespace MyCortex.User.Controller
                 }
                 catch (Exception ex)
                 {
-                   _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                  /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                     model.Status = "False";
                     model.Message = "Invalid data";
                     model.Error_Code = ex.Message;
@@ -909,8 +909,8 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public HttpResponseMessage UserDetails_Active(long Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             //UserModel model = new UserModel();
             UserModel ModelData = new UserModel();
             UserReturnModel model = new UserReturnModel();
@@ -956,7 +956,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Invalid data";
                 model.Error_Code = ex.Message;
@@ -972,8 +972,8 @@ namespace MyCortex.User.Controller
         /// <returns>status detail of group creation</returns>
         public HttpResponseMessage GroupMaster_Insert([FromBody] GroupCreateModel insobj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             GroupCreateModel ModelData = new GroupCreateModel();
             string messagestr = "";
             try
@@ -993,7 +993,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return Request.CreateResponse(HttpStatusCode.BadRequest, ModelData);
             }
         }
@@ -1039,8 +1039,8 @@ namespace MyCortex.User.Controller
         /// <returns>status detail of group assigned to users</returns>
         public HttpResponseMessage AssignedGroup_Insert(List<AssignedGroupModel> model)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 long id = repository.AssignedGroup_Insert(model);
@@ -1050,7 +1050,7 @@ namespace MyCortex.User.Controller
 
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
 
             }
@@ -1106,8 +1106,8 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public HttpResponseMessage PatientHealthDataDetails_List(long Patient_Id, int OptionType_Id, long Group_Id, Guid Login_Session_Id, int Active = 1, long UnitsGroupType = 1, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0, int IsGraphPlot = 0)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<PatientHealthDataModel> model = new List<PatientHealthDataModel>();
             PatientHealthDataReturnModel modelReturn = new PatientHealthDataReturnModel();
             IList<AppConfigurationModel> configList;
@@ -1161,7 +1161,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 modelReturn.Status = "False";
                 modelReturn.Message = "Error in getting Patient Health Data";
                 modelReturn.Error_Code = ex.Message;
@@ -1175,8 +1175,8 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public HttpResponseMessage PatientHealthData_List_On_Parameter(long Patient_Id, int OptionType_Id, long Group_Id, long Parameter_Id, Guid Login_Session_Id, int Active = 1, long UnitsGroupType = 1, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0, int IsGraphPlot = 0)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<PatientHealthDataModel> model = new List<PatientHealthDataModel>();
             PatientHealthDataReturnModel modelReturn = new PatientHealthDataReturnModel();
             IList<AppConfigurationModel> configList;
@@ -1238,7 +1238,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 modelReturn.Status = "False";
                 modelReturn.Message = "Error in getting Patient Health Data";
                 modelReturn.Error_Code = ex.Message;
@@ -1272,8 +1272,8 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public HttpResponseMessage PatientLiveData_List(long Patient_Id, DateTime DataTime, Guid Login_Session_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<PatientHealthDataModel> model = new List<PatientHealthDataModel>();
             PatientHealthDataReturnModel modelReturn = new PatientHealthDataReturnModel();
             try
@@ -1291,7 +1291,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 modelReturn.Status = "False";
                 modelReturn.Message = "Error in getting Patient Health Data";
                 modelReturn.Error_Code = ex.Message;
@@ -1309,8 +1309,8 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public HttpResponseMessage PatientDailyGoalData_List(long Patient_Id, Guid Login_Session_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<PatientHealthDataModel> model = new List<PatientHealthDataModel>();
             PatientHealthDataReturnModel modelReturn = new PatientHealthDataReturnModel();
             try
@@ -1328,7 +1328,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 modelReturn.Status = "False";
                 modelReturn.Message = "Error in getting Patient Health Data";
                 modelReturn.Error_Code = ex.Message;
@@ -1357,8 +1357,8 @@ namespace MyCortex.User.Controller
       //  [CheckSessionOutFilter]
         public HttpResponseMessage PatientHealthData_Insert_Update(Guid Login_Session_Id, [FromBody] PatientHealthDataModel patientDataObj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             PatientHealthDataModel ModelData = new PatientHealthDataModel();
             PatientHealthDataReturnModel model = new PatientHealthDataReturnModel();
             if (!ModelState.IsValid)
@@ -1448,7 +1448,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in creating Patient Health Data";
                 model.Error_Code = ex.Message;
@@ -1460,8 +1460,8 @@ namespace MyCortex.User.Controller
 
         public HttpResponseMessage PatientHealthData_Sync_Insert_Update(Guid Login_Session_Id, [FromBody] PatientHealthDataModel patientDataObj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             PatientHealthDataModel ModelData = new PatientHealthDataModel();
             PatientHealthDataReturnModel model = new PatientHealthDataReturnModel();
             if (!ModelState.IsValid)
@@ -1563,7 +1563,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in creating Patient Health Data";
                 model.Error_Code = ex.Message;
@@ -1576,8 +1576,8 @@ namespace MyCortex.User.Controller
         [HttpPost]
         public HttpResponseMessage IntegrationAppHistory(Guid Login_Session_Id, [FromBody] IntegrationAppHistoryModel obj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IntegrationAppHistoryModel ModelData = new IntegrationAppHistoryModel();
             IntegrationAppHistoryReturnModel model = new IntegrationAppHistoryReturnModel();
 
@@ -1593,7 +1593,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in sync data update";
                 model.IntegrationAppHistory = ModelData;
@@ -1604,8 +1604,8 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public HttpResponseMessage IntegrationAppHistory_Details(long Patient_Id, Guid Login_Session_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IntegrationAppHistoryModel ModelData = new IntegrationAppHistoryModel();
             IntegrationAppHistoryReturnModel model = new IntegrationAppHistoryReturnModel();
             try
@@ -1622,7 +1622,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in getting Integration App History";
                 model.Error_Code = ex.Message;
@@ -1641,8 +1641,8 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public HttpResponseMessage PatientAppointmentList(long Patient_Id, Guid Login_Session_Id, int StartRowNumber= 0, int EndRowNumber= 0)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<PatientAppointmentsModel> ModelData = new List<PatientAppointmentsModel>();
             PatientAppointmentsReturnModel model = new PatientAppointmentsReturnModel();
             try
@@ -1660,7 +1660,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in getting Patient Appointments";
                 model.Error_Code = ex.Message;
@@ -1674,8 +1674,8 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public HttpResponseMessage CG_PatientAppointmentList(long Institution_Id, Guid Login_Session_Id, long UserId, string TimeZoneName)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<PatientAppointmentsModel> ModelData = new List<PatientAppointmentsModel>();
             PatientAppointmentsReturnModel model = new PatientAppointmentsReturnModel();
             try
@@ -1693,7 +1693,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in getting Patient Appointments";
                 model.Error_Code = ex.Message;
@@ -1706,8 +1706,8 @@ namespace MyCortex.User.Controller
         [HttpPost]
         public HttpResponseMessage CG_Confirm_PatientAppointments([FromBody] CG_PatientAppointmentConfirm obj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<PatientAppointmentsModel> ModelData = new List<PatientAppointmentsModel>();
             PatientAppointmentsReturnModel model = new PatientAppointmentsReturnModel();
             try
@@ -1725,7 +1725,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in Confirmation for Patient Appointments";
                 model.Error_Code = ex.Message;
@@ -1739,8 +1739,8 @@ namespace MyCortex.User.Controller
         [CheckSessionOutFilter]
         public HttpResponseMessage PatientPreviousAppointmentList(long Patient_Id, Guid Login_Session_Id, int StartRowNumber = 0, int EndRowNumber = 0)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<PatientAppointmentsModel> ModelData = new List<PatientAppointmentsModel>();
             PatientAppointmentsReturnModel model = new PatientAppointmentsReturnModel();
             try
@@ -1758,7 +1758,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in getting Patient Appointments";
                 model.Error_Code = ex.Message;
@@ -1775,8 +1775,8 @@ namespace MyCortex.User.Controller
       //  [CheckSessionOutFilter]
         public int PatientHealthDataBulk_Insert_Update(Guid Login_Session_Id, PatientHealthDataListModel patientDataListObj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             var Loginsession = Login_Session_Id;
             PatientHealthDataModel model = new PatientHealthDataModel();
             if (!ModelState.IsValid)
@@ -1836,7 +1836,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return 0;
             }
 
@@ -1895,8 +1895,8 @@ namespace MyCortex.User.Controller
         [HttpPost]
         public HttpResponseMessage ParametersDetails_Delete([FromBody] PatientHealthDataModel noteobj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<PatientHealthDataModel> ModelData = new List<PatientHealthDataModel>();
             PatientHealthDataReturnModel model = new PatientHealthDataReturnModel();
             if (!ModelState.IsValid)
@@ -1925,7 +1925,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in creating Patient Health Data";
                 model.ReturnFlag = 0;
@@ -1943,8 +1943,8 @@ namespace MyCortex.User.Controller
         [HttpPost]
         public HttpResponseMessage ParametersDetails_Active([FromBody] PatientHealthDataModel noteobj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<PatientHealthDataModel> ModelData = new List<PatientHealthDataModel>();
             PatientHealthDataReturnModel model = new PatientHealthDataReturnModel();
             if (!ModelState.IsValid)
@@ -1973,7 +1973,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in creating Patient Allergy";
                 model.ReturnFlag = 0;
@@ -1992,8 +1992,8 @@ namespace MyCortex.User.Controller
         [HttpPost]
         public List<string> AttachNationalPhoto(int Id, int Photo, int CREATED_BY)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             var UserId = Id;
             var Created_By = CREATED_BY;
             HttpResponseMessage result = null;
@@ -2050,7 +2050,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
             }
             return docfiles;
         }
@@ -2065,8 +2065,8 @@ namespace MyCortex.User.Controller
         [HttpPost]
         public List<string> AttachInsurancePhoto(int Id, int Photo, int CREATED_BY)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             var UserId = Id;
             var Created_By = CREATED_BY;
             HttpResponseMessage result = null;
@@ -2123,7 +2123,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
             }
             return docfiles;
         }
@@ -2140,8 +2140,8 @@ namespace MyCortex.User.Controller
         [HttpPost]
         public List<string> AttachPhoto(int Id, int Photo, int Certificate, int CREATED_BY)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             var UserId = Id;
             var Created_By = CREATED_BY;
             HttpResponseMessage result = null;
@@ -2204,7 +2204,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
             }
             return docfiles;
         }
@@ -2276,18 +2276,18 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public IList<ProtocolModel> DoctorMonitoringProtocolView(long Patient_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<ProtocolModel> model;
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.DoctorMonitoringProtocolView(Patient_Id);
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -2301,17 +2301,17 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public MonitoringProtocolModel ProtocolMonitoringProtocolView(long Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             MonitoringProtocolModel model = new MonitoringProtocolModel();
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.ProtocolMonitoringProtocolView(Id);
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
             }
             return model;
         }
@@ -2325,8 +2325,8 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public IList<PatientAppointmentsModel> DoctorAppoinmentHistoryList(long PatientId, Guid Login_Session_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 IList<PatientAppointmentsModel> model;
@@ -2335,7 +2335,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -2344,8 +2344,8 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public IList<PatientAppointmentsModel> DoctorAppoinmentsList(long PatientId, Guid Login_Session_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 IList<PatientAppointmentsModel> model;
@@ -2354,7 +2354,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -2368,8 +2368,8 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public IList<PatientChronicCondition_List> Chronic_Conditions(long PatientId)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 IList<PatientChronicCondition_List> model;
@@ -2378,7 +2378,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -2413,18 +2413,18 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public IList<ProtocolModel> ProtocolHistorylist(long Patient_Id, Guid Login_Session_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<ProtocolModel> model;
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.PatientAssignedProtocolHistorylist(Patient_Id, Login_Session_Id);
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
 
@@ -2439,18 +2439,18 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public IList<MasterICDModel> ICD10_CategoryList()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<MasterICDModel> model;
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.ICD10CategoryList();
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -2464,18 +2464,18 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public IList<MasterICDModel> ICD10_CodeList(long Institution_ID)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<MasterICDModel> model;
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.ICD10CodeList(Institution_ID);
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -2490,8 +2490,8 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public HttpResponseMessage Patient_ICD10Details_AddEdit(Guid Login_Session_Id, [FromBody] List<MasterICDModel> obj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<MasterICDModel> ModelData = new List<MasterICDModel>();
             MasterICDReturnModels model = new MasterICDReturnModels();
             if (!ModelState.IsValid)
@@ -2560,7 +2560,7 @@ namespace MyCortex.User.Controller
 
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in creating ICD10";
                 model.MasterICD = ModelData;
@@ -2578,15 +2578,15 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public HttpResponseMessage PatientICD10_Details_List(long Patient_Id, int Isactive, Guid Login_Session_Id, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<MasterICDModel> model = new List<MasterICDModel>();
             MasterICDReturnModels modelReturn = new MasterICDReturnModels();
             IList<AppConfigurationModel> configList;
             MasterICDDataPagination _metadata = new MasterICDDataPagination();
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 configList = commonrepository.AppConfigurationDetails("PATIENTPAGE_COUNT", Institution_Id);
                 _metadata.per_page = Convert.ToInt64(configList[0].ConfigValue);
                 if (Page != 0)
@@ -2627,7 +2627,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -2642,19 +2642,19 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public IList<MasterICDModel> ICD10Code_List(string ICD10CodeSearch, long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<MasterICDModel> model;
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.ICD10Code_List(ICD10CodeSearch, Institution_Id);
                 return model;
             }
 
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -2668,17 +2668,17 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public MasterICDModel PatientICD10_Details_View(long Id, Guid Login_Session_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             MasterICDModel model = new MasterICDModel();
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.PatientICD10Details_View(Id, Login_Session_Id);
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
             }
             return model;
         }
@@ -2736,18 +2736,18 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public IList<AllergyTypeModel> AllergyTypeList(long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<AllergyTypeModel> model;
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.AllergyTypeList(Institution_Id);
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
 
@@ -2762,18 +2762,18 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public IList<AllergyenModel> AllergenList(long ALLERGYTYPE_ID, long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<AllergyenModel> model;
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.AllergenList(ALLERGYTYPE_ID, Institution_Id);
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
 
@@ -2787,18 +2787,18 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public IList<AllergyOnsetModel> AllergyOnsetList(long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<AllergyOnsetModel> model;
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.AllergyOnsetList(Institution_Id);
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
 
@@ -2813,18 +2813,18 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public IList<AllergySeverityModel> AllergySeverityList(long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<AllergySeverityModel> model;
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.AllergySeverityList(Institution_Id);
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
 
@@ -2838,18 +2838,18 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public IList<AllergyReactionModel> AllergyReactionList(long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<AllergyReactionModel> model;
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.AllergyReactionList(Institution_Id);
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
 
@@ -2864,8 +2864,8 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public HttpResponseMessage Allergy_InsertUpdate(Guid Login_Session_Id, [FromBody] AllergyModel insobj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<AllergyModel> ModelData = new List<AllergyModel>();
             PatientAllergyDetailsReturnModel model = new PatientAllergyDetailsReturnModel();
             if (!ModelState.IsValid)
@@ -2912,7 +2912,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in Creating Allergy";
                 model.PatientAllergyDetails = ModelData;
@@ -2932,8 +2932,8 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public HttpResponseMessage PatientAllergylist(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             //IList<AllergyModel> model;
             IList<AllergyModel> model = new List<AllergyModel>();
             PatientAllergyDetailsReturnModel modelReturn = new PatientAllergyDetailsReturnModel();
@@ -2941,7 +2941,7 @@ namespace MyCortex.User.Controller
             AllergyDataPagination _metadata = new AllergyDataPagination();
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 configList = commonrepository.AppConfigurationDetails("PATIENTPAGE_COUNT", Institution_Id);
                 _metadata.per_page = Convert.ToInt64(configList[0].ConfigValue);
                 if (Page != 0)
@@ -2983,7 +2983,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
 
@@ -2997,8 +2997,8 @@ namespace MyCortex.User.Controller
         [HttpPost]
         public HttpResponseMessage AllergyDetails_InActive([FromBody] AllergyModel noteobj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<AllergyModel> ModelData = new List<AllergyModel>();
             PatientAllergyDetailsReturnModel model = new PatientAllergyDetailsReturnModel();
             if (!ModelState.IsValid)
@@ -3027,7 +3027,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in creating Patient Allergy";
                 model.ReturnFlag = 0;
@@ -3044,8 +3044,8 @@ namespace MyCortex.User.Controller
         [HttpPost]
         public HttpResponseMessage AllergyDetails_Active([FromBody] AllergyModel noteobj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<AllergyModel> ModelData = new List<AllergyModel>();
             PatientAllergyDetailsReturnModel model = new PatientAllergyDetailsReturnModel();
             if (!ModelState.IsValid)
@@ -3074,7 +3074,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in creating Patient Allergy";
                 model.ReturnFlag = 0;
@@ -3091,8 +3091,8 @@ namespace MyCortex.User.Controller
         [HttpPost]
         public HttpResponseMessage DoctorNotesDetails_Active([FromBody] DoctorNotesModel noteobj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<DoctorNotesModel> ModelData = new List<DoctorNotesModel>();
             DoctorNotesReturnModel model = new DoctorNotesReturnModel();
             if (!ModelState.IsValid)
@@ -3121,7 +3121,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in creating Patient Notes";
                 model.Error_Code = ex.Message;
@@ -3140,17 +3140,17 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public AllergyModel PatientAllergyView(long Id, Guid Login_Session_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             AllergyModel model = new AllergyModel();
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.PatientAllergyView(Id, Login_Session_Id);
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
             }
             return model;
         }
@@ -3165,19 +3165,19 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public IList<DrugDBMasterModel> DrugCode_List(string DrugCodeSearch, long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<DrugDBMasterModel> model;
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.DrugCodeList(DrugCodeSearch, Institution_Id);
                 return model;
             }
 
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -3190,8 +3190,8 @@ namespace MyCortex.User.Controller
       //  [CheckSessionOutFilter]
         public HttpResponseMessage PatientNotesInsertUpdate([FromBody] DoctorNotesModel noteobj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<DoctorNotesModel> ModelData = new List<DoctorNotesModel>();
             DoctorNotesReturnModel model = new DoctorNotesReturnModel();
             if (!ModelState.IsValid)
@@ -3254,7 +3254,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in creating Patient Notes";
                 model.Error_Code = ex.Message;
@@ -3274,15 +3274,15 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public HttpResponseMessage PatientNotes_List(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<DoctorNotesModel> model = new List<DoctorNotesModel>();
             DoctorNotesReturnModel modelReturn = new DoctorNotesReturnModel();
             IList<AppConfigurationModel> configList;
             DoctorNotesDataPagination _metadata = new DoctorNotesDataPagination();
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 configList = commonrepository.AppConfigurationDetails("PATIENTPAGE_COUNT", Institution_Id);
                 _metadata.per_page = Convert.ToInt64(configList[0].ConfigValue);
                 if (Page != 0)
@@ -3324,7 +3324,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -3338,18 +3338,18 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public DoctorNotesModel PatientNotes_View(long Id, Guid Login_Session_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             DoctorNotesModel model = new DoctorNotesModel();
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.PatientNotes_View(Id, Login_Session_Id);
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -3362,19 +3362,19 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public IList<DrugDBMasterModel> DrugCodeList()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<DrugDBMasterModel> model;
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.DrugCodeList();
                 return model;
             }
 
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -3389,19 +3389,19 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public IList<DrugDBMasterModel> DrugCodeBased_DrugDetails(long DrugCodeId, long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<DrugDBMasterModel> model;
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.DrugCodeBased_DrugDetails(DrugCodeId, Institution_Id);
                 return model;
             }
 
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -3414,19 +3414,19 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public IList<DrugDBMasterModel> RouteList(long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<DrugDBMasterModel> model;
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.RouteList(Institution_Id);
                 return model;
             }
 
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -3440,19 +3440,19 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public IList<DrugDBMasterModel> FrequencyList(long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<DrugDBMasterModel> model;
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.FrequencyList(Institution_Id);
                 return model;
             }
 
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -3466,19 +3466,19 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public DrugDBMasterModel FrequencybasedDetails(long FrequencyId)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             DrugDBMasterModel model = new DrugDBMasterModel();
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.FrequencybasedDetails(FrequencyId);
                 return model;
             }
 
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -3492,8 +3492,8 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public HttpResponseMessage MedicationInsertUpdate(Guid Login_Session_Id, [FromBody] List<DrugDBMasterModel> insobj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<DrugDBMasterModel> ModelData = new List<DrugDBMasterModel>();
             DrugDBMasterReturnModels model = new DrugDBMasterReturnModels();
             if (!ModelState.IsValid)
@@ -3561,7 +3561,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in creating Medication";
                 model.DrugDBMaster = ModelData;
@@ -3579,18 +3579,18 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public DrugDBMasterModel MedicationView(long Id, Guid Login_Session_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             DrugDBMasterModel model = new DrugDBMasterModel();
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.MedicationView(Id, Login_Session_Id);
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -3605,15 +3605,15 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public HttpResponseMessage MedicationList(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<DrugDBMasterModel> model = new List<DrugDBMasterModel>();
             DrugDBMasterReturnModels modelReturn = new DrugDBMasterReturnModels();
             IList<AppConfigurationModel> configList;
             DrugDBDataPagination _metadata = new DrugDBDataPagination();
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 configList = commonrepository.AppConfigurationDetails("PATIENTPAGE_COUNT", Institution_Id);
                 _metadata.per_page = Convert.ToInt64(configList[0].ConfigValue);
                 if (Page != 0)
@@ -3654,7 +3654,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -3717,8 +3717,8 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public HttpResponseMessage Patient_OtherData_InsertUpdate(long Patient_Id, Guid Login_Session_Id, long Id, string FileName, string DocumentName,  string Remarks, long Created_By, DateTime? DocumentDate= null, int Is_Appointment = 0, string Filetype = "", long Appointment_Id=0,string DocumentType = "" )
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             Patient_OtherDataModel ModelData = new Patient_OtherDataModel();
             DocumentReturnModel model = new DocumentReturnModel();
             try
@@ -3772,7 +3772,7 @@ namespace MyCortex.User.Controller
                 }
                 catch (Exception ex)
                 {
-                   _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                  /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 }
                 // return docfiles;
                 //ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Id, FileName, DocumentName, Remarks, fileData, Created_By, Is_Appointment, Filetype);
@@ -3813,7 +3813,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in creating Document";
                 model.Error_Code = ex.Message;
@@ -3832,18 +3832,18 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public Patient_OtherDataModel Patient_OtherData_View(long Id, Guid Login_Session_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 Patient_OtherDataModel model = new Patient_OtherDataModel();
                 model = repository.Patient_OtherData_View(Id, Login_Session_Id);
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -3858,15 +3858,15 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public HttpResponseMessage Patient_OtherData_List(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<Patient_OtherDataModel> model = new List<Patient_OtherDataModel>();
             DocumentReturnModel modelReturn = new DocumentReturnModel();
             IList<AppConfigurationModel> configList;
             OthersDataPagination _metadata = new OthersDataPagination();
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
 
                 configList = commonrepository.AppConfigurationDetails("PATIENTPAGE_COUNT", Institution_Id);
                 _metadata.per_page = Convert.ToInt64(configList[0].ConfigValue);
@@ -3908,7 +3908,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -3921,8 +3921,8 @@ namespace MyCortex.User.Controller
         [HttpPost]
         public HttpResponseMessage Patient_OtherData_InActive(Patient_OtherDataModel OtherData)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             Patient_OtherDataModel ModelData = new Patient_OtherDataModel();
             DocumentReturnModel model = new DocumentReturnModel();
 
@@ -3947,7 +3947,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in creating Patient Document";
                 model.Error_Code = ex.Message;
@@ -3966,8 +3966,8 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public HttpResponseMessage Patient_OtherData_Active(Patient_OtherDataModel OtherData)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             Patient_OtherDataModel ModelData = new Patient_OtherDataModel();
             DocumentReturnModel model = new DocumentReturnModel();
 
@@ -3991,7 +3991,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in creating Patient Document";
                 model.Error_Code = ex.Message;
@@ -4023,8 +4023,8 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public IList<Patient_OtherDataModel> Patient_Appointment_GetDocument(long Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 IList<Patient_OtherDataModel> model = new List<Patient_OtherDataModel>();
@@ -4033,7 +4033,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -4047,8 +4047,8 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public IList<UserGroupDetails_List> UserBasedDept_List(long User_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 IList<UserGroupDetails_List> model;
@@ -4057,7 +4057,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -4072,18 +4072,18 @@ namespace MyCortex.User.Controller
         //  [CheckSessionOutFilter]
         public IList<AllergyModel> AllergtMaster_List(int IsActive, long Institution_Id, int StartRowNumber, int EndRowNumber)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<AllergyModel> model;
             try
             {
-                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.AllergyMasterList(IsActive, Institution_Id, StartRowNumber, EndRowNumber);
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
 
@@ -4096,8 +4096,8 @@ namespace MyCortex.User.Controller
         [HttpPost]
         public HttpResponseMessage DoctorNotesDetails_InActive([FromBody] DoctorNotesModel noteobj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<DoctorNotesModel> ModelData = new List<DoctorNotesModel>();
             DoctorNotesReturnModel model = new DoctorNotesReturnModel();
             if (!ModelState.IsValid)
@@ -4126,7 +4126,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in creating Patient Notes";
                 model.Error_Code = ex.Message;
@@ -4148,8 +4148,8 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public bool userCallMissed_Alert(string from, string missedby, long UserId, long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
 
@@ -4174,7 +4174,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return false;
             }
         }
@@ -4185,8 +4185,8 @@ namespace MyCortex.User.Controller
         /// <returns>List the flag and User Type</returns>
         public HttpResponseMessage InstitutionSubscriptionLicensecheck([FromBody] UserModel obj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             UserModel ModelData = new UserModel();
             UserReturnModel model = new UserReturnModel();
             if (!ModelState.IsValid)
@@ -4238,7 +4238,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in Listing Validation details";
                 model.Error_Code = ex.Message;
@@ -4250,8 +4250,8 @@ namespace MyCortex.User.Controller
 
         public HttpResponseMessage Patient_Update([FromBody] UserModel userObj, Guid Login_Session_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             var LoginSession = Login_Session_Id;
 
             UserModel ModelData = new UserModel();
@@ -4297,7 +4297,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in Updating User";
                 model.Error_Code = "1";
@@ -4466,18 +4466,18 @@ namespace MyCortex.User.Controller
         [CheckSessionOutFilter]
         public AppointmentFeeModel GetAppointmentFee(long Institution_Id, long Department_Id, Guid Login_Session_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
-                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 AppointmentFeeModel model = new AppointmentFeeModel();
                 model = repository.GetAppointmentFee(Institution_Id, Department_Id);
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -4486,8 +4486,8 @@ namespace MyCortex.User.Controller
         [HttpPost]
         public HttpResponseMessage Add_Dummy_Users()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             UserModel ModelData = new UserModel();
             UserReturnModel model = new UserReturnModel();
             try
@@ -4547,7 +4547,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in creating User";
                 model.Error_Code = ex.Message;
@@ -4560,18 +4560,18 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public IList<CometChat_User> GetCometChatUserList(long InstitutionId)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<CometChat_User> model;
             try
             {
-                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = repository.GetCometChatUserList(InstitutionId);
                 return model;
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -4579,8 +4579,8 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public long GetUserCount()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 long y = repository.GetUserCount();
@@ -4588,7 +4588,7 @@ namespace MyCortex.User.Controller
             }
             catch (Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return 0;
             }
         }
@@ -4597,8 +4597,8 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public int EncryptedUserList(long startno)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 IList<DecryptUserListModel> li = repository.DecryptUserDetails(startno);
@@ -4608,7 +4608,7 @@ namespace MyCortex.User.Controller
             }
             catch(Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return 0;
             }
         }
@@ -4639,8 +4639,8 @@ namespace MyCortex.User.Controller
 
         public int Get_Exist_AnyUnEncryptedUser()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 int val = repository.Get_Exist_AnyUnEncryptedUser(); 
@@ -4648,7 +4648,7 @@ namespace MyCortex.User.Controller
             }
             catch(Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return 0;
             }
         }

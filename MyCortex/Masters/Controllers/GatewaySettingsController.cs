@@ -19,15 +19,15 @@ namespace MyCortex.Masters.Controllers
         static readonly IGatewaySettingsRepository repository = new GatewaySettingsRepository();
  
 
-        private MyCortexLogger _MyLogger = new MyCortexLogger();
-        string
-            _AppLogger = string.Empty, _AppMethod = string.Empty;
+        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
+        /*string*/
+            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
 
         [HttpGet]
         public IList<GatewaySettingsModel> GatewaySettings_List(long Institution_Id, Guid Login_Session_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<GatewaySettingsModel> model;
             try
             {
@@ -36,7 +36,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -44,8 +44,8 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public string GatewaySettings_Details(long InstitutionId, long GatewayId, string GatewayKey)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<GatewaySettingsModel> model;
             try
             {
@@ -54,7 +54,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -63,8 +63,8 @@ namespace MyCortex.Masters.Controllers
         [CheckSessionOutFilter]
         public HttpResponseMessage GatewaySettings_Edit(List<GatewaySettingsModel> model)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 if (ModelState.IsValid)
@@ -77,7 +77,7 @@ namespace MyCortex.Masters.Controllers
                     catch (Exception ex)
                     {
         
-                        _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                       /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                         return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
                     }
                 }
@@ -89,7 +89,7 @@ namespace MyCortex.Masters.Controllers
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
         }
@@ -98,8 +98,8 @@ namespace MyCortex.Masters.Controllers
         [CheckSessionOutFilter]
         public HttpResponseMessage GatewayDefault_Save(long InstitutionId, long GatewayTypeId, long GatewayId)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 int id = repository.GatewayDefault_Save(InstitutionId, GatewayTypeId, GatewayId);
@@ -108,7 +108,7 @@ namespace MyCortex.Masters.Controllers
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
         }
