@@ -520,6 +520,7 @@
     <Content Include="Masters\Views\PasswordPolicy.html" />
     <Content Include="Masters\Views\SMSConfiguration.html" />
     <Content Include="Masters\Views\WebConfiguration.html" />
+    <Content Include="MyCortexTransHW.png" />
     <Content Include="National_Female.png" />
     <Content Include="National_Male.png" />
     <Content Include="Report\Views\AuditReportList.html" />
@@ -820,6 +821,12 @@
     <Content Include="scripts\Chatscripts.js" />
     <Content Include="scripts\croppie.js" />
     <Content Include="scripts\croppie.min.js" />
+    <Content Include="scripts\fullcalendar_lib\locales-all.js" />
+    <Content Include="scripts\fullcalendar_lib\locales-all.min.js" />
+    <Content Include="scripts\fullcalendar_lib\main.css" />
+    <Content Include="scripts\fullcalendar_lib\main.js" />
+    <Content Include="scripts\fullcalendar_lib\main.min.css" />
+    <Content Include="scripts\fullcalendar_lib\main.min.js" />
     <Content Include="scripts\intlTelInput-jquery.js" />
     <Content Include="scripts\intlTelInput.js" />
     <Content Include="scripts\jquery-proper-slider.js" />

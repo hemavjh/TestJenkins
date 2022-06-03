@@ -45,7 +45,7 @@ namespace MyCortex.User.Controller
             try
             {
                 IList<PatientAppointmentsModel> model;
-                model = repository.DoctorAppointmentList(Doctor_Id, flag, ViewDate, Login_Session_Id);
+                 model = repository.DoctorAppointmentList(Doctor_Id, flag, ViewDate, Login_Session_Id);
                 return model;
             }
             catch (Exception ex)
