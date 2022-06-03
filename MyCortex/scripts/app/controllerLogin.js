@@ -467,9 +467,9 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
         //alert(getOS());
 
         var IpAddress = "";
-        //$http.get("http://api.ipify.org/?format=json").then(function (response) {
-        //    IpAddress = response.data.ip;
-        //});
+        $http.get("http://api.ipify.org/?format=json").then(function (response) {
+            IpAddress = response.data.ip;
+        });
 
         var Login_Country = "";
         var Login_City = "";
@@ -916,10 +916,10 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
 
 
         $http.get(baseUrl + 'api/User/GetInstitutionFromCode/?Code=' + $scope.InstitutionCode).success(function (data) {
-            //if (data[0].PatSignUpFlag == 0) {
-            //    $scope.PatSignUpFlag = data[0].PatSignUpFlag;
-            //    toastr.warning("You Haven't Subscribed For This Module. Please Contact Your Administrator", "warning" );
-            //}
+            if (data[0].PatSignUpFlag == 0) {
+                $scope.PatSignUpFlag = data[0].PatSignUpFlag;
+                toastr.warning("You Haven't Subscribed For This Module. Please Contact Your Administrator", "warning" );
+            }
             if (data[0].INSTITUTION_ID !== 0) {
                 $scope.InstitutionId = data[0].INSTITUTION_ID;
                 $scope.SelectedInstitutionId = data[0].INSTITUTION_ID;
@@ -1173,7 +1173,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
 
         /*This is Insert Function for SignUp */
         $scope.SignupLogin_AddEdit = function () {
-           // if ($scope.PatSignUpFlag == 1) {
+            if ($scope.PatSignUpFlag == 1) {
                 if ($scope.SignupLogin_AddEdit_Validations() == true) {
                     // window.location.href = baseUrl + "/Home/Index#;
                     $("#chatLoaderPV").show();
@@ -1246,11 +1246,11 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                         toastr.info("error", "info");
                     });
                 }
-            //}
-            //else {
-            //    toastr.warning("You Haven't Subscribed For This Module. Please Contact Your Administrator", "warning");
-            //    return false;
-            //}
+            }
+            else {
+                toastr.warning("You Haven't Subscribed For This Module. Please Contact Your Administrator", "warning");
+                return false;
+            }
         };
         //This is for Clear the values
         $scope.CancelSignUpPopup = function () {

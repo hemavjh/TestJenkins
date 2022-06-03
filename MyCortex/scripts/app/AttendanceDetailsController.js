@@ -467,10 +467,14 @@ AttendanceDetailscontroller.controller("AttendanceDetailsController", ['$scope',
 
                     $http.post(baseUrl + '/api/Attendance/Attendance_Active/', obj).success(function (data) {
                         //alert(data.Message);
-                        if (data.ReturnFlag == 2) {
+                        if (data.ReturnFlag == 1) {
                             toastr.success(data.Message, "success");
+                        } else if (data.ReturnFlag == 2) {
+                            toastr.info(data.Message, "info");
                         }
-                        $scope.AttendanceList();
+                        if (data.ReturnFlag == 1) {
+                            $scope.AttendanceList();
+                        }
                     }).error(function (data) {
                         $scope.error = "An error has occurred while deleting  Drug DB details" + data;
                     });

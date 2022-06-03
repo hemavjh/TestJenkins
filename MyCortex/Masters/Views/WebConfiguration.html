@@ -2,15 +2,18 @@
     $(document).ready(function () {
         $('.activeButton').removeClass('activeButton');
         $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+        if ($('#' + $('.secondaryMenuActive').data('menu')).length === 0) {
+            $('.activeButton').removeClass('activeButton');
+            //$('#Templates/EmailSetup').addClass('activeButton');
+            if (document.getElementById("Templates/EmailSetup")) {
+                document.getElementById("Templates/EmailSetup").className += 'activeButton';
+            }
+        }
     });
 </script>
-<ul class="secondaryMenu">
-    <li>
-        <a href="Home/Index#/ParameterSettings">Standard Parameter</a>
-    </li>
-    <li>
-        <a href="Home/Index#/ChatSetting/2">Chat</a>
-    </li>
+<ul class="secondaryMenu" ng-show="UserTypeId == '3'">
+    <li><a href="Home/Index#/ParameterSettings">Standard Parameter</a></li>
+    <li><a href="Home/Index#/ChatSetting/2">Chat</a></li>
     <li><a href="Home/Index#/Password_Policy">Password Policy</a></li>
     <li><a href="Home/Index#/ResetPassword">Reset Password</a></li>
     <li><a href="Home/Index#/MasterEmailConfigurationList">Email setup</a></li>
@@ -22,6 +25,15 @@
     <li><a href="Home/Index#/DoctorHoliday">Doctor Holiday</a></li>-->
     <li><a class="secondaryMenuActive" href="Home/Index#/WebConfiguration" data-menu="Settings">Configuration</a></li>
     <li><a href="Home/Index#/LanguageSettings">Language</a></li>
+   <!-- <li><a href="Home/Index#/GateWaySettings">GateWay</a></li>-->
+</ul>
+<ul class="secondaryMenu" ng-show="UserTypeId == '1'">
+    <li><a href="Home/Index#/AdminEmailConfigurationList/1" data-menu="Templates/EmailSetup">Email setup</a></li>
+    <li><a href="Home/Index#/MasterAlertConfigurationList" data-menu="Templates/EmailSetup">Alerts</a></li>
+    <li><a href="Home/Index#/EmailTemplate/1" data-menu="Templates/EmailSetup">Email Template</a></li>
+    <li><a href="Home/Index#/Notification/2" data-menu="Templates/EmailSetup">Notification Template</a></li>
+    <li><a href="Home/Index#/SMSTemplate/3" data-menu="Templates/EmailSetup">Sms Template</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/WebConfiguration" data-menu="Settings">Configuration</a></li>
     <li><a href="Home/Index#/GateWaySettings">GateWay</a></li>
 </ul>
 
@@ -56,10 +68,27 @@
                             ng-click="Configuration_AddEdit()">
                         Save
                     </button>
-                    <button type="button" class="theme-btn-2 mr-10 mt-20" ng-if="IsEdit==true" ng-click="WebConfigCancel()"
+                    <button type="button" class="theme-btn-2 mr-10 mt-20" ng-if="IsEdit==true && UserTypeId == '3'" ng-click="WebConfigCancel()"
                             title="Click to Cancel">
                         Cancel
                     </button>
+                    <button type="button" class="theme-btn-2 mr-10 mt-20" ng-if="IsEdit==true && UserTypeId == '1'" ng-click="Ins_WebConfigCancel()"
+                            title="Click to Cancel">
+                        InsEdit_Cancel
+                    </button>
+                </div>
+                <div class="col-sm-4" ng-show="UserTypeId == '1'">
+                    <div class="inputGroups">
+                        <label>Institution Name<sup><font class='mandatory-field'></font></sup></label>
+                        <div style="word-wrap: break-word;">
+                            <select class="form-control" data-style="form-control" id="insselectpicker" data-live-search="true"
+                                    data-selectpicker data-collection-name="InstitutiondetailsList" ng-model="Institution_Id"
+                                    ng-change="InstituteGetDetails(Institution_Id);">
+                                    <!--<option value="0">Select</option>-->
+                                <option ng-repeat="sel in InstitutiondetailsList" value="{{sel.Id}}">{{sel.Name}}</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
 

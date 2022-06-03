@@ -32,11 +32,11 @@
     </thead>
     <tbody>
         <tr ng-if="flag==0 && UserNotificationList_Filter.length==0">
-            <td colspan="8" style="text-align: center">
+            <td colspan="5" style="text-align: center">
                 No Data Available
             </td>
         </tr>
-        <tr ng-repeat="row in emptydata">
+        <tr ng-repeat="row in UserNotificationList_Filter">
             <td id="id{{((current_page-1)*page_size)+$index+1}}" style="text-align: right" ng-class="{tdBackColor: row.ReadFlag==1}">{{((current_page-1)*page_size)+$index+1}}</td>
             <td id="msubj{{((current_page-1)*page_size)+$index+1}}" style="text-align: left" ng-class="{tdBackColor: row.ReadFlag==1}">
                 <div class="textwrap">{{row.MessageSubject}}</div>
@@ -58,7 +58,7 @@
     </tbody>
     <tfoot ng-show="UserNotificationList_Filter.length >10">
         <tr>
-            <td colspan="7" style="text-align: center">
+            <td colspan="5" style="text-align: center">
                 <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
                      st-template="Masters/Views/pagination.custom.html">
                 </div>

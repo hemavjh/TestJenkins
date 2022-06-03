@@ -666,14 +666,18 @@
                                                         <label>Plan Name</label>
                                                         <span>{{PlanName}}</span>
                                                     </div>
+                                                    <div class="inputGroups">
+                                                        <button type="button" class="theme-btn-1" ng-click="Eligiblity_pupop();">
+                                                            Eligiblity Details
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-sm-4" style="margin-left: -15px;">
-                                                <div class="inputGroups">
-                                                    <label>Insurance Card Image</label>
-                                                    <!--<div ng-if="Patient_Type==2" valign="top" rowspan="6">
-                                                             <img class="responsiveProfileImage" src="../../Images/mycortexlogo4.jpg" />
-                                                        </div>-->
+                                                <div class="col-sm-4" style="margin-left: -15px;">
+                                                    <div class="inputGroups">
+                                                        <label>Insurance Card Image</label>
+                                                        <!--<div ng-if="Patient_Type==2" valign="top" rowspan="6">
+                     <img class="responsiveProfileImage" src="../../Images/mycortexlogo4.jpg" />
+                </div>-->
                                                         <div ng-if="(ViewGender| lowercase)=='male' && (uploadme2 == null||uploadme2=='')&&Insuranceuploadview ==true"
                                                              valign="top" rowspan="6">
                                                             <img width="280" height="180" class="responsiveProfileImage" src="../../Images/National_Male.png" />
@@ -690,13 +694,13 @@
                                                             <img width="280" height="180" class="responsiveProfileImage" src="{{uploadme2}}" />
                                                         </div>
                                                         <!--<a href="javascript:" ng-show="PageParameter==0" ng-click="Active_PatientApproval()"
-                                                           class="btn btn-autosize" title="Click to Approve the Patient">Approve</a>
+               class="btn btn-autosize" title="Click to Approve the Patient">Approve</a>
 
-                                                        <a href="javascript:" ng-show="PageParameter==0" ng-click="MoreInfoPopup()"
-                                                           class="btn btn-autosize" title="Click to enter the More Informations">More Information Required</a>-->
+            <a href="javascript:" ng-show="PageParameter==0" ng-click="MoreInfoPopup()"
+               class="btn btn-autosize" title="Click to enter the More Informations">More Information Required</a>-->
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
                                     </div>
                                 </div>
 
@@ -719,7 +723,136 @@
         </div>
     </div>
 </div>
+<div id="InsuranceModel" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 1000px;left: -155px;">
+            <div class="modal-header">
+                <div class="col-sm-6">
+                    <img src="" id="patient_ins" style="width: 138px; height: 67px; cursor: pointer;">
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div id="mydiv" class="notificationOnlineins" style="margin-top: 12px;margin-left: 147px;">
+                            <i class="fas fa-bell" id="UnreadCountIcon" data-placement="left"></i>
+                            <label style="color:white;"><b>Notification</b></label>
+                            <span id="notificationCount">{{notificationCount}}</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2" style="margin-top: 19px;">
+                        <div class="input-group" style="margin-left: -63px;word-break: break-word; max-width: 150px;color:white">
+                            <span id="usernamespan" style="margin-left: 85px;">Admin</span><br />
+                            <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelInsurancePopup()" style="color:#fff;margin-right: -99px;margin-top: -19px;">&times;</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <section id="featured" class="mx-auto fw-bold bg-black w-50 mt-2 mb-2 rounded" style="background: #f9f6f6;height: 44px;">
+                    <button class="theme-btn-1" style="margin-left: 16px;margin-top: 5px;">
+                        <i class="fa fa-arrow-circle-left"></i>
+                        Back
+                    </button>
+                    <span>ELIGIBILITY REQUEST DETAILS</span>
+                </section>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="col-sm-8">
+                            <span>
+                                <img src="../../Images/print.png">
+                            </span>
+                            <label>ELG-OJ-20210878</label>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div ng-if="(ViewGender| lowercase)=='male' && (uploadme == null||uploadme=='')&&uploadview ==true"
+                                         valign="top" rowspan="6">
+                                        <img width="80" height="80" class="responsiveProfileImage" src="../../Images/male.png" />
+                                    </div>
+                                    <div ng-if="(ViewGender| lowercase)=='female' && (uploadme == null||uploadme=='')&&uploadview ==true">
 
+                                        <img width="80" height="80" class="responsiveProfileImage" src="../../Images/female.png" />
+                                    </div>
+                                    <div ng-if="(ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male' && (uploadme == null||uploadme=='')&&uploadview ==true"
+                                         valign="top" rowspan="6">
+                                        <img width="80" height="80" class="responsiveProfileImage" src="../../Images/Others.png" />
+                                    </div>
+                                    <div ng-if="(uploadme!=null)&&uploadview ==true" valign="top" rowspan="6">
+                                        <img width="80" height="80" class="responsiveProfileImage" src="{{uploadme}}" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-4" style="line-height:2;">
+                                    <div class="input-group" style="width: 200px;">
+                                        <span style="font-weight: 600">{{FirstName}} {{LastName}}</span>
+                                    </div>
+                                    <div class="input-group" style="width: 200px;">
+                                        <span>{{ViewGender}}</span>
+                                        <span><b> Born On:</b>{{DOB |date:"dd-MMM-yyyy"}}</span>
+                                    </div>
+                                    <div class="input-group">
+                                        <span><b>PH:</b>{{MobileNoView}}</span>
+                                    </div>
+                                    <div class="input-group" style="width: 81px;">
+                                        <span>Emirates ID :</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="submit" class="theme-btn-1">
+                                ELIGIBLE
+                            </button>
+                        </div>
+                        <div class="col-sm-2" style="margin-top: 11px;">
+                            <button class="theme-btn-1" style="margin-top: 35px;margin-left: -75px;">
+                                Print
+                                <i class="fa fa-print" style="padding-left: 4px;"></i>
+                            </button>
+                        </div>
+                        <div class="col-sm-2" style="margin-top: 20px;">
+                            <button type="submit" class="theme-btn-1" style="height: 33px;width: 126px;">
+                                View All Cards
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <h4>ELIGIBILITY ID</h4>
+                        </div>
+                        <div class="input-group">
+                            <label style="font-weight: 600">Setvice Category :</label>
+                        </div>
+                        <div class="input-group">
+                            <label style="font-weight: 600">Clinician :</label>
+                        </div>
+                        <div class="input-group">
+                            <label style="font-weight: 600">Speciality :</label>
+                        </div>
+                        <div class="input-group">
+                            <label style="font-weight: 600">Eligibility Date :</label>
+                        </div>
+                        <div class="input-group">
+                            <label style="font-weight: 600">Ordered On :</label>
+                        </div>
+                        <div class="input-group">
+                            <label style="font-weight: 600">Created By :</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="InsuranceInfocard" style="font-weight: 600">
+                            <div class="input-group">
+                                <label>Card No./ DHA Member ID:</label>
+                            </div>
+                            <div class="input-group">
+                                <label>Package : </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="MoreInfoModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
         <!-- Modal content-->

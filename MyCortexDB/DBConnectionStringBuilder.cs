@@ -10,10 +10,6 @@ namespace MyCortexDB
     /// </remarks> 
     public static class DBConnectionStringBuilder
     {
-        private readonly static MyCortexLog _MyLogger = new MyCortexLog();
-        private readonly static string
-            _AppLogger = string.Empty, _AppMethod = string.Empty;
-
         private static string _ConnectionString ;
 
         /// <summary>
@@ -116,17 +112,12 @@ namespace MyCortexDB
         /// <returns></returns>
         private static string RegistryConnectionString()
         {
-            string
-            _AppLogger = string.Empty, _AppMethod = string.Empty;
-            _AppLogger = "MyCortexDB.DBConnectionStringBuilder";
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             String Connstr_FromINI = string.Empty;
             //Connstr_FromINI="Server=SQL5080.site4now.net;database=DB_A66DEE_mycortexdemo;uid=DB_A66DEE_mycortexdemo_admin;password=vjh@0304";
             Connstr_FromINI = Read_Ini_File();
 
             if (string.IsNullOrEmpty(Connstr_FromINI))
             {
-                _MyLogger.Exceptions("Error", _AppLogger, "Connection string empty", null, _AppMethod);
                 //    StringBuilder ConnectionStr = new StringBuilder();
                 //    ConnectionStr.Append("server="
                 //                    + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "DBSERVER"));
@@ -164,10 +155,6 @@ namespace MyCortexDB
 
         private static string Read_Ini_File()
         {
-            string
-               _AppLogger = string.Empty, _AppMethod = string.Empty;
-            _AppLogger = "MyCortexDB.DBConnectionStringBuilder";
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             //local variables
             string FilePath;
             string rDSN = string.Empty;
@@ -228,8 +215,6 @@ namespace MyCortexDB
 
                     if (string.IsNullOrEmpty(rDSN))
                     {
-                        _MyLogger.Exceptions("INFO", _AppLogger, ServerName, null, _AppMethod);
-                        _MyLogger.Exceptions("INFO", _AppLogger, FilePath, null, _AppMethod);
                     }
                 }
 

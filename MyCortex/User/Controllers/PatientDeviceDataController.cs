@@ -19,15 +19,15 @@ namespace MyCortex.User.Controllers
         static readonly IPatientDeviceDataRepository repository = new PatientDeviceDataRepository();
  
 
-        private MyCortexLogger _MyLogger = new MyCortexLogger();
-        string
-            _AppLogger = string.Empty, _AppMethod = string.Empty;
+        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
+        /*string*/
+            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
 
         [HttpPost]
         public HttpResponseMessage PatientDeviceData_AddEdit([FromBody] PatientDeviceDataModel insobj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<PatientDeviceDataModel> ModelData = new List<PatientDeviceDataModel>();
             PatientDeviceDataReturnModels model = new PatientDeviceDataReturnModels();
             if (!ModelState.IsValid)
@@ -61,7 +61,7 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 model.Status = "False";
                 model.Message = "Error in creating Appoinment slot";
                 model.DeviceData = ModelData;

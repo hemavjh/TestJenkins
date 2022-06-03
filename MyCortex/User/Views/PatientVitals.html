@@ -6134,6 +6134,53 @@
                     </div>
                 </div>
             </div>
+            <div id="PatientDocumentViewModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog" style="width: 60%">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" title="Close">
+                                <!--ng-click="CancelMyAppointment()"-->
+                                &times;
+                            </button>
+                            <h4 class="modal-title">View Uploaded Records</h4>
+                        </div>
+                        <div id="main-box">
+                            <div class="flex doc-details p-4">
+                                <div class="col-sm-12 p-8" id="DocDetails" ng-show="PatientAppointmentDocumentList.length != 0">
+                                    <!-- <div class="flex"> -->
+                                    <!-- <div class="" style="width:50%"> -->
+                                    <!-- <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6"> -->
+                                    <!-- <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" /> -->
+                                    <!-- </div> -->
+                                    <!-- </div> -->
+                                    <!-- <div class="" style="width:50%; text-align: center;"> -->
+                                    <!-- <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr.{{DoctorDetailList.FullName}}</p> -->
+                                    <!-- <p class="m-bottom-0 secondary-text1">{{DoctorDetailList.Department_Name}}</p> -->
+                                    <!-- </div> -->
+                                    <!-- </div> -->
+                                    <div class="centerallign">
+                                        <div class="col-sm-10">
+                                            <div class="col-sm-4" ng-repeat="row in PatientAppointmentDocumentList">
+                                                <div class="alert alert-success nibp">
+                                                    <a href="javascript:" ng-click="Patient_OtherData_Image_View(row.Id)" title="View">
+                                                        {{row.FileName}}
+                                                    </a>
+                                                    <a href="home/GetPatient_OtherDataDocument?Id={{row.Id}}" style="text-decoration:none;">
+                                                        <img target="_blank" src="../../Images/download1.png" title="Click to Download">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-show="PatientAppointmentDocumentList.length == 0 || PatientAppointmentDocumentList == null" style=" margin-left: -47rem;">
+                                    No Document Available...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div id="StripePayOptions" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
                 <div class="modal-dialog" style="width: 70%">
                     <!-- Modal content-->

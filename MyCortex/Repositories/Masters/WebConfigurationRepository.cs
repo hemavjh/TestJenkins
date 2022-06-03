@@ -17,14 +17,14 @@ namespace MyCortex.Repositories.Masters
  
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
 
-        private MyCortexLogger _MyLogger = new MyCortexLogger();
-        string
-            _AppLogger = string.Empty, _AppMethod = string.Empty;
+        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
+        /*string*/
+            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
 
         public IList<WebConfigurationModel> WebConfiguration_List(int? IsActive, int? Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
             param.Add(new DataParameter("@IS_ACTIVE", IsActive));
@@ -41,21 +41,54 @@ namespace MyCortex.Repositories.Masters
                                                   CONFIGVALUE = p.Field<string>("CONFIGVALUE"),
                                                   CONFIG_TYPEDEFINITION = p.Field<string>("CONFIG_TYPEDEFINITION"),
                                                   ISACTIVE = p.Field<int>("ISACTIVE"),
+                                                  IsSystemDefine = p.Field<int>("IS_SYSTEMDEFINE"),
 
                                               }).ToList();
                 return list;
             }
             catch (Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+                return null;
+            }
+        }
+
+        public IList<WebConfigurationModel> InsWebConfiguration_List(int? IsActive, int? Institution_Id)
+        {
+            //_AppLogger = this.GetType().FullName;
+            //_AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
+            param.Add(new DataParameter("@IS_ACTIVE", IsActive));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[INSAPPCONFIGURATION_SP_LISTING]", param);
+                List<WebConfigurationModel> list = (from p in dt.AsEnumerable()
+                                                    select new WebConfigurationModel()
+                                                    {
+                                                        ID = p.Field<long>("ID"),
+                                                        INSTITUTION_ID = p.Field<long>("INSTITUTION_ID"),
+                                                        CONFIGCODE = p.Field<string>("CONFIGCODE"),
+                                                        CONFIGINFO = p.Field<string>("CONFIGINFO"),
+                                                        CONFIGVALUE = p.Field<string>("CONFIGVALUE"),
+                                                        CONFIG_TYPEDEFINITION = p.Field<string>("CONFIG_TYPEDEFINITION"),
+                                                        ISACTIVE = p.Field<int>("ISACTIVE"),
+                                                        IsSystemDefine = p.Field<int>("IS_SYSTEMDEFINE"),
+
+                                                    }).ToList();
+                return list;
+            }
+            catch (Exception ex)
+            {
+                //_MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
 
         public WebConfigurationModel WebConfiguration_View(long Id, Guid Login_Session_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
@@ -79,15 +112,15 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
         public IList<WebConfigurationModel> ChronicCodeList()
         {
             //  DataEncryption DecryptFields = new DataEncryption();
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[CHRONIC_CODE_LIST]");
@@ -102,15 +135,15 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
         
         public long WebConfiguration_InsertUpdate(Guid Login_Session_Id, List<WebConfigurationModel> insobj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 string flag = "";
@@ -138,7 +171,7 @@ namespace MyCortex.Repositories.Masters
 
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
 
             }
             return 0;
@@ -146,8 +179,8 @@ namespace MyCortex.Repositories.Masters
 
         public int Configuration_InsertUpdate(List<WebConfigurationModel> obj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 int retid = 0;
@@ -184,7 +217,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return 0;
             }
         }
@@ -192,11 +225,11 @@ namespace MyCortex.Repositories.Masters
         /* This is for Delete Allergy Details */
         public IList<WebConfigurationModel> WebConfiguration_InActive(WebConfigurationModel noteobj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
                 // List<DataParameter> param = new List<DataParameter>();
@@ -212,17 +245,17 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
         public IList<WebConfigurationModel> WebConfiguration_Active(WebConfigurationModel noteobj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
                 // List<DataParameter> param = new List<DataParameter>();
@@ -238,7 +271,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }

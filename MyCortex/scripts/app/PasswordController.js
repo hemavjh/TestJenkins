@@ -13,6 +13,7 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
         $scope.UserTypeName = "0";
         $scope.Usertypelist = [];
         $scope.Userlist = [];
+        $scope.ExpiryNever = false;
         $scope.Validationchangepasscontrols = function () {
             if (typeof ($scope.Password) != ($scope.OldPassword == "")) {
                 $scope.errorlist = "Not a valid password";
@@ -607,11 +608,14 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
                 toastr.warning("Please enter Maximum Length greater than Minimum Length", "warning");
                 return false;
             }
-            else if (typeof ($scope.Expiry_Period) == "undefined" || $scope.Expiry_Period == "" && $scope.AllowExpiryDays != 0) {
-                //alert("Please enter Password  Expiry Period");
-                toastr.warning("Please enter Password  Expiry Period", "warning");
-                return false;
+            if ($scope.ExpiryNever == false) {
+                if (typeof ($scope.Expiry_Period) == "undefined" || $scope.Expiry_Period == "") {
+                    //alert("Please enter Password  Expiry Period");
+                    toastr.warning("Please enter Password  Expiry Period", "warning");
+                    return false;
+                }
             }
+            
             return true;
         };
 
@@ -747,7 +751,9 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
         //clear function for expiry period
         $scope.ClearPasswordExpiryperiod = function () {
             $scope.Expiry_Period = "";
+            $scope.ExpiryNever = false;
             if ($scope.AllowExpiryDays == true) {
+                $scope.ExpiryNever = true;
                 $("#Text4").removeClass('ng-invalid');
                 $("#Text4").addClass('ng-valid');
             }
@@ -767,6 +773,7 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
             $scope.SpecialChar_Required = "";
             $scope.Without_Char = "";
             $scope.Expiry_Period = "";
+            $scope.ExpiryNever = false;
             $scope.Allow_UserName = "";
             $scope.Restrict_LastPassword = "";
             $scope.MaxLoginTime = "";

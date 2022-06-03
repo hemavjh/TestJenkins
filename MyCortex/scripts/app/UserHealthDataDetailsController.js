@@ -8,6 +8,29 @@ if (baseUrl == "/") {
 UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '$sce', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$interval', 'toastr',
     function ($scope, $sce, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $interval, toastr) {
 
+        $scope.isMypillbox = "";
+        $scope.isICD10 = "";
+        $scope.isClinicalNotes = "";
+        $scope.isAllergies = "";
+        $scope.isMedicalPatientVitals = "";
+        $scope.isMedicalClinicalVitals = "";
+        $scope.isOtherMedicalData = "";
+        $scope.isMedicalLiveData = "";
+        $scope.isPatientAppointmentBooking = "";
+        $scope.InsModule_List = $rootScope.InsModuleList;
+        if ($rootScope.InsModuleList != null) {
+            if ($rootScope.InsModuleList.length > 0) {
+                $scope.isMypillbox = $filter('filter')($rootScope.InsModuleList, { Module_Id: '30' })[0];
+                $scope.isICD10 = $filter('filter')($rootScope.InsModuleList, { Module_Id: '31' })[0];
+                $scope.isAllergies = $filter('filter')($rootScope.InsModuleList, { Module_Id: '32' })[0];
+                $scope.isClinicalNotes = $filter('filter')($rootScope.InsModuleList, { Module_Id: '33' })[0];
+                $scope.isMedicalPatientVitals = $filter('filter')($rootScope.InsModuleList, { Module_Id: '25' })[0];
+                $scope.isMedicalClinicalVitals = $filter('filter')($rootScope.InsModuleList, { Module_Id: '26' })[0];
+                $scope.isOtherMedicalData = $filter('filter')($rootScope.InsModuleList, { Module_Id: '34' })[0];
+                $scope.isMedicalLiveData = $filter('filter')($rootScope.InsModuleList, { Module_Id: '36' })[0];
+                $scope.isPatientAppointmentBooking = $filter('filter')($rootScope.InsModuleList, { Module_Id: '41' })[0];
+            }
+        }
         var dtToday = new Date();
 
         var month = dtToday.getMonth() + 1;
@@ -51,21 +74,26 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.paymentHistory = [];
         $scope.PatientType = 1;
         $scope.LiveTabClick = function () {
-            $('.chartTabs').addClass('charTabsNone');
-            $("#chatLoaderPV").show();
-            var ConfigCode = "LIVEDATA_STARTFROM";
-            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-                $scope.date_size = data1[0].ConfigValue;
-                var tempp = new Date(new Date().setDate(new Date().getDate() - ($scope.date_size - 1)));
-                $scope.tempdate = $filter('date')(tempp, "dd-MMM-yyyy");
-            });
-            $scope.LiveDataPromise = $interval(function () {
-                $http.get(baseUrl + '/api/User/PatientLiveData_List/?Patient_Id=' + $scope.SelectedPatientId + '&DataTime=' + $scope.tempdate + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                    $scope.PatientLiveDataList = angular.copy(data.PatientHealthDataList);
-                })
-                $("#chatLoaderPV").hide();
-            }, 10000) // 10000 ms execution
-
+           
+            if (typeof ($scope.isMedicalLiveData) != 'undefined' && $scope.isMedicalLiveData != "") {
+                $('.chartTabs').addClass('charTabsNone');
+                $("#chatLoaderPV").show();
+                var ConfigCode = "LIVEDATA_STARTFROM";
+                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+                    $scope.date_size = data1[0].ConfigValue;
+                    var tempp = new Date(new Date().setDate(new Date().getDate() - ($scope.date_size - 1)));
+                    $scope.tempdate = $filter('date')(tempp, "dd-MMM-yyyy");
+                });
+                $scope.LiveDataPromise = $interval(function () {
+                    $http.get(baseUrl + '/api/User/PatientLiveData_List/?Patient_Id=' + $scope.SelectedPatientId + '&DataTime=' + $scope.tempdate + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                        $scope.PatientLiveDataList = angular.copy(data.PatientHealthDataList);
+                    })
+                    $("#chatLoaderPV").hide();
+                }, 10000) // 10000 ms execution
+            }
+            else {
+                toastr.warning("You Haven't Subscribed For This Module. Please Contact Your Administrator", "warning");
+            }
         }
         $scope.CancelLiveData = function () {
             if (angular.isDefined($scope.LiveDataPromise)) {
@@ -947,6 +975,13 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             $scope.DoctorDetailList = data;
                         })
                     }
+                    $scope.ViewUploadRecords = function (Appointment_Id) {
+                        $scope.PatientAppointmentDocumentList = [];
+                        angular.element('#PatientDocumentViewModal').modal('show');
+                        $http.get(baseUrl + '/api/User/Patient_Appointment_GetDocument?Id=' + Appointment_Id).success(function (data) {
+                            $scope.PatientAppointmentDocumentList = data;
+                        });
+                    }
                     $scope.DoctorDetailList = [];
                     $scope.idSelectedVote = null;
                     $scope.ProfileDetailList = [];
@@ -1343,14 +1378,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                     "AppointmentFromTime": $scope.AppoiFromTime,
                                     "AppointmentToTime": $scope.AppoiToTime,
                                     "TimeZone_Id": $scope.TimeZoneID,
-                                    "TimeZoneName": TZname,
-                                    "UtcOffSet": UtcOffSet,
                                     "Appointment_Type": "1",
                                     "ReasonForVisit": document.getElementById("TextArea1").value,
                                     "Status": 1,
                                     "Created_By": $window.localStorage['UserId'],
                                     "Page_Type": 0,
-                                    "Appointment_Module_Id": Appointment_Module,
                                     "Appointment_Price": $scope.AppoiPrice
                                 }
                                 $('#shown').attr("disabled", true);
@@ -1524,14 +1556,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                     "AppointmentFromTime": $scope.AppoiFromTime,
                                     "AppointmentToTime": $scope.AppoiToTime,
                                     "Appointment_Type": "1",
-                                    "ReasonForVisit": "Test",
+                                    "ReasonForVisit": document.getElementById("TextArea1").value,
                                     "Status": "1",
                                     "Created_By": $window.localStorage['UserId'],
                                     "Page_Type": "0",
                                     "TimeZone_Id": $scope.TimeZoneID,
-                                    "Appointment_Module_Id": Appointment_Module,
-                                    "TimeZoneName": TZname,
-                                    "UtcOffSet": UtcOffSet,
                                     "Appointment_Price": $scope.AppoiPrice
                                 }
                                 $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
@@ -3238,25 +3267,30 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             if ($scope.UserTypeId == 4 || $scope.UserTypeId == 7) {
                 $scope.chattingWith = $scope.DoctorName;
             }
-        }
+        } 
 
         $scope.AddVitalsPopUp = function () {
             //for (let i = 0; i < $scope.AddVitalParameters.length; i++) {
             //    $scope.AddVitalParameters[i].All_UnitLists = $scope.ParameterMappingList;
             //}
-            angular.element('#PatientVitalsCreateModal').modal('show');
-            $scope.AddVitalParameters = [{
-                'Id': 0,
-                'ParameterId': 0,
-                'Units_ID': 0,
-                'UOM_Name': '',
-                'ParameterValue': '',
-                'chkDateTime': false,
-                'ActivityDate': new Date().toJSON().slice(0, 19),
-                'IsActive': 1,
-                'All_UnitLists': $scope.ParameterMappingList,
-                'ParameterMappingList': []
-            }];            
+            if ((typeof ($scope.isMedicalPatientVitals) != 'undefined' && $scope.isMedicalPatientVitals != "") || (typeof ($scope.isMedicalClinicalVitals) != 'undefined' && $scope.isMedicalClinicalVitals != "")) {
+                angular.element('#PatientVitalsCreateModal').modal('show');
+                $scope.AddVitalParameters = [{
+                    'Id': 0,
+                    'ParameterId': 0,
+                    'Units_ID': 0,
+                    'UOM_Name': '',
+                    'ParameterValue': '',
+                    'chkDateTime': false,
+                    'ActivityDate': new Date().toJSON().slice(0, 19),
+                    'IsActive': 1,
+                    'All_UnitLists': $scope.ParameterMappingList,
+                    'ParameterMappingList': []
+                }];
+            }
+            else {
+                toastr.warning("You Haven't Subscribed For This Module. Please Contact Your Administrator", "warning");
+            }
         }
 
         $scope.smsResponse = [];
@@ -3280,35 +3314,39 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         }
 
         $scope.ShowAppointmentBookingPopUp = function () {
-            //document.getElementById("main-box").style = "";
-            //document.getElementById("box").style = "display:none";
-            //$scope.SendSMS();
-            $scope.showMainBox = true;
-            //$http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
-           // $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
-            $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
+            if (typeof ($scope.isPatientAppointmentBooking) != 'undefined' && $scope.isPatientAppointmentBooking != "") {
 
-                //$scope.NewAppointment = data.NewAppointmentDuration;  
-                //if (data == null || data.length == 0 || data.DefautTimeZone == "" || data.DefautTimeZone == 0) {
-                if (data.length == 0 || data.TimeZone_ID == "" || data.TimeZone_ID == 0) {
-                    //alert('Please Check Organisation Settings!');
-                    toastr.info("Please Check Organisation Settings!", "info");
-                    angular.element('#BookAppointmentModal').modal('hide');
-                    document.getElementById("BookNew").disabled = true;
-                    document.getElementById("BookNew").title = 'Set Organisation Settings TimeZone Value!';
-                }
-                else {
-                    angular.element('#BookAppointmentModal').modal('show');
-                }
-                $scope.AppoimDate = new Date(DatetimepickermaxDate);
-            });
-            // load department list --department list shown by default for current date            
-            var res = moment(new Date()).format('YYYY-MM-DD')// convert(AppDate);
-            $scope.DepartmentList1 = [];
-            $http.get(baseUrl + '/api/DoctorShift/ByDateDept_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Filter_Date=' + res + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
-                $scope.DepartmentList1 = data;
-            });
+                //document.getElementById("main-box").style = "";
+                //document.getElementById("box").style = "display:none";
+                //$scope.SendSMS();
+                $scope.showMainBox = true;
+                //$http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
+                // $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
+                $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
 
+                    //$scope.NewAppointment = data.NewAppointmentDuration;  
+                    //if (data == null || data.length == 0 || data.DefautTimeZone == "" || data.DefautTimeZone == 0) {
+                    if (data.length == 0 || data.TimeZone_ID == "" || data.TimeZone_ID == 0) {
+                        //alert('Please Check Organisation Settings!');
+                        toastr.info("Please Check Organisation Settings!", "info");
+                        angular.element('#BookAppointmentModal').modal('hide');
+                        document.getElementById("BookNew").disabled = true;
+                        document.getElementById("BookNew").title = 'Set Organisation Settings TimeZone Value!';
+                    }
+                    else {
+                        angular.element('#BookAppointmentModal').modal('show');
+                    }
+                    $scope.AppoimDate = new Date(DatetimepickermaxDate);
+                });
+                // load department list --department list shown by default for current date            
+                var res = moment(new Date()).format('YYYY-MM-DD')// convert(AppDate);
+                $scope.DepartmentList1 = [];
+                $http.get(baseUrl + '/api/DoctorShift/ByDateDept_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Filter_Date=' + res + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
+                    $scope.DepartmentList1 = data;
+                });
+            } else {
+                toastr.warning("You Haven't Subscribed For This Module. Please Contact Your Administrator", "warning");
+            }
         }
         $scope.ShowStripePopup = function () {
             angular.element('#StripePayOptions').modal('show');
@@ -5347,19 +5385,22 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.ICDTabCount = 1;
         /* This is for AddNewpopup function from List  window page */
         $scope.AddPatientICD10Popup = function () {
-            $scope.Id = 0;
-            $scope.Icd10AddnewClear();
+            if (typeof ($scope.isICD10) != 'undefined' && $scope.isICD10 != "") {
+                $scope.Id = 0;
+                $scope.Icd10AddnewClear();
 
-            $('#buttonsave').attr("disabled", false);
-            //$scope.ICD10CategoryClearFunction();
-            $scope.Icd10Clear();
-            angular.element('#CreateICDModal').modal('show');
-             $scope.ICD10codeSearchPopup(0);
+                $('#buttonsave').attr("disabled", false);
+                //$scope.ICD10CategoryClearFunction();
+                $scope.Icd10Clear();
+                angular.element('#CreateICDModal').modal('show');
+                $scope.ICD10codeSearchPopup(0);
 
-            setTimeout(function () {
-                $scope.calenderSet($scope.AddICD10List.length);
-            }, 1000);
-
+                setTimeout(function () {
+                    $scope.calenderSet($scope.AddICD10List.length);
+                }, 1000);
+            } else {
+                toastr.warning("You Haven't Subscribed For This Module. Please Contact Your Administrator", "warning");
+            }
         }
 
         /* This is for Cancel  function from View Popup window page */
@@ -6020,20 +6061,25 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         // This is for AddPopup	
         $scope.MedicationTabCount = 1;
         $scope.AddMedicationPopUp = function () {
-            $scope.PatientMedicationCreateModalClear();
-            
-            if ($scope.MedicationTabCount == 1) {
-                $scope.DropLoadMedication();
-                $scope.MedicationTabCount = $scope.MedicationTabCount + 1;
-            }
-            $('#save1').attr("disabled", false);
-            $scope.DrugbasedDetails($scope.DrugId, 0);
-            angular.element('#PatientMedicationCreateModal').modal('show');
-            $scope.DrugcodeSearchPopup(0);
-            setTimeout(function () {
-                $scope.calenderSet1($scope.AddMedicationDetails.length);
-            }, 1000);
+            if (typeof ($scope.isMypillbox) != 'undefined' && $scope.isMypillbox != "") {
+                //get the value from configuration (true /False)
+                $scope.PatientMedicationCreateModalClear();
 
+                if ($scope.MedicationTabCount == 1) {
+                    $scope.DropLoadMedication();
+                    $scope.MedicationTabCount = $scope.MedicationTabCount + 1;
+                }
+                $('#save1').attr("disabled", false);
+                $scope.DrugbasedDetails($scope.DrugId, 0);
+                angular.element('#PatientMedicationCreateModal').modal('show');
+                $scope.DrugcodeSearchPopup(0);
+                setTimeout(function () {
+                    $scope.calenderSet1($scope.AddMedicationDetails.length);
+                }, 1000);
+
+            } else {
+                toastr.warning("You Haven't Subscribed For This Module. Please Contact Your Administrator", "warning");
+            }
         }
         $scope.CancelMedicationPopUp = function () {
             angular.element('#PatientMedicationCreateModal').modal('hide');
@@ -6945,10 +6991,15 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
 
         $scope.AddAllergyPopUp = function () {
-            $scope.PatientAllergyCreateModalClear();
-            $scope.AllergyClickDetailsList();
-            $('#Allergysave').attr("disabled", false);
-            angular.element('#PatientAllergyCreateModal').modal('show');
+            if (typeof ($scope.isAllergies) != 'undefined' && $scope.isAllergies != "") {
+                $scope.PatientAllergyCreateModalClear();
+                $scope.AllergyClickDetailsList();
+                $('#Allergysave').attr("disabled", false);
+                angular.element('#PatientAllergyCreateModal').modal('show');
+            }
+            else {
+                toastr.warning("This feature is not available for this user", "warning");
+            }
         }
         $scope.CancelAllergyPopUp = function () {
             angular.element('#PatientAllergyCreateModal').modal('hide');
@@ -7007,7 +7058,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
                     var obj = {
                         Id: $scope.Id,
-                        OnSetDate: $scope.OnSetDate,
+                        OnSetDate: moment($scope.OnSetDate).format('DD-MMM-YYYY'),
                         AllergenId: $scope.AllergenId,
                         AllergyTypeId: $scope.AllergyTypeId,
                         AllergyOnsetId: $scope.AllergyOnsetId == 0 ? null : $scope.AllergyOnsetId,
@@ -7434,11 +7485,16 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
         //To open a popup window form for add new notes
         $scope.PatientNotesAddPopup = function () {
-            $scope.submitted = false;
-            $scope.Id = 0;
-            $scope.PatientNotesClear();
-            $('#saved').attr("disabled", false);
-            angular.element('#PatientNotesAddEditModal').modal('show');
+            if (typeof ($scope.isClinicalNotes) != 'undefined' && $scope.isClinicalNotes != "") {
+                $scope.submitted = false;
+                $scope.Id = 0;
+                $scope.PatientNotesClear();
+                $('#saved').attr("disabled", false);
+                angular.element('#PatientNotesAddEditModal').modal('show');
+            }
+            else {
+                toastr.warning("You Haven't Subscribed For This Module. Please Contact Your Administrator", "warning");
+            }
         }
 
         //To Close the patient notes model window for Add and Edit function. 
@@ -7650,8 +7706,13 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
         // Patient Other Data
         $scope.Patient_OtherData_AddModal = function () {
-            $('#other_Datasave').attr("disabled", false);
-            angular.element('#Patient_OtherData_AddModal').modal('show');
+            if (typeof ($scope.isOtherMedicalData) != 'undefined' && $scope.isOtherMedicalData != "") {
+                $('#other_Datasave').attr("disabled", false);
+                angular.element('#Patient_OtherData_AddModal').modal('show');
+            }
+            else {
+                toastr.warning("You Haven't Subscribed For This Module. Please Contact Your Administrator", "warning");
+            }
         }
         $scope.b64toBlob = function (b64Data, contentType, sliceSize) {
             contentType = contentType || '';

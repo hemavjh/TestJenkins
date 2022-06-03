@@ -19,9 +19,9 @@ namespace MyCortex.Repositories.Template
         ClsDataBase db;
  
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
-        private MyCortexLogger _MyLogger = new MyCortexLogger();
-        string
-            _AppLogger = string.Empty, _AppMethod = string.Empty;
+        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
+        /*string*/
+            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
 
         public SMSTemplateRepository()
         {
@@ -40,8 +40,8 @@ namespace MyCortex.Repositories.Template
         public IList<SMSTemplateDesignModel> SMSTemplateTag_AddEdit(SMSTemplateDesignModel obj)
         {
             long InsSubModId;
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@ID", obj.Id));
             param.Add(new DataParameter("@INSITUTION_ID", obj.Institution_Id));
@@ -54,7 +54,7 @@ namespace MyCortex.Repositories.Template
             param.Add(new DataParameter("@TemplateName", obj.TemplateName));
             //param.Add(new DataParameter("@CREATEDBY_ID", HttpContext.Current.Session["BYID"]));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
                 // InsSubId = ClsDataBase.Insert("INS_SUb_EX", param, true);
@@ -93,7 +93,7 @@ namespace MyCortex.Repositories.Template
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -106,19 +106,19 @@ namespace MyCortex.Repositories.Template
         /// <returns>success response of deactivate</returns>
         public void SMSTemplate_Delete(int Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
                 ClsDataBase.Update("[MYCORTEX].TBLSMSTEMPLATE_SP_DELETE", param);
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
             }
         }
 
@@ -129,19 +129,19 @@ namespace MyCortex.Repositories.Template
         /// <returns>success response of activate</returns>
         public void SMSTemplate_Active(int Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
                 ClsDataBase.Update("[MYCORTEX].TBLSMSTEMPLATE_SP_ACTIVE", param);
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
             }
         }
 
@@ -152,11 +152,11 @@ namespace MyCortex.Repositories.Template
         /// <returns>Template tag list</returns>
         public IList<TagListModels> TemplateTag_List(long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
                 param.Add(new DataParameter("@Institution_Id", Institution_Id));
@@ -174,7 +174,7 @@ namespace MyCortex.Repositories.Template
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -187,11 +187,11 @@ namespace MyCortex.Repositories.Template
         /// <returns>SMS Template and Tag mapping list for the institution</returns>
         public IList<TagListMappingModels> SMSTemplateTagMapping_List(long Id, long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
                 param.Add(new DataParameter("@Id", Id));
@@ -212,7 +212,7 @@ namespace MyCortex.Repositories.Template
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }

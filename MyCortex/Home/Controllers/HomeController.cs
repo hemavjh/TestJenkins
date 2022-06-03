@@ -23,6 +23,7 @@ using MyCortex.Notification.Model;
 using MyCortex.Repositories.Admin;
 using MyCortex.Provider;
 using MyCortex.Repositories.Masters;
+using MyCortex.Repositories.LiveBox;
 using MyCortex.Repositories;
 using MyCortex.Utilities;
 using Stripe;
@@ -43,15 +44,16 @@ namespace MyCortex.Home.Controllers
         static readonly ICommonRepository commonrepository = new CommonRepository();
         static readonly IGatewaySettingsRepository gatewayrepository = new GatewaySettingsRepository();
         static readonly IPatientAppointmentsRepository patientAppointmentsRepository = new PatientAppointmentRepository();
+        static readonly ILiveBoxRepository liveBoxRepository = new LiveBoxRepository();
         private LoginRepository login = new LoginRepository();
         private UserRepository repository = new UserRepository();
 
         private InstitutionRepository Insrepository = new InstitutionRepository();
  
 
-        private MyCortexLogger _MyLogger = new MyCortexLogger();
-        string
-            _AppLogger = string.Empty, _AppMethod = string.Empty;
+        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
+        /*string*/
+            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
 
         IList<AppConfigurationModel> model;
         IList<GatewaySettingsModel> gatewayModel;
@@ -93,12 +95,12 @@ namespace MyCortex.Home.Controllers
         //[NoDirectAccess]
         public ActionResult Index()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 long UserId = Convert.ToInt32(Session["UserId"].ToString());
-                _MyLogger.Exceptions("Warn", _AppLogger, "Session UserId" + UserId, null, _AppMethod);
+                /*_MyLogger.Exceptions("Warn", _AppLogger, "Session UserId" + UserId, null, _AppMethod);*/
                 if (UserId > 0)
                 {
                     //var lst = "";
@@ -109,7 +111,7 @@ namespace MyCortex.Home.Controllers
                 }
                 else
                 {
-                    _MyLogger.Exceptions("Warn", _AppLogger, "page go to login", null, _AppMethod);
+                    /*_MyLogger.Exceptions("Warn", _AppLogger, "page go to login", null, _AppMethod);*/
                     return RedirectToAction("LoginIndex");
                 }
 
@@ -117,7 +119,7 @@ namespace MyCortex.Home.Controllers
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -125,9 +127,9 @@ namespace MyCortex.Home.Controllers
         {
             if (Session["UserId"] == null)
             {
-                _AppLogger = this.GetType().FullName;
-                _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
-                _MyLogger.Exceptions("Warn", _AppLogger, "session is null so page go to login", null, _AppMethod);
+                /* _AppLogger = this.GetType().FullName;*/
+                /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+                /*_MyLogger.Exceptions("Warn", _AppLogger, "session is null so page go to login", null, _AppMethod);*/
                 Response.Redirect("LoginIndex");
             }
         }
@@ -153,8 +155,8 @@ namespace MyCortex.Home.Controllers
         [CheckSessionOutFilter]
         public ActionResult LoginOut()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 long UserID = Convert.ToInt32(Session["UserId"].ToString());
@@ -187,13 +189,13 @@ namespace MyCortex.Home.Controllers
                 //HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
 
                 returnError = "";
-                _MyLogger.Exceptions("Warn", _AppLogger, "LoginOut button clicked", null, _AppMethod);
+                /*_MyLogger.Exceptions("Warn", _AppLogger, "LoginOut button clicked", null, _AppMethod);*/
                 return RedirectToAction("LoginIndex");
             }
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -201,8 +203,8 @@ namespace MyCortex.Home.Controllers
         [CheckSessionOutFilter]
         public ActionResult LoginOutAllDevice()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 long UserID = Convert.ToInt32(Session["UserId"].ToString());
@@ -230,13 +232,13 @@ namespace MyCortex.Home.Controllers
                 //HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
 
                 returnError = "";
-                _MyLogger.Exceptions("Warn", _AppLogger, "LoginOutAllDevice button clicked", null, _AppMethod);
+                /*_MyLogger.Exceptions("Warn", _AppLogger, "LoginOutAllDevice button clicked", null, _AppMethod);*/
                 return RedirectToAction("LoginIndex");
             }
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -254,8 +256,8 @@ namespace MyCortex.Home.Controllers
         [CheckSessionOutFilter]
         public ActionResult ChronicList()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             long Patient_Id = Convert.ToInt32(Session["UserId"].ToString());
             //long Patient_Id = Convert.ToInt32(Session["SelectedPatientId"].ToString());
             var res = "";
@@ -276,7 +278,7 @@ namespace MyCortex.Home.Controllers
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -289,8 +291,8 @@ namespace MyCortex.Home.Controllers
         [CheckSessionOutFilter]
         public ActionResult LoginDetails()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             long EmployeeId = Convert.ToInt32(Session["UserId"].ToString());
             var res = "";
 
@@ -371,7 +373,7 @@ namespace MyCortex.Home.Controllers
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -384,8 +386,8 @@ namespace MyCortex.Home.Controllers
         [CheckSessionOutFilter]
         public ActionResult GetProduct_Details()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             //long EmployeeId = Convert.ToInt32(Session["UserId"].ToString());
             //long UserTypeId = Convert.ToInt32(Session["UserTypeId"].ToString());
             List<string> t = new List<string>();
@@ -403,7 +405,7 @@ namespace MyCortex.Home.Controllers
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -413,8 +415,8 @@ namespace MyCortex.Home.Controllers
         [CheckSessionOutFilter]
         public ActionResult GetProduct_CopyRight()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             //long EmployeeId = Convert.ToInt32(Session["UserId"].ToString());
             //long UserTypeId = Convert.ToInt32(Session["UserTypeId"].ToString());
             List<string> t = new List<string>();
@@ -430,7 +432,7 @@ namespace MyCortex.Home.Controllers
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -445,8 +447,8 @@ namespace MyCortex.Home.Controllers
         [CheckSessionOutFilter]
         public ActionResult GetUnread_Notification_Count()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             long EmployeeId = Convert.ToInt32(Session["UserId"].ToString());
             long UserTypeId = Convert.ToInt32(Session["UserTypeId"].ToString());
             List<string> t = new List<string>();
@@ -467,7 +469,7 @@ namespace MyCortex.Home.Controllers
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -477,8 +479,8 @@ namespace MyCortex.Home.Controllers
         /// <returns>Institution logo blob</returns>
         public ActionResult LoginLogoDetails()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             long Institution_Id = Convert.ToInt32(Session["InstitutionId"].ToString());
             var res = "";
 
@@ -510,7 +512,7 @@ namespace MyCortex.Home.Controllers
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -520,8 +522,8 @@ namespace MyCortex.Home.Controllers
         /// <returns>Institution logo blob</returns>
         public ActionResult LoginPageLogoDetails()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             var res = "";
             List<string> t = new List<string>();
             var jsonSerialiser = new JavaScriptSerializer();
@@ -536,7 +538,7 @@ namespace MyCortex.Home.Controllers
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -563,8 +565,8 @@ namespace MyCortex.Home.Controllers
         /// <returns></returns>
         public async Task<ActionResult> SaveGoogleUser(string code, string state, string scope)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             if (string.IsNullOrEmpty(code))
             {
                 return RedirectToRoute("Default");
@@ -603,14 +605,14 @@ namespace MyCortex.Home.Controllers
 
             try
             {
-                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
                 model = login.Userlogin_AddEdit(model1);
 
             }
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 returnError = "Error";
                 return View("LoginIndex");
             }
@@ -663,8 +665,8 @@ namespace MyCortex.Home.Controllers
         [AllowAnonymous]
         public ActionResult BuildDetails()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<string> t = new List<string>();
             var jsonSerialiser = new JavaScriptSerializer();
             try
@@ -681,7 +683,7 @@ namespace MyCortex.Home.Controllers
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -689,8 +691,8 @@ namespace MyCortex.Home.Controllers
         [AllowAnonymous]
         public ActionResult ProductDetails()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<string> t = new List<string>();
             Int64 InstanceNameId = Convert.ToInt64(ConfigurationManager.AppSettings["InstanceNameId"]);
             var jsonSerialiser = new JavaScriptSerializer();
@@ -719,7 +721,7 @@ namespace MyCortex.Home.Controllers
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -862,10 +864,22 @@ namespace MyCortex.Home.Controllers
         }
 
         [HttpPost]
+        public ActionResult LiveBoxNotify()
+        {
+            int retid = 0;
+            Stream req = Request.InputStream;
+            req.Seek(0, System.IO.SeekOrigin.Begin);
+            string json = new StreamReader(req).ReadToEnd();
+            retid = liveBoxRepository.LiveBox_Notify_Log(json);
+            
+            return Content("SUCCESS");
+        }
+
+        [HttpPost]
         public ActionResult RefundNotify(long id, string merchantorderno)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 int retid = 0;
@@ -896,7 +910,7 @@ namespace MyCortex.Home.Controllers
             }
             catch(Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return Content("Error");
             }
         }
@@ -904,8 +918,8 @@ namespace MyCortex.Home.Controllers
         [HttpPost]
         public ActionResult CreatePayByCheckoutSession(FormCollection form)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             ServicePointManager.Expect100Continue = true;
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             string redirectUrl = string.Empty;
@@ -1032,7 +1046,7 @@ namespace MyCortex.Home.Controllers
                     object objResponse = jsonSerializer.ReadObject(res.GetResponseStream());
                     PayByCreateOrderResponse tokenRes = objResponse as PayByCreateOrderResponse;
                     var toekndata = new JavaScriptSerializer().Serialize(tokenRes);
-                    _MyLogger.Exceptions("INFO", _AppLogger, tokenRes.body.interActionParams.tokenUrl, null, _AppMethod);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, tokenRes.body.interActionParams.tokenUrl, null, _AppMethod);*/
                     if (tokenRes != null && tokenRes.body != null && tokenRes.body.interActionParams != null && !string.IsNullOrEmpty(tokenRes.body.interActionParams.tokenUrl))
                     {
                         redirectUrl = tokenRes.body.interActionParams.tokenUrl;
@@ -1041,7 +1055,7 @@ namespace MyCortex.Home.Controllers
             }
             catch (WebException wx)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, wx.Message, wx, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, wx.Message, wx, _AppMethod);*/
                 if (wx.Message != null)
                 {
                     using (WebResponse response = wx.Response)
@@ -1064,18 +1078,18 @@ namespace MyCortex.Home.Controllers
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
-            _MyLogger.Exceptions("Warn", _AppLogger, redirectUrl, null, _AppMethod);
+            /*_MyLogger.Exceptions("Warn", _AppLogger, redirectUrl, null, _AppMethod);*/
             return new RedirectResult(redirectUrl);
         }
 
         [HttpPost]
         public ActionResult RefundPayByCheckoutSession(FormCollection form)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             ServicePointManager.Expect100Continue = true;
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             string redirectUrl = string.Empty;
@@ -1168,7 +1182,7 @@ namespace MyCortex.Home.Controllers
                 }
                 catch (WebException wx)
                 {
-                    _MyLogger.Exceptions("ERROR", _AppLogger, wx.Message, wx, _AppMethod);
+                   /* _MyLogger.Exceptions("ERROR", _AppLogger, wx.Message, wx, _AppMethod);*/
                     if (wx.Message != null)
                     {
                         using (WebResponse response = wx.Response)
@@ -1192,7 +1206,7 @@ namespace MyCortex.Home.Controllers
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
             return new RedirectResult(redirectUrl);

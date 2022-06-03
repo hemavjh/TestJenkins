@@ -19,9 +19,9 @@ namespace MyCortex.Repositories.User
  
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
 
-        private MyCortexLogger _MyLogger = new MyCortexLogger();
-        string
-            _AppLogger = string.Empty, _AppMethod = string.Empty;
+        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
+        /*string*/
+            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
         public AppoinmentSlotRepository()
         {
             db = new ClsDataBase();
@@ -36,8 +36,8 @@ namespace MyCortex.Repositories.User
         /// <returns>Identity (Primary Key) value of the Inserted/Updated record</returns>
         public long AppoinmentSlot_AddEdit(List<AppoinmentSlotModel> obj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 string flag = "";
@@ -65,7 +65,7 @@ namespace MyCortex.Repositories.User
 
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
 
             }
             return 0;
@@ -80,8 +80,8 @@ namespace MyCortex.Repositories.User
         /// <returns>Populated List of AppoinmentSlot list Details DataTable</returns>
         public IList<AppoinmentSlotModel> AppoinmentSlot_List(int? IsActive, long Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@ISACTIVE", IsActive));
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
@@ -111,7 +111,7 @@ namespace MyCortex.Repositories.User
             }
             catch (Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -124,8 +124,8 @@ namespace MyCortex.Repositories.User
         /// <returns>Populated a AppoinmentSlot Details DataTable </returns>
         public AppoinmentSlotModel AppoinmentSlot_View(long Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             try
@@ -152,7 +152,7 @@ namespace MyCortex.Repositories.User
             }
             catch (Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -166,11 +166,11 @@ namespace MyCortex.Repositories.User
         /// <returns>Selected ID related AppoinmentSlot details to inactivate from AppoinmentSlot database</returns>
         public IList<AppoinmentSlotModel> AppoinmentSlot_Delete(AppoinmentSlotModel noteobj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
                 // List<DataParameter> param = new List<DataParameter>();
@@ -186,7 +186,7 @@ namespace MyCortex.Repositories.User
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -199,11 +199,11 @@ namespace MyCortex.Repositories.User
         /// <returns>Selected ID related AppoinmentSlot details to activate again from AppoinmentSlot database</returns>
         public IList<AppoinmentSlotModel> AppoinmentSlot_Active(AppoinmentSlotModel noteobj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
                 // List<DataParameter> param = new List<DataParameter>();
@@ -219,7 +219,7 @@ namespace MyCortex.Repositories.User
             }
             catch (Exception ex)
             {
-               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -247,8 +247,8 @@ namespace MyCortex.Repositories.User
         /// <returns>Populated List of Doctor list Details DataTable</returns>
         public IList<DoctorAppoinmentSlotModel> Doctors_List(long? Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
             try
@@ -285,7 +285,7 @@ namespace MyCortex.Repositories.User
                     }
                     catch(Exception ex)
                     {
-                        _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                       /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                         continue;
                     }
                 }
@@ -293,15 +293,15 @@ namespace MyCortex.Repositories.User
             }
             catch (Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
 
         public IList<DoctorAppoinmentSlotModel> CG_Doctors_List(long? Institution_Id, long? CC_CG)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
             param.Add(new DataParameter("@CC_CG", CC_CG));
@@ -320,7 +320,7 @@ namespace MyCortex.Repositories.User
                     }
                     catch (Exception ex)
                     {
-                        _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                       /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                         continue;
                     }
                 }
@@ -328,7 +328,7 @@ namespace MyCortex.Repositories.User
             }
             catch (Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -346,8 +346,8 @@ namespace MyCortex.Repositories.User
         public AppoinmentSlotModel ActivateDoctorSlot_List(long Id, long Institution_Id, long Doctor_Id)
         {
             // int returnval;
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@ID", Id));
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
@@ -366,7 +366,7 @@ namespace MyCortex.Repositories.User
             }
             catch (Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }

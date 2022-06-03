@@ -9,6 +9,20 @@ if (baseUrl == "/") {
 InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'InstSub', 'toastr',
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, InstSub, toastr) {
 
+        var dtToday = new Date();
+
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate() - 1;
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+
+        var maxDate = year + '-' + month + '-' + day;
+        $scope.StartToDateMin = moment(maxDate).format('YYYY-MM-DD');
+
+
         //Declaration and initialization of Scope Variables.
         $scope.serviceData = InstSub.getInstiID();
         $scope.ChildId = 0;
@@ -26,10 +40,10 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
         $scope.V_Contract_Period_From = "";
         $scope.V_Contract_Period_To = "";
         $scope.Subscription_Type = "1";
-       /* $scope.Chroniccc = false;
-        $scope.Chroniccg = false;
-        $scope.Chroniccl = false;
-        $scope.Chronicsc = false;*/
+        /* $scope.Chroniccc = false;
+         $scope.Chroniccg = false;
+         $scope.Chroniccl = false;
+         $scope.Chronicsc = false;*/
         $scope.Hcp_Pat = false;
 
         $scope.InstitutionViewList = [];
@@ -58,6 +72,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             $scope.TimeZone_Id = "0";
             $scope.Hcp_Pat = false;
             $scope.ClearInstitutionSubscriptionPopup();
+            //document.getElementById("Contract_Period_To").min = $scope.StartToDateMin;
             $scope.Contract_Period_From = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
             $scope.Contract_Period_To = DateFormatEdit($filter('date')(new Date(new Date().setDate(new Date().getDate() + 30)), 'dd-MMM-yyyy'));
             $('#btnsave').attr("disabled", false);
@@ -78,6 +93,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                 $('#divInssChronicEdit').addClass("ng-invalid");
                 $('#divInssApModule').addClass("ng-invalid");
                 $scope.submitted = false;
+                $scope.StartToDateMin = "";
                 $scope.ClearInstitutionSubscriptionPopup();
                 $scope.Id = InsSubId;
                 $scope.Hcp_Pat = true;
@@ -199,6 +215,10 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
         }
         //$scope.Contract_Period_To = DateFormatEdit($filter('date')(new Date(new Date().setMonth(new Date().getMonth() + 1)), 'dd-MMM-yyyy'));
 
+        $scope.DateChange = function () {
+            document.getElementById('Contract_Period_To').min = moment($scope.Contract_Period_From).add(30, 'days').format('YYYY-MM-DD');
+        }
+
         $scope.ChangeDate = function (Contract_Period_From) {
             var StartDate = moment($scope.Contract_Period_From);
             var EndDate = moment($scope.Contract_Period_To);
@@ -212,6 +232,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             else {
             }
         }
+
         $scope.Module_listAdd = [];
         $scope.ModulelistChange = function (Id, value) {
             var checked = $('#' + Id).is(":checked");

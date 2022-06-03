@@ -17,9 +17,9 @@ namespace MyCortex.Repositories.Admin
  
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
 
-        private MyCortexLogger _MyLogger = new MyCortexLogger();
-        string
-            _AppLogger = string.Empty, _AppMethod = string.Empty;
+        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
+        /*string*/
+            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
         public ProtocolRepository()
         {
             db = new ClsDataBase();
@@ -33,8 +33,8 @@ namespace MyCortex.Repositories.Admin
         /// <returns>inserted/updated standard protocol detail model</returns>
         public IList<ProtocolModel> StandardProtocol_AddEdit(ProtocolModel obj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
 
             param.Add(new DataParameter("@Id", obj.Id));
@@ -62,7 +62,7 @@ namespace MyCortex.Repositories.Admin
             param.Add(new DataParameter("@ISACTIVE", obj.Isactive));
             param.Add(new DataParameter("@CREATED_BY", obj.Created_By));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PROTOCOL_MONITORING_SETTINGS_SP_INSERTUPDATE", param);
@@ -101,7 +101,7 @@ namespace MyCortex.Repositories.Admin
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -114,13 +114,13 @@ namespace MyCortex.Repositories.Admin
         /// <returns>Standard Protocol details list for the given filter</returns>
         public IList<ProtocolModel> StandardProtocol_List(int IsActive,long InstitutionId)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@IsActive", IsActive));
             param.Add(new DataParameter("@INSTITUTIONID", InstitutionId));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PROTOCOL_MONITORING_SP_LIST", param);
@@ -136,7 +136,7 @@ namespace MyCortex.Repositories.Admin
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -148,12 +148,12 @@ namespace MyCortex.Repositories.Admin
         /// <returns>Standared Protocol Details </returns>
         public IList<ProtocolModel> StandardProtocol_View(long Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PROTOCOL_MONITORING_SP_VIEW", param);
@@ -198,7 +198,7 @@ namespace MyCortex.Repositories.Admin
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -214,8 +214,8 @@ namespace MyCortex.Repositories.Admin
         /// <returns>Identity (Primary Key) value of the Inserted/Updated record</returns>
         public IList<MonitoringProtocolModel> ProtocolMonitoring_AddEdit(MonitoringProtocolModel obj)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             int InsSubModId;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", obj.Id));
@@ -223,7 +223,7 @@ namespace MyCortex.Repositories.Admin
             param.Add(new DataParameter("@NAME", obj.Protocol_Name));
             param.Add(new DataParameter("@CREATED_BY", obj.Created_By));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PROTOCOLDETAILS_MONITORING_SP_INSERTUPDATE", param);
@@ -288,7 +288,7 @@ namespace MyCortex.Repositories.Admin
              catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -300,12 +300,12 @@ namespace MyCortex.Repositories.Admin
         /// <returns>Standared  Protocol Details </returns>
         public MonitoringProtocolModel ProtocolMonitoring_View(long Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PROTOCOLDETAILS_MONITORING_SP_VIEW", param);
@@ -326,7 +326,7 @@ namespace MyCortex.Repositories.Admin
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -337,8 +337,8 @@ namespace MyCortex.Repositories.Admin
         /// <returns>duration type list model</returns>
         public IList<DurationModel> DurationTypeDetails()
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].DURATIONDETAILS_SP_LIST");
@@ -354,7 +354,7 @@ namespace MyCortex.Repositories.Admin
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -366,12 +366,12 @@ namespace MyCortex.Repositories.Admin
         /// <returns>deactivated protocol status</returns>
         public void ProtocolMonitoring_InActive(int Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
             ClsDataBase.Update("[MYCORTEX].PROTOCOL_MONITORING_SP_INACTIVE", param);
@@ -379,7 +379,7 @@ namespace MyCortex.Repositories.Admin
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
             }
         }
 
@@ -390,19 +390,19 @@ namespace MyCortex.Repositories.Admin
         /// <returns>activated monitoring protocol status</returns>
         public void ProtocolMonitoring_Active(int Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
             ClsDataBase.Update("[MYCORTEX].PROTOCOL_MONITORING_SP_ACTIVE", param);
             }
             catch (Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
  
             }
 
@@ -415,12 +415,12 @@ namespace MyCortex.Repositories.Admin
         /// <returns>deactivated protocol status</returns>
         public void ProtocolMonitoring_Delete(int Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
                 ClsDataBase.Update("[MYCORTEX].PROTOCOL_MONITORING_SP_DELETE", param);
@@ -428,7 +428,7 @@ namespace MyCortex.Repositories.Admin
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
             }
         }
 
@@ -439,8 +439,8 @@ namespace MyCortex.Repositories.Admin
         /// <returns>returns the protocol name list model</returns>
         public IList<MonitoringProtocolModel> ProtocolNameDetails(long InstitutionId)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 List<DataParameter> param = new List<DataParameter>();
@@ -458,7 +458,7 @@ namespace MyCortex.Repositories.Admin
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }
@@ -470,8 +470,8 @@ namespace MyCortex.Repositories.Admin
         /// <returns>returns the protocol name list model</returns>
         public IList<MonitoringProtocolModel> ParameterNameList(long InstitutionId)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             try
             {
                 List<DataParameter> param = new List<DataParameter>();
@@ -489,7 +489,7 @@ namespace MyCortex.Repositories.Admin
             catch (Exception ex)
             {
  
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
                 return null;
             }
         }      
