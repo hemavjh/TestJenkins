@@ -55,8 +55,8 @@ namespace MyCortex.Repositories.Masters
 
         public IList<WebConfigurationModel> InsWebConfiguration_List(int? IsActive, int? Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            //_AppLogger = this.GetType().FullName;
+            //_AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
             param.Add(new DataParameter("@IS_ACTIVE", IsActive));
@@ -80,7 +80,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                //_MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }

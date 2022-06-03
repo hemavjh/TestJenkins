@@ -62,8 +62,8 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<WebConfigurationModel> InsWebConfiguration_List(int? IsActive, int? Institution_Id)
         {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            //_AppLogger = this.GetType().FullName;
+            //_AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<WebConfigurationModel> model;
             try
             {
@@ -72,7 +72,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                //_MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
