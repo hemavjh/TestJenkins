@@ -41,6 +41,7 @@ namespace MyCortex.Repositories.Masters
                                                   CONFIGVALUE = p.Field<string>("CONFIGVALUE"),
                                                   CONFIG_TYPEDEFINITION = p.Field<string>("CONFIG_TYPEDEFINITION"),
                                                   ISACTIVE = p.Field<int>("ISACTIVE"),
+                                                  IsSystemDefine = p.Field<int>("IS_SYSTEMDEFINE"),
 
                                               }).ToList();
                 return list;
@@ -48,6 +49,38 @@ namespace MyCortex.Repositories.Masters
             catch (Exception ex)
             {
                /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+                return null;
+            }
+        }
+
+        public IList<WebConfigurationModel> InsWebConfiguration_List(int? IsActive, int? Institution_Id)
+        {
+            //_AppLogger = this.GetType().FullName;
+            //_AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
+            param.Add(new DataParameter("@IS_ACTIVE", IsActive));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[INSAPPCONFIGURATION_SP_LISTING]", param);
+                List<WebConfigurationModel> list = (from p in dt.AsEnumerable()
+                                                    select new WebConfigurationModel()
+                                                    {
+                                                        ID = p.Field<long>("ID"),
+                                                        INSTITUTION_ID = p.Field<long>("INSTITUTION_ID"),
+                                                        CONFIGCODE = p.Field<string>("CONFIGCODE"),
+                                                        CONFIGINFO = p.Field<string>("CONFIGINFO"),
+                                                        CONFIGVALUE = p.Field<string>("CONFIGVALUE"),
+                                                        CONFIG_TYPEDEFINITION = p.Field<string>("CONFIG_TYPEDEFINITION"),
+                                                        ISACTIVE = p.Field<int>("ISACTIVE"),
+                                                        IsSystemDefine = p.Field<int>("IS_SYSTEMDEFINE"),
+
+                                                    }).ToList();
+                return list;
+            }
+            catch (Exception ex)
+            {
+                //_MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }

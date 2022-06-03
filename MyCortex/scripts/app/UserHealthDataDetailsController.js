@@ -976,9 +976,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         })
                     }
                     $scope.ViewUploadRecords = function (Appointment_Id) {
+                        $scope.PatientAppointmentDocumentList = [];
                         angular.element('#PatientDocumentViewModal').modal('show');
                         $http.get(baseUrl + '/api/User/Patient_Appointment_GetDocument?Id=' + Appointment_Id).success(function (data) {
-                            console.log(data);
                             $scope.PatientAppointmentDocumentList = data;
                         });
                     }

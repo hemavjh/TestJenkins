@@ -2,26 +2,38 @@
     $(document).ready(function () {
         $('.activeButton').removeClass('activeButton');
         $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+        if ($('#' + $('.secondaryMenuActive').data('menu')).length === 0) {
+            $('.activeButton').removeClass('activeButton');
+            //$('#Templates/EmailSetup').addClass('activeButton');
+            if (document.getElementById("Templates/EmailSetup")) {
+                document.getElementById("Templates/EmailSetup").className += 'activeButton';
+            }
+        }
     });
 </script>
-<ul class="secondaryMenu">
-    <li>
-        <a href="Home/Index#/ParameterSettings">Standard Parameter</a>
-    </li>
-    <li>
-        <a href="Home/Index#/ChatSetting/2">Chat</a>
-    </li>
+<!--<ul class="secondaryMenu" ng-show="UserTypeId == '3'">
+    <li><a href="Home/Index#/ParameterSettings">Standard Parameter</a></li>
+    <li><a href="Home/Index#/ChatSetting/2">Chat</a></li>
     <li><a href="Home/Index#/Password_Policy">Password Policy</a></li>
     <li><a href="Home/Index#/ResetPassword">Reset Password</a></li>
     <li><a href="Home/Index#/MasterEmailConfigurationList">Email setup</a></li>
     <li><a href="Home/Index#/MasterSmsConfigurationList">SMS setup</a></li>
-    <li><a href="Home/Index#/MasterAlertConfigurationList">Alerts</a></li>
+    <li><a href="Home/Index#/MasterAlertConfigurationList">Alerts</a></li>-->
     <!--<li><a href="Home/Index#/AppointmentSlot">Appointment Slot</a></li>
     <li><a href="Home/Index#/SlotTiming">Shift Timing</a></li>
     <li><a href="Home/Index#/DoctorShift">Doctor Shift</a></li>
     <li><a href="Home/Index#/DoctorHoliday">Doctor Holiday</a></li>-->
-    <li><a href="Home/Index#/WebConfiguration">Configuration</a></li>
+    <!--<li><a href="Home/Index#/WebConfiguration">Configuration</a></li>
     <li><a href="Home/Index#/LanguageSettings" data-menu="Settings">Language</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/GateWaySettings" data-menu="Settings">GateWay</a></li>
+</ul>-->
+<ul class="secondaryMenu" ng-show="UserTypeId == '1'">
+    <li><a href="Home/Index#/AdminEmailConfigurationList/1" data-menu="Templates/EmailSetup">Email setup</a></li>
+    <li><a href="Home/Index#/MasterAlertConfigurationList" data-menu="Templates/EmailSetup">Alerts</a></li>
+    <li><a href="Home/Index#/EmailTemplate/1" data-menu="Templates/EmailSetup">Email Template</a></li>
+    <li><a href="Home/Index#/Notification/2" data-menu="Templates/EmailSetup">Notification Template</a></li>
+    <li><a href="Home/Index#/SMSTemplate/3" data-menu="Templates/EmailSetup">Sms Template</a></li>
+    <li><a href="Home/Index#/WebConfiguration">Configuration</a></li>
     <li><a class="secondaryMenuActive" href="Home/Index#/GateWaySettings" data-menu="Settings">GateWay</a></li>
 </ul>
 
@@ -38,7 +50,20 @@
                 <div id="loading-img"></div>
             </div>
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-3">
+                    <div class="inputGroups">
+                        <label>Institution Name<sup><font class='mandatory-field'></font></sup></label>
+                        <div style="word-wrap: break-word;">
+                            <select class="form-control" data-style="form-control" id="insselectpicker" data-live-search="true"
+                                    data-selectpicker data-collection-name="InstitutiondetailsList" ng-model="Institution_Id"
+                                    ng-change="InstituteGetDetails();">
+                                <!--<option value="0">Select</option>-->
+                                <option ng-repeat="sel in InstitutiondetailsList" value="{{sel.Id}}">{{sel.Name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
                     <div class="inputGroups">
                         <label>Select Gateway</label>
                         <div class="modernSearch">
@@ -50,7 +75,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="payment" class="col-sm-4">
+                <div id="payment" class="col-sm-3">
                     <div class="inputGroups">
                         <label>Select {{selectedGatewayText}}</label>
                         <div class="modernSearch">
@@ -63,7 +88,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <button type="button" class="theme-btn-1 mr-10 mt-20" ng-if="IsEdit==false" ng-click="GatewayDefaultSave()" ng-disabled="false" id="save1"
                             title="Click to Save as default language">
                         Save as Default

@@ -12,8 +12,20 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
         $scope.User_Id = 0;
         $scope.Config_value = [];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+        $scope.UserTypeId = parseInt($window.localStorage["UserTypeId"]);
+        $scope.Institution_Id = $window.localStorage["InstitutionId"];
 
         $scope.IsEdit = false;
+        $scope.status = 0;
+        $http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).success(function (data) {
+            $scope.InstitutiondetailsListTemp = [];
+            $scope.InstitutiondetailsListTemp = data;
+            $scope.InstitutiondetailsListTemp = data;
+            var obj = { "Id": -1, "Name": "Default", "IsActive": 1 };
+            $scope.InstitutiondetailsListTemp.splice(0, 0, obj);
+            //$scope.InstitutiondetailsListTemp.push(obj);
+            $scope.InstitutiondetailsList = angular.copy($scope.InstitutiondetailsListTemp);
+        });
         $scope.WebConfigEdit = function () {
             $scope.IsEdit = true;
             $scope.ChronicEdit();
@@ -21,6 +33,12 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
 
         $scope.WebConfigCancel = function () {
             $scope.WebConfigurationList();
+            //$scope.ChronicEdit();
+            $scope.IsEdit = false;
+        }
+
+        $scope.Ins_WebConfigCancel = function () {
+            $scope.InstituteGetDetails($scope.Institution_Id);
             //$scope.ChronicEdit();
             $scope.IsEdit = false;
         }
@@ -123,9 +141,44 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
         $scope.ViewParamList = [];
         $scope.ViewParamList1 = [];
         //$scope.EditChronicList = [];
-        $scope.WebConfigurationList = function () {
-            if ($window.localStorage['UserTypeId'] == 3) {
+        $scope.InstituteGetDetails = function (Institution_Id) {
+            $scope.emptydataWebConfiguration = [];
+            $scope.rowCollectionWebConfiguration = [];
+            if (Institution_Id != "0" && typeof (Institution_Id != "undefined") && Institution_Id != "" && Institution_Id != 0) {
+                $scope.Institution_Id = Institution_Id;
                 $("#chatLoaderPV").show();
+                $http.get(baseUrl + '/api/WebConfiguration/InsWebConfiguration_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + Institution_Id
+                ).success(function (data) {
+                    $scope.emptydataWebConfiguration = [];
+                    $scope.rowCollectionWebConfiguration = [];
+                    $scope.rowCollectionWebConfiguration = data;
+
+                    $scope.rowCollectionWebConfigurationFilter = angular.copy($scope.rowCollectionWebConfiguration);
+                    if ($scope.rowCollectionWebConfigurationFilter.length > 0) {
+                        $scope.flag = 1;
+                    }
+                    else {
+                        $scope.flag = 0;
+                    }
+                    angular.forEach($scope.rowCollectionWebConfiguration, function (masterVal, masterInd) {
+                        $scope.Config_value[masterVal.ID] = masterVal.CONFIGVALUE;
+                    });
+                });
+                $("#chatLoaderPV").hide();
+            }
+            
+        }
+         
+        $scope.WebConfigurationList = function () {
+            if ($window.localStorage['UserTypeId'] == 3 || $window.localStorage['UserTypeId'] == 1) {
+                $("#chatLoaderPV").show();
+                var inst_id = "";
+                if ($window.localStorage['UserTypeId'] == 1) {
+                    inst_id = $scope.Institution_Id;
+                }
+                if ($window.localStorage['UserTypeId'] == 3) {
+                    inst_id = $window.localStorage["InstitutionId"];
+                }
                 $scope.emptydataWebConfiguration = [];
                 $scope.rowCollectionWebConfiguration = [];
 
@@ -137,7 +190,7 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                     $scope.ISact = 0 //all
                 }
 
-                $http.get(baseUrl + '/api/WebConfiguration/WebConfiguration_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + $window.localStorage['InstitutionId']
+                $http.get(baseUrl + '/api/WebConfiguration/WebConfiguration_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + inst_id
                 ).success(function (data) {
                     $scope.emptydataWebConfiguration = [];
                     $scope.rowCollectionWebConfiguration = [];
@@ -257,7 +310,13 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
             $http.post(baseUrl + '/api/WebConfiguration/WebConfiguration_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, $scope.WebConfigurationDetails).success(function (data) {
                 //alert(data.Message);
                 toastr.success(data.Message, "success");
-                $scope.WebConfigurationList();
+                if ($window.localStorage['UserTypeId'] == 3) {
+                    $scope.WebConfigurationList();
+                }
+                if ($window.localStorage['UserTypeId'] == 1) {
+                    $scope.InstituteGetDetails($scope.Institution_Id);
+                }
+                //$scope.WebConfigurationList();
                 $scope.ClearWebConfigurationPopUp();
                 $scope.searchqueryWebConfiguration = "";
                 $("#chatLoaderPV").hide();
@@ -364,7 +423,13 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                     $scope.WebConfigurationDetails = [];
                     $scope.Config_value = [];
                     $scope.searchqueryWebConfiguration = "";
-                    $scope.WebConfigurationList();
+                    /*$scope.WebConfigurationList();*/
+                    if ($window.localStorage['UserTypeId'] == 3) {
+                        $scope.WebConfigurationList();
+                    }
+                    if ($window.localStorage['UserTypeId'] == 1) {
+                        $scope.InstituteGetDetails($scope.Institution_Id);
+                    }
                     $scope.IsEdit = false;
                     //$location.path("/ParameterSettings");
                 });
