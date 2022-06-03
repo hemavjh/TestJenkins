@@ -3332,8 +3332,18 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                                     setTimeout(function () {
                                                         $scope.SelectedPayor = $scope.EditPayorId;
                                                         $scope.SelectedPlan = $scope.EditPlanId;
+                                                        $scope.UserTypeId = data.UserType_Id.toString();
                                                         $scope.GenderId = data.GENDER_ID.toString();
-                                                    }, 5000);
+                                                        $scope.NationalityId = data.NATIONALITY_ID.toString();
+                                                        $scope.MaritalStatusId = data.MARITALSTATUS_ID.toString();
+                                                        /* $scope.EthnicGroupId = data.ETHINICGROUP_ID;*/
+                                                        $scope.BloodGroupId = data.BLOODGROUP_ID.toString();
+                                                        $scope.DepartmentId = data.DEPARTMENT_ID.toString();
+                                                        $scope.EthnicGroup = data.EthnicGroup;
+                                                        $('#btnsave').attr("disabled", false);
+                                                        $('#btnsave1').attr("disabled", false);
+                                                        $('#btnsave2').attr("disabled", false);
+                                                    }, 1000);
                                                 }
                                             });
                                         }
