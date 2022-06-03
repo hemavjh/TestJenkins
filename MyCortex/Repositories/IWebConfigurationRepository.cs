@@ -9,6 +9,7 @@ namespace MyCortex.Repositories
     interface IWebConfigurationRepository
     {
         IList<WebConfigurationModel> WebConfiguration_List(int? IsActive, int? Institution_Id);
+        IList<WebConfigurationModel> InsWebConfiguration_List(int? IsActive, int? Institution_Id);
         IList<WebConfigurationModel> ChronicCodeList();
         WebConfigurationModel WebConfiguration_View(long Id, Guid Login_Session_Id);
         long WebConfiguration_InsertUpdate(Guid Login_Session_Id, List<WebConfigurationModel> insobj);

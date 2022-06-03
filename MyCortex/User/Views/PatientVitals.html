@@ -6146,7 +6146,7 @@
                         </div>
                         <div id="main-box">
                             <div class="flex doc-details p-4">
-                                <div class="col-sm-12 p-8" id="DocDetails">
+                                <div class="col-sm-12 p-8" id="DocDetails" ng-show="PatientAppointmentDocumentList.length != 0">
                                     <!-- <div class="flex"> -->
                                     <!-- <div class="" style="width:50%"> -->
                                     <!-- <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6"> -->
@@ -6172,6 +6172,9 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div ng-show="PatientAppointmentDocumentList.length == 0 || PatientAppointmentDocumentList == null" style=" margin-left: -47rem;">
+                                    No Document Available...
                                 </div>
                             </div>
                         </div>

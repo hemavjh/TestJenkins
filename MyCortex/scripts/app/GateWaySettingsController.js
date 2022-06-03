@@ -14,25 +14,62 @@ GateWaySettingscontroller.controller("GateWaySettingsController", ['$scope', '$h
         $scope.InstitutionGatewayList = [];
         $scope.selectedGatewaySettings = "0";
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+        $scope.UserTypeId = parseInt($window.localStorage["UserTypeId"]);
+        $scope.status = 0;
 
+        $http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).success(function (data) {
+            $scope.InstitutiondetailsListTemp = [];
+            $scope.InstitutiondetailsListTemp = data;
+            $scope.InstitutiondetailsListTemp = data;
+            var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+            $scope.InstitutiondetailsListTemp.splice(0, 0, obj);
+            //$scope.InstitutiondetailsListTemp.push(obj);
+            $scope.InstitutiondetailsList = angular.copy($scope.InstitutiondetailsListTemp);
+        });
+        $scope.Institution_Id = $window.localStorage["InstitutionId"];
         $scope.PaymentList = function () {
-            $http.get(baseUrl + '/api/Common/getInstitutionPayment/?Institution_Id=' + $window.localStorage['InstitutionId']
+            var inst_id = "";
+            if ($window.localStorage['UserTypeId'] == 1) {
+                inst_id = $scope.Institution_Id;
+            }
+            if ($window.localStorage['UserTypeId'] == 3) {
+                inst_id = $window.localStorage["InstitutionId"];
+            }
+            $http.get(baseUrl + '/api/Common/getInstitutionPayment/?Institution_Id=' + $scope.Institution_Id
             ).success(function (data) {
                 $scope.InstitutionGatewayList = [];
-                $scope.InstitutionGatewayList = data;
-                $scope.selectedGateway = data[0].DefaultPaymentGatewayId.toString();
+                if (data != null && data.length != 0) {
+                    $scope.InstitutionGatewayList = data;
+                    $scope.selectedGateway = data[0].DefaultPaymentGatewayId.toString();
+                }
             }).error(function (data) {
                 $scope.error = "AN error has occured while Listing the records!" + data;
             });
         };
 
+        $scope.InstituteGetDetails = function () {
+            $scope.InstitutionGatewayList = [];
+            $scope.emptydataGatewaySettings = [];
+            $scope.rowCollectionGatewaySettings = [];
+            $scope.selectedGatewaySettings = "0";
+        }
+
         $scope.InsuranceList = function () {
-            $http.get(baseUrl + '/api/Common/getInstitutionInsurance/?Institution_Id=' + $window.localStorage['InstitutionId']
+            var inst_id = "";
+            if ($window.localStorage['UserTypeId'] == 1) {
+                inst_id = $scope.Institution_Id;
+            }
+            if ($window.localStorage['UserTypeId'] == 3) {
+                inst_id = $window.localStorage["InstitutionId"];
+            }
+            $http.get(baseUrl + '/api/Common/getInstitutionInsurance/?Institution_Id=' + inst_id
             ).success(function (data) {
                 $("#chatLoaderPV").hide();
                 $scope.InstitutionGatewayList = [];
-                $scope.InstitutionGatewayList = data;
-                $scope.selectedGateway = data[0].DefaultPaymentGatewayId.toString();
+                if (data != null && data.length != 0) {
+                    $scope.InstitutionGatewayList = data;
+                    $scope.selectedGateway = data[0].DefaultPaymentGatewayId.toString();
+                }
             }).error(function (data) {
                 $scope.error = "AN error has occured while Listing the records!" + data;
             });
@@ -71,9 +108,16 @@ GateWaySettingscontroller.controller("GateWaySettingsController", ['$scope', '$h
         $scope.ViewParamList = [];
         $scope.ViewParamList1 = [];
         $scope.GatewaySettingsList = function () {
-            if ($window.localStorage['UserTypeId'] == 3) {
+            if ($window.localStorage['UserTypeId'] == 3 || $window.localStorage['UserTypeId'] == 1) {
                 $("#chatLoaderPV").show();
                 $scope.selectedGateway = 0;
+                var inst_id = "";
+                if ($window.localStorage['UserTypeId'] == 1) {
+                    inst_id = $scope.Institution_Id;
+                }
+                if ($window.localStorage['UserTypeId'] == 3) {
+                    inst_id = $window.localStorage["InstitutionId"];
+                }
                 if ($scope.selectedGatewaySettings == 1) {
                     $scope.PaymentList();
                 } else if ($scope.selectedGatewaySettings == 2) {
@@ -94,23 +138,25 @@ GateWaySettingscontroller.controller("GateWaySettingsController", ['$scope', '$h
                     $scope.ISact = 0 //all
                 }
 
-                $http.get(baseUrl + '/api/GatewaySettings/GatewaySettings_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId
+                $http.get(baseUrl + '/api/GatewaySettings/GatewaySettings_List/?Institution_Id=' + inst_id + '&Login_Session_Id=' + $scope.LoginSessionId
                 ).success(function (data) {
 
                     $("#chatLoaderPV").hide();
                     $scope.emptydataGatewaySettings = [];
                     $scope.rowCollectionGatewaySettings = [];
-                    $scope.rowCollectionGatewaySettingsFilter = angular.copy(data);
-                    $scope.rowCollectionGatewaySettings = data.filter(item => item.GatewayId === parseInt($scope.selectedGateway));
-                    if ($scope.rowCollectionGatewaySettingsFilter.length > 0) {
-                        $scope.flag = 1;
+                    if (data != null && data.length != 0) {
+                        $scope.rowCollectionGatewaySettingsFilter = angular.copy(data);
+                        $scope.rowCollectionGatewaySettings = data.filter(item => item.GatewayId === parseInt($scope.selectedGateway));
+                        if ($scope.rowCollectionGatewaySettingsFilter.length > 0) {
+                            $scope.flag = 1;
+                        }
+                        else {
+                            $scope.flag = 0;
+                        }
+                        angular.forEach($scope.rowCollectionGatewaySettings, function (masterVal, masterInd) {
+                            $scope.GatewayText[masterVal.Id] = masterVal.GatewayValue;
+                        });
                     }
-                    else {
-                        $scope.flag = 0;
-                    }
-                    angular.forEach($scope.rowCollectionGatewaySettings, function (masterVal, masterInd) {
-                        $scope.GatewayText[masterVal.Id] = masterVal.GatewayValue;
-                    });
                     $("#chatLoaderPV").hide();
                 }).error(function (data) {
                     $scope.error = "AN error has occured while Listing the records!" + data;
@@ -127,7 +173,7 @@ GateWaySettingscontroller.controller("GateWaySettingsController", ['$scope', '$h
             angular.forEach($scope.rowCollectionGatewaySettings, function (value, index) {
                 var obj = {
                     Id: value.Id,
-                    InstitutionId: $window.localStorage['InstitutionId'],
+                    InstitutionId: $scope.Institution_Id,
                     GatewayId: parseInt($scope.selectedGateway),
                     GatewayValue: $scope.GatewayText[value.Id],
                 }
@@ -152,7 +198,7 @@ GateWaySettingscontroller.controller("GateWaySettingsController", ['$scope', '$h
         $scope.GatewayDefaultSave = function () {
             $("#chatLoaderPV").show();
             $('#save1').attr("disabled", true);
-            $http.get(baseUrl + '/api/GatewaySettings/GatewayDefault_Save/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&GatewayTypeId=' + $scope.selectedGatewaySettings + '&GatewayId=' + $scope.selectedGateway
+            $http.get(baseUrl + '/api/GatewaySettings/GatewayDefault_Save/?InstitutionId=' + $scope.Institution_Id + '&GatewayTypeId=' + $scope.selectedGatewaySettings + '&GatewayId=' + $scope.selectedGateway
             ).success(function (data) {
                 if (data == 1) {
                     if ($scope.selectedGatewaySettings == 1) {

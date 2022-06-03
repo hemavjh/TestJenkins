@@ -52,6 +52,32 @@ namespace MyCortex.Masters.Controllers
             }
         }
 
+        /// <summary>      
+        /// Settings  --> InsWebConfiguration_List -- > List Page (result)
+        /// to get the list of InsWebConfiguration_List for the specified filters
+        /// Id
+        /// </summary>      
+        /// <param name="Id">Id of a IsActive</param>        
+        /// <returns>Populated List of InsWebConfiguration_List list Details DataTable</returns>
+        [HttpGet]
+        public IList<WebConfigurationModel> InsWebConfiguration_List(int? IsActive, int? Institution_Id)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<WebConfigurationModel> model;
+            try
+            {
+                model = repository.InsWebConfiguration_List(IsActive, Institution_Id);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
+
         [HttpGet]
         public WebConfigurationModel WebConfiguration_View(long Id, Guid Login_Session_Id)
         {

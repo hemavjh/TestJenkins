@@ -609,7 +609,7 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
                 return false;
             }
             if ($scope.ExpiryNever == false) {
-                if (typeof ($scope.Expiry_Period) == "undefined" || $scope.Expiry_Period == "" && $scope.AllowExpiryDays != 0) {
+                if (typeof ($scope.Expiry_Period) == "undefined" || $scope.Expiry_Period == "") {
                     //alert("Please enter Password  Expiry Period");
                     toastr.warning("Please enter Password  Expiry Period", "warning");
                     return false;
@@ -751,8 +751,9 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
         //clear function for expiry period
         $scope.ClearPasswordExpiryperiod = function () {
             $scope.Expiry_Period = "";
-            $scope.ExpiryNever = true;
+            $scope.ExpiryNever = false;
             if ($scope.AllowExpiryDays == true) {
+                $scope.ExpiryNever = true;
                 $("#Text4").removeClass('ng-invalid');
                 $("#Text4").addClass('ng-valid');
             }
