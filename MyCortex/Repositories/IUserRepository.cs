@@ -16,6 +16,7 @@ namespace MyCortex.Repositories
         IList<DepartmentModel> DepartmentList();
         IList<DepartmentModel> DepartmentListByInstitution(long Institution_Id);
         IList<DocumentTypeModel> DocumentTypeList();
+        IList<NotesTypeModel> NotesTypeList();
         IList<BusinessUser_UserTypeListModel> BusinessUser_UserTypeList();
         UserModel Admin_InsertUpdate(Guid Login_Session_Id, UserModel insobj);
         long PatientChronicEdit(Guid Login_Session_Id, PatientChronicModel obj);
@@ -101,7 +102,7 @@ namespace MyCortex.Repositories
         IList<AllergyModel> AllergyDetails_InActive(AllergyModel noteobj);
         IList<AllergyModel> AllergyDetails_Active(AllergyModel noteobj);
         IList<DoctorNotesModel> PatientNotes_InsertUpdate(DoctorNotesModel noteobj);
-        IList<DoctorNotesModel> PatientNotes_List(long idval, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber);
+        IList<DoctorNotesModel> PatientNotes_List(long idval, int UserTypeID, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber);
         DoctorNotesModel PatientNotes_View(long Id, Guid Login_Session_Id);
 
         long MedicationInsertUpdate(Guid Login_Session_Id, List<DrugDBMasterModel> insobj);

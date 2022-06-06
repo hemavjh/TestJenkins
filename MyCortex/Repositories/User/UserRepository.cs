@@ -141,6 +141,31 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
+        public IList<NotesTypeModel> NotesTypeList()
+        {
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+            List<DataParameter> param = new List<DataParameter>();
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].NOTESTYPE_SP_LIST");
+                List<NotesTypeModel> lst = (from p in dt.AsEnumerable()
+                                               select new NotesTypeModel()
+                                               {
+                                                   Id = p.Field<int>("Id"),
+                                                   NotesType = p.Field<string>("NOTESTYPE")
+                                               }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+                return null;
+            }
+        }
+
         /// <summary>      
         /// Getting list of business user types
         /// </summary>          
@@ -3731,6 +3756,8 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@ID", noteobj.Id));
             param.Add(new DataParameter("@PATIENT_ID", noteobj.PatientId));
             param.Add(new DataParameter("@NOTES", noteobj.Notes));
+            param.Add(new DataParameter("@NOTESTYPE", noteobj.NotesType));
+            param.Add(new DataParameter("@FLAG", noteobj.NotesFlag));
             param.Add(new DataParameter("@CREATED_BY", noteobj.Created_By));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENTNOTES_SP_INSERTUPDATE", param);
             IList<DoctorNotesModel> list = (from p in dt.AsEnumerable()
@@ -3739,9 +3766,11 @@ namespace MyCortex.Repositories.Uesr
                                                 Id = p.Field<long>("ID"),
                                                 PatientId = p.Field<long>("PATIENT_ID"),
                                                 Notes = p.Field<string>("NOTES"),
+                                                NotesType = p.Field<string>("NOTESTYPE"),
+                                                NotesFlag = p.Field<string>("FLAG"),
                                                 Created_By = p.Field<long>("CREATED_BY"),
                                                 Institution_Id = p.Field<long>("INSTITUTION_ID"),
-                                                flag = p.Field<int>("flag")
+                                                flag = p.Field<int>("RFLAG")
                                             }).ToList();
             return list;
         }
@@ -3752,7 +3781,7 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Patient_Id"></param>
         /// <param name="IsActive"></param>
         /// <returns>Clinical notes list of a patient</returns>
-        public IList<DoctorNotesModel> PatientNotes_List(long idval, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber)
+        public IList<DoctorNotesModel> PatientNotes_List(long idval, int UserTypeID, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber)
         {
             /* _AppLogger = this.GetType().FullName;*/
             /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
@@ -3762,6 +3791,7 @@ namespace MyCortex.Repositories.Uesr
             try
             {
                 param.Add(new DataParameter("@patientid", idval));
+                param.Add(new DataParameter("@USERTYPEID", UserTypeID));
                 param.Add(new DataParameter("@ISACTIVE", IsActive));
                 param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
                 param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
@@ -3776,6 +3806,8 @@ namespace MyCortex.Repositories.Uesr
                                                    Id = p.Field<long>("ID"),
                                                    PatientId = p.Field<long>("PATIENT_ID"),
                                                    Notes = p.Field<string>("NOTES"),
+                                                   NotesType = p.Field<string>("NOTESTYPE"),
+                                                   NotesFlag = p.Field<string>("FLAG"),
                                                    Created_By = p.Field<long>("CREATED_BY"),
                                                    Created_By_Name = p.Field<string>("FULLNAME"),
                                                    Created_Dt = p.Field<DateTime>("CREATED_DT"),
@@ -3877,6 +3909,8 @@ namespace MyCortex.Repositories.Uesr
                                              Id = p.Field<long>("ID"),
                                              PatientId = p.Field<long>("PATIENT_ID"),
                                              Notes = p.Field<string>("NOTES"),
+                                             NotesType = p.Field<string>("NOTESTYPE"),
+                                             NotesFlag = p.Field<string>("FLAG"),
                                              Created_By = p.Field<long>("CREATED_BY"),
                                              Created_Dt = p.Field<DateTime>("CREATED_DT"),
                                          }).FirstOrDefault();

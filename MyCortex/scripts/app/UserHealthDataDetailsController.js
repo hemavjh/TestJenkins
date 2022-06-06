@@ -48,6 +48,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $rootScope.$on("show_payment_history", function (data) {
             show_payment_history(data);
         });
+
+       
         function show_payment_history(data) {
             $scope.paymentHistory = [];
             var RowId = localStorage.getItem('rowId');
@@ -1327,6 +1329,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     }
                     $http.get(baseUrl + '/api/User/DocumentTypeList/').success(function (data) {
                         $scope.DocumentTypeList = data;
+                    })
+
+                    //list the Notes type
+                    $http.get(baseUrl + '/api/User/NotesTypeList/').success(function (data) {
+                        $scope.NotesTypeList = data;
                     })
                     function convertdate(date) {
                         mnth = ("0" + (date.getMonth() + 1)).slice(-2),
@@ -7488,7 +7495,10 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             if (typeof ($scope.isClinicalNotes) != 'undefined' && $scope.isClinicalNotes != "") {
                 $scope.submitted = false;
                 $scope.Id = 0;
+              // $('#Flag').attr('ng-init', 'checked="true"');
+                
                 $scope.PatientNotesClear();
+                $scope.Flag = 'Private';
                 $('#saved').attr("disabled", false);
                 angular.element('#PatientNotesAddEditModal').modal('show');
             }
@@ -7546,6 +7556,16 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 toastr.warning("Please enter Notes", "warning");
                 return false;
             }
+            if (typeof ($scope.Notestype) == "" || $scope.Notestype == "") {
+                //alert("Please enter Notes");
+                toastr.warning("Please select Notes type ", "warning");
+                return false;
+            }
+            if (typeof ($scope.Flag) == "" || $scope.Flag == "") {
+                //alert("Please enter Notes");
+                toastr.warning("Please select flag", "warning");
+                return false;
+            }
             return true;
         };
 
@@ -7558,6 +7578,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     Id: $scope.Id,
                     PatientId: $scope.SelectedPatientId,
                     Notes: $scope.Notes,
+                    NotesType: $scope.NotesType,
+                    NotesFlag: $scope.Flag,
                     Created_By: $window.localStorage['UserId'],
                     Modified_By: $window.localStorage['UserId'],
                 }
@@ -7605,6 +7627,15 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
         $scope.NotesActive = true;
 
+        elcoe$scope.FnPrivateChange = function () {
+            if ($("#Flag").is(":checked") == true) {
+                $scope.Flag = 'Private';
+            }
+            else {
+                $scope.Flag = 'Public';
+            }
+        }
+
         //List function for doctor Notes   
         $scope.patientnotelist = function () {
             $scope.PatientNotesemptydata = [];
@@ -7623,7 +7654,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.ISact = -1
                 }
                 $("#chatLoaderPV").show();
-                $http.get(baseUrl + '/api/User/PatientNotes_List/?Patient_Id=' + $scope.SelectedPatientId + '&IsActive=' + $scope.ISact + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart +
+                $http.get(baseUrl + '/api/User/PatientNotes_List/?Patient_Id=' + $scope.SelectedPatientId + '&UserTypeID=' + $scope.userTypeId + '&IsActive=' + $scope.ISact + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart +
                     '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
                         $("#chatLoaderPV").hide();
                         $scope.SearchMsg = "No Data Available";
@@ -7667,6 +7698,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             else {
                 $scope.PatientNotesrowCollectionFilter = $ff($scope.PatientNotesrowCollection, function (value) {
                     return angular.lowercase(value.Notes).match(searchstring) ||
+                        angular.lowercase(value.NotesType).match(searchstring) ||
+                        angular.lowercase(value.Flag).match(searchstring) ||
                         angular.lowercase(value.Created_By_Name).match(searchstring) ||
                         angular.lowercase(($filter('date')(value.Created_Dt, "dd-MMM-yyyy hh:mm:ss a"))).match(searchstring);
                 });
@@ -7678,6 +7711,15 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.PatientDetails_View = function () {
             $http.get(baseUrl + '/api/User/PatientNotes_View/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 $scope.Notes = data.Notes;
+                $scope.NotesType = data.NotesType;
+                $scope.Flag = data.NotesFlag;
+                if ($scope.Flag == 'Private') {
+                    $('#Flag').attr('ng-checked', 'true');
+                    $('#Flag').attr('checked','checked');
+                } else {
+                    $('#Flag').removeAttr('ng-checked');
+                    $('#Flag').removeAttr('checked');
+                }
             });
         }
 
@@ -7686,6 +7728,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             $scope.NotesFilterList = [];
             $scope.PatientNotesFilterNo = [];
             $scope.Notes = rowlist.Notes;
+            //$scope.NotesType = rowlist.NotesType;
+            //$scope.Flag = rowlist.NotesFlag;
             angular.element('#ViewPatientNoteModal').modal('show');
 
         };
@@ -7702,6 +7746,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         //To Clear the Notes in popup window
         $scope.PatientNotesClear = function () {
             $scope.Notes = "";
+            $scope.NotesType = "";
+            $scope.Flag = '';
         }
 
         // Patient Other Data

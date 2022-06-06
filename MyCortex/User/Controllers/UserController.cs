@@ -134,6 +134,23 @@ namespace MyCortex.User.Controller
             }
         }
 
+        [HttpGet]
+        public IList<NotesTypeModel> NotesTypeList()
+        {
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+            IList<NotesTypeModel> model;
+            try
+            {               
+                model = repository.NotesTypeList();
+                return model;
+            }
+            catch (Exception ex)
+            {                
+                return null;
+            }
+        }
+
         /// <summary>      
         /// Getting list of business user types
         /// </summary>          
@@ -3272,7 +3289,7 @@ namespace MyCortex.User.Controller
         /// <returns>Clinical notes list of a patient</returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage PatientNotes_List(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0)
+        public HttpResponseMessage PatientNotes_List(long Patient_Id,int UserTypeID, int IsActive, Guid Login_Session_Id, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0)
         {
             /* _AppLogger = this.GetType().FullName;*/
             /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
@@ -3291,7 +3308,7 @@ namespace MyCortex.User.Controller
                     StartRowNumber = ((Page - 1) * _metadata.per_page) + 1;
                     EndRowNumber = Page * _metadata.per_page;
                 }
-                model = repository.PatientNotes_List(Patient_Id, IsActive, Login_Session_Id, StartRowNumber, EndRowNumber);
+                model = repository.PatientNotes_List(Patient_Id, UserTypeID, IsActive, Login_Session_Id, StartRowNumber, EndRowNumber);
                 if (model != null)
                 {
                     if (model.Count > 0)
@@ -3299,13 +3316,13 @@ namespace MyCortex.User.Controller
                         _metadata.total_count = Convert.ToInt64(model[0].TotalRecord);
                         _metadata.page_count = Convert.ToInt64(Math.Ceiling(Convert.ToDecimal(model[0].TotalRecord) / _metadata.per_page));
                         _metadata.Links = new DoctorNotesDataLinks();
-                        _metadata.Links.self = "/api/User/PatientNotes_List?Patient_Id=" + Patient_Id + "&Active=" + IsActive + "&Login_Session_Id=" + Login_Session_Id + "&Institution_Id=" + Institution_Id + "&Page=" + Page;
-                        _metadata.Links.first = "/api/User/PatientNotes_List?Patient_Id=" + Patient_Id + "&Active=" + IsActive + "&Login_Session_Id=" + Login_Session_Id + "&Institution_Id=" + Institution_Id + "&Page=1";
-                        _metadata.Links.last = "/api/User/PatientNotes_List?Patient_Id=" + Patient_Id + "&Active=" + IsActive + "&Login_Session_Id=" + Login_Session_Id + "&Institution_Id=" + Institution_Id + "&Page=" + _metadata.page_count;
+                        _metadata.Links.self = "/api/User/PatientNotes_List?Patient_Id=" + Patient_Id + "&UserTypeID=" + UserTypeID + "&Active=" + IsActive + "&Login_Session_Id=" + Login_Session_Id + "&Institution_Id=" + Institution_Id + "&Page=" + Page;
+                        _metadata.Links.first = "/api/User/PatientNotes_List?Patient_Id=" + Patient_Id + "&UserTypeID=" + UserTypeID + "&Active=" + IsActive + "&Login_Session_Id=" + Login_Session_Id + "&Institution_Id=" + Institution_Id + "&Page=1";
+                        _metadata.Links.last = "/api/User/PatientNotes_List?Patient_Id=" + Patient_Id + "&UserTypeID=" + UserTypeID + "&Active=" + IsActive + "&Login_Session_Id=" + Login_Session_Id + "&Institution_Id=" + Institution_Id + "&Page=" + _metadata.page_count;
                         int previous = Page > 1 ? Page - 1 : 1;
-                        _metadata.Links.previous = "/api/User/PatientNotes_List?Patient_Id=" + Patient_Id + "&Active=" + IsActive + "&Login_Session_Id=" + Login_Session_Id + "&Institution_Id=" + Institution_Id + "&Page=" + previous;
+                        _metadata.Links.previous = "/api/User/PatientNotes_List?Patient_Id=" + Patient_Id + "&UserTypeID=" + UserTypeID + "&Active=" + IsActive + "&Login_Session_Id=" + Login_Session_Id + "&Institution_Id=" + Institution_Id + "&Page=" + previous;
                         int next = Page == _metadata.page_count ? Page : Page + 1;
-                        _metadata.Links.next = "/api/User/PatientNotes_List?Patient_Id=" + Patient_Id + "&Active=" + IsActive + "&Login_Session_Id=" + Login_Session_Id + "&Institution_Id=" + Institution_Id + "&Page=" + next;
+                        _metadata.Links.next = "/api/User/PatientNotes_List?Patient_Id=" + Patient_Id + "&UserTypeID=" + UserTypeID + "&Active=" + IsActive + "&Login_Session_Id=" + Login_Session_Id + "&Institution_Id=" + Institution_Id + "&Page=" + next;
                     }
                 }
 

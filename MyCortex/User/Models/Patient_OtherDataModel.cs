@@ -37,6 +37,11 @@ namespace MyCortex.User.Model
         public long Id { get; set; }
         public string DocumentType { get; set; }
     }
+    public class NotesTypeModel
+    {
+        public int Id { get; set; }
+        public string NotesType { get; set; }
+    }
     public class DocumentReturnModel
     {
         public string Status { get; set; }

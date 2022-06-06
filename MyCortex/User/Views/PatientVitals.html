@@ -1183,7 +1183,7 @@
                                 </li>
                                 <li>
                                     <a ng-class="{'themeTabActive boldtxtt':currentTab=='7'}" ng-click="currentTab='7';CancelLiveData();ClinicalNotesListData(currentTab);">
-                                        Clinical Notes
+                                        Notes
                                     </a>
                                 </li>
                                 <li>
@@ -2021,6 +2021,8 @@
                                                         <tr>
                                                             <th st-ratio="5" st-sort="Id">#</th>
                                                             <th st-ratio="35" st-sort="Notes">Notes</th>
+                                                            <th st-ratio="35" st-sort="Notestype">Notes Type</th>
+                                                            <th st-ratio="35" st-sort="Flag">Flag</th>
                                                             <th st-ratio="20" st-sort="CREATED_PERSON">Created By</th>
                                                             <th st-ratio="25" st-sort="CREATED_DT">Created On</th>
                                                             <th st-ratio="15">Action</th>
@@ -2040,11 +2042,18 @@
                                                                     </span>
                                                                 </div>
                                                             </td>
+
                                                             <td style="text-align: left" ng-if="row.Notes.length < 100">
                                                                 <div class="textwrap" style="max-width:150px; word-wrap:break-word;">
                                                                     {{row.Notes}}
                                                                 </div>
 
+                                                            </td>
+                                                            <td style="text-align: left; width: 10%">
+                                                                {{row.NotesType}}
+                                                            </td>
+                                                            <td style="text-align: left; width: 10%">
+                                                                {{row.NotesFlag}}
                                                             </td>
                                                             <td style="text-align: left;max-width:150px; word-wrap:break-word;">
                                                                 <div>{{row.Created_By_Name}}</div>
@@ -3869,26 +3878,45 @@
                                     title="Close">
                                 &times;
                             </button>
-                            <h4 class="modal-title">Clinical Notes</h4>
+                            <h4 class="modal-title">Notes</h4>
                         </div>
                         <div class="modal-body">
 
                             <div class="inputGroups">
-                                <label>Clinical Notes<sup><font class='mandatory-field'>*</font></sup></label>
+                                <label>Notes<sup><font class='mandatory-field'>*</font></sup></label>
                                 <textarea rows="5" cols="100" maxlength="1500" ng-model="Notes" class="form-control" required></textarea>
                             </div>
-                        </div>
-                        <div class="modal-footer" style="text-align: center;">
-                            <div class="col-sm-offset-2 col-sm-9">
-                                <button type="submit" class="theme-btn-1" title="Save the Notes" id="saved" ng-disabled="false" ng-click="submitted = true;">
-                                    Save
-                                </button>
-                                <button type="button" class="theme-btn-2 ml-10" title="Click to Cancel" ng-click="CancelPatientNotesAddPopup()">
-                                    Cancel
-                                </button>
+                            <div class="inputGroups">
+                                <label>Notes Type<sup><font class='mandatory-field'>*</font></sup></label>
+                                <select ng-model="NotesType" data-live-search="true" data-selectpicker data-collection-name="NotesTypeList"
+                                        class="form-control" data-style="form-control"
+                                        ng-options="row.NotesType as row.NotesType for row in NotesTypeList"
+                                        style="width: 160px;">
+                                    <option value="">Select</option>
+                                </select>
+                            </div>
+                            <div class="inputGroups">
+                                <label>Private<sup><font class='mandatory-field'>*</font></sup></label>
+                                <input type="checkbox" ng-model="Flag" id="Flag" class="input-checkbox" value="{{Flag}}" ng-true-value="'Private'" ng-false-value="'Public'"  ng-click="FnPrivateChange()"/>
+                                <!--<select ng-model="Flag" data-live-search="true" class="form-control" data-style="form-control" style="width: 160px;">
+                                    <option value="">Select</option>
+                                    <option value="Private">Private</option>
+                                    <option value="Public">Public</option>
+                                </select>-->
                             </div>
                         </div>
-                    </form>
+
+                            <div class="modal-footer" style="text-align: center;">
+                                <div class="col-sm-offset-2 col-sm-9">
+                                    <button type="submit" class="theme-btn-1" title="Save the Notes" id="saved" ng-disabled="false" ng-click="submitted = true;">
+                                        Save
+                                    </button>
+                                    <button type="button" class="theme-btn-2 ml-10" title="Click to Cancel" ng-click="CancelPatientNotesAddPopup()">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+</form>
 
                 </div>
 
@@ -4643,7 +4671,7 @@
                             &times;
                         </button>
 
-                        <h4 class="modal-title">Clinical Notes</h4>
+                        <h4 class="modal-title">Notes</h4>
                     </div>
                     <div class="col-md-12"></div>
                     <div class="modal-body">
@@ -4656,10 +4684,28 @@
                                             <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
                                                 <tr>
                                                     <td style="width: 15%; vertical-align: top;">
-                                                        <label>Clinical Notes</label>
+                                                        <label>Notes</label>
                                                     </td>
                                                     <td>
                                                         <div class="textwrap" style="word-break:break-word">{{Notes}}</div>
+                                                    </td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 15%; vertical-align: top;">
+                                                        <label>Notes Type</label>
+                                                    </td>
+                                                    <td>
+                                                        <div class="textwrap" style="word-break:break-word">{{NotesType}}</div>
+                                                    </td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 15%; vertical-align: top;">
+                                                        <label>Flag</label>
+                                                    </td>
+                                                    <td>
+                                                        <div class="textwrap" style="word-break:break-word">{{Flag}}</div>
                                                     </td>
 
                                                 </tr>
