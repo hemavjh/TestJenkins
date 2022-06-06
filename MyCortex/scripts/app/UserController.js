@@ -416,6 +416,12 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.TabClick = false;
 
         $scope.checkTab = function () {
+            if ($scope.FirstName == undefined) { $scope.FirstName = ""; }
+            if ($scope.LastName == undefined) { $scope.LastName = ""; }
+            if ($scope.Employee_No == undefined) { $scope.Employee_No = ""; }
+            if ($scope.EmailId == undefined) { $scope.EmailId = ""; }
+            if ($scope.MobileNo == undefined) { $scope.MobileNo = ""; }
+            if ($scope.Health_License == undefined) { $scope.Health_License = ""; }
 
             if (!($scope.FirstName != "" && $scope.LastName != "" && $scope.Employee_No != ""
                 && $scope.EmailId != "" && $scope.MobileNo != "" && $scope.Health_License != "")) {
@@ -424,15 +430,16 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     && $scope.EmailId != "" && $scope.MobileNo != "") {
                     $scope.currentTab = 2;
                 }
-                else if ($scope.Health_License != "") {
-                    $scope.currentTab = 3;
-                }
                 else
                     $scope.currentTab = 1;
             }
-            else {
-                //$scope.currentTab = 1;
-            }
+            else
+                if ($scope.Health_License != "") {
+                    $scope.currentTab = 2;
+                }
+                else {
+                    //$scope.currentTab = 1;
+                }
         }
 
         $scope.Businessuesrclickcount = 1;
