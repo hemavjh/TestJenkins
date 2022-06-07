@@ -367,8 +367,8 @@ namespace MyCortex.User.Controller
                         defaultPwd = AppConfigmodel[0].ConfigValue;
                     }
                     if (defaultPwd == "") defaultPwd = "P@ssw0rd";
+                    userObj.PASSWORD = defaultPwd;   // this is for demo // default pwd when password policy not exist for the institution
                 }
-                userObj.PASSWORD = defaultPwd;   // this is for demo // default pwd when password policy not exist for the institution
                 DataEncryption EncryptPassword = new DataEncryption();
                 string CHANGE_URl_PASSWORD = EncryptPassword.Encrypt(userObj.PASSWORD);
                 string FormulaforFullName = "";
