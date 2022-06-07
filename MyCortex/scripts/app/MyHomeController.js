@@ -87,45 +87,55 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             //$scope.DeviceId = $scope.DeviceName;
         }
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
-        $scope.AddTabPopUP = function () {
-            $scope.submitted = false;
-            $scope.currentTab = "1";
-            //$scope.ClearPopup(); 
-            $scope.TabName = "";
-            $scope.RefId = "";
-            $scope.Model = "";
-            $scope.OS = "";
-            $scope.Id = "0";
-            $scope.PIN = "1234";
-            $scope.SelectedDevice = "0";
-            $('#savemytab').attr("disabled", false);
-            $('#tabname').prop('disabled', false);
-            $('#refidtab').prop('disabled', false);
-            $('#modeltab').prop('disabled', false);
-            $('#ostab').prop('disabled', false);
-            $('#pintab').prop('disabled', false);
-            $('#Image2').prop('disabled', false);
-            $('#Image2').prop('title', 'Click to Delete');
-            $('#tabdevice').prop('disabled', false);
-            $scope.IsEdit = false;
-            $scope.IsShow = true;
-            $scope.AddUserParameters = [];
-            $scope.AddDeviceParameters = [];
-            //$scope.AddUserParameters = [{
-            //    'Id': 0,
-            //    'UserId': 0,
-            //    'PIN': $scope.PIN,
-            //    'IsActive': true
-            //}];
-            //$scope.AddDeviceParameters = [{
-            //    'Id': 0,
-            //    'DeviceId': 0,
-            //    'IsActive': true
-            //}];
-            $scope.showSave = true;
-            var $sel2 = $('#tabdevice');
-            $sel2.multiselect('enable');
-            angular.element('#TabAddModal').modal('show');
+        $scope.AddTabPopUP = function (HiveType = 1) {
+            if (HiveType == 1 && $scope.No_Of_Hive <= 0) {
+                toastr.warning("You don't have Hive subscription!", "warning");
+            } else if (HiveType == 1 && $scope.Remaining_No_Of_Hive == 0) {
+                toastr.warning("Your Hive subscription limit is exceeded!", "warning");
+            } else if (HiveType == 2 && $scope.No_Of_HiveChart <= 0) {
+                toastr.warning("You don't have Hive Chart subscription!", "warning");
+            } else if (HiveType == 2 && $scope.Remaining_No_Of_Hivechart == 0) {
+                toastr.warning("Your Hive Chart subscription limit is exceeded!", "warning");
+            } else {
+                $scope.submitted = false;
+                $scope.currentTab = "1";
+                //$scope.ClearPopup(); 
+                $scope.TabName = "";
+                $scope.RefId = "";
+                $scope.Model = "";
+                $scope.OS = "";
+                $scope.Id = "0";
+                $scope.PIN = "1234";
+                $scope.SelectedDevice = "0";
+                $('#savemytab').attr("disabled", false);
+                $('#tabname').prop('disabled', false);
+                $('#refidtab').prop('disabled', false);
+                $('#modeltab').prop('disabled', false);
+                $('#ostab').prop('disabled', false);
+                $('#pintab').prop('disabled', false);
+                $('#Image2').prop('disabled', false);
+                $('#Image2').prop('title', 'Click to Delete');
+                $('#tabdevice').prop('disabled', false);
+                $scope.IsEdit = false;
+                $scope.IsShow = true;
+                $scope.AddUserParameters = [];
+                $scope.AddDeviceParameters = [];
+                //$scope.AddUserParameters = [{
+                //    'Id': 0,
+                //    'UserId': 0,
+                //    'PIN': $scope.PIN,
+                //    'IsActive': true
+                //}];
+                //$scope.AddDeviceParameters = [{
+                //    'Id': 0,
+                //    'DeviceId': 0,
+                //    'IsActive': true
+                //}];
+                $scope.showSave = true;
+                var $sel2 = $('#tabdevice');
+                $sel2.multiselect('enable');
+                angular.element('#TabAddModal').modal('show');
+            }
         }
         $scope.ClearPopUp = function () {
             $scope.TabName = "";
@@ -195,36 +205,42 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 }
                 $scope.HiveUsersCount = 0;
                 $http.get(baseUrl + '/api/MyHome/Tab_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd + '&HiveType=' + HiveType).success(function (data) {
-                    $("#chatLoaderPV").hide();
                     if (data != null && data !== undefined) {
                         $scope.emptydataTab = [];
                         $scope.rowCollectionTab = [];
                         $scope.rowCollectionTab = data;
-                                             
-                        $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                            $scope.Remaining_No_Of_Hive = data.Remaining_No_Of_Hive;
-                            $scope.No_Of_Hive = data.No_Of_Hive;
-                            $scope.Remaining_No_Of_Hivechart = data.Remaining_No_Of_Hivechart;
-                            $scope.No_Of_HiveChart = data.No_Of_HiveChart;
 
-                            $scope.No_Of_HiveChart_User = data.No_Of_HiveChartUsers;
-                            $scope.No_Of_Hive_User = data.No_Of_HiveUsers;
-                            $scope.Remaining_No_Of_Hive_Users = data.Remaining_No_Of_Hive_Users;
-                            $scope.Remaining_No_Of_Hivechart_Users = data.Remaining_No_Of_Hivechart_Users;
-                            //if ($scope.rowCollectionTab.length > 0) {
-                            //    angular.forEach($scope.rowCollectionTab, function (value, index) {
-                            //        $scope.UsersCount = $scope.UsersCount + value.UsersCount;
-                            //    });
-                            //}
-                            ////get the pending users count
-                            //$scope.PendingUsersCount = $scope.Remaining_No_Of_Hive_Users;
+                        $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                            if (data != null && data !== undefined) {
+                                $scope.Remaining_No_Of_Hive = data.Remaining_No_Of_Hive;
+                                $scope.No_Of_Hive = data.No_Of_Hive;
+                                $scope.Remaining_No_Of_Hivechart = data.Remaining_No_Of_Hivechart;
+                                $scope.No_Of_HiveChart = data.No_Of_HiveChart;
+
+                                $scope.No_Of_HiveChart_User = data.No_Of_HiveChartUsers;
+                                $scope.No_Of_Hive_User = data.No_Of_HiveUsers;
+                                $scope.Remaining_No_Of_Hive_Users = data.Remaining_No_Of_Hive_Users;
+                                $scope.Remaining_No_Of_Hivechart_Users = data.Remaining_No_Of_Hivechart_Users;
+                                //if ($scope.rowCollectionTab.length > 0) {
+                                //    angular.forEach($scope.rowCollectionTab, function (value, index) {
+                                //        $scope.UsersCount = $scope.UsersCount + value.UsersCount;
+                                //    });
+                                //}
+                                ////get the pending users count
+                                //$scope.PendingUsersCount = $scope.Remaining_No_Of_Hive_Users;
+                                $("#chatLoaderPV").hide();
+                            } else {
+                                $("#chatLoaderPV").hide();
+                            }
+                            
                         });
+
                         if ($scope.rowCollectionTab.length > 0) {
                             $scope.TabDataCount = $scope.rowCollectionTab[0].TotalRecord;
                         } else {
                             $scope.TabDataCount = 0;
                         }
-                        
+
                         $scope.TabData_ListFilterdata = data;
                         $scope.rowCollectionTabFilter = angular.copy($scope.rowCollectionTab);
                         if ($scope.rowCollectionTabFilter.length > 0) {
@@ -233,9 +249,10 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                         else {
                             $scope.flag = 0;
                         }
+                    } else {
+                        $("#chatLoaderPV").hide();
                     }
                     $scope.total_MyHomepage = Math.ceil(($scope.TabDataCount) / ($scope.page_size));
-
 
                 }).error(function (data) {
                     $scope.error = "AN error has occured while Listing the records!" + data;
@@ -351,7 +368,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         /*THIS IS FOR DELETE FUNCTION */
         $scope.MyTAB_Delete = function (HiveChart) {
             Swal.fire({
-                title: 'Do you like to deactivate the selected My Home details?',
+                title: HiveChart == 1 ? 'Are you sure, you want to deactivate the selected Hive?' : 'Are you sure, you want to deactivate the selected Hive Chart?',
                 html: '',
                 showDenyButton: true,
                 showCancelButton: false,
@@ -363,24 +380,24 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
                     $http.get(baseUrl + '/api/MyHome/Tab_List_Delete/?Id=' + $scope.Id).success(function (data) {
-                        //alert(" My Home details has been deactivated Successfully");
-                        toastr.success(" My Home details has been deactivated Successfully", "success");
+                        //alert("Hive details has been deactivated Successfully");
+                        toastr.success(HiveChart == 1 ? "Hive deactivated Successfully" : "Hive Chart deactivated Successfully", "success");
                         $scope.TabList(HiveChart);
                     }).error(function (data) {
-                        $scope.error = "An error has occurred while deleting  My Home details" + data;
+                        $scope.error = "An error has occurred while deleting Hive" + data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
                 }
             })
-            /*var del = confirm("Do you like to deactivate the selected My Home details?");
+            /*var del = confirm("Do you like to deactivate the selected Hive details?");
             if (del == true) {
                 $http.get(baseUrl + '/api/MyHome/Tab_List_Delete/?Id=' + $scope.Id).success(function (data) {
-                    //alert(" My Home details has been deactivated Successfully");
-                    toastr.success(" My Home details has been deactivated Successfully", "success");
+                    //alert("Hive details has been deactivated Successfully");
+                    toastr.success("Hive details has been deactivated Successfully", "success");
                     $scope.TabList();
                 }).error(function (data) {
-                    $scope.error = "An error has occurred while deleting  My Home details" + data;
+                    $scope.error = "An error has occurred while deleting Hive details" + data;
                 });
             }*/
         };
@@ -392,7 +409,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         /*THIS IS FOR DELETE FUNCTION */
         $scope.MyTAB_DeleteDeactive = function (HiveChart) {
             Swal.fire({
-                title: 'Do you like to activate the selected My Home details?',
+                title: HiveChart == 1 ? 'Are you sure, you want to activate the selected Hive?' : 'Are you sure, you want to activate the selected Hive Chart?',
                 html: '',
                 showDenyButton: true,
                 showCancelButton: false,
@@ -404,24 +421,24 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
                     $http.get(baseUrl + '/api/MyHome/Tab_List_Delete/?Id=' + $scope.Id).success(function (data) {
-                        //alert(" My Home details has been  Activated Successfully");
-                        toastr.success(" My Home details has been  Activated Successfully", "success");
+                        //alert("Hive details has been  Activated Successfully");
+                        toastr.success(HiveChart == 1 ? "Hive activated successfully" : "Hive Chart activated successfully", "success");
                         $scope.TabList(HiveChart);
                     }).error(function (data) {
-                        $scope.error = "An error has occurred while deleting  My Home details" + data;
+                        $scope.error = "An error has occurred while deleting Hive" + data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
                 }
             })
-            /*  var del = confirm("Do you like to activate the selected My Home details?");
+            /*  var del = confirm("Do you like to activate the selected Hive details?");
               if (del == true) {
                   $http.get(baseUrl + '/api/MyHome/Tab_List_Delete/?Id=' + $scope.Id).success(function (data) {
-                      //alert(" My Home details has been  Activated Successfully");
-                      toastr.success(" My Home details has been  Activated Successfully", "success");
+                      //alert("Hive details has been  Activated Successfully");
+                      toastr.success("Hive details has been  Activated Successfully", "success");
                       $scope.TabList();
                   }).error(function (data) {
-                      $scope.error = "An error has occurred while deleting  My Home details" + data;
+                      $scope.error = "An error has occurred while deleting Hive details" + data;
                   });
               }*/
         };
@@ -557,7 +574,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         $scope.MyHomeDelete = function (Delete_Id, rowIndex, UserId) {
 
             Swal.fire({
-                title: 'Do you like to delete this My Home Id Details?',
+                title: 'Do you like to delete this Hive Id Details?',
                 html: '',
                 showDenyButton: true,
                 showCancelButton: false,
@@ -599,7 +616,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 }
             })
 
-            //var del = confirm("Do you like to delete this My Home Id Details?");
+            //var del = confirm("Do you like to delete this Hive Id Details?");
             //if (del == true) {
             //    var Previous_MyHomeItem = [];
             //    if ($scope.Id == 0) {
@@ -664,7 +681,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
 
         $scope.MyDeviceDelete = function (Delete_Id, rowIndex) {
             Swal.fire({
-                title: 'Do you like to delete this My Home Device Details?',
+                title: 'Do you like to delete this Hive Device Details?',
                 html: '',
                 showDenyButton: true,
                 showCancelButton: false,
@@ -705,7 +722,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 }
             });
         };
-        /*var del = confirm("Do you like to delete this My Home Device Details?");
+        /*var del = confirm("Do you like to delete this Hive Device Details?");
         if (del == true) {
             var Previous_MyDeviceItem = [];
             if ($scope.Id == 0) {
@@ -764,12 +781,12 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             //}
             if (TSDuplicate == 1) {
                 //alert('User Name already exist, cannot be Duplicated');
-                toastr.info("User Name already exist, cannot be Duplicated", "info");
+                toastr.warning("User Name already exist, cannot be Duplicated", "info");
                 return false;
             }
             if (UserEmpty == 1) {
                 //alert('Data missing in user info tab');
-                toastr.warning("User Name already exist, cannot be Duplicated", "warning");
+                toastr.warning("Data missing in user info tab", "warning");
                 return false;
             }
             var DuplicateDevice = 0;
@@ -791,7 +808,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             });
             if (DuplicateDevice == 1) {
                 //alert('Device already exist, cannot be Duplicated');
-                toastr.info("Device already exist, cannot be Duplicated", "info");
+                toastr.warning("Device already exist, cannot be Duplicated", "info");
                 return false;
             }
             if (DeviceEmpty == 1) {
@@ -799,7 +816,6 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 toastr.warning("Data missing in Device tab", "warning");
                 return false;
             }
-
 
             return true;
         }
@@ -848,14 +864,14 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                         HiveType: HiveType
                     };
                     $('#savemytab').attr("disabled", true);
-                    $http.post(baseUrl + '/api/MyHome/Tab_InsertUpdate/', obj).success(function (data) {
+                    $http.post(baseUrl + '/api/MyHome/Tab_Insert_Update/', obj).success(function (data) {
                         $("#chatLoaderPV").hide();
                         //alert(data.Message);
                         if (data.ReturnFlag == 1) {
                             toastr.success(data.Message, "success");
                         }
                         else if (data.ReturnFlag == 0) {
-                            toastr.info(data.Message, "info");
+                            toastr.warning(data.Message, "warning");
                         }
                         $('#savemytab').attr("disabled", false);
                         $scope.TabList(HiveType);

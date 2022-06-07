@@ -13,6 +13,7 @@ namespace MyCortex.Repositories
         TabListModel Tab_ListView(int id);
         void Tab_List_Delete(int Id);
         IList<TabListModel> Tab_InsertUpdate(TabListModel obj);
+        IList<TabListModel> Tab_Insert_Update(TabListModel obj);
         IList<TabUserPinModel> Tab_User_Pin_Update(TabUserPinModel obj);
         TabIdReturnModels Get_Tab_ID(long InstitutionId, string Ref_ID);
         IList<TabDevicesModel> Get_TabDevices(long Institution_ID, long Tab_ID);

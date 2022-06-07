@@ -81,7 +81,7 @@ namespace MyCortex.User.Controllers
             /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<TabListModel> ModelData = new List<TabListModel>();
             TabUserReturnModels model = new TabUserReturnModels();
-            
+
 
             string messagestr = "";
             try
@@ -126,6 +126,115 @@ namespace MyCortex.User.Controllers
                     messagestr = "Maximum Number of Hive Chart Users License reached already, new Hive Chart user cannot be created";
                     model.ReturnFlag = 0;
                     model.Status = "False";
+                }
+                model.TabUserDetails = ModelData;
+                model.Message = messagestr;
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+                model.Status = "False";
+                model.Message = "Error in creating MyHome";
+                model.TabUserDetails = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        [CheckSessionOutFilter]
+        public HttpResponseMessage Tab_Insert_Update([FromBody] TabListModel obj)
+        {
+            /* _AppLogger = this.GetType().FullName;*/
+            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+            IList<TabListModel> ModelData = new List<TabListModel>();
+            TabUserReturnModels model = new TabUserReturnModels();
+            
+
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.Tab_Insert_Update(obj);
+                if (ModelData.Any(item => item.Flag == 0) == true)
+                {
+                    if (ModelData.Any(item => item.HiveType == 1) == true)
+                    {
+                        messagestr = "Hive created successfully!";
+                    } 
+                    else
+                    {
+                        messagestr = "Hive Chart created successfully!";
+                    }
+                        
+                    model.ReturnFlag = 1;
+                }
+                else if (ModelData.Any(item => item.Flag == 1) == true)
+                {
+                    if (ModelData.Any(item => item.HiveType == 1) == true)
+                    {
+                        messagestr = "Hive updated successfully!";
+                    }
+                    else
+                    {
+                        messagestr = "Hive Chart updated successfully!";
+                    }
+
+                    model.ReturnFlag = 1;
+                }
+                else if (ModelData.Any(item => item.Flag == 2) == true)
+                {
+                    if (ModelData.Any(item => item.HiveType == 1) == true)
+                    {
+                        messagestr = "Hive Name already exists, can't be Duplicated!";
+                    } 
+                    else
+                    {
+                        messagestr = "Hive Chart Name already exists, can't be Duplicated!";
+                    }
+                    model.ReturnFlag = 0;
+                }
+                else if (ModelData.Any(item => item.Flag == 3) == true)
+                {
+                    messagestr = "Don't have Hive subscription!";
+                    model.ReturnFlag = 0;
+                }
+                else if (ModelData.Any(item => item.Flag == 4) == true)
+                {
+                    messagestr = "Hive subscription limit exceeded!";
+                    model.ReturnFlag = 0;
+                }
+                else if (ModelData.Any(item => item.Flag == 5) == true)
+                {
+                    messagestr = "Don't have Hive User subscription!";
+                    model.ReturnFlag = 0;
+                }
+                else if (ModelData.Any(item => item.Flag == 6) == true)
+                {
+                    messagestr = "Hive User subscription limit exceeded!";
+                    model.ReturnFlag = 0;
+                }
+                else if (ModelData.Any(item => item.Flag == 7) == true)
+                {
+                    messagestr = "Don't have Hive Chart subscription!";
+                    model.ReturnFlag = 0;
+                }
+                else if (ModelData.Any(item => item.Flag == 8) == true)
+                {
+                    messagestr = "Hive Chart subscription limit exceeded!";
+                    model.ReturnFlag = 0;
+                }
+                else if (ModelData.Any(item => item.Flag == 9) == true)
+                {
+                    messagestr = "Don't have Hive Chart User subscription!";
+                    model.ReturnFlag = 0;
+                }
+                else if (ModelData.Any(item => item.Flag == 10) == true)
+                {
+                    messagestr = "Hive Chart User subscription limit exceeded!";
+                    model.ReturnFlag = 0;
                 }
                 model.TabUserDetails = ModelData;
                 model.Message = messagestr;
