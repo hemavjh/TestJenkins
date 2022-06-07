@@ -16,7 +16,7 @@ namespace MyCortex.Repositories
         void EmailTemplate_Active(int Id);
         void EmailTemplate_Delete(int Id);
         IList<TagListModels> TemplateTag_List(long Institution_Id);
-        IList<TagListMappingModels> SectionEmailTemplateTagMapping_List(long Id, long Institution_Id, string SectionName);
+        IList<TagListMappingModels> SectionEmailTemplateTagMapping_List(long Id, long Institution_Id, string SectionName,int Type);
         IList<TagListMappingModels> EmailTemplateTagMapping_List(long Id, long Institution_Id);
 
     }

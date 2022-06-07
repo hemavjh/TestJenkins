@@ -65,5 +65,6 @@ namespace MyCortex.Template.Models
          public string Description { get; set; }
          public string SectionName { get; set; }
          public int IsActive { get; set; }
+        public int Type { get; set; }
      }
 }

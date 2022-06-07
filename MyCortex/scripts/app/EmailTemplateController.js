@@ -101,7 +101,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                 $scope.Type = "3";//For SMS
             }
             if (InsTagType != "" && InsTagType != "0" && InsTagType != 0) {
-                $http.get(baseUrl + '/api/EmailTemplate/SectionEmailTemplateTagMapping_List/?Id=' + 0 + '&Institution_Id=' + $scope.InstituteId + '&SectionName=' + $scope.SectionType).success(function (data) {
+                $http.get(baseUrl + '/api/EmailTemplate/SectionEmailTemplateTagMapping_List/?Id=' + 0 + '&Institution_Id=' + $scope.InstituteId + '&SectionName=' + $scope.SectionType + '&Type=' + $scope.Type).success(function (data) {
                     $scope.TemplateTagMappingList = data;
                 });
             }
@@ -214,7 +214,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
             else if ($scope.PageParameter == 3) {
                 $scope.Type = "3";//For SMS
             }
-            $http.get(baseUrl + '/api/EmailTemplate/SectionEmailTemplateTagMapping_List/?Id=' + 0 + '&Institution_Id=' + $scope.InstituteId + '&SectionName=' + $scope.SectionType).success(function (data) {
+            $http.get(baseUrl + '/api/EmailTemplate/SectionEmailTemplateTagMapping_List/?Id=' + 0 + '&Institution_Id=' + $scope.InstituteId + '&SectionName=' + $scope.SectionType + '&Type=' + $scope.Type).success(function (data) {
                 $scope.TemplateTagMappingList = data;
             });
         };

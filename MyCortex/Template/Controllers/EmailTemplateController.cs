@@ -219,14 +219,14 @@ namespace MyCortex.Template.Controllers
         /// <param name="SectionName">Section Name</param>
         /// <returns>Section Based Email Template and Tag mapping list for the institution</returns>
         [HttpGet]
-        public IList<TagListMappingModels> SectionEmailTemplateTagMapping_List(long Id, long Institution_Id, string SectionName)
+        public IList<TagListMappingModels> SectionEmailTemplateTagMapping_List(long Id, long Institution_Id, string SectionName, int Type)
         {
             /* _AppLogger = this.GetType().FullName;*/
             /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<TagListMappingModels> model;
             try
             {
-                model = repository.SectionEmailTemplateTagMapping_List(Id, Institution_Id, SectionName);
+                model = repository.SectionEmailTemplateTagMapping_List(Id, Institution_Id, SectionName, Type);
                 return model;
             }
             catch (Exception ex)
