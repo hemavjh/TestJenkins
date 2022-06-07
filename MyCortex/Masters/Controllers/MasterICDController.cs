@@ -23,9 +23,9 @@ namespace MyCortex.Masters.Controllers
     {
         static readonly IMasterICDReposistory repository = new MasterICDRepository();
  
-        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
-        /*string*/
-            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         /// <summary>
         /// ICD category master name list
@@ -35,8 +35,8 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<CategoryMasterModel> CategoryMasterList(long Institution_Id)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<CategoryMasterModel> model;
             try
             {
@@ -45,7 +45,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }

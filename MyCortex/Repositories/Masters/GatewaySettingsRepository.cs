@@ -17,14 +17,14 @@ namespace MyCortex.Repositories.Masters
  
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
 
-        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
-        /*string*/
-            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         public IList<GatewaySettingsModel> GatewaySettings_List(long Institution_Id, Guid Login_Session_Id)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
@@ -45,15 +45,15 @@ namespace MyCortex.Repositories.Masters
             catch (Exception ex)
             {
  
-               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
 
         public IList<GatewaySettingsModel> GatewaySettings_Details(long InstitutionId, long GatewayId, string GatewayKey)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
             param.Add(new DataParameter("@GATEWAY_ID", GatewayId));
@@ -75,15 +75,15 @@ namespace MyCortex.Repositories.Masters
             catch (Exception ex)
             {
  
-               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
 
         public int GatewaySettings_Update(List<GatewaySettingsModel> obj)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 int retid = 0;
@@ -107,15 +107,15 @@ namespace MyCortex.Repositories.Masters
             catch (Exception ex)
             {
  
-               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return 0;
             }
         }
 
         public int GatewayDefault_Save(long InstitutionId, long GatewayTypeId, long GatewayId)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 List<DataParameter> param = new List<DataParameter>();
@@ -128,15 +128,15 @@ namespace MyCortex.Repositories.Masters
             catch (Exception ex)
             {
  
-               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return 0;
             }
         }
 
         public string PatientAmount(long Institution_Id, long Department_Id, long Appointment_Id)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 List<DataParameter> param = new List<DataParameter>();
@@ -149,7 +149,7 @@ namespace MyCortex.Repositories.Masters
             catch (Exception ex)
             {
  
-               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return "0";
             }
 }

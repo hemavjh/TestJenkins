@@ -23,9 +23,9 @@ namespace MyCortex.Admin.Controllers
     public class InstitutionSubscriptionController : ApiController
     {
         static readonly IInstitutionSubscriptionRepository repository = new InstitutionSubscriptionRepository();
-        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
-        /*string*/
-        /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+        _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         /// <summary>
         /// Institution subscription details of a institution subscription
@@ -46,8 +46,8 @@ namespace MyCortex.Admin.Controllers
         /// <returns></returns>
         public HttpResponseMessage InstitutionSubscription_AddEdit(Guid Login_Session_Id, [FromBody] InstitutionSubscriptionModel insobj)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<InstitutionSubscriptionModel> ModelData = new List<InstitutionSubscriptionModel>();
             InstitutionSubscriptionReturnModels model = new InstitutionSubscriptionReturnModels();
             if (!ModelState.IsValid)
@@ -96,7 +96,7 @@ namespace MyCortex.Admin.Controllers
             }
             catch(Exception ex)
             {
-                /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating Subscription";
                 model.Institute = ModelData;

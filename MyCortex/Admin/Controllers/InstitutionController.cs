@@ -23,9 +23,9 @@ namespace MyCortex.Admin.Controllers
     public class InstitutionController : ApiController
     {
         static readonly IInstitutionRepository repository = new InstitutionRepository();
-        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
-        /*string*/
-        /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+        _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         /// <summary>
         /// To insert/update Instituion Master
@@ -34,8 +34,8 @@ namespace MyCortex.Admin.Controllers
         /// <returns>Inserted/Updated Institution object</returns>
         public HttpResponseMessage Institution_AddEdit([FromBody] InstitutionModel insobj)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<InstitutionModel> ModelData=new List<InstitutionModel>();
                 InstitutionReturnModels model = new InstitutionReturnModels();
                 if (!ModelState.IsValid)
@@ -96,7 +96,7 @@ namespace MyCortex.Admin.Controllers
                 }
                 catch(Exception ex)
                 {
-                /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                     model.Message = "Error in creating Institution";
                     model.Institute = ModelData;
@@ -140,8 +140,8 @@ namespace MyCortex.Admin.Controllers
         [HttpPost]
         public List<string> AttachPhoto(int Id)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             var UserId = Id;
             HttpResponseMessage result = null;
             string filePath = "";
@@ -178,7 +178,7 @@ namespace MyCortex.Admin.Controllers
             }
             catch (Exception ex)
             {
-                /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
 
             }
             return docfiles;

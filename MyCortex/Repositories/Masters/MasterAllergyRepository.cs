@@ -18,9 +18,9 @@ namespace MyCortex.Repositories.Masters
  
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
 
-        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
-        /*string*/
-            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         public MasterAllergyRepository()
         {
@@ -84,8 +84,8 @@ namespace MyCortex.Repositories.Masters
 
         public IList<MasterAllergyModel> MasterAllergy_AddEdit(MasterAllergyModel obj)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
 
             param.Add(new DataParameter("@ID", obj.Id));
@@ -95,7 +95,7 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@INSTITUTION_ID", obj.InstitutionId));
             param.Add(new DataParameter("@CREATED_BY", obj.Created_By));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[AllergyMASTER_SP_INSERTUPDATE]", param);
@@ -115,7 +115,7 @@ namespace MyCortex.Repositories.Masters
             catch (Exception ex)
             {
  
-               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -177,20 +177,19 @@ namespace MyCortex.Repositories.Masters
         /// <returns>success response of deactivate</returns>
         public void AllergyMaster_Delete(int Id)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 ClsDataBase.Update("[MYCORTEX].[ALLERGYMASTER_SP_DELETE]", param);
             }
             catch (Exception ex)
             {
-                //_MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
-               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
         }
 
@@ -202,11 +201,11 @@ namespace MyCortex.Repositories.Masters
         /// <returns>activated patient allergy</returns>
         public IList<MasterAllergyModel> AllergyMaster_Active(MasterAllergyModel noteobj)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 // List<DataParameter> param = new List<DataParameter>();
@@ -224,7 +223,7 @@ namespace MyCortex.Repositories.Masters
             catch (Exception ex)
             {
  
-               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }

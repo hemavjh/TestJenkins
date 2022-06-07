@@ -18,9 +18,9 @@ namespace MyCortex.Repositories.Masters
  
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
 
-        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
-        /*string*/
-            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
         public ParameterSettingsRepository()
         {
             db = new ClsDataBase();
@@ -33,8 +33,8 @@ namespace MyCortex.Repositories.Masters
 
         public IList<ProtocolParameterMasterModel> ProtocolParameterMasterList()
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PARAMETERMASTER_SP_LIST");
@@ -49,7 +49,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -59,8 +59,8 @@ namespace MyCortex.Repositories.Masters
 
         public IList<UnitsMasterModel> UnitMasterList()
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].UNITSMASTER_SP_LIST");
@@ -76,7 +76,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -93,8 +93,8 @@ namespace MyCortex.Repositories.Masters
         
         public int ParameterSettings_AddEdit(List<ParamaterSettingsModel> obj)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 int retid = 0;
@@ -141,7 +141,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return 0;
             }
         }
@@ -156,13 +156,13 @@ namespace MyCortex.Repositories.Masters
         
         public IList<ParamaterSettingsModel> ViewEditProtocolParameters(int Id, int? Unitgroup_Type)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Institution_Id", Id));
             param.Add(new DataParameter("@UnitGroup_ID", Unitgroup_Type));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PARAMETER_UNITSETTINGS_SP_VIEWEDIT", param);
@@ -192,7 +192,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -204,8 +204,8 @@ namespace MyCortex.Repositories.Masters
         /// <returns> unit list of a parameter</returns>
         public IList<ParamaterSettingsModel> ParameterMappingList(int? Parameter_Id, int? Institution_Id, int? Unitgroup_Type)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 List<DataParameter> param = new List<DataParameter>();
@@ -232,15 +232,15 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
 
         public IList<ParamaterSettingsModel> AllParameterMappingList()
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 List<DataParameter> param = new List<DataParameter>();
@@ -264,18 +264,18 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
 
         public bool UnitGroupPreferenceSave(Int64 InstitutionId, int PreferenceType)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
@@ -285,7 +285,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return false;
             }
         }
@@ -293,11 +293,11 @@ namespace MyCortex.Repositories.Masters
         public int UnitGroupPreferenceGet(Int64 InstitutionId)
         {
             int preferenceType = 1;
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
@@ -306,7 +306,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return preferenceType;
             }
         }

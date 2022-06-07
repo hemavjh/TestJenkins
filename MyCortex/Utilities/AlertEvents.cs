@@ -33,9 +33,9 @@ namespace MyCortex.Notification
         static readonly IEmailConfigurationRepository emailrepository = new EmailConfigurationRepository();
  
 
-        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
-        /*string */
-            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+       string 
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
         public IList<AlertEventModel> AlertEvent_GenerateTemplate(long Entity_Id, long Institution_Id, string Event_Code)
         {
             IList<AlertEventModel> EventTemplatemodel;
@@ -51,8 +51,8 @@ namespace MyCortex.Notification
         }
         public void SendAlert_Email_Notification(AlertEventResultModel alertList, EmailConfigurationModel emailModel, long Institution_Id, int emailType, long EntityId, string EventCode)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             foreach (AlertEventModel alert in alertList.AlertEventTemplateList)
             {
                 if (alertList.AlertEventEmailList != null)
@@ -216,8 +216,8 @@ namespace MyCortex.Notification
         
         public int Generate_Email_Notification(string EventCode, long EntityId, long Institution_Id, IList<EmailListModel> EmailList)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<AlertEventModel> AlertEventTemplate;
@@ -231,15 +231,15 @@ namespace MyCortex.Notification
             }
             catch(Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return 0;
             }
         }
 
         public int Generate_SMTPEmail_Notification(string EventCode, long EntityId, long Institution_Id, IList<EmailListModel> EmailList)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<AlertEventModel> EventTemplatemodel;
@@ -259,15 +259,15 @@ namespace MyCortex.Notification
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return 0;
             }
         }
 
         public int Generate_SMTPEmail_Notification_For_ChangePwd(string url, long EntityId, long Institution_Id, IList<EmailListModel> EmailList)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<AlertEventModel> EventTemplatemodel = new List<AlertEventModel>();
@@ -295,7 +295,7 @@ namespace MyCortex.Notification
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return 0;
             }
         }

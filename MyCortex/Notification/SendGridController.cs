@@ -16,9 +16,9 @@ namespace MyCortex.SendGrid.Controllers
     {
 
         static readonly ISendEmailRepository repository = new SendEmailRepository();
-        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
-       /* string*/
-            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+       string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         /// <summary>
         /// Post Sendgrid action 
@@ -28,16 +28,16 @@ namespace MyCortex.SendGrid.Controllers
         [ValidateInput(false)]
         public ActionResult SendGrid()
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
-                /*_MyLogger.Exceptions("INFO", _AppLogger, "Post SendGrid", null, _AppMethod);*/
+                _MyLogger.Exceptions("INFO", _AppLogger, "Post SendGrid", null, _AppMethod);
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 System.IO.StreamReader reader = new System.IO.StreamReader(HttpContext.Current.Request.InputStream);
                 string rawSendGridJson = reader.ReadToEnd();
-                
-                /*_MyLogger.Exceptions("INFO", _AppLogger, rawSendGridJson, null, _AppMethod);*/
+
+                _MyLogger.Exceptions("INFO", _AppLogger, rawSendGridJson, null, _AppMethod);
 
                 List<SendGridEvents> events = serializer.Deserialize<List<SendGridEvents>>(rawSendGridJson);
                 
@@ -49,7 +49,7 @@ namespace MyCortex.SendGrid.Controllers
             }
             catch (Exception exception)
             {
-                    /*_MyLogger.Exceptions("ERROR", _AppLogger, exception.Message, exception, _AppMethod);*/
+                _MyLogger.Exceptions("ERROR", _AppLogger, exception.Message, exception, _AppMethod);
             }
             return new HttpStatusCodeResult(200);
         }

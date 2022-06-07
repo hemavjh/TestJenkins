@@ -24,9 +24,9 @@ namespace MyCortex.Masters.Controllers
 
         static readonly IShiftTimingsRepository repository = new ShiftTimingsRepository();
  
-        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
-        /*string*/
-            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         /// <summary>
         /// Admin  --> AV/Chat Settings --> Add/Edit Page
@@ -38,8 +38,8 @@ namespace MyCortex.Masters.Controllers
         [HttpPost]
         public HttpResponseMessage ShiftTimings_InsertUpdate(Guid Login_Session_Id, [FromBody] ShiftTimingsModel insobj)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<ShiftTimingsModel> ModelData = new List<ShiftTimingsModel>();
             ShiftTimingsReturnModels model = new ShiftTimingsReturnModels();
             if (!ModelState.IsValid)
@@ -76,7 +76,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating Shift Slot";
                 model.ShiftTiming = ModelData;
@@ -94,8 +94,8 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<ShiftTimingsModel> ShiftTimings_List(int? IsActive, long InstituteId, Guid Login_Session_Id)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<ShiftTimingsModel> model;
             try
             {
@@ -104,7 +104,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -118,18 +118,18 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public ShiftTimingsModel ShiftTimings_View(long Id, Guid Login_Session_Id)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             ShiftTimingsModel model=new ShiftTimingsModel();
             try
             {
-                /*_MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);*/
+               _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.ShiftTimings_View(Id, Login_Session_Id);
                 return model;
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -143,8 +143,8 @@ namespace MyCortex.Masters.Controllers
 
         public HttpResponseMessage ShiftTimings_InActive([FromBody] ShiftTimingsModel noteobj)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<ShiftTimingsModel> ModelData = new List<ShiftTimingsModel>();
             ShiftTimingsReturnModels model = new ShiftTimingsReturnModels();
             if (!ModelState.IsValid)
@@ -173,7 +173,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating Patient Shift Slot";
                 model.ReturnFlag = 0;
@@ -189,8 +189,8 @@ namespace MyCortex.Masters.Controllers
         [HttpPost]
         public HttpResponseMessage ShiftTimings_Active([FromBody] ShiftTimingsModel noteobj)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<ShiftTimingsModel> ModelData = new List<ShiftTimingsModel>();
             ShiftTimingsReturnModels model = new ShiftTimingsReturnModels();
             if (!ModelState.IsValid)
@@ -219,7 +219,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in creating Patient Shift Slot";
                 model.ReturnFlag = 0;
@@ -240,8 +240,8 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public ShiftTimingsModel ActivateShiftTiming_List(long Id, long Institution_Id)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             ShiftTimingsModel model = new ShiftTimingsModel();
             try
             {
@@ -250,7 +250,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-               /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
 

@@ -17,9 +17,9 @@ namespace MyCortex.Repositories.Masters
         ClsDataBase db;
  
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
-        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
-        /*string*/
-            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         public ChatSettingsRepository()
         {
@@ -36,12 +36,12 @@ namespace MyCortex.Repositories.Masters
 
         public IList<ChatSettingsModel> ViewEditChatSettings(int Id)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].AVCHATADMIN_SETTINGS_SP_VIEWEDIT", param);
@@ -65,18 +65,18 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
 
         public bool ChatPreferenceSave(Int64 InstitutionId, int PreferenceType)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
@@ -86,20 +86,20 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return false;
             }
         }
 
         public int ChatPreferenceGet(Int64 InstitutionId)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             int preferenceType = 1;
 
             List<DataParameter> param = new List<DataParameter>();
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
@@ -108,7 +108,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return preferenceType;
             }
         }
@@ -121,8 +121,8 @@ namespace MyCortex.Repositories.Masters
 
         public IList<ChatSettingsModel> ChatSettings_AddEdit(ChatSettingsModel obj)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             int retid;
            
                 List<DataParameter> param = new List<DataParameter>();
@@ -134,7 +134,7 @@ namespace MyCortex.Repositories.Masters
                 param.Add(new DataParameter("@CREATED_BY", HttpContext.Current.Session["UserId"]));
 
                 var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-                /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
+                _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
                 try
                 {
                     DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].AVCHATADMIN_SETTINGS_SP_INSERTUPDATE", param);
@@ -157,7 +157,7 @@ namespace MyCortex.Repositories.Masters
                 }
                 catch (Exception ex)
                 {
-                  /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+                  _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                     return null;
                 }          
         }
@@ -169,11 +169,11 @@ namespace MyCortex.Repositories.Masters
         /// <returns>List of Usertypes Details</returns>
         public IList<UserTypeModel> ChatSettingsUserType_List()
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
               var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].USERTYPE_GENERAL_LIST");
@@ -188,7 +188,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }

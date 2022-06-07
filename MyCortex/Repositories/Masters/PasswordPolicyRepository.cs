@@ -18,9 +18,9 @@ namespace MyCortex.Repositories.Admin
  
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
 
-        /*private MyCortexLogger _MyLogger = new MyCortexLogger();*/
-        /*string*/
-            /*_AppLogger = string.Empty, _AppMethod = string.Empty;*/
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
         public PasswordPolicyRepository()
         {
             db = new ClsDataBase();
@@ -80,12 +80,12 @@ namespace MyCortex.Repositories.Admin
         /* This is for password policy Details  view function*/
         public PasswordPolicyModel PasswordPolicy_View(long Institution_Id)
         {
-            /* _AppLogger = this.GetType().FullName;*/
-            /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
+             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 // DataTable dt = ClsDataBase.GetDataTable("PasswordPolicy_SP_ViewEdit", param);
@@ -118,7 +118,7 @@ namespace MyCortex.Repositories.Admin
             }
             catch (Exception ex)
             {
-              /* _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);*/
+              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
