@@ -33,8 +33,10 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
         $scope.AppointmentModuleId = "0";
         $scope.Health_Care_Professionals = "";
         $scope.Patients = "";
-        $scope.Hive = "";
-        $scope.HiveChart = "";
+        $scope.Hive = 0;
+        $scope.HiveChart = 0;
+        $scope.Hive_Users = 0;
+        $scope.HiveChart_Users = 0;
         $scope.Contract_Period_From = "";
         $scope.Contract_Period_To = "";
         $scope.V_Contract_Period_From = "";
@@ -343,7 +345,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                 toastr.warning("Please enter No. of Patients", "warning");
                 return false;
             }
-            else if (typeof ($scope.Hive) == "undefined" || $scope.Hive == "") {
+            /*else if (typeof ($scope.Hive) == "undefined" || $scope.Hive == "") {
                 //alert("Please enter No. of Health Care Professionals");
                 toastr.warning("Please enter No. of Hive", "warning");
                 return false;
@@ -362,7 +364,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                 //alert("Please enter No. of Health Care Professionals");
                 toastr.warning("Please enter No. of Hive Users", "warning");
                 return false;
-            }            
+            }         */   
             else if (typeof ($scope.Contract_Period_From) == "undefined" || $scope.Contract_Period_From == "") {
                 //alert("Please select Contract Period From");
                 toastr.warning("Please select Contract Period From", "warning");
@@ -397,6 +399,35 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                 toastr.warning("Please select Any One In Chronic Edi", "warning");
                 return false;
             }*/
+
+            if ($scope.Hive > 0) {
+                if (typeof ($scope.Hive_Users) == "undefined" || $scope.Hive_Users == "" || $scope.Hive_Users == 0) {
+                    toastr.warning("Please enter No. of Hive Users", "warning");
+                    return false;
+                }
+            }
+
+            if ($scope.Hive_Users > 0) {
+                if (typeof ($scope.Hive) == "undefined" || $scope.Hive == "" || $scope.Hive == 0) {
+                    toastr.warning("Please enter No. of Hive", "warning");
+                    return false;
+                }
+            }
+
+            if ($scope.HiveChart > 0) {
+                if (typeof ($scope.HiveChart_Users) == "undefined" || $scope.HiveChart_Users == "" || $scope.HiveChart_Users == 0) {
+                    toastr.warning("Please enter No. of HiveChart Users", "warning");
+                    return false;
+                }
+            }
+
+            if ($scope.HiveChart_Users > 0) {
+                if (typeof ($scope.HiveChart) == "undefined" || $scope.HiveChart == "" || $scope.HiveChart == 0) {
+                    ttoastr.warning("Please enter No. of HiveChart", "warning");
+                    return false;
+                }
+            }
+
             return true;
         };
         /*on click Save calling the insert update function for Institution Subscription */
@@ -719,8 +750,10 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
         $scope.ClearInstitutionSubscriptionPopup = function () {
             $scope.Health_Care_Professionals = "";
             $scope.Patients = "";
-            $scope.Hive = "";
-            $scope.HiveChart = "";
+            $scope.Hive = 0;
+            $scope.HiveChart = 0;
+            $scope.Hive_Users = 0;
+            $scope.HiveChart_Users = 0;
             $scope.Contract_Period_From = "";
             $scope.Contract_Period_To = "";
             $scope.Subscription_Type = "1";

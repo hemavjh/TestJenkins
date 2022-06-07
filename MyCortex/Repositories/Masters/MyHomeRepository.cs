@@ -78,7 +78,7 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@INSTITUTION_ID", insobj.InstitutionId));
             param.Add(new DataParameter("@TAB_NAME", insobj.TabName));
             //param.Add(new DataParameter("@REF_ID", insobj.RefId));
-            param.Add(new DataParameter("@MODEL", insobj.Model)); 
+            param.Add(new DataParameter("@MODEL", insobj.Model));
             param.Add(new DataParameter("@OS", insobj.OS));
             param.Add(new DataParameter("@CREATED_BY", insobj.CreatedBy));
             param.Add(new DataParameter("@VENDOR", ""));
@@ -97,10 +97,10 @@ namespace MyCortex.Repositories.Masters
                 DataTable dt_2 = ClsDataBase.GetDataTable("[MYCORTEX].[TABREFID_AUTOCREATIION_SP]", param_2);
                 /*_MyLogger.Exceptions("INFO", _AppLogger, "TABREFID_AUTOCREATIION_SP", null, _AppMethod);*/
                 TabListModel RefId = (from p in dt_2.AsEnumerable()
-                                             select new TabListModel()
-                                             {
-                                                 RefId = p.Field<string>("TABREFID"),
-                                             }).FirstOrDefault();
+                                      select new TabListModel()
+                                      {
+                                          RefId = p.Field<string>("TABREFID"),
+                                      }).FirstOrDefault();
                 param.Add(new DataParameter("@REF_ID", RefId.RefId));
             }
             else
@@ -126,19 +126,19 @@ namespace MyCortex.Repositories.Masters
                 {
                     if (insobj.UserList != null)
                     {
-                        
+
                         foreach (TabUserList item in insobj.UserList)
                         {
-                                List<DataParameter> param1 = new List<DataParameter>();
-                                param1.Add(new DataParameter("@Id", item.ID));
-                                param1.Add(new DataParameter("@User_Id", item.UserId));
-                                param1.Add(new DataParameter("@TAB_ID", InsertId));
-                                param1.Add(new DataParameter("@PIN", item.PIN));
-                                param1.Add(new DataParameter("@ISACTIVE", item.IsActive));
-                                param1.Add(new DataParameter("@CREATED_BY", insobj.CreatedBy));
-                                Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].[USER_SP_INSERTUPDATE_TABADDITIONALDETAILS]", param1, true);
+                            List<DataParameter> param1 = new List<DataParameter>();
+                            param1.Add(new DataParameter("@Id", item.ID));
+                            param1.Add(new DataParameter("@User_Id", item.UserId));
+                            param1.Add(new DataParameter("@TAB_ID", InsertId));
+                            param1.Add(new DataParameter("@PIN", item.PIN));
+                            param1.Add(new DataParameter("@ISACTIVE", item.IsActive));
+                            param1.Add(new DataParameter("@CREATED_BY", insobj.CreatedBy));
+                            Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].[USER_SP_INSERTUPDATE_TABADDITIONALDETAILS]", param1, true);
                         }
-                    
+
                     }
                     if (insobj.DevicesList != null)
                     {
@@ -146,9 +146,9 @@ namespace MyCortex.Repositories.Masters
                         {
                             List<DataParameter> param1 = new List<DataParameter>();
                             param1.Add(new DataParameter("@DeviceID", item.ID));
-                            param1.Add(new DataParameter("@TAB_ID", InsertId)); 
+                            param1.Add(new DataParameter("@TAB_ID", InsertId));
                             param1.Add(new DataParameter("@CREATED_BY", insobj.CreatedBy));
-                            param1.Add(new DataParameter("@ISACTIVE", item.IsActive)); 
+                            param1.Add(new DataParameter("@ISACTIVE", item.IsActive));
                             var objExist = insobj.SelectedTabDeviceList.Where(ChildItem => ChildItem.DeviceId == item.ID);
 
                             if (objExist.ToList().Count > 0)
@@ -161,21 +161,21 @@ namespace MyCortex.Repositories.Masters
                         }
                     }
                 }
-                    IList<TabListModel> INS = (from p in dt.AsEnumerable()
-                                            select
-                                            new TabListModel()
-                                            {
-                                                    //  Id = p.Field<long>("ID"),
+                IList<TabListModel> INS = (from p in dt.AsEnumerable()
+                                           select
+                                           new TabListModel()
+                                           {
+                                                //  Id = p.Field<long>("ID"),
                                                 //ID = p.Field<long>("ID"),
                                                 TabName = p.Field<string>("TAB_NAME"),
-                                                RefId = p.Field<string>("REF_ID"),
-                                                Model = p.Field<string>("MODEL"),
-                                                OS = p.Field<string>("OS"),
-                                                UsersCount = p.Field<int>("NUMBER_USERS"),
-                                                DevicesCount = p.Field<int>("NUMBER_DEVICES"),
-                                                IsActive = p.Field<bool>("ISACTIVE"),
-                                                Flag = p.Field<int>("flag")
-                                            }).ToList();
+                                               RefId = p.Field<string>("REF_ID"),
+                                               Model = p.Field<string>("MODEL"),
+                                               OS = p.Field<string>("OS"),
+                                               UsersCount = p.Field<int>("NUMBER_USERS"),
+                                               DevicesCount = p.Field<int>("NUMBER_DEVICES"),
+                                               IsActive = p.Field<bool>("ISACTIVE"),
+                                               Flag = p.Field<int>("flag")
+                                           }).ToList();
                 return INS;
 
             }
@@ -184,7 +184,92 @@ namespace MyCortex.Repositories.Masters
               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
-            
+        }
+
+        public IList<TabListModel> Tab_Insert_Update(TabListModel insobj)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ID", insobj.ID));
+            param.Add(new DataParameter("@INSTITUTION_ID", insobj.InstitutionId));
+            param.Add(new DataParameter("@TAB_NAME", insobj.TabName));
+            param.Add(new DataParameter("@MODEL", insobj.Model));
+            param.Add(new DataParameter("@VENDOR", ""));
+            param.Add(new DataParameter("@OS", insobj.OS));
+            param.Add(new DataParameter("@CREATED_BY", insobj.CreatedBy));
+            param.Add(new DataParameter("@HIVETYPE", insobj.HiveType));
+            param.Add(new DataParameter("@USERCOUNT", insobj.UserList.Count));
+
+            if (insobj.UserList != null)
+            {
+                string userxmlData = "<Users>";
+                foreach (TabUserList item in insobj.UserList)
+                {
+                    userxmlData = userxmlData + "<User>";
+                    userxmlData = userxmlData + "<Id>" + item.ID + "</Id>";
+                    userxmlData = userxmlData + "<User_Id>" + item.UserId + "</User_Id>";
+                    userxmlData = userxmlData + "<PIN>" + item.PIN + "</PIN>";
+                    userxmlData = userxmlData + "<CREATED_BY>" + insobj.CreatedBy + "</CREATED_BY>";
+                    userxmlData = userxmlData + "<ISACTIVE>" + item.IsActive + "</ISACTIVE>";
+                    userxmlData = userxmlData + "</User>";
+                }
+                userxmlData = userxmlData + "</Users>";
+                param.Add(new DataParameter("@Users", userxmlData));
+            }
+
+            if (insobj.DevicesList != null)
+            {
+                string devicexmlData = "<Devices>";
+                foreach (TabDevicesList item in insobj.DevicesList)
+                {
+                    devicexmlData = devicexmlData + "<Device>";
+                    devicexmlData = devicexmlData + "<DEVICE_ID>" + item.ID + "</DEVICE_ID>";
+                    devicexmlData = devicexmlData + "<CREATED_BY>" + insobj.CreatedBy + "</CREATED_BY>";
+                    devicexmlData = devicexmlData + "<ISACTIVE>" + item.IsActive + "</ISACTIVE>";
+                    devicexmlData = devicexmlData + "</Device>";
+                }
+                devicexmlData = devicexmlData + "</Devices>";
+                param.Add(new DataParameter("@Devices", devicexmlData));
+            }
+
+
+            if (insobj.ID == 0)
+            {
+                List<DataParameter> param_2 = new List<DataParameter>();
+                param_2.Add(new DataParameter("@INSTITUTION_ID", insobj.InstitutionId));
+                param_2.Add(new DataParameter("@USER_ID", insobj.CreatedBy));
+                DataTable dt_2 = ClsDataBase.GetDataTable("[MYCORTEX].[TABREFID_AUTOCREATIION_SP]", param_2);
+
+                TabListModel RefId = (from p in dt_2.AsEnumerable()
+                                      select new TabListModel()
+                                      {
+                                          RefId = p.Field<string>("TABREFID"),
+                                      }).FirstOrDefault();
+                param.Add(new DataParameter("@REF_ID", RefId.RefId));
+            }
+            else
+            {
+                param.Add(new DataParameter("@REF_ID", insobj.RefId));
+            }
+
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[asp_SAV_Hive_Details]", param);
+
+            IList<TabListModel> INS = (from p in dt.AsEnumerable()
+                                       select
+                                       new TabListModel()
+                                       {
+                                           //  Id = p.Field<long>("ID"),
+                                           //ID = p.Field<long>("ID"),
+                                           TabName = p.Field<string>("TAB_NAME"),
+                                           RefId = p.Field<string>("REF_ID"),
+                                           Model = p.Field<string>("MODEL"),
+                                           OS = p.Field<string>("OS"),
+                                           UsersCount = p.Field<int>("NUMBER_USERS"),
+                                           DevicesCount = p.Field<int>("NUMBER_DEVICES"),
+                                           IsActive = p.Field<bool>("ISACTIVE"),
+                                           Flag = p.Field<int>("flag"),
+                                           HiveType = p.Field<long>("HIVETYPE"),
+                                       }).ToList();
+            return INS;
         }
 
         public IList<TabUserPinModel> Tab_User_Pin_Update(TabUserPinModel insobj)
