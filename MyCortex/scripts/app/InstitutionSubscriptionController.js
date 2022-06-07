@@ -71,12 +71,15 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             $scope.Institution_Id = "0";
             $scope.TimeZone_Id = "0";
             $scope.Hcp_Pat = false;
+            $scope.status = 1;
+            $scope.Institutestatus();
             $scope.ClearInstitutionSubscriptionPopup();
             //document.getElementById("Contract_Period_To").min = $scope.StartToDateMin;
             $scope.Contract_Period_From = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
             $scope.Contract_Period_To = DateFormatEdit($filter('date')(new Date(new Date().setDate(new Date().getDate() + 30)), 'dd-MMM-yyyy'));
             $('#btnsave').attr("disabled", false);
             $('#btnsave1').attr("disabled", false);
+            $("#insselectpicker").attr("disabled", false);
             $scope.EditInstSub = 0;
             angular.element('#InstitutionSubscriptionCreateModal').modal('show');
         }
@@ -97,8 +100,11 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                 $scope.ClearInstitutionSubscriptionPopup();
                 $scope.Id = InsSubId;
                 $scope.Hcp_Pat = true;
+                $scope.status = 0;
+                $scope.Institutestatus();
                 $scope.InstitutionSubscriptionDetails_View();
                 $('#btnsave').attr("disabled", false);
+                $("#insselectpicker").attr("disabled", true);
                 angular.element('#InstitutionSubscriptionCreateModal').modal('show');
                 $('#subscriptionrowid').prop('disabled', true);
                 $scope.EditInstSub = 1;
@@ -123,28 +129,29 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             $location.path("/SaveInstitution_Subscription/");
         };
         // This is for to get Institution Details List 
-        $scope.status = 0;
-        $http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).success(function (data) {
-            $scope.InstitutiondetailsListTemp = [];
-            $scope.InstitutiondetailsListTemp = data;
-            var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
-            $scope.InstitutiondetailsListTemp.splice(0, 0, obj);
-            //$scope.InstitutiondetailsListTemp.push(obj);
-            $scope.InstitutiondetailsList = angular.copy($scope.InstitutiondetailsListTemp);
-            $scope.Institution_Id = $scope.serviceData.toString();
+        $scope.Institutestatus = function () {
+            $http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).success(function (data) {
+                $scope.InstitutiondetailsListTemp = [];
+                $scope.InstitutiondetailsListTemp = data;
+                var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+                $scope.InstitutiondetailsListTemp.splice(0, 0, obj);
+                //$scope.InstitutiondetailsListTemp.push(obj);
+                $scope.InstitutiondetailsList = angular.copy($scope.InstitutiondetailsListTemp);
+                $scope.Institution_Id = $scope.serviceData.toString();
 
-            if ($scope.Institution_Id != "0") {
-                $('#divInssInstitute').removeClass("ng-invalid");
-                $('#divInssInstitute').addClass("ng-valid");
-            }
-            else {
-                $('#divInssInstitute').removeClass("ng-valid");
-                $('#divInssInstitute').addClass("ng-invalid");
-            }
+                if ($scope.Institution_Id != "0") {
+                    $('#divInssInstitute').removeClass("ng-invalid");
+                    $('#divInssInstitute').addClass("ng-valid");
+                }
+                else {
+                    $('#divInssInstitute').removeClass("ng-valid");
+                    $('#divInssInstitute').addClass("ng-invalid");
+                }
 
-            $scope.InstituteGetDetails();
+                $scope.InstituteGetDetails();
 
-        })
+            })
+        }
         // This is for to get Institution Modiule List 
         $http.get(baseUrl + '/api/InstitutionSubscription/ModuleNameList/').success(function (data) {
             // only active Module    
