@@ -1048,11 +1048,11 @@
                                 <!--<span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-if="row.PageType=='D'">{{row.Device_No}}/</span>-->
                                 <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
                                 <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
-     v>
+     <!--v>-->
                             </div>
-                            di
+                            <!--di-->
                         </div>
-                        /d
+                        <!--/d-->
                     </div>
                     <br ng-if="greencount==3" />
                     <div class="row" ng-show="ParameterValueList.length>=0" style="display: none" id="tableid6">
@@ -3896,13 +3896,13 @@
                                 </select>
                             </div>
                             <div class="inputGroups">
-                                <label>Private<sup><font class='mandatory-field'>*</font></sup></label>
-                                <input type="checkbox" ng-model="Flag" id="Flag" class="input-checkbox" value="{{Flag}}" ng-true-value="'Private'" ng-false-value="'Public'"  ng-click="FnPrivateChange()"/>
+                                <label>Flag<sup><font class='mandatory-field'>*</font></sup></label>
+                                <input type="checkbox" ng-model="Flag" id="Flag" class="input-checkbox" value="{{Flag}}" ng-true-value="'Private'" ng-false-value="'Public'" ng-click="FnPrivateChange()" />
                                 <!--<select ng-model="Flag" data-live-search="true" class="form-control" data-style="form-control" style="width: 160px;">
-                                    <option value="">Select</option>
-                                    <option value="Private">Private</option>
-                                    <option value="Public">Public</option>
-                                </select>-->
+        <option value="">Select</option>
+        <option value="Private">Private</option>
+        <option value="Public">Public</option>
+    </select>-->
                             </div>
                         </div>
 
@@ -4500,7 +4500,7 @@
                                 </div>
                             </div>
                         </div>
-                        /d
+                        <!--/d-->
                     </div>
                 </div>
             </div>

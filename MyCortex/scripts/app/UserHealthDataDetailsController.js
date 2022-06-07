@@ -7627,7 +7627,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
         $scope.NotesActive = true;
 
-        elcoe$scope.FnPrivateChange = function () {
+        $scope.FnPrivateChange = function () {
             if ($("#Flag").is(":checked") == true) {
                 $scope.Flag = 'Private';
             }
@@ -7698,8 +7698,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             else {
                 $scope.PatientNotesrowCollectionFilter = $ff($scope.PatientNotesrowCollection, function (value) {
                     return angular.lowercase(value.Notes).match(searchstring) ||
-                        angular.lowercase(value.NotesType).match(searchstring) ||
-                        angular.lowercase(value.Flag).match(searchstring) ||
+                        angular.lowercase(value.NotesType.toString()).match(searchstring) ||
+                        angular.lowercase(value.NotesFlag.toString()).match(searchstring) ||
                         angular.lowercase(value.Created_By_Name).match(searchstring) ||
                         angular.lowercase(($filter('date')(value.Created_Dt, "dd-MMM-yyyy hh:mm:ss a"))).match(searchstring);
                 });
