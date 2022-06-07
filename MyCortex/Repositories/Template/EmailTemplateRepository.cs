@@ -304,7 +304,7 @@ namespace MyCortex.Repositories.Template
         /// <param name="Institution_Id">Institution Id</param>
         /// <param name="SectionName">Section Name</param>
         /// <returns>Section Based Email Template and Tag mapping list for the institution</returns>
-        public IList<TagListMappingModels> SectionEmailTemplateTagMapping_List(long Id, long Institution_Id, string SectionName)
+        public IList<TagListMappingModels> SectionEmailTemplateTagMapping_List(long Id, long Institution_Id, string SectionName, int Type)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -316,6 +316,7 @@ namespace MyCortex.Repositories.Template
                 param.Add(new DataParameter("@Id", Id));
                 param.Add(new DataParameter("@Institution_Id", Institution_Id));
                 param.Add(new DataParameter("@Sectionname", SectionName));
+                param.Add(new DataParameter("@TAGTYPEID", Type));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[SECTIONTYPE_TAGTYPEMAPPING_SP_LIST]", param);
                 List<TagListMappingModels> lst = (from p in dt.AsEnumerable()
                                                   select new TagListMappingModels()

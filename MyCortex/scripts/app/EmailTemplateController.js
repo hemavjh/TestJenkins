@@ -82,12 +82,12 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
         $scope.OnChangeIns_TypeBasedTagList = function (InsTagType) {
             if (InsTagType == "1") {
                 $scope.SectionType = "BASIC";
-                //$scope.AlertTagName = TagType;
+                $scope.AlertTagName = InsTagType.toString();
                 $scope.InsTagType = InsTagType.toString();
             }
             if (InsTagType == "2") {
                 $scope.SectionType = "INS_SUB_DETAILS";
-                //$scope.AlertTagName = TagType;
+                $scope.AlertTagName = InsTagType.toString();
                 $scope.InsTagType = InsTagType.toString();
             }
             $scope.TemplateTagMappingList = [];
@@ -101,7 +101,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                 $scope.Type = "3";//For SMS
             }
             if (InsTagType != "" && InsTagType != "0" && InsTagType != 0) {
-                $http.get(baseUrl + '/api/EmailTemplate/SectionEmailTemplateTagMapping_List/?Id=' + 0 + '&Institution_Id=' + $scope.InstituteId + '&SectionName=' + $scope.SectionType).success(function (data) {
+                $http.get(baseUrl + '/api/EmailTemplate/SectionEmailTemplateTagMapping_List/?Id=' + 0 + '&Institution_Id=' + $scope.InstituteId + '&SectionName=' + $scope.SectionType + '&Type=' + $scope.Type).success(function (data) {
                     $scope.TemplateTagMappingList = data;
                 });
             }
@@ -194,12 +194,12 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
             else if (Mode == 1) {
                 if (TagType == "1") {
                     $scope.SectionType = "BASIC";
-                    //$scope.AlertTagName = TagType;
+                    $scope.AlertTagName = TagType.toString();
                     $scope.TagType = TagType.toString();
                 }
                 if (TagType == "2") {
                     $scope.SectionType = "INS_SUB_DETAILS";
-                    //$scope.AlertTagName = TagType;
+                    $scope.AlertTagName = TagType.toString();
                     $scope.TagType = TagType.toString();
                 }
             }
@@ -214,7 +214,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
             else if ($scope.PageParameter == 3) {
                 $scope.Type = "3";//For SMS
             }
-            $http.get(baseUrl + '/api/EmailTemplate/SectionEmailTemplateTagMapping_List/?Id=' + 0 + '&Institution_Id=' + $scope.InstituteId + '&SectionName=' + $scope.SectionType).success(function (data) {
+            $http.get(baseUrl + '/api/EmailTemplate/SectionEmailTemplateTagMapping_List/?Id=' + 0 + '&Institution_Id=' + $scope.InstituteId + '&SectionName=' + $scope.SectionType + '&Type=' + $scope.Type).success(function (data) {
                 $scope.TemplateTagMappingList = data;
             });
         };
@@ -367,7 +367,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                 var obj = {
                     Id: $scope.Id,
                     Institution_Id: $scope.InstituteId,
-                    TemplateType_Id: $scope.PageParameter == 1 ? '1' : $scope.PageParameter == 2 ? '2' : $scope.PageParameter == 3 ? '3' : '',
+                    TemplateType_Id: $scope.PageParameter == 1 ? 1 : $scope.PageParameter == 2 ? 2 : $scope.PageParameter == 3 ? 3 : '',
                     //Type_Id: $scope.Type,
                     EmailSubject: $scope.EmailSubject,
                     EmailTemplate: $scope.Template,
@@ -375,7 +375,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                     Created_By: $scope.Patient_Id,
                     EmailTemplateTagList: $scope.EmailTemplateTagDetails,
                     TemplateName: $scope.TemplateName,
-                    TemplateAlertType: $scope.AlertTagName
+                    TemplateAlertType: $scope.AlertTagName != '' ? $scope.AlertTagName : 0
                 }
                 $("#chatLoaderPV").show();
                 $('#btnsave').attr("disabled", true);
@@ -478,8 +478,16 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                 $scope.ViewTemplate = CKEDITOR.instances.editor1.setData($scope.Template);
                 //}
                 //$scope.TempMappinglist();
-                $scope.TagType = data.TemplateAlertType.toString();
-                $scope.OnChangeTypeBasedTagList($scope.TagType);
+                if ($scope.UserTypeId == 3) {
+                    $scope.TagType = data.TemplateAlertType.toString();
+                    $scope.OnChangeTypeBasedTagList($scope.TagType);
+                }
+                if ($scope.UserTypeId == 1) {
+                    $scope.InsTagType = data.TemplateAlertType.toString();
+                    $scope.OnChangeTypeBasedTagList($scope.InsTagType);
+                }
+                //$scope.TagType = data.TemplateAlertType.toString();
+                //$scope.OnChangeTypeBasedTagList($scope.TagType);
                 $("#chatLoaderPV").hide();
             });
         }
