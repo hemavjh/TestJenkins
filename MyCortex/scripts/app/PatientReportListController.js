@@ -294,40 +294,47 @@ PatientReportList.controller("PatientReportListController", ['$scope', '$http', 
                     $("#chatLoaderPV").show();
                     $scope.ConfigCode = "PATIENTPAGE_COUNT";
                     $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+
+                    FromPeriod = moment($filter('date')($('#datetimepicker').val(), 'yyyy/MM/dd HH:mm'));
+                    $scope.Period_From = FromPeriod["_i"]
+                    ToPeriod = moment($filter('date')($('#datetimepicker_mask').val(), 'yyyy/MM/dd HH:mm'));
+                    $scope.Period_To = ToPeriod["_i"]
+                    $scope.PeriodFromTime = DateFormatEdit($filter('date')($('#datetimepicker').val(), 'hh:mm'));
+                    $scope.PeriodToTime = DateFormatEdit($filter('date')($('#datetimepicker_mask').val(), 'hh:mm'));
+
                     $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
                         $scope.page_size = data1[0].ConfigValue;
                         $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
                         $scope.PageEnd = $scope.current_page * $scope.page_size;
 
+                        FromPeriod = moment($filter('date')($('#datetimepicker').val(), 'yyyy/MM/dd HH:mm'));
+                        $scope.Period_From = FromPeriod["_i"]
+                        ToPeriod = moment($filter('date')($('#datetimepicker_mask').val(), 'yyyy/MM/dd HH:mm'));
+                        $scope.Period_To = ToPeriod["_i"]
+                        $scope.PeriodFromTime = DateFormatEdit($filter('date')($('#datetimepicker').val(), 'hh:mm'));
+                        $scope.PeriodToTime = DateFormatEdit($filter('date')($('#datetimepicker_mask').val(), 'hh:mm'));
 
-                        //var PeriodFromTime = $scope.PeriodFromTime == "" ? null : $scope.Convert12To24Timeformat($scope.PeriodFromTime);
-                        //var PeriodToTime  =  $scope.PeriodToTime == "" ? null : $scope.Convert12To24Timeformat($scope.PeriodToTime);   
-
-                        var periodsplitfromdate = $('#datetimepicker').val().split(' ')[0];
-                        var periodsplittodate = $('#datetimepicker_mask').val().split(' ')[0];
-                        var PeriodFromTime = $scope.Convert24to12Timeformat($('#datetimepicker').val().split(' ')[1]);
-                        var PeriodToTime = $scope.Convert24to12Timeformat($('#datetimepicker_mask').val().split(' ')[1]);
-                        var fromtime2 = PeriodFromTime;
-                        var totime = PeriodToTime;
-
+                        var PeriodFromTime = moment($('#datetimepicker').val()).format('YYYY-MMM-DD  hh:mm:ss');
+                        var PeriodToTime = moment($('#datetimepicker_mask').val()).format('YYYY-MMM-DD  hh:mm:ss');
+                        var fromtime2 = $scope.Convert24to12Timeformat(PeriodFromTime.split(' ')[2]);
+                        var totime = $scope.Convert24to12Timeformat(PeriodToTime.split(' ')[2]);
 
                         $http.get(baseUrl + '/api/ReportDetails/PatientReportDetails_List?' +
-                            'Period_From=' + moment(periodsplitfromdate).format('YYYY-MMM-DD') +
-                            '&Period_To=' + moment(periodsplittodate).format('YYYY-MMM-DD') +
+                            'Period_From=' + moment($('#datetimepicker').val()).format('YYYY-MMM-DD') +
+                            '&Period_To=' + moment($('#datetimepicker_mask').val()).format('YYYY-MMM-DD') +
                             '&PeriodFromTime=' + fromtime2 +
                             '&PeriodToTime=' + totime +
                             '&ShortNameId=' + $scope.ShortNameId +
                             '&UserNameId=' + $scope.UserNameId
                             + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber='
                             + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
-                                if (data.length == 0) {
+                                if (data.length == 0 || data == null) {
                                     $("#chatLoaderPV").hide();
                                     $scope.TotalPageAuditReport = 1;
                                     $scope.ReportDetailsemptydata = "";
-                                    if ($scope.PatientDetailsFilteredDataList.length > 0) {
-
-                                    } else {
+                                    if ($scope.PatientDetailsFilteredDataList.length != 0) {
                                         $scope.Reportflag = 0;
+                                        $scope.PatientDetailsFilteredDataList = []
                                     }
                                     $scope.SearchMsg = "No Data Available";
                                 } else {
