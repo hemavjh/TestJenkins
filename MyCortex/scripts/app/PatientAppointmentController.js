@@ -32,7 +32,17 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
             $scope.ReasonTypeDropDownList();
             $scope.ClearAppointments();
             $scope.Cancelled_Remarks = "";
-            $scope.ReasonTypeId = 0;            
+            $scope.ReasonTypeId = 0;
+        }
+        $scope.CancelAppointmentModalList = function (AppointmentId, AppointmentDate) {
+            $scope.Cancelled_Remarks = "";
+            $scope.Appointment_Id = AppointmentId;
+            $scope.AppointmentDate = moment(AppointmentDate).format('DD-MMM-YYYY');
+            angular.element('#PatientAppointmentModal').modal('show');
+            $scope.ReasonTypeDropDownList();
+            $scope.ClearAppointments();
+            $scope.Cancelled_Remarks = "";
+            $scope.ReasonTypeId = 0;
         }
 
         $scope.Cancel_CancelledAppointment = function (AppointmentId) {
@@ -85,7 +95,106 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                     $scope.getMonthlyAppointment();
                     $scope.DailyCalendarView();
                     $scope.calendarListView();
-                    
+
+                    $("#chatLoaderPV1").hide();
+
+                    //$http.get(baseUrl + '/api/PatientAppointments/DoctorAppointmentList/?Doctor_Id=' + $scope.Doctor_Id + '&flag=' + $scope.flag + '&ViewDate=' + moment() + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (patientdata) {
+                    //    angular.forEach(patientdata, function (value, index) {
+                    //        var obj = {
+                    //            title: moment(value.Appointment_FromTime).format('hh:mm a') + '-' + moment(value.Appointment_ToTime).format('hh:mm a') + '-' + value.PatientName,
+                    //            start: value.Appointment_FromTime,
+                    //            end: value.Appointment_ToTime,
+                    //            id: value.Patient_Id,
+                    //            PatientName: value.PatientName,
+                    //            Appointment_Id: value.Id,
+                    //            MRN_No: value.MRN_No,
+                    //            Photo: value.PhotoBlob == null ? '../../Images/male.png' : 'data:image/png;base64,' + value.PhotoBlob,
+                    //            Smoker: value.Smoker == 1 ? 'Yes' ? value.Smoker == 2 : 'No' : 'UnKnown',
+                    //            ReasonForVisit: value.ReasonForVisit
+                    //        };
+                    //        $scope.dataCalendar1.push(obj);
+                    //    })
+                    //   //$('#calendar1').fullCalendar('removeEvents', $scope.Appointment_Id);
+                    //   /// $('#calendar1').fullCalendar('removeEventSource', $scope.dataCalendar1)
+                    //    // $('#calendar1').fullCalendar('addEventSource', $scope.dataCalendar1)
+                    //    //calendar.refetchEvents();
+                    //    //$('#calendar1').FullCalendar.refetchEvents();
+                    //    $('#calendar1').FullCalendar('refetchEvents')
+                    //    //$('#calendar1').fullCalendar('refetchEvents');
+                    //    $("#chatLoaderPV1").hide();
+                    //}).error(function (data) {
+                    //    $("#chatLoaderPV1").hide();
+                    //    $scope.error = "An error has occurred while Listing Today's appointment!" + data;
+                    //});
+
+                    // refresh daily calendar
+                    //$scope.dataCalendar = [];
+                    //$http.get(baseUrl + '/api/PatientAppointments/DoctorAppointmentList/?Doctor_Id=' + $scope.Doctor_Id + '&flag=' + $scope.flag + '&ViewDate=' + $scope.AppointmentDate + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    //    angular.forEach(data, function (value, index) {
+                    //        var obj = {
+                    //            title: moment(value.Appointment_FromTime).format('hh:mm a') + '-' + moment(value.Appointment_ToTime).format('hh:mm a') + '-' + value.PatientName,
+                    //            start: value.Appointment_FromTime,
+                    //            end: value.Appointment_ToTime,
+                    //            id: value.Patient_Id,
+                    //            PatientName: value.PatientName,
+                    //            Appointment_Id: value.Id,
+                    //            MRN_No: value.MRN_No,
+                    //            Photo: value.PhotoBlob == null ? '../../Images/male.png' : 'data:image/png;base64,' + value.PhotoBlob,
+                    //            Smoker: value.Smoker == 1 ? 'Yes' ? value.Smoker == 2 : 'No' : 'UnKnown',
+                    //            ReasonForVisit: value.ReasonForVisit
+                    //        };
+                    //        $scope.dataCalendar.push(obj);
+                    //    });
+                    //    $('#calendar').fullCalendar('removeEvents',);
+                    //    $('#calendar').fullCalendar('removeEventSource', $scope.dataCalendar)
+                    //    $('#calendar').fullCalendar('addEventSource', $scope.dataCalendar)
+
+                    //    calendar.addEventSource($scope.calendar1);
+                    //    $('#calendar').fullCalendar('refetchEvents');
+                    //    $("#chatLoaderPV").hide();
+                    //}).error(function (data) {
+                    //    $scope.error = "An error has occurred while Listing Today's appointment!" + data;
+                    //});
+                }).error(function (data) {
+                    $scope.error = "An error has occurred while Updating Appointment Details" + data;
+                });
+                //$('#calendar1').fullCalendar('gotoDate', $scope.AppointmentDate);
+                //$('#calendar').fullCalendar('gotoDate', $scope.AppointmentDate);
+            }
+        }
+
+        $scope.Update_CancelledAppointment_List = function () {
+            $("#chatLoaderPV").show();
+            if (typeof ($scope.ReasonTypeId) == "undefined" || $scope.ReasonTypeId == "") {
+                //alert("Please select Reason Type for  cancellation");
+                toastr.warning("Please select Reason Type for  cancellation", "warning");
+                return false;
+            }
+            else {
+                var obj = {
+                    CancelledBy_Id: $scope.Doctor_Id,
+                    Id: $scope.Appointment_Id,
+                    Cancelled_Remarks: $scope.Cancelled_Remarks,
+                    ReasonTypeId: $scope.ReasonTypeId
+                }
+                $http.post(baseUrl + '/api/PatientAppointments/CancelPatient_Appointment/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 1) {
+                        toastr.success(data.Message, "success");
+                    }
+                    else if (data.ReturnFlag == 0) {
+                        toastr.info(data.Message, "info");
+                    }
+                    angular.element('#PatientAppointmentModal').modal('hide');
+                    $scope.Cancelled_Remarks = "";
+                    $scope.ReasonTypeId = '0';
+                    // refresh monthly calendar
+                    $scope.flag = 2;
+                    $scope.dataCalendar1 = [];
+                    $("#chatLoaderPV1").show();
+                   
+                    $scope.calendarListView();
+
                     $("#chatLoaderPV1").hide();
 
                     //$http.get(baseUrl + '/api/PatientAppointments/DoctorAppointmentList/?Doctor_Id=' + $scope.Doctor_Id + '&flag=' + $scope.flag + '&ViewDate=' + moment() + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (patientdata) {
@@ -156,8 +265,8 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
 
         $scope.calendarListView = function () {
             //-------------------This is list view area--------------------------
-            var calendarEl = document.getElementById('calendar5');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
+            var calendarEl5 = document.getElementById('calendar5');
+            var calendar5 = new FullCalendar.Calendar(calendarEl5, {
                 scrollTime: scrollTime,
                 slotDuration: '00:15:00',
                 visibleRange: {
@@ -240,27 +349,30 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                     $(tip).css('z-index', 8);
                     $('.tooltipevent').remove();
                 },
-                dayClick: function (date, allDay, jsEvent, view) {
-                    var startdate = moment(dueStartDate).format('YYYY-MM-DD');
-                    var date1 = moment(date).format('YYYY-MM-DD');
-                    var EndDate = moment(dueEndDate).format('YYYY-MM-DD');
-                    if (moment(date1).isBetween(startdate, EndDate) == false) {
-                        toastr.info("Appointment is only for 30 days, cannot view this date", "info");
-                        $('#calendar5').fullCalendar('gotoDate', date1);
-                        return false;
-                    }
+                //dayClick: function (date, allDay, jsEvent, view) {
+                //    var startdate = moment(dueStartDate).format('YYYY-MM-DD');
+                //    var date1 = moment(date).format('YYYY-MM-DD');
+                //    var EndDate = moment(dueEndDate).format('YYYY-MM-DD');
+                //    if (moment(date1).isBetween(startdate, EndDate) == false) {
+                //        toastr.info("Appointment is only for 30 days, cannot view this date", "info");
+                //        $('#calendar5').fullCalendar('gotoDate', date1);
+                //        return false;
+                //    }
 
-                    $scope.dayClicked(date);
-                },
+                //    $scope.dayClicked(date);
+                //},
                 eventClick: function (info) {
+                    //alert(JSON.stringify(info));
+                    //alert(info.event.extendedProps.Appointment_Id)
+                    //alert(info.event.start)
                     $('.tooltipevent').remove();
 
                     if (info.jsEvent.target.id === 'Delete') {
                         var msg = confirm("Do you like to Cancel the Patient Appointment?");
                         if (msg == true) {
-                            $scope.CancelAppointmentModal(info.extendedProps.Appointment_Id, info.event.extendedProps.start);
+                            $scope.CancelAppointmentModalList(info.event.extendedProps.Appointment_Id, info.event.start);
                             var dateString = moment(info.event.start).format('YYYY-MM-DD');
-                            $('#calendar1').find('.fc-day[data-date="' + dateString + '"]').css('background-color', '');  
+                            $('#calendar5').find('.fc-day[data-date="' + dateString + '"]').css('background-color', '');
                         }
                     }
                     else {
@@ -365,10 +477,10 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                     };
                     $scope.calendar5.push(obj);
                 })
-                calendar.addEventSource($scope.calendar5);                
+                calendar5.addEventSource($scope.calendar5);
             });
 
-            calendar.render();
+            calendar5.render();
         }
         $scope.flag = 1;
         $scope.DailyCalendarView = function () {
@@ -391,8 +503,8 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                 // customize the button names,
                 // otherwise they'd all just say "list"
                 views: {
-                   // listDay: { buttonText: 'list day' },
-                   // listWeek: { buttonText: 'list week' }
+                    // listDay: { buttonText: 'list day' },
+                    // listWeek: { buttonText: 'list week' }
                 },
 
                 initialView: 'timeGridDay', //'listWeek',
@@ -513,12 +625,12 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
 
             calendarE.render();
         }
-        
+
         //angular.element(document).ready(function () {
         //    if ($window.localStorage['UserTypeId'] == 4 || $window.localStorage['UserTypeId'] == 7 || $window.localStorage['UserTypeId'] == 5) {
         //        $scope.calendarListView();
         //        $scope.DailyCalendarView();
-                
+
         //        //var calendar = $('#calendar').fullCalendar(
         //        //    {
         //        //        timeZone: 'UTC',
@@ -641,10 +753,159 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
         //    }
         //});
 
-        $scope.dayClicked = function (date) {
-            $scope.flag = 3;
-            $('#calendar').fullCalendar('gotoDate', date);
-        }
+        $(document).ready(function () {
+            $scope.dayClicked = function (date) {
+                $scope.flag = 3;
+                //$('#calendar').fullCalend(ar('gotoDate', date);
+                var calendarEll = document.getElementById('calendar');
+                var calendarE = new FullCalendar.Calendar(calendarEll, {
+                    scrollTime: scrollTime,
+                    slotDuration: '00:15:00',
+                    visibleRange: {
+                        start: '2020-02-01',
+                        end: '2020-03-20'
+                    },
+                    eventLimit: true,
+                    displayEventTime: false,
+                    headerToolbar: {
+                        left: '', //prev,next today
+                        center: 'title',
+                        right: '' //'listDay,listWeek'
+                    },
+
+                    // customize the button names,
+                    // otherwise they'd all just say "list"
+                    views: {
+                        // listDay: { buttonText: 'list day' },
+                        // listWeek: { buttonText: 'list week' }
+                    },
+
+                    initialView: 'timeGridDay', //'listWeek',
+                    initialDate: output,
+                    navLinks: true, // can click day/week names to navigate views
+                    editable: true,
+                    dayMaxEvents: true, // allow "more" link when too many events    
+                    selectable: true,
+                    selectHelper: true,
+                    // Remove Event On Click
+                    eventDidMount: function (event) {
+                        $(event.el).find('.fc-event-title').prepend('<span class="removeEvent glyphicon glyphicon-trash pull-right" id="Delete"></span>');
+                    },
+                    eventContent: function (event) {
+                        //alert(JSON.stringify(event));
+                        var dateString = moment(event.event.start).format('YYYY-MM-DD');
+
+                        $('#calendar').find('.fc-day[data-date="' + dateString + '"]').css('background-color', '#FAA732');
+                    },
+                    eventMouseEnter: function (calEvent) {
+
+                        var tip = calEvent.el;
+
+                        //var tooltip = '<div class="tooltipevent patientCard"><div class="row">' + '<div class="col-sm-6"><div class="row">' + '<div class="col-sm-8">'+ calEvent.PatientName +'</div>' + '<div class="col-sm-8"><label>MRN No.:</label>'+ calEvent.MRN_No +'</div>'+ '<div class="col-sm-8"><label>Smoker:</label>'+ calEvent.Smoker +'</div>'+ '<div class="col-sm-8"><label>Reason For Visit:</label>'+ calEvent.ReasonForVisit +'</div>'+'</div></div>' + '<div class="col-sm-6"><div><img src="'+calEvent.Photo + '"/></div></div>' + '</div></div>';
+                        var tooltip = '<div class="tooltipevent patientCard" style="top:' + ($(tip).offset().top - 5) + 'px;left:' + ($(tip).offset().left + ($(tip).width()) / 2) + 'px"><div class="row">' + '<div class="col-sm-6"><div class="row">'
+                            + '<div class="col-sm-12"><label>MRN No.:</label><span>' + calEvent.event.extendedProps.MRN_No + '</span></div>'
+                            + '<div class="col-sm-12"><label>Smoker:</label><span>' + calEvent.event.extendedProps.Smoker + '</span></div>'
+                            + '<div class="col-sm-12"><label>Reason For Visit:</label><span>' + calEvent.event.extendedProps.ReasonForVisit
+                            + '</span></div>' + '</div></div>' + '<div class="col-sm-3"><img style="width:50px; height:50px;" src="' + calEvent.event.extendedProps.Photo
+                            + '"/><div class="col-sm-12"><h1><span>' + calEvent.event.extendedProps.PatientName + '</span></h1></div></div>' + '</div></div>';
+
+                        var $tooltip = $('body').append(tooltip); //$(tooltip).appendTo('body');
+
+                        $(tip).mouseover(function (e) {
+                            //alert('eewrwr');
+                            $(tip).css('z-index', 10000);
+                            $tooltip.fadeIn('500');
+                            $tooltip.fadeTo('10', 1.9);
+                        }).mousemove(function (e) {
+                            $tooltip.css('top', e.pageY + 10);
+                            $tooltip.css('left', e.pageX + 20);
+                        });
+                    },
+                    eventAfterAllRender: function (view) {
+                        for (cDay = view.start.clone(); cDay.isBefore(view.end); cDay.add(1, 'day')) {
+
+                            var dateNum = cDay.format('YYYY-MM-DD');
+
+                            var dayEl = $('.fc-day[data-date="' + dateNum + '"]');
+                            var eventCount = $('.fc-event[date-num="' + dateNum + '"]').length;
+                            if (eventCount) {
+                                var html = '<div class="numberCircle">' +
+                                    eventCount +
+                                    '</div>';
+                                dayEl.append(html);
+                            }
+                        }
+                    },
+
+                    eventMouseLeave: function (calEvent, jsEvent) {
+                        var tip = calEvent.el;
+                        $(tip).css('z-index', 8);
+                        $('.tooltipevent').remove();
+                    },
+                    dayClick: function (date, allDay, jsEvent, view) {
+                        var startdate = moment(dueStartDate).format('YYYY-MM-DD');
+                        var date1 = moment(date).format('YYYY-MM-DD');
+                        var EndDate = moment(dueEndDate).format('YYYY-MM-DD');
+                        if (moment(date1).isBetween(startdate, EndDate) == false) {
+                            //alert("Appointment is only for 30 days, cannot view this date");
+                            toastr.info("Appointment is only for 30 days, cannot view this date", "info");
+                            $('#calendar').fullCalendar('gotoDate', date1);
+                            return false;
+                        }
+
+                        $scope.dayClicked(date);
+                    },
+                    eventClick: function (info) {
+                        //alert(JSON.stringify(info));
+                        //alert(info.event.extendedProps.Appointment_Id)
+                        //alert(info.event.start)
+                        $('.tooltipevent').remove();
+
+                        if (info.jsEvent.target.id === 'Delete') {
+                            var msg = confirm("Do you like to Cancel the Patient Appointment?");
+                            if (msg == true) {
+                                $scope.CancelAppointmentModal(info.event.extendedProps.Appointment_Id, info.event.start);
+                                var dateString = moment(info.event.start).format('YYYY-MM-DD');
+                                $('#calendar').find('.fc-day[data-date="' + dateString + '"]').css('background-color', '');
+                            }
+                        }
+                        else {
+                            $scope.Id = info.event.id;
+                            $scope.ViewPatientPopUp_30days($scope.Id);
+                        }
+                    },
+
+                    events: ''
+                });
+                $scope.calendar = [];
+                $http.get(baseUrl + '/api/PatientAppointments/DoctorAppointmentList/?Doctor_Id=' + $scope.Doctor_Id + '&flag=' + 2 + '&ViewDate=' + moment() + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (patientdata) {
+                    angular.forEach(patientdata, function (value, index) {
+                        var obj = {
+                            title: moment(value.Appointment_FromTime).format('hh:mm a') + '-' + moment(value.Appointment_ToTime).format('hh:mm a') + '-' + value.PatientName,
+                            start: value.Appointment_FromTime,
+                            end: value.Appointment_ToTime,
+                            id: value.Patient_Id,
+                            PatientName: value.PatientName,
+                            Appointment_Id: value.Id,
+                            MRN_No: value.MRN_No,
+                            Photo: value.PhotoBlob == null ? '../../Images/male.png' : 'data:image/png;base64,' + value.PhotoBlob,
+                            Smoker: value.Smoker == 1 ? 'Yes' ? value.Smoker == 2 : 'No' : 'UnKnown',
+                            ReasonForVisit: value.ReasonForVisit
+                        };
+                        $scope.calendar.push(obj);
+                    })
+                    calendarE.addEventSource($scope.calendar);
+
+                    $("#chatLoaderPV1").hide();
+                });
+
+                calendarE.render();
+               
+                //calendarE.fullCalendar('gotoDate', date);
+                calendarE.gotoDate(date);
+            }
+            
+        });
         $scope.FNCancel = function () {
             $('.tooltipevent').remove();
         }
@@ -825,7 +1086,7 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
 
                 initialView: 'dayGridMonth', //'listWeek',
                 initialDate: output,
-                navLinks: true, // can click day/week names to navigate views
+                navLinks: false, // can click day/week names to navigate views
                 editable: true,
                 dayMaxEvents: true, // allow "more" link when too many events    
                 selectable: true,
@@ -885,9 +1146,9 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                     $(tip).css('z-index', 8);
                         $('.tooltipevent').remove();
                     },
-                dayClick: function (date, allDay, jsEvent, view) {
+                dateClick: function (info) { //date, allDay, jsEvent, view) {
                     var startdate = moment(dueStartDate).format('YYYY-MM-DD');
-                    var date1 = moment(date).format('YYYY-MM-DD');
+                    var date1 = moment(info.date).format('YYYY-MM-DD');
                     var EndDate = moment(dueEndDate).format('YYYY-MM-DD');
                     if (moment(date1).isBetween(startdate, EndDate) == false) {                        
                         toastr.info("Appointment is only for 30 days, cannot view this date", "info");
@@ -895,7 +1156,7 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                         return false;
                     }
 
-                    $scope.dayClicked(date);
+                    $scope.dayClicked(info.date);
                 },
                 eventClick: function (info) {
                     //alert(JSON.stringify(info));
