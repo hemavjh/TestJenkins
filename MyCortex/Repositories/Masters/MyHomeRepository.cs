@@ -198,6 +198,7 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@CREATED_BY", insobj.CreatedBy));
             param.Add(new DataParameter("@HIVETYPE", insobj.HiveType));
             param.Add(new DataParameter("@USERCOUNT", insobj.UserList.Count));
+            param.Add(new DataParameter("@DEVICESCOUNT", insobj.DevicesList.Count));
 
             if (insobj.UserList != null)
             {
@@ -222,6 +223,7 @@ namespace MyCortex.Repositories.Masters
                 foreach (TabDevicesList item in insobj.DevicesList)
                 {
                     devicexmlData = devicexmlData + "<Device>";
+                    devicexmlData = devicexmlData + "<Id>" + item.DeviceId + "</Id>";
                     devicexmlData = devicexmlData + "<DEVICE_ID>" + item.ID + "</DEVICE_ID>";
                     devicexmlData = devicexmlData + "<CREATED_BY>" + insobj.CreatedBy + "</CREATED_BY>";
                     devicexmlData = devicexmlData + "<ISACTIVE>" + item.IsActive + "</ISACTIVE>";
@@ -237,6 +239,7 @@ namespace MyCortex.Repositories.Masters
                 List<DataParameter> param_2 = new List<DataParameter>();
                 param_2.Add(new DataParameter("@INSTITUTION_ID", insobj.InstitutionId));
                 param_2.Add(new DataParameter("@USER_ID", insobj.CreatedBy));
+                param_2.Add(new DataParameter("@HIVETYPE", insobj.HiveType));
                 DataTable dt_2 = ClsDataBase.GetDataTable("[MYCORTEX].[TABREFID_AUTOCREATIION_SP]", param_2);
 
                 TabListModel RefId = (from p in dt_2.AsEnumerable()
@@ -350,6 +353,7 @@ namespace MyCortex.Repositories.Masters
                                             {
                                                 Id = p.Field<long>("Id"),
                                                 TabId = p.Field<long>("TAB_ID"), 
+                                                DeviceId = p.Field<long>("DEVICE_ID"),
                                                 DeviceName = p.Field<string>("DEVICENAME"),
                                                 IsActive = p.Field<bool>("ISACTIVE")
                                             }).ToList();
