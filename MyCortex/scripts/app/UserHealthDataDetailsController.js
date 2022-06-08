@@ -7016,7 +7016,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 angular.element('#PatientAllergyCreateModal').modal('show');
             }
             else {
-                toastr.warning("This feature is not available for this user", "warning");
+                toastr.warning("You Haven't Subscribed For This Module. Please Contact Your Administrator", "warning");
             }
         }
         $scope.CancelAllergyPopUp = function () {

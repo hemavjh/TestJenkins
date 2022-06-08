@@ -423,7 +423,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
 
             if ($scope.HiveChart_Users > 0) {
                 if (typeof ($scope.HiveChart) == "undefined" || $scope.HiveChart == "" || $scope.HiveChart == 0) {
-                    ttoastr.warning("Please enter No. of HiveChart", "warning");
+                    toastr.warning("Please enter No. of HiveChart", "warning");
                     return false;
                 }
             }
