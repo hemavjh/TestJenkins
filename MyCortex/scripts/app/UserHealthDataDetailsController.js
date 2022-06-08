@@ -3279,7 +3279,22 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             //for (let i = 0; i < $scope.AddVitalParameters.length; i++) {
             //    $scope.AddVitalParameters[i].All_UnitLists = $scope.ParameterMappingList;
             //}
-            if ((typeof ($scope.isMedicalPatientVitals) != 'undefined' && $scope.isMedicalPatientVitals != "") || (typeof ($scope.isMedicalClinicalVitals) != 'undefined' && $scope.isMedicalClinicalVitals != "")) {
+            if ($scope.UserTypeId == 2 && (typeof ($scope.isMedicalPatientVitals) != 'undefined' && $scope.isMedicalPatientVitals != "")) {
+                angular.element('#PatientVitalsCreateModal').modal('show');
+                $scope.AddVitalParameters = [{
+                    'Id': 0,
+                    'ParameterId': 0,
+                    'Units_ID': 0,
+                    'UOM_Name': '',
+                    'ParameterValue': '',
+                    'chkDateTime': false,
+                    'ActivityDate': new Date().toJSON().slice(0, 19),
+                    'IsActive': 1,
+                    'All_UnitLists': $scope.ParameterMappingList,
+                    'ParameterMappingList': []
+                }];
+            }
+            else if ($scope.UserTypeId >= 4 && $scope.UserTypeId <= 7 && (typeof ($scope.isMedicalClinicalVitals) != 'undefined' && $scope.isMedicalClinicalVitals != "")) {
                 angular.element('#PatientVitalsCreateModal').modal('show');
                 $scope.AddVitalParameters = [{
                     'Id': 0,
