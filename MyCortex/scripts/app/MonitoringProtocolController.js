@@ -10,12 +10,13 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
     function ($scope, $http, $filter, $routeParams, $rootScope, $location, $window, $ff, toastr) {
 
         $scope.isPatientMonitornigProtocol = "";
-        $scope.InsModule_List = $rootScope.InsModuleList;
-        if ($rootScope.InsModuleList != null) {
-            if ($rootScope.InsModuleList.length > 0) {
-                $scope.isPatientMonitornigProtocol = $filter('filter')($rootScope.InsModuleList, { Module_Id: '35' })[0];
+        $http.get(baseUrl + "/api/CommonMenu/CommonModule_List?InsId=" + $window.localStorage['InstitutionId']).success(function (response) {
+            if (response != null) {
+                if (response.length > 0) {
+                    $scope.isPatientMonitornigProtocol = $filter('filter')(response, { Module_Name: "Monitoring Protocol" })[0];
+                }
             }
-        }
+        });
         //List Page Pagination.
         $scope.current_page = 1;
         $scope.page_size = $window.localStorage['Pagesize'];
@@ -60,11 +61,15 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
         }
 
         $scope.AddCloneProtocolPopup = function () {
-            $scope.submitted = false;
-            $('#divCloneProtocol').addClass("ng-invalid");
-            $scope.Cloneval = 1;
-            $('#btnsave').attr("disabled", false);
-            angular.element('#ProtocolCreateModal').modal('show');
+            if (typeof ($scope.isPatientMonitornigProtocol) != 'undefined' && $scope.isPatientMonitornigProtocol != "") {
+                $scope.submitted = false;
+                $('#divCloneProtocol').addClass("ng-invalid");
+                $scope.Cloneval = 1;
+                $('#btnsave').attr("disabled", false);
+                angular.element('#ProtocolCreateModal').modal('show');
+            } else {
+                toastr.warning("You Haven't Subscribed For This Module. Please Contact Your Administrator", "warning");
+            }
         }
 
         $scope.CancelMonitoringProtocolPopup = function () {

@@ -36,13 +36,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         //$scope.alertbtn1Show = true;
         //$scope.alertbtn2Show = true;
 
-        $scope.isPatientSignUp = "";
-        $scope.InsModule_List = $rootScope.InsModuleList;
-        if ($rootScope.InsModuleList != undefined) {
-            if ($rootScope.InsModuleList.length > 0) {
-                $scope.isPatientSignUp = $filter('filter')($rootScope.InsModuleList, { Module_Id: '24' })[0];
-            }
-        }
+        //$scope.isPatientSignUp = "";
+        //$scope.InsModule_List = $rootScope.InsModuleList;
+        //if ($rootScope.InsModuleList != undefined) {
+        //    if ($rootScope.InsModuleList.length > 0) {
+        //        $scope.isPatientSignUp = $filter('filter')($rootScope.InsModuleList, { Module_Id: '24' })[0];
+        //    }
+        //}
         $http.get(baseUrl + '/Home/LoginLogoDetails/').success(function (resImage) {
             document.getElementById("patient_ins").src = resImage[0];
         });

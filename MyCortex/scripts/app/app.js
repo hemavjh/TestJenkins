@@ -77,9 +77,9 @@ EmpApp.config(function (toastrConfig) {
 });
 
 EmpApp.run(function ($rootScope, $http, $window) {
-    $http.get(baseUrl + "/api/CommonMenu/CommonModule_List?InsId=" + $window.localStorage['InstitutionId']).success(function (response) {
-        $rootScope.InsModuleList = response;
-    });
+    //$http.get(baseUrl + "/api/CommonMenu/CommonModule_List?InsId=" + $window.localStorage['InstitutionId']).success(function (response) {
+    //    $rootScope.InsModuleList = response;
+    //});
 });
 
 EmpApp.run(function ($rootScope) {

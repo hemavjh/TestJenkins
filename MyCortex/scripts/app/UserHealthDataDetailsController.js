@@ -16,21 +16,20 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.isMedicalClinicalVitals = "";
         $scope.isOtherMedicalData = "";
         $scope.isMedicalLiveData = "";
-        $scope.isPatientAppointmentBooking = "";
-        $scope.InsModule_List = $rootScope.InsModuleList;
-        if ($rootScope.InsModuleList != null) {
-            if ($rootScope.InsModuleList.length > 0) {
-                $scope.isMypillbox = $filter('filter')($rootScope.InsModuleList, { Module_Id: '30' })[0];
-                $scope.isICD10 = $filter('filter')($rootScope.InsModuleList, { Module_Id: '31' })[0];
-                $scope.isAllergies = $filter('filter')($rootScope.InsModuleList, { Module_Id: '32' })[0];
-                $scope.isClinicalNotes = $filter('filter')($rootScope.InsModuleList, { Module_Id: '33' })[0];
-                $scope.isMedicalPatientVitals = $filter('filter')($rootScope.InsModuleList, { Module_Id: '25' })[0];
-                $scope.isMedicalClinicalVitals = $filter('filter')($rootScope.InsModuleList, { Module_Id: '26' })[0];
-                $scope.isOtherMedicalData = $filter('filter')($rootScope.InsModuleList, { Module_Id: '34' })[0];
-                $scope.isMedicalLiveData = $filter('filter')($rootScope.InsModuleList, { Module_Id: '36' })[0];
-                $scope.isPatientAppointmentBooking = $filter('filter')($rootScope.InsModuleList, { Module_Id: '41' })[0];
+        $http.get(baseUrl + "/api/CommonMenu/CommonModule_List?InsId=" + $window.localStorage['InstitutionId']).success(function (response) {
+            if (response != null) {
+                if (response.length > 0) {
+                    $scope.isMypillbox = $filter('filter')(response, { Module_Name: "PillBox" })[0];
+                    $scope.isICD10 = $filter('filter')(response, { Module_Name: 'ICD9' })[0];
+                    $scope.isAllergies = $filter('filter')(response, { Module_Name: 'Allergies' })[0];
+                    $scope.isClinicalNotes = $filter('filter')(response, { Module_Name: 'Clinical notes' })[0];
+                    $scope.isMedicalPatientVitals = $filter('filter')(response, { Module_Name: "Medical data - Patient" })[0];
+                    $scope.isMedicalClinicalVitals = $filter('filter')(response, { Module_Name: "Medical data - Clinical" })[0];
+                    $scope.isOtherMedicalData = $filter('filter')(response, { Module_Name: 'Other medical data' })[0];
+                    $scope.isMedicalLiveData = $filter('filter')(response, { Module_Name: 'Live data' })[0];
+                }
             }
-        }
+        });
         var dtToday = new Date();
 
         var month = dtToday.getMonth() + 1;
@@ -3321,39 +3320,36 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         }
 
         $scope.ShowAppointmentBookingPopUp = function () {
-            if (typeof ($scope.isPatientAppointmentBooking) != 'undefined' && $scope.isPatientAppointmentBooking != "") {
 
-                //document.getElementById("main-box").style = "";
-                //document.getElementById("box").style = "display:none";
-                //$scope.SendSMS();
-                $scope.showMainBox = true;
-                //$http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
-                // $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
-                $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
+            //document.getElementById("main-box").style = "";
+            //document.getElementById("box").style = "display:none";
+            //$scope.SendSMS();
+            $scope.showMainBox = true;
+            //$http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
+            // $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
+            $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
 
-                    //$scope.NewAppointment = data.NewAppointmentDuration;  
-                    //if (data == null || data.length == 0 || data.DefautTimeZone == "" || data.DefautTimeZone == 0) {
-                    if (data.length == 0 || data.TimeZone_ID == "" || data.TimeZone_ID == 0) {
-                        //alert('Please Check Organisation Settings!');
-                        toastr.info("Please Check Organisation Settings!", "info");
-                        angular.element('#BookAppointmentModal').modal('hide');
-                        document.getElementById("BookNew").disabled = true;
-                        document.getElementById("BookNew").title = 'Set Organisation Settings TimeZone Value!';
-                    }
-                    else {
-                        angular.element('#BookAppointmentModal').modal('show');
-                    }
-                    $scope.AppoimDate = new Date(DatetimepickermaxDate);
-                });
-                // load department list --department list shown by default for current date            
-                var res = moment(new Date()).format('YYYY-MM-DD')// convert(AppDate);
-                $scope.DepartmentList1 = [];
-                $http.get(baseUrl + '/api/DoctorShift/ByDateDept_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Filter_Date=' + res + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
-                    $scope.DepartmentList1 = data;
-                });
-            } else {
-                toastr.warning("You Haven't Subscribed For This Module. Please Contact Your Administrator", "warning");
-            }
+                //$scope.NewAppointment = data.NewAppointmentDuration;  
+                //if (data == null || data.length == 0 || data.DefautTimeZone == "" || data.DefautTimeZone == 0) {
+                if (data.length == 0 || data.TimeZone_ID == "" || data.TimeZone_ID == 0) {
+                    //alert('Please Check Organisation Settings!');
+                    toastr.info("Please Check Organisation Settings!", "info");
+                    angular.element('#BookAppointmentModal').modal('hide');
+                    document.getElementById("BookNew").disabled = true;
+                    document.getElementById("BookNew").title = 'Set Organisation Settings TimeZone Value!';
+                }
+                else {
+                    angular.element('#BookAppointmentModal').modal('show');
+                }
+                $scope.AppoimDate = new Date(DatetimepickermaxDate);
+            });
+            // load department list --department list shown by default for current date            
+            var res = moment(new Date()).format('YYYY-MM-DD')// convert(AppDate);
+            $scope.DepartmentList1 = [];
+            $http.get(baseUrl + '/api/DoctorShift/ByDateDept_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Filter_Date=' + res + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
+                $scope.DepartmentList1 = data;
+            });
+            
         }
         $scope.ShowStripePopup = function () {
             angular.element('#StripePayOptions').modal('show');
