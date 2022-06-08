@@ -17,6 +17,7 @@ using System.Text;
 using System.Runtime.Serialization.Json;
 using MyCortex.Repositories.Masters;
 using MyCortex.Repositories.Uesr;
+using System.Web.Script.Serialization;
 
 namespace MyCortex.Admin.Controllers
 {
@@ -344,6 +345,189 @@ namespace MyCortex.Admin.Controllers
                 _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return Request.CreateResponse(HttpStatusCode.OK, new { status = 0 });
             }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage CreatePayByCheckoutSession([FromBody] Newtonsoft.Json.Linq.JObject form)
+        {
+            string redirectUrl = string.Empty;
+            try
+            {
+                _AppLogger = this.GetType().FullName;
+                _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+                ServicePointManager.Expect100Continue = true;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                string privateKey = string.Empty;
+                string publicKey = string.Empty;
+                string partnetId = string.Empty;
+                //string baseUrl = HttpContext.Request.Url.Authority;
+                long appointmentId = Convert.ToInt64(form["paymentAppointmentId"]);
+                long departmentId = Convert.ToInt64(form["paymentdepartmentId"]);
+                long PInstitutionId = Convert.ToInt64(form["paymentInstitutionId"]);
+                string redirectParam = Convert.ToString(form["RedirectParam"]);
+                double amount2 = Convert.ToDouble(gatewayrepository.PatientAmount(PInstitutionId, departmentId, appointmentId));
+                string merchantOrderNumber = Guid.NewGuid().ToString().Replace("-", "").PadLeft(10);
+                int retid = patientAppointmentsRepository.PaymentStatus_Update(appointmentId, "Payment Initiated", merchantOrderNumber);
+                string baseUrl = HttpContext.Current.Request.Url.Host.ToString();
+                gatewayModel = gatewayrepository.GatewaySettings_Details(PInstitutionId, 2, "RSAPrivateKey");
+                if (gatewayModel.Count > 0)
+                {
+                    privateKey = gatewayModel[0].GatewayValue;
+                }
+                gatewayModel = gatewayrepository.GatewaySettings_Details(PInstitutionId, 2, "PublicKey");
+                if (gatewayModel.Count > 0)
+                {
+                    publicKey = gatewayModel[0].GatewayValue;
+                }
+                gatewayModel = gatewayrepository.GatewaySettings_Details(PInstitutionId, 2, "PartnerId");
+                if (gatewayModel.Count > 0)
+                {
+                    partnetId = gatewayModel[0].GatewayValue;
+                }
+                privateKey = privateKey.Replace("-----BEGIN RSA PRIVATE KEY-----", "")
+                    .Replace("-----END RSA PRIVATE KEY-----", "");
+
+                RsaHelper rsaHelper = new RsaHelper();
+                //Console.OutputEncoding = System.Text.Encoding.Default;
+                string json = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority);
+                int retid1 = patientAppointmentsRepository.PaymentProvider_Notity_Log(json);
+                PayByCreateOrderRequest payByCreateReq = new PayByCreateOrderRequest();
+                BizContent bizContent = new BizContent
+                {
+                    merchantOrderNo = merchantOrderNumber,
+                    subject = "TeleConsultation",
+                    totalAmount = new TotalAmount
+                    {
+                        currency = "AED",
+                        amount = amount2
+                    },
+                    paySceneCode = "PAYPAGE",
+                    paySceneParams = new PaySceneParams
+                    {
+                        redirectUrl = "https://" + baseUrl + "/Home/Index#/PatientVitals/" + redirectParam //+"0/1?orderId=414768633924763654"
+                    },
+                    notifyUrl = "https://" + baseUrl + "/Home/Notify/",
+                    accessoryContent = new AccessoryContent
+                    {
+                        amountDetail = new AmountDetail
+                        {
+                            vatAmount = new VatAmount
+                            {
+                                currency = "AED",
+                                amount = 20.65
+                            },
+                            amount = new Amount
+                            {
+                                currency = "AED",
+                                amount = 1.09
+                            }
+                        },
+                        goodsDetail = new GoodsDetail
+                        {
+                            body = "TeleConsultation",
+                            categoriesTree = "CT12",
+                            goodsCategory = "GC10",
+                            goodsId = "GI1005",
+                            goodsName = "Consulation",
+                            price = new User.Model.Price
+                            {
+                                currency = "AED",
+                                amount = 10.87
+                            },
+                            quantity = 2
+                        },
+                        terminalDetail = new TerminalDetail
+                        {
+                            operatorId = "OP1000000000000001",
+                            storeId = "SI100000000000002",
+                            terminalId = "TI100999999999900",
+                            merchantName = "MyCortex",
+                            storeName = "MyCortexQA"
+                        }
+                    }
+                };
+                DateTime unixRef = new DateTime(1970, 1, 1, 0, 0, 0);
+
+                payByCreateReq.requestTime = (DateTime.UtcNow.Ticks - unixRef.Ticks) / 10000;
+                payByCreateReq.bizContent = bizContent;
+
+                string url = "https://uat.test2pay.com/sgs/api/acquire2/placeOrder";
+                HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
+                req.Method = "POST";
+                req.ContentType = "application/json";
+                req.Headers["Content-Language"] = "en";
+
+                string strJPostData = JsonConvert.SerializeObject(payByCreateReq, Newtonsoft.Json.Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                string signParams = strJPostData.Replace("\n", "").Replace(" ", "").Replace("\t", "").Replace("\r", "").Replace("\\", "");
+                privateKey = privateKey.Replace("\r\n", "");
+                string sign = rsaHelper.Sign(signParams, privateKey);
+                req.Headers["sign"] = sign;
+                req.Headers["Partner-Id"] = partnetId;
+
+                UTF8Encoding encoding = new UTF8Encoding();
+                byte[] post = encoding.GetBytes(strJPostData);
+                req.ContentLength = post.Length;
+
+                using (Stream writer = req.GetRequestStream())
+                {
+                    writer.Write(post, 0, post.Length);
+                }
+
+                using (HttpWebResponse res = (HttpWebResponse)req.GetResponse())
+                {
+                    DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(PayByCreateOrderResponse));
+                    object objResponse = jsonSerializer.ReadObject(res.GetResponseStream());
+                    PayByCreateOrderResponse tokenRes = objResponse as PayByCreateOrderResponse;
+                    var toekndata = new JavaScriptSerializer().Serialize(tokenRes);
+                    if (tokenRes != null && tokenRes.body != null && tokenRes.body.interActionParams != null && !string.IsNullOrEmpty(tokenRes.body.interActionParams.tokenUrl))
+                    {
+                        _MyLogger.Exceptions("INFO", _AppLogger, tokenRes.body.interActionParams.tokenUrl, null, _AppMethod);
+                        redirectUrl = tokenRes.body.interActionParams.tokenUrl;
+                    }
+                    else
+                    {
+                        _MyLogger.Exceptions("INFO", _AppLogger, "", null, _AppMethod);
+                    }
+                }
+            }
+            catch (WebException wx)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, wx.Message, wx, _AppMethod);
+                if (wx.Message != null)
+                {
+                    using (WebResponse response = wx.Response)
+                    {
+                        if (wx.Response != null)
+                        {
+                            HttpWebResponse httpResponse = (HttpWebResponse)response;
+                            using (Stream data = response.GetResponseStream())
+                            {
+                                string text = new StreamReader(data).ReadToEnd();
+                                if (!string.IsNullOrEmpty(text))
+                                {
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return Request.CreateResponse(HttpStatusCode.OK, new { status = 0, error = ex.Message });
+            }
+            _MyLogger.Exceptions("Warn", _AppLogger, redirectUrl, null, _AppMethod);
+            if (redirectUrl != String.Empty)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { status = 1, url = redirectUrl });
+            } 
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { status = 0, error = "Payby Configuration Error" });
+            }
+            
         }
     }
 }
