@@ -50,199 +50,289 @@
         <div class="panel panel-default active" id="Basic1">
             <div class="panel-body">
                 <form class="form-horizontal" role="form" name="patientform" id="patientform">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="inputGroups">
-                                <label>Name of the Institution</label>
-                                <span>{{ViewInstitution_Name}}</span>
-                            </div>
-                            <div class="inputGroups">
+                    <table cellpadding="0" align="Center" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                        <tr>
+                            <td width="13%">
+                                <Lable>Institution Name</Lable>
+                            </td>
+                            <td width="25%">
+                                {{ViewInstitution_Name}}
+                            </td>
+                            <td rowspan="9" valign="top">
+                                <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
+                                    <tr>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-md-4" ng-repeat="row in InstitutiontypeList">
+                                                    <input type="checkbox" disabled="disabled" ng-model="InstitutionAddList[$index]" onchange="ModulelistChange();" />{{row.ModuleName}}
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
+                                    <tr>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-md-4" ng-repeat="row in LanguageList">
+                                                    <input type="checkbox" disabled="disabled" ng-model="InstitutionAddLanguageList[$index]" />{{row.LanguageName}}
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
+                                    <tr>
+                                        <td>
+                                            <div class="row">
+                                                <div class="centerallign">
+                                                    <label>Insurance</label>
+                                                </div>
+                                                <div class="col-md-4" ng-repeat="(key,value) in InstitutionInsuranceName">
+                                                    <input type="checkbox" disabled="disabled" ng-model="InstitutionAddInsuranceList[$index]" />{{value.PaymentName}}
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
+                                    <tr>
+                                        <td>
+                                            <div class="row">
+                                                <div class="centerallign">
+                                                    <label>Payment</label>
+                                                </div>
+                                                <div class="col-md-4" ng-repeat="(key,value) in InstitutionPaymentMethod">
+                                                    <input type="checkbox" disabled="disabled" ng-model="InstitutionAddPaymentList[$index]" />{{value.PaymentName}}
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table cellpadding="0" cellspacing="0" border="0" width="90%" class="formControlGroup">
+                                    <tr>
+                                        <td width="7%">
+                                            <label>TimeZone Name</label>
+                                        </td>
+                                        <td width="20%">
+                                            <select class="form-control" id="selectpicker" disabled>
+                                                <option value="0" data-tokens="TimeZone_Name">Select</option>
+                                                <option ng-repeat="set in TimeZoneListID" ng-required="true" ng-selected="TimeZoneId == set.TimeZoneId"
+                                                        value="{{set.TimeZoneId}}">
+                                                    {{TimeZoneIDName}}
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="7%">
+                                            <label>No. of Health Care Professionals</label>
+                                        </td>
+                                        <td width="20%">
+                                            {{Health_Care_Professionals}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>No. of Patients</label>
+                                        </td>
+                                        <td>
+                                            {{Patients}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>No. of Hive</label>
+                                        </td>
+                                        <td>
+                                            {{No_Of_Hive}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>No. of Hive Chart</label>
+                                        </td>
+                                        <td>
+                                            {{No_Of_HiveChart}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>No. of Hive Users</label>
+                                        </td>
+                                        <td>
+                                            {{No_Of_Hive_Users}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>No. of Hive Chart Users</label>
+                                        </td>
+                                        <td>
+                                            {{No_Of_HiveChart_Users}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Contract Period</label>
+                                        </td>
+                                        <td>
+                                            {{Contract_Period_From |date:"dd-MMM-yyyy"}} - {{Contract_Period_To |date:"dd-MMM-yyyy"}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Type</label>
+                                        </td>
+                                        <td class="nopadding">
+                                            <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
+                                                <tr>
+                                                    <td>
+                                                        {{Subscription_Type==1 ? "Standard" : "Premium"}}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="7%">
+                                            <label>Appointment Module</label>
+                                        </td>
+                                        <td width="20%">
+                                            <select class="form-control" id="AppointmentModuleID" disabled>
+                                                <option value="0" data-tokens="AppointmentModule_Name">Select</option>
+                                                <option ng-repeat="set in AppointmentModuleListID" ng-required="true" ng-selected="AppointmentModuleId == set.Id" value="{{set.Id}}">{{set.Name}} </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Created No.of Patient</label>
+                                        </td>
+                                        <td><span>{{Created_No_Of_Patient}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Created No.of HCP</label>
+                                        </td>
+                                        <td><span>{{Created_No_Of_HealthCareProf}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Available   Patient</label>
+                                        </td>
+                                        <td><span>{{Remaining_No_Of_Patient}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Available   HCP</label>
+                                        </td>
+                                        <td><span>{{Remaining_No_Of_HealthCareProf}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Created No.of Hive</label>
+                                        </td>
+                                        <td><span>{{Created_No_Of_Hive}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Created No.of HiveChart</label>
+                                        </td>
+                                        <td><span>{{Created_No_Of_Hivechart}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Available   Hive</label>
+                                        </td>
+                                        <td><span>{{Remaining_No_Of_Hive}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Available   HiveChart</label>
+                                        </td>
+                                        <td><span>{{Remaining_No_Of_Hivechart}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Created No.of Hive Users</label>
+                                        </td>
+                                        <td><span>{{Created_No_Of_Hive_Users}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Created No.of Hive Chart Users</label>
+                                        </td>
+                                        <td><span>{{Created_No_Of_Hivechart_Users}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Available   Hive Users</label>
+                                        </td>
+                                        <td><span>{{Remaining_No_Of_Hive_Users}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Available   Hive Chart Users</label>
+                                        </td>
+                                        <td><span>{{Remaining_No_Of_Hivechart_Users}}</span></td>
+                                    </tr>
+                                </table>
+                        <tr>
+                            <td>
                                 <label>Email</label>
-                                <span>{{Email}}</span>
-                            </div>
-                            <div class="inputGroups">
-                                <label>Address</label>
-                                <div><span>{{Address1}}</span></div>
-                                <div> <span>{{Address2}}</span></div>
-                                <div> <span>{{Address3}}</span></div>
-
-
-
-                            </div>
-                            <div class="inputGroups">
-
+                            </td>
+                            <td><span>{{Email}}</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Address1</label>
+                            </td>
+                            <td><span>{{Address1}}</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Address2</label>
+                            </td>
+                            <td><span>{{Address2}}</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Address3</label>
+                            </td>
+                            <td><span>{{Address3}}</span></td>
+                        </tr>
+                        <tr>
+                            <td>
                                 <label>Postal/ZipCode</label>
-
-                                <span>{{ZipCode}}</span>
-                            </div>
-                            <div class="inputGroups">
-
+                            </td>
+                            <td><span>{{ZipCode}}</span></td>
+                        </tr>
+                        <tr>
+                            <td>
                                 <label>Country</label>
-                                <span>{{Country}}</span>
-                            </div>
-                            <div class="inputGroups">
-
+                            </td>
+                            <td><span>{{Country}}</span></td>
+                        </tr>
+                        <tr>
+                            <td>
                                 <label>State</label>
-                                <span>{{State}}</span>
-                            </div>
-                            <div class="inputGroups">
-
+                            </td>
+                            <td><span>{{State}}</span></td>
+                        </tr>
+                        <tr>
+                            <td>
                                 <label>City</label>
-                                <span>{{City}}</span>
-                            </div>
-                            <!--<div class="inputGroups">
-
-                                <label>Created No.of Patient</label>
-                                <span>{{Created_No_Of_Patient}}</span>
-                            </div>
-                            <div class="inputGroups">
-
-                                <label>Created No.of HCP</label>
-                                <span>{{Created_No_Of_HealthCareProf}}</span>
-                            </div>-->
-                            <div class="inputGroups"></div>
-
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="inputGroups">
-                                <span><label>Used   /    No.of Health Care Professionals      /       Available</label></span>
-                                <span style="margin-left: 19px; font-weight: normal;"> {{Created_No_Of_HealthCareProf}}</span> /
-                                <span style="margin-left: 40px; font-weight: normal;">{{Health_Care_Professionals}}</span>
-                                <span style="margin-left: 45px; font-weight: normal;">/ {{Remaining_No_Of_HealthCareProf}}</span>
-                            </div>
-                            <div class="inputGroups">
-                                <span><label>Used   /    No.of Patient      /       Available</label></span>
-                                <span style="margin-left: 11px; font-weight: normal;"> {{Created_No_Of_Patient}}</span> /
-                                <span style="margin-left: 31px; font-weight: normal;">{{Patients}}</span>
-                                <span style="margin-left: 28px; font-weight: normal;">/ {{Remaining_No_Of_Patient}}</span>
-                            </div>
-                            <div class="inputGroups">
-                                <span><label>Used   /    No.of Hive     /       Available</label></span>
-                                <span style="margin-left: 19px; font-weight: normal;"> {{Created_No_Of_Hive}}</span> /
-                                <span style="margin-left: 40px; font-weight: normal;">{{No_Of_Hive}}</span>
-                                <span style="margin-left: 45px; font-weight: normal;">/ {{Remaining_No_Of_Hive}}</span>
-                            </div>
-                            <div class="inputGroups">
-                                <span><label>Used   /    No.of Hive Chart      /       Available</label></span>
-                                <span style="margin-left: 11px; font-weight: normal;"> {{Created_No_Of_Hivechart}}</span> /
-                                <span style="margin-left: 31px; font-weight: normal;">{{No_Of_HiveChart}}</span>
-                                <span style="margin-left: 28px; font-weight: normal;">/ {{Remaining_No_Of_Hivechart}}</span>
-                            </div>
-                            <div class="inputGroups">
-                                <span><label>Used   /    No.of Hive Users     /       Available</label></span>
-                                <span style="margin-left: 19px; font-weight: normal;"> {{Created_No_Of_Hive_Users}}</span> /
-                                <span style="margin-left: 40px; font-weight: normal;">{{No_Of_Hive_Users}}</span>
-                                <span style="margin-left: 45px; font-weight: normal;">/ {{Remaining_No_Of_Hive_Users}}</span>
-                            </div>
-                            <div class="inputGroups">
-                                <span><label>Used   /    No.of Hive Chart Users      /       Available</label></span>
-                                <span style="margin-left: 11px; font-weight: normal;"> {{Created_No_Of_Hivechart_Users}}</span> /
-                                <span style="margin-left: 31px; font-weight: normal;">{{No_Of_HiveChart_Users}}</span>
-                                <span style="margin-left: 28px; font-weight: normal;">/ {{Remaining_No_Of_Hivechart_Users}}</span>
-                            </div>
-                            <div class="inputGroups">
-                                <label>Contract Period </label>
-                                <span> {{Contract_Period_From}} - {{Contract_Period_To}}</span>
-                            </div>
-                            <div class="inputGroups">
-                                <label>TimeZone Name</label>
-                                <span> {{TimeZoneIDName}}</span>
-                            </div>
-                            <div class="inputGroups">
-                                <label>Appointment Module Name</label>
-                                <span> {{AppointmentModuleName.Name}}</span>
-                            </div>
-                            <!--<div class="inputGroups">
-        <label>Chronic Edit</label>
-        <span>
-            <input type="checkbox" class="input-checkbox" name="Chroniccc" ng-init="checked=true" value="1" ng-model="Chroniccc" disabled="disabled">CC
-            <input type="checkbox" class="input-checkbox" name="Chroniccg" ng-init="checked=true" value="1" ng-model="Chroniccg" disabled="disabled">CG
-            <input type="checkbox" class="input-checkbox" name="Chroniccl" ng-init="checked=true" value="1" ng-model="Chroniccl" disabled="disabled">CL
-            <input type="checkbox" class="input-checkbox" name="Chronicsc" ng-init="checked=true" value="1" ng-model="Chronicsc" disabled="disabled">SC
-        </span>
-    </div>-->
-                            <!--<div class="inputGroups">
-        <label>Remaind No.Of Patient</label>
-        <span> {{Remaining_No_Of_Patient}}</span>
-    </div>
-    <div class="inputGroups">
-        <label>Remaind No.Of HCP</label>
-        <span> {{Remaining_No_Of_HealthCareProf}}</span>
-    </div>-->
-                            <!--<div class="inputGroups">
-       <label>Type</label>
-       {{Subscription_Type==1 ? "Standard" : "Premium"}}
-    </div>-->
-
-
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="inputGroups">
-                                <table cellpadding="0" cellspacing="0" border="1" width="100%" class="formControlGroup">
-                                    <tr>
-                                        <td>
-                                            <div class="centerallign">
-                                                <label>Module Name</label>
-                                            </div>
-                                            <div ng-repeat="(key,value) in InstitutiontypeList">
-                                                <input type="checkbox" disabled="disabled"
-                                                       ng-model="InstitutionAddList[$index]" /><span class="ml-10">{{value.ModuleName}}</span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div class="inputGroups">
-                                <table cellpadding="0" cellspacing="0" border="1" width="100%" class="formControlGroup">
-                                    <tr>
-                                        <td>
-                                            <div class="centerallign">
-                                                <label>Insurance</label>
-                                            </div>
-                                            <div ng-repeat="(key,value) in InstitutionInsuranceName">
-                                                <input type="checkbox" disabled="disabled"
-                                                       ng-model="InstitutionAddInsuranceList[$index]" /><span class="ml-10">{{value.PaymentName}}</span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div class="inputGroups">
-                                <table cellpadding="0" cellspacing="0" border="1" width="100%" class="formControlGroup">
-                                    <tr>
-                                        <td>
-                                            <div class="centerallign">
-                                                <label>Payment</label>
-                                            </div>
-                                            <div ng-repeat="(key,value) in InstitutionPaymentMethod">
-                                                <input type="checkbox" disabled="disabled"
-                                                       ng-model="InstitutionAddPaymentList[$index]" /><span class="ml-10">{{value.PaymentName}}</span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-
-                        </div>
-
-                        <div class="col-sm-2">
-                            <div class="inputGroups">
-                                <table cellpadding="0" cellspacing="0" border="1" width="100%" class="formControlGroup">
-                                    <tr>
-                                        <td>
-                                            <div class="centerallign">
-                                                <label>Language</label>
-                                            </div>
-                                            <div class="leftallign" ng-repeat="(key,value) in LanguageList">
-                                                <input type="checkbox" disabled="disabled"
-                                                       ng-model="InstitutionAddLanguageList[$index]" /><span class="ml-10">{{value.LanguageName}}</span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                            </td>
+                            <td><span>{{City}}</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>RowId</label>
+                            </td>
+                            <td><span id="subscriptionrowid">{{DuplicatesId}}</span></td>
+                        </tr>
+                    </table>
 
                 </form>
             </div>
