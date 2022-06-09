@@ -161,6 +161,7 @@ namespace MyCortex.Masters.Models
     public class TabDevicesList
     {
         public long ID { get; set; }
+        public long DeviceId { get; set; }
         public string DeviceName { get; set; }
         public bool IsActive { get; set; }
         public long InstitutionId { get; set; }

@@ -28,6 +28,8 @@ namespace MyCortex.Admin.Models
         public int? No_Of_Hive { get; set; }
         [Required]
         public int? No_Of_HiveChart { get; set; }
+        public int? No_Of_HiveDevices { get; set; }
+        public int? No_Of_HiveChartDevices { get; set; }
         public DateTime Contract_PeriodFrom { get; set; }
         [Required]
         public DateTime Contract_PeriodTo { get; set; }
@@ -72,6 +74,11 @@ namespace MyCortex.Admin.Models
         public int? Created_No_Of_Hivechart_Users { get; set; }
         public int? Remaining_No_Of_Hive_Users { get; set; }
         public int? Remaining_No_Of_Hivechart_Users { get; set; }
+
+        public int? Created_No_Of_Hive_Devices { get; set; }
+        public int? Created_No_Of_Hivechart_Devices { get; set; }
+        public int? Remaining_No_Of_Hive_Devices { get; set; }
+        public int? Remaining_No_Of_Hivechart_Devices { get; set; }
     }
 
   
