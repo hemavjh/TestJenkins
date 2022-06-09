@@ -236,6 +236,26 @@ namespace MyCortex.User.Controllers
                     messagestr = "Hive Chart User subscription limit exceeded!";
                     model.ReturnFlag = 0;
                 }
+                else if (ModelData.Any(item => item.Flag == 11) == true)
+                {
+                    messagestr = "Don't have Hive Device subscription!";
+                    model.ReturnFlag = 0;
+                }
+                else if (ModelData.Any(item => item.Flag == 12) == true)
+                {
+                    messagestr = "Hive Device subscription limit exceeded!";
+                    model.ReturnFlag = 0;
+                }
+                else if (ModelData.Any(item => item.Flag == 13) == true)
+                {
+                    messagestr = "Don't have Hive Chart Device subscription!";
+                    model.ReturnFlag = 0;
+                }
+                else if (ModelData.Any(item => item.Flag == 14) == true)
+                {
+                    messagestr = "Hive Chart Device subscription limit exceeded!";
+                    model.ReturnFlag = 0;
+                }
                 model.TabUserDetails = ModelData;
                 model.Message = messagestr;
                 model.Status = "True";
