@@ -219,8 +219,12 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
 
                                 $scope.No_Of_HiveChart_User = data.No_Of_HiveChartUsers;
                                 $scope.No_Of_Hive_User = data.No_Of_HiveUsers;
+                                $scope.No_Of_HiveChart_Devices = data.No_Of_HiveChartDevices;
+                                $scope.No_Of_Hive_Devices = data.No_Of_HiveDevices;
                                 $scope.Remaining_No_Of_Hive_Users = data.Remaining_No_Of_Hive_Users;
                                 $scope.Remaining_No_Of_Hivechart_Users = data.Remaining_No_Of_Hivechart_Users;
+                                $scope.Remaining_No_Of_Hive_Devices = data.Remaining_No_Of_Hive_Devices;
+                                $scope.Remaining_No_Of_Hivechart_Devices = data.Remaining_No_Of_Hivechart_Devices;
                                 //if ($scope.rowCollectionTab.length > 0) {
                                 //    angular.forEach($scope.rowCollectionTab, function (value, index) {
                                 //        $scope.UsersCount = $scope.UsersCount + value.UsersCount;
@@ -642,25 +646,31 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         };
 
         $scope.MyDeviceRow = "-1";
-        $scope.AddDeviceParameters = [{
+        /*$scope.AddDeviceParameters = [{
             'Id': $scope.DeviceId,
             'DeviceId': $scope.Id
-        }];
+        }];*/
 
         $scope.MyDeviceAdd = function () {
             var DuplicateDevice = 0;
             if ($scope.MyDeviceRow >= 0) {
                 var obj = {
-                    'Id': $scope.DeviceId,
-                    'DeviceId': $scope.Id,
+                    'Id': 0,
+                    'DeviceId': 0,
+                    'DeviceName': '',
+                    'TabId': null,
+                    'UserId': null,
                     'IsActive': true
                 }
                 $scope.AddDeviceParameters[$scope.MyDeviceRow] = obj;
             }
             else {
                 $scope.AddDeviceParameters.push({
-                    'Id': $scope.DeviceId,
-                    'DeviceId': $scope.Id,
+                    'Id': 0,
+                    'DeviceId': 0,
+                    'DeviceName': '',
+                    'TabId': null,
+                    'UserId': null,
                     'IsActive': true
                 })
             }
@@ -859,7 +869,8 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                         InstitutionId: $window.localStorage['InstitutionId'],
                         CreatedBy: $scope.CREATED_BY,
                         UserList: $scope.AddUserParameters,
-                        DevicesList: $scope.DevicesLists,
+                        /*DevicesList: $scope.DevicesLists,*/
+                        DevicesList: $scope.AddDeviceParameters,
                         SelectedTabDeviceList: $scope.UserDeviceDetails_List,
                         HiveType: HiveType
                     };
