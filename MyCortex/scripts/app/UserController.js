@@ -482,7 +482,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             if ($scope.Businessuesrclickcount == 1) {
                 $scope.BusinessUserDropdownList();
             }
-            $scope.status = 1;
+            $scope.status = 2;
             $('[data-id="selectpicker"]').prop('disabled', false);
             $scope.SuperAdminDropdownsList();
             //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));

@@ -33,7 +33,13 @@ InstitutionSubscriptionHAcontroller.controller("InstitutionSubscriptionHospitalA
             alert("test");
             $location.path("/InstitutionHospitalAdmin_view/" + $scope.InstituteId);
         };
-
+        $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            $scope.TimeZoneListID = data;
+        });
+        $http.get(baseUrl + '/api/DoctorShift/AppointmentModuleList/').success(function (data) {
+            // only active Language    
+            $scope.AppointmentModuleListID = data;
+        });
         // This is for to get Institution Modiule List 
         //$http.get(baseUrl + '/api/InstitutionSubscription/ModuleNameList/').success(function (data) {
         //    // only active Country    
