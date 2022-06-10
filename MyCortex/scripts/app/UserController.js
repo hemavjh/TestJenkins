@@ -450,17 +450,15 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             if ($scope.MobileNo == undefined) { $scope.MobileNo = ""; }
             if ($scope.InsuranceId == undefined) { $scope.InsuranceId = ""; }
 
-
-            if (!($scope.FirstName != "" && $scope.LastName != "" && $scope.NationalId != ""
-                && $scope.InsuranceId != "" && $scope.MobileNo != "" && $scope.EmailId != "")) {
-
-                if ($scope.FirstName != "" && $scope.LastName != "" && $scope.NationalId != "" && $scope.InsuranceId != ""
+            //if (!($scope.FirstName != "" && $scope.LastName != "" && $scope.NationalId != ""
+            //    && $scope.InsuranceId != "" && $scope.MobileNo != "" && $scope.EmailId != "")) {
+            if ($scope.FirstName != "" && $scope.LastName != "" && $scope.NationalId != "" && $scope.InsuranceId != ""
                     && $scope.EmailId != "" && $scope.MobileNo != "") {
                     $scope.currentTab = 2;
                 }
                 else
                     $scope.currentTab = 1;
-            }
+            //}
         }
 
         $scope.Businessuesrclickcount = 1;
