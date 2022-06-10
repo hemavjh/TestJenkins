@@ -4669,5 +4669,13 @@ namespace MyCortex.User.Controller
                 return 0;
             }
         }
+
+        [HttpPost]
+        public int Save_User_Eligibility(string eligibiltyId, string eligibility_request, string eligibility_response, int patient_id)
+        {
+            int resp = 0;
+            resp = repository.Save_User_Eligiblity_Logs(eligibiltyId, eligibility_request, eligibility_response, patient_id);
+            return resp;
+        }
     }
 }
