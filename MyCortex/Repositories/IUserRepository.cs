@@ -138,5 +138,6 @@ namespace MyCortex.Repositories
         UserModel Patient_Update(Guid Login_Session_Id, UserModel insobj);
         bool UserSession_Status(string Login_Session_Id);
         IList<CometChat_User> GetCometChatUserList(long InstitutionId);
+        long UpdateUserLanguage(long UserId, long LanguageId);
     }
 }

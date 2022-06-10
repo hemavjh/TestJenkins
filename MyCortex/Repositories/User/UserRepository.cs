@@ -4906,5 +4906,15 @@ namespace MyCortex.Repositories.Uesr
                 return 0;
             }
         }
+
+        public long UpdateUserLanguage(long UserId, long LanguageId)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Id", UserId));
+            param.Add(new DataParameter("@LanguagePreference", LanguageId));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[UPDATE_USERLANGUAGE]", param);
+            DataRow dr = dt.Rows[0];
+            return int.Parse((dr["flag"].ToString()));
+        }
     }
 }

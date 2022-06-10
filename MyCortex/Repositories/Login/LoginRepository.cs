@@ -253,6 +253,7 @@ namespace MyCortex.Repositories.Login
                                       Insurance_Preference = p.Field<long?>("INSURANCE_PREFERENCE") ?? 0,
                                       Approval_flag = p.Field<int?>("APPROVAL_FLAG"),
                                       HiveType = p.Field<int>("HiveType"),
+                                      UserLanguage_Preference = p.Field<long?>("USERLANGUAGE_PREFERENCE") ?? 0
                                   },
                               }).FirstOrDefault();
             if (lst.UserDetails.DOB_Encrypt != "" && lst.UserDetails.DOB_Encrypt != null)

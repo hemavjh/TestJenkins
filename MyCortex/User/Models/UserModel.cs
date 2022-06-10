@@ -170,6 +170,7 @@ namespace MyCortex.User.Model
         public int Language_preference { get; set; }
         public long Payment_preference { get; set; }
         public long Insurance_Preference { get; set; }
+        public long UserLanguage_Preference { get; set; }
         public int HiveType { get; set; }
 
     }
