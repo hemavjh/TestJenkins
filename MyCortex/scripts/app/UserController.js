@@ -442,6 +442,25 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 }
         }
 
+        $scope.checkTab1 = function () {
+            if ($scope.FirstName == undefined) { $scope.FirstName = ""; }
+            if ($scope.LastName == undefined) { $scope.LastName = ""; }
+            if ($scope.NationalId == undefined) { $scope.NationalId = ""; }
+            if ($scope.EmailId == undefined) { $scope.EmailId = ""; }
+            if ($scope.MobileNo == undefined) { $scope.MobileNo = ""; }
+            if ($scope.InsuranceId == undefined) { $scope.InsuranceId = ""; }
+
+            //if (!($scope.FirstName != "" && $scope.LastName != "" && $scope.NationalId != ""
+            //    && $scope.InsuranceId != "" && $scope.MobileNo != "" && $scope.EmailId != "")) {
+            if ($scope.FirstName != "" && $scope.LastName != "" && $scope.NationalId != "" && $scope.InsuranceId != ""
+                    && $scope.EmailId != "" && $scope.MobileNo != "") {
+                    $scope.currentTab = 2;
+                }
+                else
+                    $scope.currentTab = 1;
+            //}
+        }
+
         $scope.Businessuesrclickcount = 1;
         $scope.AddUserPopUP = function () {
             if ($scope.LoginType == '1') {
