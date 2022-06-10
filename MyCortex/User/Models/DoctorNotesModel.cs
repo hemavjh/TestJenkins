@@ -14,7 +14,8 @@ namespace MyCortex.Masters.Models
         public long PatientId { get; set; }
         public string Notes { get; set; }
         public string NotesType { get; set; }
-        public string NotesFlag { get; set; }
+        public int NotesFlag { get; set; }
+        public int Importance { get; set; }
         public long Created_By { get; set; }
         public long Institution_Id { get; set; }
         public int flag { get; set; }

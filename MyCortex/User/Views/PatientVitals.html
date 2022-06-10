@@ -1983,8 +1983,6 @@
                                             </div>
                                         </div>
                                         <div ng-show="currentTab=='7'">
-
-
                                             <div id="table2">
                                                 <div class="row">
                                                     <div class="col-sm-4">
@@ -1996,121 +1994,147 @@
                                                                 <i class="fa fa-search" ng-click="filterPatientNotesList()"></i>
                                                             </div>
                                                         </div>
-
-
                                                     </div>
-                                                    <div class="col-sm-8">
+                                                    <div class="col-sm-1">
                                                         <div class="inputGroups">
                                                             <label>Active</label>
                                                             <input toggle-checkbox ng-model="NotesActive" type="checkbox"
                                                                    ng-change="patientnotelist();" title="Active / All">
                                                             <!--<a href="javascript:" ng-click="PatientNotesAddPopup()" width="15%" class="ml-10 theme-btn-1"
-                                            title='Add New Patient Notes'>Add New</a>-->
+            title='Add New Patient Notes'>Add New</a>-->
                                                         </div>
                                                     </div>
-
+                                                    <div class="col-sm-3">
+                                                        <div class="inputGroups">
+                                                            <label>Notes Type</label>
+                                                            <select ng-model="NotesTypeSearch" data-live-search="true" data-selectpicker data-collection-name="NotesTypeList"
+                                                                    class="form-control" data-style="form-control"
+                                                                    ng-options="row.NotesType as row.NotesType for row in NotesTypeList"
+                                                                    style="width: 160px;">
+                                                                <option value="">Select</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <div class="inputGroups">
+                                                            <label>Privacy</label>
+                                                            <input type="checkbox" ng-model="FlagSearch" id="FlagSearch" class="input-checkbox" value="{{FlagSearch}}" ng-true-value="1" ng-false-value="0" ng-click="FnPrivateSearchChange()" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <div class="inputGroups">
+                                                            <label>Importance</label>
+                                                            <input type="checkbox" ng-model="ImportanceSearch" id="ImportanceSearch" class="input-checkbox" value="{{ImportanceSearch}}" ng-true-value="1" ng-false-value="0" ng-click="FnImportanceSearchChange()" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <div class="inputGroups">
+                                                            <label>&nbsp;</label>
+                                                            <a href="javascript:" title="Go" class="theme-btn-1 ml-20" ng-click="FnGoNotes()">
+                                                                Go
+                                                            </a>
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                                    </div>
 
-                                            </div>
+                                                    <div class="row" style="overflow-y: hidden !important">
+                                                        <table st-table="PatientNotesemptydata" style="width: 100%" st-safe-src="PatientNotesrowCollectionFilter"
+                                                               class="table themeTable">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th st-ratio="5" st-sort="Id">#</th>
+                                                                    <th st-ratio="35" st-sort="Notes">Notes</th>
+                                                                    <th st-ratio="35" st-sort="Notestype">Notes Type</th>
+                                                                    <th st-ratio="35" st-sort="Flag">Privacy</th>
+                                                                    <th st-ratio="20" st-sort="CREATED_PERSON">Created By</th>
+                                                                    <th st-ratio="25" st-sort="CREATED_DT">Created On</th>
+                                                                    <th st-ratio="15">Action</th>
+                                                                </tr>
+                                                            </thead>
 
+                                                            <tbody>
+                                                                <tr ng-repeat="row in PatientNotesemptydata">
+                                                                    <td style="width: 5%" class="textalign">
+                                                                        {{((current_pageNote-1)*page_size)+$index+1}}
+                                                                    </td>
+                                                                    <td style="text-align: left; width: 10%" ng-if="row.Notes.length > 100">
+                                                                        <div class="textwrap" style="max-width:150px; word-wrap:break-word;">
+                                                                            {{row.Notes.substring(0,100)+"..." }}
+                                                                            <span class="link" style="text-decoration: underline; cursor: pointer" ng-click="NotesPopupModal(Notes,row)">
+                                                                                more
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
 
-                                            <div class="row" style="overflow-y: hidden !important">
-                                                <table st-table="PatientNotesemptydata" style="width: 100%" st-safe-src="PatientNotesrowCollectionFilter"
-                                                       class="table themeTable">
-                                                    <thead>
-                                                        <tr>
-                                                            <th st-ratio="5" st-sort="Id">#</th>
-                                                            <th st-ratio="35" st-sort="Notes">Notes</th>
-                                                            <th st-ratio="35" st-sort="Notestype">Notes Type</th>
-                                                            <th st-ratio="35" st-sort="Flag">Flag</th>
-                                                            <th st-ratio="20" st-sort="CREATED_PERSON">Created By</th>
-                                                            <th st-ratio="25" st-sort="CREATED_DT">Created On</th>
-                                                            <th st-ratio="15">Action</th>
-                                                        </tr>
-                                                    </thead>
+                                                                    <td style="text-align: left" ng-if="row.Notes.length < 100">
+                                                                        <div class="textwrap" style="max-width:150px; word-wrap:break-word;">
+                                                                            {{row.Notes}}
+                                                                        </div>
 
-                                                    <tbody>
-                                                        <tr ng-repeat="row in PatientNotesemptydata">
-                                                            <td style="width: 5%" class="textalign">
-                                                                {{((current_pageNote-1)*page_size)+$index+1}}
-                                                            </td>
-                                                            <td style="text-align: left; width: 10%" ng-if="row.Notes.length > 100">
-                                                                <div class="textwrap" style="max-width:150px; word-wrap:break-word;">
-                                                                    {{row.Notes.substring(0,100)+"..." }}
-                                                                    <span class="link" style="text-decoration: underline; cursor: pointer" ng-click="NotesPopupModal(Notes,row)">
-                                                                        more
-                                                                    </span>
-                                                                </div>
-                                                            </td>
-
-                                                            <td style="text-align: left" ng-if="row.Notes.length < 100">
-                                                                <div class="textwrap" style="max-width:150px; word-wrap:break-word;">
-                                                                    {{row.Notes}}
-                                                                </div>
-
-                                                            </td>
-                                                            <td style="text-align: left; width: 10%">
-                                                                {{row.NotesType}}
-                                                            </td>
-                                                            <td style="text-align: left; width: 10%">
-                                                                {{row.NotesFlag}}
-                                                            </td>
-                                                            <td style="text-align: left;max-width:150px; word-wrap:break-word;">
-                                                                <div>{{row.Created_By_Name}}</div>
-                                                            </td>
-                                                            <td style="text-align: left">
-                                                                <div>{{row.Created_Dt | date :'dd-MMM-yyyy hh:mm:ss a'}}</div>
-                                                            </td>
-                                                            <td style="text-align: center">
-                                                                <a href="javascript:" ng-click="ViewPatientNotesPopUP(row.Id)" title="View">
-                                                                    <img src="../../Images/ViewIcon.png" />
-                                                                </a>
-                                                                <a href="javascript:" title="Edit" ng-click="EditPatientNotes(row.Id, row.Created_Dt, row.Created_By)">
-                                                                    <i class="fa fa-pencil ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
-                                                                    <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
-                                                                        <img src="../../Images/EditIcon.png" ng-if="row.IsActive==0" />
-                                                                    </a>
-                                                                </a>
-                                                                <a href="javascript:" ng-click="DoctorNotesDetails_InActive(row.Id)" title="Active" ng-if="row.IsActive==1">
-                                                                    <img src="../../Images/activeIcon1.png" />
-                                                                </a>
-                                                                <a href="javascript:" ng-click="DoctorNotesDetails_Active(row.Id)" title="Inactive" ng-if="row.IsActive==0">
-                                                                    <img src="../../Images/inactive.png" />
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr ng-if="PatientNotesrowCollectionFilter.length==0">
-                                                            <td colspan="7" style="text-align: center">
-                                                                {{SearchMsg}}
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                    <tfoot ng-if="PatientNotes_pages>1">
-                                                        <tr>
-                                                            <td colspan="7" class="text-center">
-                                                                <!--<div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
-                                                mplate="Masters/Views/pagination.custom.html"></div>-->
-                                                                <ul class="pagination" style="margin-left:110px;">
-                                                                    <li>
-                                                                        <a ng-click="setPage1(1)">First</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a ng-click="setPage1(current_pageNote - 1)">&lt;</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a><input style="width: 130px" class="text-center" type="number" min="1" max="{{PatientNotes_pages}}" step="1" ng-model="inputPageNote" ng-value="current_pageNote" ng-change="setPage1(0);"> of {{PatientNotes_pages}}</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a ng-click="setPage1(current_pageNote + 1)">&gt;</a>
-                                                                    </li>
-                                                                    <li><a ng-click="setPage1(PatientNotes_pages)">Last</a></li>
-                                                                </ul>
-                                                            </td>
-                                                        </tr>
-                                                    </tfoot>
-                                                </table>
-                                            </div>
-                                        </div>
+                                                                    </td>
+                                                                    <td style="text-align: left; width: 10%">
+                                                                        {{row.NotesType}}
+                                                                    </td>
+                                                                    <td style="text-align: left; width: 10%">
+                                                                        {{row.NotesFlag}}
+                                                                    </td>
+                                                                    <td style="text-align: left;max-width:150px; word-wrap:break-word;">
+                                                                        <div>{{row.Created_By_Name}}</div>
+                                                                    </td>
+                                                                    <td style="text-align: left">
+                                                                        <div>{{row.Created_Dt | date :'dd-MMM-yyyy hh:mm:ss a'}}</div>
+                                                                    </td>
+                                                                    <td style="text-align: center">
+                                                                        <a href="javascript:" ng-click="ViewPatientNotesPopUP(row.Id)" title="View">
+                                                                            <img src="../../Images/ViewIcon.png" />
+                                                                        </a>
+                                                                        <a href="javascript:" title="Edit" ng-click="EditPatientNotes(row.Id, row.Created_Dt, row.Created_By)">
+                                                                            <i class="fa fa-pencil ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
+                                                                            <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
+                                                                                <img src="../../Images/EditIcon.png" ng-if="row.IsActive==0" />
+                                                                            </a>
+                                                                        </a>
+                                                                        <a href="javascript:" ng-click="DoctorNotesDetails_InActive(row.Id)" title="Active" ng-if="row.IsActive==1">
+                                                                            <img src="../../Images/activeIcon1.png" />
+                                                                        </a>
+                                                                        <a href="javascript:" ng-click="DoctorNotesDetails_Active(row.Id)" title="Inactive" ng-if="row.IsActive==0">
+                                                                            <img src="../../Images/inactive.png" />
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr ng-if="PatientNotesrowCollectionFilter.length==0">
+                                                                    <td colspan="7" style="text-align: center">
+                                                                        {{SearchMsg}}
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                            <tfoot ng-if="PatientNotes_pages>1">
+                                                                <tr>
+                                                                    <td colspan="7" class="text-center">
+                                                                        <!--<div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                        mplate="Masters/Views/pagination.custom.html"></div>-->
+                                                                        <ul class="pagination" style="margin-left:110px;">
+                                                                            <li>
+                                                                                <a ng-click="setPage1(1)">First</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a ng-click="setPage1(current_pageNote - 1)">&lt;</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a><input style="width: 130px" class="text-center" type="number" min="1" max="{{PatientNotes_pages}}" step="1" ng-model="inputPageNote" ng-value="current_pageNote" ng-change="setPage1(0);"> of {{PatientNotes_pages}}</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a ng-click="setPage1(current_pageNote + 1)">&gt;</a>
+                                                                            </li>
+                                                                            <li><a ng-click="setPage1(PatientNotes_pages)">Last</a></li>
+                                                                        </ul>
+                                                                    </td>
+                                                                </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
+                                                </div>
                                         <div ng-show="currentTab=='8'">
                                             <div id="collapse15">
 
@@ -2126,15 +2150,36 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-8">
+                                                    <div class="col-sm-2">
                                                         <div class="inputGroups">
                                                             <label>Active</label>
                                                             <input toggle-checkbox ng-model="OtherData_IsActive" type="checkbox" ng-change="Patient_OtherData_List();"
                                                                    title="Active / All">
                                                             <!--<a href="javascript:" ng-click="Patient_OtherData_AddModal(OtherData_ClearPopup())"
-                                               class="theme-btn-1 ml-10" title='Add New Other Data' ng-if="(UserTypeId!= 6)">
-                                                Add New
-                                            </a>-->
+               class="theme-btn-1 ml-10" title='Add New Other Data' ng-if="(UserTypeId!= 6)">
+                Add New
+            </a>-->
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="inputGroups">
+                                                            <label>Document Type</label>
+                                                            <div class="modernSearch">
+                                                                <select ng-model="SearchDocType" data-live-search="true" data-selectpicker data-collection-name="DocumentTypeList"
+                                                                        class="form-control" data-style="form-control"
+                                                                        ng-options="row.DocumentType as row.DocumentType for row in DocumentTypeList"
+                                                                        style="width: 170px;">
+                                                                    <option value="">Select</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <div class="inputGroups">
+                                                            <label>&nbsp;</label>
+                                                            <a href="javascript:" title="Go" class="theme-btn-1 ml-20" ng-click="filter_OtherData_DocType()">
+                                                                Go
+                                                            </a>
                                                         </div>
                                                     </div>
 
@@ -3881,7 +3926,6 @@
                             <h4 class="modal-title">Notes</h4>
                         </div>
                         <div class="modal-body">
-
                             <div class="inputGroups">
                                 <label>Notes<sup><font class='mandatory-field'>*</font></sup></label>
                                 <textarea rows="5" cols="100" maxlength="1500" ng-model="Notes" class="form-control" required></textarea>
@@ -3896,13 +3940,17 @@
                                 </select>
                             </div>
                             <div class="inputGroups">
-                                <label>Flag<sup><font class='mandatory-field'>*</font></sup></label>
-                                <input type="checkbox" ng-model="Flag" id="Flag" class="input-checkbox" value="{{Flag}}" ng-true-value="'Private'" ng-false-value="'Public'" ng-click="FnPrivateChange()" />
+                                <label>Privacy</label>
+                                <input type="checkbox" ng-model="Flag" id="Flag" class="input-checkbox" value="{{Flag}}" ng-true-value="1" ng-false-value="'Public'" ng-click="FnPrivateChange()" />
                                 <!--<select ng-model="Flag" data-live-search="true" class="form-control" data-style="form-control" style="width: 160px;">
-        <option value="">Select</option>
-        <option value="Private">Private</option>
-        <option value="Public">Public</option>
-    </select>-->
+            <option value="">Select</option>
+            <option value="Private">Private</option>
+            <option value="Public">Public</option>
+        </select>-->
+                            </div>
+                            <div class="inputGroups">
+                                <label>Importance</label>
+                                <input type="checkbox" ng-model="Importance" id="Importance" class="input-checkbox" value="{{Importance}}" ng-true-value="1" ng-false-value="0" ng-click="FnImportanceChange()" />
                             </div>
                         </div>
 
@@ -4702,7 +4750,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 15%; vertical-align: top;">
-                                                        <label>Flag</label>
+                                                        <label>Privacy</label>
                                                     </td>
                                                     <td>
                                                         <div class="textwrap" style="word-break:break-word">{{Flag}}</div>
