@@ -756,7 +756,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
                 var picPath = "../../Images/others.png";
                 if (typeof ($scope.Gender_Name) != "undefined")
-                    if ($scope.GenderId == feMaleId) {
+                    if ($scope.GenderId == feMaleId) { 
                         picPath = "../../Images/Patient_Female.png";
                     }
                     else if ($scope.GenderId == maleId) {
@@ -3128,10 +3128,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $scope.resumedoc = data.FILE_NAME;
                             $scope.File_FullPath = data.FILE_FULLPATH;
                             $scope.Upload_FileName = data.UPLOAD_FILENAME;
-                            $scope.GenderId = data.GENDER_ID.toString();
-                            $http.get(baseUrl + '/api/Common/GenderList/').success(function (data) {
-                                $scope.GenderList = data;
-                            });
+                            //$scope.GenderId = data.GENDER_ID.toString();
+                            //$http.get(baseUrl + '/api/Common/GenderList/').success(function (data) {
+                            //    $scope.GenderList = data;
+                            //});
                             //if ($scope.GenderId != "0" || $scope.GenderId != "") {
                             //    $('#divGender').removeClass("ng-invalid");
                             //    $('#divGender').addClass("ng-valid");
@@ -3141,9 +3141,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             //    $('#divGender').addClass("ng-invalid");
                             //}
                             $scope.NationalityId = data.NATIONALITY_ID.toString();
-                            $http.get(baseUrl + '/api/Common/NationalityList/').success(function (data) {
-                                $scope.NationalityList = data;
-                            });
+                            //$http.get(baseUrl + '/api/Common/NationalityList/').success(function (data) {
+                            //    $scope.NationalityList = data;
+                            //});
                             //if ($scope.NationalityId != "0" || $scope.NationalityId != "") {
                             //    $('#divNationality').removeClass("ng-invalid");
                             //    $('#divNationality').addClass("ng-valid");
@@ -3153,13 +3153,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             //    $('#divNationality').addClass("ng-invalid");
                             //}
                             $scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
-                            $http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (data) {
-                                $scope.EthnicGroupListTemp = [];
-                                $scope.EthnicGroupListTemp = data;
-                                $scope.EthnicGroupList = angular.copy($scope.EthnicGroupListTemp);
-                                //validation checking for ethnic group
-                                //$scope.PatientEthnicChange();
-                            });
+                            //$http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (data) {
+                            //    $scope.EthnicGroupListTemp = [];
+                            //    $scope.EthnicGroupListTemp = data;
+                            //    $scope.EthnicGroupList = angular.copy($scope.EthnicGroupListTemp);
+                            //    //validation checking for ethnic group
+                            //    //$scope.PatientEthnicChange();
+                            //});
                             //if ($scope.EthnicGroupId != "0" || $scope.EthnicGroupId != "") {
                             //    $('#divPatientEthnic').removeClass("ng-invalid");
                             //    $('#divPatientEthnic').addClass("ng-valid");
@@ -3247,11 +3247,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                 });
                             }
                             $scope.MaritalStatusId = data.MARITALSTATUS_ID.toString();
-                            $http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (data) {
-                                $scope.MaritalStatusListTemp = [];
-                                $scope.MaritalStatusListTemp = data;
-                                $scope.MaritalStatusList = angular.copy($scope.MaritalStatusListTemp);
-                            });
+                            //$http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (data) {
+                            //    $scope.MaritalStatusListTemp = [];
+                            //    $scope.MaritalStatusListTemp = data;
+                            //    $scope.MaritalStatusList = angular.copy($scope.MaritalStatusListTemp);
+                            //});
                             //if ($scope.MaritalStatusId != "0" || $scope.MaritalStatusId != "") {
                             //    $('#divPatientMarital').removeClass("ng-invalid");
                             //    $('#divPatientMarital').addClass("ng-valid");
@@ -3261,11 +3261,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             //    $('#divPatientMarital').addClass("ng-invalid");
                             //}
                             $scope.BloodGroupId = data.BLOODGROUP_ID.toString();
-                            $http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (data) {
-                                $scope.BloodGroupListTemp = [];
-                                $scope.BloodGroupListTemp = data;
-                                $scope.BloodGroupList = angular.copy($scope.BloodGroupListTemp);
-                            });
+                            //$http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (data) {
+                            //    $scope.BloodGroupListTemp = [];
+                            //    $scope.BloodGroupListTemp = data;
+                            //    $scope.BloodGroupList = angular.copy($scope.BloodGroupListTemp);
+                            //});
                             //if ($scope.BloodGroupId != "0" || $scope.BloodGroupId != "") {
                             //    $('#divPatientBlood').removeClass("ng-invalid");
                             //    $('#divPatientBlood').addClass("ng-valid");
