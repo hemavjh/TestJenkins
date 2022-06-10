@@ -4669,5 +4669,53 @@ namespace MyCortex.User.Controller
                 return 0;
             }
         }
+
+        [HttpPost]
+        public HttpResponseMessage UpdateUserLanguage(long UserId, long LanguageId, Guid Login_Session_Id)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            var LoginSession = Login_Session_Id;
+            long flag = 0;
+            UserReturnModel model = new UserReturnModel();
+            try
+            {
+                flag = repository.UpdateUserLanguage(UserId, LanguageId);
+
+                if (flag == 1 || flag == 2)
+                {
+                    model.ReturnFlag = 1;
+                    model.Status = "False";
+                    if (flag == 1)
+                    {
+                        model.Error_Code = "1";
+                        model.Message = "User Not Exists";
+                    }
+                    else
+                    {
+                        model.Error_Code = "2";
+                        model.Message = "Language Not Exists";
+                    }
+                }
+                else if (flag == 3)
+                {
+                    model.ReturnFlag = 0;
+                    model.Status = "True";
+                    model.Error_Code = "";
+                    model.Message = "User Language Updated successfully";
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, model);
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                model.Status = "False";
+                model.Message = "Error in Updating User Language";
+                model.Error_Code = "1";
+                model.ReturnFlag = 0;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
     }
 }
