@@ -4916,5 +4916,17 @@ namespace MyCortex.Repositories.Uesr
             DataRow dr = dt.Rows[0];
             return int.Parse((dr["flag"].ToString()));
         }
+
+        public int Save_User_Eligiblity_Logs(string eligibility_id, string eligibility_request, string eligibility_response, int patient_id)
+        {
+            int response = 0;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ELIGIBILITY_ID", eligibility_id));
+            param.Add(new DataParameter("@ELIGIBILITY_REQUEST", eligibility_request));
+            param.Add(new DataParameter("@ELIGIBILITY_RESPONSE", eligibility_response));
+            param.Add(new DataParameter("@PATIENT_ID", patient_id));
+            response = ClsDataBase.Insert("[MYCORTEX].[USER_ELIGIBILITY_LOG]", param, true);
+            return response;
+        }
     }
 }

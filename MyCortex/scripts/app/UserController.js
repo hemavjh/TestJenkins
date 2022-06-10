@@ -5232,9 +5232,88 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 }
                 $scope.MobileNoView = typeof (mNumber) == "undefined" ? isccodeavail : mNumberCC; //mNumber //data.MOBILE_NO : mNumber;
                 $scope.MobileNo = typeof (mNumber) == "undefined" ? isccodeavail : mNumber; //mNumber //data.MOBILE_NO : mNumber;
-                
+                $scope.check_user_eligibility();
             });
         }
+
+        $scope.check_user_eligibility = function () {
+            var formData = {
+                "emiratesId": "784199765832854",
+                "clinicianLicense": "GN30148",
+                "consultationCategoryId": 4,
+                "countryCode": "+971",
+                "mobileNumber": "566767676",
+                "payerId": 305,
+                "referralLetterRefNo": "",
+                "serviceCategoryId": 12,
+                "facilityLicense": "MF2007"
+            }
+
+            //$http.post('https://integration.inhealth.ae/api/eligibilitycheck/addeligibilityrequest', formData).success(function (response_data) {
+            //    if (response_data.status == "1") {
+            //        response_data.data['eligibilityId'];
+            //        console.log(response_data.data['eligibilityId']);
+            //        $scope.get_user_elibility_details(response_data.data['eligibilityId'], formData, $scope.Id);
+            //    }
+            //});
+
+            var path = "https://integration.inhealth.ae/api/eligibilitycheck/addeligibilityrequest";
+            $http({
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "c2d0928a-7463-428d-bd12-72fda8757089"
+                },
+                url: path,
+                data: formData
+            }).then(function (response_data) {
+                if (response_data.status == "1") {
+                    response_data.data['eligibilityId'];
+                    console.log(response_data.data['eligibilityId']);
+                    $scope.get_user_elibility_details(response_data.data['eligibilityId'], formData, $scope.Id);
+                }
+            }, function (error) {
+                console.log(error);
+
+            });
+        }
+
+        $scope.get_user_eligibility_details = function (eligibilityId, formData, user_id) {
+            var path = 'https://integration.inhealth.ae/api/EligibilityCheck/GetEligibilityRequestDetailsByEligibilityId'
+            //$http.get(path + '?eligibilityID=' + eligibilityId + '&facilityLicense=MF2007', {header: { "Authorization": "c2d0928a-7463-428d-bd12-72fda8757089" }}).success(function (response_data) {
+            //    if (response_data.status == "1") {
+            //        user_eligibility_response = response_data.data['data'];
+            //        console.log(user_eligibility_response);
+            //        var eligibility_request = formData;
+            //        $scope.save_user_eligibility_logs(eligibilityId, eligibility_request, user_eligibility_response, user_id);
+            //    }
+            //});
+            $http({
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "c2d0928a-7463-428d-bd12-72fda8757089"
+                },
+                url: path + '?eligibilityID=' + eligibilityId + '&facilityLicense=MF2007',
+            }).then(function (response_data) {
+                if (response_data.status == "1") {
+                    user_eligibility_response = response_data.data['data'];
+                    var eligibility_request = formData;
+                    $scope.save_user_eligibility_logs(eligibilityId, eligibility_request, user_eligibility_response, user_id);
+                }
+            }, function (error) {
+                console.log(error);
+
+            });
+        }
+        $scope.save_user_eligibility_logs = function (eligibilityId, eligibility_request, eligibility_response, user_id) {
+            $http.post(baseUrl + '/api/User/Save_User_Eligibility/eligibiltyId?=' + eligibilityId + '&eligibility_request=' + eligibility_request + '&eligibility_response=' + eligibility_response + '&patient_id=' + user_id).success(function (resp_data) {
+                if (resp_data == 1) {
+                    console.log('saved logs');
+                }
+            });
+        }
+
         $scope.CancelInsurancePopup = function () {
             angular.element('#InsuranceModel').modal('hide');
 

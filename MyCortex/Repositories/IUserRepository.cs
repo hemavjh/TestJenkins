@@ -139,5 +139,6 @@ namespace MyCortex.Repositories
         bool UserSession_Status(string Login_Session_Id);
         IList<CometChat_User> GetCometChatUserList(long InstitutionId);
         long UpdateUserLanguage(long UserId, long LanguageId);
+        int Save_User_Eligiblity_Logs(string eligibiltyId, string eligibility_request, string eligibility_response, int patient_id);
     }
 }
