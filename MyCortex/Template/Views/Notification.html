@@ -266,6 +266,10 @@
                         <div class="col-sm-4">
                             <div class="inputGroups">
                                 <label>Tag Name</label>
+                                <div class="modernSearch">
+                                    <input type="text" id="SearchTag" ng-model="searchquery1" placeholder="" style="width: 20px" />
+                                    <i class="fa fa-search" ng-click="fliterTagList()"></i>
+                                </div>
                                 <ul style="list-style-type:none;padding:10px; border:1px solid #b5b5b7; width: 100%;border-radius:3%;max-height: 350px;overflow: auto;"
                                     id="allfields">
                                     <li class="list" id="node1" draggable="true" ondragstart="dragstart_handler(event);"
