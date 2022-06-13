@@ -7509,7 +7509,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
               // $('#Flag').attr('ng-init', 'checked="true"');
                 
                 $scope.PatientNotesClear();
-                $scope.Flag = 'Private';
+                $scope.Flag = 1;
+                $scope.Importance = 1;
                 $('#saved').attr("disabled", false);
                 angular.element('#PatientNotesAddEditModal').modal('show');
             }
@@ -7572,11 +7573,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 toastr.warning("Please select Notes type ", "warning");
                 return false;
             }
-            if (typeof ($scope.Flag) == "" || $scope.Flag == "") {
-                //alert("Please enter Notes");
-                toastr.warning("Please select flag", "warning");
-                return false;
-            }
+            //if (typeof ($scope.Flag) == "" || $scope.Flag == "") {
+            //    //alert("Please enter Notes");
+            //    toastr.warning("Please select flag", "warning");
+            //    return false;
+            //}
             return true;
         };
 
@@ -7591,6 +7592,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     Notes: $scope.Notes,
                     NotesType: $scope.NotesType,
                     NotesFlag: $scope.Flag,
+                    Importance: $scope.Importance,
                     Created_By: $window.localStorage['UserId'],
                     Modified_By: $window.localStorage['UserId'],
                 }
@@ -7640,15 +7642,27 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
         $scope.FnPrivateChange = function () {
             if ($("#Flag").is(":checked") == true) {
-                $scope.Flag = 'Private';
+                $scope.Flag = 1;
             }
             else {
-                $scope.Flag = 'Public';
+                $scope.Flag = 0;
+            }
+        }
+
+        $scope.FnImportanceChange = function () {
+            if ($("#Importance").is(":checked") == true) {
+                $scope.Importance = '1';
+            }
+            else {
+                $scope.Importance = '0';
             }
         }
 
         //List function for doctor Notes   
         $scope.patientnotelist = function () {
+
+            $scope.FlagSearch = 0;
+            $scope.ImportanceSearch = 0;
             $scope.PatientNotesemptydata = [];
             $scope.PatientNotesrowCollection = [];
             $scope.ConfigCode = "PATIENTPAGE_COUNT";
@@ -7718,18 +7732,88 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             }
         }
 
+        //Search function for doctor notes
+        $scope.FnGoNotes = function () {
+            var searchstring1 = angular.lowercase($scope.NotesTypeSearch);
+            if (searchstring1 == undefined) { searchstring1 = ''; $scope.NotesTypeSearch = '';}
+            var searchstring2 = angular.lowercase($scope.FlagSearch);
+            if (searchstring2 == "undefined") searchstring2 = '';
+            var searchstring3 = angular.lowercase($scope.ImportanceSearch);
+            if (searchstring3 == "undefined") searchstring3 = '';
+
+            $scope.PatientNotesrowCollectionFilter = [];
+            if ($scope.NotesTypeSearch == "" && $scope.FlagSearch == 0 && $scope.ImportanceSearch == 0) {
+                $scope.PatientNotesrowCollectionFilter = [];
+                $scope.PatientNotesrowCollectionFilter = angular.copy($scope.PatientNotesrowCollection);
+            }
+            else if ($scope.NotesTypeSearch != "" && $scope.FlagSearch == 0 && $scope.ImportanceSearch == 0) {
+                $scope.PatientNotesrowCollectionFilter = $ff($scope.PatientNotesrowCollection, function (value) {
+                    return angular.lowercase(value.NotesType.toString()).match(searchstring1);
+                });
+                
+            } else if ($scope.NotesTypeSearch == "" && $scope.FlagSearch != 0 && $scope.ImportanceSearch == 0) {
+                $scope.PatientNotesrowCollectionFilter = $ff($scope.PatientNotesrowCollection, function (value) {
+                    return angular.lowercase(value.NotesFlag.toString()).match(searchstring2);
+                });
+
+            } else if ($scope.NotesTypeSearch == "" && $scope.FlagSearch == 0 && $scope.ImportanceSearch != 0) {
+                $scope.PatientNotesrowCollectionFilter = $ff($scope.PatientNotesrowCollection, function (value) {
+                    return angular.lowercase(value.Importance.toString()).match(searchstring3);
+                });
+
+            }else if ($scope.NotesTypeSearch != "" && $scope.FlagSearch != 0 && $scope.ImportanceSearch == 0) {
+                $scope.PatientNotesrowCollectionFilter = $ff($scope.PatientNotesrowCollection, function (value) {
+                    return angular.lowercase(value.NotesType.toString()).match(searchstring1) ||
+                        angular.lowercase(value.NotesFlag.toString()).match(searchstring2);
+
+                });
+                
+            } else if ($scope.NotesTypeSearch != "" && $scope.FlagSearch != 0 && $scope.ImportanceSearch != 0) {
+                $scope.PatientNotesrowCollectionFilter = $ff($scope.PatientNotesrowCollection, function (value) {
+                    return angular.lowercase(value.NotesType.toString()).match(searchstring1) ||
+                        angular.lowercase(value.Importance.toString()).match(searchstring3) ||
+                        angular.lowercase(value.NotesFlag.toString()).match(searchstring2);
+
+                });
+            } else if ($scope.NotesTypeSearch != "" && $scope.FlagSearch == 0 && $scope.ImportanceSearch != 0) {
+                $scope.PatientNotesrowCollectionFilter = $ff($scope.PatientNotesrowCollection, function (value) {
+                    return angular.lowercase(value.NotesType.toString()).match(searchstring1) ||
+                        angular.lowercase(value.Importance.toString()).match(searchstring3);
+                });
+                
+            } else if ($scope.NotesTypeSearch == "" && $scope.FlagSearch != 0 && $scope.ImportanceSearch != 0) {
+                $scope.PatientNotesrowCollectionFilter = $ff($scope.PatientNotesrowCollection, function (value) {
+                    return angular.lowercase(value.NotesFlag.toString()).match(searchstring2) ||
+                        angular.lowercase(value.Importance.toString()).match(searchstring3);
+                });
+               
+            }
+
+            if ($scope.PatientNotesrowCollectionFilter.length > 0) {
+                $scope.PatientNotes_pages = Math.ceil(($scope.PatientNotesrowCollectionFilter) / ($scope.page_size));
+            }
+        }
+
         //View Function for Doctor Notes
         $scope.PatientDetails_View = function () {
             $http.get(baseUrl + '/api/User/PatientNotes_View/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 $scope.Notes = data.Notes;
                 $scope.NotesType = data.NotesType;
                 $scope.Flag = data.NotesFlag;
-                if ($scope.Flag == 'Private') {
+                $scope.Importance = data.Importance;
+                if ($scope.Flag == 1) {
                     $('#Flag').attr('ng-checked', 'true');
                     $('#Flag').attr('checked','checked');
                 } else {
                     $('#Flag').removeAttr('ng-checked');
                     $('#Flag').removeAttr('checked');
+                }
+                if ($scope.Importance == 1) {
+                    $('#Importance').attr('ng-checked', 'true');
+                    $('#Importance').attr('checked', 'checked');
+                } else {
+                    $('#Importance').removeAttr('ng-checked');
+                    $('#Importance').removeAttr('checked');
                 }
             });
         }
@@ -7759,6 +7843,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             $scope.Notes = "";
             $scope.NotesType = "";
             $scope.Flag = '';
+            $scope.Importance = '';
         }
 
         // Patient Other Data
@@ -8253,6 +8338,22 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 $scope.Patientothers = Math.ceil(($scope.OtherData_ListData) / ($scope.page_size));
             }
 
+        }
+        $scope.filter_OtherData_DocType = function () {
+            $scope.ResultListFiltered = [];
+            var searchstring = angular.lowercase($scope.SearchDocType.replace(/[^a-zA-Z ]/g, ""));
+            if ($scope.SearchDocType == "" || $scope.SearchDocType == undefined) {
+                $scope.OtherData_ListData = angular.copy($scope.OtherData_List);
+            }
+            else {
+                $scope.OtherData_ListData = $ff($scope.OtherData_List, function (value) {
+                    return angular.lowercase(value.DocumentType.replace(/[^a-zA-Z ]/g, "")).match(searchstring);
+                });
+
+                //if ($scope.OtherData_ListData.length > 0) {
+                    $scope.Patientothers = Math.ceil(($scope.OtherData_ListData) / ($scope.page_size));
+                //}
+            }
         }
         $scope.ErrorFunction = function () {
             //alert("Inactive record cannot be edited");

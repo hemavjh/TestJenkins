@@ -246,7 +246,7 @@
                                                     <div class="inputGroups">
                                                         <label>Date of Birth</label>
                                                         <span>
-                                                            {{DOB |date:"dd-MMM-yyyy"}}
+                                                            {{DOB |date: DateFormat}}
                                                             <!--{{DOB | date : format : "dd-MM-yyyy"}}-->
                                                         </span>
                                                     </div>
@@ -656,7 +656,7 @@
                                                 <div class="col-sm-6">
                                                     <div class="inputGroups">
                                                         <label>Expiry Date</label>
-                                                        <span> {{ExpiryDate | date : format : "dd-MM-yyyy"}}</span>
+                                                        <span> {{ExpiryDate | date : format : DateFormat}}</span>
                                                     </div>
                                                     <div class="inputGroups">
                                                         <label>Payor Name</label>

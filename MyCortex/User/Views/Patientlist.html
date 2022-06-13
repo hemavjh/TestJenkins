@@ -327,7 +327,7 @@
                     </div>
                 </td>
                 <td style="text-align: left">
-                    {{row.LoginTime| date :'dd-MMM-yyyy hh:mm a'}}
+                    {{row.LoginTime| date :DateFormat+' hh:mm a'}}
                 </td>
                 <td style="text-align: center">
                     <a href="javascript:" ng-click="ViewPatientPopUp(row.Id)" title="View">
