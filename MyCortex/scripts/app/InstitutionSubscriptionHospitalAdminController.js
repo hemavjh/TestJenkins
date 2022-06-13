@@ -88,6 +88,8 @@ InstitutionSubscriptionHAcontroller.controller("InstitutionSubscriptionHospitalA
                     $scope.No_Of_HiveChart = data.No_Of_HiveChart;
                     $scope.No_Of_Hive_Users = data.No_Of_HiveUsers;
                     $scope.No_Of_HiveChart_Users = data.No_Of_HiveChartUsers;
+                    $scope.No_Of_Hive_Devices = data.No_Of_HiveDevices;
+                    $scope.No_Of_HiveChart_Devices = data.No_Of_HiveChartDevices;
                     $scope.Contract_Period_To = $filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy");
                     $scope.Subscription_Type = data.Subscription_Type;
                     $scope.InsSub_Id = data.SubscriptionId;
@@ -110,6 +112,10 @@ InstitutionSubscriptionHAcontroller.controller("InstitutionSubscriptionHospitalA
                     $scope.Created_No_Of_Hivechart_Users = data.Created_No_Of_Hivechart_Users;
                     $scope.Remaining_No_Of_Hive_Users = data.Remaining_No_Of_Hive_Users;
                     $scope.Remaining_No_Of_Hivechart_Users = data.Remaining_No_Of_Hivechart_Users;
+                    $scope.Created_No_Of_Hive_Devices = data.Created_No_Of_Hive_Devices;
+                    $scope.Created_No_Of_Hivechart_Devices = data.Created_No_Of_Hivechart_Devices;
+                    $scope.Remaining_No_Of_Hive_Devices = data.Remaining_No_Of_Hive_Devices;
+                    $scope.Remaining_No_Of_Hivechart_Devices = data.Remaining_No_Of_Hivechart_Devices;
 
                     $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data2) {
                         $scope.TimeZoneList = data2;
