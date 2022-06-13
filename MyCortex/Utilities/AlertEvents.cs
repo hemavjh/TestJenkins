@@ -67,10 +67,10 @@ namespace MyCortex.Notification
                         model.Id = 0;
                         model.Institution_Id = Institution_Id;
                         model.Template_Id = alert.Template_Id;
-                        model.UserId = alertList.AlertEventEmailList[0].UserId;
+                        model.UserId = alertList.AlertEventEmailList[i].UserId;
                         model.Email_Body = alert.TempBody;
                         model.Email_Subject = alert.TempSubject;
-                        model.Created_By = alertList.AlertEventEmailList[0].UserId;
+                        model.Created_By = alertList.AlertEventEmailList[i].UserId;
                         sendEmailModel = sendemailrepository.SendEmail_AddEdit(model);
                         if (alert.TemplateType_Id == 1)  // 1 for Email
                         {
@@ -124,7 +124,7 @@ namespace MyCortex.Notification
                                 SMSBody = string.Empty, SMSURL = string.Empty, SMSApiId = string.Empty, SMSUserName = string.Empty, SMSSource = string.Empty;
                             //bool containsTildeSpecialCharacter, containsPlusSpecialCharacter = false;
                             //Regex rgx = new Regex("[^A-Za-z0-9]");
-                            string MobileNo = alertList.AlertEventEmailList[0].mobile_no.Replace(@"~", @"").Replace(@"+", @"");
+                            string MobileNo = alertList.AlertEventEmailList[i].mobile_no.Replace(@"~", @"").Replace(@"+", @"");
                             //containsTildeSpecialCharacter = rgx.IsMatch(MobileNO);
                             //EncryptMbNO = MobileNO.Split('~');
 
@@ -150,9 +150,9 @@ namespace MyCortex.Notification
                             //SMSApiId = "Kv2n09u8";
                             //SMSUserName = "MyHealth";
                             //SMSSource = "Medspero";
-                            SMSApiId = alertList.AlertEventEmailList[0].SMSApiId;
-                            SMSUserName = alertList.AlertEventEmailList[0].SMSUserName;
-                            SMSSource = alertList.AlertEventEmailList[0].SMSSourceId;
+                            SMSApiId = alertList.AlertEventEmailList[i].SMSApiId;
+                            SMSUserName = alertList.AlertEventEmailList[i].SMSUserName;
+                            SMSSource = alertList.AlertEventEmailList[i].SMSSourceId;
 
                             SMSBody = SMSBody.Replace("<br>", "");
                             SMSBody = SMSBody.Replace("<br />", "");
@@ -188,10 +188,10 @@ namespace MyCortex.Notification
                                 model.Id =sendEmailModel[0].Id;
                                 model.Institution_Id = Institution_Id;
                                 model.Template_Id = alert.Template_Id;
-                                model.UserId = alertList.AlertEventEmailList[0].UserId;
+                                model.UserId = alertList.AlertEventEmailList[i].UserId;
                                 model.Email_Body = alert.TempBody;
                                 model.Email_Subject = alert.TempSubject;
-                                model.Created_By = alertList.AlertEventEmailList[0].UserId;
+                                model.Created_By = alertList.AlertEventEmailList[i].UserId;
                                 model.ResponseId = dataObj1.Id;
                                 sendEmailModel = sendemailrepository.SendEmail_AddEdit(model);
 

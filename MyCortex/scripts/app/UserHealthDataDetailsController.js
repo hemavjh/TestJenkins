@@ -1479,7 +1479,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                                         //$http.post(baseUrl + '/Home/CreatePayByCheckoutSession?appointmentId=' + data.PatientAppointmentList[0].Id).success(function (data) {
 
                                                         //});
-                                                        setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
+                                                        //setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
+                                                        paybyCheck();
                                                     } else {
                                                         $scope.$broadcast("appointment_list");
                                                     }
@@ -1534,7 +1535,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                                 //$http.post(baseUrl + '/Home/CreatePayByCheckoutSession?appointmentId=' + data.PatientAppointmentList[0].Id).success(function (data) {
 
                                                 //});
-                                                setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
+                                                //setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
+                                                paybyCheck();
                                             } else {
                                                 $scope.$broadcast("appointment_list");
                                             }
@@ -1684,7 +1686,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                             //}
                                             if ($scope.AppointmoduleID1 == 2 && $window.localStorage["UserTypeId"] == 2) {
                                                 $scope.OldAppointmentID = null;
-                                                setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
+                                                //setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
+                                                paybyCheck();
                                             } else {
                                                 $scope.$broadcast("appointment_list");
                                             }
@@ -1699,6 +1702,27 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
                         }
                     }
+
+
+                    function paybyCheck() {
+                        var obj = {
+                            paymentAppointmentId: $scope.paymentappointmentId,
+                            paymentdepartmentId: $scope.paymentdepartmentId,
+                            paymentInstitutionId: $scope.paymentInstitutionId,
+                            RedirectParam: $scope.RedirectParam
+                        };
+                        $http.post(baseUrl + '/api/PayBy/CreatePayByCheckoutSession/', obj).success(function (data) {
+                            console.log(data);
+                            if (data.status == 1) {
+                                window.location.href = data.url;
+                            } else {
+                                toastr.error(data.error, "warning");
+                                $scope.$broadcast("appointment_list");
+                            }
+                        }).error(function (data) { console.log(data); });
+                    }
+
+
                     $scope.CancelMyAppointment = function () {
                         angular.element('#BookAppointmentModal').modal('hide');
                         //document.getElementById("main-box").style = "";
@@ -1888,7 +1912,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $scope.paymentappointmentId = Row.Id;
                         $scope.paymentdepartmentId = Row.DoctorDepartmentId;
                         $scope.paymentInstitutionId = Row.Institution_Id;
-                        setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
+                        //setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
+                        paybyCheck();
                     }
                 });
             } else {
