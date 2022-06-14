@@ -1637,11 +1637,12 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 toastr.warning("Please Enter Minutes", "warning");
                 return false;
             }
-            else if (typeof ($scope.MakeMeLookBusy) == "undefined" || $scope.MakeMeLookBusy == "0" || $scope.MakeMeLookBusy == '') {
-                //alert("Please Enter Minutes");
-                toastr.warning("Please Enter Make Me Look Busy Value", "warning");
-                return false;
-            } else if ($scope.MakeMeLookBusy>50) {
+            //else if (typeof ($scope.MakeMeLookBusy) == "undefined" || $scope.MakeMeLookBusy == "0" || $scope.MakeMeLookBusy == '') {
+            //    //alert("Please Enter Minutes");
+            //    toastr.warning("Please Enter Make Me Look Busy Value", "warning");
+            //    return false;
+            //} 
+            else if ($scope.MakeMeLookBusy>50) {
                 //alert("Please Enter Minutes");
                 toastr.warning("Please Enter Make Me Look Busy Value Below 50% or Equal", "warning");
                 return false;
