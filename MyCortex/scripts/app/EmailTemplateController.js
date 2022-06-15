@@ -103,6 +103,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
             if (InsTagType != "" && InsTagType != "0" && InsTagType != 0) {
                 $http.get(baseUrl + '/api/EmailTemplate/SectionEmailTemplateTagMapping_List/?Id=' + 0 + '&Institution_Id=' + $scope.InstituteId + '&SectionName=' + $scope.SectionType + '&Type=' + $scope.Type).success(function (data) {
                     $scope.TemplateTagMappingList = data;
+                    $scope.rowCollectionTagFilter = angular.copy($scope.TemplateTagMappingList);
                 });
             }
         }
@@ -216,6 +217,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
             }
             $http.get(baseUrl + '/api/EmailTemplate/SectionEmailTemplateTagMapping_List/?Id=' + 0 + '&Institution_Id=' + $scope.InstituteId + '&SectionName=' + $scope.SectionType + '&Type=' + $scope.Type).success(function (data) {
                 $scope.TemplateTagMappingList = data;
+                $scope.rowCollectionTagFilter = angular.copy($scope.TemplateTagMappingList);
             });
         };
 
@@ -454,6 +456,20 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
             }
         }
 
+        $scope.searchquery1 = "";
+        $scope.fliterTagList = function () {
+            $scope.ResultTagListFiltered = [];
+            var searchstring = angular.lowercase($scope.searchquery1);
+            if ($scope.searchquery1 == "") {
+                $scope.TemplateTagMappingList = angular.copy($scope.rowCollectionTagFilter);
+            }
+            else {
+                $scope.TemplateTagMappingList = $ff($scope.rowCollectionTagFilter, function (value) {
+                    return angular.lowercase(value.TagList).match(searchstring);
+                });
+            }
+        }
+
         /* THIS IS FOR VIEW FUNCTION */
         $scope.ViewEmailTempalte = function () {
             $("#chatLoaderPV").show();
@@ -620,6 +636,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
             $scope.TagType = 0;
             $scope.InsTagType = 0;
             $scope.TemplateTagMappingList = [];
+            $scope.searchquery1 = "";
         }
 
         /* THIS IS CANCEL VIEW POPUP FUNCTION*/
@@ -636,6 +653,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
             $scope.TemplateName = "";
             $scope.EmailSubject = "";
             $scope.EmailTemplate = "";
+            $scope.searchquery1 = "";
             $scope.Type = "0";
             $scope.Template = "";
             //if ($scope.PageParameter == 1 || $scope.PageParameter == 3) {
