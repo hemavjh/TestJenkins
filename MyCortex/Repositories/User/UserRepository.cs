@@ -956,8 +956,8 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@InstitutionId", INSTITUTION_ID));
             param.Add(new DataParameter("@SearchQuery", SearchQuery == null? "" : SearchQuery));
             param.Add(new DataParameter("@SearchEncryptedQuery", SearchQuery == null? "" : SearchQuery));
-            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_SP_LIST_NEW", param);
-            List<ItemizedUserDetailsModel> list = (from p in dt.AsEnumerable()
+            DataSet ds = ClsDataBase.GetDataSet("[MYCORTEX].PATIENT_SP_LIST_NEW", param);
+            List<ItemizedUserDetailsModel> list = (from p in ds.Tables[0].AsEnumerable()
                                                    select new ItemizedUserDetailsModel()
                                                    {
                                                        TotalRecord = p.Field<string>("TotalRecords"),
