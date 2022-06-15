@@ -216,7 +216,7 @@ namespace MyCortex.Login.Controller
                     else if ((model.data == 14) == true)
                     {
                         model.ReturnFlag = 1;
-                        messagestr = "Given Tab Is not Available Tab User.";
+                        messagestr = "User is not available for given Ref ID.";
                         model.Status = "False";
                     }
 
