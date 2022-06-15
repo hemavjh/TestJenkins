@@ -138,6 +138,7 @@ namespace MyCortex.Repositories.Login
             param.Add(new DataParameter("@Login_City", obj.Login_City));
             param.Add(new DataParameter("@Login_IpAddress", obj.Login_IpAddress));
             param.Add(new DataParameter("@Is_Tab", obj.isTab));
+            param.Add(new DataParameter("@Is_ClinicalUser", obj.IsClinicalUser));
             param.Add(new DataParameter("@Ref_Id", obj.Tab_Ref_ID));
             param.Add(new DataParameter("@Language_Id", obj.LanguageId));
             param.Add(new DataParameter("@Login_countryCode", obj.countryCode));

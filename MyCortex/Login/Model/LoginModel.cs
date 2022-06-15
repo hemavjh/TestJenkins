@@ -62,6 +62,7 @@ namespace MyCortex.Login.Model
         public string FB_EMAILID { get; set; }
         public string appleUserID { get; set; }
         public bool isTab { get; set; }
+        public bool IsClinicalUser { get; set; }
         public string Tab_Ref_ID { get; set; }
         public long TabID { get; set; }
         public IList<TabDevicesModel> TabDevices { get; set; }
