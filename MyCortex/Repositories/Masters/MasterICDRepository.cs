@@ -105,6 +105,27 @@ namespace MyCortex.Repositories.Masters
                 return null;
             }
         }
+        public List<MasterICDModel> Search_ICD10_List(int IsActive, long InstitutionId, int StartRowNumber, int EndRowNumber, String SearchQuery = null)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ISACTIVE", IsActive));
+            param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
+            param.Add(new DataParameter("@STARTNO", StartRowNumber));
+            param.Add(new DataParameter("@ENDNO", EndRowNumber));
+            param.Add(new DataParameter("@SEARCHQUERY", SearchQuery));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[SEARCH_ICD10_SP_ALL_LIST]", param);
+            List<MasterICDModel> list = (from p in dt.AsEnumerable()
+                                         select new MasterICDModel()
+                                         {
+                                             TotalRecord = p.Field<string>("TotalRecords"),
+                                             Id = p.Field<long>("ID"),
+                                             ICD_Code = p.Field<string>("ICDCode"),
+                                             Description = p.Field<string>("DESCRIPTION"),
+                                             CategoryName = p.Field<string>("CATEGORYNAME"),
+                                             IsActive = p.Field<int>("IsActive"),
+                                         }).OrderBy(o => o.ICD_Code).ToList();
+            return list;
+        }
 
         /// <summary>
         /// to get ICD master details of a ICD master

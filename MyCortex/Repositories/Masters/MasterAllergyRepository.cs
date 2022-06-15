@@ -170,6 +170,27 @@ namespace MyCortex.Repositories.Masters
             return ViewAllergy;
         }
 
+        public List<MasterAllergyModel> Search_Allergy_List(int IsActive, long InstitutionId, int StartRowNumber, int EndRowNumber, String SearchQuery = null)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ISACTIVE", IsActive));
+            param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
+            param.Add(new DataParameter("@STARTNO", StartRowNumber));
+            param.Add(new DataParameter("@ENDNO", EndRowNumber));
+            param.Add(new DataParameter("@SEARCHQUERY", SearchQuery));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[SEARCH_ALLERGY_SP_ALL_LIST]", param);
+            List<MasterAllergyModel> list = (from p in dt.AsEnumerable()
+                                            select new MasterAllergyModel()
+                                            {
+                                                TotalRecord = p.Field<string>("TotalRecords"),
+                                                Id = p.Field<long>("ID"),
+                                                AllergyTypeName = p.Field<string>("ALLERGYTYPE"),
+                                                AllergenName = p.Field<string>("ALLERGENNAME"),
+                                                IsActive = p.Field<int>("IsActive"),
+                                            }).ToList();
+            return list;
+        }
+
         /// <summary>
         /// to deactivate a Allergy
         /// </summary>
