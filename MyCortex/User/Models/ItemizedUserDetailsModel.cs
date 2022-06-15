@@ -56,6 +56,17 @@ namespace MyCortex.User.Model
         public long? NATIONALITY_ID { get; set; }
         public string HEALTH_LICENSE { get; set; }
     }
+    public class UserCountDetails
+    {
+        public int Number_User { get; set; }
+        public int Remaind_User { get; set; }
+        public int Created_User { get; set; }
+    }
+    public class UserList
+    {
+        public UserCountDetails userCountDetails { get; set; }
+        public IList<ItemizedUserDetailsModel> itemizedUserDetailsModels { get; set; }
+    }
 
     public class DecryptUserListModel
     {

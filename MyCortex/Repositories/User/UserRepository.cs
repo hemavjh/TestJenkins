@@ -932,7 +932,7 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="StartRowNumber"></param>
         ///  <param name="EndRowNumber"></param>
         /// <returns></returns>
-        public IList<ItemizedUserDetailsModel> Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber,string SearchQuery,string SearchEncryptedQuery)
+        public UserList Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber,string SearchQuery,string SearchEncryptedQuery)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
@@ -974,7 +974,18 @@ namespace MyCortex.Repositories.Uesr
                                                        LoginTime = p.Field<DateTime?>("LOGINTIME"),
                                                        EMAILID = p.Field<string>("EMAILID") ?? "",
                                                    }).OrderBy(o => o.FullName).ToList();
-            return list;
+            UserCountDetails UCD = (from p in ds.Tables[1].AsEnumerable()
+                                    select new UserCountDetails()
+                                    {
+                                        Number_User = p.Field<int>("NOOF_PATIENT"),
+                                        Created_User = p.Field<int>("CREATED_NO_OF_PAT"),
+                                        Remaind_User = p.Field<int>("REMAIND_NO_OF_PAT")
+                                    }).FirstOrDefault();
+
+            UserList userList = new UserList();
+            userList.userCountDetails = UCD;
+            userList.itemizedUserDetailsModels = list;
+            return userList;
         }
 
 

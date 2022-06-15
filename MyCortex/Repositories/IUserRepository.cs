@@ -27,7 +27,7 @@ namespace MyCortex.Repositories
         UserReturnModel UserDetails_Active(long Id);
         IList<ItemizedUserDetailsModel> UserDetails_List(long Id, long InstitutionId, int? IsActive, Guid Login_Session_Id);
         IList<ItemizedUserDetailsModel> Doctor_Group_CCCG_List(long DoctorId, long InstitutionId, int? IsActive, Guid Login_Session_Id);
-        IList<ItemizedUserDetailsModel> Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber,string SearchQuery,string SearchEncryptedQuery);
+        UserList Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber,string SearchQuery,string SearchEncryptedQuery);
         List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber, string NATIONALITY_ID, String SearchQuery, string PATIENTNO, string INSURANCEID, string MOBILE_NO, string EMAILID, string FIRSTNAME, string LASTNAME, string MRNNO, int? AdvanceFilter);
         GroupCreateModel GroupMaster_Insert(GroupCreateModel insobj);
         long AssignedGroup_Insert(List<AssignedGroupModel> obj);
