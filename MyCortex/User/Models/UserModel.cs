@@ -172,6 +172,12 @@ namespace MyCortex.User.Model
         public long Insurance_Preference { get; set; }
         public long UserLanguage_Preference { get; set; }
         public int HiveType { get; set; }
+        public Byte[] PhotoBlob { get; set; }
+        public Byte[] NationalPhotoBlob { get; set; }
+        public Byte[] InsurancePhotoBlob { get; set; }
+        public Byte[] CertificateBlob { get; set; }
+        public string Certificate_FileName { get; set; }
+        public string FileType { get; set; }
 
     }
 

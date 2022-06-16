@@ -1249,6 +1249,7 @@ namespace MyCortex.Repositories.Uesr
 
         public UserModel GetUserDetails(long Id, Guid Login_Session_Id, long Logged_User_Id)
         {
+            DataEncryption decrypt = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
@@ -1279,8 +1280,8 @@ namespace MyCortex.Repositories.Uesr
                                         EMAILID = p.Field<string>("EMAILID"),
                                         DEPARTMENT_ID = p.IsNull("DEPARTMENT_ID") ? 0 : p.Field<long>("DEPARTMENT_ID"),
                                         MOBILE_NO = p.Field<string>("MOBILE_NO"),
-                                    //DOB = p.Field<DateTime?>("DOB"),
-                                    DOB_Encrypt = p.Field<string>("DOB_Encrypt"),
+                                        //DOB = p.Field<DateTime?>("DOB"),
+                                        DOB_Encrypt = p.Field<string>("DOB_Encrypt"),
                                         Department_Name = p.Field<string>("Department_Name"),
                                         InstitutionName = p.Field<string>("InstitutionName"),
                                         IsActive = p.Field<int?>("IsActive"),
@@ -1383,26 +1384,37 @@ namespace MyCortex.Repositories.Uesr
                                         InsurancePhotoFilename = p.Field<string>("INSURANCE_PHOTO_FILENAME")
                                     }).FirstOrDefault();
 
-
+                if (!Convert.IsDBNull(dt.Rows[0]["USER_PHOTO"]))
+                {
+                    byte[] returnPhoto = (byte[])dt.Rows[0]["USER_PHOTO"];
+                    View.PhotoBlob = decrypt.DecryptFile(returnPhoto);
+                }
+                if (!Convert.IsDBNull(dt.Rows[0]["CERTIFICATE_BLOBDATA"]))
+                {
+                    byte[] returnCertificate = (byte[])dt.Rows[0]["CERTIFICATE_BLOBDATA"];
+                    View.Certificate_FileName = (string)dt.Rows[0]["FILE_NAME"];
+                    View.FileType = (string)dt.Rows[0]["FILETYPE"];
+                    View.CertificateBlob = decrypt.DecryptFile(returnCertificate);
+                }
+                if (!Convert.IsDBNull(dt.Rows[0]["USER_NATIONAL_PHOTO"]))
+                {
+                    byte[] returnPhoto = (byte[])dt.Rows[0]["USER_NATIONAL_PHOTO"];
+                    View.NationalPhotoBlob = decrypt.DecryptFile(returnPhoto);
+                }
+                if (!Convert.IsDBNull(dt.Rows[0]["USER_INSURANCE_PHOTO"]))
+                {
+                    byte[] returnPhoto = (byte[])dt.Rows[0]["USER_INSURANCE_PHOTO"];
+                    View.InsurancePhotoBlob = decrypt.DecryptFile(returnPhoto);
+                }
                 if (View.DOB_Encrypt != "")
                 {
                     var time = View.DOB_Encrypt.Split(' ');
-
-
-
                     var time4 = time[0].Split('/');
                     try
                     {
-
-
                         var time1 = time4[0];
                         var time2 = time4[1];
                         var time3 = time4[2];
-
-
-
-
-
                         DateTime dt1 = new DateTime();
                         try
                         {
@@ -1424,8 +1436,6 @@ namespace MyCortex.Repositories.Uesr
                         var time1 = time4[0];
                         var time2 = time4[1];
                         var time3 = time4[2];
-
-
                         DateTime dt1 = new DateTime();
                         try
                         {

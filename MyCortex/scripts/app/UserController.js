@@ -285,43 +285,43 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         }
 
         $scope.DropDownListValues = function () {
-            $http.get(baseUrl + '/api/Common/ChronicConditionList/').success(function (data) {
-                $scope.ChronicConditionList = data;
+            $http.get(baseUrl + '/api/Common/ChronicConditionList/').success(function (resp_cc_data) {
+                $scope.ChronicConditionList = resp_cc_data;
             });
-            $http.get(baseUrl + '/api/Common/GenderList/').success(function (data) {
-                $scope.GenderList = data;
+            $http.get(baseUrl + '/api/Common/GenderList/').success(function (resp_gender_data) {
+                $scope.GenderList = resp_gender_data;
             });
-            $http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
-                $scope.DepartmentList = data;
+            $http.get(baseUrl + '/api/User/DepartmentList/').success(function (resp_department_data) {
+                $scope.DepartmentList = resp_department_data;
             });
-            $http.get(baseUrl + '/api/User/BusinessUser_UserTypeList/').success(function (data) {
-                $scope.UserTypeList = data;
+            $http.get(baseUrl + '/api/User/BusinessUser_UserTypeList/').success(function (resp_bu_data) {
+                $scope.UserTypeList = resp_bu_data;
             });
-            $http.get(baseUrl + '/api/Common/NationalityList/').success(function (data) {
-                $scope.NationalityList = data;
+            $http.get(baseUrl + '/api/Common/NationalityList/').success(function (resp_nationality_data) {
+                $scope.NationalityList = resp_nationality_data;
             });
-            $http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (data) {
+            $http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (resp_marg_data) {
                 $scope.MaritalStatusListTemp = [];
-                $scope.MaritalStatusListTemp = data;
+                $scope.MaritalStatusListTemp = resp_marg_data;
                 $scope.MaritalStatusList = angular.copy($scope.MaritalStatusListTemp);
             });
-            $http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (data) {
+            $http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (resp_eg_data) {
                 $scope.EthnicGroupListTemp = [];
-                $scope.EthnicGroupListTemp = data;
+                $scope.EthnicGroupListTemp = resp_eg_data;
                 $scope.EthnicGroupList = angular.copy($scope.EthnicGroupListTemp);
                 //validation checking for ethnic group
                 //$scope.PatientEthnicChange();
             });
-            $http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (data) {
+            $http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (resp_bg_data) {
                 $scope.BloodGroupListTemp = [];
-                $scope.BloodGroupListTemp = data;
+                $scope.BloodGroupListTemp = resp_bg_data;
                 $scope.BloodGroupList = angular.copy($scope.BloodGroupListTemp);
             });
-            $http.get(baseUrl + '/api/Common/RelationshipList/').success(function (data) {
-                $scope.RelationshipList = data;
+            $http.get(baseUrl + '/api/Common/RelationshipList/').success(function (resp_relationship_data) {
+                $scope.RelationshipList = resp_relationship_data;
             });
-            $http.get(baseUrl + '/api/Common/DietTypeList/').success(function (data) {
-                $scope.DietTypeList = data;
+            $http.get(baseUrl + '/api/Common/DietTypeList/').success(function (resp_diet_data) {
+                $scope.DietTypeList = resp_diet_data;
             });
             //$scope.NationalityList2 = [];
             //$scope.UserTypeList2 = [];
@@ -2888,17 +2888,16 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             if (($scope.LoginType == 3 || $scope.LoginType == 2) && $scope.EditParameter == 4) {
                 $scope.DropDownListValue = 4;
             }
-            $scope.DropDownListValues();
-
-            $http.get(baseUrl + 'api/User/AllergyTypeList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
-                $scope.AlergySubstanceList = data;
+            $http.get(baseUrl + 'api/User/AllergyTypeList/?Institution_Id=' + $scope.InstituteId).success(function (resp_allergy_data) {
+                $scope.AlergySubstanceList = resp_allergy_data;
             })
-            $http.get(baseUrl + '/api/Common/ScheduleList/').success(function (data) {
-                $scope.ScheduleList = data;
+            $http.get(baseUrl + '/api/Common/ScheduleList/').success(function (resp_schedule_data) {
+                $scope.ScheduleList = resp_schedule_data;
             });
-            $http.get(baseUrl + '/api/Common/OptionTypeList/').success(function (data) {
-                $scope.OptionTypeList = data;
+            $http.get(baseUrl + '/api/Common/OptionTypeList/').success(function (resp_option_data) {
+                $scope.OptionTypeList = resp_option_data;
             });
+            $scope.DropDownListValues();
             $scope.loadCount = 3;
             $("#chatLoaderPV").show();
             photoview = true;
@@ -2927,59 +2926,59 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.SelectedChronicConditionEdit = [];
             $scope.EditChronicOption = 0;
             if ($scope.Id > 0) {
-                $http.get(baseUrl + '/api/User/UserDetails_GetPhoto/?Id=' + $scope.Id).success(function (data1) {
-                    methodcnt = methodcnt - 1;
-                    if (methodcnt == 0)
-                        $scope.uploadview = true;
-                    if (data1.PhotoBlob != null) {
-                        $scope.uploadme = 'data:image/png;base64,' + data1.PhotoBlob;
+                //$http.get(baseUrl + '/api/User/UserDetails_GetPhoto/?Id=' + $scope.Id).success(function (data1) {
+                //    methodcnt = methodcnt - 1;
+                //    if (methodcnt == 0)
+                //        $scope.uploadview = true;
+                //    if (data1.PhotoBlob != null) {
+                //        $scope.uploadme = 'data:image/png;base64,' + data1.PhotoBlob;
 
-                    }
-                    else {
-                        $scope.uploadme = null;
-                    }
-                });
+                //    }
+                //    else {
+                //        $scope.uploadme = null;
+                //    }
+                //});
 
-                if ($scope.LoginType == 2) {
-                    $http.get(baseUrl + '/api/User/UserDetails_GetCertificate/?Id=' + $scope.Id).success(function (data) {
-                        if (data.CertificateBlob != null) {
-                            $scope.Editresumedoc = 'data:image/png;base64,' + data.CertificateBlob;
-                        }
-                        else {
-                            $scope.Editresumedoc = null;
-                        }
-                    })
-                }
+                //if ($scope.LoginType == 2) {
+                //    $http.get(baseUrl + '/api/User/UserDetails_GetCertificate/?Id=' + $scope.Id).success(function (data) {
+                //        if (data.CertificateBlob != null) {
+                //            $scope.Editresumedoc = 'data:image/png;base64,' + data.CertificateBlob;
+                //        }
+                //        else {
+                //            $scope.Editresumedoc = null;
+                //        }
+                //    })
+                //}
 
-                $http.get(baseUrl + '/api/User/UserDetails_GetNationalPhoto/?Id=' + $scope.Id).success(function (data) {
-                    methodcnt1 = methodcnt1 - 1;
-                    if (methodcnt1 == 0)
-                        $scope.Nationaluploadview = true;
-                    if (data.NationalPhotoBlob != null) {
-                        $scope.uploadme1 = 'data:image/png;base64,' + data.NationalPhotoBlob;
+                //$http.get(baseUrl + '/api/User/UserDetails_GetNationalPhoto/?Id=' + $scope.Id).success(function (data) {
+                //    methodcnt1 = methodcnt1 - 1;
+                //    if (methodcnt1 == 0)
+                //        $scope.Nationaluploadview = true;
+                //    if (data.NationalPhotoBlob != null) {
+                //        $scope.uploadme1 = 'data:image/png;base64,' + data.NationalPhotoBlob;
 
-                    }
-                    else {
-                        $scope.uploadme1 = '../../Images/National_Male.png';//null;
-                    }
-                });
-                $http.get(baseUrl + '/api/User/UserDetails_GetInsurancePhoto/?Id=' + $scope.Id).success(function (data) {
-                    methodcnt2 = methodcnt2 - 1;
-                    if (methodcnt2 == 0)
-                        $scope.Insuranceuploadview = true;
-                    if (data.InsurancePhotoBlob != null) {
-                        $scope.uploadme2 = 'data:image/png;base64,' + data.InsurancePhotoBlob;
+                //    }
+                //    else {
+                //        $scope.uploadme1 = '../../Images/National_Male.png';//null;
+                //    }
+                //});
+                //$http.get(baseUrl + '/api/User/UserDetails_GetInsurancePhoto/?Id=' + $scope.Id).success(function (data) {
+                //    methodcnt2 = methodcnt2 - 1;
+                //    if (methodcnt2 == 0)
+                //        $scope.Insuranceuploadview = true;
+                //    if (data.InsurancePhotoBlob != null) {
+                //        $scope.uploadme2 = 'data:image/png;base64,' + data.InsurancePhotoBlob;
 
-                    }
-                    else {
-                        $scope.uploadme2 = '../../Images/National_Male.png';//null;
-                    }
-                });
+                //    }
+                //    else {
+                //        $scope.uploadme2 = '../../Images/National_Male.png';//null;
+                //    }
+                //});
                 $scope.ConfigCode = "CHRONIC CODE";
                 $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data2) {
-                    if (data2.length !== 0) {
-                        var ChronicDet = data2[0].ConfigValue.split(',')
+                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (app_data) {
+                    if (app_data.length !== 0) {
+                        var ChronicDet = app_data[0].ConfigValue.split(',')
 
                         angular.forEach(ChronicDet, function (value, index) {
                             if (value != "") {
@@ -3200,6 +3199,48 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.ISact = 1;
                         $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
 
+                        // Bind User Photo and User Certificates Details
+                        methodcnt = methodcnt - 1;
+                        if (methodcnt == 0)
+                            $scope.uploadview = true;
+                        if (data.PhotoBlob != null) {
+                            $scope.uploadme = 'data:image/png;base64,' + data.PhotoBlob;
+
+                        }
+                        else {
+                            $scope.uploadme = null;
+                        }
+
+                        if ($scope.LoginType == 2) {
+                            if (data.CertificateBlob != null) {
+                                $scope.Editresumedoc = 'data:image/png;base64,' + data.CertificateBlob;
+                            }
+                            else {
+                                $scope.Editresumedoc = null;
+                            }
+                        }
+
+                        methodcnt1 = methodcnt1 - 1;
+                        if (methodcnt1 == 0)
+                            $scope.Nationaluploadview = true;
+                        if (data.NationalPhotoBlob != null) {
+                            $scope.uploadme1 = 'data:image/png;base64,' + data.NationalPhotoBlob;
+
+                        }
+                        else {
+                            $scope.uploadme1 = '../../Images/National_Male.png';//null;
+                        }
+
+                        methodcnt2 = methodcnt2 - 1;
+                        if (methodcnt2 == 0)
+                            $scope.Insuranceuploadview = true;
+                        if (data.InsurancePhotoBlob != null) {
+                            $scope.uploadme2 = 'data:image/png;base64,' + data.InsurancePhotoBlob;
+                        }
+                        else {
+                            $scope.uploadme2 = '../../Images/National_Male.png';//null;
+                        }
+                        
                         $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
                             if (data1.length != 0) {
                                 $scope.page_size = data1[0].ConfigValue;
@@ -3222,10 +3263,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                                 $scope.EditPlanId = resp_data[0].Id.toString();
                                                 $scope.PlanName = resp_data[0].PlanName;
                                                 //$scope.SelectedPlan.push($scope.EditPlanId);
-                                                setTimeout(function () {
+                                                // setTimeout(function () {
                                                     $scope.SelectedPayor = $scope.EditPayorId;
                                                     $scope.SelectedPlan = $scope.EditPlanId;
-                                                }, 1000);
+                                                // }, 1000);
                                             }
                                         });
                                     }
