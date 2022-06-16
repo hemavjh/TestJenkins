@@ -792,6 +792,14 @@ namespace MyCortex.User.Controller
             return model;
         }
 
+        [HttpGet]
+        //  [CheckSessionOutFilter]
+        public UserModel GetUserDetails(long Id, Guid Login_Session_Id, long Logged_User_Id)
+        {
+            UserModel model = new UserModel();
+            model = repository.GetUserDetails(Id, Login_Session_Id, Logged_User_Id);
+            return model;
+        }
         /// <summary>
         /// to get list of patients based on given filter
         /// </summary>

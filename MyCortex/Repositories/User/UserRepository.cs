@@ -1246,6 +1246,230 @@ namespace MyCortex.Repositories.Uesr
             }
             return View;
         }
+
+        public UserModel GetUserDetails(long Id, Guid Login_Session_Id, long Logged_User_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Id", Id));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@Logged_User_Id", Logged_User_Id));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].USERDETAILS_SP_VIEW_CLONE", param);
+
+            string columnName = "RESULT";
+            if (dt.Columns.Contains(columnName)) {
+                UserModel Active = (from p in dt.AsEnumerable()
+                                          select new UserModel()
+                                          {
+                                              flag = p.Field<int>("RESULT"),
+                                          }).FirstOrDefault();
+                return Active;
+            } else {
+                UserModel View = (from p in dt.AsEnumerable()
+                                  select
+                                    new UserModel()
+                                    {
+
+                                        Id = p.Field<long>("Id"),
+                                        INSTITUTION_ID = p.IsNull("INSTITUTION_ID") ? 0 : p.Field<long>("INSTITUTION_ID"),
+                                        FirstName = p.Field<string>("FirstName"),
+                                        MiddleName = p.Field<string>("MiddleName"),
+                                        LastName = p.Field<string>("LastName"),
+                                        FullName = p.Field<string>("FULLNAME"),
+                                        EMPLOYEMENTNO = p.Field<string>("EMPLOYEMENTNO"),
+                                        EMAILID = p.Field<string>("EMAILID"),
+                                        DEPARTMENT_ID = p.IsNull("DEPARTMENT_ID") ? 0 : p.Field<long>("DEPARTMENT_ID"),
+                                        MOBILE_NO = p.Field<string>("MOBILE_NO"),
+                                    //DOB = p.Field<DateTime?>("DOB"),
+                                    DOB_Encrypt = p.Field<string>("DOB_Encrypt"),
+                                        Department_Name = p.Field<string>("Department_Name"),
+                                        InstitutionName = p.Field<string>("InstitutionName"),
+                                        IsActive = p.Field<int?>("IsActive"),
+                                        Photo = p.Field<string>("PHOTO_NAME"),
+                                        Photo_Fullpath = p.Field<string>("PHOTO_FULLPATH"),
+                                        FileName = p.Field<string>("PHOTO_FILENAME"),
+                                        FILE_NAME = p.Field<string>("FILE_NAME"),
+                                        FILETYPE = p.Field<string>("FILETYPE"),
+                                        FILE_FULLPATH = p.Field<string>("FILE_FULLPATH"),
+                                        UPLOAD_FILENAME = p.Field<string>("UPLOAD_FILENAME"),
+                                        UserType_Id = p.Field<long?>("UserType_Id"),
+                                        HEALTH_LICENSE = p.Field<string>("HEALTH_LICENSE"),
+                                        GENDER_ID = p.IsNull("GENDER_ID") ? 0 : p.Field<long>("GENDER_ID"),
+                                        NATIONALITY_ID = p.IsNull("NATIONALITY_ID") ? 0 : p.Field<long>("NATIONALITY_ID"),
+                                        ETHINICGROUP_ID = p.IsNull("ETHINICGROUP_ID") ? 0 : p.Field<long>("ETHINICGROUP_ID"),
+                                        EMR_AVAILABILITY = p.Field<bool?>("EMR_AVAILABILITY"),
+                                        ADDRESS1 = p.Field<string>("ADDRESS1"),
+                                        ADDRESS2 = p.Field<string>("ADDRESS2"),
+                                        ADDRESS3 = p.Field<string>("ADDRESS3"),
+                                        HOME_AREACODE = p.Field<string>("HOME_AREACODE"),
+                                        HOME_PHONENO = p.Field<string>("HOME_PHONENO"),
+                                        MOBIL_AREACODE = p.Field<string>("MOBIL_AREACODE"),
+                                        POSTEL_ZIPCODE = p.Field<string>("POSTEL_ZIPCODE"),
+                                        COUNTRY_ID = p.IsNull("COUNTRY_ID") ? 0 : p.Field<long>("COUNTRY_ID"),
+                                        STATE_ID = p.IsNull("STATE_ID") ? 0 : p.Field<long>("STATE_ID"),
+                                        CITY_ID = p.IsNull("CITY_ID") ? 0 : p.Field<long>("CITY_ID"),
+                                        BLOODGROUP_ID = p.IsNull("BLOODGROUP_ID") ? 0 : p.Field<long>("BLOODGROUP_ID"),
+                                        MARITALSTATUS_ID = p.IsNull("MARITALSTATUS_ID") ? 0 : p.Field<long>("MARITALSTATUS_ID"),
+                                        // PATIENTNO = DecryptFields.Decrypt(p.Field<string>("PATIENTNO")),
+                                        PATIENTNO = p.Field<string>("PATIENTNO"),
+                                        MNR_NO = p.Field<string>("MNR_NO"),
+                                        INSURANCEID = p.Field<string>("INSURANCEID"),
+                                        NATIONALID = p.Field<string>("NATIONALID"),
+                                        EthnicGroup = p.Field<string>("EthnicGroup"),
+                                        UserName = p.Field<string>("UserName"),
+                                        GENDER_NAME = p.Field<string>("GENDER_NAME"),
+                                        Nationality = p.Field<string>("Nationality"),
+                                        GroupName = p.Field<string>("GroupName"),
+                                        COUNTRY_NAME = p.Field<string>("COUNTRY_NAME"),
+                                        StateName = p.Field<string>("StateName"),
+                                        LocationName = p.Field<string>("LocationName"),
+                                        Institution = p.Field<string>("Institution"),
+                                        LanguageKnown = p.Field<string>("LanguageKnown"),
+                                        MaritalStatus = p.Field<string>("MaritalStatus"),
+                                        BLOODGROUP_NAME = p.Field<string>("BLOODGROUP_NAME"),
+                                        RelationShipName = p.Field<string>("RelationShipName"),
+                                        DietDescribe = p.Field<string>("DietDescribe"),
+                                        AlergySubstance = p.Field<string>("AlergySubstance"),
+                                        ChronicCondition = p.Field<string>("ChronicCondition"),
+                                        EXCERCISE_SCHEDULE = p.Field<string>("EXCERCISE_SCHEDULE"),
+                                        SMOKESUBSTANCE = p.Field<string>("SMOKESUBSTANCE"),
+                                        ALCOHALSUBSTANCE = p.Field<string>("ALCOHALSUBSTANCE"),
+                                        CAFFEINATED_BEVERAGES = p.Field<string>("CAFFEINATED_BEVERAGES"),
+                                        CURRENTLY_TAKEMEDICINE = p.Field<int?>("CURRENTLY_TAKEMEDICINE"),
+                                        PAST_MEDICALHISTORY = p.Field<int?>("PAST_MEDICALHISTORY"),
+                                        FAMILYHEALTH_PROBLEMHISTORY = p.Field<int?>("FAMILYHEALTH_PROBLEMHISTORY"),
+                                        VACCINATIONS = p.Field<int?>("VACCINATIONS"),
+                                        DIETDESCRIBE_ID = p.IsNull("DIETTYPE_ID") ? 0 : p.Field<long?>("DIETTYPE_ID"),
+                                        EXCERCISE_SCHEDULEID = p.IsNull("EXCERCISE_SCHEDULEID") ? 0 : p.Field<long?>("EXCERCISE_SCHEDULEID"),
+                                        EXCERCISE_TEXT = p.Field<string>("EXCERCISE_TEXT"),
+                                        ALERGYSUBSTANCE_ID = p.IsNull("ALERGYSUBSTANCE_ID") ? 0 : p.Field<long>("ALERGYSUBSTANCE_ID"),
+                                        ALERGYSUBSTANCE_TEXT = p.Field<string>("ALERGYSUBSTANCE_TEXT"),
+                                        SMOKESUBSTANCE_ID = p.IsNull("SMOKESUBSTANCE_ID") ? 0 : p.Field<long>("SMOKESUBSTANCE_ID"),
+                                        SMOKESUBSTANCE_TEXT = p.Field<string>("SMOKESUBSTANCE_TEXT"),
+                                        ALCOHALSUBSTANCE_ID = p.IsNull("ALCOHALSUBSTANCE_ID") ? 0 : p.Field<long>("ALCOHALSUBSTANCE_ID"),
+                                        ALCOHALSUBSTANCE_TEXT = p.Field<string>("ALCOHALSUBSTANCE_TEXT"),
+                                        CAFFEINATED_BEVERAGESID = p.IsNull("CAFFEINATED_BEVERAGESID") ? 0 : p.Field<long>("CAFFEINATED_BEVERAGESID"),
+                                        CAFFEINATEDBEVERAGES_TEXT = p.Field<string>("CAFFEINATEDBEVERAGES_TEXT"),
+                                        EMERG_CONT_FIRSTNAME = p.Field<string>("EMERG_CONT_FIRSTNAME"),
+                                        EMERG_CONT_MIDDLENAME = p.Field<string>("EMERG_CONT_MIDDLENAME"),
+                                        EMERG_CONT_LASTNAME = p.Field<string>("EMERG_CONT_LASTNAME"),
+                                        EMERG_CONT_RELATIONSHIP_ID = p.IsNull("EMERG_CONT_RELATIONSHIP_ID") ? 0 : p.Field<long>("EMERG_CONT_RELATIONSHIP_ID"),
+                                        GOOGLE_EMAILID = p.Field<string>("Google_EmailId"),
+                                        FB_EMAILID = p.Field<string>("FB_EMAILID"),
+                                        DIABETIC = p.IsNull("DIABETIC") ? 0 : p.Field<long>("DIABETIC"),
+                                        HYPERTENSION = p.IsNull("HYPERTENSION") ? 0 : p.Field<long>("HYPERTENSION"),
+                                        CHOLESTEROL = p.IsNull("CHOLESTEROL") ? 0 : p.Field<long>("CHOLESTEROL"),
+                                        Diabetic_Option = p.Field<string>("Diabetic_Option"),
+                                        HyperTension_Option = p.Field<string>("HyperTension_Option"),
+                                        Cholesterol_Option = p.Field<string>("Cholestrol_Option"),
+                                        Patient_Type = p.Field<int?>("Patient_Type"),
+                                        Emergency_MobileNo = p.Field<string>("EMRG_CONT_PHONENO"),
+                                        Approval_flag = p.Field<int>("APPROVAL_FLAG"),
+                                        Createdby_ShortName = p.Field<string>("SHORTNAME_CODE"),
+                                        appleUserID = p.Field<string>("appleUserID"),
+                                        PatientId = p.Field<string>("PATIENT_ID"),
+                                        Memberid = p.Field<string>("MEMBERID"),
+                                        PolicyNumber = p.Field<string>("POLICYNUMBER"),
+                                        RefernceId = p.Field<string>("REFERNCEID"),
+                                        ExpiryDate = p.Field<string>("EXPIRYDATE"),
+                                        PayorId = p.Field<string>("PAYORID"),
+                                        PlanId = p.Field<string>("PLANID"),
+                                        PayorName = p.Field<string>("PayorName"),
+                                        PlanName = p.Field<string>("PlanName"),
+                                        Appointment_Module_Id = p.Field<int?>("APPOINTMENT_MODULE_ID"),
+                                        TimeZone_Id = p.Field<int?>("TIMEZONE_ID"),
+                                        NationalPhotoFullpath = p.Field<string>("NATIONAL_PHOTO_FULLPATH"),
+                                        NationalPhotoFilename = p.Field<string>("NATIONAL_PHOTO_FILENAME"),
+                                        InsurancePhotoFullpath = p.Field<string>("INSURANCE_PHOTO_FULLPATH"),
+                                        InsurancePhotoFilename = p.Field<string>("INSURANCE_PHOTO_FILENAME")
+                                    }).FirstOrDefault();
+
+
+                if (View.DOB_Encrypt != "")
+                {
+                    var time = View.DOB_Encrypt.Split(' ');
+
+
+
+                    var time4 = time[0].Split('/');
+                    try
+                    {
+
+
+                        var time1 = time4[0];
+                        var time2 = time4[1];
+                        var time3 = time4[2];
+
+
+
+
+
+                        DateTime dt1 = new DateTime();
+                        try
+                        {
+                            var dateime = time2 + '/' + time1 + '/' + time3;
+                            dt1 = Convert.ToDateTime(dateime);
+                        }
+                        catch (Exception ex)
+                        {
+                            _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                            var dateime = time1 + '/' + time2 + '/' + time3;
+                            dt1 = Convert.ToDateTime(dateime);
+                        }
+                        View.DOB = dt1;
+                    }
+                    catch (Exception ex1)
+                    {
+                        /*_MyLogger.Exceptions("ERROR", _AppLogger, ex1.Message, ex1, _AppMethod);*/
+                        time4 = time[0].Split('-');
+                        var time1 = time4[0];
+                        var time2 = time4[1];
+                        var time3 = time4[2];
+
+
+                        DateTime dt1 = new DateTime();
+                        try
+                        {
+                            var dateime = time2 + '-' + time1 + '-' + time3;
+                            dt1 = Convert.ToDateTime(dateime);
+                        }
+                        catch (Exception ex2)
+                        {
+                            /*_MyLogger.Exceptions("ERROR", _AppLogger, ex2.Message, ex2, _AppMethod);*/
+                            var dateime = time1 + '-' + time2 + '-' + time3;
+                            dt1 = Convert.ToDateTime(dateime);
+                        }
+                        View.DOB = dt1;
+                    }
+
+                    /*string[] tokens = View.DOB_Encrypt.Split('/');
+                    View.DOB = new DateTime(int.Parse(tokens[2].Substring(0, 4)), int.Parse(tokens[0]), int.Parse(tokens[1]));*/
+                    //View.DOB= DateTime.ParseExact(View.DOB_Encrypt, "MM-dd-yyyy HH:mm:ss,fff", System.Globalization.CultureInfo.InvariantCulture);
+                }
+                if (View != null)
+                {
+                    View.SelectedGroupList = USERGROUPDETAILS_VIEW(View.Id);
+                    if (View.Id > 0 && View.UserType_Id == 2)
+                    {
+                        View.AddMedicines = Patient_CurrentMedicalDetails_View(View.Id);
+                        View.AddMedicalHistory = Patient_PastMedicalDetails_View(View.Id);
+                        View.AddHealthProblem = Patient_FamilyHistory_View(View.Id);
+                        View.SelectedChronicConnditionList = Patient_ChronicCondition_View(View.Id);
+                    }
+                    else
+                    {
+                        View.SelectedInstitutionList = User_InstitutionDetails_View(View.Id);
+                        View.SelectedLanguageList = User_Languages_View(View.Id);
+                    }
+                }
+                else
+                {
+                    View = new UserModel();
+                }
+                return View;
+            }
+            
+        }
+
         /// <summary>
         /// to add a new Group to a institution
         /// </summary>

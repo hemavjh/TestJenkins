@@ -23,6 +23,7 @@ namespace MyCortex.Repositories
         long PatientGroupEdit(Guid Login_Session_Id, PatientGroupModel obj);
         UserModel Add_Dummy_Users(UserModel insobj);
         UserModel UserDetails_View(long Id, Guid Login_Session_Id);
+        UserModel GetUserDetails(long Id, Guid Login_Session_Id, long Logged_User_Id);
         UserReturnModel UserDetails_InActive(long Id);
         UserReturnModel UserDetails_Active(long Id);
         IList<ItemizedUserDetailsModel> UserDetails_List(long Id, long InstitutionId, int? IsActive, Guid Login_Session_Id);
