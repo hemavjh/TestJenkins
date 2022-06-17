@@ -314,7 +314,7 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                         + '<div class="col-sm-12"><label>Smoker:</label><span>' + calEvent.event.extendedProps.Smoker + '</span></div>'
                         + '<div class="col-sm-12"><label>Reason For Visit:</label><span>' + calEvent.event.extendedProps.ReasonForVisit
                         + '</span></div>' + '</div></div>' + '<div class="col-sm-3"><img style="width:50px; height:50px;" src="' + calEvent.event.extendedProps.Photo
-                        + '"/><div class="col-sm-12"><h1><span>' + calEvent.event.extendedProps.PatientName + '</span></h1></div></div>' + '</div></div>';
+                        + '"/><div class="col-sm-12"><h3><span>' + calEvent.event.extendedProps.PatientName + '</span></h3></div></div>' + '</div></div>';
 
                     var $tooltip = $('body').append(tooltip); //$(tooltip).appendTo('body');
 
@@ -368,12 +368,31 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                     $('.tooltipevent').remove();
 
                     if (info.jsEvent.target.id === 'Delete') {
-                        var msg = confirm("Do you like to Cancel the Patient Appointment?");
-                        if (msg == true) {
-                            $scope.CancelAppointmentModalList(info.event.extendedProps.Appointment_Id, info.event.start);
-                            var dateString = moment(info.event.start).format('YYYY-MM-DD');
-                            $('#calendar5').find('.fc-day[data-date="' + dateString + '"]').css('background-color', '');
-                        }
+                        //var msg = confirm("Do you like to Cancel the Patient Appointment?");
+                        //if (msg == true) {
+                        //    $scope.CancelAppointmentModalList(info.event.extendedProps.Appointment_Id, info.event.start);
+                        //    var dateString = moment(info.event.start).format('YYYY-MM-DD');
+                        //    $('#calendar5').find('.fc-day[data-date="' + dateString + '"]').css('background-color', '');
+                        //}
+                        Swal.fire({
+                            title: 'Do you like to Cancel the Patient Appointment?',
+                            html: '',
+                            showDenyButton: true,
+                            showCancelButton: false,
+                            confirmButtonText: 'Yes',
+                            denyButtonText: 'No',
+                            showCloseButton: true,
+                            allowOutsideClick: false,
+                        }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                                $scope.CancelAppointmentModal(info.event.extendedProps.Appointment_Id, info.event.start);
+                                var dateString = moment(info.event.start).format('YYYY-MM-DD');
+                                $('#calendar5').find('.fc-day[data-date="' + dateString + '"]').css('background-color', '');
+                            } else if (result.isDenied) {
+                                //Swal.fire('Changes are not saved', '', 'info')
+                            }
+                        })
                     }
                     else {
                         $scope.Id = info.event.id;
@@ -534,7 +553,7 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                         + '<div class="col-sm-12"><label>Smoker:</label><span>' + calEvent.event.extendedProps.Smoker + '</span></div>'
                         + '<div class="col-sm-12"><label>Reason For Visit:</label><span>' + calEvent.event.extendedProps.ReasonForVisit
                         + '</span></div>' + '</div></div>' + '<div class="col-sm-3"><img style="width:50px; height:50px;" src="' + calEvent.event.extendedProps.Photo
-                        + '"/><div class="col-sm-12"><h1><span>' + calEvent.event.extendedProps.PatientName + '</span></h1></div></div>' + '</div></div>';
+                        + '"/><div class="col-sm-12"><h3><span>' + calEvent.event.extendedProps.PatientName + '</span></h3></div></div>' + '</div></div>';
 
                     var $tooltip = $('body').append(tooltip); //$(tooltip).appendTo('body');
 
@@ -586,12 +605,31 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                     $('.tooltipevent').remove();
 
                     if (info.jsEvent.target.id === 'Delete') {
-                        var msg = confirm("Do you like to Cancel the Patient Appointment?");
-                        if (msg == true) {
-                            $scope.CancelAppointmentModal(info.extendedProps.Appointment_Id, info.event.extendedProps.start);
-                            var dateString = moment(info.event.start).format('YYYY-MM-DD');
-                            $('#calendar').find('.fc-day[data-date="' + dateString + '"]').css('background-color', '');
-                        }
+                        //var msg = confirm("Do you like to Cancel the Patient Appointment?");
+                        //if (msg == true) {
+                        //    $scope.CancelAppointmentModal(info.extendedProps.Appointment_Id, info.event.extendedProps.start);
+                        //    var dateString = moment(info.event.start).format('YYYY-MM-DD');
+                        //    $('#calendar').find('.fc-day[data-date="' + dateString + '"]').css('background-color', '');
+                        //}
+                        Swal.fire({
+                            title: 'Do you like to Cancel the Patient Appointment?',
+                            html: '',
+                            showDenyButton: true,
+                            showCancelButton: false,
+                            confirmButtonText: 'Yes',
+                            denyButtonText: 'No',
+                            showCloseButton: true,
+                            allowOutsideClick: false,
+                        }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                                $scope.CancelAppointmentModal(info.event.extendedProps.Appointment_Id, info.event.start);
+                                var dateString = moment(info.event.start).format('YYYY-MM-DD');
+                                $('#calendar').find('.fc-day[data-date="' + dateString + '"]').css('background-color', '');
+                            } else if (result.isDenied) {
+                                //Swal.fire('Changes are not saved', '', 'info')
+                            }
+                        })
                     }
                     else {
                         $scope.Id = info.event.id;
@@ -807,7 +845,7 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                             + '<div class="col-sm-12"><label>Smoker:</label><span>' + calEvent.event.extendedProps.Smoker + '</span></div>'
                             + '<div class="col-sm-12"><label>Reason For Visit:</label><span>' + calEvent.event.extendedProps.ReasonForVisit
                             + '</span></div>' + '</div></div>' + '<div class="col-sm-3"><img style="width:50px; height:50px;" src="' + calEvent.event.extendedProps.Photo
-                            + '"/><div class="col-sm-12"><h1><span>' + calEvent.event.extendedProps.PatientName + '</span></h1></div></div>' + '</div></div>';
+                            + '"/><div class="col-sm-12"><h3><span>' + calEvent.event.extendedProps.PatientName + '</span></h3></div></div>' + '</div></div>';
 
                         var $tooltip = $('body').append(tooltip); //$(tooltip).appendTo('body');
 
@@ -862,12 +900,31 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                         $('.tooltipevent').remove();
 
                         if (info.jsEvent.target.id === 'Delete') {
-                            var msg = confirm("Do you like to Cancel the Patient Appointment?");
-                            if (msg == true) {
-                                $scope.CancelAppointmentModal(info.event.extendedProps.Appointment_Id, info.event.start);
-                                var dateString = moment(info.event.start).format('YYYY-MM-DD');
-                                $('#calendar').find('.fc-day[data-date="' + dateString + '"]').css('background-color', '');
-                            }
+                            //var msg = confirm("Do you like to Cancel the Patient Appointment?");
+                            //if (msg == true) {
+                            //    $scope.CancelAppointmentModal(info.event.extendedProps.Appointment_Id, info.event.start);
+                            //    var dateString = moment(info.event.start).format('YYYY-MM-DD');
+                            //    $('#calendar').find('.fc-day[data-date="' + dateString + '"]').css('background-color', '');
+                            //}
+                            Swal.fire({
+                                title: 'Do you like to Cancel the Patient Appointment?',
+                                html: '',
+                                showDenyButton: true,
+                                showCancelButton: false,
+                                confirmButtonText: 'Yes',
+                                denyButtonText: 'No',
+                                showCloseButton: true,
+                                allowOutsideClick: false,
+                            }).then((result) => {
+                                /* Read more about isConfirmed, isDenied below */
+                                if (result.isConfirmed) {
+                                    $scope.CancelAppointmentModal(info.event.extendedProps.Appointment_Id, info.event.start);
+                                    var dateString = moment(info.event.start).format('YYYY-MM-DD');
+                                    $('#calendar').find('.fc-day[data-date="' + dateString + '"]').css('background-color', '');
+                                } else if (result.isDenied) {
+                                    //Swal.fire('Changes are not saved', '', 'info')
+                                }
+                            })
                         }
                         else {
                             $scope.Id = info.event.id;
@@ -1111,7 +1168,7 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                         + '<div class="col-sm-12"><label>Smoker:</label><span>' + calEvent.event.extendedProps.Smoker + '</span></div>'
                         + '<div class="col-sm-12"><label>Reason For Visit:</label><span>' + calEvent.event.extendedProps.ReasonForVisit
                         + '</span></div>' + '</div></div>' + '<div class="col-sm-3"><img style="width:50px; height:50px;" src="' + calEvent.event.extendedProps.Photo
-                        + '"/><div class="col-sm-12"><h1><span>' + calEvent.event.extendedProps.PatientName + '</span></h1></div></div>' + '</div></div>';
+                        + '"/><div class="col-sm-12"><h3><span>' + calEvent.event.extendedProps.PatientName + '</span></h3></div></div>' + '</div></div>';
 
                    var $tooltip = $('body').append(tooltip); //$(tooltip).appendTo('body');
 
@@ -1165,12 +1222,31 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                    $('.tooltipevent').remove();
                    
                     if (info.jsEvent.target.id === 'Delete') {
-                        var msg = confirm("Do you like to Cancel the Patient Appointment?");
-                        if (msg == true) {
-                            $scope.CancelAppointmentModal(info.event.extendedProps.Appointment_Id, info.event.start);
-                            var dateString = moment(info.event.start).format('YYYY-MM-DD');
-                            $('#calendar1').find('.fc-day[data-date="' + dateString + '"]').css('background-color', '');                            
-                        }
+                        //var msg = confirm("Do you like to Cancel the Patient Appointment?");
+                        //if (msg == true) {
+                        //    $scope.CancelAppointmentModal(info.event.extendedProps.Appointment_Id, info.event.start);
+                        //    var dateString = moment(info.event.start).format('YYYY-MM-DD');
+                        //    $('#calendar1').find('.fc-day[data-date="' + dateString + '"]').css('background-color', '');                            
+                        //}
+                        Swal.fire({
+                            title: 'Do you like to Cancel the Patient Appointment?',
+                            html: '',
+                            showDenyButton: true,
+                            showCancelButton: false,
+                            confirmButtonText: 'Yes',
+                            denyButtonText: 'No',
+                            showCloseButton: true,
+                            allowOutsideClick: false,
+                        }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                                $scope.CancelAppointmentModal(info.event.extendedProps.Appointment_Id, info.event.start);
+                                var dateString = moment(info.event.start).format('YYYY-MM-DD');
+                                $('#calendar1').find('.fc-day[data-date="' + dateString + '"]').css('background-color', '');
+                            } else if (result.isDenied) {
+                                //Swal.fire('Changes are not saved', '', 'info')
+                            }
+                        })
                     }
                     else {
                         $scope.Id = info.event.id;
