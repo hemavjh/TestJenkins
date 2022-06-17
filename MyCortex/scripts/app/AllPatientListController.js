@@ -58,6 +58,9 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
         $scope.PageNumber = 1;
         $scope.loadCount = 0;
         $scope.TabClick = false;
+        $scope.IsPagenation = false;
+        $scope.current_page = 1;
+        $scope.total_page = 1;
 
         $scope.ResetPatientFilter = function () {
             $scope.Filter_PatientNo2 = "";
@@ -188,11 +191,15 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
                             }
                             if ($scope.searchquery == '') {
                                 total = Math.ceil(($scope.PatientCount) / ($scope.Patient_PerPage));
+                                $scope.total_page = Math.ceil(($scope.PatientCount) / ($scope.Patient_PerPage));
                                 for (var i = 0; i < total; i++) {
                                     var obj = {
                                         PageNumber: i + 1
                                     }
                                     $scope.PageCountArray.push(obj);
+                                }
+                                if ($scope.PageCountArray.length > 1) {
+                                    $scope.IsPagenation = true;
                                 }
                             }
                             $scope.PatientFilter = angular.copy($scope.PatientList);
@@ -351,6 +358,19 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
             //All Patients
             $scope.Id = eventId;
             $window.location.href = baseUrl + "/Home/Index#/PatientVitals/" + $scope.Id + "/4";
+        }
+        $scope.rembemberCurrentPage = function (p) {
+            $scope.current_page = p
+        }
+        $scope.setPage = function (PageNo) {
+            if (PageNo == 0) {
+                PageNo = $scope.inputPageNo;
+            }
+            else
+                $scope.inputPageNo = PageNo;
+
+            $scope.current_page = PageNo;
+            $scope.PatientListFunction($scope.current_page);
         }
     }
 ]);
