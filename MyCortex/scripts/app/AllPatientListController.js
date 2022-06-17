@@ -178,7 +178,7 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
                         //Get the Patient List
                         $http.get(baseUrl + '/api/AllPatientList/PatientList/?Doctor_Id=' + $scope.Doctor_Id + '&PATIENTNO=' + $scope.Filter_PatientNo + '&INSURANCEID=' + $scope.filter_InsuranceId + '&GENDER_ID=' + $scope.Filter_GenderId + '&NATIONALITY_ID=' + $scope.filter_NationalityId + '&ETHINICGROUP_ID=' + $scope.filter_EthinicGroupId + '&MOBILE_NO=' + $scope.filter_MOBILE_NO + '&HOME_PHONENO=' + $scope.filter_HomePhoneNo + '&EMAILID=' + $scope.filter_Email + '&MARITALSTATUS_ID=' + $scope.filter_MaritalStatus + '&COUNTRY_ID=' + $scope.filter_CountryId + '&STATE_ID=' + $scope.filter_StataId + '&CITY_ID=' + $scope.filter_CityId + '&BLOODGROUP_ID=' + $scope.filter_BloodGroupId + '&Group_Id=' + $scope.filter_GroupId + '&UserTypeId=' + $scope.UserTypeId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd + '&SearchQuery=' + $scope.searchquery + '&SearchEncryptedQuery=' + $scope.SearchEncryptedQuery
                         ).success(function (Patientdata) {
-                            $("#chatLoaderPV").hide();
+                            /*$("#chatLoaderPV").hide();*/
                             $scope.SearchMsg = "No Data Available";
                             $scope.PageCountArray = [];
                             $scope.Patientemptydata = [];
@@ -204,7 +204,7 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
                             }
                             $scope.PatientFilter = angular.copy($scope.PatientList);
                             $scope.PatientFilterCopyList = angular.copy($scope.PatientList);
-
+                            $("#chatLoaderPV").hide();
                         });
                     });
                 });
