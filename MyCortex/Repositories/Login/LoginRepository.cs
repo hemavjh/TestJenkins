@@ -969,7 +969,8 @@ namespace MyCortex.Repositories.Login
                                                Department_Id = p.Field<long?>("DEPARTMENT_ID"),
                                                EmailId = p.Field<string>("EMAILID"),
                                                // EmailId = p.Field<string>("EMAILID"),
-                                               UserType_Id = p.Field<long?>("USERTYPE_ID")
+                                               UserType_Id = p.Field<long?>("USERTYPE_ID"),
+                                               Institution_Id = p.Field<long>("INSTITUTION_ID")
                                            }).ToList();
                 return lst;
             }
@@ -1089,7 +1090,7 @@ namespace MyCortex.Repositories.Login
                 UsertypeModal lst = (from p in dt.AsEnumerable()
                                      select new UsertypeModal()
                                      {
-                                         ChangedDate = p.Field<DateTime?>("PASSWORDCHANGEDDATE")
+                                         ChangedDate = p.Field<DateTime>("PASSWORDCHANGEDDATE")
                                      }).FirstOrDefault();
                 return lst;
             }

@@ -237,6 +237,10 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         templateUrl: baseUrl + 'Admin/Views/ResetPassword.html',
         controller: 'PasswordController'
     }).
+    when('/SuperAdminResetPassword', {
+        templateUrl: baseUrl + 'Admin/Views/SuperAdminResetPassword.html',
+        controller: 'PasswordController'
+    }).
     when('/PatientApproval', {
         templateUrl: baseUrl + 'User/Views/PatientApproval.html',
         controller: 'PatientApprovalController'

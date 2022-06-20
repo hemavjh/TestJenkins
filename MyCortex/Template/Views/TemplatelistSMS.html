@@ -14,13 +14,13 @@
         $('.activeButton').removeClass('activeButton');
         var element = document.getElementById($('.secondaryMenuActive').data('menu'));
         $(element).addClass('activeButton');
-        if (document.getElementById("Templates/EmailSetup")) {
-            document.getElementById("Templates/EmailSetup").className += 'activeButton';
+        if (document.getElementById("Configurations")) {
+            document.getElementById("Configurations").className += 'activeButton';
         }
         //if ($('#' + $('.secondaryMenuActive').data('menu')).length === 0) {
         //    $('.activeButton').removeClass('activeButton');
-        //    //$('#Templates/EmailSetup').addClass('activeButton');
-        //    document.getElementById("Templates/EmailSetup").className += 'activeButton';
+        //    //$('#Configurations').addClass('activeButton');
+        //    document.getElementById("Configurations").className += 'activeButton';
        // }
     });
 </script>
@@ -40,12 +40,13 @@
 </ul>
 <ul class="secondaryMenu" ng-show="UserTypeId == 1">
     <li><a href="Home/Index#/AdminEmailConfigurationList/1">Email setup</a></li>
-    <li><a href="Home/Index#/MasterAlertConfigurationList" data-menu="Templates/EmailSetup">Alerts</a></li>
-    <li><a href="Home/Index#/EmailTemplate/1" data-menu="Templates/EmailSetup">Email Template</a></li>
-    <li><a href="Home/Index#/Notification/2" data-menu="Templates/EmailSetup">Notification Template</a></li>
-    <li><a class="secondaryMenuActive" href="Home/Index#/SMSTemplate/3" data-menu="Templates/EmailSetup">Sms Template</a></li>
+    <li><a href="Home/Index#/MasterAlertConfigurationList" data-menu="Configurations">Alerts</a></li>
+    <li><a href="Home/Index#/EmailTemplate/1" data-menu="Configurations">Email Template</a></li>
+    <li><a href="Home/Index#/Notification/2" data-menu="Configurations">Notification Template</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/SMSTemplate/3" data-menu="Configurations">Sms Template</a></li>
     <li><a href="Home/Index#/WebConfiguration">Configuration</a></li>
     <li><a href="Home/Index#/GateWaySettings">GateWay</a></li>
+    <li><a href="Home/Index#/SuperAdminResetPassword">Reset Password</a></li>
 </ul>
 
 <h1 class="page-title">SMS Template</h1>
