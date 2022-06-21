@@ -17,5 +17,6 @@ namespace MyCortex.Repositories
         void ICDMaster_Delete(int Id);
         void ICDMaster_Active(int Id);
         IList<MasterICDModel> MasterICD_AddEdit(MasterICDModel obj);
+        List<MasterICDModel> Search_ICD10_List(int IsActive, long InstitutionId, int StartRowNumber, int EndRowNumber, String SearchQuery = null);
     }
 }

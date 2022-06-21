@@ -10,6 +10,7 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
         $scope.Id = "0";
         $scope.Institution_Id = "";
+        $scope.UserTypeId = parseInt($window.localStorage["UserTypeId"]);
         $scope.UserTypeName = "0";
         $scope.Usertypelist = [];
         $scope.Userlist = [];
@@ -236,7 +237,7 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
                 */
         $scope.Validationresetcontrols = function () {
             //$scope.PasswordPolicyDetails();
-            if (typeof ($scope.UserTypeName) == "undefined" || $scope.UserTypeName == 0) {
+            if (typeof ($scope.UserTypeName) == "undefined" || $scope.UserTypeName == "0") {
                 //alert("Please select User Type");
                 toastr.warning("Please select User Type", "warning");
                 return false;
@@ -524,6 +525,9 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
         /* User basic details list*/
         $scope.Userdetailsdatalist = function () {
             $("#chatLoaderPV").show();
+            if ($scope.UserTypeId == 1) {
+                $scope.UserTypeName = document.getElementById('Select2').value;
+            }
             $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + $scope.UserTypeName + '&InstitutionId=' + $scope.InstituteId).success(function (data) {
                 $scope.Userlist = data;
                 $("#chatLoaderPV").hide();
@@ -568,6 +572,7 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
                 $('#btn-signup').attr("disabled", true);
                 if ($scope.User_Selected != undefined) {
                     $scope.User_Id = $scope.User_Selected.originalObject.Id;
+                    $scope.InstituteId = $scope.User_Selected.originalObject.Institution_Id;
                     {
                         $scope.ResetpasswordId = $window.localStorage['UserId'];
                         $scope.NewPassword = $scope.NewPassword.replace(/(#|&)/g, "amp");
@@ -577,7 +582,7 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
                             + '&ReenterPassword=' + $scope.ReenterPassword
                             + '&created_By=' + $window.localStorage['UserId']
                             + '&EmailId=""'
-                            + '&InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
+                            + '&InstitutionId=' + $scope.InstituteId).success(function (data) {
                                 //alert(data.Message);
                                 toastr.success(data.Message, "success");
                                 $('#btn-signup').attr("disabled", false);

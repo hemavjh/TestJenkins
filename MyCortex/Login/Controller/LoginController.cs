@@ -213,6 +213,12 @@ namespace MyCortex.Login.Controller
                         messagestr = "Waiting for approval";
                         model.Status = "False";
                     }
+                    else if ((model.data == 14) == true)
+                    {
+                        model.ReturnFlag = 1;
+                        messagestr = "User is not available for given Ref ID.";
+                        model.Status = "False";
+                    }
 
                     //model.UserDetails = ModelData;
                     model.Message = messagestr;// "User created successfully";

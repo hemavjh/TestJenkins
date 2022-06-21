@@ -243,10 +243,10 @@
                     <div ng-if="(row.PhotoBlob!=null && row.PhotoBlob!=0)" valign="top" rowspan="6">
                         <img class="patientDetimg" src="{{'data:image/png;base64,'+ row.PhotoBlob}}" />
                     </div>
-                    <h1><span class="spanwrap">{{row.PatientName}}</span></h1>
+                    <h1 title="{{row.PatientName}}"><span class="spanwrap" style="display: block; width: 100px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; margin-top: -10px; ">{{row.PatientName}}</span></h1>
                     <div class="cardViewDetails" title="{{row.MRN_NO}}">
                         <label>MRN</label>
-                        <span style=" word-wrap: break-word; white-space: nowrap; width: 137px; overflow: hidden; text-overflow: ellipsis; float: left;">{{row.MRN_NO}}</span>
+                        <span style=" word-wrap: break-word; white-space: nowrap; width: 137px; overflow: hidden; text-overflow: clip; float: left;">{{row.MRN_NO}}</span>
                     </div>
                     <div class="cardViewDetails">
                         <label style="margin-left:10px">Smoker</label>
@@ -272,10 +272,25 @@
             </div>
 
         </div>
-        <div ng-show="PatientCount>Patient_PerPage">
-            <ul class="pagination nav" ng-repeat="row in PageCountArray">
+        <div class="text-center" ng-if="IsPagenation == true">
+            <!--<ul class="pagination nav" ng-repeat="row in PageCountArray">
                 <li class="active"><a ng-click="Next_PatientListFunction(row.PageNumber)">{{row.PageNumber}}</a></li>
-            </ul>
+            </ul>-->
+            <ul class="pagination">
+                    <li>
+                        <a ng-click="setPage(1)">First</a>
+                    </li>
+                    <li>
+                        <a ng-click="setPage(current_page - 1)">&lt;</a>
+                    </li>
+                    <li>
+                        <a><input style="width: 50px" class="text-center" type="number" min="1" max="{{total_page}}" step="1" ng-model="inputPageNo" ng-value="current_page" ng-change="setPage(0);"> of {{total_page}}</a>
+                    </li>
+                    <li>
+                        <a ng-click="setPage(current_page + 1)">&gt;</a>
+                    </li>
+                    <li><a ng-click="setPage(total_page)">Last</a></li>
+                </ul>
         </div>
     </div>
 </div>

@@ -185,6 +185,30 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
+        public List<DrugDBMasterModel> Search_DRUGDB_List(int IsActive, long InstitutionId, int StartRowNumber, int EndRowNumber, String SearchQuery = null)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ISACTIVE", IsActive));
+            param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
+            param.Add(new DataParameter("@STARTNO", StartRowNumber));
+            param.Add(new DataParameter("@ENDNO", EndRowNumber));
+            param.Add(new DataParameter("@SEARCHQUERY", SearchQuery));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[SEARCH_DRUGDB_SP_ALL_LIST]", param);
+            List<DrugDBMasterModel> list = (from p in dt.AsEnumerable()
+                                         select new DrugDBMasterModel()
+                                         {
+                                             TotalRecord = p.Field<string>("TotalRecords"),
+                                             Id = p.Field<long>("ID"),
+                                             Generic_name = p.Field<string>("GENERICNAME"),
+                                             StrengthName = p.Field<string>("STRENGTH"),
+                                             Dosage_FromName = p.Field<string>("DOSAGEFORM"),
+                                             Item_Code = p.Field<string>("ITEMCODE"),
+                                             Drug_Code = p.Field<string>("DRUGCODE"),
+                                             IsActive = p.Field<int>("IsActive"),
+                                         }).ToList();
+            return list;
+        }
+
         /// <summary>
         /// to insert/update drug db master 
         /// </summary>

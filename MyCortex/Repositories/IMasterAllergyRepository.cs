@@ -20,8 +20,8 @@ namespace MyCortex.Repositories
         IList<MasterAllergyenModel> MasterAllergenList(long ALLERGYTYPE_ID, long Institution_Id);
         MasterAllergyModel MasterAllergyView(long Id, Guid Login_Session_Id);
         void AllergyMaster_Delete(int Id);
-
         IList<MasterAllergyModel> AllergyMaster_Active(MasterAllergyModel noteobj);
+        List<MasterAllergyModel> Search_Allergy_List(int IsActive, long InstitutionId, int StartRowNumber, int EndRowNumber, String SearchQuery = null);
 
     }
 }
