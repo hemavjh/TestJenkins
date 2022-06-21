@@ -2047,6 +2047,7 @@
                                                                     <th st-ratio="35" st-sort="Notes">Notes</th>
                                                                     <th st-ratio="35" st-sort="Notestype">Notes Type</th>
                                                                     <th st-ratio="35" st-sort="Flag">Privacy</th>
+                                                                    <th st-ratio="35" st-sort="Import">Importance</th>
                                                                     <th st-ratio="20" st-sort="CREATED_PERSON">Created By</th>
                                                                     <th st-ratio="25" st-sort="CREATED_DT">Created On</th>
                                                                     <th st-ratio="15">Action</th>
@@ -2077,7 +2078,10 @@
                                                                         {{row.NotesType}}
                                                                     </td>
                                                                     <td style="text-align: left; width: 10%">
-                                                                        {{row.NotesFlag}}
+                                                                        {{row.NotesFlag==1 ? 'True' : 'False'}}
+                                                                    </td>
+                                                                    <td style="text-align: left; width: 10%">
+                                                                        {{row.Importance==1 ? 'True' : 'False'}}
                                                                     </td>
                                                                     <td style="text-align: left;max-width:150px; word-wrap:break-word;">
                                                                         <div>{{row.Created_By_Name}}</div>
@@ -2104,14 +2108,14 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr ng-if="PatientNotesrowCollectionFilter.length==0">
-                                                                    <td colspan="7" style="text-align: center">
+                                                                    <td colspan="8" style="text-align: center">
                                                                         {{SearchMsg}}
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
                                                             <tfoot ng-if="PatientNotes_pages>1">
                                                                 <tr>
-                                                                    <td colspan="7" class="text-center">
+                                                                    <td colspan="8" class="text-center">
                                                                         <!--<div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
                         mplate="Masters/Views/pagination.custom.html"></div>-->
                                                                         <ul class="pagination" style="margin-left:110px;">

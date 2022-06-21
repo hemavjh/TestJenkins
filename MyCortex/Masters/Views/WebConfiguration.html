@@ -75,7 +75,7 @@
                     </button>
                     <button type="button" class="theme-btn-2 mr-10 mt-20" ng-if="IsEdit==true && UserTypeId == '1'" ng-click="Ins_WebConfigCancel()"
                             title="Click to Cancel">
-                        InsEdit_Cancel
+                        Cancel
                     </button>
                 </div>
                 <div class="col-sm-4" ng-show="UserTypeId == '1'">
@@ -179,16 +179,16 @@
         <option value="HH:mm:ss xm">HH:mm:ss xm</option>
     </select>-->
                     <div ng-if="row.CONFIGCODE=='TIMEFORMAT_TYPE' && IsEdit==true">
-                        <input style="margin-left: 5px !important;" type="radio" value="HH:mm" ng-model="Config_value[row.ID]"> HH:mm
-                        <input style="margin-left: 5px !important" type="radio" value="HH:mm xm" ng-model="Config_value[row.ID]"> HH:mm xm
-                        <input style="margin-left: 5px !important;" type="radio" value="HH:mm:ss" ng-model="Config_value[row.ID]"> HH:mm:ss
-                        <input style="margin-left: 5px !important" type="radio" value="HH:mm:ss xm" ng-model="Config_value[row.ID]"> HH:mm:ss xm
+                        <input style="margin-left: 5px !important;" type="radio" value="12" ng-model="Config_value[row.ID]"> 12 Hour
+                        <input style="margin-left: 5px !important" type="radio" value="24" ng-model="Config_value[row.ID]"> 24 Hour
+                        <!--<input style="margin-left: 5px !important;" type="radio" value="HH:mm:ss" ng-model="Config_value[row.ID]"> HH:mm:ss
+                        <input style="margin-left: 5px !important" type="radio" value="HH:mm:ss xm" ng-model="Config_value[row.ID]"> HH:mm:ss xm-->
                     </div>
                     <div ng-if="row.CONFIGCODE=='TIMEFORMAT_TYPE' && IsEdit==false">
-                        <input style="margin-left: 5px !important;" type="radio" value="HH:mm" ng-model="Config_value[row.ID]" disabled> HH:mm
-                        <input style="margin-left: 5px !important" type="radio" value="HH:mm xm" ng-model="Config_value[row.ID]" disabled> HH:mm xm
-                        <input style="margin-left: 5px !important;" type="radio" value="HH:mm:ss" ng-model="Config_value[row.ID]" disabled> HH:mm:ss
-                        <input style="margin-left: 5px !important" type="radio" value="HH:mm:ss xm" ng-model="Config_value[row.ID]" disabled> HH:mm:ss xm
+                        <input style="margin-left: 5px !important;" type="radio" value="12" ng-model="Config_value[row.ID]" disabled> 12 Hour
+                        <input style="margin-left: 5px !important" type="radio" value="24" ng-model="Config_value[row.ID]" disabled> 24 Hour
+                        <!--<input style="margin-left: 5px !important;" type="radio" value="HH:mm:ss" ng-model="Config_value[row.ID]" disabled> HH:mm:ss
+                        <input style="margin-left: 5px !important" type="radio" value="HH:mm:ss xm" ng-model="Config_value[row.ID]" disabled> HH:mm:ss xm-->
                     </div>
 
                     <!--<select class="form-control" style="max-width:100% !important"

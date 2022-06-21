@@ -3811,6 +3811,7 @@ namespace MyCortex.Repositories.Uesr
                                                    Notes = p.Field<string>("NOTES"),
                                                    NotesType = p.Field<string>("NOTESTYPE"),
                                                    NotesFlag = p.Field<int>("FLAG"),
+                                                   Importance = p.Field<int>("IMPORTANCE"),
                                                    Created_By = p.Field<long>("CREATED_BY"),
                                                    Created_By_Name = p.Field<string>("FULLNAME"),
                                                    Created_Dt = p.Field<DateTime>("CREATED_DT"),
