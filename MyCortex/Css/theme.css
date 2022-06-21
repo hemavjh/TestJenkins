@@ -713,11 +713,11 @@ li.customDropdownlast-child:hover {
 .chronictIcon {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     position: relative;
     flex-basis: 100%;
     margin-bottom: 7px;
-    margin-left: -80px;
+    margin-left: -45px;
     max-width: 415px;
 }
 
@@ -2627,9 +2627,9 @@ a.disabled {
     }
 
 .tinyiconsfull {
-    width: auto;
+    width: 248px;
     float: left;
-    padding: 0 0 0 1px;
+    padding: 0 0 0 30px;
     cursor: pointer;
 }
 

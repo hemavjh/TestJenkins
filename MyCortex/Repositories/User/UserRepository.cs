@@ -2046,6 +2046,7 @@ namespace MyCortex.Repositories.Uesr
                                                           ViewGenderName = p.Field<string>("GENDER_NAME"),
                                                           Institution_Id = p.Field<long>("INSTITUTION_ID"),
                                                           Payment_Status = (p.IsNull("PAYMENT_STATUS") ? "" : p.Field<string>("PAYMENT_STATUS")),
+                                                          ConferenceId = p.Field<string>("CONFERENCE_ID")
                                                       }).ToList();
                 return lst;
             }

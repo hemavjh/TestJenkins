@@ -164,15 +164,15 @@ namespace MyCortex.Repositories.Uesr
                                                        Created_By = p.Field<int>("CREATED_BY"),
                                                     //   ReasonTypeId = p.Field<long>("REASONTYPE_ID"),    
                                                        //   Created_Date = p.Field<DateTime>("CREATED_DATE"),
-                                                       flag = p.Field<int>("flag")
-
+                                                       flag = p.Field<int>("flag"),
+                                                       ConferenceId = p.Field<string>("CONFERENCE_ID")
                                                    }).ToList();
             return INS;
-
-
+        
+        
         }
 
-        public IList<AppointmentPaymentHistory> AppointmentPaymentHistory(long appointmentId, Guid Login_Session_Id, long Institution_Id)
+    public IList<AppointmentPaymentHistory> AppointmentPaymentHistory(long appointmentId, Guid Login_Session_Id, long Institution_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@APPOINTMENT_ID", appointmentId));

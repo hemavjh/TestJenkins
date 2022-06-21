@@ -329,7 +329,7 @@
                     <img src="images/Premium.svg" id="imgPatientType">
                 </div>
                 <div class="themeRight">
-                    <div id="User_id" class="patientShortInfo" style="max-width:385px">
+                    <div id="User_id" class="patientShortInfo">
                         <div id="patient_profile" class="patientHeaderProfile" style="display: none;">
                             <p id="fullname" style="margin-left: -305px; margin-bottom: -52px; padding-bottom: 10px; white-space: nowrap; width: 60px; overflow: hidden; text-overflow: ellipsis; float: left;">{{fullname}}</p>
                             <i style="margin-bottom: -54px;padding-bottom: 10px;" class="fas fa-chevron-down"></i>
@@ -380,7 +380,7 @@
                             </div>
                         </div>
 
-                        <div id="KnownGroup" class="tinyiconsonefull" style="display:none;margin-left:35px;">
+                        <div id="KnownGroup" class="tinyiconsonefull" style="display:none;">
                             <span id="Protocol" onclick="openProtocol()"><img style="cursor: pointer" src="images/image003.png" /></span>
                             <span id="Groups" onclick="PatientGroupList()"><img style="cursor: pointer" src="images/image002.png" /></span>
                             <span onclick="Allergies()" id="Allergy">
@@ -389,11 +389,11 @@
                         </div>
 
                         <div id="BrainGroup" class="chronictIcon" style="display:none">
-                            <div style="margin-left: 32px;">
+                            <div>
                                 <label id="Gender"> {{Gender}}</label> , <label id="Age">{{Age}} </label> Years <i></i>
                             </div>
 
-                            <div class="tinyiconsfull" style="float: right; margin-top: -11px; margin-right: -63px; margin-left: 60px;">
+                            <div class="tinyiconsfull">
                                 <span id="Brain"><img src="images/image004.png" /></span>
                                 <span id="Bone"><img src="images/image005.png" /></span>
                                 <span id="Lungs"><img src="images/image006.png" /></span>
@@ -528,8 +528,8 @@
                         <span id="notificationCount">{{notificationCount}}</span>
 
                     </div>
-                    <div style="word-break: break-word; max-width: 130px;">
-                        <span id="usernamespan">Admin</span><br />
+                    <div>
+                        <span id="usernamespan" style="white-space: nowrap; word-break: break-word; width: 100px; overflow: hidden; text-overflow: ellipsis; float: left;">Admin</span><br />
                         <span id="Show_UserType">Admin</span>
                     </div>
                     <div class="dropdown profile_menu">
