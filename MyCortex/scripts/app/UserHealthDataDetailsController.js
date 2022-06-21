@@ -781,7 +781,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     MOBILE_NO.textContent = $scope.MobileNo;
 
                     var DOB = document.getElementById('DOB');
-                    $scope.DOB = moment($scope.DOB).format(angular.uppercase($scope.DateFormat))//moment($scope.DOB).format('DD-MMM-YYYY')
+                    $scope.DOB = moment($scope.DOB).format(angular.uppercase($scope.DateFormat));
+                    $scope.DOB1 = moment($scope.DOB).format('DD-MMM-YYYY');
                     DOB.textContent = $scope.DOB;
 
                     var fullname = document.getElementById('fullname');
@@ -790,7 +791,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     var Gender = document.getElementById('Gender');
                     Gender.textContent = $scope.ViewGenderName;
 
-                    var dob = $scope.DOB;
+                    var dob = $scope.DOB1;
                     var gt = DateFormat(dob);
                     dob = gt.replace(/-/gi, '');
                     var year = dob.substr(4, 9);
