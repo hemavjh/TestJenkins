@@ -54,7 +54,14 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             $scope.DateFormat = data1[0].ConfigValue;
             $scope.DOB = moment($scope.DOB).format(angular.uppercase($scope.DateFormat))
         });
-       
+
+        //list the Notes type
+        $http.get(baseUrl + '/api/User/NotesTypeList/').success(function (data) {
+            $scope.NotesTypeList = data;
+        })
+        $http.get(baseUrl + '/api/User/DocumentTypeList/').success(function (data) {
+            $scope.DocumentTypeList = data;
+        })
         function show_payment_history(data) {
             $scope.paymentHistory = [];
             var RowId = localStorage.getItem('rowId');
@@ -1338,14 +1345,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $scope.DoctorListWithTimeZone = $scope.DoctorListWithTimeZone1;
                         $scope.showMainBox = true;
                     }
-                    $http.get(baseUrl + '/api/User/DocumentTypeList/').success(function (data) {
-                        $scope.DocumentTypeList = data;
-                    })
+                   
 
-                    //list the Notes type
-                    $http.get(baseUrl + '/api/User/NotesTypeList/').success(function (data) {
-                        $scope.NotesTypeList = data;
-                    })
+                   
                     function convertdate(date) {
                         mnth = ("0" + (date.getMonth() + 1)).slice(-2),
                             day = ("0" + date.getDate()).slice(-2);
@@ -7604,18 +7606,18 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 //alert("Please enter Notes");
                 toastr.warning("Please enter Notes", "warning");
                 return false;
-            }
-            if (typeof ($scope.Notestype) == "" || $scope.Notestype == "") {
+            } else if (typeof ($scope.NotesType) == "" || $scope.NotesType == "" || $scope.NotesType==undefined) {
                 //alert("Please enter Notes");
                 toastr.warning("Please select Notes type ", "warning");
                 return false;
-            }
+            } else {
             //if (typeof ($scope.Flag) == "" || $scope.Flag == "") {
             //    //alert("Please enter Notes");
             //    toastr.warning("Please select flag", "warning");
             //    return false;
             //}
-            return true;
+                return true;
+            }
         };
 
         //Insert function for doctor Notes
