@@ -257,6 +257,7 @@
     <Content Include="Admin\Views\PatientAdditional_Details.html" />
     <Content Include="Admin\Views\patienthomechart.html" />
     <Content Include="Admin\Views\ResetPassword.html" />
+    <Content Include="Admin\Views\SuperAdminResetPassword.html" />
     <Content Include="Admin\Views\ThirtydaysAppointments.html" />
     <Content Include="Admin\Views\TodayAppointments.html" />
     <Content Include="Admin\Views\UserAdditionalDetails.html" />

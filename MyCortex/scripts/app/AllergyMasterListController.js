@@ -84,7 +84,14 @@ allergyMasterList.controller("AllergyMasterList", ['$scope', '$http', '$filter',
                 $scope.inputPageNo = PageNo;
 
             $scope.current_page = PageNo;
-            $scope.AllergyMasterList_Details();
+            //$scope.AllergyMasterList_Details();
+            if ($scope.AllergyMastersearchquery == "") {
+                $scope.AllergyMasterList_Details();
+            } else {
+                $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
+                $scope.PageEnd = $scope.current_page * $scope.page_size;
+                $scope.AllergySearch();
+            }
         }
 
         $scope.AllergyMasterList_Details = function () {
@@ -179,6 +186,35 @@ allergyMasterList.controller("AllergyMasterList", ['$scope', '$http', '$filter',
                 else {
                     $scope.AllergyMasterflag = 0;
                 }
+            }
+        }
+
+        $scope.AllergySearch = function () {
+            //$scope.PageStart = 1;
+            //$scope.PageEnd = 10;
+            if ($scope.AllergyMastersearchquery == "") {
+                $scope.AllergyMasterList_Details();
+            } else {
+                $("#chatLoaderPV").show();
+                $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
+                $http.get(baseUrl + '/api/MasterAllergy/Search_Allergy_List/?IsActive=' + $scope.ActiveStatus + '&InstitutionId=' + $window.localStorage['InstitutionId'] + '&SearchQuery=' + $scope.AllergyMastersearchquery +
+                    '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                        $("#chatLoaderPV").hide();
+                        $scope.AllergyMasteremptydata = [];
+                        $scope.AllergyMasterListData = [];
+                        $scope.AllergyMasterListData = data;
+                        $scope.AllergyCount = $scope.AllergyMasterListData[0].TotalRecord;
+                        $scope.AllergyMasterListFilterData = data;
+                        $scope.AllergyMasterList = angular.copy($scope.AllergyMasterListData);
+                        if ($scope.AllergyMasterList.length > 0) {
+                            $scope.flag = 1;
+                        }
+                        else {
+                            $scope.flag = 0;
+                        }
+
+                        $scope.Allergt_pages = Math.ceil(($scope.AllergyCount) / ($scope.page_size));
+                    });
             }
         }
 

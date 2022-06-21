@@ -104,12 +104,33 @@ namespace MyCortex.Admin.Controllers
              return model;
          }
 
-         /// <summary>
-         /// to insert/update drug db master 
-         /// </summary>
-         /// <param name="obj">details of drug db master</param>
-         /// <returns>inserted/updated drug db master</returns>
-         public HttpResponseMessage DrugDBMaster_AddEdit([FromBody] DrugDBMasterModel obj)
+        [HttpGet]
+        //  [CheckSessionOutFilter]
+        public List<DrugDBMasterModel> Search_DRUGDB_List(int IsActive, long InstitutionId, int StartRowNumber, int EndRowNumber, String SearchQuery = null)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            string SearchQuery2 = string.IsNullOrEmpty(SearchQuery) ? "" : SearchQuery.ToLower();
+            int lastno = EndRowNumber;
+            int StartRowNumber2 = StartRowNumber;
+            List<DrugDBMasterModel> model = new List<DrugDBMasterModel>();
+            try
+            {
+                model = repository.Search_DRUGDB_List(IsActive, InstitutionId, StartRowNumber2, lastno, SearchQuery2);
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+            }
+            return model;
+        }
+
+        /// <summary>
+        /// to insert/update drug db master 
+        /// </summary>
+        /// <param name="obj">details of drug db master</param>
+        /// <returns>inserted/updated drug db master</returns>
+        public HttpResponseMessage DrugDBMaster_AddEdit([FromBody] DrugDBMasterModel obj)
          {
 
              IList<DrugDBMasterModel> ModelData = new List<DrugDBMasterModel>();
