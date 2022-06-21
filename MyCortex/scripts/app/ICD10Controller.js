@@ -104,7 +104,14 @@ ICD10controller.controller("ICD10Controller", ['$scope', '$http', '$filter', '$r
                 $scope.inputPageNo = PageNo;
 
             $scope.current_page = PageNo;
-            $scope.ICD10list();
+            if ($scope.searchquery == "") {
+                $scope.ICD10list();
+            } else {
+                $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
+                $scope.PageEnd = $scope.current_page * $scope.page_size;
+                $scope.ICD10Search();
+            }
+            
         }
 
         $scope.ICD10list = function () {
@@ -118,8 +125,6 @@ ICD10controller.controller("ICD10Controller", ['$scope', '$http', '$filter', '$r
                 else if ($scope.IsActive == false) {
                     $scope.ISact = -1 //all
                 }
-
-
 
                 $scope.ConfigCode = "PATIENTPAGE_COUNT";
                 $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
@@ -175,6 +180,33 @@ ICD10controller.controller("ICD10Controller", ['$scope', '$http', '$filter', '$r
                         angular.lowercase(value.Description).match(searchstring) ||
                         angular.lowercase(value.CategoryName).match(searchstring);
                 });
+            }
+        }
+        $scope.ICD10Search = function () {
+            //$scope.PageStart = 1;
+            //$scope.PageEnd = 10;
+            if ($scope.searchquery == "") {
+                $scope.ICD10list();
+            } else {
+                $("#chatLoaderPV").show();
+                $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
+                $http.get(baseUrl + '/api/MasterICD/Search_ICD10_List/?IsActive=' + $scope.ActiveStatus + '&InstitutionId=' + $window.localStorage['InstitutionId'] + '&SearchQuery=' + $scope.searchquery +
+                    '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                        $("#chatLoaderPV").hide();
+                        $scope.emptydata = [];
+                        $scope.rowCollection = [];
+                        $scope.rowCollection = data;
+                        $scope.PatientCount = $scope.rowCollection[0].TotalRecord;
+                        $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
+                        if ($scope.rowCollectionFilter.length > 0) {
+                            $scope.flag = 1;
+                        }
+                        else {
+                            $scope.flag = 0;
+                        }
+
+                        $scope.total_page = Math.ceil(($scope.PatientCount) / ($scope.page_size));
+                    });
             }
         }
 

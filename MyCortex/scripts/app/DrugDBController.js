@@ -132,7 +132,14 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
                 $scope.inputPageNo = PageNo;
 
             $scope.current_page = PageNo;
-            $scope.DrugDB_List();
+            //$scope.DrugDB_List();
+            if ($scope.searchquery == "") {
+                $scope.DrugDB_List();
+            } else {
+                $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
+                $scope.PageEnd = $scope.current_page * $scope.page_size;
+                $scope.DRUGDBSearch();
+            }
         }
 
         $scope.DrugDB_List = function () {
@@ -241,6 +248,37 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
                 });
             }
         }
+
+        $scope.DRUGDBSearch = function () {
+            //$scope.PageStart = 1;
+            //$scope.PageEnd = 10;
+            if ($scope.searchquery == "") {
+                $scope.DrugDB_List();
+            } else {
+                $("#chatLoaderPV").show();
+                $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
+                $http.get(baseUrl + '/api/DrugDBMaster/Search_DRUGDB_List/?IsActive=' + $scope.ActiveStatus + '&InstitutionId=' + $window.localStorage['InstitutionId'] + '&SearchQuery=' + $scope.searchquery +
+                    '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                        $("#chatLoaderPV").hide();
+                        $scope.emptydata = [];
+                        $scope.rowCollection = [];
+                        $scope.rowCollection = data;
+                        if ($scope.rowCollection.length > 0) {
+                            $scope.DrugCount = $scope.rowCollection[0].TotalRecord;
+                        }
+                        $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
+                        if ($scope.rowCollectionFilter.length > 0) {
+                            $scope.flag = 1;
+                        }
+                        else {
+                            $scope.flag = 0;
+                        }
+
+                        $scope.total_pageDrug = Math.ceil(($scope.DrugCount) / ($scope.page_size));
+                    });
+            }
+        }
+
         /* THIS IS FOR VIEW PROCEDURE */
         $scope.ViewDrugDB = function () {
             $("#chatLoaderPV").show();

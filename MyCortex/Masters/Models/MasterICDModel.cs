@@ -33,6 +33,7 @@ namespace MyCortex.Masters.Models
         public string Created_By_Name { get; set; }
         public int StartRowNumber { get; set; }
         public int EndRowNumber { get; set; }
+        public string SearchQuery { get; set; }
     }
     public class MasterICDReturnModels
     {
