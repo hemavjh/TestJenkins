@@ -168,8 +168,24 @@ namespace MyCortex.Repositories.Admin
 
                     InsSubModId = ClsDataBase.Insert("[MYCORTEX].[INSTITUTION_SUBSCRIPTION_PAYMENT_SP_INSERTUPDATE]", param1, true);
                 }
+                foreach (Institution_Device_list item in obj.Device_list)
+                {
+                    List<DataParameter> param1 = new List<DataParameter>();
+                    param1.Add(new DataParameter("@INSTITUTIONSUBSCRIPTION_ID", InsertId));
+                    param1.Add(new DataParameter("@DEVICE_ID", item.Id));
+                    param1.Add(new DataParameter("@CREATED_BY", HttpContext.Current.Session["UserId"]));
+                    var objExist = obj.Institution_DeviceName_list.Where(ChildItem => ChildItem.DeviceId == item.Id);
+
+                    if (objExist.ToList().Count > 0)
+                        param1.Add(new DataParameter("@DEVICE_SELECTED", "1"));
+                    else
+                        param1.Add(new DataParameter("@DEVICE_SELECTED", "0"));
+
+                    InsSubModId = ClsDataBase.Insert("[MYCORTEX].[INSTITUTION_SUBSCRIPTION_DEVICENAME_SP_INSERTUPDATE]", param1, true);
+                }
                 return INS;
             }
+            
         }
 
         /// <summary>t
@@ -230,7 +246,32 @@ namespace MyCortex.Repositories.Admin
                 return null;
             }
         }
-
+        public IList<Institution_Device_list> Get_DeviceNameList()
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            //param.Add(new DataParameter("@ISACTIVE", IsActive));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[DEVICE_SP_DEVICENAME]", param);
+                List<Institution_Device_list> lst = (from p in dt.AsEnumerable()
+                                             select new Institution_Device_list()
+                                             {
+                                                 Id = p.Field<long>("ID"),
+                                                 DeviceName = p.Field<string>("NAME"),
+                                                 IsActive = p.Field<int>("ISACTIVE")
+                                             }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
         /// <summary>
         /// details of a selected Institution Subscription
         /// </summary>
@@ -249,6 +290,21 @@ namespace MyCortex.Repositories.Admin
                                                                  ModuleId = p.Field<long>("MODULE_ID"),
                                                                  ModuleName = p.Field<string>("ModuleName")
                                                              }).ToList();
+            return INS;
+        }
+        public IList<Institution_Device_list> InstitutionSubscriptionDeviceDetails_View(long Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Id", Id));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[INSTITUTION_SUBSCRIPTIONDEVICE_SP_VIEW]", param);
+            List<Institution_Device_list> INS = (from p in dt.AsEnumerable()
+                                                 select new Institution_Device_list()
+                                                 {
+                                                     Id = p.Field<long>("ID"),
+                                                     ChildId = p.Field<long>("DID"),
+                                                     DeviceId = p.Field<int>("Device_Id"),
+                                                     DeviceName = p.Field<string>("NAME")
+                                                 }).ToList();
             return INS;
         }
         public IList<GatewayMasterModel> PaymentModule_List()
@@ -402,7 +458,8 @@ namespace MyCortex.Repositories.Admin
             INS.Payment_List = PaymentModule_List();
             INS.ChildPaymentList = InstitutionSubscriptionPaymentDetails_View(INS.Id);
             INS.ChildInsuranceList = InstitutionSubscriptionInsuranceDetails_View(INS.Id);
-
+            INS.Device_list = Get_DeviceNameList();
+            INS.ChildDeviceList = InstitutionSubscriptionDeviceDetails_View(INS.Id);
             return INS;
             //INS.ToList=
             //INS.InstitutionSubscriptionModuleModels            

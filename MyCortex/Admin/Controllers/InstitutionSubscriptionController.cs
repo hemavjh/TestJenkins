@@ -125,6 +125,13 @@ namespace MyCortex.Admin.Controllers
             return model;
         }
         [HttpGet]
+        public IList<Institution_Device_list> DeviceName_List()
+        {
+            IList<Institution_Device_list> model;
+            model = repository.Get_DeviceNameList();
+            return model;
+        }
+        [HttpGet]
         public IList<GatewayMasterModel> PaymentModule_List()
         {
             IList<GatewayMasterModel> model;

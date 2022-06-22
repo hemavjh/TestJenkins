@@ -41,13 +41,15 @@ namespace MyCortex.Masters.Models
         public long TabId { get; set; }
         public string RefId { get; set; }
     }
-
+   
     public class TabDevicesModel
     {
+        public string TotalRecord { get; set; }
         public int RowNumber { get; set; }
         public long ID { get; set; }
         public long TabId { get; set; }
         public string DeviceId { get; set; }
+        public long ChildId { get; set; }
         public string DeviceName { get; set; } 
         public string Make { get; set; }
         public string DeviceType { get; set; }
@@ -62,12 +64,15 @@ namespace MyCortex.Masters.Models
         public IList<SelectedDeviceParameterList> SelectedDeviceParameterList { get; set; }
 
         public bool IsActive { get; set; }
+        public int Is_Active { get; set; }
         public long CreatedBy { get; set; }
         public int Flag { get; set; }
         public long InstitutionId { get; set; }
         public int ISTAB { get; set; }
         public long DeviceTypeId { get; set; }
         public long HiveType { get; set; }
+        public int StartRowNumber { get; set; }
+        public int EndRowNumber { get; set; }
     }
 
     public class TabUserModel

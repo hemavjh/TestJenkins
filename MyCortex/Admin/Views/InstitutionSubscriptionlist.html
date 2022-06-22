@@ -176,10 +176,10 @@
                                                         <div class="row">
                                                             <div class="col-md-4" ng-repeat="(key,value) in LanguageList">
                                                                 <div ng-if="value.LanguageName == 'English'">
-                                                                    <input type="checkbox" disabled ng-model="InstitutionAddLanguageList[$index]=true" ng-init="checked=true" /> {{value.LanguageName}}
+                                                                    <input type="checkbox" disabled ng-model="InstitutionAddLanguageList[$index]=true" ng-init="checked=true" id="language{{value.Id}}" ng-click="LanguagelistChange('language'+value.Id,value);"/> {{value.LanguageName}}
                                                                 </div>
                                                                 <div ng-if="value.LanguageName !== 'English'">
-                                                                    <input type="checkbox" ng-model="InstitutionAddLanguageList[$index]" />{{value.LanguageName}}
+                                                                    <input type="checkbox" ng-model="InstitutionAddLanguageList[$index]" id="language{{value.Id}}" ng-click="LanguagelistChange('language'+value.Id,value);" />{{value.LanguageName}}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -209,6 +209,20 @@
                                                             </div>
                                                             <div class="col-md-4" ng-repeat="(key,value) in InstitutionPaymentMethod">
                                                                 <input type="checkbox" ng-model="InstitutionAddPaymentList[$index]" />{{value.PaymentName}}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
+                                                <tr>
+                                                    <td>
+                                                        <div class="row">
+                                                            <div class="centerallign">
+                                                                <label>Device</label>
+                                                            </div>
+                                                            <div class="col-md-4" ng-repeat="(key,value) in AllDeviceNameList">
+                                                                <input type="checkbox" ng-model="InstitutionAddDeviceName[$index]" id="Id{{value.Id}}" ng-click="DevicelistChange('Id'+value.Id,value);" />{{value.DeviceName}}
                                                             </div>
                                                         </div>
                                                     </td>
@@ -350,24 +364,24 @@
                                                     </td>
                                                 </tr>
                                                 <!--<tr>
-    <td>
-        <label>Chronic Edit<sup><font class='mandatory-field'>*</font></sup></label>
-    </td>
-    <td class="nopadding">
-        <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
-            <tr>
-                <td>-->
+        <td>
+            <label>Chronic Edit<sup><font class='mandatory-field'>*</font></sup></label>
+        </td>
+        <td class="nopadding">
+            <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
+                <tr>
+                    <td>-->
                                                 <!--<div id="divInssChronicEdit" class="ng-invalid ddlValidationBorder" ng-required="true">-->
                                                 <!--<input type="checkbox" class="input-checkbox" name="Chroniccc"  ng-model="Chroniccc">CC
-    <input type="checkbox" class="input-checkbox" name="Chroniccg"  ng-model="Chroniccg">CG
-    <input type="checkbox" class="input-checkbox" name="Chroniccl"  ng-model="Chroniccl">CL
-    <input type="checkbox" class="input-checkbox" name="Chronicsc"  ng-model="Chronicsc">SC-->
+        <input type="checkbox" class="input-checkbox" name="Chroniccg"  ng-model="Chroniccg">CG
+        <input type="checkbox" class="input-checkbox" name="Chroniccl"  ng-model="Chroniccl">CL
+        <input type="checkbox" class="input-checkbox" name="Chronicsc"  ng-model="Chronicsc">SC-->
                                                 <!--</div>-->
                                                 <!--</td>
-                </tr>
-            </table>
-        </td>
-    </tr>-->
+                    </tr>
+                </table>
+            </td>
+        </tr>-->
                                                 <tr>
                                                     <td width="13%">
                                                         <Lable>Appointment Module<sup><font class='mandatory-field'>*</font></sup></Lable>
@@ -570,7 +584,7 @@
                                                     <td>
                                                         <div class="row">
                                                             <div class="col-md-4" ng-repeat="row in InstitutiontypeList">
-                                                                <input type="checkbox" disabled="disabled" ng-model="InstitutionAddList[$index]" onchange="ModulelistChange();"/>{{row.ModuleName}}
+                                                                <input type="checkbox" disabled="disabled" ng-model="InstitutionAddList[$index]" onchange="ModulelistChange();" />{{row.ModuleName}}
                                                             </div>
                                                         </div>
                                                     </td>
@@ -610,6 +624,20 @@
                                                             </div>
                                                             <div class="col-md-4" ng-repeat="(key,value) in InstitutionPaymentMethod">
                                                                 <input type="checkbox" disabled="disabled" ng-model="InstitutionAddPaymentList[$index]" />{{value.PaymentName}}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
+                                                <tr>
+                                                    <td>
+                                                        <div class="row">
+                                                            <div class="centerallign">
+                                                                <label>Device</label>
+                                                            </div>
+                                                            <div class="col-md-4" ng-repeat="(key,value) in AllDeviceNameList">
+                                                                <input type="checkbox" disabled="disabled" ng-model="InstitutionAddDeviceName[$index]" ng-click="DevicelistChange();" />{{value.DeviceName}}
                                                             </div>
                                                         </div>
                                                     </td>
@@ -701,22 +729,22 @@
                                                     </td>
                                                 </tr>
                                                 <!-- <tr>
-        <td>
-            <label>Chronic Edit<sup><font class='mandatory-field'>*</font></sup></label>
-        </td>
-        <td class="nopadding">
-            <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
-                <tr>
-                    <td>
-                        <input type="checkbox" class="input-checkbox" name="Chroniccc" ng-init="checked=true" value="1" ng-model="Chroniccc" disabled>CC
-                        <input type="checkbox" class="input-checkbox" name="Chroniccg" ng-init="checked=true" value="1" ng-model="Chroniccg" disabled>CG
-                        <input type="checkbox" class="input-checkbox" name="Chroniccl" ng-init="checked=true" value="1" ng-model="Chroniccl" disabled>CL
-                        <input type="checkbox" class="input-checkbox" name="Chronicsc" ng-init="checked=true" value="1" ng-model="Chronicsc" disabled>SC
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>-->
+            <td>
+                <label>Chronic Edit<sup><font class='mandatory-field'>*</font></sup></label>
+            </td>
+            <td class="nopadding">
+                <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
+                    <tr>
+                        <td>
+                            <input type="checkbox" class="input-checkbox" name="Chroniccc" ng-init="checked=true" value="1" ng-model="Chroniccc" disabled>CC
+                            <input type="checkbox" class="input-checkbox" name="Chroniccg" ng-init="checked=true" value="1" ng-model="Chroniccg" disabled>CG
+                            <input type="checkbox" class="input-checkbox" name="Chroniccl" ng-init="checked=true" value="1" ng-model="Chroniccl" disabled>CL
+                            <input type="checkbox" class="input-checkbox" name="Chronicsc" ng-init="checked=true" value="1" ng-model="Chronicsc" disabled>SC
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>-->
                                                 <tr>
                                                     <td width="7%">
                                                         <label>Appointment Module</label>
@@ -801,7 +829,7 @@
                                                     <td><span>{{Remaining_No_Of_Hivechart_Users}}</span></td>
                                                 </tr>
                                             </table>
-                                    <tr>
+<tr>
                                         <td>
                                             <label>Email</label>
                                         </td>
