@@ -9,6 +9,7 @@ if (baseUrl == "/") {
 MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'toastr',
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, toastr) {
         $scope.IsActive = true;
+        $scope.Is_Active = true;
         $scope.currentTab = "1";
         $scope.TabName = "";
         $scope.RefId = "";
@@ -18,6 +19,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         $scope.current_MyHomepage = 1;
         $scope.total_page = 1;
         $scope.total_MyHomepage = 1;
+        $scope.total_Devicepage = 1;
         $scope.Id = 0;
         $scope.User_Id = 0;
         $scope.LanguageText = [];
@@ -27,11 +29,13 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         $scope.SelectedTabUser = "0";
         $scope.SelectedDevice = "0";
         $scope.SelectedTabPIN = "0";
-        $scope.DevicesLists = [];
+        $scope.InstitutionDeviceList = [];
         $scope.InstituteId = $window.localStorage['InstitutionId'];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
         $scope.InstitutionId = $window.localStorage['InstitutionId'];
         $scope.CREATED_BY = $window.localStorage['UserId'];
+        $scope.UserTypeId = parseInt($window.localStorage["UserTypeId"]);
+        $scope.page_size = $window.localStorage['Pagesize'];
         $scope.IsEdit = false;
         $scope.IsShow = false;
         $scope.showSave = true;
@@ -45,11 +49,20 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         $scope.ISact = 1;
         $scope.PIN = "1234";
         $scope.DisplayView = '';
-        
+        $scope.DeviceNameAdmin = "";
         //$http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
         //    $scope.DevicesLists = data;
         //});
-        if ($location.$$path == "/Hive") {
+        $scope.InstitutionDeviceList = [];
+            $http.get(baseUrl + '/api/MyHome/DeviceInstitutionList/?Institution_Id=' + $window.localStorage['InstitutionId']
+            ).success(function (data) {
+                $scope.InstitutionDeviceList = [];
+                $scope.InstitutionDeviceList = data;
+  
+            }).error(function (data) {
+                $scope.error = "AN error has occured while Listing the records!" + data;
+            });
+       /* if ($location.$$path == "/Hive") {
             $http.get(baseUrl + '/api/MyHome/Device_List/?IsActive=' + $scope.ISact + '&InstitutionId=' + $window.localStorage['InstitutionId'] + '&HiveType=' + 1).success(function (data) {
                 $scope.DevicesLists = data.TabDeviceList;
             });
@@ -57,7 +70,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $http.get(baseUrl + '/api/MyHome/Device_List/?IsActive=' + $scope.ISact + '&InstitutionId=' + $window.localStorage['InstitutionId'] + '&HiveType=' + 2).success(function (data) {
                 $scope.DevicesLists = data.TabDeviceList;
             });
-        }
+        }*/
         //$http.get(baseUrl + '/api/Common/UserList/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
         //    $scope.UserLists = data;
         //});
@@ -105,7 +118,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 $scope.Model = "";
                 $scope.OS = "";
                 $scope.Id = "0";
-                $scope.PIN = "1234";
+                $scope.PIN = "1234";             
                 $scope.SelectedDevice = "0";
                 $('#savemytab').attr("disabled", false);
                 $('#tabname').prop('disabled', false);
@@ -517,7 +530,6 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             'IsActive': true
         }];
 
-
         /*This is a Addrow function to add new row and save  */
         $scope.MyHomeAdd = function () {
             var TSDuplicate = 0;
@@ -682,7 +694,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     };
                 });
             });
-
+            
             if (DuplicateDevice == 1) {
                 toastr.info("Device already exist, cannot be Duplicated", "info");
                 return false;
@@ -838,9 +850,12 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     angular.forEach($ff($scope.AddUserParameters, { IsActive: true }), function (value, index) {
                         return value.UserId != '';
                     });
-                    var DevicesListid = $ff($scope.DevicesLists, function (value) {
-                        return value.ID != '';
+                    angular.forEach($ff($scope.InstitutionDeviceList, { IsActive: true }), function (value, index) {
+                        return value.Id != '';
                     });
+                   /* var DevicesListid = $ff($scope.DevicesLists, function (value) {
+                        return value.ID != '';
+                    });*/
                     $scope.UserTabDetails_List = [];
                     angular.forEach($scope.SelectedTabUser, function (value, index) {
                         var obj = {
@@ -854,7 +869,8 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     angular.forEach($ff($scope.AddDeviceParameters, { IsActive: true }), function (value, index) {
                         var obj = {
                             Id: 0,
-                            DeviceId: value.Id
+                            DeviceId: value.Id,
+                            DeviceName: value.DeviceName
                         }
                         $scope.UserDeviceDetails_List.push(obj);
                     });
@@ -907,6 +923,8 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
 
             $scope.current_page = PageNo;
             $scope.DeviceList();
+            $scope.DeviceListAdmin();
+            
         }
         /* Device List */
         $scope.DeviceList = function (HiveType = 1) {
@@ -1049,9 +1067,6 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 }
             }
     */
-
-
-
         $scope.AddDevicePopUP = function () {
             $scope.submitted = false;
             $scope.Id = 0;
@@ -1249,17 +1264,207 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 });
             }*/
         };
+        $scope.ReInsertDeleteDeviceName = function (comId) {
+            $scope.Id = comId;
+            $scope.ReInsertDeviceNameDetails();
 
+        };
+        
+        $scope.ReInsertDeviceNameDetails = function () {
+            Swal.fire({
+                title: 'Do you like to activate the selected Institution?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + '/api/MyHome/DeviceName_Delete/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Selected Institution has been activated successfully");
+                        toastr.success("Selected Institution has been activated successfully", "success");
+                        $scope.DeviceListAdmin();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while ReInsertInstitutionDetails" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+        }
+        $scope.DeleteDeviceName = function (comId) {
+            $scope.Id = comId;
+            $scope.DeviceNamelist_Delete();
+        };
+        $scope.DeviceNamelist_Delete = function () {
+            Swal.fire({
+                title: 'Do you like to deactivate the selected Institution?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + '/api/MyHome/DeviceName_Delete/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Selected Institution has been deactivated Successfully");
+                        toastr.success("Selected Institution has been deactivated Successfully", "success");
+                        $scope.DeviceListAdmin();
+                    }).error(function (data) {
+                        $scope.error = "AN error has occured while deleting Institution!" + data;
+                    });
+                } else if (result.isDenied) {
+                }
+            })
+        };
         $scope.CancelDeviceList = function () {
             $scope.DeviceId = "";
             $scope.DeviceName = "";
+            $scope.DeviceNameAdmin = "";
             $scope.DeviceType = "";
             $scope.DeviceMake = "";
             $scope.DeviceModel = "";
             $scope.SelectedParamter = "0";
             angular.element('#DeviceAddModal').modal('hide');
         }
+        
+        $scope.ViewDeviceNameAdmin = function () {
+            $("#chatLoaderPV").show();
+            $scope.AllDeviceNameList = [];
+            $http.get(baseUrl + '/api/MyHome/ViewDeviceName_List/?Id=' + $scope.Id).success(function (data) {
+                $("#chatLoaderPV").hide();
+                //$scope.DeviceId = data.DeviceId;
+                $scope.DeviceNameAdmin = data.DeviceName;
+            });
+        }
+        $scope.DeviceName_Validationantrols = function () {
+            if (typeof ($scope.DeviceNameAdmin) == "undefined" || $scope.DeviceNameAdmin == "" || $scope.DeviceNameAdmin == null) {
+                //alert("Please Select Device Name");
+                toastr.warning("Please Select Device Name", "warning");
+                return false;
+            }
+            return true;
+        };
+        
+        $scope.AddDeviceNamePopUP = function () {
+            $scope.submitted = false;
+            $scope.Id = 0;
+            $scope.CancelDeviceList();
+            $scope.showSave = true;
+            angular.element('#DeviceAddModal').modal('show');
+        }
+        $scope.ViewDeviceName = function (CatId) {
+            $scope.Id = CatId;
+            $scope.CancelDeviceList();
+            $scope.ViewDeviceNameAdmin();
+            $scope.showSave = false;
+            angular.element('#DeviceAddModal').modal('show');
+        }
+        /* THIS IS OPENING POP WINDOW FORM EDIT */
+        $scope.EditDeviceName = function (CatId) {
+            $scope.Id = CatId;
+            $scope.CancelDeviceList();
+            $scope.ViewDeviceNameAdmin();
+            $scope.showSave = true;
+            $('#btnsave').attr("disabled", false);
+            angular.element('#DeviceAddModal').modal('show');
+        }
 
+        $scope.DeviceListAdmin = function () {
+                $("#chatLoaderPV").show();
+                $scope.ISact = 1;       // default active
+
+               if ($scope.Is_Active == true) {
+                     $scope.ISact = 1  //active
+                }
+                else if ($scope.Is_Active == false) {
+                    $scope.ISact = 0 //all
+                }
+
+                $scope.ConfigCode = "PATIENTPAGE_COUNT";
+                $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+                    $scope.page_size = data1[0].ConfigValue;
+                    $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
+                    $scope.PageEnd = $scope.current_page * $scope.page_size;
+                    $http.get(baseUrl + '/api/MyHome/DeviceName_Admin_List/?IsActive=' + $scope.ISact + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                        $("#chatLoaderPV").hide();
+                        $scope.emptydataDevice = data.TabDeviceList;
+                        $scope.rowCollectionDevice = [];
+                        $scope.rowCollectionDevice = data.TabDeviceList;
+                        if ($scope.rowCollectionDevice.length > 0) {
+                            $scope.TabDataCount = $scope.rowCollectionDevice[0].TotalRecord;
+                        } else {
+                            $scope.TabDataCount = 0;
+                        }
+                        $scope.rowCollectionDeviceFilter = angular.copy($scope.rowCollectionDevice);
+                        if ($scope.rowCollectionDeviceFilter.length > 0) {
+                            $scope.flag = 1;
+                        }
+                        else {
+                            $scope.flag = 0;
+                        }
+                        $scope.total_Devicepage = Math.ceil(($scope.TabDataCount) / ($scope.page_size));
+                    }).error(function (data) {
+                        $("#chatLoaderPV").hide();
+                        $scope.error = "AN error has occured while Listing the records!" + data;
+                    });
+                });
+        };
+        $scope.DeviceName_insert = function () {
+            if ($scope.DeviceName_Validationantrols() == true) {
+                $("#chatLoaderPV").show();
+                var obj = {
+                    ID: $scope.Id,
+                    DeviceName: $scope.DeviceNameAdmin,
+                };
+                $('#btnsave').attr("disabled", true);
+                $http.post(baseUrl + '/api/MyHome/AddDeviceNameInsertUpdate/', obj).success(function (data) {
+                    $("#chatLoaderPV").hide();
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 0) {
+                        toastr.success(data.Message, "success");
+                    }
+                    else if (data.ReturnFlag == 1) {
+                        toastr.success(data.Message, "success");
+                    }
+                    $('#btnsave').attr("disabled", false);
+                    $scope.DeviceListAdmin();
+                    $scope.CancelDeviceList();
+
+                }).error(function (data) {
+                    $scope.error = "An error has occurred while Adding Device" + data;
+                });
+
+            }
+        }
+
+        $scope.searchquery = "";
+        /* FILTER THE  MyHome  LIST FUNCTION.*/
+        $scope.filterDeviceNameList = function () {
+            $scope.ResultListFiltered = [];
+            $scope.emptydataDevice = [];
+            $scope.rowCollectionTabFiltertab = [];
+            var searchstring = angular.lowercase($scope.searchquery);
+            if ($scope.searchquery == "") {
+                $scope.rowCollectionTabFiltertab = angular.copy($scope.rowCollectionDevice);
+                $scope.emptydataDevice = $scope.rowCollectionTabFiltertab;
+            }
+            else {
+                $scope.rowCollectionTabFiltertab = $ff($scope.rowCollectionDevice, function (value) {
+                    return angular.lowercase(value.DeviceName).match(searchstring) 
+                   
+                });
+                $scope.emptydataDevice = $scope.rowCollectionTabFiltertab;
+                $scope.total_MyHomepage = Math.ceil(($scope.rowCollectionTabFiltertab) / ($scope.page_size));
+            }
+        }
         $scope.Device_InsertUpdate = function (HiveType = 1) {
             if ($scope.DeviceValidationcontrols() == true) {
                 //if ($scope.Device_InsertUpdate_validation() == true) {
@@ -1330,8 +1535,6 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 }).error(function (data) {
                     $scope.error = "An error has occurred while Adding Device" + data;
                 });
-
-                //}
             }
         }
 

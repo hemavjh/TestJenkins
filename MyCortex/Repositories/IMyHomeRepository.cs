@@ -22,15 +22,21 @@ namespace MyCortex.Repositories
         TabUserDetails Tab_User_Validation(TabUserDetails TabLoginObj);
         TabAdminDetails Tab_Logout_Validation(TabAdminDetails TabLoginObj);
         TabUserDashBordDetails GetDashBoardListDetails(long InstitutionId, long UserId, long TabId, Guid Login_Session_Id);
-        IList<TabDevicesModel> Get_DeviceList(int? IsActive, long Institution_ID, long HiveType); 
+        IList<TabDevicesModel> Get_DeviceList(int? IsActive, long Institution_ID, long HiveType);
+        IList<TabDevicesModel> Get_DeviceNameAdminList(int? IsActive, int StartRowNumber, int EndRowNumber);
         IList<TabDevicesModel> Get_DeviceNameList(int? IsActive);
         IList<TabDevicesModel> Device_InsertUpdate(TabDevicesModel obj);
+        IList<Institution_Device_list> InstitutionDevice(long Institution_Id);
+
+        IList<TabDevicesModel> DeviceNameInsert_InsertUpdate(TabDevicesModel obj);
         IList<DashboardUserParameterSettingsModel> Dashboard_UserParameterSettings_InsertUpdate(DashboardUserParameterSettingsModel obj);
         DashboardUserParameterSettingsReturnModel Dashboard_UserParameterSettings_InActive(long Id);
         DashboardUserParameterSettingsReturnModel Dashboard_UserParameterSettings_Active(long Id);
         TabDevicesModel Device_ListView(long id);
+        TabDevicesModel DeviceName_ListView(long id);
         /*TabDevicesModel Get_Device_Id(long DeviceId);*/
         void Device_List_Delete(int Id);
+        void Device_Name_List_Delete(int id);
         IList<TabDashBoardAlertDetails> Get_ParameterValue(long patientId, long userTypeId, Guid login_Session_Id);
         IList<MonitoringProtocolModel> ParameterList(long UserId);
     }

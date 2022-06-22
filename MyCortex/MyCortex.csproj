@@ -239,6 +239,7 @@
     <Content Include="Admin\Views\CareCoordinator_Compliance.html" />
     <Content Include="Admin\Views\CareGiverAllPatients.html" />
     <Content Include="Admin\Views\ChangePassword.html" />
+    <Content Include="Admin\Views\DeviceNameAdminList.html" />
     <Content Include="Admin\Views\DoctorProfile.html" />
     <Content Include="Admin\Views\EncryptDecrypt.html" />
     <Content Include="Admin\Views\ForgotPassword.html" />

@@ -132,6 +132,10 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         templateUrl: baseUrl + 'Admin/Views/InstitutionSubscriptionlist.html',
         controller: 'InstitutionSubscriptionController'
     }).
+    when('/Device', {
+        templateUrl: baseUrl + 'Admin/Views/DeviceNameAdminList.html',
+        controller: 'MyHomeController'
+    }).
     when('/SuperAdmin_UserList/:LoginUserType', {
         templateUrl: baseUrl + 'User/Views/SuperAdmin_Userlist.html',
         controller: 'UserController'

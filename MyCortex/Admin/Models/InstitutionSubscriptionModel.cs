@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using MyCortex.Admin.Models;
+using MyCortex.Masters.Models;
 
 namespace MyCortex.Admin.Models
 {
@@ -47,8 +48,11 @@ namespace MyCortex.Admin.Models
         public IList<InstitutionSubscriptionModuleModels> Institution_Modules { get; set; }
         public IList<ModuleMasterModel> Module_List { get; set; }
         public IList<InstitutionSubscriptionModuleModels> ChildModuleList { get; set; }
+        public IList<Institution_Device_list> ChildDeviceList { get; set; }
         public IList<InstitutionSubscriptionLanguageModels> Institution_Languages { get; set; }
+        public IList<Institution_Device_list> Institution_DeviceName_list { get; set; }
         public IList<LanguageMasterModel> Language_List { get; set; }
+        public IList<Institution_Device_list> Device_list { get; set; }
         public IList<InstitutionSubscriptionLanguageModels> ChildLanguageList { get; set; }
         public IList<GatewayMasterModel> Payment_Module_Id { get; set; }
         public IList<GatewayMasterModel> ChildPaymentList { get; set; }
@@ -100,7 +104,15 @@ namespace MyCortex.Admin.Models
         public long ChildId { get; set; }
         public string LanguageName { get; set; }
     }
-
+    public class Institution_Device_list
+    {
+        public long Id { get; set; }
+        public long Institution_Subcription_Id { get; set; }
+        public int DeviceId { get; set; }
+        public int IsActive { get; set; }
+        public long ChildId { get; set; }
+        public string DeviceName { get; set; }
+    }
     public class InstitutionSubscriptionReturnModels
     {
         public int ReturnFlag { get; set; }
