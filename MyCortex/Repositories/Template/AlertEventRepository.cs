@@ -158,10 +158,11 @@ namespace MyCortex.Repositories.EmailAlert
                             Template = FinalResult.Replace(TagName, TagsReplaceData);
                             //if (TemplateType_Id == 3)
                             //{
-                                Template = Template.Replace(@"<p>", @"").Replace(@"</p>", @"");
+                                //Template = Template.Replace(@"<p>", @"").Replace(@"</p>", @"");
                             //}
                         }
                     }
+                    Template = Template.Replace(@"<p>", @"").Replace(@"</p>", @"");
                 }
                 var AlertModel = new AlertEventModel();
                 AlertModel.TempBody = Template;

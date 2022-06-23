@@ -216,7 +216,13 @@ namespace MyCortex.Login.Controller
                     else if ((model.data == 14) == true)
                     {
                         model.ReturnFlag = 1;
-                        messagestr = "User is not available for given Ref ID.";
+                        messagestr = "This Clinical User is not available for given Ref ID.";
+                        model.Status = "False";
+                    }
+                    else if ((model.data == 15) == true)
+                    {
+                        model.ReturnFlag = 1;
+                        messagestr = "This User is not available for given Ref ID.";
                         model.Status = "False";
                     }
 

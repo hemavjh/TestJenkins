@@ -526,7 +526,8 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
         $scope.Userdetailsdatalist = function () {
             $("#chatLoaderPV").show();
             if ($scope.UserTypeId == 1) {
-                $scope.UserTypeName = document.getElementById('Select2').value;
+                $scope.UserTypeName = "3";
+                $scope.InstituteId = "-1";
             }
             $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + $scope.UserTypeName + '&InstitutionId=' + $scope.InstituteId).success(function (data) {
                 $scope.Userlist = data;
