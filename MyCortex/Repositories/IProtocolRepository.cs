@@ -16,7 +16,9 @@ namespace MyCortex.Repositories
         //void StandardProtocol_Delete(int Id);
         //void StandardProtocol_Active(int Id);
         IList<MonitoringProtocolModel> ProtocolMonitoring_AddEdit(MonitoringProtocolModel obj);
+        IList<MonitoringProtocolModel> ProtocolMonitoring_AddEditNew(MonitoringProtocolNewModel obj);
         MonitoringProtocolModel ProtocolMonitoring_View(long Id);
+        MonitoringProtocolNewModel ProtocolMonitoringNewView(long Id);
         IList<DurationModel> DurationTypeDetails();
         void ProtocolMonitoring_InActive(int Id);
         void ProtocolMonitoring_Active(int Id);

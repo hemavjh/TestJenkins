@@ -78,6 +78,54 @@ namespace MyCortex.Admin.Controllers
         }
 
 
+        [HttpPost]
+        public HttpResponseMessage ProtocolMonitoring_AddEditNew([FromBody] MonitoringProtocolNewModel insobj)
+        {
+
+            IList<MonitoringProtocolModel> ModelData = new List<MonitoringProtocolModel>();
+            MonitoringProtocolReturnModels model = new MonitoringProtocolReturnModels();
+            if (!ModelState.IsValid)
+            {
+                model.Status = "False";
+                model.Message = "Invalid data";
+                model.Protocol = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.ProtocolMonitoring_AddEditNew(insobj);
+                if (ModelData.Any(item => item.flag == 1) == true)
+                {
+                    messagestr = "Protocol Name already exists, cannot be Duplicated";
+                    model.ReturnFlag = 0;
+                }
+                else if (ModelData.Any(item => item.flag == 2) == true)
+                {
+                    messagestr = "Protocol created successfully";
+                    model.ReturnFlag = 1;
+                }
+                else if (ModelData.Any(item => item.flag == 3) == true)
+                {
+                    messagestr = "Protocol updated Successfully";
+                    model.ReturnFlag = 1;
+                }
+                model.Protocol = ModelData;
+                model.Message = messagestr;// "User created successfully";
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch
+            {
+                model.Status = "False";
+                model.Message = "Error in creating Protocol";
+                model.Protocol = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
         /// <summary>
         /// To insert/update standard protocol
         /// </summary>
@@ -199,6 +247,24 @@ namespace MyCortex.Admin.Controllers
             }
              catch (Exception ex)
              {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+            }
+            return model;
+        }
+
+        [HttpGet]
+        public MonitoringProtocolNewModel ProtocolMonitoringNewView(long Id)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            MonitoringProtocolNewModel model = new MonitoringProtocolNewModel();
+            try
+            {
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                model = repository.ProtocolMonitoringNewView(Id);
+            }
+            catch (Exception ex)
+            {
                 _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
             return model;
