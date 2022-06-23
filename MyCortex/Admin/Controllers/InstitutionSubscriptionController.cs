@@ -125,6 +125,14 @@ namespace MyCortex.Admin.Controllers
             return model;
         }
         [HttpGet]
+        public IList<TelePhoningMasterModel> TelephoningNameList()
+        {
+            IList<TelePhoningMasterModel> model;
+            model = repository.TelephoningNameList();
+            return model;
+        }
+      
+        [HttpGet]
         public IList<Institution_Device_list> DeviceName_List()
         {
             IList<Institution_Device_list> model;

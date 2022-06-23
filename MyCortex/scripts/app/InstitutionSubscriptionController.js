@@ -44,6 +44,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
         $scope.V_Contract_Period_From = "";
         $scope.V_Contract_Period_To = "";
         $scope.Subscription_Type = "1";
+        $scope.TelePhone_User = 1;
         /* $scope.Chroniccc = false;
          $scope.Chroniccg = false;
          $scope.Chroniccl = false;
@@ -169,6 +170,10 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             // only active Language    
             $scope.LanguageList = data;
         });
+        $http.get(baseUrl + '/api/InstitutionSubscription/TelephoningNameList/').success(function (data) {
+            // only active Telephone    
+            $scope.TelephoneList = data;
+        });
         $http.get(baseUrl + '/api/InstitutionSubscription/PaymentModule_List/').success(function (data) {
             // only active Language    
             $scope.PaymentList = data;
@@ -247,6 +252,10 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             }
         }
 
+        $scope.TelePhoneChange = function (Id, value) {
+            $scope.TelePhone_User = value.Id;
+        }
+       
         $scope.Module_listAdd = [];
         $scope.ModulelistChange = function (Id, value) {
             var checked = $('#' + Id).is(":checked");
@@ -561,6 +570,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     Contract_PeriodFrom: moment($scope.Contract_Period_From).format('DD-MMM-YYYY'),
                     Contract_PeriodTo: moment($scope.Contract_Period_To).format('DD-MMM-YYYY'),
                     Subscription_Type: $scope.Subscription_Type,
+                    TelePhone_User: $scope.TelePhone_User,
                     Institution_Modules: $scope.InstitutionModule_List,
                     Module_List: $scope.InstitutiontypeList,
                     Institution_Languages: $scope.InstitutionLanguage_List,
@@ -732,6 +742,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     //$scope.Contract_Period_To = $filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy");
                     $scope.Contract_Period_To = DateFormatEdit($filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy"));
                     $scope.Subscription_Type = data.Subscription_Type;
+                    $scope.TelePhone_User = data.TelePhone_User;
                     $scope.InsSub_Id = data.SubscriptionId;
                     /*$scope.Chroniccc = data.ChronicCc;
                     $scope.Chroniccg = data.ChronicCg;
@@ -828,6 +839,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             $scope.Contract_Period_From = "";
             $scope.Contract_Period_To = "";
             $scope.Subscription_Type = "1";
+            $scope.TelePhone_User = 1;
             $scope.InstitutionModule_List = [];
             $scope.InstitutionAddList = [];
             $scope.InstitutionAddLanguageList = [];

@@ -1291,6 +1291,7 @@
     <Compile Include="Admin\Models\PaymentGatewayMaster.cs" />
     <Compile Include="Admin\Models\ProtocolModel.cs" />
     <Compile Include="Admin\Models\AdminUsersLogModel.cs" />
+    <Compile Include="Admin\Models\TelePhoningMasterModel.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
