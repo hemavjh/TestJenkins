@@ -263,6 +263,8 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
         $scope.$on("appointment_list", intial_loading);
 
         $scope.openvideocall = function (patientName, ConferenceId) {
+            var emp = JSON.parse(JSON.parse(window.localStorage["18792f60bb2dbf1:common_store/user"]));
+            patientName = emp.name;
             $('#Patient_AppointmentPanel').addClass('hidden');
             $('#Patient_VideoCall').addClass('show');
             var IsAdmin = false;
