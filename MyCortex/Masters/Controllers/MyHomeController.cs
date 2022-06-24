@@ -473,7 +473,6 @@ namespace MyCortex.User.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
-
         [HttpPost]
         public HttpResponseMessage Tab_Logout_Validation([FromBody] TabAdminDetails TabAdminObj)
         {
@@ -687,7 +686,89 @@ namespace MyCortex.User.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
+        [HttpGet]
+        public IList<Institution_Device_list> DeviceInstitutionList(long Institution_Id)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<Institution_Device_list> model;
+            try
+            {
 
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                model = repository.InstitutionDevice(Institution_Id);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+        public HttpResponseMessage AddDeviceNameInsertUpdate([FromBody] TabDevicesModel obj)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<TabDevicesModel> ModelData = new List<TabDevicesModel>();
+            TabDeviceListReturnModels model = new TabDeviceListReturnModels();
+
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.DeviceNameInsert_InsertUpdate(obj);
+                if (ModelData.Any(item => item.Flag == 1) == true)
+                {
+                    messagestr = "Device Added successfully";
+                    model.ReturnFlag = 0;
+                }
+                else if (ModelData.Any(item => item.Flag == 2) == true)
+                {
+                    messagestr = "Device Updated Successfully";
+                    model.ReturnFlag = 1;
+                }
+                model.TabDeviceList = ModelData;
+                model.Message = messagestr;// "User created successfully";
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                model.Status = "False";
+                model.Message = "Error in creating Add Device";
+                model.TabDeviceList = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+        [Authorize]
+        [HttpGet]
+        [CheckSessionOutFilter]
+        public HttpResponseMessage DeviceName_Admin_List(int? IsActive, int StartRowNumber, int EndRowNumber)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<TabDevicesModel> ModelData = new List<TabDevicesModel>();
+            TabDeviceListReturnModels model = new TabDeviceListReturnModels();
+            try
+            {
+                ModelData = repository.Get_DeviceNameAdminList(IsActive,StartRowNumber, EndRowNumber);
+
+                model.TabDeviceList = ModelData;
+                model.Message = "";// "User created successfully";
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                model.Status = "False";
+                model.Message = "Error in Listing Devices";
+                model.TabDeviceList = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
         [HttpGet]
         public IList<MonitoringProtocolModel> ParameterList(long UserId)
         {
@@ -855,11 +936,36 @@ namespace MyCortex.User.Controllers
         [Authorize]
         [HttpGet]
         [CheckSessionOutFilter]
+        public TabDevicesModel ViewDeviceName_List(long Id)
+        {
+            TabDevicesModel model = new TabDevicesModel();
+            model = repository.DeviceName_ListView(Id);
+            return model;
+        }
+        [Authorize]
+        [HttpGet]
+        [CheckSessionOutFilter]
         public HttpResponseMessage Device_Delete(int Id)
         {
             if (Id > 0)
             {
                 repository.Device_List_Delete(Id);
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+                return response;
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+        }
+        [Authorize]
+        [HttpGet]
+        [CheckSessionOutFilter]
+        public HttpResponseMessage DeviceName_Delete(int Id)
+        {
+            if (Id > 0)
+            {
+                repository.Device_Name_List_Delete(Id);
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
                 return response;
             }

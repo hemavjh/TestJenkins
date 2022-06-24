@@ -48,7 +48,9 @@ InstitutionSubscriptionHAcontroller.controller("InstitutionSubscriptionHospitalA
 
         /*on click Save calling the insert update function for Institution Subscription */
         $scope.InstitutionAddList = [];
+        $scope.InstitutionDeviceList = [];
         $scope.InstitutionAddLanguageList = [];
+        $scope.InstitutionAddDeviceName = [];
         $scope.InstitutionModule_List = [];
         $scope.InstitutionLanguage_List = [];
         $scope.InstitutionInsurance_List = [];
@@ -73,7 +75,11 @@ InstitutionSubscriptionHAcontroller.controller("InstitutionSubscriptionHospitalA
                     $scope.InstitutionChildList = data.ChildModuleList;
                     $scope.LanguageList = data.Language_List;
                     $scope.InstitutionLanguageList = data.ChildLanguageList;
+                    $scope.InstitutionLanguageName = data.ChildLanguageList;
                     $scope.PaymentList = data.Payment_List;
+                    $scope.AllDeviceNameList = data.Device_list;
+                    $scope.InstitutionDeviceList = data.ChildDeviceList;
+                    $scope.InstitutionDeviceName = data.ChildDeviceList;
                     $scope.InstitutionInsurnceList = data.ChildInsuranceList;
                     $scope.InstitutionPaymentList = data.ChildPaymentList;
                     $scope.InstitutionLanguageList = data.ChildLanguageList;
@@ -177,7 +183,17 @@ InstitutionSubscriptionHAcontroller.controller("InstitutionSubscriptionHospitalA
                             $scope.InstitutionAddList[modIndex] = false;
                         }
                     })
+                    angular.forEach($scope.AllDeviceNameList, function (item, modIndex) {
 
+                        if ($ff($scope.InstitutionDeviceList, function (value) {
+                            return value.DeviceId == item.Id;
+                        }).length > 0) {
+                            $scope.InstitutionAddDeviceName[modIndex] = true;
+                        }
+                        else {
+                            $scope.InstitutionAddDeviceName[modIndex] = false;
+                        }
+                    })
                     angular.forEach($scope.LanguageList, function (item, modIndex) {
 
                         if ($ff($scope.InstitutionLanguageList, function (value) {

@@ -4,9 +4,9 @@
         $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
         if ($('#' + $('.secondaryMenuActive').data('menu')).length === 0) {
             $('.activeButton').removeClass('activeButton');
-            //$('#Templates/EmailSetup').addClass('activeButton');
-            if (document.getElementById("Templates/EmailSetup")) {
-                document.getElementById("Templates/EmailSetup").className += 'activeButton';
+            //$('#Configurations').addClass('activeButton');
+            if (document.getElementById("Configurations")) {
+                document.getElementById("Configurations").className += 'activeButton';
             }
         }
     });
@@ -28,13 +28,14 @@
    <!-- <li><a href="Home/Index#/GateWaySettings">GateWay</a></li>-->
 </ul>
 <ul class="secondaryMenu" ng-show="UserTypeId == '1'">
-    <li><a href="Home/Index#/AdminEmailConfigurationList/1" data-menu="Templates/EmailSetup">Email setup</a></li>
-    <li><a href="Home/Index#/MasterAlertConfigurationList" data-menu="Templates/EmailSetup">Alerts</a></li>
-    <li><a href="Home/Index#/EmailTemplate/1" data-menu="Templates/EmailSetup">Email Template</a></li>
-    <li><a href="Home/Index#/Notification/2" data-menu="Templates/EmailSetup">Notification Template</a></li>
-    <li><a href="Home/Index#/SMSTemplate/3" data-menu="Templates/EmailSetup">Sms Template</a></li>
+    <li><a href="Home/Index#/AdminEmailConfigurationList/1" data-menu="Configurations">Email setup</a></li>
+    <li><a href="Home/Index#/MasterAlertConfigurationList" data-menu="Configurations">Alerts</a></li>
+    <li><a href="Home/Index#/EmailTemplate/1" data-menu="Configurations">Email Template</a></li>
+    <li><a href="Home/Index#/Notification/2" data-menu="Configurations">Notification Template</a></li>
+    <li><a href="Home/Index#/SMSTemplate/3" data-menu="Configurations">Sms Template</a></li>
     <li><a class="secondaryMenuActive" href="Home/Index#/WebConfiguration" data-menu="Settings">Configuration</a></li>
     <li><a href="Home/Index#/GateWaySettings">GateWay</a></li>
+    <li><a href="Home/Index#/SuperAdminResetPassword">Reset Password</a></li>
 </ul>
 
 <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
@@ -74,7 +75,7 @@
                     </button>
                     <button type="button" class="theme-btn-2 mr-10 mt-20" ng-if="IsEdit==true && UserTypeId == '1'" ng-click="Ins_WebConfigCancel()"
                             title="Click to Cancel">
-                        InsEdit_Cancel
+                        Cancel
                     </button>
                 </div>
                 <div class="col-sm-4" ng-show="UserTypeId == '1'">
@@ -178,16 +179,16 @@
         <option value="HH:mm:ss xm">HH:mm:ss xm</option>
     </select>-->
                     <div ng-if="row.CONFIGCODE=='TIMEFORMAT_TYPE' && IsEdit==true">
-                        <input style="margin-left: 5px !important;" type="radio" value="HH:mm" ng-model="Config_value[row.ID]"> HH:mm
-                        <input style="margin-left: 5px !important" type="radio" value="HH:mm xm" ng-model="Config_value[row.ID]"> HH:mm xm
-                        <input style="margin-left: 5px !important;" type="radio" value="HH:mm:ss" ng-model="Config_value[row.ID]"> HH:mm:ss
-                        <input style="margin-left: 5px !important" type="radio" value="HH:mm:ss xm" ng-model="Config_value[row.ID]"> HH:mm:ss xm
+                        <input style="margin-left: 5px !important;" type="radio" value="12" ng-model="Config_value[row.ID]"> 12 Hour
+                        <input style="margin-left: 5px !important" type="radio" value="24" ng-model="Config_value[row.ID]"> 24 Hour
+                        <!--<input style="margin-left: 5px !important;" type="radio" value="HH:mm:ss" ng-model="Config_value[row.ID]"> HH:mm:ss
+                        <input style="margin-left: 5px !important" type="radio" value="HH:mm:ss xm" ng-model="Config_value[row.ID]"> HH:mm:ss xm-->
                     </div>
                     <div ng-if="row.CONFIGCODE=='TIMEFORMAT_TYPE' && IsEdit==false">
-                        <input style="margin-left: 5px !important;" type="radio" value="HH:mm" ng-model="Config_value[row.ID]" disabled> HH:mm
-                        <input style="margin-left: 5px !important" type="radio" value="HH:mm xm" ng-model="Config_value[row.ID]" disabled> HH:mm xm
-                        <input style="margin-left: 5px !important;" type="radio" value="HH:mm:ss" ng-model="Config_value[row.ID]" disabled> HH:mm:ss
-                        <input style="margin-left: 5px !important" type="radio" value="HH:mm:ss xm" ng-model="Config_value[row.ID]" disabled> HH:mm:ss xm
+                        <input style="margin-left: 5px !important;" type="radio" value="12" ng-model="Config_value[row.ID]" disabled> 12 Hour
+                        <input style="margin-left: 5px !important" type="radio" value="24" ng-model="Config_value[row.ID]" disabled> 24 Hour
+                        <!--<input style="margin-left: 5px !important;" type="radio" value="HH:mm:ss" ng-model="Config_value[row.ID]" disabled> HH:mm:ss
+                        <input style="margin-left: 5px !important" type="radio" value="HH:mm:ss xm" ng-model="Config_value[row.ID]" disabled> HH:mm:ss xm-->
                     </div>
 
                     <!--<select class="form-control" style="max-width:100% !important"

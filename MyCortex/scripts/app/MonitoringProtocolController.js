@@ -6,7 +6,7 @@ if (baseUrl == "/") {
 }
 
 
-MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http', '$filter', '$routeParams','$rootScope', '$location', '$window', 'filterFilter', 'toastr',
+MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http', '$filter', '$routeParams', '$rootScope', '$location', '$window', 'filterFilter', 'toastr',
     function ($scope, $http, $filter, $routeParams, $rootScope, $location, $window, $ff, toastr) {
 
         $scope.isPatientMonitornigProtocol = "";
@@ -17,6 +17,7 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                 }
             }
         });
+
         //List Page Pagination.
         $scope.current_page = 1;
         $scope.page_size = $window.localStorage['Pagesize'];
@@ -57,19 +58,14 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
             else {
                 toastr.warning("You Haven't Subscribed For This Module. Please Contact Your Administrator", "warning");
             }
-
         }
 
         $scope.AddCloneProtocolPopup = function () {
-            if (typeof ($scope.isPatientMonitornigProtocol) != 'undefined' && $scope.isPatientMonitornigProtocol != "") {
-                $scope.submitted = false;
-                $('#divCloneProtocol').addClass("ng-invalid");
-                $scope.Cloneval = 1;
-                $('#btnsave').attr("disabled", false);
-                angular.element('#ProtocolCreateModal').modal('show');
-            } else {
-                toastr.warning("You Haven't Subscribed For This Module. Please Contact Your Administrator", "warning");
-            }
+            $scope.submitted = false;
+            $('#divCloneProtocol').addClass("ng-invalid");
+            $scope.Cloneval = 1;
+            $('#btnsave').attr("disabled", false);
+            angular.element('#ProtocolCreateModal').modal('show');
         }
 
         $scope.CancelMonitoringProtocolPopup = function () {
@@ -113,15 +109,90 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
         $scope.CloneProtocolList = [];
         $scope.CloneProtocolFunction = function () {
             $("#chatLoaderPV").show();
-            $http.get(baseUrl + 'api/Protocol/StandardProtocol_View/?Id=' + $scope.Protocol_Names).success(function (data) {
-                $("#chatLoaderPV").hide();
-                $scope.ParameterSettingslist = data;
-                angular.forEach($scope.ParameterSettingslist, function (value, index) {
-                    // $scope.ProtocolName = value.ProtocolName;
-                    value.Id = "0";
-                });
+            //$http.get(baseUrl + 'api/Protocol/StandardProtocol_View/?Id=' + $scope.Protocol_Names).success(function (data) {
+            //    $("#chatLoaderPV").hide();
+            //    $scope.ParameterSettingslist = data;
+            //    angular.forEach($scope.ParameterSettingslist, function (value, index) {
+            //        // $scope.ProtocolName = value.ProtocolName;
+            //        value.Id = "0";
+            //    });
 
-            });
+            //});
+
+            $scope.ParameterSettingslist = [{
+                // 'Id': 0,
+                'Protocol_Id': 0,
+                'ProtocolName': '',
+                'Institution_Id': 0,
+                'Institution_Name': '',
+                'Diag_ParameterSettingslist': [{
+                    'Id': 0,
+                    'Parameter_Id': 0,
+                    //'Comp_Parameter_Id': 0,
+                    'ParameterName': '',
+                    'Units_Id': '',
+                    'UnitsName': '',
+                    'Diag_HighMax_One': '',
+                    'Diag_HighMin_One': '',
+                    'Diag_MediumMax_One': '',
+                    'Diag_MediumMin_One': '',
+                    'Diag_LowMax_One': '',
+                    'Diag_LowMin_One': '',
+                    'Diag_HighMax_Two': '',
+                    'Diag_HighMin_Two': '',
+                    'Diag_MediumMax_Two': '',
+                    'Diag_MediumMin_Two': '',
+                    'Diag_LowMax_Two': '',
+                    'Diag_LowMin_Two': '',
+                    //'Comp_High': '',
+                    //'Comp_Medium': '',
+                    //'Comp_Low': '',
+                    'Isactive': 1,
+                    'Created_By': $scope.User_Id,
+                    'NormalRange_High': '',
+                    'NormalRange_Low': '',
+                    //'occur_inter': true,
+                    //'occur_inter_val': 0
+                }],
+                'Comp_ParameterSettingslist': [{
+                    'Id': 0,
+                    'Protocol_Id': 0,
+                    'ProtocolName': '',
+                    'Institution_Id': 0,
+                    'Institution_Name': '',
+                    'Parameter_Id': 0,
+                    'ParameterName': '',
+                    'Com_DurationType': 0,
+                    'DurationName': '',
+                    'Comp_Duration': '0',
+                    'Isactive': 1,
+                    'Created_By': $scope.User_Id,
+                    'occur_inter': true,
+                    'occur_inter_val': 0,
+                    'duration_list': [],
+                    'starttime': '',
+                    'endtime': '',
+                    'selectedDays': '',
+                    'WeeklyData': $scope.weeklist
+                }]
+            }];
+            $scope.Diagostic_ParameterSettingslist = [{
+                'Id': 0,
+                'Parameter_Id': 0,
+                'ParameterName': '',
+                'Units_Id': '',
+                'UnitsName': '',
+                'NormalRange_High': '',
+                'NormalRange_Low': '',
+                'Diag_Range': 0,
+                'Diag_Range_Min': '',
+                'Diag_Range_Max': ''
+            }];
+            $scope.Id = $scope.Protocol_Names;
+            $scope.ProtocolDetails_View();
+            $('#btnsave').attr("disabled", false);
+            angular.element('#ProtocolCreateModal').modal('show');
+            $scope.MonitoringProtocolDropDownList();
         };
         $scope.ParameterTypeList = [];
         $scope.MonitoringProtocolDropDownList = function () {
@@ -177,6 +248,11 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
             };
         };
 
+        $scope.ParameterSettings_Compliance = function (row) {
+            ParamId = row.Parameter_Id;
+            $scope.ViewParamList1 = $ff($scope.ViewParamList, { Parameter_ID: ParamId }, true);
+        };
+
 
         /* on click view, view popup opened*/
         $scope.ViewProtocol = function (CatId) {
@@ -186,6 +262,114 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
             $scope.ProtocolDetails_View();
             angular.element('#ProtocolviewModal').modal('show');
         };
+
+        $scope.occuren_change = function (ind) {
+            $scope.occu_val = 0;
+            $scope.duration_list = [];
+        }
+        $scope.Id = 0;
+        $scope.ChildId = 0;
+        $scope.InstituteId = 0;
+        $scope.InstituteId = $window.localStorage['InstitutionId'];
+        $scope.User_Id = $window.localStorage['UserId'];
+        $scope.ParameterSettingslist = [];
+        $scope.MonitoringDetails = [];
+        $scope.occu_no = true;
+        $scope.occu_val = '';
+        $scope.occu_st = '';
+        $scope.duration_list = [];
+        $scope.weekdays = [{ day: 'S', status: 0, days: 'Su' }, { day: 'M', status: 0, days: 'Mo' }, { day: 'T', status: 0, days: 'Tu' }, { day: 'W', status: 0, days: 'We' }, { day: 'T', status: 0, days: 'Th' }, { day: 'F', status: 0, days: 'Fr' }, { day: 'S', status: 0, days: 'Sa' }];
+        $scope.weeklist = [{ day: 'S', status: 0, days: 'Su' }, { day: 'M', status: 0, days: 'Mo' }, { day: 'T', status: 0, days: 'Tu' }, { day: 'W', status: 0, days: 'We' }, { day: 'T', status: 0, days: 'Th' }, { day: 'F', status: 0, days: 'Fr' }, { day: 'S', status: 0, days: 'Sa' }];
+        $scope.weeks = 0;
+        $scope.index = 0;
+        $scope.Ranges = [{id: 0, name: 'Select'},{ id: 1, name: 'High' }, { id: 2, name: 'Medium' }, { id: 3, name: 'Low' }, { id: 4, name: 'Low' }, { id: 5, name: 'Medium' }, { id: 6, name: 'High' }]
+        $scope.Diagostic_ParameterSettingslist = [{
+            'Id': 0,
+            'Parameter_Id': 0,
+            'ParameterName': '',
+            'Units_Id': '',
+            'UnitsName': '',
+            'NormalRange_High': '',
+            'NormalRange_Low': '',
+            'Diag_Range': 0,
+            'Diag_Range_Min': '',
+            'Diag_Range_Max': ''
+        }];
+        $scope.Comp_Entry_Insert = function () {
+            var x = $scope.occu_val;
+            if (x > 0 && x <= 24 && x != '' && x != null && x != 'undefined') {
+                var inse;
+                if ($scope.occu_no) {
+                    inse = x;
+                } else {
+                    inse = 24 / x;
+                }
+                var z = [];
+                for (let i = 0; i < Math.floor(inse); i++) {
+                    var y = { time: 0 };
+                    z.push(y);
+                }
+                $scope.duration_list = z;
+            } else {
+                $scope.duration_list = [];
+            }
+        }
+
+        $scope.settiming = function () {
+            //console.log(data);
+            var data = $scope.occu_st;
+            var ho = data.getHours();
+            var mi = data.getMinutes();
+            if ($scope.occu_no) {
+                var z = [];
+                for (let i = 0; i < $scope.duration_list.length; i++) {
+                    var t = ho + i + 1;
+                    var dat = new Date();
+                    dat.setHours(t);
+                    dat.setMinutes(mi);
+                    dat.setSeconds(0);
+                    dat.setMilliseconds(0);
+                    var y = {
+                        time: dat
+                    };
+                    z.push(y);
+                }
+                $scope.duration_list = z;
+            } else {
+                var z = [];
+                for (let i = 0; i < $scope.duration_list.length; i++) {
+                    var t = ho + ((i + 1) * $scope.occu_val);
+                    var dat = new Date();
+                    dat.setHours(t);
+                    dat.setMinutes(mi);
+                    dat.setSeconds(0);
+                    dat.setMilliseconds(0);
+                    var y = {
+                        time: dat
+                    };
+                    z.push(y);
+                }
+                $scope.duration_list = z;
+            }
+        }
+
+        $scope.endtiming = function () {
+            if ($scope.occu_et != null) {
+                var endtime = new Date($scope.occu_et);
+                var y = 0;
+                for (var i = 0; i < $scope.duration_list.length; i++) {
+                    if (endtime < $scope.duration_list[i].time) {
+                        y = 1;
+                        break;
+                    }
+                }
+                if (y == 1) {
+                    toastr.info("Entry is greater than end time", "info");
+                }
+            }
+        }
+
+        $scope.array = Array(24).fill().map((e, i) => i + 1);
 
         /* on click Edit, edit popup opened*/
         $scope.EditProtocol = function (CatId, activeFlag) {
@@ -279,6 +463,89 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
             } else {
                 $scope.ComplianceWeekly = 0;
             }
+        }
+
+        
+
+        $scope.ChangeDuration = function (rw, ind) {
+            if (rw.Com_DurationType != null) {
+                angular.element('#ProtocolDateModal').modal('show');
+                angular.element('#ProtocolCreateModal').modal('hide');
+                if (rw.Com_DurationType == 2) {
+                    $scope.weeks = 1;
+                } else {
+                    $scope.weeks = 0;
+                }
+                $scope.occu_no = rw.occur_inter;
+                $scope.occu_val = rw.occur_inter_val;
+                if (new Date(rw.starttime).toString() != 'Invalid Date') {
+                    $scope.occu_st = new Date(rw.starttime);
+                } else {
+                    $scope.occu_st = rw.starttime;
+                }
+                if (new Date(rw.endtime).toString() != 'Invalid Date') {
+                    $scope.occu_et = new Date(rw.endtime);
+                } else {
+                    $scope.occu_et = rw.endtime;
+                }
+                for (var i = 0; i < rw.duration_list.length; i++) {
+                    if (new Date(rw.duration_list[i].time).toString() != 'Invalid Date') {
+                        rw.duration_list[i].time = new Date(rw.duration_list[i].time);
+                    }
+                }
+                $scope.duration_list = rw.duration_list;
+                $scope.weekdays = rw.WeeklyData;
+                $scope.index = ind;
+            }
+        }
+
+        $scope.closeschedule = function () {
+            angular.element('#ProtocolCreateModal').modal('show');
+            angular.element('#ProtocolDateModal').modal('hide');
+            $scope.occu_no = true;
+            $scope.occu_val = '';
+            $scope.occu_st = '';
+            $scope.occu_et = '';
+            $scope.duration_list = [];
+            $scope.weekdays = [{ day: 'S', status: 0, days: 'Su' }, { day: 'M', status: 0, days: 'Mo' }, { day: 'T', status: 0, days: 'Tu' }, { day: 'W', status: 0, days: 'We' }, { day: 'T', status: 0, days: 'Th' }, { day: 'F', status: 0, days: 'Fr' }, { day: 'S', status: 0, days: 'Sa' }];
+            $scope.weeks = 0;
+            $scope.index = 0;
+        }
+
+        $scope.ProtocolCompParameter_AddEdit = function () {
+            if ($scope.occu_val <= 0) {
+                toastr.warning("Please give valid input data", "warning");
+                return;
+            }
+            if (Date.parse($scope.occu_st).toString() == 'NaN') {
+                toastr.warning("Please give valid start datetime", "warning");
+                return;
+            }
+            if (Date.parse($scope.occu_et).toString() == 'NaN') {
+                toastr.warning("Please give valid end datetime", "warning");
+                return;
+            }
+            var y = 0;
+            for (var i = 0; i < $scope.duration_list.length; i++) {
+                if (Date.parse($scope.duration_list[i].time).toString() == 'NaN') {
+                    y = 1;
+                    break;
+                }
+            }
+            if (y == 1) {
+                toastr.warning("Please give valid monitor datetime", "warning");
+                return;
+            }
+            for (var i = 0; i < $scope.duration_list.length; i++) {
+                $scope.duration_list[i].localtime = angular.element('#rw' + i.toString()).val();
+            }
+            $scope.ParameterSettingslist[0].Comp_ParameterSettingslist[$scope.index].occur_inter = $scope.occu_no;
+            $scope.ParameterSettingslist[0].Comp_ParameterSettingslist[$scope.index].occur_inter_val = $scope.occu_val;
+            $scope.ParameterSettingslist[0].Comp_ParameterSettingslist[$scope.index].starttime = angular.element('#occ_st').val();
+            $scope.ParameterSettingslist[0].Comp_ParameterSettingslist[$scope.index].endtime = angular.element('#occ_et').val();
+            $scope.ParameterSettingslist[0].Comp_ParameterSettingslist[$scope.index].duration_list = $scope.duration_list;
+            $scope.ParameterSettingslist[0].Comp_ParameterSettingslist[$scope.index].selectedDays = $scope.weekdays.filter(x => x.status == 1).map(x => x.days).join(',');
+            $scope.closeschedule();
         }
 
         /* Validating the create page mandatory fields
@@ -768,124 +1035,265 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
             'ProtocolName': '',
             'Institution_Id': 0,
             'Institution_Name': '',
-            'Parameter_Id': 0,
-            'ParameterName': '',
-            'Units_Id': '',
-            'UnitsName': '',
-            'Com_DurationType': 0,
-            'DurationName': '',
-            'Diag_HighMax_One': '',
-            'Diag_HighMin_One': '',
-            'Diag_MediumMax_One': '',
-            'Diag_MediumMin_One': '',
-            'Diag_LowMax_One': '',
-            'Diag_LowMin_One': '',
-            'Diag_HighMax_Two': '',
-            'Diag_HighMin_Two': '',
-            'Diag_MediumMax_Two': '',
-            'Diag_MediumMin_Two': '',
-            'Diag_LowMax_Two': '',
-            'Diag_LowMin_Two': '',
-            'Comp_Duration': '',
-            'Comp_High': '',
-            'Comp_Medium': '',
-            'Comp_Low': '',
-            'Isactive': 1,
-            'Created_By': '',
-            'NormalRange_High': '',
-            'NormalRange_Low': ''
+            'Diag_ParameterSettingslist': [{
+                'Id': 0,
+                'Parameter_Id': 0,
+                //'Comp_Parameter_Id': 0,
+                'ParameterName': '',
+                'Units_Id': '',
+                'UnitsName': '',
+                'Diag_HighMax_One': '',
+                'Diag_HighMin_One': '',
+                'Diag_MediumMax_One': '',
+                'Diag_MediumMin_One': '',
+                'Diag_LowMax_One': '',
+                'Diag_LowMin_One': '',
+                'Diag_HighMax_Two': '',
+                'Diag_HighMin_Two': '',
+                'Diag_MediumMax_Two': '',
+                'Diag_MediumMin_Two': '',
+                'Diag_LowMax_Two': '',
+                'Diag_LowMin_Two': '',
+                //'Comp_High': '',
+                //'Comp_Medium': '',
+                //'Comp_Low': '',
+                'Isactive': 1,
+                'Created_By': $scope.User_Id,
+                'NormalRange_High': '',
+                'NormalRange_Low': '',
+            //'occur_inter': true,
+            //'occur_inter_val': 0
+            }],
+            'Comp_ParameterSettingslist': [{
+                'Id': 0,
+                'Parameter_Id': 0,
+                'ParameterName': '',
+                'Com_DurationType': 0,
+                'DurationName': '',
+                'Comp_Duration': '0',
+                'Isactive': 1,
+                'Created_By': $scope.User_Id,
+                'occur_inter': true,
+                'occur_inter_val': 0,
+                'duration_list': [],
+                'starttime': '',
+                'endtime': '',
+                'selectedDays': '',
+                'WeeklyData': $scope.weeklist
+            }]
         }];
 
         /*Add New Row */
         $scope.MonitoringParameterSettings_Insert = function () {
-            if ($scope.ParameterSettingslist.length > 0) {
-                var obj =
-                {
-                    'Id': 0,
-                    'Protocol_Id': 0,
-                    'ProtocolName': '',
-                    'Institution_Id': 0,
-                    'Institution_Name': '',
-                    'Parameter_Id': 0,
-                    'ParameterName': '',
-                    'Units_Id': '',
-                    'UnitsName': '',
-                    'Com_DurationType': 0,
-                    'DurationName': '',
-                    'Diag_HighMax_One': '',
-                    'Diag_HighMin_One': '',
-                    'Diag_MediumMax_One': '',
-                    'Diag_MediumMin_One': '',
-                    'Diag_LowMax_One': '',
-                    'Diag_LowMin_One': '',
-                    'Diag_HighMax_Two': '',
-                    'Diag_HighMin_Two': '',
-                    'Diag_MediumMax_Two': '',
-                    'Diag_MediumMin_Two': '',
-                    'Diag_LowMax_Two': '',
-                    'Diag_LowMin_Two': '',
-                    'Comp_Duration': '',
-                    'Comp_High': '',
-                    'Comp_Medium': '',
-                    'Comp_Low': '',
-                    'Isactive': 1,
-                    'Created_By': '',
-                    'NormalRange_High': '',
-                    'NormalRange_Low': ''
-                }
-                $scope.ParameterSettingslist.push(obj);
-            }
-            else {
-                $scope.ParameterSettingslist = [{
-                    'Id': 0,
-                    'Protocol_Id': 0,
-                    'ProtocolName': '',
-                    'Institution_Id': 0,
-                    'Institution_Name': '',
-                    'Parameter_Id': 0,
-                    'ParameterName': '',
-                    'Units_Id': '',
-                    'UnitsName': '',
-                    'Com_DurationType': 0,
-                    'DurationName': '',
-                    'Diag_HighMax_One': '',
-                    'Diag_HighMin_One': '',
-                    'Diag_MediumMax_One': '',
-                    'Diag_MediumMin_One': '',
-                    'Diag_LowMax_One': '',
-                    'Diag_LowMin_One': '',
-                    'Diag_HighMax_Two': '',
-                    'Diag_HighMin_Two': '',
-                    'Diag_MediumMax_Two': '',
-                    'Diag_MediumMin_Two': '',
-                    'Diag_LowMax_Two': '',
-                    'Diag_LowMin_Two': '',
-                    'Comp_Duration': '',
-                    'Comp_High': '',
-                    'Comp_Medium': '',
-                    'Comp_Low': '',
-                    'Isactive': 1,
-                    'Created_By': '',
-                    'NormalRange_High': '',
-                    'NormalRange_Low': ''
-                }];
+            var obj = {
+                'Id': 0,
+                'Parameter_Id': 0,
+                'ParameterName': '',
+                'Units_Id': '',
+                'UnitsName': '',
+                'NormalRange_High': '',
+                'NormalRange_Low': '',
+                'Diag_Range': 0,
+                'Diag_Range_Min': '',
+                'Diag_Range_Max': ''
             };
+            $scope.Diagostic_ParameterSettingslist.push(obj);
         };
+
+        $scope.MonitoringParameterSettings_Compliance_Insert = function () {
+            var obj = {
+                'Id': 0,
+                'Protocol_Id': 0,
+                'ProtocolName': '',
+                'Institution_Id': 0,
+                'Institution_Name': '',
+                'Parameter_Id': 0,
+                'ParameterName': '',
+                'Com_DurationType': 0,
+                'DurationName': '',
+                'Comp_Duration': '0',
+                'Isactive': 1,
+                'Created_By': $scope.User_Id,
+                'occur_inter': true,
+                'occur_inter_val': 0,
+                'duration_list': [],
+                'starttime': '',
+                'endtime': '',
+                'selectedDays': '',
+                'WeeklyData': $scope.weeklist
+            };
+            $scope.ParameterSettingslist[0].Comp_ParameterSettingslist.push(obj);
+        }
 
         /*on click Save calling the insert update function for Monitoring Protocol
          and check the Monitoring Protocol Name already exist,if exist it display alert message or its 
          calling the insert update function*/
-        $scope.Id = 0;
-        $scope.ChildId = 0;
-        $scope.InstituteId = 0;
-        $scope.InstituteId = $window.localStorage['InstitutionId'];
-        $scope.User_Id = $window.localStorage['UserId'];
-        $scope.ParameterSettingslist = [];
-        $scope.MonitoringDetails = [];
+        
         $scope.ProtocolParameter_AddEdit = function () {
             $scope.MonitoringDetails = [];
+            var dp = 0, dnh = 0, dnl = 0, r = 0, rm = 0, rx = 0;
+            var zy = $scope.Diagostic_ParameterSettingslist;
+            for (var i = 0; i < zy.length; i++) {
+                if (zy[i].Parameter_Id == 0) {
+                    dp = 1;
+                    break;
+                }
+                if (zy[i].NormalRange_High == '') {
+                    dnh = 1;
+                    break;
+                }
+                if (zy[i].NormalRange_Low == '') {
+                    dnl = 1;
+                    break;
+                }
+                if (zy[i].Diag_Range == 0) {
+                    r = 1;
+                    break;
+                }
+                if (zy[i].Diag_Range_Min == '') {
+                    rm = 1;
+                    break;
+                }
+                if (zy[i].Diag_Range_Max == '') {
+                    rx = 1;
+                    break;
+                }
+            }
+            if (dp == 1) {
+                toastr.warning("Please select diagonastic parameter", "Warning");
+                return;
+            }
+            if (dnh == 1) {
+                toastr.warning("Please enter diagonastic normal range high value", "Warning");
+                return;
+            }
+            if (dnl == 1) {
+                toastr.warning("Please enter diagonastic normal range low value", "Warning");
+                return;
+            }
+            if (r == 1) {
+                toastr.warning("Please select diagonastic range type", "Warning");
+                return;
+            }
+            if (rm == 1) {
+                toastr.warning("Please enter diagonastic range high value", "Warning");
+                return;
+            }
+            if (rx == 1) {
+                toastr.warning("Please enter diagonastic range low value", "Warning");
+                return;
+            }
+            var com = $scope.ParameterSettingslist[0].Comp_ParameterSettingslist;
+            var z = 0, p = 0, d = 0;
+            for (var i = 0; i < com.length; i++) {
+                if (com[i].Parameter_Id == 0 || com[i].Parameter_Id == null || com[i].Parameter_Id == undefined) {
+                    p = 1;
+                    break;
+                }
+                if (com[i].Com_DurationType == 0 || com[i].Com_DurationType == null || com[i].Com_DurationType == undefined) {
+                    d = 1;
+                    break;
+                }
+                if (com[i].occur_inter_val <= 0) {
+                    z = 1;
+                    break;
+                }
+                if (Date.parse(com[i].starttime).toString() == 'NaN') {
+                    z = 1; break;
+                }
+                if (Date.parse(com[i].endtime).toString() == 'NaN') {
+                    z = 1; break;
+                }
+                var y = 0;
+                for (var j = 0; j < com[i].duration_list.length; j++) {
+                    if (Date.parse(com[i].duration_list[j].time).toString() == 'NaN') {
+                        y = 1;
+                        z = 1; break;
+                    }
+                }
+                if (y == 1) {
+                    z = 1; break;
+                }
+            }
+            if (p == 1) {
+                toastr.warning("Please select compliance parameter", "Warning");
+                return;
+            }
+            if (d == 1) {
+                toastr.warning("Please select compliance duration type", "Warning");
+                return;
+            }
+            if (z == 1) {
+                toastr.warning("Please give valid data", "Warning");
+                return;
+            }
+            var diag_alert = [];
+            var uni = zy.map(y => y.Parameter_Id).filter((item, i, ar) => ar.indexOf(item) === i);
+            for (var b = 0; b < uni.length; b++) {
+                var obj = {
+                    'Id': 0,
+                    'Parameter_Id': uni[b],
+                    'ParameterName': '',
+                    'Units_Id': '',
+                    'UnitsName': '',
+                    'Diag_HighMax_One': '',
+                    'Diag_HighMin_One': '',
+                    'Diag_MediumMax_One': '',
+                    'Diag_MediumMin_One': '',
+                    'Diag_LowMax_One': '',
+                    'Diag_LowMin_One': '',
+                    'Diag_HighMax_Two': '',
+                    'Diag_HighMin_Two': '',
+                    'Diag_MediumMax_Two': '',
+                    'Diag_MediumMin_Two': '',
+                    'Diag_LowMax_Two': '',
+                    'Diag_LowMin_Two': '',
+                    'Isactive': 1,
+                    'Created_By': $scope.User_Id,
+                    'NormalRange_High': '',
+                    'NormalRange_Low': ''
+                };
+                diag_alert.push(obj);
+            }
+            for (var b1 = 0; b1 < zy.length; b1++) {
+                for (var b2 = 0; b2 < diag_alert.length; b2++) {
+                    if (zy[b1].Parameter_Id == diag_alert[b2].Parameter_Id) {
+                        diag_alert[b2].ParameterName = zy[b1].ParameterName;
+                        diag_alert[b2].Units_Id = zy[b1].Units_Id;
+                        diag_alert[b2].UnitsName = zy[b1].UnitsName;
+                        diag_alert[b2].NormalRange_High = zy[b1].NormalRange_High;
+                        diag_alert[b2].NormalRange_Low = zy[b1].NormalRange_Low;
+                        if (zy[b1].Diag_Range == 1) {
+                            diag_alert[b2].Diag_HighMax_One = zy[b1].Diag_Range_Min;
+                            diag_alert[b2].Diag_HighMin_One = zy[b1].Diag_Range_Max;
+                        }
+                        else if (zy[b1].Diag_Range == 2) {
+                            diag_alert[b2].Diag_MediumMax_One = zy[b1].Diag_Range_Min;
+                            diag_alert[b2].Diag_MediumMin_One = zy[b1].Diag_Range_Max;
+                        }
+                        else if (zy[b1].Diag_Range == 3) {
+                            diag_alert[b2].Diag_LowMax_One = zy[b1].Diag_Range_Min;
+                            diag_alert[b2].Diag_LowMin_One = zy[b1].Diag_Range_Max;
+                        }
+                        else if (zy[b1].Diag_Range == 4) {
+                            diag_alert[b2].Diag_HighMax_Two = zy[b1].Diag_Range_Min;
+                            diag_alert[b2].Diag_HighMin_Two = zy[b1].Diag_Range_Max;
+                        }
+                        else if (zy[b1].Diag_Range == 5) {
+                            diag_alert[b2].Diag_MediumMax_Two = zy[b1].Diag_Range_Min;
+                            diag_alert[b2].Diag_MediumMin_Two = zy[b1].Diag_Range_Max;
+                        }
+                        else if (zy[b1].Diag_Range == 6) {
+                            diag_alert[b2].Diag_LowMax_Two = zy[b1].Diag_Range_Min;
+                            diag_alert[b2].Diag_LowMin_Two = zy[b1].Diag_Range_Max;
+                        }
+                    }
+                }
+            }
 
-            if ($scope.ProtocolMonitoring_Validations() == true) {
+            $scope.ParameterSettingslist[0].Diag_ParameterSettingslist = diag_alert;
+
+            //if ($scope.ProtocolMonitoring_Validations() == true) {
                 $("#chatLoaderPV").show();
                 if ($scope.ParameterSettingslistDelete.length > 0) {
                     angular.forEach($scope.ParameterSettingslistDelete, function (Selected1, index1) {
@@ -893,49 +1301,59 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                     });
                 }
 
-                angular.forEach($scope.ParameterSettingslist, function (Selected, index) {
+                //angular.forEach($scope.ParameterSettingslist, function (Selected, index) {
 
-                    var obj = {
-                        Id: Selected.Id,
-                        // PROTOCOL_ID: Selected.PARAMETER_ID,
-                        Institution_Id: $scope.InstituteId == 0 ? null : $scope.InstituteId,
-                        Parameter_Id: Selected.Parameter_Id == 0 ? null : Selected.Parameter_Id,
-                        Units_Id: Selected.Units_Id == 0 ? null : Selected.Units_Id,
-                        Diag_HighMax_One: Selected.Diag_HighMax_One,
-                        Diag_HighMin_One: Selected.Diag_HighMin_One,
-                        Diag_MediumMax_One: Selected.Diag_MediumMax_One,
-                        Diag_MediumMin_One: Selected.Diag_MediumMin_One,
-                        Diag_LowMax_One: Selected.Diag_LowMax_One,
-                        Diag_LowMin_One: Selected.Diag_LowMin_One,
-                        Diag_HighMax_Two: Selected.Diag_HighMax_Two,
-                        Diag_HighMin_Two: Selected.Diag_HighMin_Two,
-                        Diag_MediumMax_Two: Selected.Diag_MediumMax_Two,
-                        Diag_MediumMin_Two: Selected.Diag_MediumMin_Two,
-                        Diag_LowMax_Two: Selected.Diag_LowMax_Two,
-                        Diag_LowMin_Two: Selected.Diag_LowMin_Two,
-                        Com_DurationType: Selected.Com_DurationType == 0 ? null : Selected.Com_DurationType,
-                        Comp_Duration: Selected.Comp_Duration,
-                        Comp_High: Selected.Comp_High,
-                        Comp_Medium: Selected.Comp_Medium,
-                        Comp_Low: Selected.Comp_Low,
-                        //ISACTIVE: Selected.IsActive,
-                        Created_By: $scope.User_Id,
-                        NormalRange_High: Selected.NormalRange_High,
-                        NormalRange_Low: Selected.NormalRange_Low,
+                //    var obj = {
+                //        Id: Selected.Id,
+                //        // PROTOCOL_ID: Selected.PARAMETER_ID,
+                //        Institution_Id: $scope.InstituteId == 0 ? null : $scope.InstituteId,
+                //        Parameter_Id: Selected.Parameter_Id == 0 ? null : Selected.Parameter_Id,
+                //        Comp_Parameter_Id: Selected.Comp_Parameter_Id == 0 ? null : Selected.Comp_Parameter_Id,
+                //        Units_Id: Selected.Units_Id == 0 ? null : Selected.Units_Id,
+                //        Diag_HighMax_One: Selected.Diag_HighMax_One,
+                //        Diag_HighMin_One: Selected.Diag_HighMin_One,
+                //        Diag_MediumMax_One: Selected.Diag_MediumMax_One,
+                //        Diag_MediumMin_One: Selected.Diag_MediumMin_One,
+                //        Diag_LowMax_One: Selected.Diag_LowMax_One,
+                //        Diag_LowMin_One: Selected.Diag_LowMin_One,
+                //        Diag_HighMax_Two: Selected.Diag_HighMax_Two,
+                //        Diag_HighMin_Two: Selected.Diag_HighMin_Two,
+                //        Diag_MediumMax_Two: Selected.Diag_MediumMax_Two,
+                //        Diag_MediumMin_Two: Selected.Diag_MediumMin_Two,
+                //        Diag_LowMax_Two: Selected.Diag_LowMax_Two,
+                //        Diag_LowMin_Two: Selected.Diag_LowMin_Two,
+                //        Com_DurationType: Selected.Com_DurationType == 0 ? null : Selected.Com_DurationType,
+                //        Comp_Duration: Selected.Comp_Duration,
+                //        Comp_High: Selected.Comp_High,
+                //        Comp_Medium: Selected.Comp_Medium,
+                //        Comp_Low: Selected.Comp_Low,
+                //        //ISACTIVE: Selected.IsActive,
+                //        Created_By: $scope.User_Id,
+                //        NormalRange_High: Selected.NormalRange_High,
+                //        NormalRange_Low: Selected.NormalRange_Low,
+                //    }
+                //    $('#btnsave').attr("disabled", true);
+                //    $scope.MonitoringDetails.push(obj);
+                //});
+
+                angular.forEach($scope.ParameterSettingslist[0].Comp_ParameterSettingslist, function (Selected, index) {
+                    if ($scope.ParameterSettingslist[0].Comp_ParameterSettingslist[index].Com_DurationType == 1) {
+                        $scope.ParameterSettingslist[0].Comp_ParameterSettingslist[index].selectedDays = "";
                     }
-                    $('#btnsave').attr("disabled", true);
-                    $scope.MonitoringDetails.push(obj);
+                    $scope.ParameterSettingslist[0].Comp_ParameterSettingslist[index].Protocol_Id = ($scope.Cloneval == 1) ? 0 : $scope.ParameterSettingslist[0].Comp_ParameterSettingslist[index].Protocol_Id;
+                    $scope.ParameterSettingslist[0].Comp_ParameterSettingslist[index].Id = ($scope.Cloneval == 1) ? 0 : $scope.ParameterSettingslist[0].Comp_ParameterSettingslist[index].Id;
                 });
 
+                $('#btnsave').attr("disabled", true);
                 var obj1 = {
-                    Id: $scope.Id,
+                    Id: ($scope.Cloneval == 1)? 0: $scope.Id,
                     Institution_Id: $scope.InstituteId == 0 ? null : $scope.InstituteId,
                     Protocol_Name: $scope.ProtocolName,
                     Created_By: $scope.User_Id,
-                    ChildModuleList: $scope.MonitoringDetails
+                    ChildModuleList: $scope.ParameterSettingslist
                 };
 
-                $http.post(baseUrl + '/api/Protocol/ProtocolMonitoring_AddEdit/', obj1).success(function (data) {
+                $http.post(baseUrl + '/api/Protocol/ProtocolMonitoring_AddEditNew/', obj1).success(function (data) {
                     $("#chatLoaderPV").hide();
                     //$http.post(baseUrl + '/api/StandaredProtocol/ProtocolMonitoring_AddEdit/', obj).success(function (data) {
                     //alert(data.Message);
@@ -955,7 +1373,7 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                         $scope.CloneProtocolFunction();
                     }
                 });
-            }
+            //}
         }
 
         $scope.CloneProtocolClear = function () {
@@ -977,32 +1395,69 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                 'ProtocolName': '',
                 'Institution_Id': 0,
                 'Institution_Name': '',
+                'Diag_ParameterSettingslist': [{
+                    'Id': 0,
+                    'Parameter_Id': 0,
+                    //'Comp_Parameter_Id': 0,
+                    'ParameterName': '',
+                    'Units_Id': '',
+                    'UnitsName': '',
+                    'Diag_HighMax_One': '',
+                    'Diag_HighMin_One': '',
+                    'Diag_MediumMax_One': '',
+                    'Diag_MediumMin_One': '',
+                    'Diag_LowMax_One': '',
+                    'Diag_LowMin_One': '',
+                    'Diag_HighMax_Two': '',
+                    'Diag_HighMin_Two': '',
+                    'Diag_MediumMax_Two': '',
+                    'Diag_MediumMin_Two': '',
+                    'Diag_LowMax_Two': '',
+                    'Diag_LowMin_Two': '',
+                    //'Comp_High': '',
+                    //'Comp_Medium': '',
+                    //'Comp_Low': '',
+                    'Isactive': 1,
+                    'Created_By': $scope.User_Id,
+                    'NormalRange_High': '',
+                    'NormalRange_Low': '',
+                    //'occur_inter': true,
+                    //'occur_inter_val': 0
+                }],
+                'Comp_ParameterSettingslist': [{
+                    'Id': 0,
+                    'Protocol_Id': 0,
+                    'ProtocolName': '',
+                    'Institution_Id': 0,
+                    'Institution_Name': '',
+                    'Parameter_Id': 0,
+                    'ParameterName': '',
+                    'Com_DurationType': 0,
+                    'DurationName': '',
+                    'Comp_Duration': '0',
+                    'Isactive': 1,
+                    'Created_By': $scope.User_Id,
+                    'occur_inter': true,
+                    'occur_inter_val': 0,
+                    'duration_list': [],
+                    'starttime': '',
+                    'endtime': '',
+                    'selectedDays': '',
+                    'WeeklyData': $scope.weeklist
+                }]
+            }];
+            $scope.Ranges = [{ id: 0, name: 'Select' }, { id: 1, name: 'High' }, { id: 2, name: 'Medium' }, { id: 3, name: 'Low' }, { id: 4, name: 'Low' }, { id: 5, name: 'Medium' }, { id: 6, name: 'High' }]
+            $scope.Diagostic_ParameterSettingslist = [{
+                'Id': 0,
                 'Parameter_Id': 0,
                 'ParameterName': '',
                 'Units_Id': '',
                 'UnitsName': '',
-                'Com_DurationType': 0,
-                'DurationName': '',
-                'Diag_HighMax_One': '',
-                'Diag_HighMin_One': '',
-                'Diag_MediumMax_One': '',
-                'Diag_MediumMin_One': '',
-                'Diag_LowMax_One': '',
-                'Diag_LowMin_One': '',
-                'Diag_HighMax_Two': '',
-                'Diag_HighMin_Two': '',
-                'Diag_MediumMax_Two': '',
-                'Diag_MediumMin_Two': '',
-                'Diag_LowMax_Two': '',
-                'Diag_LowMin_Two': '',
-                'Comp_Duration': '',
-                'Comp_High': '',
-                'Comp_Medium': '',
-                'Comp_Low': '',
-                'Isactive': 1,
-                'Created_By': '',
                 'NormalRange_High': '',
-                'NormalRange_Low': ''
+                'NormalRange_Low': '',
+                'Diag_Range': 0,
+                'Diag_Range_Min': '',
+                'Diag_Range_Max': ''
             }];
         };
 
@@ -1015,7 +1470,7 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                 $scope.DuplicatesId = $routeParams.Id;
             }
             $("#chatLoaderPV").show();
-            $http.get(baseUrl + 'api/Protocol/ProtocolMonitoring_View/?Id=' + $scope.Id).success(function (data) {
+            $http.get(baseUrl + 'api/Protocol/ProtocolMonitoringNewView/?Id=' + $scope.Id).success(function (data) {
                 $("#chatLoaderPV").hide();
                 $scope.DuplicatesId = data.Id;
                 $scope.Institution_Name = data.Institution_Id;
@@ -1023,9 +1478,117 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                 $scope.ProtocolName = data.Protocol_Name;
                 $scope.ParameterSettingslist = data.ChildModuleList;
 
+                for (let i = 0; $scope.ParameterSettingslist[0].Comp_ParameterSettingslist.length > i; i++) {
+                    var wd = [{ day: 'S', status: 0, days: 'Su' }, { day: 'M', status: 0, days: 'Mo' }, { day: 'T', status: 0, days: 'Tu' }, { day: 'W', status: 0, days: 'We' }, { day: 'T', status: 0, days: 'Th' }, { day: 'F', status: 0, days: 'Fr' }, { day: 'S', status: 0, days: 'Sa' }];
+                    var y = $scope.ParameterSettingslist[0].Comp_ParameterSettingslist[i].selectedDays.split(',');
+                    for (let j = 0; y.length > j; j++) {
+                        for (let z = 0; wd.length > z; z++) {
+                            if (wd[z].days == y[j]) {
+                                wd[z].status = 1;
+                            }
+                        }
+                    }
+                    $scope.ParameterSettingslist[0].Comp_ParameterSettingslist[i].WeeklyData = wd;
+                }
+
+                $scope.Diagostic_ParameterSettingslist = [];
+                var di = $scope.ParameterSettingslist[0].Diag_ParameterSettingslist;
+                for (let y = 0; y < di.length; y++) {
+                    if (di[y].Diag_HighMax_One != '' && di[y].Diag_HighMin_One != '' && di[y].Diag_HighMax_One != null && di[y].Diag_HighMin_One != null) {
+                        var obj = {
+                            'Id': di[y].Id,
+                            'Parameter_Id': di[y].Parameter_Id,
+                            'ParameterName': di[y].ParameterName,
+                            'Units_Id': di[y].Units_Id,
+                            'UnitsName': di[y].UnitsName,
+                            'NormalRange_High': di[y].NormalRange_High,
+                            'NormalRange_Low': di[y].NormalRange_Low,
+                            'Diag_Range': 1,
+                            'Diag_Range_Min': di[y].Diag_HighMax_One,
+                            'Diag_Range_Max': di[y].Diag_HighMin_One
+                        }
+                        $scope.Diagostic_ParameterSettingslist.push(obj);
+                    }
+                    if (di[y].Diag_MediumMax_One != '' && di[y].Diag_MediumMin_One != '' && di[y].Diag_MediumMax_One != null && di[y].Diag_MediumMin_One != null) {
+                        var obj = {
+                            'Id': di[y].Id,
+                            'Parameter_Id': di[y].Parameter_Id,
+                            'ParameterName': di[y].ParameterName,
+                            'Units_Id': di[y].Units_Id,
+                            'UnitsName': di[y].UnitsName,
+                            'NormalRange_High': di[y].NormalRange_High,
+                            'NormalRange_Low': di[y].NormalRange_Low,
+                            'Diag_Range': 2,
+                            'Diag_Range_Min': di[y].Diag_MediumMax_One,
+                            'Diag_Range_Max': di[y].Diag_MediumMin_One
+                        }
+                        $scope.Diagostic_ParameterSettingslist.push(obj);
+                    }
+                    if (di[y].Diag_LowMax_One != '' && di[y].Diag_LowMin_One != '' && di[y].Diag_LowMax_One != null && di[y].Diag_LowMin_One != null) {
+                        var obj = {
+                            'Id': di[y].Id,
+                            'Parameter_Id': di[y].Parameter_Id,
+                            'ParameterName': di[y].ParameterName,
+                            'Units_Id': di[y].Units_Id,
+                            'UnitsName': di[y].UnitsName,
+                            'NormalRange_High': di[y].NormalRange_High,
+                            'NormalRange_Low': di[y].NormalRange_Low,
+                            'Diag_Range': 3,
+                            'Diag_Range_Min': di[y].Diag_LowMax_One,
+                            'Diag_Range_Max': di[y].Diag_LowMin_One
+                        }
+                        $scope.Diagostic_ParameterSettingslist.push(obj);
+                    }
+                    if (di[y].Diag_HighMax_Two != '' && di[y].Diag_HighMin_Two != '' && di[y].Diag_HighMax_Two != null && di[y].Diag_HighMin_Two != null) {
+                        var obj = {
+                            'Id': di[y].Id,
+                            'Parameter_Id': di[y].Parameter_Id,
+                            'ParameterName': di[y].ParameterName,
+                            'Units_Id': di[y].Units_Id,
+                            'UnitsName': di[y].UnitsName,
+                            'NormalRange_High': di[y].NormalRange_High,
+                            'NormalRange_Low': di[y].NormalRange_Low,
+                            'Diag_Range': 4,
+                            'Diag_Range_Min': di[y].Diag_HighMax_Two,
+                            'Diag_Range_Max': di[y].Diag_HighMin_Two
+                        }
+                        $scope.Diagostic_ParameterSettingslist.push(obj);
+                    }
+                    if (di[y].Diag_MediumMax_Two != '' && di[y].Diag_MediumMin_Two != '' && di[y].Diag_MediumMax_Two != null && di[y].Diag_MediumMin_Two != null) {
+                        var obj = {
+                            'Id': di[y].Id,
+                            'Parameter_Id': di[y].Parameter_Id,
+                            'ParameterName': di[y].ParameterName,
+                            'Units_Id': di[y].Units_Id,
+                            'UnitsName': di[y].UnitsName,
+                            'NormalRange_High': di[y].NormalRange_High,
+                            'NormalRange_Low': di[y].NormalRange_Low,
+                            'Diag_Range': 5,
+                            'Diag_Range_Min': di[y].Diag_MediumMax_Two,
+                            'Diag_Range_Max': di[y].Diag_MediumMin_Two
+                        }
+                        $scope.Diagostic_ParameterSettingslist.push(obj);
+                    }
+                    if (di[y].Diag_LowMax_Two != '' && di[y].Diag_LowMin_Two != '' && di[y].Diag_LowMax_Two != null && di[y].Diag_LowMin_Two != null) {
+                        var obj = {
+                            'Id': di[y].Id,
+                            'Parameter_Id': di[y].Parameter_Id,
+                            'ParameterName': di[y].ParameterName,
+                            'Units_Id': di[y].Units_Id,
+                            'UnitsName': di[y].UnitsName,
+                            'NormalRange_High': di[y].NormalRange_High,
+                            'NormalRange_Low': di[y].NormalRange_Low,
+                            'Diag_Range': 6,
+                            'Diag_Range_Min': di[y].Diag_LowMax_Two,
+                            'Diag_Range_Max': di[y].Diag_LowMin_Two
+                        }
+                        $scope.Diagostic_ParameterSettingslist.push(obj);
+                    }
+                }
+
                 angular.forEach($scope.ParameterSettingslist, function (value, index) {
                     if (value.NormalRange_High == null || value.NormalRange_Low == null) {
-                        $scope.ParameterSettings_ViewEdit();
+                        //$scope.ParameterSettings_ViewEdit();
                     }
                 })
             });
@@ -1099,16 +1662,16 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                     //Swal.fire('Changes are not saved', '', 'info')
                 }
             })
-           /* var Ins = confirm("Do you like to activate the selected Monitoring Protocol?");
-            if (Ins == true) {
-                $http.get(baseUrl + 'api/Protocol/ProtocolMonitoring_Active/?Id=' + $scope.Id).success(function (data) {
-                    //alert("Selected Monitoring Protocol has been activated successfully");
-                    toastr.success("Selected Monitoring Protocol has been activated successfully", "success");
-                    $scope.MonitoringProtocolDetailsListGo();
-                }).error(function (data) {
-                    $scope.error = "An error has occurred while ReInsert Monitoring Protocol Details" + data;
-                });
-            };*/
+            /* var Ins = confirm("Do you like to activate the selected Monitoring Protocol?");
+             if (Ins == true) {
+                 $http.get(baseUrl + 'api/Protocol/ProtocolMonitoring_Active/?Id=' + $scope.Id).success(function (data) {
+                     //alert("Selected Monitoring Protocol has been activated successfully");
+                     toastr.success("Selected Monitoring Protocol has been activated successfully", "success");
+                     $scope.MonitoringProtocolDetailsListGo();
+                 }).error(function (data) {
+                     $scope.error = "An error has occurred while ReInsert Monitoring Protocol Details" + data;
+                 });
+             };*/
         }
 
         /* Calling the api method to detele the details of the Protocol Monitoring 
@@ -1143,16 +1706,16 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                     //Swal.fire('Changes are not saved', '', 'info')
                 }
             })
-           /* var del = confirm("Do you like to deactivate the selected Monitoring Protocol?");
-            if (del == true) {
-                $http.get(baseUrl + 'api/Protocol/ProtocolMonitoring_InActive/?Id=' + $scope.Id).success(function (data) {
-                    //alert("Selected Monitoring Protocol has been deactivated Successfully");
-                    toastr.success("Selected Monitoring Protocol has been deactivated Successfully", "success");
-                    $scope.MonitoringProtocolDetailsListGo();
-                }).error(function (data) {
-                    $scope.error = "AN error has occured while deleting Monitoring Protocol!" + data;
-                });
-            };*/
+            /* var del = confirm("Do you like to deactivate the selected Monitoring Protocol?");
+             if (del == true) {
+                 $http.get(baseUrl + 'api/Protocol/ProtocolMonitoring_InActive/?Id=' + $scope.Id).success(function (data) {
+                     //alert("Selected Monitoring Protocol has been deactivated Successfully");
+                     toastr.success("Selected Monitoring Protocol has been deactivated Successfully", "success");
+                     $scope.MonitoringProtocolDetailsListGo();
+                 }).error(function (data) {
+                     $scope.error = "AN error has occured while deleting Monitoring Protocol!" + data;
+                 });
+             };*/
         };
 
         /*'Active' the Protocol Monitoring*/
@@ -1188,7 +1751,140 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                 $scope.error = "AN error has occured while deleting records" + Vitaldata;
             });
         };
+
+        $scope.MonitoringProtocolComp_Delete = function (itemIndex, ParamId) {
+            Swal.fire({
+                title: 'Do you like to delete the selected Parameter?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $scope.$apply(() => {
+                        if ($scope.Id <= 0) {
+                            $scope.ParameterSettingslist[0].Comp_ParameterSettingslist.splice(itemIndex, 1);
+                            if ($scope.ParameterSettingslist[0].Comp_ParameterSettingslist.length == 0) {
+                                $scope.ParameterSettingslist[0].Comp_ParameterSettingslist = [{
+                                    'Id': 0,
+                                    'Protocol_Id': 0,
+                                    'ProtocolName': '',
+                                    'Institution_Id': 0,
+                                    'Institution_Name': '',
+                                    'Parameter_Id': 0,
+                                    'ParameterName': '',
+                                    'Com_DurationType': 0,
+                                    'DurationName': '',
+                                    'Comp_Duration': '0',
+                                    'Isactive': 1,
+                                    'Created_By': $scope.User_Id,
+                                    'occur_inter': true,
+                                    'occur_inter_val': 0,
+                                    'duration_list': [],
+                                    'starttime': '',
+                                    'endtime': '',
+                                    'selectedDays': '',
+                                    'WeeklyData': $scope.weeklist
+                                }];
+                            }
+                        }
+                        else {
+                            $scope.ParameterSettingslist[0].Comp_ParameterSettingslist.splice(itemIndex, 1);
+
+                            if ($scope.ParameterSettingslist[0].Comp_ParameterSettingslist.length == 0) {
+                                $scope.ParameterSettingslist[0].Comp_ParameterSettingslist = [{
+                                    'Id': 0,
+                                    'Protocol_Id': 0,
+                                    'ProtocolName': '',
+                                    'Institution_Id': 0,
+                                    'Institution_Name': '',
+                                    'Parameter_Id': 0,
+                                    'ParameterName': '',
+                                    'Com_DurationType': 0,
+                                    'DurationName': '',
+                                    'Comp_Duration': '0',
+                                    'Isactive': 1,
+                                    'Created_By': $scope.User_Id,
+                                    'occur_inter': true,
+                                    'occur_inter_val': 0,
+                                    'duration_list': [],
+                                    'starttime': '',
+                                    'endtime': '',
+                                    'selectedDays': '',
+                                    'WeeklyData': $scope.weeklist
+                                }];
+
+                            }
+                        }
+                    });
+
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            });
+        };
+
         $scope.ParameterSettingslistDelete = [];
+        $scope.MonitoringProtocol_DiagDelete = function (index, id) {
+            Swal.fire({
+                title: 'Do you like to delete the selected Parameter?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $scope.$apply(() => {
+                        if ($scope.Id <= 0) {
+                            $scope.Diagostic_ParameterSettingslist.splice(index, 1);
+                            if ($scope.Diagostic_ParameterSettingslist.length == 0) {
+                                $scope.Diagostic_ParameterSettingslist = [{
+                                    'Id': 0,
+                                    'Parameter_Id': 0,
+                                    'ParameterName': '',
+                                    'Units_Id': '',
+                                    'UnitsName': '',
+                                    'NormalRange_High': '',
+                                    'NormalRange_Low': '',
+                                    'Diag_Range': 0,
+                                    'Diag_Range_Min': '',
+                                    'Diag_Range_Max': ''
+                                }];
+                            }
+                        }
+                        else {
+                            $scope.Diagostic_ParameterSettingslist.splice(index, 1);
+
+                            if ($scope.Diagostic_ParameterSettingslist.length == 0) {
+                                $scope.Diagostic_ParameterSettingslist = [{
+                                    'Id': 0,
+                                    'Parameter_Id': 0,
+                                    'ParameterName': '',
+                                    'Units_Id': '',
+                                    'UnitsName': '',
+                                    'NormalRange_High': '',
+                                    'NormalRange_Low': '',
+                                    'Diag_Range': 0,
+                                    'Diag_Range_Min': '',
+                                    'Diag_Range_Max': ''
+                                }];
+
+                            }
+                        }
+                    });
+
+                } else if (result.isDenied) {
+                }
+            });
+        }
         $scope.MonitoringProtocolDelete = function (itemIndex, ParamId) {
             Swal.fire({
                 title: 'Do you like to delete the selected Parameter?',
@@ -1212,32 +1908,55 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                                     'ProtocolName': '',
                                     'Institution_Id': 0,
                                     'Institution_Name': '',
-                                    'Parameter_Id': 0,
-                                    'ParameterName': '',
-                                    'Units_Id': 0,
-                                    'UnitsName': '',
-                                    'Com_DurationType': 0,
-                                    'DurationName': '',
-                                    'Diag_HighMax_One': '',
-                                    'Diag_HighMin_One': '',
-                                    'Diag_MediumMax_One': '',
-                                    'Diag_MediumMin_One': '',
-                                    'Diag_LowMax_One': '',
-                                    'Diag_LowMin_One': '',
-                                    'Diag_HighMax_Two': '',
-                                    'Diag_HighMin_Two': '',
-                                    'Diag_MediumMax_Two': '',
-                                    'Diag_MediumMin_Two': '',
-                                    'Diag_LowMax_Two': '',
-                                    'Diag_LowMin_Two': '',
-                                    'Comp_Duration': '',
-                                    'Comp_High': '',
-                                    'Comp_Medium': '',
-                                    'Comp_Low': '',
-                                    'Isactive': 1,
-                                    'Created_By': '',
-                                    'NormalRange_High': '',
-                                    'NormalRange_Low': ''
+                                    'Diag_ParameterSettingslist': [{
+                                        'Parameter_Id': 0,
+                                        //'Comp_Parameter_Id': 0,
+                                        'ParameterName': '',
+                                        'Units_Id': 0,
+                                        'UnitsName': '',
+                                        'Diag_HighMax_One': '',
+                                        'Diag_HighMin_One': '',
+                                        'Diag_MediumMax_One': '',
+                                        'Diag_MediumMin_One': '',
+                                        'Diag_LowMax_One': '',
+                                        'Diag_LowMin_One': '',
+                                        'Diag_HighMax_Two': '',
+                                        'Diag_HighMin_Two': '',
+                                        'Diag_MediumMax_Two': '',
+                                        'Diag_MediumMin_Two': '',
+                                        'Diag_LowMax_Two': '',
+                                        'Diag_LowMin_Two': '',
+                                        //'Comp_High': '',
+                                        //'Comp_Medium': '',
+                                        //'Comp_Low': '',
+                                        'Isactive': 1,
+                                        'Created_By': $scope.User_Id,
+                                        'NormalRange_High': '',
+                                        'NormalRange_Low': '',
+                                        //'occur_inter': true,
+                                        //'occur_inter_val': 0,
+                                    }],
+                                    'Comp_ParameterSettingslist': [{
+                                        'Id': 0,
+                                        'Protocol_Id': 0,
+                                        'ProtocolName': '',
+                                        'Institution_Id': 0,
+                                        'Institution_Name': '',
+                                        'Parameter_Id': 0,
+                                        'ParameterName': '',
+                                        'Com_DurationType': 0,
+                                        'DurationName': '',
+                                        'Comp_Duration': '0',
+                                        'Isactive': 1,
+                                        'Created_By': $scope.User_Id,
+                                        'occur_inter': true,
+                                        'occur_inter_val': 0,
+                                        'duration_list': [],
+                                        'starttime': '',
+                                        'endtime': '',
+                                        'selectedDays': '',
+                                        'WeeklyData': $scope.weeklist
+                                    }]
                                 }];
                             }
                         }
@@ -1254,32 +1973,55 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                                     'ProtocolName': '',
                                     'Institution_Id': 0,
                                     'Institution_Name': '',
-                                    'Parameter_Id': 0,
-                                    'ParameterName': '',
-                                    'Units_Id': 0,
-                                    'UnitsName': '',
-                                    'Com_DurationType': 0,
-                                    'DurationName': '',
-                                    'Diag_HighMax_One': '',
-                                    'Diag_HighMin_One': '',
-                                    'Diag_MediumMax_One': '',
-                                    'Diag_MediumMin_One': '',
-                                    'Diag_LowMax_One': '',
-                                    'Diag_LowMin_One': '',
-                                    'Diag_HighMax_Two': '',
-                                    'Diag_HighMin_Two': '',
-                                    'Diag_MediumMax_Two': '',
-                                    'Diag_MediumMin_Two': '',
-                                    'Diag_LowMax_Two': '',
-                                    'Diag_LowMin_Two': '',
-                                    'Comp_Duration': '',
-                                    'Comp_High': '',
-                                    'Comp_Medium': '',
-                                    'Comp_Low': '',
-                                    'Isactive': 1,
-                                    'Created_By': '',
-                                    'NormalRange_High': '',
-                                    'NormalRange_Low': ''
+                                    'Diag_ParameterSettingslist': [{
+                                        'Parameter_Id': 0,
+                                        //'Comp_Parameter_Id': 0,
+                                        'ParameterName': '',
+                                        'Units_Id': 0,
+                                        'UnitsName': '',
+                                        'Diag_HighMax_One': '',
+                                        'Diag_HighMin_One': '',
+                                        'Diag_MediumMax_One': '',
+                                        'Diag_MediumMin_One': '',
+                                        'Diag_LowMax_One': '',
+                                        'Diag_LowMin_One': '',
+                                        'Diag_HighMax_Two': '',
+                                        'Diag_HighMin_Two': '',
+                                        'Diag_MediumMax_Two': '',
+                                        'Diag_MediumMin_Two': '',
+                                        'Diag_LowMax_Two': '',
+                                        'Diag_LowMin_Two': '',
+                                        //'Comp_High': '',
+                                        //'Comp_Medium': '',
+                                        //'Comp_Low': '',
+                                        'Isactive': 1,
+                                        'Created_By': $scope.User_Id,
+                                        'NormalRange_High': '',
+                                        'NormalRange_Low': '',
+                                        //'occur_inter': true,
+                                        //'occur_inter_val': 0
+                                    }],
+                                    'Comp_ParameterSettingslist': [{
+                                        'Id': 0,
+                                        'Protocol_Id': 0,
+                                        'ProtocolName': '',
+                                        'Institution_Id': 0,
+                                        'Institution_Name': '',
+                                        'Parameter_Id': 0,
+                                        'ParameterName': '',
+                                        'Com_DurationType': 0,
+                                        'DurationName': '',
+                                        'Comp_Duration': '0',
+                                        'Isactive': 1,
+                                        'Created_By': $scope.User_Id,
+                                        'occur_inter': true,
+                                        'occur_inter_val': 0,
+                                        'duration_list': [],
+                                        'starttime': '',
+                                        'endtime': '',
+                                        'selectedDays': '',
+                                        'WeeklyData': $scope.weeklist
+                                    }]
                                 }];
 
                             }
@@ -1291,91 +2033,99 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                 }
             });
         };
-            /*var del = confirm("Do you like to delete the selected Parameter?");
-            if (del == true) {
-                    if ($scope.Id <= 0) {
-                        $scope.ParameterSettingslist.splice(itemIndex, 1);
-                        if ($scope.ParameterSettingslist.length == 0) {
-                            $scope.ParameterSettingslist = [{
-                                'Id': 0,
-                                'Protocol_Id': 0,
-                                'ProtocolName': '',
-                                'Institution_Id': 0,
-                                'Institution_Name': '',
-                                'Parameter_Id': 0,
-                                'ParameterName': '',
-                                'Units_Id': 0,
-                                'UnitsName': '',
-                                'Com_DurationType': 0,
-                                'DurationName': '',
-                                'Diag_HighMax_One': '',
-                                'Diag_HighMin_One': '',
-                                'Diag_MediumMax_One': '',
-                                'Diag_MediumMin_One': '',
-                                'Diag_LowMax_One': '',
-                                'Diag_LowMin_One': '',
-                                'Diag_HighMax_Two': '',
-                                'Diag_HighMin_Two': '',
-                                'Diag_MediumMax_Two': '',
-                                'Diag_MediumMin_Two': '',
-                                'Diag_LowMax_Two': '',
-                                'Diag_LowMin_Two': '',
-                                'Comp_Duration': '',
-                                'Comp_High': '',
-                                'Comp_Medium': '',
-                                'Comp_Low': '',
-                                'Isactive': 1,
-                                'Created_By': '',
-                                'NormalRange_High': '',
-                                'NormalRange_Low': ''
-                            }];
-                        }
+        /*var del = confirm("Do you like to delete the selected Parameter?");
+        if (del == true) {
+                if ($scope.Id <= 0) {
+                    $scope.ParameterSettingslist.splice(itemIndex, 1);
+                    if ($scope.ParameterSettingslist.length == 0) {
+                        $scope.ParameterSettingslist = [{
+                            'Id': 0,
+                            'Protocol_Id': 0,
+                            'ProtocolName': '',
+                            'Institution_Id': 0,
+                            'Institution_Name': '',
+                            'Parameter_Id': 0,
+                            'Comp_Parameter_Id': 0,
+                            'ParameterName': '',
+                            'Units_Id': 0,
+                            'UnitsName': '',
+                            'Com_DurationType': 0,
+                            'DurationName': '',
+                            'Diag_HighMax_One': '',
+                            'Diag_HighMin_One': '',
+                            'Diag_MediumMax_One': '',
+                            'Diag_MediumMin_One': '',
+                            'Diag_LowMax_One': '',
+                            'Diag_LowMin_One': '',
+                            'Diag_HighMax_Two': '',
+                            'Diag_HighMin_Two': '',
+                            'Diag_MediumMax_Two': '',
+                            'Diag_MediumMin_Two': '',
+                            'Diag_LowMax_Two': '',
+                            'Diag_LowMin_Two': '',
+                            'Comp_Duration': '0',
+                            'Comp_High': '',
+                            'Comp_Medium': '',
+                            'Comp_Low': '',
+                            'Isactive': 1,
+                            'Created_By': $scope.User_Id,
+                            'NormalRange_High': '',
+                            'NormalRange_Low': '',
+                            'occur_inter': true,
+                            'occur_inter_val': 0,
+                            'Comp_ParameterSettingslist': []
+                        }];
                     }
-                    else {
+                }
+                else {
 
-                        $scope.ParameterSettingslistDelete.push(ParamId);
+                    $scope.ParameterSettingslistDelete.push(ParamId);
 
-                        $scope.ParameterSettingslist.splice(itemIndex, 1);
+                    $scope.ParameterSettingslist.splice(itemIndex, 1);
 
-                        if ($scope.ParameterSettingslist.length == 0) {
-                            $scope.ParameterSettingslist = [{
-                                'Id': 0,
-                                'Protocol_Id': 0,
-                                'ProtocolName': '',
-                                'Institution_Id': 0,
-                                'Institution_Name': '',
-                                'Parameter_Id': 0,
-                                'ParameterName': '',
-                                'Units_Id': 0,
-                                'UnitsName': '',
-                                'Com_DurationType': 0,
-                                'DurationName': '',
-                                'Diag_HighMax_One': '',
-                                'Diag_HighMin_One': '',
-                                'Diag_MediumMax_One': '',
-                                'Diag_MediumMin_One': '',
-                                'Diag_LowMax_One': '',
-                                'Diag_LowMin_One': '',
-                                'Diag_HighMax_Two': '',
-                                'Diag_HighMin_Two': '',
-                                'Diag_MediumMax_Two': '',
-                                'Diag_MediumMin_Two': '',
-                                'Diag_LowMax_Two': '',
-                                'Diag_LowMin_Two': '',
-                                'Comp_Duration': '',
-                                'Comp_High': '',
-                                'Comp_Medium': '',
-                                'Comp_Low': '',
-                                'Isactive': 1,
-                                'Created_By': '',
-                                'NormalRange_High': '',
-                                'NormalRange_Low': ''
-                            }];
+                    if ($scope.ParameterSettingslist.length == 0) {
+                        $scope.ParameterSettingslist = [{
+                            'Id': 0,
+                            'Protocol_Id': 0,
+                            'ProtocolName': '',
+                            'Institution_Id': 0,
+                            'Institution_Name': '',
+                            'Parameter_Id': 0,
+                            'Comp_Parameter_Id': 0,
+                            'ParameterName': '',
+                            'Units_Id': 0,
+                            'UnitsName': '',
+                            'Com_DurationType': 0,
+                            'DurationName': '',
+                            'Diag_HighMax_One': '',
+                            'Diag_HighMin_One': '',
+                            'Diag_MediumMax_One': '',
+                            'Diag_MediumMin_One': '',
+                            'Diag_LowMax_One': '',
+                            'Diag_LowMin_One': '',
+                            'Diag_HighMax_Two': '',
+                            'Diag_HighMin_Two': '',
+                            'Diag_MediumMax_Two': '',
+                            'Diag_MediumMin_Two': '',
+                            'Diag_LowMax_Two': '',
+                            'Diag_LowMin_Two': '',
+                            'Comp_Duration': '0',
+                            'Comp_High': '',
+                            'Comp_Medium': '',
+                            'Comp_Low': '',
+                            'Isactive': 1,
+                            'Created_By': $scope.User_Id,
+                            'NormalRange_High': '',
+                            'NormalRange_Low': ''
+                            'occur_inter': true,
+                            'occur_inter_val': 0,
+                            'Comp_ParameterSettingslist': []
+                        }];
 
-                        }
                     }
-            }*/
-        
+                }
+        }*/
+
 
         /*on clicking Remove in Protocol Filed its calling the Protocol delete funtion */
         $scope.RemoveQualification_Item = function (rowItem) {

@@ -2291,6 +2291,7 @@ namespace MyCortex.Repositories.Uesr
                                                           ViewGenderName = p.Field<string>("GENDER_NAME"),
                                                           Institution_Id = p.Field<long>("INSTITUTION_ID"),
                                                           Payment_Status = (p.IsNull("PAYMENT_STATUS") ? "" : p.Field<string>("PAYMENT_STATUS")),
+                                                          ConferenceId = p.Field<string>("CONFERENCE_ID")
                                                       }).ToList();
                 return lst;
             }
@@ -4055,6 +4056,7 @@ namespace MyCortex.Repositories.Uesr
                                                    Notes = p.Field<string>("NOTES"),
                                                    NotesType = p.Field<string>("NOTESTYPE"),
                                                    NotesFlag = p.Field<int>("FLAG"),
+                                                   Importance = p.Field<int>("IMPORTANCE"),
                                                    Created_By = p.Field<long>("CREATED_BY"),
                                                    Created_By_Name = p.Field<string>("FULLNAME"),
                                                    Created_Dt = p.Field<DateTime>("CREATED_DT"),

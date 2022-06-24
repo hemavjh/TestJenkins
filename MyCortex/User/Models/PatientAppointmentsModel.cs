@@ -59,6 +59,7 @@ namespace MyCortex.User.Model
         public string MerchantOrderNo { get; set; }
         public string Amount { get; set; }
         public string OrderNo { get; set; }
+        public string ConferenceId { get; set; }
     }
     public class PatientAppointmentsReturnModel
     {

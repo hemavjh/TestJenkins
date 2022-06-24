@@ -48,7 +48,20 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             show_payment_history(data);
         });
 
-       
+        $scope.ConfigCode = "DATEFORMAT_TYPE";
+        $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+            $scope.DateFormat = data1[0].ConfigValue;
+            $scope.DOB = moment($scope.DOB).format(angular.uppercase($scope.DateFormat))
+        });
+
+        //list the Notes type
+        $http.get(baseUrl + '/api/User/NotesTypeList/').success(function (data) {
+            $scope.NotesTypeList = data;
+        })
+        $http.get(baseUrl + '/api/User/DocumentTypeList/').success(function (data) {
+            $scope.DocumentTypeList = data;
+        })
         function show_payment_history(data) {
             $scope.paymentHistory = [];
             var RowId = localStorage.getItem('rowId');
@@ -730,6 +743,12 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $scope.uploadme = null;
                     }
                 })
+                $scope.ConfigCode = "DATEFORMAT_TYPE";
+                $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+                    $scope.DateFormat = data1[0].ConfigValue;                    
+                });
+
                 $http.get(baseUrl + '/api/User/PatientBasicDetailsList/?PatientId=' + $scope.SelectedPatientId).success(function (data) {
                     $("#chatLoaderPV").hide();
                     $scope.Id = data.PatientId;
@@ -738,7 +757,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.MobileNo = data.MOBILE_NO;
                     $scope.Photo = data.Photo;
                     $scope.FileName = data.FileName;
-                    $scope.DOB = $filter('date')(data.DOB, "dd-MMM-yyyy");
+                    $scope.DOB = data.DOB;//$filter('date')(data.DOB, "dd-MMM-yyyy");
                     $scope.MNR_No = data.MNR_NO;
                     $scope.NationalId = data.NATIONALID;
                     $scope.GenderId = data.GenderId;
@@ -762,7 +781,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     MOBILE_NO.textContent = $scope.MobileNo;
 
                     var DOB = document.getElementById('DOB');
-                    $scope.DOB = moment($scope.DOB).format('DD-MMM-YYYY')
+                    $scope.DOB = moment($scope.DOB).format(angular.uppercase($scope.DateFormat));
+                    $scope.DOB1 = moment($scope.DOB).format('DD-MMM-YYYY');
                     DOB.textContent = $scope.DOB;
 
                     var fullname = document.getElementById('fullname');
@@ -771,7 +791,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     var Gender = document.getElementById('Gender');
                     Gender.textContent = $scope.ViewGenderName;
 
-                    var dob = $scope.DOB;
+                    var dob = $scope.DOB1;
                     var gt = DateFormat(dob);
                     dob = gt.replace(/-/gi, '');
                     var year = dob.substr(4, 9);
@@ -1326,14 +1346,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $scope.DoctorListWithTimeZone = $scope.DoctorListWithTimeZone1;
                         $scope.showMainBox = true;
                     }
-                    $http.get(baseUrl + '/api/User/DocumentTypeList/').success(function (data) {
-                        $scope.DocumentTypeList = data;
-                    })
+                   
 
-                    //list the Notes type
-                    $http.get(baseUrl + '/api/User/NotesTypeList/').success(function (data) {
-                        $scope.NotesTypeList = data;
-                    })
+                   
                     function convertdate(date) {
                         mnth = ("0" + (date.getMonth() + 1)).slice(-2),
                             day = ("0" + date.getDate()).slice(-2);
@@ -6804,8 +6819,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 }
                 else
                 {
-                    $scope.ViewEndDate = DateFormatEdit($filter('date')(data.EndDate, "dd-MMM-yyyy"));
-                    $scope.EndDateView = moment(data.EndDate).format('DD-MMM-YYYY');
+                    $scope.ViewEndDate = data.EndDate; //DateFormatEdit($filter('date')(data.EndDate, "dd-MMM-yyyy"));
+                    $scope.EndDateView = data.EndDate; //moment(data.EndDate).format('DD-MMM-YYYY');
                 }
 
                 $scope.AddMedicationDetails = [{
@@ -6840,7 +6855,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     //    $scope.StartDate = DateFormatEdit($filter('date')(data.StartDate, "dd-MMM-yyyy"));
                     //$scope.EndDate = DateFormatEdit($filter('date')(data.EndDate, "dd-MMM-yyyy"));
                     $scope.StartDate = DateFormatEdit($filter('date')(data.StartDate, "dd-MMM-yyyy")); //moment(data.StartDate).format('DD-MMM-YYYY'),
-                    $scope.StartDateView = moment(data.StartDate).format('DD-MMM-YYYY'),                    
+                $scope.StartDateView = data.StartDate,//moment(data.StartDate).format('DD-MMM-YYYY'),
                     $scope.EndDate = $scope.ViewEndDate //moment(data.EndDate).format('DD-MMM-YYYY')
 
                 if ($scope.DrugDropDown == 2) {
@@ -7592,18 +7607,18 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 //alert("Please enter Notes");
                 toastr.warning("Please enter Notes", "warning");
                 return false;
-            }
-            if (typeof ($scope.Notestype) == "" || $scope.Notestype == "") {
+            } else if (typeof ($scope.NotesType) == "" || $scope.NotesType == "" || $scope.NotesType==undefined) {
                 //alert("Please enter Notes");
                 toastr.warning("Please select Notes type ", "warning");
                 return false;
-            }
+            } else {
             //if (typeof ($scope.Flag) == "" || $scope.Flag == "") {
             //    //alert("Please enter Notes");
             //    toastr.warning("Please select flag", "warning");
             //    return false;
             //}
-            return true;
+                return true;
+            }
         };
 
         //Insert function for doctor Notes
@@ -7676,13 +7691,29 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
         $scope.FnImportanceChange = function () {
             if ($("#Importance").is(":checked") == true) {
-                $scope.Importance = '1';
+                $scope.Importance = 1;
             }
             else {
-                $scope.Importance = '0';
+                $scope.Importance = 0;
+            }
+        }
+        $scope.FnPrivateSearchChange = function () {
+            if ($("#FlagSearch").is(":checked") == true) {
+                $scope.FlagSearch = 1;
+            }
+            else {
+                $scope.FlagSearch = 0;
             }
         }
 
+        $scope.FnImportanceSearchChange = function () {
+            if ($("#ImportanceSearch").is(":checked") == true) {
+                $scope.ImportanceSearch = 1;
+            }
+            else {
+                $scope.ImportanceSearch = 0;
+            }
+        }
         //List function for doctor Notes   
         $scope.patientnotelist = function () {
 
@@ -7788,30 +7819,22 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
             }else if ($scope.NotesTypeSearch != "" && $scope.FlagSearch != 0 && $scope.ImportanceSearch == 0) {
                 $scope.PatientNotesrowCollectionFilter = $ff($scope.PatientNotesrowCollection, function (value) {
-                    return angular.lowercase(value.NotesType.toString()).match(searchstring1) ||
-                        angular.lowercase(value.NotesFlag.toString()).match(searchstring2);
-
+                    return (angular.lowercase(value.NotesType.toString()).match(searchstring1) && angular.lowercase(value.NotesFlag.toString()).match(searchstring2));
                 });
                 
             } else if ($scope.NotesTypeSearch != "" && $scope.FlagSearch != 0 && $scope.ImportanceSearch != 0) {
                 $scope.PatientNotesrowCollectionFilter = $ff($scope.PatientNotesrowCollection, function (value) {
-                    return angular.lowercase(value.NotesType.toString()).match(searchstring1) ||
-                        angular.lowercase(value.Importance.toString()).match(searchstring3) ||
-                        angular.lowercase(value.NotesFlag.toString()).match(searchstring2);
-
+                    return angular.lowercase(value.NotesType.toString()).match(searchstring1) && angular.lowercase(value.Importance.toString()).match(searchstring3) && angular.lowercase(value.NotesFlag.toString()).match(searchstring2);
                 });
             } else if ($scope.NotesTypeSearch != "" && $scope.FlagSearch == 0 && $scope.ImportanceSearch != 0) {
                 $scope.PatientNotesrowCollectionFilter = $ff($scope.PatientNotesrowCollection, function (value) {
-                    return angular.lowercase(value.NotesType.toString()).match(searchstring1) ||
-                        angular.lowercase(value.Importance.toString()).match(searchstring3);
+                    return angular.lowercase(value.NotesType.toString()).match(searchstring1) && angular.lowercase(value.Importance.toString()).match(searchstring3);
                 });
                 
             } else if ($scope.NotesTypeSearch == "" && $scope.FlagSearch != 0 && $scope.ImportanceSearch != 0) {
                 $scope.PatientNotesrowCollectionFilter = $ff($scope.PatientNotesrowCollection, function (value) {
-                    return angular.lowercase(value.NotesFlag.toString()).match(searchstring2) ||
-                        angular.lowercase(value.Importance.toString()).match(searchstring3);
-                });
-               
+                    return angular.lowercase(value.NotesFlag.toString()).match(searchstring2) && angular.lowercase(value.Importance.toString()).match(searchstring3);
+                });               
             }
 
             if ($scope.PatientNotesrowCollectionFilter.length > 0) {
@@ -7824,8 +7847,22 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             $http.get(baseUrl + '/api/User/PatientNotes_View/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 $scope.Notes = data.Notes;
                 $scope.NotesType = data.NotesType;
-                $scope.Flag = data.NotesFlag;
-                $scope.Importance = data.Importance;
+                //$scope.Importance = data.Importance;
+                if (data.NotesFlag == 1) {
+                    $scope.FlagView = "True";
+                    $scope.Flag = 1;
+                } else {
+                    $scope.FlagView = "False";
+                    $scope.Flag = 0;
+                }
+                if (data.Importance == 1) {
+                    $scope.ImportanceView = "True";
+                    $scope.Importance = 1;
+                } else {
+                    $scope.ImportanceView = "False";
+                    $scope.Importance = 0;
+                }
+                
                 if ($scope.Flag == 1) {
                     $('#Flag').attr('ng-checked', 'true');
                     $('#Flag').attr('checked','checked');
@@ -8030,7 +8067,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 type: mimeString
             });
         }
+       
         $scope.Patient_OtherData_Insert_Validations = function () {
+             var returnVal = 0;
             if ($scope.Patient_OtherData.length == 0) {
                 //alert("Please add atleast one row");
                 toastr.info("Please add atleast one row", "info");
@@ -8044,6 +8083,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     }
                     if ((value.CertificateFileName == null) || (value.CertificateFileName == undefined) || (value.CertificateFileName == "")) {
                         toastr.warning("Please select a file", "warning");
+                        returnVal = 1;
                         return false;
                     }
 
@@ -8069,6 +8109,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     if (fileval == 2) {
                         //alert("Please choose files of type jpeg/jpg/png/bmp/gif/ico/pdf/xls/xlsx/doc/docx/odt/txt/pptx/ppt/rtf/tex");
                         toastr.warning("Please choose files of type jpeg/jpg/png/bmp/gif/ico/pdf/xls/xlsx/doc/docx/odt/txt/pptx/ppt/rtf/tex", "warning");
+                        returnVal = 1;
                         return false;
                     }
                 });
@@ -8076,6 +8117,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 if ($scope.Patient_OtherData.length < 1 || AMitem == 1) {
                     //alert("Please enter Document Name");
                     toastr.warning("Please enter Document Name", "warning");
+                    returnVal = 1;
                     return false;
                 }
                 var Uploaditem = 0;
@@ -8091,15 +8133,20 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 if ($scope.Patient_OtherData.length < 1 || Uploaditem == 1) {
                     //alert("Please upload Document");
                     toastr.warning("Please upload Document", "warning");
+                    returnVal = 1;
                     return false;
                 }
                 else if (Uploaditem == 2) {
                     //alert("Uploaded file size cannot be greater than 5MB");
                     toastr.warning("Uploaded file size cannot be greater than 5MB", "warning");
+                    returnVal = 1;
                     return false;
                 }
+                if (returnVal == 0) {
+                    return true;
+                }
             }
-            return true;
+            
         }
         function convert(str) {
             var date = new Date(str),

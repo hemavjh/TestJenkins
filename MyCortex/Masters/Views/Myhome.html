@@ -308,7 +308,7 @@
                                                                         <td>
                                                                             <div style="width:500px;">
                                                                                 <select ng-model="row.Id" class="form-control" style="width:500px;" multiselect-dropdown
-                                                                                        ng-options="item1.ID as item1.DeviceName for item1 in DevicesLists" id="tabdevice">
+                                                                                        ng-options="item1.Id as item1.DeviceName for item1 in InstitutionDeviceList" id="tabdevice">
                                                                                     <option value="">Select</option>
                                                                                 </select>
                                                                             </div>
@@ -531,7 +531,7 @@
                                                                         <td style="text-align: right;" disabled="disabled">{{$index+1}}</td>
                                                                         <td>
                                                                             <select ng-model="row.Id" disabled="disabled" class="form-control" style="width:500px;"
-                                                                                    ng-options="item1.ID as item1.DeviceName for item1 in DevicesLists" id="tabdeviceView">
+                                                                                    ng-options="item1.Id as item1.DeviceName for item1 in InstitutionDeviceList" id="tabdeviceView">
                                                                                 <option value="">Select</option>
                                                                             </select>
                                                                         </td>

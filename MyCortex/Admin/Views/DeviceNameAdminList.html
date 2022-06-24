@@ -1,0 +1,149 @@
+﻿<script>
+    $(document).ready(function () {
+        //$('.activeButton').removeClass('activeButton');
+        //$('#Encrypt / Decrypt').addClass('activeButton');
+        $('.activeButton').removeClass('activeButton');
+        $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+        if ($('#' + $('.secondaryMenuActive').data('menu')).length === 0) {
+            $('.activeButton').removeClass('activeButton');
+            if (document.getElementById("Device")) {
+                document.getElementById("Device").className += 'activeButton';
+            }
+        }
+    });
+</script>
+
+<h1 class="page-title">Device</h1>
+<div ng-init="DeviceListAdmin();">
+    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
+        <div></div>
+        <div></div>
+    </div>
+
+    <div class="panel panel-default" id="TabId">
+        <form class="form-horizontal" role="form">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="inputGroups">
+                            <label>Search</label>
+                            <div class="modernSearch">
+                                <input type="text" ng-model="searchquery"
+                                       placeholder="" style="width: 200px" />
+                                <i class="fa fa-search" ng-click="filterDeviceNameList()"></i>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="inputGroups">
+                            <label>Active</label>
+                        </div>
+                        <input toggle-checkbox ng-model="Is_Active" type="checkbox" ng-change="DeviceListAdmin();" title="Active / All">
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="inputGroups">
+                            <a href="javascript:" ng-click="ClearDevicePopup();AddDeviceNamePopUP();" class="theme-btn-1 pull-right mt-15 btn-autosize pull-right ml-10" title="Click to Add New Device">Add New</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<table st-table="emptydataTab" style="width: 100%" st-safe-src="rowCollectionTabFilter" st-search="query" class="table themeTable">
+    <thead>
+        <tr style="text-align: center">
+            <th st-ratio="5">#</th>
+            <th st-ratio="10" st-sort="TAB_REF_ID">Device Name</th>
+            <th st-ratio="10">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-if="rowCollectionTabFilter.length==0">
+            <td ng-show="UserTypeId == 1" colspan="3" style="text-align:center;">
+                No Data Available
+            </td>
+        </tr>
+        <tr ng-repeat="row in emptydataDevice">
+            <td style="text-align: center">{{((current_page-1)*page_size)+$index+1}}</td>
+            <td style="text-align: left;">{{row.DeviceName}}</td>
+            <td style="text-align: center;">
+                <a href="javascript:" ng-click="ViewDeviceName(row.ID)" title="View">
+                    <img src="../../Images/ViewIcon.png" />
+                </a>
+                <a href="javascript:" title="Edit" ng-click="EditDeviceName(row.ID)">
+                    <img src="../../Images/EditIcon.png" />
+                </a>
+                <a href="javascript:" ng-click="DeleteDeviceName(row.ID)" title="Active">
+                    <img src="../../Images/activeIcon1.png" ng-if="row.Is_Active===1" />
+                    <a href="javascript:" ng-click="ReInsertDeleteDeviceName(row.ID)" title="Inactive">
+                        <img src="../../Images/inactive.png" ng-if="row.Is_Active==0" />
+                    </a>
+                </a>
+            </td>
+
+        </tr>
+    </tbody>
+    <tfoot ng-show="total_Devicepage>1">
+         <tr>
+             <td colspan="3" class="text-center" style="text-align: center;">
+                 <ul class="pagination">
+                     <li>
+                         <a ng-click="setPage(1)">First</a>
+                     </li>
+                     <li>
+                         <a ng-click="setPage(current_page - 1)">&lt;</a>
+                     </li>
+                     <li>
+                         <a><input style="width: 50px" class="text-center" type="number" min="1" max="{{total_Devicepage}}" step="1" ng-model="inputPageNo" ng-value="current_page" ng-change="setPage(0);"> of {{total_Devicepage}}</a>
+                     </li>
+                     <li>
+                         <a ng-click="setPage(current_page + 1)">&gt;</a>
+                     </li>
+                     <li><a ng-click="setPage(total_Devicepage)">Last</a></li>
+                 </ul>
+             </td>
+         </tr>
+     </tfoot>
+</table>
+
+
+<!--ADD&EDIT MODAL-->
+<div id="DeviceAddModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="form-horizontal" role="form" ng-class="{'submitted': submitted}" ng-submit="DeviceName_insert();">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopup()" style="color:#fff;">&times;</button>
+                    <h4 class="modal-title" ng-if="Id>0 && DisplayView==''">Edit Device</h4>
+                    <h4 class="modal-title" ng-if="Id==0">Add Device</h4>
+                    <h4 class="modal-title" ng-if="DisplayView=='View'">View Device</h4>
+
+                </div>
+                <div class="modal-body">
+                    <div class="inputGroups">
+                        <label>
+                            Device Name<sup>
+                                <font class='mandatory-field'>*</font>
+                            </sup>
+                        </label>
+                        <input type="text" class="form-control" id="DeviceNameAdmin"
+                               ng-model="DeviceNameAdmin"  ng-maxlength="50"
+                               maxlength="50" placeholder="" onkeypress="">
+                    </div>
+                    <div class="modal-footer" style="text-align:center;" >
+                        <button type="submit" ng-show="showSave == true" id="btnsave" ng-disabled="false" class="theme-btn-1 mr-10 btn-save" ng-click="submitted= true" title="Click to Save">Save</button>
+                        <button type="button" class="theme-btn-2  btn-save" ng-click="CancelDeviceList()" title="Click to Cancel">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+
+</script>
+
+

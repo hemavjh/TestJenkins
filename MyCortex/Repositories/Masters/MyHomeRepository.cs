@@ -896,7 +896,135 @@ namespace MyCortex.Repositories.Masters
                 return null;
             }
         }
+        public IList<TabDevicesModel> DeviceNameInsert_InsertUpdate(TabDevicesModel insobj)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            long InsertId = 0;
+            //String Flag = "";
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ID", insobj.ID));
+            param.Add(new DataParameter("@NAME", insobj.DeviceName));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[DEVICENAME_SP_INSERTUPDATE]", param);
+                DataRow dr = dt.Rows[0];
+                if (dr.IsNull("Id") == true)
+                {
+                    InsertId = 0;
+                }
+                else
+                {
+                    InsertId = long.Parse((dr["Id"].ToString()));
+                }
+                if (InsertId > 0)
+                {
+                    IList<TabDevicesModel> INS = (from p in dt.AsEnumerable()
+                                                  select
+                                                  new TabDevicesModel()
+                                                  {
+                                                      ID = p.Field<long>("ID"),
+                                                      DeviceName = p.Field<string>("NAME"),
+                                                      Flag=p.Field<int>("FLAG"),
+                                                  }).ToList();
+                    return INS;
 
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+
+        }
+        public IList<TabDevicesModel> Get_DeviceNameAdminList(int? IsActive, int StartRowNumber, int EndRowNumber)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ISACTIVE", IsActive));
+            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[DEVICENAME_ADMIN_SP_LIST]", param);
+                List<TabDevicesModel> lst = (from p in dt.AsEnumerable()
+                                             select new TabDevicesModel()
+                                             {
+                                                 TotalRecord = p.Field<string>("TotalRecords"),
+                                                 ID = p.Field<long>("ID"),
+                                                 DeviceName = p.Field<string>("NAME"),
+                                                 Is_Active = p.Field<int>("ISACTIVE")
+                                             }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+        public TabDevicesModel DeviceName_ListView(long id)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ID", id));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[DEVICENAME_LIST_SP_VIEW]", param);
+
+                TabDevicesModel list = (from p in dt.AsEnumerable()
+                                        select new TabDevicesModel()
+                                        {
+
+                                            ID = p.Field<long>("ID"),
+                                            DeviceName = p.Field<string>("NAME"),
+                                        }).FirstOrDefault();
+                
+                return list;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+        public IList<Institution_Device_list> InstitutionDevice(long Institution_Id)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Institution_Id", Institution_Id));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ISUBSCRIPTIONDEVICE_SP_LIST]", param);
+                List<Institution_Device_list> lst = (from p in dt.AsEnumerable()
+                                                 select new Institution_Device_list()
+                                                 {
+                                                     Id= p.Field<int>("DEVICE_ID"),
+                                                     DeviceName = p.Field<string>("NAME"),
+                                                     IsActive = p.Field<int>("IS_ACTIVE")
+                                                 }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
         public IList<TabDevicesModel> Device_InsertUpdate(TabDevicesModel insobj)
         {
              _AppLogger = this.GetType().FullName;
@@ -981,7 +1109,7 @@ namespace MyCortex.Repositories.Masters
             }
 
         }
-
+        
         public IList<MonitoringProtocolModel> ParameterList(long UserId)
         {
              _AppLogger = this.GetType().FullName;
@@ -1139,6 +1267,23 @@ namespace MyCortex.Repositories.Masters
             catch (Exception ex)
             {
               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+            }
+        }
+        public void Device_Name_List_Delete(int Id)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ID", Id));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                ClsDataBase.Update("[MYCORTEX].[DEVICENAME_SP_LIST_DELETE]", param);
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
         }
         public DashboardUserParameterSettingsReturnModel Dashboard_UserParameterSettings_Active(long Id)

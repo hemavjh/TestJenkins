@@ -5,9 +5,9 @@
             $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
             if ($('#' + $('.secondaryMenuActive').data('menu')).length === 0) {
                 $('.activeButton').removeClass('activeButton');
-                //$('#Templates/EmailSetup').addClass('activeButton');
-                if (document.getElementById("Templates/EmailSetup")) {
-                    document.getElementById("Templates/EmailSetup").className += 'activeButton';
+                //$('#Configurations').addClass('activeButton');
+                if (document.getElementById("Configurations")) {
+                    document.getElementById("Configurations").className += 'activeButton';
                 }
             }
         });
@@ -15,10 +15,10 @@
 </head>
 <ul class="secondaryMenu">
     <li><a class="secondaryMenuActive" href="Home/Index#/AdminEmailConfigurationList/1">Email setup</a></li>
-    <li><a href="Home/Index#/MasterAlertConfigurationList" data-menu="Templates/EmailSetup">Alerts</a></li>
-    <li><a href="Home/Index#/EmailTemplate/1" data-menu="Templates/EmailSetup">Email Template</a></li>
-    <li><a href="Home/Index#/Notification/2" data-menu="Templates/EmailSetup">Notification Template</a></li>
-    <li><a href="Home/Index#/SMSTemplate/3" data-menu="Templates/EmailSetup">Sms Template</a></li>
+    <li><a href="Home/Index#/MasterAlertConfigurationList" data-menu="Configurations">Alerts</a></li>
+    <li><a href="Home/Index#/EmailTemplate/1" data-menu="Configurations">Email Template</a></li>
+    <li><a href="Home/Index#/Notification/2" data-menu="Configurations">Notification Template</a></li>
+    <li><a href="Home/Index#/SMSTemplate/3" data-menu="Configurations">Sms Template</a></li>
 </ul>
 
 <div class="mainbody container-fluid">
