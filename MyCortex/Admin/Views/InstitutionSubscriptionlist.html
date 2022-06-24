@@ -228,6 +228,19 @@
                                                     </td>
                                                 </tr>
                                             </table>
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
+                                                <tr>
+                                                    <td>
+                                                        <div class="row">
+                                                            <div class="col-md-4" ng-repeat="(key,value) in TelephoneList">
+                                                                    <input type="radio" id="telephone_Id{{value.Id}}" ng-model="TelePhone_User" ng-click="TelePhoneChange('telephone_Id'+value.Id,value);"
+                                                                       value={{value.Id}} name="TelePhone"/> 
+                                                                {{value.Name}}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
                                             <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
                                                 <tr>
                                                     <td width="13%">
@@ -595,7 +608,7 @@
                                                     <td>
                                                         <div class="row">
                                                             <div class="col-md-4" ng-repeat="row in LanguageList">
-                                                                <input type="checkbox" disabled="disabled" ng-model="InstitutionAddLanguageList[$index]" />{{row.LanguageName}}
+                                                                <input type="checkbox" disabled="disabled" ng-model="InstitutionAddLanguageList[$index]" ng-click="LanguagelistChange();" />{{row.LanguageName}}
                                                             </div>
                                                         </div>
                                                     </td>
@@ -638,6 +651,19 @@
                                                             </div>
                                                             <div class="col-md-4" ng-repeat="(key,value) in AllDeviceNameList">
                                                                 <input type="checkbox" disabled="disabled" ng-model="InstitutionAddDeviceName[$index]" ng-click="DevicelistChange();" />{{value.DeviceName}}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
+                                                <tr>
+                                                    <td>
+                                                        <div class="row">
+                                                            <div class="col-md-4" ng-repeat="(key,value) in TelephoneList">
+                                                                    <input type="radio" disabled="disabled" id="telephone_Id{{value.Id}}" ng-model="TelePhone_User" ng-click="TelePhoneChange('telephone_Id'+value.Id,value);"
+                                                                       value={{value.Id}} name="TelePhone"/> 
+                                                                {{value.Name}}
                                                             </div>
                                                         </div>
                                                     </td>

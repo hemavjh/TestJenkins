@@ -922,8 +922,13 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 $scope.inputPageNo = PageNo;
 
             $scope.current_page = PageNo;
-            $scope.DeviceList();
-            $scope.DeviceListAdmin();
+            if ($scope.UserTypeId == 3) {
+                $scope.DeviceList();
+            }
+            else if ($scope.UserTypeId == 1) {
+                $scope.DeviceListAdmin();
+            }
+           
             
         }
         /* Device List */
@@ -1356,6 +1361,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $scope.submitted = false;
             $scope.Id = 0;
             $scope.CancelDeviceList();
+            $('#DeviceNameAdmin').prop('disabled', false);
             $scope.showSave = true;
             angular.element('#DeviceAddModal').modal('show');
         }
@@ -1363,6 +1369,8 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $scope.Id = CatId;
             $scope.CancelDeviceList();
             $scope.ViewDeviceNameAdmin();
+            $('#DeviceNameAdmin').prop('disabled', true);
+            $scope.DisplayView = 'View';
             $scope.showSave = false;
             angular.element('#DeviceAddModal').modal('show');
         }
@@ -1371,6 +1379,8 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $scope.Id = CatId;
             $scope.CancelDeviceList();
             $scope.ViewDeviceNameAdmin();
+            $('#DeviceNameAdmin').prop('disabled', false);
+            $scope.DisplayView = '';
             $scope.showSave = true;
             $('#btnsave').attr("disabled", false);
             angular.element('#DeviceAddModal').modal('show');
