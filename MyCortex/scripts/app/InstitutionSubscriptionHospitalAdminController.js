@@ -17,6 +17,7 @@ InstitutionSubscriptionHAcontroller.controller("InstitutionSubscriptionHospitalA
         $scope.Contract_Period_From = "";
         $scope.Contract_Period_To = "";
         $scope.Subscription_Type = "1";
+        $scope.TelePhone_User = 1;
         $scope.InstituteId = $window.localStorage['InstitutionId'];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
         $scope.Chroniccc = false;
@@ -39,6 +40,10 @@ InstitutionSubscriptionHAcontroller.controller("InstitutionSubscriptionHospitalA
         $http.get(baseUrl + '/api/DoctorShift/AppointmentModuleList/').success(function (data) {
             // only active Language    
             $scope.AppointmentModuleListID = data;
+        });
+        $http.get(baseUrl + '/api/InstitutionSubscription/TelephoningNameList/').success(function (data) {
+            // only active Telephone    
+            $scope.TelephoneList = data;
         });
         // This is for to get Institution Modiule List 
         //$http.get(baseUrl + '/api/InstitutionSubscription/ModuleNameList/').success(function (data) {
@@ -104,6 +109,7 @@ InstitutionSubscriptionHAcontroller.controller("InstitutionSubscriptionHospitalA
                     $scope.No_Of_HiveChart_Devices = data.No_Of_HiveChartDevices;
                     $scope.Contract_Period_To = $filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy");
                     $scope.Subscription_Type = data.Subscription_Type;
+                    $scope.TelePhone_User = data.TelePhone_User;
                     $scope.InsSub_Id = data.SubscriptionId;
                     $scope.TimeZoneId = data.TimeZone_ID;
                     $scope.AppointmentModuleId = data.Appointment_Module_Id;
