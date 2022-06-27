@@ -134,6 +134,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.IsActive = true;
         $scope.GenderList = [];
         $scope.NationalityList = [];
+        $scope.MaritalStatusList = [];
+        $scope.EthnicGroupList = [];
+        $scope.BloodGroupList = [];
+        $scope.RelationshipList = [];
+        $scope.DietTypeList = [];
         $scope.CountryList = [];
         $scope.StateList = [];
         $scope.LocationList = [];
@@ -283,6 +288,112 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.ClearGroup = function () {
             $scope.SelectedGroup = "0";
         }
+
+        $scope.LoadGenderList = function () {
+            if ($scope.GenderList.length === 0) {
+                $http.get(baseUrl + '/api/Common/GenderList/').success(function (resp_gender_data) {
+                    $scope.GenderList = resp_gender_data;
+                });
+            }
+        };
+
+        $scope.LoadChronicConditionList = function () {
+            if ($scope.ChronicConditionList.length === 0) {
+                $http.get(baseUrl + '/api/Common/ChronicConditionList/').success(function (resp_cc_data) {
+                    $scope.ChronicConditionList = resp_cc_data;
+                });
+            }
+        };
+
+        $scope.LoadDepartmentList = function () {
+            if ($scope.DepartmentList.length == 0) {
+                $http.get(baseUrl + '/api/Common/DepartmentList/').success(function (resp_department_data) {
+                    $scope.DepartmentList = resp_department_data;
+                });
+            }
+        };
+
+        $scope.LoadBusinessUser_UserTypeList = function () {
+            if ($scope.UserTypeList.length === 0) {
+                $http.get(baseUrl + '/api/Common/BusinessUser_UserTypeList/').success(function (resp_bu_data) {
+                    $scope.UserTypeList = resp_bu_data;
+                });
+            }
+        };
+
+        $scope.LoadNationalityList = function () {
+            if ($scope.NationalityList.length === 0) {
+                URL = baseUrl + '/api/Common/NationalityList/';
+                //$http.get(baseUrl + '/api/Common/NationalityList/').success(function (resp_nationality_data) {
+                //    $scope.NationalityList = resp_nationality_data;
+                //});
+                $('.sel-nationality').select2({
+                    ajax: {
+                        dataType: "json",
+                        url: URL,
+                        processResults: function (data) {
+                            var results = [];
+                            $.each(data, function (index, nationality) {
+                                results.push({
+                                    id: nationality.Id,
+                                    text: nationality.Name
+                                });
+                            });
+
+                            return {
+                                results: results
+                            };
+                        }
+                    }
+                });
+            }
+        };
+
+        $scope.LoadMaritalStatusList = function () {
+            if ($scope.MaritalStatusList.length === 0) {
+                $http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (resp_marg_data) {
+                    $scope.MaritalStatusListTemp = [];
+                    $scope.MaritalStatusListTemp = resp_marg_data;
+                    $scope.MaritalStatusList = angular.copy($scope.MaritalStatusListTemp);
+                });
+            }
+        };
+
+        $scope.LoadEthnicGroupList = function () {
+            if ($scope.EthnicGroupList.length === 0) {
+                $http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (resp_eg_data) {
+                    $scope.EthnicGroupListTemp = [];
+                    $scope.EthnicGroupListTemp = resp_eg_data;
+                    $scope.EthnicGroupList = angular.copy($scope.EthnicGroupListTemp);
+                });
+            }
+        };
+
+        $scope.LoadBloodGroupList = function () {
+            if ($scope.BloodGroupList.length === 0) {
+                $http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (resp_bg_data) {
+                    $scope.BloodGroupListTemp = [];
+                    $scope.BloodGroupListTemp = resp_bg_data;
+                    $scope.BloodGroupList = angular.copy($scope.BloodGroupListTemp);
+                });
+            }
+        };
+
+        $scope.LoadRelationshipList = function () {
+            if ($scope.RelationshipList.length === 0) {
+                $http.get(baseUrl + '/api/Common/RelationshipList/').success(function (resp_relationship_data) {
+                    $scope.RelationshipList = resp_relationship_data;
+                });
+            }
+        };
+
+        $scope.LoadDietTypeList = function () {
+            if ($scope.DietTypeList.length === 0) {
+                $http.get(baseUrl + '/api/Common/DietTypeList/').success(function (resp_diet_data) {
+                    $scope.DietTypeList = resp_diet_data;
+                });
+            }
+        };
 
         $scope.DropDownListValues = function () {
             $http.get(baseUrl + '/api/Common/ChronicConditionList/').success(function (resp_cc_data) {
@@ -764,6 +875,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
         // patient creation
         $scope.PatientgetBase64Image = function () {
+            $scope.LoadGenderList();
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
                 var feMaleId = 0;
@@ -1068,7 +1180,6 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.InstitutionSubscriptionLicensecheck(UserTypeId);
             $scope.AppConfigurationProfileImageList();
             $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
-
             /*$scope.ConfigCode = "PATIENT_MIN_AGE";
             $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
             $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).
@@ -2897,7 +3008,18 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $http.get(baseUrl + '/api/Common/OptionTypeList/').success(function (resp_option_data) {
                 $scope.OptionTypeList = resp_option_data;
             });
-            $scope.DropDownListValues();
+            $scope.LoadNationalityList();
+            // $scope.DropDownListValues();
+
+     
+            //Load Patient Dropdown lists
+            //$scope.LoadNationalityList();
+            //$scope.LoadMaritalStatusList();
+            //$scope.LoadEthnicGroupList();
+            //$scope.LoadBloodGroupList();
+            //$scope.LoadChronicConditionList();
+            //$scope.LoadRelationshipList();
+
             $scope.loadCount = 3;
             $("#chatLoaderPV").show();
             photoview = true;
