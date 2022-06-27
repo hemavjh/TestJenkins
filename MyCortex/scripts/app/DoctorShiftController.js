@@ -1436,8 +1436,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                         BookingOpen: $scope.Days,
                         BookingCancelLock: parseInt($scope.Minutes),
                         SelectedDaysList: selectedCheckedDays,
-                        MakeMeLookBusy: $scope.MakeMeLookBusy,
-                        MinimumSlots: parseInt($scope.MinimumSlots),
+                        MakeMeLookBusy: ($scope.MakeMeLookBusy == "") ? 0 : $scope.MakeMeLookBusy,
+                        MinimumSlots: ($scope.MinimumSlots == "") ? 0 : parseInt($scope.MinimumSlots),
                        // SelectedBusyList: selectedCheckedDays,
                     };
                     $('#saveDoctorShift1').attr("disabled", true);
@@ -1642,16 +1642,16 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             //    toastr.warning("Please Enter Make Me Look Busy Value", "warning");
             //    return false;
             //} 
-            else if ($scope.MakeMeLookBusy>50) {
-                //alert("Please Enter Minutes");
-                toastr.warning("Please Enter Make Me Look Busy Value Below 50% or Equal", "warning");
-                return false;
-            }
-            else if (typeof ($scope.MinimumSlots) == "undefined" || $scope.MinimumSlots == "0" || $scope.MinimumSlots == '') {
-                //alert("Please Enter Minutes");
-                toastr.warning("Please Enter Minimum Slots", "warning");
-                return false;
-            }
+            //else if ($scope.MakeMeLookBusy>50) {
+            //    //alert("Please Enter Minutes");
+            //    toastr.warning("Please Enter Make Me Look Busy Value Below 50% or Equal", "warning");
+            //    return false;
+            //}
+            //else if (typeof ($scope.MinimumSlots) == "undefined" || $scope.MinimumSlots == "0" || $scope.MinimumSlots == '') {
+            //    //alert("Please Enter Minutes");
+            //    toastr.warning("Please Enter Minimum Slots", "warning");
+            //    return false;
+            //}
             //else if (($scope.FromDate !== null) && ($scope.ToDate !== null)) {
             //    if ((ParseDate($scope.ToDate) < ParseDate($scope.FromDate))) {
             //        //alert("Start Date should not be greater than End Date");

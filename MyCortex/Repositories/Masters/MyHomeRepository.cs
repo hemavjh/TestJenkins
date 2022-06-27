@@ -789,6 +789,7 @@ namespace MyCortex.Repositories.Masters
                                                           ViewGenderName = p.Field<string>("GENDER_NAME"),
                                                           TimeDifference = p.Field<string>("TimeDifference"),
                                                           Payment_Status = (p.IsNull("PAYMENT_STATUS") ? "" : p.Field<string>("PAYMENT_STATUS")),
+                                                          ConferenceId = p.Field<string>("CONFERENCE_ID"),
                                                       }).ToList();
                 return lst;
             }

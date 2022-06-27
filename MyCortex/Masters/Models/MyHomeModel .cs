@@ -388,6 +388,7 @@ namespace MyCortex.Masters.Models
         public long NewAppointmentId { get; set; }
         public string ReasonType { get; set; }
         public int IsActive { get; set; }
+        public string ConferenceId { get; set; }
     }
     public class TabDashBoardMedicationDetails
     {
