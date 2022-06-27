@@ -17,6 +17,7 @@ using System.Text;
 using System.Runtime.Serialization.Json;
 using MyCortex.Repositories.Masters;
 using MyCortex.Repositories.Uesr;
+using MyCortex.Home.Models;
 using System.Web.Script.Serialization;
 
 namespace MyCortex.Admin.Controllers
@@ -528,6 +529,55 @@ namespace MyCortex.Admin.Controllers
                 return Request.CreateResponse(HttpStatusCode.OK, new { status = 0, error = "Payby Configuration Error" });
             }
             
+        }
+
+        [HttpPost]
+        public HttpResponseMessage EligibilityRequestCall ([FromBody] Newtonsoft.Json.Linq.JObject form)
+        {
+            try
+            {
+                RequestEligibility re = new RequestEligibility
+                {
+                    emiratesId = "784199765832854",
+                    clinicianLicense = "GN30148",
+                    consultationCategoryId = 4,
+                    countryCode = "+971",
+                    mobileNumber = "566767676",
+                    payerId = 305,
+                    referralLetterRefNo = "",
+                    serviceCategoryId = 12,
+                    facilityLicense = "MF2007",
+                };
+
+                string url = "https://integration.inhealth.ae/api/eligibilitycheck/addeligibilityrequest";
+                HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
+                req.Method = "POST";
+                req.ContentType = "application/json";
+                req.Accept = "*/*";
+                //req.Headers["Connection"] = "keep-alive";
+                req.Headers["Accept-Encoding"] = "gzip, deflate, br";
+                req.Headers["Content-Language"] = "en";
+                req.Headers["Authorization"] = "c2d0928a-7463-428d-bd12-72fda8757089";
+                string strJPostData = JsonConvert.SerializeObject(re, Newtonsoft.Json.Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                UTF8Encoding encoding = new UTF8Encoding();
+                byte[] post = encoding.GetBytes(strJPostData);
+                req.ContentLength = post.Length;
+                using (Stream writer = req.GetRequestStream())
+                {
+                    writer.Write(post, 0, post.Length);
+                }
+
+                using (HttpWebResponse res = (HttpWebResponse)req.GetResponse())
+                {
+                    DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(RequestEligibilityResponse));
+                    object objResponse = jsonSerializer.ReadObject(res.GetResponseStream());
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotAcceptable);
+            }
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }
