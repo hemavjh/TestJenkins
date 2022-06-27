@@ -922,14 +922,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 $scope.inputPageNo = PageNo;
 
             $scope.current_page = PageNo;
-            if ($scope.UserTypeId == 3) {
-                $scope.DeviceList();
-            }
-            else if ($scope.UserTypeId == 1) {
-                $scope.DeviceListAdmin();
-            }
-           
-            
+            $scope.DeviceList();
         }
         /* Device List */
         $scope.DeviceList = function (HiveType = 1) {
@@ -1277,7 +1270,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         
         $scope.ReInsertDeviceNameDetails = function () {
             Swal.fire({
-                title: 'Do you like to activate the selected Institution?',
+                title: 'Do you like to activate the selected Device?',
                 html: '',
                 showDenyButton: true,
                 showCancelButton: false,
@@ -1290,10 +1283,10 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 if (result.isConfirmed) {
                     $http.get(baseUrl + '/api/MyHome/DeviceName_Delete/?Id=' + $scope.Id).success(function (data) {
                         //alert("Selected Institution has been activated successfully");
-                        toastr.success("Selected Institution has been activated successfully", "success");
+                        toastr.success("Selected Device has been activated successfully", "success");
                         $scope.DeviceListAdmin();
                     }).error(function (data) {
-                        $scope.error = "An error has occurred while ReInsertInstitutionDetails" + data;
+                        $scope.error = "An error has occurred while ReInsertDevice" + data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
@@ -1306,7 +1299,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         };
         $scope.DeviceNamelist_Delete = function () {
             Swal.fire({
-                title: 'Do you like to deactivate the selected Institution?',
+                title: 'Do you like to deactivate the selected Device?',
                 html: '',
                 showDenyButton: true,
                 showCancelButton: false,
@@ -1319,10 +1312,10 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 if (result.isConfirmed) {
                     $http.get(baseUrl + '/api/MyHome/DeviceName_Delete/?Id=' + $scope.Id).success(function (data) {
                         //alert("Selected Institution has been deactivated Successfully");
-                        toastr.success("Selected Institution has been deactivated Successfully", "success");
+                        toastr.success("Selected Device has been deactivated Successfully", "success");
                         $scope.DeviceListAdmin();
                     }).error(function (data) {
-                        $scope.error = "AN error has occured while deleting Institution!" + data;
+                        $scope.error = "AN error has occured while deleting Device!" + data;
                     });
                 } else if (result.isDenied) {
                 }
@@ -1385,7 +1378,21 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $('#btnsave').attr("disabled", false);
             angular.element('#DeviceAddModal').modal('show');
         }
-
+        $scope.setDevicePage = function (PageNo) {
+            if (PageNo > $scope.total_Devicepage) {
+                return false;
+            } else if (PageNo == 0) {
+                return false;
+            }
+            if (PageNo == 0) {
+                PageNo = $scope.inputPageNo;
+            }
+            else {
+                $scope.inputPageNo = PageNo;
+            }
+        $scope.current_page = PageNo;
+        $scope.DeviceListAdmin();
+        }
         $scope.DeviceListAdmin = function () {
                 $("#chatLoaderPV").show();
                 $scope.ISact = 1;       // default active
