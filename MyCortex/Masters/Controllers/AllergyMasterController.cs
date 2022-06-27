@@ -157,6 +157,26 @@ namespace MyCortex.Masters.Controllers
             return model;
         }
 
+        [HttpGet]
+        //  [CheckSessionOutFilter]
+        public List<MasterAllergyModel> Search_Allergy_List(int IsActive, long InstitutionId, int StartRowNumber, int EndRowNumber, String SearchQuery = null)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            string SearchQuery2 = string.IsNullOrEmpty(SearchQuery) ? "" : SearchQuery.ToLower();
+            int lastno = EndRowNumber;
+            int StartRowNumber2 = StartRowNumber;
+            List<MasterAllergyModel> model = new List<MasterAllergyModel>();
+            try
+            {
+                model = repository.Search_Allergy_List(IsActive, InstitutionId, StartRowNumber2, lastno, SearchQuery2);
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+            }
+            return model;
+        }
 
         /// <summary>
         /// to deactivate a ICD Master

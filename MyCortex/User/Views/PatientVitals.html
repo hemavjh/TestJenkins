@@ -59,7 +59,7 @@
             <div class="patientCards ">
                 <img src="../../Images/DOB.png" class="patientVitalscard" />
                 <h1>DOB</h1>
-                <h2 title="{{DOB}}">{{DOB}}</h2>
+                <h2 title="{{DOB}}">{{DOB | date: DateFormat}}</h2>
             </div>
             <div class="primaryButtons" style="padding:0px">
                 <button type="button" ng-click="openProtocol()" class="btn btn-default btn-sm" style="margin: 0px 5px;">
@@ -894,7 +894,7 @@
                                     <span>{{row.ParameterValue}}</span><br />
                                     <span ng-show="row.PageType=='C'"><br /></span>
                                     <span class="lablewrap" data-toggle="tooltip" title={{row.DeviceType}} ng-show="row.PageType=='D'">{{row.DeviceType}}</span><span style="float:left">/</span><span class="lablewrap" data-toggle="tooltip" title={{row.Device_No}} ng-show="row.PageType=='D'">{{row.Device_No}}/</span><br />
-                                    <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                    <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date: DateFormat+' hh:mm a'}}<br /></span>
                                     <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                                 </div>
                             </div>
@@ -931,7 +931,7 @@
                                 <span>{{row.ParameterValue}}</span><br />
                                 <span ng-show="row.PageType=='C'"><br /></span>
                                 <span class="lablewrap" data-toggle="tooltip" title={{row.DeviceType}} ng-show="row.PageType=='D'">{{row.DeviceType}}</span><span style="float:left">/</span><span class="lablewrap" data-toggle="tooltip" title={{row.Device_No}} ng-show="row.PageType=='D'">{{row.Device_No}}/</span><br />
-                                <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:DateFormat+' hh:mm a'}}<br /></span>
                                 <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                             </div>
                         </div>
@@ -957,7 +957,7 @@
                                 <span>{{row.ParameterValue}}</span><br />
                                 <span ng-show="row.PageType=='C'"><br /></span>
                                 <span class="lablewrap" data-toggle="tooltip" title={{row.DeviceType}} ng-show="row.PageType=='D'">{{row.DeviceType}}</span><span style="float:left">/</span><span class="lablewrap" data-toggle="tooltip" title={{row.Device_No}} ng-show="row.PageType=='D'">{{row.Device_No}}/</span><br />
-                                <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:DateFormat+' hh:mm a'}}<br /></span>
                                 <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                             </div>
                         </div>
@@ -988,7 +988,7 @@
                                 <span>{{row.ParameterValue}}</span><br />
                                 <span ng-show="row.PageType=='C'"><br /></span>
                                 <span class="lablewrap" data-toggle="tooltip" title={{row.DeviceType}} ng-show="row.PageType=='D'">{{row.DeviceType}}</span><span style="float:left">/</span><span class="lablewrap" data-toggle="tooltip" title={{row.Device_No}} ng-show="row.PageType=='D'">{{row.Device_No}}/</span><br />
-                                <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:DateFormat+' hh:mm a'}}<br /></span>
                                 <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                             </div>
                         </div>
@@ -1014,7 +1014,7 @@
                                 <span>{{row.ParameterValue}}</span><br />
                                 <span ng-show="row.PageType=='C'"><br /></span>
                                 <span class="lablewrap" data-toggle="tooltip" title={{row.DeviceType}} ng-show="row.PageType=='D'">{{row.DeviceType}}</span><span style="float:left">/</span><span class="lablewrap" data-toggle="tooltip" title={{row.Device_No}} ng-show="row.PageType=='D'">{{row.Device_No}}/</span><br />
-                                <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:DateFormat+' hh:mm a'}}<br /></span>
                                 <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                             </div>
                         </div>
@@ -1046,7 +1046,7 @@
                                 <span ng-show="row.PageType=='C'"><br /></span>
                                 <span class="lablewrap" data-toggle="tooltip" title={{row.DeviceType}} ng-show="row.PageType=='D'">{{row.DeviceType}}</span><span style="float:left">/</span><span class="lablewrap" data-toggle="tooltip" title={{row.Device_No}} ng-show="row.PageType=='D'">{{row.Device_No}}/</span><br />
                                 <!--<span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-if="row.PageType=='D'">{{row.Device_No}}/</span>-->
-                                <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:DateFormat+' hh:mm a'}}<br /></span>
                                 <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
      <!--v>-->
                             </div>
@@ -1076,7 +1076,7 @@
                                 <span ng-show="row.PageType=='C'"><br /></span>
                                 <span class="lablewrap" data-toggle="tooltip" title={{row.DeviceType}} ng-show="row.PageType=='D'">{{row.DeviceType}}</span><span style="float:left">/</span><span class="lablewrap" data-toggle="tooltip" title={{row.Device_No}} ng-show="row.PageType=='D'">{{row.Device_No}}/</span><br />
                                 <!--<span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-show="row.PageType=='D'">{{row.Device_No}}/</span>-->
-                                <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                <span style="float:left" ng-show="row.PageType=='D'">{{row.Activity_Date| date:DateFormat+' hh:mm a'}}<br /></span>
                                 <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                             </div>
                         </div>
@@ -1478,7 +1478,7 @@
                                                             <tr ng-repeat="row in emptydataVitalLab | orderBy:'-Activity_DateTime'">
                                                                 <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
                                                                 <td style="text-align: left">
-                                                                    {{(row.Activity_DateTime| date:'dd-MMM-yyyy hh:mm a')}}
+                                                                    {{(row.Activity_DateTime| date:DateFormat+' hh:mm a')}}
                                                                 </td>
                                                                 <td style="text-align: left">{{row.ParameterName}}</td>
                                                                 <td style="text-align: left">{{row.UOM_Name}}</td>
@@ -1493,7 +1493,7 @@
                                                                            ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==2" />
                                                                 </td>
                                                                 <td style="text-align: left; max-width:150px; word-wrap:break-word;">
-                                                                    {{row.Createdby_FullName}} <br /> {{row.Created_Dt| date :'dd-MMM-yyyy hh:mm a'}}
+                                                                    {{row.Createdby_FullName}} <br /> {{row.Created_Dt| date :DateFormat+' hh:mm a'}}
                                                                 </td>
                                                                 <td style="text-align: left">
                                                                     <a href="javascript:" title="Save" ng-click="ParameterEdit_Update(row, ((current_page-1)*page_size)+$index)"
@@ -1655,10 +1655,10 @@
                                                                 </div>
                                                             </td>
                                                             <td style="text-align: left">
-                                                                {{Medication.StartDate| date:'dd-MMM-yyyy'}} <br /> {{Medication.EndDate| date:'dd-MMM-yyyy'}}
+                                                                {{Medication.StartDate| date:DateFormat}} <br /> {{Medication.EndDate| date:DateFormat}}
                                                             </td>
                                                             <td style="text-align: left; max-width: 150px; word-wrap: break-word;">
-                                                                {{Medication.Created_By_Name}} <br /> {{Medication.Created_Dt| date :'dd-MMM-yyyy hh:mm:ss a'}}
+                                                                {{Medication.Created_By_Name}} <br /> {{Medication.Created_Dt| date :DateFormat+' hh:mm:ss a'}}
                                                             </td>
 
 
@@ -1789,8 +1789,8 @@
                                                                         {{ row.Remarks.length > 100 ? row.Remarks.substring(0,200)+ "..." : row.Remarks}}
                                                                     </div>
                                                                 </td>
-                                                                <td style="text-align: left">{{row.Active_From | date :'dd-MMM-yyyy'}} <br />{{row.Active_To | date :'dd-MMM-yyyy'}}</td>
-                                                                <td style="text-align: left; max-width:150px; word-wrap:break-word;">{{row.Created_By_Name }} <br /> {{row.Created_DT | date :'dd-MMM-yyyy hh:mm:ss a'}} </td>
+                                                                <td style="text-align: left">{{row.Active_From | date :DateFormat}} <br />{{row.Active_To | date :DateFormat}}</td>
+                                                                <td style="text-align: left; max-width:150px; word-wrap:break-word;">{{row.Created_By_Name }} <br /> {{row.Created_DT | date :DateFormat+' hh:mm:ss a'}} </td>
 
                                                                 <td>
 
@@ -1918,17 +1918,17 @@
                                                                 <div class="textwrap">{{Allen.AllergyReactionName}}</div>
                                                             </td>
                                                             <td style="text-align: left">
-                                                                {{Allen.AllergyOnsetName}}<br />{{Allen.OnSetDate| date:'dd-MMM-yyyy'}}
+                                                                {{Allen.AllergyOnsetName}}<br />{{Allen.OnSetDate| date:DateFormat}}
                                                             </td>
 
 
 
 
                                                             <!-- <td style="text-align: left">
-                                                {{Allen.OnSetDate| date:'dd-MMM-yyyy'}}
+                                                {{Allen.OnSetDate| date:DateFormat}}
                                             </td>-->
                                                             <td style="text-align: left; max-width:150px; word-wrap:break-word;">
-                                                                {{Allen.Created_By_Name}}<br />{{Allen.Created_Dt|  date :'dd-MMM-yyyy hh:mm:ss a'}}
+                                                                {{Allen.Created_By_Name}}<br />{{Allen.Created_Dt|  date :DateFormat+' hh:mm:ss a'}}
                                                             </td>
                                                             <td>
                                                                 <a href="javascript:" ng-click="PatientAllergyViewPopUp(Allen.Id)" title="View">
@@ -2047,6 +2047,7 @@
                                                                     <th st-ratio="35" st-sort="Notes">Notes</th>
                                                                     <th st-ratio="35" st-sort="Notestype">Notes Type</th>
                                                                     <th st-ratio="35" st-sort="Flag">Privacy</th>
+                                                                    <th st-ratio="35" st-sort="Import">Importance</th>
                                                                     <th st-ratio="20" st-sort="CREATED_PERSON">Created By</th>
                                                                     <th st-ratio="25" st-sort="CREATED_DT">Created On</th>
                                                                     <th st-ratio="15">Action</th>
@@ -2077,13 +2078,16 @@
                                                                         {{row.NotesType}}
                                                                     </td>
                                                                     <td style="text-align: left; width: 10%">
-                                                                        {{row.NotesFlag}}
+                                                                        {{row.NotesFlag==1 ? 'True' : 'False'}}
+                                                                    </td>
+                                                                    <td style="text-align: left; width: 10%">
+                                                                        {{row.Importance==1 ? 'True' : 'False'}}
                                                                     </td>
                                                                     <td style="text-align: left;max-width:150px; word-wrap:break-word;">
                                                                         <div>{{row.Created_By_Name}}</div>
                                                                     </td>
                                                                     <td style="text-align: left">
-                                                                        <div>{{row.Created_Dt | date :'dd-MMM-yyyy hh:mm:ss a'}}</div>
+                                                                        <div>{{row.Created_Dt | date :DateFormat+' hh:mm:ss a'}}</div>
                                                                     </td>
                                                                     <td style="text-align: center">
                                                                         <a href="javascript:" ng-click="ViewPatientNotesPopUP(row.Id)" title="View">
@@ -2104,14 +2108,14 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr ng-if="PatientNotesrowCollectionFilter.length==0">
-                                                                    <td colspan="7" style="text-align: center">
+                                                                    <td colspan="8" style="text-align: center">
                                                                         {{SearchMsg}}
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
                                                             <tfoot ng-if="PatientNotes_pages>1">
                                                                 <tr>
-                                                                    <td colspan="7" class="text-center">
+                                                                    <td colspan="8" class="text-center">
                                                                         <!--<div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
                         mplate="Masters/Views/pagination.custom.html"></div>-->
                                                                         <ul class="pagination" style="margin-left:110px;">
@@ -2237,8 +2241,8 @@
                                                                 <td style="text-align: left">
                                                                     <div class="textwrap" style="max-width:250px;word-wrap:break-word;">{{row.Created_Name}}</div>
                                                                 </td>
-                                                                <td style="text-align: left">{{row.Created_Date| date :'dd-MMM-yyyy hh:mm:ss a'}}</td>
-                                                                <td style="text-align: left">{{row.DocumentDate| date :'dd-MMM-yyyy'}}</td>
+                                                                <td style="text-align: left">{{row.Created_Date| date :DateFormat+' hh:mm:ss a'}}</td>
+                                                                <td style="text-align: left">{{row.DocumentDate| date :DateFormat}}</td>
                                                                 <td style="text-align: left">
                                                                     <div class="textwrap">{{row.DocumentType}}</div>
                                                                 </td>
@@ -2315,7 +2319,7 @@
                                                         <label>Actual Value</label>
                                                         <span>{{row.ParameterValue}}</span><br />
                                                         <span>{{row.DeviceType}}</span>/<span>{{row.Device_No}}</span>/
-                                                        <span>{{row.Activity_DateTime | date:'dd-MMM-yyyy hh:mm a'}}</span><br />
+                                                        <span>{{row.Activity_DateTime | date:DateFormat+' hh:mm a'}}</span><br />
                                                         <span>{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                                                     </div>
                                                     <div class="alert alert-success nibp" ng-if="row.Type_Id==2 && LiveData_IsImage(row.UOM_Name)==false">
@@ -2796,12 +2800,12 @@
                                 </div>
                                 <div class="flex">
                                     <label class="col-sm-6 doc-label">Date of birth</label>
-                                    <p class="col-sm-6 doc-p">{{DoctorDetailBio.DOB.split('T')[0]}}</p>
-                                </div>
+                                    <p class="col-sm-6 doc-p">{{DoctorDetailBio.DOB | date: DateFormat}}</p>
+                                </div><!--DoctorDetailBio.DOB.split('T')[0]-->
                                 <!--<div class="flex">
-                                    <label class="col-sm-6 doc-label">Nationality</label>
-                                    <p class="col-sm-6 doc-p">{{DoctorDetailBio.HEALTH_LICENSE}}</p>
-                                </div>-->
+        <label class="col-sm-6 doc-label">Nationality</label>
+        <p class="col-sm-6 doc-p">{{DoctorDetailBio.HEALTH_LICENSE}}</p>
+    </div>-->
                                 <div class="flex">
                                     <label class="col-sm-6 doc-label">Email</label>
                                     <p class="col-sm-6 doc-p">{{DoctorDetailBio.EMAILID}}</p>
@@ -3063,16 +3067,16 @@
                                             <div class="textwrap">{{Allen.AllergyReactionName}}</div>
                                         </td>
                                         <td style="text-align: left">
-                                            {{Allen.AllergyOnsetName}}<br />{{Allen.OnSetDate| date:'dd-MMM-yyyy'}}
+                                            {{Allen.AllergyOnsetName}}<br />{{Allen.OnSetDate| date:DateFormat}}
                                         </td>
                                         <!--  <td style="text-align: left">
-                                            {{Allen.OnSetDate| date:'dd-MMM-yyyy'}}
+                                            {{Allen.OnSetDate| date:DateFormat}}
                                         </td>-->
                                         <td style="text-align: left;max-width:150px;word-wrap:break-word;">
 
 
 
-                                            {{Allen.Created_By_Name}}<br />{{Allen.Created_Dt|  date :'dd-MMM-yyyy hh:mm:ss a'}}
+                                            {{Allen.Created_By_Name}}<br />{{Allen.Created_Dt|  date :DateFormat+' hh:mm:ss a'}}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -3279,7 +3283,7 @@
                                                     <label>Date & Time</label>
                                                 </td>
                                                 <td>
-                                                    <div class="textwrap">{{Created_Dt| date :'dd-MMM-yyyy hh:mm a'}}</div>
+                                                    <div class="textwrap">{{Created_Dt| date :DateFormat+' hh:mm a'}}</div>
                                                 </td>
 
                                             </tr>
@@ -3331,7 +3335,7 @@
                                     </tr>
                                     <tr ng-repeat="row in emptydata">
                                         <td class="textalign">{{$index+1}}</td>
-                                        <td style="text-align: left">{{row.Activity_Date|date:"dd-MMM-yyyy" }}</td>
+                                        <td style="text-align: left">{{row.Activity_Date|date: DateFormat }}</td>
                                         <td style="text-align: left">{{row.Activity_Date|date:"HH:mm:ss"}}</td>
                                         <td style="text-align: left">{{row.ParameterName}}</td>
                                         <td style="text-align: left">{{row.UOM_Name}}</td>
@@ -4192,7 +4196,7 @@
                                         <label>Active From</label>
                                     </td>
                                     <td width="30%">
-                                        <div class="textwrap"> {{Active_From | date :'dd-MMM-yyyy'}}</div>
+                                        <div class="textwrap"> {{Active_From | date : DateFormat}}</div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -4200,7 +4204,7 @@
                                         <label>Active To</label>
                                     </td>
                                     <td width="30%">
-                                        <div class="textwrap"> {{Active_To | date :'dd-MMM-yyyy'}}</div>
+                                        <div class="textwrap"> {{Active_To | date : DateFormat}}</div>
                                     </td>
 
                                 </tr>
@@ -4411,7 +4415,7 @@
                                                     <label>Onset Date</label>
                                                 </td>
                                                 <td>
-                                                    {{OnSetDate| date:'dd-MMM-yyyy'}}
+                                                    {{OnSetDate| date:DateFormat}}
                                                 </td>
 
                                             </tr>
@@ -4527,7 +4531,7 @@
                                                     <label>Start Date</label>
                                                 </td>
                                                 <td>
-                                                    {{StartDateView}}
+                                                    {{StartDateView | date: DateFormat }}
                                                 </td>
                                             </tr>
                                             <tr>
@@ -4535,7 +4539,7 @@
                                                     <label>End Date</label>
                                                 </td>
                                                 <td>
-                                                    {{EndDateView}}
+                                                    {{EndDateView | date: DateFormat}}
                                                 </td>
                                             </tr>
                                         </table>
@@ -4753,7 +4757,16 @@
                                                         <label>Privacy</label>
                                                     </td>
                                                     <td>
-                                                        <div class="textwrap" style="word-break:break-word">{{Flag}}</div>
+                                                        <div class="textwrap" style="word-break:break-word">{{FlagView}}</div>
+                                                    </td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 15%; vertical-align: top;">
+                                                        <label>Importance</label>
+                                                    </td>
+                                                    <td>
+                                                        <div class="textwrap" style="word-break:break-word">{{ImportanceView}}</div>
                                                     </td>
 
                                                 </tr>
@@ -4915,7 +4928,7 @@
                                 </td>
                                 <td>
                                     <span>
-                                        <div class="textwrap">{{DocumentDate| date :'dd-MMM-yyyy'}}</div>
+                                        <div class="textwrap">{{DocumentDate| date :DateFormat}}</div>
                                     </span>
                                 </td>
                             </tr>
@@ -5258,7 +5271,7 @@
                                     <div class="textwrap" style="max-width:150px; word-wrap:break-word;">{{row.CC_Remarks}}</div>
                                 </td>
                                 <td style="text-align: left">
-                                    <div class="textwrap">{{row.Created_Dt| date:'dd-MMM-yyyy hh:mm a' }}</div>
+                                    <div class="textwrap">{{row.Created_Dt| date:DateFormat+' hh:mm a' }}</div>
                                 </td>
 
                             </tr>
@@ -5355,7 +5368,7 @@
                                     </td>
                                     <td style="text-align: left">
                                         <div class="textwrap">
-                                            {{Protocol.Protocol_Assigned_On|date:"dd-MMM-yyyy hh:mm a" }}
+                                            {{Protocol.Protocol_Assigned_On|date:DateFormat+" hh:mm a" }}
                                         </div>
                                     </td>
                                 </tr>
@@ -5439,12 +5452,12 @@
                                     </tr>
                                     <tr ng-repeat="row in DoctorAppoinmentemptydata">
                                         <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
-                                        <td style="text-align: left">{{row.Appointment_Date| date :'dd-MMM-yyyy'}}</td>
+                                        <td style="text-align: left">{{row.Appointment_Date| date :DateFormat}}</td>
                                         <td style="text-align: left">{{row.DoctorName}}</td>
                                         <td style="text-align: left">{{row.Appointment_FromTime | date :'hh:mm a'}}</td>
                                         <td style="text-align: left">{{row.Appointment_ToTime | date :'hh:mm a'}}</td>
                                         <td style="text-align: left">{{row.Created_By_Name}}</td>
-                                        <td style="text-align: left">{{row.Created_Dt| date :'dd-MMM-yyyy hh:mm a'}}</td>
+                                        <td style="text-align: left">{{row.Created_Dt| date : DateFormat+' hh:mm a'}}</td>
                                         <td style="text-align: left">{{row.ReasonForVisit}}</td>
 
                                     </tr>
@@ -5532,7 +5545,7 @@
                                             <!--{{row.CC_Remarks}}-->
                                             {{ row.CC_Remarks.length > 100 ? row.CC_Remarks.substring(0,200)+ "..." : row.CC_Remarks}}
                                         </td>
-                                        <td style="text-align: left">{{row.Created_dt| date :'dd-MMM-yyyy hh:mm a'}}</td>
+                                        <td style="text-align: left">{{row.Created_dt| date : DateFormat+' hh:mm a'}}</td>
                                     </tr>
                                 </tbody>
                                 <tfoot ng-show="CareCoordinatorFilter.length >page_size">
@@ -5905,12 +5918,12 @@
                                         </div>
                                         <div class="flex">
                                             <label class="col-sm-6 doc-label">Date of birth</label>
-                                            <p class="col-sm-6 doc-p">{{DoctorDetailList.DOB.split('T')[0]}}</p>
-                                        </div>
+                                            <p class="col-sm-6 doc-p">{{DoctorDetailList.DOB | date: DateFormat}}</p>
+                                        </div><!--DoctorDetailList.DOB.split('T')[0]-->
                                         <!-- <div class="flex">
-                                             <label class="col-sm-6 doc-label">Nationality</label>
-                                             <p class="col-sm-6 doc-p">{{DoctorDetailList.HEALTH_LICENSE}}</p>
-                                         </div>-->
+         <label class="col-sm-6 doc-label">Nationality</label>
+         <p class="col-sm-6 doc-p">{{DoctorDetailList.HEALTH_LICENSE}}</p>
+     </div>-->
                                         <div class="flex">
                                             <label class="col-sm-6 doc-label">Email</label>
                                             <p class="col-sm-6 doc-p">{{DoctorDetailList.EMAILID}}</p>
@@ -6202,12 +6215,12 @@
                                             </div>
                                             <div class="flex">
                                                 <label class="col-sm-6">Date of birth</label>
-                                                <p class="col-sm-6 doc-p">{{DoctorDetailList.DOB.split('T')[0]}}</p>
-                                            </div>
+                                                <p class="col-sm-6 doc-p">{{DoctorDetailList.DOB | date : DateFormat}}</p>
+                                            </div><!--DoctorDetailList.DOB.split('T')[0]-->
                                             <!--<div class="flex">
-                                                <label class="col-sm-6">Nationality</label>
-                                                <p class="col-sm-6 doc-p">{{DoctorDetailList.HEALTH_LICENSE}}</p>
-                                            </div>-->
+        <label class="col-sm-6">Nationality</label>
+        <p class="col-sm-6 doc-p">{{DoctorDetailList.HEALTH_LICENSE}}</p>
+    </div>-->
                                             <div class="flex">
                                                 <label class="col-sm-6">Email</label>
                                                 <p class="col-sm-6 doc-p">{{DoctorDetailList.EMAILID}}</p>

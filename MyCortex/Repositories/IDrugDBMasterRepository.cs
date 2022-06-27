@@ -19,6 +19,7 @@ namespace MyCortex.Repositories
        IList<DrugDBMasterModel> DrugDBMaster_AddEdit(DrugDBMasterModel obj);
        void DrugDBMaster_Active(int Id);
        void DrugDBMaster_Delete(int Id);
-      
+       List<DrugDBMasterModel> Search_DRUGDB_List(int IsActive, long InstitutionId, int StartRowNumber, int EndRowNumber, String SearchQuery = null);
+
     }
 }

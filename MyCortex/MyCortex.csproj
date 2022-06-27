@@ -239,6 +239,7 @@
     <Content Include="Admin\Views\CareCoordinator_Compliance.html" />
     <Content Include="Admin\Views\CareGiverAllPatients.html" />
     <Content Include="Admin\Views\ChangePassword.html" />
+    <Content Include="Admin\Views\DeviceNameAdminList.html" />
     <Content Include="Admin\Views\DoctorProfile.html" />
     <Content Include="Admin\Views\EncryptDecrypt.html" />
     <Content Include="Admin\Views\ForgotPassword.html" />
@@ -257,6 +258,7 @@
     <Content Include="Admin\Views\PatientAdditional_Details.html" />
     <Content Include="Admin\Views\patienthomechart.html" />
     <Content Include="Admin\Views\ResetPassword.html" />
+    <Content Include="Admin\Views\SuperAdminResetPassword.html" />
     <Content Include="Admin\Views\ThirtydaysAppointments.html" />
     <Content Include="Admin\Views\TodayAppointments.html" />
     <Content Include="Admin\Views\UserAdditionalDetails.html" />
@@ -1357,6 +1359,7 @@
     <Compile Include="Admin\Models\PaymentGatewayMaster.cs" />
     <Compile Include="Admin\Models\ProtocolModel.cs" />
     <Compile Include="Admin\Models\AdminUsersLogModel.cs" />
+    <Compile Include="Admin\Models\TelePhoningMasterModel.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />

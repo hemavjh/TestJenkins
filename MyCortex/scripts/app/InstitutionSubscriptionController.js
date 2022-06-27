@@ -44,6 +44,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
         $scope.V_Contract_Period_From = "";
         $scope.V_Contract_Period_To = "";
         $scope.Subscription_Type = "1";
+        $scope.TelePhone_User = 1;
         /* $scope.Chroniccc = false;
          $scope.Chroniccg = false;
          $scope.Chroniccl = false;
@@ -169,6 +170,10 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             // only active Language    
             $scope.LanguageList = data;
         });
+        $http.get(baseUrl + '/api/InstitutionSubscription/TelephoningNameList/').success(function (data) {
+            // only active Telephone    
+            $scope.TelephoneList = data;
+        });
         $http.get(baseUrl + '/api/InstitutionSubscription/PaymentModule_List/').success(function (data) {
             // only active Language    
             $scope.PaymentList = data;
@@ -176,7 +181,10 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
         $http.get(baseUrl + '/api/Common/InstitutionInsurance/').success(function (data) {
             $scope.InstitutionInsuranceName = data;
         });
-
+        $scope.AllDeviceNameList = [];
+        $http.get(baseUrl + '/api/InstitutionSubscription/DeviceName_List/').success(function (data) {
+            $scope.AllDeviceNameList = data;
+        });
         $http.get(baseUrl + '/api/Common/InstitutionPayment/').success(function (data) {
             $scope.InstitutionPaymentMethod = data;
         });
@@ -244,6 +252,10 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             }
         }
 
+        $scope.TelePhoneChange = function (Id, value) {
+            $scope.TelePhone_User = value.Id;
+        }
+       
         $scope.Module_listAdd = [];
         $scope.ModulelistChange = function (Id, value) {
             var checked = $('#' + Id).is(":checked");
@@ -261,7 +273,44 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     }
                 });
             }
-        } 
+        }
+        $scope.InstitutionDeviceName = [];
+        $scope.DevicelistChange = function (Id, value) {
+            var checked = $('#' + Id).is(":checked");
+            if (checked == true) {
+                var obj = {
+                    Id: 0,
+                    Institution_Subcription_Id: $scope.Id,
+                    DeviceId: value.Id
+                }
+                $scope.InstitutionDeviceName.push(obj);
+            } else {
+                angular.forEach($scope.InstitutionDeviceName, function (item, index) {
+                    if (value.Id == item.DeviceId) {
+                        $scope.InstitutionDeviceName.splice(index, 1);
+                    }
+                });
+            }
+        }
+
+        $scope.InstitutionLanguageName = [];
+        $scope.LanguagelistChange = function (Id, value) {
+            var checked = $('#' + Id).is(":checked");
+            if (checked == true) {
+                var obj = {
+                    Id: 0,
+                    Institution_Subcription_Id: $scope.Id,
+                    LanguageId: value.Id
+                }
+                $scope.InstitutionLanguageName.push(obj);
+            } else {
+                angular.forEach($scope.InstitutionLanguageName, function (item, index) {
+                    if (value.Id == item.LanguageId) {
+                        $scope.InstitutionLanguageName.splice(index, 1);
+                    }
+                });
+            }
+        }
         //$scope.insSubInstituteChange = function () {
         //    var ins = document.getElementById('insselectpicker').value;
         //    if (ins != "0") {
@@ -436,20 +485,25 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
         /*on click Save calling the insert update function for Institution Subscription */
         $scope.InstitutionAddList = [];
         $scope.InstitutionAddLanguageList = [];
+        $scope.InstitutionAddDeviceName = [];
         $scope.InstitutionAddInsuranceList = [];
         $scope.InstitutionAddPaymentList = [];
         $scope.InstitutionModule_List = [];
         $scope.InstitutionLanguage_List = [];
+        $scope.InstitutionDevice_list = [];
         $scope.InstitutionInsurance_List = [];
         $scope.InstitutionPayment_List = [];
         $scope.Institution_SubscriptionAddEdit = function () {
             $scope.InstitutionModule_List = [];
             $scope.InstitutionLanguage_List = [];
+            $scope.InstitutionDevice_list = [];
             $scope.InstitutionInsurance_List = [];
             $scope.InstitutionPayment_List = [];
             if ($scope.Institution_SubscriptionAddEditValidations() == true) {
                 $("#chatLoaderPV").show();
                 $scope.InstitutionModule_List = $scope.Module_listAdd;
+                $scope.InstitutionDevice_list = $scope.InstitutionDeviceName;
+                $scope.InstitutionLanguage_List = $scope.InstitutionLanguageName;
                 /*angular.forEach($scope.InstitutionAddList, function (SelectedInstitutiontype, index) {
                     if (SelectedInstitutiontype == true) {
                         {
@@ -462,7 +516,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                         }
                     }
                 });*/
-                angular.forEach($scope.InstitutionAddLanguageList, function (SelectedInstitutiontype, index) {
+                /*angular.forEach($scope.InstitutionAddLanguageList, function (SelectedInstitutiontype, index) {
                     if (SelectedInstitutiontype == true) {
                         {
                             var obj = {
@@ -473,7 +527,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                             $scope.InstitutionLanguage_List.push(obj);
                         }
                     }
-                });
+                });*/
                 angular.forEach($scope.InstitutionAddInsuranceList, function (SelectedInstitutiontype, index) {
                     if (SelectedInstitutiontype == true) {
                         {
@@ -516,10 +570,13 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     Contract_PeriodFrom: moment($scope.Contract_Period_From).format('DD-MMM-YYYY'),
                     Contract_PeriodTo: moment($scope.Contract_Period_To).format('DD-MMM-YYYY'),
                     Subscription_Type: $scope.Subscription_Type,
+                    TelePhone_User: $scope.TelePhone_User,
                     Institution_Modules: $scope.InstitutionModule_List,
                     Module_List: $scope.InstitutiontypeList,
                     Institution_Languages: $scope.InstitutionLanguage_List,
+                    Institution_DeviceName_list: $scope.InstitutionDevice_list,
                     Language_List: $scope.LanguageList,
+                    Device_List: $scope.AllDeviceNameList,
                     TimeZone_ID: $scope.TimeZone_Id,
                     Appointment_Module_Id: $scope.AppointmentModule_Id,
                     Payment_List: InstitutionSelectedPaymentList,
@@ -626,6 +683,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
         };
         $scope.InstitutionChildList = [];
         $scope.InstitutionLanguageList = [];
+        $scope.InstitutionDeviceList = [];
         /*THIS IS FOR View FUNCTION*/
         $scope.InstitutionSubscriptionDetails_View = function () {
             if ($window.localStorage['UserTypeId'] == 3 || $window.localStorage['UserTypeId'] == 1) {
@@ -640,8 +698,12 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     $scope.InstitutiontypeList = data.Module_List;
                     $scope.InstitutionChildList = data.ChildModuleList;
                     $scope.Module_listAdd = data.ChildModuleList;
-                    $scope.LanguageList = data.Language_List;
+                    $scope.LanguageList = data.Language_List; 
                     $scope.InstitutionLanguageList = data.ChildLanguageList;
+                    $scope.InstitutionLanguageName = data.ChildLanguageList;
+                    $scope.AllDeviceNameList = data.Device_list;
+                    $scope.InstitutionDeviceList = data.ChildDeviceList;
+                    $scope.InstitutionDeviceName = data.ChildDeviceList;
                     $scope.PaymentList = data.Payment_List;
                     $scope.InstitutionInsurnceList = data.ChildInsuranceList;
                     $scope.InstitutionPaymentList = data.ChildPaymentList;
@@ -680,6 +742,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     //$scope.Contract_Period_To = $filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy");
                     $scope.Contract_Period_To = DateFormatEdit($filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy"));
                     $scope.Subscription_Type = data.Subscription_Type;
+                    $scope.TelePhone_User = data.TelePhone_User;
                     $scope.InsSub_Id = data.SubscriptionId;
                     /*$scope.Chroniccc = data.ChronicCc;
                     $scope.Chroniccg = data.ChronicCg;
@@ -710,7 +773,17 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                             $scope.InstitutionAddList[modIndex] = false;
                         }
                     })
+                    angular.forEach($scope.AllDeviceNameList, function (item, modIndex) {
 
+                        if ($ff($scope.InstitutionDeviceList, function (value) {
+                            return value.DeviceId == item.Id;
+                        }).length > 0) {
+                            $scope.InstitutionAddDeviceName[modIndex] = true;
+                        }
+                        else {
+                            $scope.InstitutionAddDeviceName[modIndex] = false;
+                        }
+                    })
                     angular.forEach($scope.LanguageList, function (item, modIndex) {
 
                         if ($ff($scope.InstitutionLanguageList, function (value) {
@@ -766,11 +839,12 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             $scope.Contract_Period_From = "";
             $scope.Contract_Period_To = "";
             $scope.Subscription_Type = "1";
+            $scope.TelePhone_User = 1;
             $scope.InstitutionModule_List = [];
             $scope.InstitutionAddList = [];
             $scope.InstitutionAddLanguageList = [];
+            $scope.InstitutionAddDeviceName = [];
             $scope.Institution_Id = "0";
-
             $scope.Email = "";
             $scope.Address1 = "";
             $scope.Address2 = "";

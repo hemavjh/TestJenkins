@@ -138,6 +138,7 @@ namespace MyCortex.Repositories.Login
             param.Add(new DataParameter("@Login_City", obj.Login_City));
             param.Add(new DataParameter("@Login_IpAddress", obj.Login_IpAddress));
             param.Add(new DataParameter("@Is_Tab", obj.isTab));
+            param.Add(new DataParameter("@Is_ClinicalUser", obj.IsClinicalUser));
             param.Add(new DataParameter("@Ref_Id", obj.Tab_Ref_ID));
             param.Add(new DataParameter("@Language_Id", obj.LanguageId));
             param.Add(new DataParameter("@Login_countryCode", obj.countryCode));
@@ -968,7 +969,8 @@ namespace MyCortex.Repositories.Login
                                                Department_Id = p.Field<long?>("DEPARTMENT_ID"),
                                                EmailId = p.Field<string>("EMAILID"),
                                                // EmailId = p.Field<string>("EMAILID"),
-                                               UserType_Id = p.Field<long?>("USERTYPE_ID")
+                                               UserType_Id = p.Field<long?>("USERTYPE_ID"),
+                                               Institution_Id = p.Field<long>("INSTITUTION_ID")
                                            }).ToList();
                 return lst;
             }
@@ -1088,7 +1090,7 @@ namespace MyCortex.Repositories.Login
                 UsertypeModal lst = (from p in dt.AsEnumerable()
                                      select new UsertypeModal()
                                      {
-                                         ChangedDate = p.Field<DateTime?>("PASSWORDCHANGEDDATE")
+                                         ChangedDate = p.Field<DateTime>("PASSWORDCHANGEDDATE")
                                      }).FirstOrDefault();
                 return lst;
             }

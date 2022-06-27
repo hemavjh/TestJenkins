@@ -164,15 +164,15 @@ namespace MyCortex.Repositories.Uesr
                                                        Created_By = p.Field<int>("CREATED_BY"),
                                                     //   ReasonTypeId = p.Field<long>("REASONTYPE_ID"),    
                                                        //   Created_Date = p.Field<DateTime>("CREATED_DATE"),
-                                                       flag = p.Field<int>("flag")
-
+                                                       flag = p.Field<int>("flag"),
+                                                       ConferenceId = p.Field<string>("CONFERENCE_ID")
                                                    }).ToList();
             return INS;
-
-
+        
+        
         }
 
-        public IList<AppointmentPaymentHistory> AppointmentPaymentHistory(long appointmentId, Guid Login_Session_Id, long Institution_Id)
+    public IList<AppointmentPaymentHistory> AppointmentPaymentHistory(long appointmentId, Guid Login_Session_Id, long Institution_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@APPOINTMENT_ID", appointmentId));
@@ -574,13 +574,14 @@ namespace MyCortex.Repositories.Uesr
                             DataTable dt3 = ClsDataBase.GetDataTable("[MYCORTEX].[TBLDOC_HOLIDAY_CHECK_FOR_APPOINTMENT]", param5);  // this procedure check doctors put holiday in particular appointment dates
                             DataRow dr3 = dt3.Rows[0];
                             DOC_HAVE_NOHOLIDAY = long.Parse((dr3["DuplicateCount"].ToString()));
-                            List<DataParameter> cg_param = new List<DataParameter>();
-                            cg_param.Add(new DataParameter("@INSTITUTION_ID", obj.Institution_Id));
-                            cg_param.Add(new DataParameter("@SHIFT_DETAILS", dt_shift));
-                            cg_param.Add(new DataParameter("@CgIds", CgIds));
-                            DataTable cg_dt = ClsDataBase.GetDataTable("[MYCORTEX].[CHECK_DUPLICATE_APPOINTMENT_SHIFT_FOR_CG]", cg_param);  // this procedure check cg/cc have shifts in particular appointment dates
-                            DataRow cg_dr = cg_dt.Rows[0];
-                            CG_HAVE_SHIFT = long.Parse((cg_dr["DuplicateCount"].ToString()));
+                            //List<DataParameter> cg_param = new List<DataParameter>();
+                            //cg_param.Add(new DataParameter("@INSTITUTION_ID", obj.Institution_Id));
+                            //cg_param.Add(new DataParameter("@SHIFT_DETAILS", dt_shift));
+                            //cg_param.Add(new DataParameter("@CgIds", CgIds));
+                            //DataTable cg_dt = ClsDataBase.GetDataTable("[MYCORTEX].[CHECK_DUPLICATE_APPOINTMENT_SHIFT_FOR_CG]", cg_param);  // this procedure check cg/cc have shifts in particular appointment dates
+                            //DataRow cg_dr = cg_dt.Rows[0];
+                            //CG_HAVE_SHIFT = long.Parse((cg_dr["DuplicateCount"].ToString()));
+                            CG_HAVE_SHIFT = 1;
                             if (DOC_HAVE_NOHOLIDAY == 1 && CG_HAVE_SHIFT == 1)
                             {
                                 foreach (SlotsList item2 in item1.TimeSlot)

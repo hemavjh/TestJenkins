@@ -203,6 +203,119 @@ namespace MyCortex.Repositories.Admin
             }
         }
 
+        public IList<DiagCompMonitoringProtocol> StandardProtocol_View_NEW(long pId)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Id", pId));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                List<DiagCompMonitoringProtocol> lm = new List<DiagCompMonitoringProtocol>();
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PROTOCOL_MONITORING_SP_VIEW", param);
+                DataTable dtco = ClsDataBase.GetDataTable("[MYCORTEX].[COMP_ALERT_MONITORING_PROTOCOL_SP_VIEW]", param);
+                DataTable dtdu = ClsDataBase.GetDataTable("[MYCORTEX].[COMP_ALERT_MONITORING_PROTOCOL_DURATION_DATETIME_SP_VIEW]", param);
+                List<Diag_ProtocolModel> INS = (from p in dt.AsEnumerable()
+                                           select
+                                           new Diag_ProtocolModel()
+                                           {
+                                               Id = p.Field<long>("Id"),
+                                               Protocol_Id = p.Field<long?>("PROTOCOL_ID"),
+                                               ProtocolName = p.Field<string>("PROTOCOLNAME"),
+                                               Institution_Id = p.Field<long?>("INSTITUTION_ID"),
+                                               Institution_Name = p.Field<string>("INSTITUTION_NAME"),
+                                               Parameter_Id = p.Field<long?>("PARAMETER_ID"),
+                                               ParameterName = p.Field<string>("PARAMETERNAME"),
+                                               Units_Id = p.Field<long?>("UNITS_ID"),
+                                               UnitsName = p.Field<string>("UNITSNAME"),
+                                               Diag_HighMax_One = p.Field<decimal?>("DIAG_HIGHMAX_ONE"),
+                                               Diag_HighMin_One = p.Field<decimal?>("DIAG_HIGHMIN_ONE"),
+                                               Diag_MediumMax_One = p.Field<decimal?>("DIAG_MEDIUMMAX_ONE"),
+                                               Diag_MediumMin_One = p.Field<decimal?>("DIAG_MEDIUMMIN_ONE"),
+                                               Diag_LowMax_One = p.Field<decimal?>("DIAG_LOWMAX_ONE"),
+                                               Diag_LowMin_One = p.Field<decimal?>("DIAG_LOWMIN_ONE"),
+                                               Diag_HighMax_Two = p.Field<decimal?>("DIAG_HIGHMAX_TWO"),
+                                               Diag_HighMin_Two = p.Field<decimal?>("DIAG_HIGHMIN_TWO"),
+                                               Diag_MediumMax_Two = p.Field<decimal?>("DIAG_MEDIUMMAX_TWO"),
+                                               Diag_MediumMin_Two = p.Field<decimal?>("DIAG_MEDIUMMIN_TWO"),
+                                               Diag_LowMax_Two = p.Field<decimal?>("DIAG_LOWMAX_TWO"),
+                                               Diag_LowMin_Two = p.Field<decimal?>("DIAG_LOWMIN_TWO"),
+                                               Created_By = p.Field<long>("CREATED_BY"),
+                                               NormalRange_High = p.Field<decimal?>("NORMALRANGE_HIGH"),
+                                               NormalRange_Low = p.Field<decimal?>("NORMALRANGE_LOW"),
+                                           }).ToList();
+                //List<Comp_ProtocolModel> lcomp = (from p in dtco.AsEnumerable()
+                //                                select
+                //                                new Comp_ProtocolModel()
+                //                                {
+                //                                    Id = p.Field<long>("ID"),
+                //                                    Parameter_Id = p.Field<long>("PARAMETER_ID"),
+                //                                    Created_By = p.Field<long>("CREATED_BY"),
+                //                                    Com_DurationType = p.Field<long>("DURATIONTYPE"),
+                //                                    occur_inter = p.Field<int>("ISINTERVAL") == 1 ? true : false,
+                //                                    occur_inter_val = p.Field<int>("NO_OF_INPUT"),
+                //                                    starttime = p.Field<DateTime>("STARTDATETIME"),
+                //                                    endtime = p.Field<DateTime>("ENDDATETIME"),
+                //                                    selectedDays = p.Field<string>("SELECTED_DAYS"),
+                //                                    Isactive = p.Field<int>("ISACTIVE")
+                //                                }).ToList();
+
+                List<Comp_ProtocolModel> lcomp = new List<Comp_ProtocolModel>();
+                for(int i = 0; i < dtco.Rows.Count; i++)
+                {
+                    Comp_ProtocolModel comp = new Comp_ProtocolModel();
+                    comp.Id = Convert.ToInt64(dtco.Rows[i][0].ToString());
+                    comp.Parameter_Id = Convert.ToInt64(dtco.Rows[i][3].ToString());
+                    comp.Created_By = Convert.ToInt64(dtco.Rows[i][11].ToString());
+                    comp.Com_DurationType = Convert.ToInt64(dtco.Rows[i][4].ToString());
+                    comp.DurationName = dtco.Rows[i][13].ToString();
+                    comp.occur_inter = (Convert.ToInt32(dtco.Rows[i][5].ToString()) == 1)? true: false;
+                    comp.occur_inter_val = Convert.ToInt32(dtco.Rows[i][6].ToString());
+                    comp.starttime = Convert.ToDateTime(dtco.Rows[i][7].ToString());
+                    comp.endtime = Convert.ToDateTime(dtco.Rows[i][8].ToString());
+                    comp.selectedDays = dtco.Rows[i][9].ToString();
+                    comp.Isactive = Convert.ToInt32(dtco.Rows[i][10].ToString());
+                    comp.ParameterName = dtco.Rows[i][12].ToString();
+                    lcomp.Add(comp);
+                }
+
+                List <MonitorDateTime> dur = (from p in dtdu.AsEnumerable()
+                                             select
+                                             new MonitorDateTime()
+                                             {
+                                                 id = p.Field<long>("ID"),
+                                                 time = p.Field<DateTime>("MONITORING_DT"),
+                                             }).ToList();
+
+                for(int i = 0; i < lcomp.Count; i++)
+                {
+                    List<MonitorDateTime> mo = new List<MonitorDateTime>();
+                    for (int j = 0; j < dur.Count; j++)
+                    {
+                        if (dur[j].id == lcomp[i].Id)
+                        {
+                            mo.Add(dur[j]);
+                            lcomp[i].duration_list = mo;
+                        }
+                    }
+                }
+
+                DiagCompMonitoringProtocol mp = new DiagCompMonitoringProtocol();
+                mp.Comp_ParameterSettingslist = lcomp;
+                mp.Diag_ParameterSettingslist = INS;
+                lm.Add(mp);
+                return lm;
+            }
+            catch (Exception ex)
+            {
+
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
 
         /* THIS IS FOR ADD EDIT FUNCTION */
         /// <summary>
@@ -293,6 +406,120 @@ namespace MyCortex.Repositories.Admin
             }
         }
 
+        public IList<MonitoringProtocolModel> ProtocolMonitoring_AddEditNew(MonitoringProtocolNewModel obj)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            int InsSubModId;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Id", obj.Id));
+            param.Add(new DataParameter("@INSTITUTION_ID", obj.Institution_Id));
+            param.Add(new DataParameter("@NAME", obj.Protocol_Name));
+            param.Add(new DataParameter("@CREATED_BY", obj.Created_By));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PROTOCOLDETAILS_MONITORING_SP_INSERTUPDATE", param);
+                DataRow dr = dt.Rows[0];
+                var InsertId = (dr["Id"].ToString());
+                var Insflag = (dr["flag"].ToString());
+                IList<MonitoringProtocolModel> INS = (from p in dt.AsEnumerable()
+                                                      select
+                                                      new MonitoringProtocolModel()
+                                                      {
+                                                          Id = p.Field<long>("Id"),
+                                                          Institution_Id = p.Field<long?>("INSTITUTION_ID"),
+                                                          Protocol_Name = p.Field<string>("NAME"),
+                                                          IsActive = p.Field<int>("ISACTIVE"),
+                                                          Created_By = p.Field<long>("CREATED_BY"),
+                                                          flag = p.Field<int>("flag"),
+                                                      }).ToList();
+
+                if (Insflag != "1")
+                {
+                    foreach (DiagCompMonitoringProtocol item2 in obj.ChildModuleList)
+                    {
+                        foreach (Comp_ProtocolModel item in item2.Comp_ParameterSettingslist)
+                        {
+                            DataTable dur = new DataTable();
+                            dur.Columns.Add("SNO", typeof(int));
+                            dur.Columns.Add("MONITORING_DT", typeof(DateTime));
+                            int i = 0;
+                            foreach(MonitorDateTime mor in item.duration_list)
+                            {
+                                i = i + 1;
+                                dur.Rows.Add(i, mor.localtime);
+                            }
+
+                            List<DataParameter> param1 = new List<DataParameter>();
+
+                            param1.Add(new DataParameter("@Id", item.Id));
+                            param1.Add(new DataParameter("@PROTOCOL_ID", InsertId));
+                            param1.Add(new DataParameter("@PARAMETER_ID", item.Parameter_Id));
+                            param1.Add(new DataParameter("@INSTITUTION_ID", obj.Institution_Id));
+                            param1.Add(new DataParameter("@DURATIONTYPE", item.Com_DurationType));
+                            param1.Add(new DataParameter("@ISACTIVE", item.Isactive));
+                            param1.Add(new DataParameter("@CREATED_BY", item.Created_By));
+                            param1.Add(new DataParameter("@ISINTERVAL", item.occur_inter));
+                            param1.Add(new DataParameter("@NO_OF_INPUT", item.occur_inter_val));
+                            param1.Add(new DataParameter("@MONITORING_DT", dur));
+                            param1.Add(new DataParameter("@STARTDATETIME", item.starttime));
+                            param1.Add(new DataParameter("@ENDDATETIME", item.endtime));
+                            param1.Add(new DataParameter("@SELECTED_DAYS", item.selectedDays));
+                            InsSubModId = ClsDataBase.Insert("[MYCORTEX].PROTOCOL_COMP_ALERT_MONITORING_SETTINGS_SP_INSERTUPDATE", param1, true);
+                        }
+
+                        foreach (Diag_ProtocolModel item in item2.Diag_ParameterSettingslist)
+                        {
+                            List<DataParameter> param1 = new List<DataParameter>();
+
+                            param1.Add(new DataParameter("@Id", item.Id));
+                            param1.Add(new DataParameter("@PROTOCOL_ID", InsertId));
+                            param1.Add(new DataParameter("@INSTITUTION_ID", item.Institution_Id));
+                            param1.Add(new DataParameter("@PARAMETER_ID", item.Parameter_Id));
+                            param1.Add(new DataParameter("@UNITS_ID", item.Units_Id));
+                            param1.Add(new DataParameter("@DIAG_HIGHMAX_ONE", item.Diag_HighMax_One));
+                            param1.Add(new DataParameter("@DIAG_HIGHMIN_ONE", item.Diag_HighMin_One));
+                            param1.Add(new DataParameter("@DIAG_MEDIUMMAX_ONE", item.Diag_MediumMax_One));
+                            param1.Add(new DataParameter("@DIAG_MEDIUMMIN_ONE", item.Diag_MediumMin_One));
+                            param1.Add(new DataParameter("@DIAG_LOWMAX_ONE", item.Diag_LowMax_One));
+                            param1.Add(new DataParameter("@DIAG_LOWMIN_ONE", item.Diag_LowMin_One));
+                            param1.Add(new DataParameter("@DIAG_HIGHMAX_TWO", item.Diag_HighMax_Two));
+                            param1.Add(new DataParameter("@DIAG_HIGHMIN_TWO", item.Diag_HighMin_Two));
+                            param1.Add(new DataParameter("@DIAG_MEDIUMMAX_TWO", item.Diag_MediumMax_Two));
+                            param1.Add(new DataParameter("@DIAG_MEDIUMMIN_TWO", item.Diag_MediumMin_Two));
+                            param1.Add(new DataParameter("@DIAG_LOWMAX_TWO", item.Diag_LowMax_Two));
+                            param1.Add(new DataParameter("@DIAG_LOWMIN_TWO", item.Diag_LowMin_Two));
+                            //param1.Add(new DataParameter("@COMP_DURATIONTYPE", item.Com_DurationType));
+                            //param1.Add(new DataParameter("@COMP_DURATION", item.Comp_Duration));
+                            //param1.Add(new DataParameter("@COMP_HIGH", item.Comp_High));
+                            //param1.Add(new DataParameter("@COMP_MEDIUM", item.Comp_Medium));
+                            //param1.Add(new DataParameter("@COMP_LOW", item.Comp_Low));
+                            //  param1.Add(new DataParameter("@ISACTIVE", item.ISACTIVE));
+                            param1.Add(new DataParameter("@CREATED_BY", item.Created_By));
+                            param1.Add(new DataParameter("@NORMALRANGE_HIGH", item.NormalRange_High));
+                            param1.Add(new DataParameter("@NORMALRANGE_LOW", item.NormalRange_Low));
+                            InsSubModId = ClsDataBase.Insert("[MYCORTEX].PROTOCOL_MONITORING_SETTINGS_SP_INSERTUPDATE", param1, true);
+                        }
+                    }
+
+                    List<DataParameter> param2 = new List<DataParameter>();
+                    param2.Add(new DataParameter("@Id", InsertId));
+                    InsSubModId = ClsDataBase.Insert("[MYCORTEX].TBLPROTOCOLMONITORING_HISTORY_SP_INSERTUPDATE", param2, true);
+
+                }
+
+                return INS;
+            }
+            catch (Exception ex)
+            {
+
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
         /// <summary>
         /// to get details of Standared  Protocol for the given Id
         /// </summary>      
@@ -320,13 +547,47 @@ namespace MyCortex.Repositories.Admin
                                              IsActive = p.Field<int>("ISACTIVE"),
                                              Created_By = p.Field<long>("CREATED_BY"),                                            
                                          }).FirstOrDefault();
-            INS.ChildModuleList = StandardProtocol_View(INS.Id);
-            return INS;
+                INS.ChildModuleList = StandardProtocol_View(INS.Id);
+                return INS;
             }
             catch (Exception ex)
             {
  
                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
+        public MonitoringProtocolNewModel ProtocolMonitoringNewView(long Id)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Id", Id));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PROTOCOLDETAILS_MONITORING_SP_VIEW", param);
+                MonitoringProtocolNewModel INS = (from p in dt.AsEnumerable()
+                                                  select
+                                                  new MonitoringProtocolNewModel()
+                                                  {
+                                                      Id = p.Field<long>("Id"),
+                                                      Institution_Id = p.Field<long?>("INSTITUTION_ID"),
+                                                      Institution_Name = p.Field<string>("INSTITUTION_NAME"),
+                                                      Protocol_Name = p.Field<string>("PROTOCOL_NAME"),
+                                                      IsActive = p.Field<int>("ISACTIVE"),
+                                                      Created_By = p.Field<long>("CREATED_BY"),
+                                                  }).FirstOrDefault();
+                //INS.ChildModuleList = StandardProtocol_View(INS.Id);
+                INS.ChildModuleList = StandardProtocol_View_NEW(INS.Id);
+                return INS;
+            }
+            catch (Exception ex)
+            {
+
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
