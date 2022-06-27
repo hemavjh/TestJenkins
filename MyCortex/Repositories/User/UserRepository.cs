@@ -1503,7 +1503,15 @@ namespace MyCortex.Repositories.Uesr
                               }).FirstOrDefault();
             if (list.DOB_Encrypt != "")
             {
-                list.DOB = Convert.ToDateTime(list.DOB_Encrypt);
+                if (list.DOB_Encrypt.Contains("/"))
+                {
+                    string[] tokens = list.DOB_Encrypt.Split('/');
+                    list.DOB = new DateTime(int.Parse(tokens[2].Substring(0, 4)), int.Parse(tokens[0]), int.Parse(tokens[1]));
+                }
+                else
+                {
+                    list.DOB = Convert.ToDateTime(list.DOB_Encrypt);
+                }
                 /*string[] tokens = list.DOB_Encrypt.Split('/');
                 list.DOB = new DateTime(int.Parse(tokens[2].Substring(0, 4)), int.Parse(tokens[0]), int.Parse(tokens[1]));*/
             }
