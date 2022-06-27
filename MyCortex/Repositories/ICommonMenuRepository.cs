@@ -11,5 +11,6 @@ namespace MyCortex.Repositories
         IList<CommonMenuModel> CommonMenu_Listall(long Id);
 
         IList<CommonModuleList> CommonModule_List(long InsId);
+        IList<CommonTelephoneList> CommonTelephone_List(int InstitutionId);
     }
 }
