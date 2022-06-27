@@ -15,6 +15,26 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
         $scope.UpComingWaitingAppointmentCount = 0;
         $scope.paymentHistory = [];
         $scope.calcNewYear;
+        $scope.isvideo = false;
+        $scope.islivebox = "";
+        $http.get(baseUrl + '/api/CommonMenu/CommonTelephone_List?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (response) {
+            if (response != null) {
+                if (response.length > 0) {
+                    $scope.islivebox = $filter('filter')(response, { ID: '2' })[0];
+                    angular.forEach(response, function (item, index) {
+                        $scope.Name = item.NAME;
+                        if ($scope.Name == 'LiveBox') {
+                            $('#MyvideoDisable').attr("disabled", true);
+                            $scope.isvideo = true;
+                        }
+                        else {
+                            $('#MyvideoDisable').attr("disabled", false);
+                        }
+                    })
+                }
+            }
+        });
+
         intial_loading();
         function intial_loading() {
             //get the browser timezone.
@@ -263,19 +283,24 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
         $scope.$on("appointment_list", intial_loading);
 
         $scope.openvideocall = function (patientName, ConferenceId) {
-            var emp = JSON.parse(JSON.parse(window.localStorage["18792f60bb2dbf1:common_store/user"]));
-            patientName = emp.name;
-            $('#Patient_AppointmentPanel').addClass('hidden');
-            $('#Patient_VideoCall').addClass('show');
-            var IsAdmin = false;
-            if ($window.localStorage["UserTypeId"] == 2) {
-                IsAdmin = false;
-            }
-            else if ($window.localStorage["UserTypeId"] != 2) {
-                IsAdmin = true;
-            }
-            var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
-            document.getElementById('Patient_VideoCall').innerHTML = tag;
+           // if (typeof ($scope.islivebox) != 'undefined' && $scope.islivebox != "") {
+                var emp = JSON.parse(JSON.parse(window.localStorage["18792f60bb2dbf1:common_store/user"]));
+                patientName = emp.name;
+                $('#Patient_AppointmentPanel').addClass('hidden');
+                $('#Patient_VideoCall').addClass('show');
+                var IsAdmin = false;
+                if ($window.localStorage["UserTypeId"] == 2) {
+                    IsAdmin = false;
+                }
+                else if ($window.localStorage["UserTypeId"] != 2) {
+                    IsAdmin = true;
+                }
+                var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+                document.getElementById('Patient_VideoCall').innerHTML = tag;
+           // }
+            //else {
+            //    toastr.warning("You Haven't Subscribed For This Livebox. Please Contact Your Administrator", "warning");
+            //}
         }
     }
 ]);
