@@ -68,7 +68,33 @@ namespace MyCortex.Repositories.Menu
             }
 
         }
+        public IList<CommonTelephoneList> CommonTelephone_List(int InstitutionId)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_INSTITUTION_TELEPHONELIST]", param);
+                List<CommonTelephoneList> lst = (from p in dt.AsEnumerable()
+                                              select new CommonTelephoneList()
+                                              {
+                                                  Id = p.Field<long>("ID"),
+                                                  NAME = p.Field<string>("Name"),
+                                              }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+
+        }
         /// <summary>
         /// Module list based on user login
         /// </summary>

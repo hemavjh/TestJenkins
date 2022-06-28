@@ -23,4 +23,9 @@ namespace MyCortex.CommonMenu.Models
         public long Module_Id { get; set; }
         public string Module_Name { get; set; }
     }
+    public class CommonTelephoneList
+    {
+        public long Id { get; set; }
+        public string NAME { get; set; }
+    }
 }
