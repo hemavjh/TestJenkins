@@ -342,6 +342,22 @@ namespace MyCortex.User.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
+        [AllowAnonymous]
+        [HttpPost]
+        [CheckSessionOutFilter]
+        public HttpResponseMessage Update_Device_SerialNo(long Tab_ID, long DeviceId,string DEVICE_SERIALNO)
+        {
+            try
+            {
+                repository.Update_Device_SerialNo(Tab_ID, DeviceId, DEVICE_SERIALNO);
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+                return response;
+            }
+            catch
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+        }
 
         [AllowAnonymous]
         [HttpGet]
