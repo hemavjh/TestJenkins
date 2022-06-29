@@ -57,18 +57,24 @@
         <tr style="text-align: center">
             <th st-ratio="5">#</th>
             <th st-ratio="10" st-sort="TAB_REF_ID">Device Name</th>
+            <th st-ratio="10" st-sort="TAB_MODEL">Device Make</th>
+            <th st-ratio="10" st-sort="TAB_OS">Device Model</th>
+            <th st-ratio="10" st-sort="NUMBER_OF_USERS">Device Type</th>
             <th st-ratio="10">Action</th>
         </tr>
     </thead>
     <tbody>
         <tr ng-if="rowCollectionTabFilter.length==0">
-            <td ng-show="UserTypeId == 1" colspan="3" style="text-align:center;">
+            <td ng-show="UserTypeId == 1" colspan="6" style="text-align:center;">
                 No Data Available
             </td>
         </tr>
         <tr ng-repeat="row in emptydataDevice">
             <td style="text-align: center">{{((current_page-1)*page_size)+$index+1}}</td>
             <td style="text-align: left;">{{row.DeviceName}}</td>
+            <td style="text-align: left;width: 200px;word-break:break-word;">{{row.Make}}</td>
+            <td style="text-align: left;width: 200px;word-break:break-word;">{{row.ModelNumber}}</td>
+            <td style="text-align: left">{{row.DeviceType}}</td>
             <td style="text-align: center;">
                 <a href="javascript:" ng-click="ViewDeviceName(row.ID)" title="View">
                     <img src="../../Images/ViewIcon.png" />
@@ -87,26 +93,26 @@
         </tr>
     </tbody>
     <tfoot ng-show="total_Devicepage>1">
-         <tr>
-             <td colspan="3" class="text-center" style="text-align: center;">
-                 <ul class="pagination">
-                     <li>
-                         <a ng-click="setPage(1)">First</a>
-                     </li>
-                     <li>
-                         <a ng-click="setPage(current_page - 1)">&lt;</a>
-                     </li>
-                     <li>
-                         <a><input style="width: 50px" class="text-center" type="number" min="1" max="{{total_Devicepage}}" step="1" ng-model="inputPageNo" ng-value="current_page" ng-change="setPage(0);"> of {{total_Devicepage}}</a>
-                     </li>
-                     <li>
-                         <a ng-click="setPage(current_page + 1)">&gt;</a>
-                     </li>
-                     <li><a ng-click="setPage(total_Devicepage)">Last</a></li>
-                 </ul>
-             </td>
-         </tr>
-     </tfoot>
+        <tr>
+            <td colspan="6" class="text-center" style="text-align:center">
+                <ul class="pagination">
+                    <li>
+                        <a ng-click="setDevicePage(1)">First</a>
+                    </li>
+                    <li>
+                        <a ng-click="setDevicePage(current_page - 1)">&lt;</a>
+                    </li>
+                    <li>
+                        <a><input style="width: 50px" class="text-center" type="number" min="1" max="{{total_Devicepage}}" step="1" ng-model="inputPageNo" ng-value="current_page" ng-change="setDevicePage(0);"> of {{total_Devicepage}}</a>
+                    </li>
+                    <li>
+                        <a ng-click="setDevicePage(current_page + 1)">&gt;</a>
+                    </li>
+                    <li><a ng-click="setDevicePage(total_Devicepage)">Last</a></li>
+                </ul>
+            </td>
+        </tr>
+    </tfoot>
 </table>
 
 
@@ -130,10 +136,61 @@
                             </sup>
                         </label>
                         <input type="text" class="form-control" id="DeviceNameAdmin"
-                               ng-model="DeviceNameAdmin"  ng-maxlength="50"
+                               ng-model="DeviceNameAdmin" ng-maxlength="50"
                                maxlength="50" placeholder="" onkeypress="">
                     </div>
-                    <div class="modal-footer" style="text-align:center;" >
+                    <div class="inputGroups" style="display:none;">
+                        <label>
+                            DeviceId<sup>
+                            </sup>
+                        </label>
+                        <input type="text" class="form-control" id="DeviceId"
+                               ng-model="DeviceId" .ng-init="DeviceId=''" ng-maxlength="50"
+                               maxlength="50" placeholder="" onkeypress="" disabled>
+                    </div>
+
+                    <div class="inputGroups">
+                        <label>
+                            DeviceType<sup>
+                                <font class='mandatory-field'>*</font>
+                            </sup>
+                        </label>
+
+                        <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="AllDevice" id="DeviceType" ng-model="DeviceType"
+                                ng-options="item1.ID as item1.DeviceTypeName for item1 in AllDevice">
+                            <option value="">Select</option>
+                        </select>
+                    </div>
+                    <div class="inputGroups">
+                        <label>
+                            Device Make<sup>
+                            <font class='mandatory-field'>*</font>
+                            </sup>
+                        </label>
+                        <input type="text" class="form-control" id="DeviceMake"ng-model="DeviceMake" ng-init="DeviceMake=''" ng-maxlength="50"
+                                   maxlength="50" placeholder="" onkeypress="" required>
+                    </div>
+                    <div class="inputGroups">
+                        <label>
+                            Device Model<sup>
+                            <font class='mandatory-field'>*</font>
+                            </sup>
+                        </label>
+                        <input type="text" class="form-control" id="DeviceModel"
+                               ng-model="DeviceModel" ng-init="DeviceModel=''" ng-maxlength="50"
+                               maxlength="50" placeholder="" onkeypress="" required>
+                    </div>
+                    <div class="inputGroups">
+                        <label>
+                            Parameter<sup>
+                            <font class='mandatory-field'>*</font>
+                            </sup>
+                        </label>
+                        <select ng-model="SelectedParamter" multiple="multiple" id="Parameter"
+                                    ng-options="item.Id as item.Name for item in ProtocolParametersList"
+                                    multiselect-dropdown></select>
+                    </div>
+                    <div class="modal-footer" style="text-align:center;">
                         <button type="submit" ng-show="showSave == true" id="btnsave" ng-disabled="false" class="theme-btn-1 mr-10 btn-save" ng-click="submitted= true" title="Click to Save">Save</button>
                         <button type="button" class="theme-btn-2  btn-save" ng-click="CancelDeviceList()" title="Click to Cancel">Cancel</button>
                     </div>

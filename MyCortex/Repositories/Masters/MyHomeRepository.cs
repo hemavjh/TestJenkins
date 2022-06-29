@@ -902,10 +902,15 @@ namespace MyCortex.Repositories.Masters
             _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             long InsertId = 0;
+            long Inserted_Group_Id;
             //String Flag = "";
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@ID", insobj.ID));
             param.Add(new DataParameter("@NAME", insobj.DeviceName));
+            param.Add(new DataParameter("@DEVICE_TYPE", insobj.DeviceType));
+            param.Add(new DataParameter("@MAKE", insobj.Make));
+            param.Add(new DataParameter("@MODEL", insobj.ModelNumber));
+            param.Add(new DataParameter("@CREATED_BY", insobj.CreatedBy));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
             _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
@@ -922,13 +927,38 @@ namespace MyCortex.Repositories.Masters
                 }
                 if (InsertId > 0)
                 {
+
+                    if (insobj.ParameterList != null)
+                    {
+                        foreach (DeviceParameterList item in insobj.ParameterList)
+                        {
+                            List<DataParameter> param1 = new List<DataParameter>();
+                            param1.Add(new DataParameter("@PARAMETER_ID", item.ID));
+                            param1.Add(new DataParameter("@DEVICEROW_ID", InsertId));
+                            param1.Add(new DataParameter("@CREATED_BY", insobj.CreatedBy));
+                            param1.Add(new DataParameter("@ISACTIVE", item.IsActive));
+                            var objExist = insobj.SelectedDeviceParameterList.Where(ChildItem => ChildItem.ID == item.ID);
+
+                            if (objExist.ToList().Count > 0)
+                                //    if (obj.Institution_Modules.Select(ChildItem=>ChildItem.ModuleId = item.Id).ToList()==0)
+                                param1.Add(new DataParameter("@Devicelist_Selected", "1"));
+                            else
+                                param1.Add(new DataParameter("@Devicelist_Selected", "0"));
+
+                            Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].[TBLDEVICEPARAMETER_SP_INSERTUPDATE]", param1, true);
+                        }
+                    }
+
                     IList<TabDevicesModel> INS = (from p in dt.AsEnumerable()
                                                   select
                                                   new TabDevicesModel()
                                                   {
                                                       ID = p.Field<long>("ID"),
                                                       DeviceName = p.Field<string>("NAME"),
-                                                      Flag=p.Field<int>("FLAG"),
+                                                      Make = p.Field<string>("MAKE"),
+                                                      ModelNumber = p.Field<string>("MODEL"),
+                                                      DeviceType = p.Field<string>("DEVICE_TYPE"),
+                                                      Flag = p.Field<int>("flag")
                                                   }).ToList();
                     return INS;
 
@@ -964,6 +994,9 @@ namespace MyCortex.Repositories.Masters
                                                  TotalRecord = p.Field<string>("TotalRecords"),
                                                  ID = p.Field<long>("ID"),
                                                  DeviceName = p.Field<string>("NAME"),
+                                                 Make = p.Field<string>("MAKE"),
+                                                 ModelNumber = p.Field<string>("MODEL"),
+                                                 DeviceType = p.Field<string>("DEVICE_TYPE"),
                                                  Is_Active = p.Field<int>("ISACTIVE")
                                              }).ToList();
                 return lst;
@@ -973,6 +1006,20 @@ namespace MyCortex.Repositories.Masters
                 _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
+        }
+        public IList<DeviceParameterList> DEVICEADMINDETAILS_VIEW(long Id)
+        {
+
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Id", Id));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[DEVICE_ADMIN_SP_LIST_VIEW]", param);
+            List<DeviceParameterList> INS = (from p in dt.AsEnumerable()
+                                             select new DeviceParameterList()
+                                             {
+                                                 //ID = p.Field<long>('Id'),
+                                                 ParameterName = p.Field<string>("PARAMETERNAME"),
+                                             }).ToList();
+            return INS;
         }
         public TabDevicesModel DeviceName_ListView(long id)
         {
@@ -990,8 +1037,14 @@ namespace MyCortex.Repositories.Masters
 
                                             ID = p.Field<long>("ID"),
                                             DeviceName = p.Field<string>("NAME"),
+                                            Make = p.Field<string>("MAKE"),
+                                            ModelNumber = p.Field<string>("MODEL"),
+                                            DeviceType = p.Field<string>("DEVICE_TYPE")
                                         }).FirstOrDefault();
-                
+                if (list != null)
+                {
+                    list.ParameterList = DEVICEADMINDETAILS_VIEW(list.ID);
+                }
                 return list;
             }
             catch (Exception ex)
