@@ -39,4 +39,18 @@ namespace MyCortex.Home.Models
         public EligibilityResponseData data { get; set; }
         public Array errors { get; set; }
     }
+
+    public class EligibilityDetailResponseData
+    {
+        public string eligibilityRules { get; set; }
+        public string eligibilityRuleCheckResponse { get; set; }
+        public string eligibilityCheck { get; set; }
+    }
+
+    public class RequestEligibilityDetailResponse
+    {
+        public int status { get; set; }
+        public EligibilityDetailResponseData data { get; set; }
+        public Array errors { get; set; }
+    }
 }
