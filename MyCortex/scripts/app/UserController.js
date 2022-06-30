@@ -3147,7 +3147,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $scope.resumedoc = data.FILE_NAME;
                             $scope.File_FullPath = data.FILE_FULLPATH;
                             $scope.Upload_FileName = data.UPLOAD_FILENAME;
-                            //$scope.GenderId = data.GENDER_ID.toString();
+                            $scope.GenderId = data.GENDER_ID.toString();
                             //$http.get(baseUrl + '/api/Common/GenderList/').success(function (data) {
                             //    $scope.GenderList = data;
                             //});
