@@ -760,7 +760,7 @@ namespace MyCortex.User.Controllers
         [Authorize]
         [HttpGet]
         [CheckSessionOutFilter]
-        public HttpResponseMessage DeviceName_Admin_List(int? IsActive, int StartRowNumber, int EndRowNumber)
+        public HttpResponseMessage DeviceName_Admin_List(int? IsActive )
         {
             _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -768,7 +768,7 @@ namespace MyCortex.User.Controllers
             TabDeviceListReturnModels model = new TabDeviceListReturnModels();
             try
             {
-                ModelData = repository.Get_DeviceNameAdminList(IsActive,StartRowNumber, EndRowNumber);
+                ModelData = repository.Get_DeviceNameAdminList(IsActive);
 
                 model.TabDeviceList = ModelData;
                 model.Message = "";// "User created successfully";

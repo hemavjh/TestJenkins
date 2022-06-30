@@ -998,14 +998,14 @@ namespace MyCortex.Repositories.Masters
             }
 
         }
-        public IList<TabDevicesModel> Get_DeviceNameAdminList(int? IsActive, int StartRowNumber, int EndRowNumber)
+        public IList<TabDevicesModel> Get_DeviceNameAdminList(int? IsActive )
         {
             _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@ISACTIVE", IsActive));
-            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
-            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
+           // param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            //param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
             _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
@@ -1014,7 +1014,7 @@ namespace MyCortex.Repositories.Masters
                 List<TabDevicesModel> lst = (from p in dt.AsEnumerable()
                                              select new TabDevicesModel()
                                              {
-                                                 TotalRecord = p.Field<string>("TotalRecords"),
+                                                 //TotalRecord = p.Field<string>("TotalRecords"),
                                                  ID = p.Field<long>("ID"),
                                                  DeviceName = p.Field<string>("NAME"),
                                                  Make = p.Field<string>("MAKE"),
