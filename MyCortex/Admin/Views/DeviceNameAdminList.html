@@ -52,7 +52,7 @@
     </div>
 </div>
 
-<table st-table="emptydataTab" style="width: 100%" st-safe-src="rowCollectionTabFilter" st-search="query" class="table themeTable">
+<table st-table="emptydataDevice" style="width: 100%" st-safe-src="rowCollectionTabFilter" st-search="query" class="table themeTable">
     <thead>
         <tr style="text-align: center">
             <th st-ratio="5">#</th>
@@ -92,27 +92,35 @@
 
         </tr>
     </tbody>
-    <tfoot ng-show="total_Devicepage>1">
+    <tfoot ng-show="rowCollectionTabFilter.length > Devicepage_size1">
         <tr>
-            <td colspan="6" class="text-center" style="text-align:center">
-                <ul class="pagination">
-                    <li>
-                        <a ng-click="setDevicePage(1)">First</a>
-                    </li>
-                    <li>
-                        <a ng-click="setDevicePage(current_page - 1)">&lt;</a>
-                    </li>
-                    <li>
-                        <a><input style="width: 50px" class="text-center" type="number" min="1" max="{{total_Devicepage}}" step="1" ng-model="inputPageNo" ng-value="current_page" ng-change="setDevicePage(0);"> of {{total_Devicepage}}</a>
-                    </li>
-                    <li>
-                        <a ng-click="setDevicePage(current_page + 1)">&gt;</a>
-                    </li>
-                    <li><a ng-click="setDevicePage(total_Devicepage)">Last</a></li>
-                </ul>
+            <td colspan="8" class="text-center">
+                <div st-items-by-page="Devicepage_size1" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                     st-template="Masters/Views/pagination.custom.html"></div>
             </td>
         </tr>
     </tfoot>
+    <!-- <tfoot ng-show="total_Devicepage>1">
+         <tr>
+             <td colspan="6" class="text-center" style="text-align:center">
+                 <ul class="pagination">
+                     <li>
+                         <a ng-click="setDevicePage(1)">First</a>
+                     </li>
+                     <li>
+                         <a ng-click="setDevicePage(current_page - 1)">&lt;</a>
+                     </li>
+                     <li>
+                         <a><input style="width: 50px" class="text-center" type="number" min="1" max="{{total_Devicepage}}" step="1" ng-model="inputPageNo" ng-value="current_page" ng-change="setDevicePage(0);"> of {{total_Devicepage}}</a>
+                     </li>
+                     <li>
+                         <a ng-click="setDevicePage(current_page + 1)">&gt;</a>
+                     </li>
+                     <li><a ng-click="setDevicePage(total_Devicepage)">Last</a></li>
+                 </ul>
+             </td>
+         </tr>
+     </tfoot>-->
 </table>
 
 
