@@ -41,6 +41,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         $scope.IsEdit = false;
         $scope.IsShow = false;
         $scope.showSave = true;
+        $scope.EditDeviceType = "";
         $scope.View = 2;
         $scope.MyHomeRow = "-1";
         $scope.HomeId = "0";
@@ -1420,11 +1421,11 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             }
             return true;
         };
-        
+
         $scope.AddDeviceNamePopUP = function () {
             $scope.submitted = false;
             $scope.Id = 0;
-            $scope.DeviceDropDown();
+            $('#btnsave').attr("disabled", false);
             $scope.CancelDeviceList();
             $scope.DisplayView = '';
             $('#DeviceNameAdmin').prop('disabled', false);
@@ -1435,30 +1436,35 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $scope.showSave = true;
             var $sel2 = $('#Parameter');
             $sel2.multiselect('enable');
+            $scope.showSave = true;
+            $scope.DeviceDropDown();
             angular.element('#DeviceAddModal').modal('show');
         }
-        $scope.ViewDeviceName = function (CatId) {
+        $scope.ViewDeviceName = function (CatId) {           
             $scope.Id = CatId;
-            $scope.DeviceDropDown();
-            $scope.CancelDeviceList();
-            $scope.ViewDeviceNameAdmin();
             $('#DeviceNameAdmin').prop('disabled', true);
             $('#DeviceType').prop('disabled', true);
             $('#DeviceMake').prop('disabled', true);
             $('#DeviceModel').prop('disabled', true);
             $('#Parameter').prop('disabled', true);
-            $scope.DisplayView = 'View';
             var $sel2 = $('#Parameter');
-            $sel2.multiselect('enable');
+            $sel2.multiselect('disable');
             $scope.showSave = false;
+            $scope.showSave = false;            
+            $scope.showSave = false;
+            $scope.DisplayView = 'View';
+            $scope.CancelDeviceList();
+            $scope.DeviceDropDown();
+            $scope.ViewDeviceNameAdmin();
             angular.element('#DeviceAddModal').modal('show');
         }
-        /* THIS IS OPENING POP WINDOW FORM EDIT */
         $scope.EditDeviceName = function (CatId) {
             $scope.Id = CatId;
+            $scope.Editid = CatId;
             $scope.DeviceDropDown();
             $scope.CancelDeviceList();
             $scope.ViewDeviceNameAdmin();
+            $('#btnsave').attr("disabled", false);
             $('#DeviceNameAdmin').prop('disabled', false);
             $('#DeviceType').prop('disabled', false);
             $('#DeviceMake').prop('disabled', false);
@@ -1468,7 +1474,6 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $scope.showSave = true;
             var $sel2 = $('#Parameter');
             $sel2.multiselect('enable');
-            $('#btnsave').attr("disabled", false);
             angular.element('#DeviceAddModal').modal('show');
         }
         $scope.setDevicePage = function (PageNo) {
@@ -1566,14 +1571,14 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 window.location.href = baseUrl + "/Home/LoginIndex";
             }
         };
-
+        
         $scope.DeviceName_insert = function () {
             if ($scope.DeviceName_Validationantrols() == true) {
                 $("#chatLoaderPV").show();
 
                 angular.forEach($scope.AllDevice, function (value, index) {
                     if (value.ID == $scope.DeviceType) {
-                        $scope.DeviceType = value.DeviceTypeName
+                        $scope.EditDeviceType = value.DeviceTypeName
                     }
                 });
                 $scope.ParameterDetails_List = [];
@@ -1588,7 +1593,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 var obj = {
                     ID: $scope.Id,
                     DeviceName: $scope.DeviceNameAdmin,
-                    DeviceType: $scope.DeviceType,
+                    DeviceType: $scope.EditDeviceType,
                     Make: $scope.DeviceMake,
                     ModelNumber: $scope.DeviceModel,
                     ParameterList: $scope.ProtocolParametersList,
