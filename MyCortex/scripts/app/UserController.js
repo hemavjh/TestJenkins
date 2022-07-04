@@ -249,6 +249,16 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.DoctorInstitutionList = [];
         $scope.DoctorInstitutionList = [];
 
+        $scope.emiratesID = "";
+        $scope.createby = "";
+        $scope.orderon = "";
+        $scope.eligibilityDate = "";
+        $scope.cardno = "";
+        $scope.package = "";
+        $scope.clinician = "";
+        $scope.speciality = "";
+        $scope.serviceCategory = "";
+
         //$scope.maxdateDOB = '';
         // get minimum age from configuration set max date in DOB
         $scope.ConfigCode = "PATIENT_MIN_AGE";
@@ -5231,7 +5241,25 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             angular.element('#InsuranceModel').modal('show');
             var obj = {};
             $http.post(baseUrl + '/api/PayBy/EligibilityRequestCall/', obj).success(function (data) {
-                console.log(data);
+                //console.log(data);
+                if (data != null) {
+                    if (data.data.eligibilityId != null && data.data.eligibilityId != undefined) {
+                        $http.get(baseUrl + '/api/PayBy/EligibilityRequestDetail?eligibilityID=' + data.data.eligibilityId + '&facilityLicense=MF2007').success(function (data) {
+                            if (data != null) {
+                                console.log(data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerId);
+                                $scope.emiratesID = data.data.eligibilityCheck.emiratesId;
+                                $scope.createby = data.data.eligibilityCheck.payer.payerName;
+                                $scope.orderon = data.data.eligibilityCheck.eligibilityCheckAnswer.authorizationEndDate;
+                                $scope.eligibilityDate = data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].startDate;
+                                $scope.cardno = data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].cardNumber;
+                                $scope.package = data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].packageName;
+                                $scope.clinician = data.data.eligibilityCheck.clinician.fullName;
+                                $scope.speciality = data.data.eligibilityCheck.clinician.specialty;
+                                $scope.serviceCategory = data.data.eligibilityCheck.serviceCategory.description;
+                            }
+                        });
+                    }
+                }
             });
             //$http.get(baseUrl + '/api/User/UserDetails_View/Id?=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
             //    $scope.FirstName = data.FirstName;
