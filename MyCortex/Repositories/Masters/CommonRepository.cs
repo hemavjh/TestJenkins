@@ -898,6 +898,7 @@ namespace MyCortex.Repositories.Masters
                                                    Appointment_Module = p.Field<int>("APPOINTMENT_MODULE_ID"),
                                                    DefaultPaymentId = p.Field<long>("DEFAULTPAYMENT_ID"),
                                                    DefaultInsuranceId = p.Field<long>("DEFAULTINSURANCE_ID"),
+                                                   Telephonic_Settings = p.Field<int>("TELEPHONIC_SETTINGS"),
                                                }).FirstOrDefault();
             param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));

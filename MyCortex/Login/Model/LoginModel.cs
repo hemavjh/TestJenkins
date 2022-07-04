@@ -65,6 +65,7 @@ namespace MyCortex.Login.Model
         public bool IsClinicalUser { get; set; }
         public string Tab_Ref_ID { get; set; }
         public long TabID { get; set; }
+        public string TabName { get; set; }
         public IList<TabDevicesModel> TabDevices { get; set; }
         public IList<TabUserModel> TabUsers { get; set; }
         public string DeviceId { get; set; }
