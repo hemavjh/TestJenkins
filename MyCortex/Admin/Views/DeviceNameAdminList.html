@@ -144,22 +144,12 @@
                             </sup>
                         </label>
                         <input type="text" class="form-control" id="DeviceNameAdmin"
-                               ng-model="DeviceNameAdmin" ng-maxlength="50"
-                               maxlength="50" placeholder="" onkeypress="">
+                               ng-model="DeviceNameAdmin" ng-init="DeviceNameAdmin=''" ng-maxlength="50"
+                               maxlength="50" placeholder="" onkeypress="" required>
                     </div>
-                    <div class="inputGroups" style="display:none;">
-                        <label>
-                            DeviceId<sup>
-                            </sup>
-                        </label>
-                        <input type="text" class="form-control" id="DeviceId"
-                               ng-model="DeviceId" .ng-init="DeviceId=''" ng-maxlength="50"
-                               maxlength="50" placeholder="" onkeypress="" disabled>
-                    </div>
-
                     <div class="inputGroups">
                         <label>
-                            DeviceType<sup>
+                            Device Type<sup>
                                 <font class='mandatory-field'>*</font>
                             </sup>
                         </label>
@@ -172,16 +162,16 @@
                     <div class="inputGroups">
                         <label>
                             Device Make<sup>
-                            <font class='mandatory-field'>*</font>
+                                <font class='mandatory-field'>*</font>
                             </sup>
                         </label>
-                        <input type="text" class="form-control" id="DeviceMake"ng-model="DeviceMake" ng-init="DeviceMake=''" ng-maxlength="50"
-                                   maxlength="50" placeholder="" onkeypress="" required>
+                        <input type="text" class="form-control" id="DeviceMake" ng-model="DeviceMake" ng-init="DeviceMake=''" ng-maxlength="50"
+                               maxlength="50" placeholder="" onkeypress="" required>
                     </div>
                     <div class="inputGroups">
                         <label>
                             Device Model<sup>
-                            <font class='mandatory-field'>*</font>
+                                <font class='mandatory-field'>*</font>
                             </sup>
                         </label>
                         <input type="text" class="form-control" id="DeviceModel"
@@ -191,12 +181,12 @@
                     <div class="inputGroups">
                         <label>
                             Parameter<sup>
-                            <font class='mandatory-field'>*</font>
+                                <font class='mandatory-field'>*</font>
                             </sup>
                         </label>
                         <select ng-model="SelectedParamter" multiple="multiple" id="Parameter"
-                                    ng-options="item.Id as item.Name for item in ProtocolParametersList"
-                                    multiselect-dropdown></select>
+                                ng-options="item.Id as item.Name for item in ProtocolParametersList" 
+                                multiselect-dropdown></select>
                     </div>
                     <div class="modal-footer" style="text-align:center;">
                         <button type="submit" ng-show="showSave == true" id="btnsave" ng-disabled="false" class="theme-btn-1 mr-10 btn-save" ng-click="submitted= true" title="Click to Save">Save</button>
