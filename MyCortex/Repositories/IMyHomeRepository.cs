@@ -23,7 +23,7 @@ namespace MyCortex.Repositories
         TabAdminDetails Tab_Logout_Validation(TabAdminDetails TabLoginObj);
         TabUserDashBordDetails GetDashBoardListDetails(long InstitutionId, long UserId, long TabId, Guid Login_Session_Id);
         IList<TabDevicesModel> Get_DeviceList(int? IsActive, long Institution_ID, long HiveType);
-        IList<TabDevicesModel> Get_DeviceNameAdminList(int? IsActive, int StartRowNumber, int EndRowNumber);
+        IList<TabDevicesModel> Get_DeviceNameAdminList(int? IsActive);
         IList<TabDevicesModel> Get_DeviceNameList(int? IsActive);
         IList<TabDevicesModel> Device_InsertUpdate(TabDevicesModel obj);
         IList<Institution_Device_list> InstitutionDevice(long Institution_Id);
@@ -39,5 +39,6 @@ namespace MyCortex.Repositories
         void Device_Name_List_Delete(int id);
         IList<TabDashBoardAlertDetails> Get_ParameterValue(long patientId, long userTypeId, Guid login_Session_Id);
         IList<MonitoringProtocolModel> ParameterList(long UserId);
+        int Update_Device_SerialNo(long tab_ID, long deviceId,string DEVICE_SERIALNO);
     }
 }

@@ -342,6 +342,22 @@ namespace MyCortex.User.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
+        [AllowAnonymous]
+        [HttpPost]
+        [CheckSessionOutFilter]
+        public HttpResponseMessage Update_Device_SerialNo(long Tab_ID, long DeviceId,string DEVICE_SERIALNO)
+        {
+            try
+            {
+                repository.Update_Device_SerialNo(Tab_ID, DeviceId, DEVICE_SERIALNO);
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+                return response;
+            }
+            catch
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+        }
 
         [AllowAnonymous]
         [HttpGet]
@@ -744,7 +760,7 @@ namespace MyCortex.User.Controllers
         [Authorize]
         [HttpGet]
         [CheckSessionOutFilter]
-        public HttpResponseMessage DeviceName_Admin_List(int? IsActive, int StartRowNumber, int EndRowNumber)
+        public HttpResponseMessage DeviceName_Admin_List(int? IsActive )
         {
             _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -752,7 +768,7 @@ namespace MyCortex.User.Controllers
             TabDeviceListReturnModels model = new TabDeviceListReturnModels();
             try
             {
-                ModelData = repository.Get_DeviceNameAdminList(IsActive,StartRowNumber, EndRowNumber);
+                ModelData = repository.Get_DeviceNameAdminList(IsActive);
 
                 model.TabDeviceList = ModelData;
                 model.Message = "";// "User created successfully";

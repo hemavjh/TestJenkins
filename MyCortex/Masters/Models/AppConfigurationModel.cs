@@ -41,6 +41,7 @@ namespace MyCortex.Masters.Models
         public List<MyAppointmentGatewayModel> GatewayDetails { get; set; }
         public int flag { get; set; }
         public string Status { get; set; }
+        public int Telephonic_Settings { get; set; }
     }
 
     public class MyAppointmentGatewayModel

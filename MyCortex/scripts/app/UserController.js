@@ -249,6 +249,16 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.DoctorInstitutionList = [];
         $scope.DoctorInstitutionList = [];
 
+        $scope.emiratesID = "";
+        $scope.createby = "";
+        $scope.orderon = "";
+        $scope.eligibilityDate = "";
+        $scope.cardno = "";
+        $scope.package = "";
+        $scope.clinician = "";
+        $scope.speciality = "";
+        $scope.serviceCategory = "";
+
         //$scope.maxdateDOB = '';
         // get minimum age from configuration set max date in DOB
         $scope.ConfigCode = "PATIENT_MIN_AGE";
@@ -3198,7 +3208,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $scope.resumedoc = data.FILE_NAME;
                             $scope.File_FullPath = data.FILE_FULLPATH;
                             $scope.Upload_FileName = data.UPLOAD_FILENAME;
-                            //$scope.GenderId = data.GENDER_ID.toString();
+                            $scope.GenderId = data.GENDER_ID.toString();
                             //$http.get(baseUrl + '/api/Common/GenderList/').success(function (data) {
                             //    $scope.GenderList = data;
                             //});
@@ -5280,113 +5290,135 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         }
         $scope.Eligiblity_pupop = function () {
             angular.element('#InsuranceModel').modal('show');
-            $http.get(baseUrl + '/api/User/UserDetails_View/Id?=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                $scope.FirstName = data.FirstName;
-                $scope.MiddleName = data.MiddleName;
-                $scope.LastName = data.LastName;
-                $scope.ViewGender = data.GENDER_NAME;
-                $scope.DOB = DateFormatEdit($filter('date')(data.DOB, "dd-MMM-yyyy"));
-                $scope.MobileNo = data.MOBILE_NO;
-                var splitmobno = data.MOBILE_NO.includes('~');
-                if (splitmobno == true) {
-                    var mobilenoFields = data.MOBILE_NO.split('~');
-                    var countrycode = mobilenoFields[0];
-                    var mNumber = mobilenoFields[1];
-                } else {
-                    var countrycode = "";
-                    var mNumber = data.MOBILE_NO;
+            var obj = {};
+            $http.post(baseUrl + '/api/PayBy/EligibilityRequestCall/', obj).success(function (data) {
+                //console.log(data);
+                if (data != null) {
+                    if (data.data.eligibilityId != null && data.data.eligibilityId != undefined) {
+                        $http.get(baseUrl + '/api/PayBy/EligibilityRequestDetail?eligibilityID=' + data.data.eligibilityId + '&facilityLicense=MF2007').success(function (data) {
+                            if (data != null) {
+                                console.log(data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerId);
+                                $scope.emiratesID = data.data.eligibilityCheck.emiratesId;
+                                $scope.createby = data.data.eligibilityCheck.payer.payerName;
+                                $scope.orderon = data.data.eligibilityCheck.eligibilityCheckAnswer.authorizationEndDate;
+                                $scope.eligibilityDate = data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].startDate;
+                                $scope.cardno = data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].cardNumber;
+                                $scope.package = data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].packageName;
+                                $scope.clinician = data.data.eligibilityCheck.clinician.fullName;
+                                $scope.speciality = data.data.eligibilityCheck.clinician.specialty;
+                                $scope.serviceCategory = data.data.eligibilityCheck.serviceCategory.description;
+                            }
+                        });
+                    }
                 }
-                var mNumberCC = countrycode + mNumber;
-
-                if (countrycode == "") {
-                    var isccodeavail = data.MOBILE_NO;
-                }
-                else {
-                    var isccodeavail = mNumber;
-                }
-                $scope.MobileNoView = typeof (mNumber) == "undefined" ? isccodeavail : mNumberCC; //mNumber //data.MOBILE_NO : mNumber;
-                $scope.MobileNo = typeof (mNumber) == "undefined" ? isccodeavail : mNumber; //mNumber //data.MOBILE_NO : mNumber;
-                $scope.check_user_eligibility();
             });
-        }
-
-        $scope.check_user_eligibility = function () {
-            var formData = {
-                "emiratesId": "784199765832854",
-                "clinicianLicense": "GN30148",
-                "consultationCategoryId": 4,
-                "countryCode": "+971",
-                "mobileNumber": "566767676",
-                "payerId": 305,
-                "referralLetterRefNo": "",
-                "serviceCategoryId": 12,
-                "facilityLicense": "MF2007"
-            }
-
-            //$http.post('https://integration.inhealth.ae/api/eligibilitycheck/addeligibilityrequest', formData).success(function (response_data) {
-            //    if (response_data.status == "1") {
-            //        response_data.data['eligibilityId'];
-            //        console.log(response_data.data['eligibilityId']);
-            //        $scope.get_user_elibility_details(response_data.data['eligibilityId'], formData, $scope.Id);
+            //$http.get(baseUrl + '/api/User/UserDetails_View/Id?=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            //    $scope.FirstName = data.FirstName;
+            //    $scope.MiddleName = data.MiddleName;
+            //    $scope.LastName = data.LastName;
+            //    $scope.ViewGender = data.GENDER_NAME;
+            //    $scope.DOB = DateFormatEdit($filter('date')(data.DOB, "dd-MMM-yyyy"));
+            //    $scope.MobileNo = data.MOBILE_NO;
+            //    var splitmobno = data.MOBILE_NO.includes('~');
+            //    if (splitmobno == true) {
+            //        var mobilenoFields = data.MOBILE_NO.split('~');
+            //        var countrycode = mobilenoFields[0];
+            //        var mNumber = mobilenoFields[1];
+            //    } else {
+            //        var countrycode = "";
+            //        var mNumber = data.MOBILE_NO;
             //    }
-            //});
+            //    var mNumberCC = countrycode + mNumber;
 
-            var path = "https://integration.inhealth.ae/api/eligibilitycheck/addeligibilityrequest";
-            $http({
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "c2d0928a-7463-428d-bd12-72fda8757089"
-                },
-                url: path,
-                data: formData
-            }).then(function (response_data) {
-                if (response_data.status == "1") {
-                    response_data.data['eligibilityId'];
-                    console.log(response_data.data['eligibilityId']);
-                    $scope.get_user_elibility_details(response_data.data['eligibilityId'], formData, $scope.Id);
-                }
-            }, function (error) {
-                console.log(error);
-
-            });
-        }
-
-        $scope.get_user_eligibility_details = function (eligibilityId, formData, user_id) {
-            var path = 'https://integration.inhealth.ae/api/EligibilityCheck/GetEligibilityRequestDetailsByEligibilityId'
-            //$http.get(path + '?eligibilityID=' + eligibilityId + '&facilityLicense=MF2007', {header: { "Authorization": "c2d0928a-7463-428d-bd12-72fda8757089" }}).success(function (response_data) {
-            //    if (response_data.status == "1") {
-            //        user_eligibility_response = response_data.data['data'];
-            //        console.log(user_eligibility_response);
-            //        var eligibility_request = formData;
-            //        $scope.save_user_eligibility_logs(eligibilityId, eligibility_request, user_eligibility_response, user_id);
+            //    if (countrycode == "") {
+            //        var isccodeavail = data.MOBILE_NO;
             //    }
+            //    else {
+            //        var isccodeavail = mNumber;
+            //    }
+            //    $scope.MobileNoView = typeof (mNumber) == "undefined" ? isccodeavail : mNumberCC; //mNumber //data.MOBILE_NO : mNumber;
+            //    $scope.MobileNo = typeof (mNumber) == "undefined" ? isccodeavail : mNumber; //mNumber //data.MOBILE_NO : mNumber;
+            //    /*$scope.check_user_eligibility();*/
             //});
-            $http({
-                method: 'GET',
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "c2d0928a-7463-428d-bd12-72fda8757089"
-                },
-                url: path + '?eligibilityID=' + eligibilityId + '&facilityLicense=MF2007',
-            }).then(function (response_data) {
-                if (response_data.status == "1") {
-                    user_eligibility_response = response_data.data['data'];
-                    var eligibility_request = formData;
-                    $scope.save_user_eligibility_logs(eligibilityId, eligibility_request, user_eligibility_response, user_id);
-                }
-            }, function (error) {
-                console.log(error);
+        }
 
-            });
-        }
-        $scope.save_user_eligibility_logs = function (eligibilityId, eligibility_request, eligibility_response, user_id) {
-            $http.post(baseUrl + '/api/User/Save_User_Eligibility/eligibiltyId?=' + eligibilityId + '&eligibility_request=' + eligibility_request + '&eligibility_response=' + eligibility_response + '&patient_id=' + user_id).success(function (resp_data) {
-                if (resp_data == 1) {
-                    console.log('saved logs');
-                }
-            });
-        }
+        //$scope.check_user_eligibility = function () {
+        //    var formData = {
+        //        "emiratesId": "784199765832854",
+        //        "clinicianLicense": "GN30148",
+        //        "consultationCategoryId": 4,
+        //        "countryCode": "+971",
+        //        "mobileNumber": "566767676",
+        //        "payerId": 305,
+        //        "referralLetterRefNo": "",
+        //        "serviceCategoryId": 12,
+        //        "facilityLicense": "MF2007"
+        //    }
+
+        //    //$http.post('https://integration.inhealth.ae/api/eligibilitycheck/addeligibilityrequest', formData).success(function (response_data) {
+        //    //    if (response_data.status == "1") {
+        //    //        response_data.data['eligibilityId'];
+        //    //        console.log(response_data.data['eligibilityId']);
+        //    //        $scope.get_user_elibility_details(response_data.data['eligibilityId'], formData, $scope.Id);
+        //    //    }
+        //    //});
+
+        //    var path = "https://integration.inhealth.ae/api/eligibilitycheck/addeligibilityrequest";
+        //    $http({
+        //        method: 'POST',
+        //        headers: {
+        //            "Content-Type": "application/json",
+        //            "Authorization": "c2d0928a-7463-428d-bd12-72fda8757089"
+        //        },
+        //        url: path,
+        //        data: formData
+        //    }).then(function (response_data) {
+        //        if (response_data.status == "1") {
+        //            response_data.data['eligibilityId'];
+        //            console.log(response_data.data['eligibilityId']);
+        //            $scope.get_user_elibility_details(response_data.data['eligibilityId'], formData, $scope.Id);
+        //        }
+        //    }, function (error) {
+        //        console.log(error);
+
+        //    });
+        //}
+
+        //$scope.get_user_eligibility_details = function (eligibilityId, formData, user_id) {
+        //    var path = 'https://integration.inhealth.ae/api/EligibilityCheck/GetEligibilityRequestDetailsByEligibilityId'
+        //    //$http.get(path + '?eligibilityID=' + eligibilityId + '&facilityLicense=MF2007', {header: { "Authorization": "c2d0928a-7463-428d-bd12-72fda8757089" }}).success(function (response_data) {
+        //    //    if (response_data.status == "1") {
+        //    //        user_eligibility_response = response_data.data['data'];
+        //    //        console.log(user_eligibility_response);
+        //    //        var eligibility_request = formData;
+        //    //        $scope.save_user_eligibility_logs(eligibilityId, eligibility_request, user_eligibility_response, user_id);
+        //    //    }
+        //    //});
+        //    $http({
+        //        method: 'GET',
+        //        headers: {
+        //            "Content-Type": "application/json",
+        //            "Authorization": "c2d0928a-7463-428d-bd12-72fda8757089"
+        //        },
+        //        url: path + '?eligibilityID=' + eligibilityId + '&facilityLicense=MF2007',
+        //    }).then(function (response_data) {
+        //        if (response_data.status == "1") {
+        //            user_eligibility_response = response_data.data['data'];
+        //            var eligibility_request = formData;
+        //            $scope.save_user_eligibility_logs(eligibilityId, eligibility_request, user_eligibility_response, user_id);
+        //        }
+        //    }, function (error) {
+        //        console.log(error);
+
+        //    });
+        //}
+        //$scope.save_user_eligibility_logs = function (eligibilityId, eligibility_request, eligibility_response, user_id) {
+        //    $http.post(baseUrl + '/api/User/Save_User_Eligibility/eligibiltyId?=' + eligibilityId + '&eligibility_request=' + eligibility_request + '&eligibility_response=' + eligibility_response + '&patient_id=' + user_id).success(function (resp_data) {
+        //        if (resp_data == 1) {
+        //            console.log('saved logs');
+        //        }
+        //    });
+        //}
 
         $scope.CancelInsurancePopup = function () {
             angular.element('#InsuranceModel').modal('hide');
