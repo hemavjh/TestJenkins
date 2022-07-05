@@ -225,7 +225,12 @@ namespace MyCortex.Login.Controller
                         messagestr = "This User is not available for given Ref ID.";
                         model.Status = "False";
                     }
-
+                    else if ((model.data == 16) == true)
+                    {
+                        model.ReturnFlag = 1;
+                        messagestr = "UserName and Password does not exists. Please Verify";
+                        model.Status = "False";
+                    }
                     //model.UserDetails = ModelData;
                     model.Message = messagestr;// "User created successfully";
                     model.LanguageKey = languagekey;
