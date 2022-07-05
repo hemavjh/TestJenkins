@@ -248,6 +248,36 @@ namespace MyCortex.Repositories.Masters
             }
         }
         /// <summary>
+        /// gender name list
+        /// </summary>
+        /// <returns>gender name list</returns>
+        public IList<GenderMasterModel> CloneGenderList(string searchstring)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                param.Add(new DataParameter("@SearchString", searchstring));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].CLONE_GENDER_SP_LIST", param);
+                List<GenderMasterModel> lst = (from p in dt.AsEnumerable()
+                                               select new GenderMasterModel()
+                                               {
+                                                   Id = p.Field<long>("Id"),
+                                                   Gender_Name = p.Field<string>("GENDER_NAME"),
+                                                   IsActive = p.Field<int>("IsActive")
+                                               }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+        /// <summary>
         /// nationality name list
         /// </summary>
         /// <returns>nationality name list</returns>
@@ -273,6 +303,36 @@ namespace MyCortex.Repositories.Masters
             catch (Exception ex)
             {
               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+        /// <summary>
+        /// nationality name list
+        /// </summary>
+        /// <returns>nationality name list</returns>
+        public IList<NationalityModel> CloneNationalityList(string searchstring)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                param.Add(new DataParameter("@SearchString", searchstring));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].CLONE_NATIONALITY_SP_LIST", param);
+                List<NationalityModel> lst = (from p in dt.AsEnumerable()
+                                              select new NationalityModel()
+                                              {
+                                                  Id = p.Field<long>("Id"),
+                                                  Name = p.Field<string>("NAME"),
+                                                  IsActive = p.Field<int>("IsActive")
+                                              }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -335,6 +395,36 @@ namespace MyCortex.Repositories.Masters
             }
         }
         /// <summary>
+        /// marital status name list
+        /// </summary>
+        /// <returns>marital status name list</returns>
+        public IList<MaritalStatusModel> CloneMaritalStatusList(string searchstring)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                param.Add(new DataParameter("@SearchString", searchstring));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].CLONE_MARITALSTATUS_SP_LIST", param);
+                List<MaritalStatusModel> lst = (from p in dt.AsEnumerable()
+                                                select new MaritalStatusModel()
+                                                {
+                                                    Id = p.Field<long>("Id"),
+                                                    Name = p.Field<string>("Name"),
+                                                    IsActive = p.Field<int>("IsActive")
+                                                }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+        /// <summary>
         /// Ethnic Group status name list
         /// </summary>
         /// <returns>Ethnic Group name list</returns>
@@ -360,6 +450,36 @@ namespace MyCortex.Repositories.Masters
             catch (Exception ex)
             {
               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+        /// <summary>
+        /// Ethnic Group status name list
+        /// </summary>
+        /// <returns>Ethnic Group name list</returns>
+        public IList<EthinnicGroupModel> CloneEthnicGroupList(string searchstring)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                param.Add(new DataParameter("@SearchString", searchstring));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].CLONE_ETHINICGROUP_SP_LIST", param);
+                List<EthinnicGroupModel> lst = (from p in dt.AsEnumerable()
+                                                select new EthinnicGroupModel()
+                                                {
+                                                    Id = p.Field<long>("Id"),
+                                                    Name = p.Field<string>("Name"),
+                                                    IsActive = p.Field<int>("IsActive")
+                                                }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -393,6 +513,36 @@ namespace MyCortex.Repositories.Masters
             }
         }
         /// <summary>
+        /// Chronic condition status name list
+        /// </summary>
+        /// <returns>chronic condition name list</returns>
+        public IList<ChronicConditionModel> CloneChronicConditionList(string searchstring)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                param.Add(new DataParameter("@SearchString", searchstring));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].CLONE_CHRONICCONDITION_SP_LIST", param);
+                List<ChronicConditionModel> lst = (from p in dt.AsEnumerable()
+                                                   select new ChronicConditionModel()
+                                                   {
+                                                       Id = p.Field<long>("Id"),
+                                                       Name = p.Field<string>("Name"),
+                                                       IsActive = p.Field<int>("IsActive")
+                                                   }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+        /// <summary>
         /// relation ship name list
         /// </summary>
         /// <returns>relation ship name list</returns>
@@ -418,6 +568,37 @@ namespace MyCortex.Repositories.Masters
             catch (Exception ex)
             {
               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// relation ship name list
+        /// </summary>
+        /// <returns>relation ship name list</returns>
+        public IList<RelationshipMasterModel> CloneRelationshipList(string searchstring)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                param.Add(new DataParameter("@SearchString", searchstring));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].CLONE_RELATIONSHIPMASTER_SP_LIST", param);
+                List<RelationshipMasterModel> lst = (from p in dt.AsEnumerable()
+                                                     select new RelationshipMasterModel()
+                                                     {
+                                                         Id = p.Field<long>("Id"),
+                                                         Name = p.Field<string>("Name"),
+                                                         IsActive = p.Field<int>("IsActive")
+                                                     }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -537,6 +718,38 @@ namespace MyCortex.Repositories.Masters
                 return null;
             }
         }
+
+        /// <summary>
+        /// blood group name list
+        /// </summary>
+        /// <returns></returns>
+        public IList<BloodGroupModel> CloneBloodGroupList(string searchstring)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                param.Add(new DataParameter("@SearchString", searchstring));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].CLONE_BLOODGROUP_SP_LIST", param);
+                List<BloodGroupModel> lst = (from p in dt.AsEnumerable()
+                                             select new BloodGroupModel()
+                                             {
+                                                 Id = p.Field<long>("Id"),
+                                                 BloodGroup_Name = p.Field<string>("BloodGroup_Name"),
+                                                 IsActive = p.Field<int>("IsActive")
+                                             }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
 
         /// <summary>
         /// blood group name list

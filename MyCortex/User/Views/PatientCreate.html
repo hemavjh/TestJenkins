@@ -250,6 +250,35 @@
         //inputPhoneNo.setCountry(txtiso2);
     }
 </script>
+<style>
+    .select2-container--default .select2-selection--single {
+        background-color: #fff;
+        border: 1px solid #ccc !important;
+        border-radius: 4px;
+        height: 34px;
+        font-size: 14px;
+        font-weight: 400;
+        padding: 3px 3px;
+    }
+
+    .select2-container--default .select2-selection--multiple {
+        background-color: #fff;
+        border: 1px solid #ccc !important;
+        border-radius: 4px;
+        height: 34px;
+        font-size: 14px;
+        font-weight: 400;
+        padding: 0px 3px;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 26px;
+        position: absolute;
+        top: 4px;
+        right: 7px;
+        width: 20px;
+    }
+</style>
 <input type="text" hidden="hidden" id="txthdCountryCode" ng-model="PhoneCountryCode" />
 <input type="text" hidden="hidden" id="txthdCountryiso2" ng-model="PhoneCountryiso2" />
 <input type="text" hidden="hidden" id="txthdFullNumber" />
@@ -333,12 +362,12 @@
                                         </sup>
                                     </label>
                                     <!--<div id="divGender" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                    <select class="form-control" data-style="form-control" ng-model="GenderId" id="Select10" data-live-search="true" data-selectpicker data-collection-name="GenderList" ng-required="true" ng-change="PatientgetBase64Image();" ng-disabled="Pat_UserTypeId==2">
+                                    <select style="width: 465.725px !important;" class="form-control" data-style="form-control" ng-model="GenderId" id="GenderId" data-live-search="true" data-selectpicker data-collection-name="GenderList" ng-required="true" ng-change="PatientgetBase64Image();" ng-disabled="Pat_UserTypeId==2">
                                         <option value="0">Select</option>
-                                        <option ng-repeat="sel in GenderList" ng-selected="GenderId==sel.Id"
+                                        <!--<option ng-repeat="sel in GenderList" ng-selected="GenderId==sel.Id"
                                                 value="{{sel.Id}}">
                                             {{sel.Gender_Name}}
-                                        </option>
+                                        </option>-->
                                     </select>
                                     <!--</div>-->
                                 </div>
@@ -590,18 +619,15 @@
                                         </sup>
                                     </label>
                                     <!--<div id="divNationality" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                    <select class="sel-nationality form-control" data-style="form-control" ng-model="NationalityId" id="Select5"
+                                    <select class="form-control" data-style="form-control" ng-model="NationalityId" id="NationalityId"
                                             data-live-search="true" data-selectpicker data-collection-name="NationalityList"
                                             ng-disabled="Pat_UserTypeId==2">
                                         <option value="0">Select</option>
-                                        <option ng-repeat="sel in NationalityList" ng-selected="NationalityId==sel.Id"
+                                        <!--<option ng-repeat="sel in NationalityList" ng-selected="NationalityId==sel.Id"
                                                 value="{{sel.Id}}">
                                             {{sel.Name}}
-                                        </option>
+                                        </option>-->
                                     </select>
-                                <!--<select class="js-example-basic-single form-control">
-                                    <option value="0">Select</option>
-                                </select>-->
                                     <!--</div>-->
                                 </div>
                                 <div class="inputGroups">
@@ -611,14 +637,14 @@
                                         </sup>
                                     </label>
                                     <!--<div id="divPatientMarital" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                    <select class="form-control" data-style="form-control" ng-model="MaritalStatusId" id="Select1"
+                                    <select class="form-control" data-style="form-control" ng-model="MaritalStatusId" id="MaritalStatusId"
                                             data-live-search="true" data-selectpicker data-collection-name="MaritalStatusList"
-                                            ng-disabled="Pat_UserTypeId==2" ng-change="LoadMaritalStatusList();">
+                                            ng-disabled="Pat_UserTypeId==2">
                                         <option value="0">Select</option>
-                                        <option ng-repeat="sel in MaritalStatusList" ng-selected="MaritalStatusId==sel.Id"
+                                        <!--<option ng-repeat="sel in MaritalStatusList" ng-selected="MaritalStatusId==sel.Id"
                                                 value="{{sel.Id}}">
                                             {{sel.Name}}
-                                        </option>
+                                        </option>-->
                                     </select>
                                     <!--</div>-->
                                 </div>
@@ -629,14 +655,14 @@
                                         </sup>
                                     </label>
                                     <!--<div id="divPatientEthnic" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                    <select class="form-control" data-style="form-control" ng-model="EthnicGroupId" id="Select3"
+                                    <select class="form-control" data-style="form-control" ng-model="EthnicGroupId" id="EthnicGroupId"
                                             data-live-search="true" data-selectpicker data-collection-name="EthnicGroupList" ng-required="true"
-                                            ng-disabled="Pat_UserTypeId==2" ng-change="LoadEthnicGroupList();">
+                                            ng-disabled="Pat_UserTypeId==2">
                                         <option value="0">Select</option>
-                                        <option ng-repeat="sel in EthnicGroupList" ng-selected="EthnicGroupId==sel.Id"
+                                        <!--<option ng-repeat="sel in EthnicGroupList" ng-selected="EthnicGroupId==sel.Id"
                                                 value="{{sel.Id}}">
                                             {{sel.Name}}
-                                        </option>
+                                        </option>-->
                                     </select>
                                     <!--</div>-->
                                 </div>
@@ -682,23 +708,21 @@
                                         </sup>
                                     </label>
                                     <!--<div id="divPatientBlood" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                    <select class="form-control" data-style="form-control" ng-model="BloodGroupId" id="Select2"
+                                    <select class="form-control" data-style="form-control" ng-model="BloodGroupId" id="BloodGroupId"
                                             data-live-search="true" data-selectpicker data-collection-name="BloodGroupList" ng-required="true"
-                                            ng-disabled="Pat_UserTypeId==2" ng-change="LoadBloodGroupList();">
+                                            ng-disabled="Pat_UserTypeId==2">
                                         <option value="0">Select</option>
-                                        <option ng-repeat="sel in BloodGroupList" ng-selected="BloodGroupId==sel.Id"
+                                        <!--<option ng-repeat="sel in BloodGroupList" ng-selected="BloodGroupId==sel.Id"
                                                 value="{{sel.Id}}">
                                             {{sel.BloodGroup_Name}}
-                                        </option>
+                                        </option>-->
                                     </select>
                                     <!--</div>-->
                                 </div>
                                 <div class="inputGroups">
                                     <label>Chronic Condition</label>
                                     <div ng-hide="Pat_UserTypeId==2">
-                                        <select ng-model="SelectedChronicCondition" multiple="multiple"
-                                                ng-options="item1.Id as item1.Name for item1 in ChronicConditionList"
-                                                multiselect-dropdown style="width: 230px;" ng-change="LoadChronicConditionList();">
+                                        <select class="form-control" data-style="form-control" ng-model="SelectedChronicCondition" multiple="multiple" id="SelectedChronicCondition">
                                             <option value="0">Select</option>
                                         </select>
                                     </div>
@@ -847,13 +871,13 @@
                                     </div>
                                     <div class="inputGroups">
                                         <label>Relationship</label>
-                                        <select class="form-control" data-style="form-control" ng-model="EMERG_CONT_RELATIONSHIP_ID" id="Select15" data-live-search="true" data-selectpicker data-collection-name="RelationshipList"
-                                                ng-required="true" ng-disabled="Pat_UserTypeId==2" ng-change="LoadRelationshipList();">
+                                        <select class="form-control" data-style="form-control" ng-model="EMERG_CONT_RELATIONSHIP_ID" id="EMERG_CONT_RELATIONSHIP_ID" data-live-search="true" data-selectpicker data-collection-name="RelationshipList"
+                                                ng-required="true" ng-disabled="Pat_UserTypeId==2">
                                             <option value="0">Select</option>
-                                            <option ng-repeat="sel in RelationshipList"
+                                            <!--<option ng-repeat="sel in RelationshipList"
                                                     ng-selected="EMERG_CONT_RELATIONSHIP_ID==sel.Id" value="{{sel.Id}}">
                                                 {{sel.Name}}
-                                            </option>
+                                            </option>-->
                                         </select>
                                     </div>
                                 </div>

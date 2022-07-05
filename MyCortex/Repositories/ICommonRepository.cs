@@ -16,19 +16,25 @@ namespace MyCortex.Repositories
         IList<LocationMasterModel> GetLocationList();
         IList<StateMasterModel> Get_StateList(long CountryId);
         IList<LocationMasterModel> Get_LocationList(long CountryId, long StateId);
-
-        IList<GroupTypeModel> GroupTypeList(long Institution_Id); 
-         IList<GenderMasterModel> GenderList();
+        IList<GroupTypeModel> GroupTypeList(long Institution_Id);
+        IList<GenderMasterModel> GenderList();
+        IList<GenderMasterModel> CloneGenderList(string search);
         IList<NationalityModel> NationalityList();
+        IList<NationalityModel> CloneNationalityList(string search);
         IList<LanguageProficiencyModel> LanguageList();
         IList<EthinnicGroupModel> EthnicGroupList();
+        IList<EthinnicGroupModel> CloneEthnicGroupList(string search);
         IList<ChronicConditionModel> ChronicConditionList();
+        IList<ChronicConditionModel> CloneChronicConditionList(string search);
         IList<RelationshipMasterModel> RelationshipList();
+        IList<RelationshipMasterModel> CloneRelationshipList(string search);
         IList<DietTypeModel> DietTypeList();
         IList<ScheduleMasterModel> ScheduleList();
         IList<AlergySubstanceModel> AlergySubstanceList();
         IList<BloodGroupModel> BloodGroupList();
+        IList<BloodGroupModel> CloneBloodGroupList(string search);
         IList<MaritalStatusModel> MaritalStatusList();
+        IList<MaritalStatusModel> CloneMaritalStatusList(string search);
         IList<ddItemList> InstitutionNameList(long status);
         IList<OptionTypeModel> OptionTypeList();
         IList<AppConfigurationModel> AppConfigurationDetails(string ConfigCode, long Institution_Id);

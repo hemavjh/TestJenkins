@@ -359,6 +359,36 @@ namespace MyCortex.Masters.Controllers
             }
         }
         /// <summary>
+        /// gender name list
+        /// </summary>
+        /// <returns>gender name list</returns>
+        [AllowAnonymous]
+        [HttpGet]
+        public IList<GenderMasterModel> CloneGenderList()
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<GenderMasterModel> model;
+            try
+            {
+                string search_string = "";
+                var queryString = this.Request.RequestUri.Query;
+                if (!String.IsNullOrWhiteSpace(queryString))
+                {
+                    search_string = HttpUtility.ParseQueryString(
+                                         queryString.Substring(1))["q"];
+                }
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                model = repository.CloneGenderList(search_string);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+        /// <summary>
         /// nationality name list
         /// </summary>
         /// <returns>nationality name list</returns>
@@ -414,7 +444,36 @@ namespace MyCortex.Masters.Controllers
                 return null;
             }
         }
-
+        /// <summary>
+        /// nationality name list
+        /// </summary>
+        /// <returns>nationality name list</returns>
+        [AllowAnonymous]
+        [HttpGet]
+        public IList<NationalityModel> CloneNationalityList()
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<NationalityModel> model;
+            try
+            {
+                string search_string = "";
+                var queryString = this.Request.RequestUri.Query;
+                if (!String.IsNullOrWhiteSpace(queryString))
+                {
+                    search_string = HttpUtility.ParseQueryString(
+                                         queryString.Substring(1))["q"];
+                }
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                model = repository.CloneNationalityList(search_string);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
         /// <summary>
         /// language name list
         /// </summary>
@@ -466,6 +525,37 @@ namespace MyCortex.Masters.Controllers
         }
 
         /// <summary>
+        /// marital status name list
+        /// </summary>
+        /// <returns>marital status name list</returns>
+        [AllowAnonymous]
+        [HttpGet]
+        public IList<MaritalStatusModel> CloneMaritalStatusList()
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<MaritalStatusModel> model;
+            try
+            {
+                string search_string = "";
+                var queryString = this.Request.RequestUri.Query;
+                if (!String.IsNullOrWhiteSpace(queryString))
+                {
+                    search_string = HttpUtility.ParseQueryString(
+                                         queryString.Substring(1))["q"];
+                }
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                model = repository.CloneMaritalStatusList(search_string);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Ethnic Group status name list
         /// </summary>
         /// <returns>Ethnic Group name list</returns>
@@ -486,6 +576,37 @@ namespace MyCortex.Masters.Controllers
             catch (Exception ex)
             {
               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Ethnic Group status name list
+        /// </summary>
+        /// <returns>Ethnic Group name list</returns>
+        [AllowAnonymous]
+        [HttpGet]
+        public IList<EthinnicGroupModel> CloneEthnicGroupList()
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<EthinnicGroupModel> model;
+            try
+            {
+                string search_string = "";
+                var queryString = this.Request.RequestUri.Query;
+                if (!String.IsNullOrWhiteSpace(queryString))
+                {
+                    search_string = HttpUtility.ParseQueryString(
+                                         queryString.Substring(1))["q"];
+                }
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                model = repository.CloneEthnicGroupList(search_string);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -516,6 +637,36 @@ namespace MyCortex.Masters.Controllers
         }
 
         /// <summary>
+        /// Chronic condition status name list
+        /// </summary>
+        /// <returns>chronic condition name list</returns>
+        [AllowAnonymous]
+        [HttpGet]
+        public IList<ChronicConditionModel> CloneChronicConditionList()
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<ChronicConditionModel> model;
+            try
+            {
+                string search_string = "";
+                var queryString = this.Request.RequestUri.Query;
+                if (!String.IsNullOrWhiteSpace(queryString))
+                {
+                    search_string = HttpUtility.ParseQueryString(
+                                         queryString.Substring(1))["q"];
+                }
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                model = repository.CloneChronicConditionList(search_string);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+        /// <summary>
         /// relation ship name list
         /// </summary>
         /// <returns>relation ship name list</returns>
@@ -540,6 +691,36 @@ namespace MyCortex.Masters.Controllers
             }
         }
 
+        /// <summary>
+        /// relation ship name list
+        /// </summary>
+        /// <returns>relation ship name list</returns>
+        [AllowAnonymous]
+        [HttpGet]
+        public IList<RelationshipMasterModel> CloneRelationshipList()
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<RelationshipMasterModel> model;
+            try
+            {
+                string search_string = "";
+                var queryString = this.Request.RequestUri.Query;
+                if (!String.IsNullOrWhiteSpace(queryString))
+                {
+                    search_string = HttpUtility.ParseQueryString(
+                                         queryString.Substring(1))["q"];
+                }
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                model = repository.CloneRelationshipList(queryString);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
         /// <summary>
         /// diet type name list
         /// </summary>
@@ -633,6 +814,37 @@ namespace MyCortex.Masters.Controllers
             catch (Exception ex)
             {
               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// blood group name list
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet]
+        public IList<BloodGroupModel> CloneBloodGroupList()
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<BloodGroupModel> model;
+            try
+            {
+                string search_string = "";
+                var queryString = this.Request.RequestUri.Query;
+                if (!String.IsNullOrWhiteSpace(queryString))
+                {
+                    search_string = HttpUtility.ParseQueryString(
+                                         queryString.Substring(1))["q"];
+                }
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                model = repository.CloneBloodGroupList(search_string);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }

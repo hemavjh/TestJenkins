@@ -291,16 +291,69 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
         $scope.LoadGenderList = function () {
             if ($scope.GenderList.length === 0) {
-                $http.get(baseUrl + '/api/Common/GenderList/').success(function (resp_gender_data) {
-                    $scope.GenderList = resp_gender_data;
+                //$http.get(baseUrl + '/api/Common/GenderList/').success(function (resp_gender_data) {
+                //    $scope.GenderList = resp_gender_data;
+                //});
+                URL = baseUrl + '/api/Common/CloneGenderList/';
+                $('#GenderId').select2({
+                    placeholder: "Select",
+                    ajax: {
+                        dataType: "json",
+                        url: URL,
+                        data: function (params) {
+                            return {
+                                q: params.term, // search term
+                            };
+                        },
+                        processResults: function (data) {
+                            var results = [];
+                            $.each(data, function (index, gender) {
+                                results.push({
+                                    id: gender.Id,
+                                    text: gender.Gender_Name
+                                });
+                            });
+                            return {
+                                results: results
+                            };
+                        },
+                        cache: true
+                    }
                 });
             }
         };
 
         $scope.LoadChronicConditionList = function () {
             if ($scope.ChronicConditionList.length === 0) {
-                $http.get(baseUrl + '/api/Common/ChronicConditionList/').success(function (resp_cc_data) {
-                    $scope.ChronicConditionList = resp_cc_data;
+                //$http.get(baseUrl + '/api/Common/ChronicConditionList/').success(function (resp_cc_data) {
+                //    $scope.ChronicConditionList = resp_cc_data;
+                //});
+                URL = baseUrl + '/api/Common/CloneChronicConditionList/';
+                $('#SelectedChronicCondition').select2({
+                    placeholder: "Select",
+                    ajax: {
+                        dataType: "json",
+                        url: URL,
+                        data: function (params) {
+                            return {
+                                q: params.term, // search term
+                            };
+                        },
+                        processResults: function (data) {
+                            var results = [];
+                            $.each(data, function (index, chronic_condition) {
+                                results.push({
+                                    id: chronic_condition.Id,
+                                    text: chronic_condition.Name
+                                });
+                            });
+                            $scope.ChronicConditionList = results;
+                            return {
+                                results: results
+                            };
+                        },
+                        cache: true
+                    }
                 });
             }
         };
@@ -323,14 +376,17 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
         $scope.LoadNationalityList = function () {
             if ($scope.NationalityList.length === 0) {
-                URL = baseUrl + '/api/Common/NationalityList/';
-                //$http.get(baseUrl + '/api/Common/NationalityList/').success(function (resp_nationality_data) {
-                //    $scope.NationalityList = resp_nationality_data;
-                //});
-                $('.sel-nationality').select2({
+                URL = baseUrl + '/api/Common/CloneNationalityList/';
+                $('#NationalityId').select2({
+                    placeholder: "Select",
                     ajax: {
                         dataType: "json",
                         url: URL,
+                        data: function (params) {
+                            return {
+                                q: params.term, // search term
+                            };
+                        },
                         processResults: function (data) {
                             var results = [];
                             $.each(data, function (index, nationality) {
@@ -339,11 +395,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                     text: nationality.Name
                                 });
                             });
-
                             return {
                                 results: results
                             };
-                        }
+                        },
+                        cache: true
                     }
                 });
             }
@@ -351,38 +407,148 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
         $scope.LoadMaritalStatusList = function () {
             if ($scope.MaritalStatusList.length === 0) {
-                $http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (resp_marg_data) {
-                    $scope.MaritalStatusListTemp = [];
-                    $scope.MaritalStatusListTemp = resp_marg_data;
-                    $scope.MaritalStatusList = angular.copy($scope.MaritalStatusListTemp);
+                //$http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (resp_marg_data) {
+                //    $scope.MaritalStatusListTemp = [];
+                //    $scope.MaritalStatusListTemp = resp_marg_data;
+                //    $scope.MaritalStatusList = angular.copy($scope.MaritalStatusListTemp);
+                //});
+                URL = baseUrl + '/api/Common/CloneMaritalStatusList/';
+                $('#MaritalStatusId').select2({
+                    placeholder: "Select",
+                    ajax: {
+                        dataType: "json",
+                        url: URL,
+                        data: function (params) {
+                            return {
+                                q: params.term, // search term
+                            };
+                        },
+                        processResults: function (data) {
+                            $scope.MaritalStatusListTemp = [];
+                            $scope.MaritalStatusListTemp = data;
+                            var results = [];
+                            $.each(data, function (index, marg_status) {
+                                results.push({
+                                    id: marg_status.Id,
+                                    text: marg_status.Name
+                                });
+                            });
+                            return {
+                                results: results
+                            };
+                        },
+                        cache: true
+                    }
                 });
             }
         };
 
         $scope.LoadEthnicGroupList = function () {
             if ($scope.EthnicGroupList.length === 0) {
-                $http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (resp_eg_data) {
-                    $scope.EthnicGroupListTemp = [];
-                    $scope.EthnicGroupListTemp = resp_eg_data;
-                    $scope.EthnicGroupList = angular.copy($scope.EthnicGroupListTemp);
+                //$http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (resp_eg_data) {
+                //    $scope.EthnicGroupListTemp = [];
+                //    $scope.EthnicGroupListTemp = resp_eg_data;
+                //    $scope.EthnicGroupList = angular.copy($scope.EthnicGroupListTemp);
+                //});
+                URL = baseUrl + '/api/Common/CloneEthnicGroupList/';
+                $('#EthnicGroupId').select2({
+                    placeholder: "Select",
+                    ajax: {
+                        dataType: "json",
+                        url: URL,
+                        data: function (params) {
+                            return {
+                                q: params.term, // search term
+                            };
+                        },
+                        processResults: function (data) {
+                            $scope.EthnicGroupListTemp = [];
+                            $scope.EthnicGroupListTemp = data;
+                            var results = [];
+                            $.each(data, function (index, ethnic_group) {
+                                results.push({
+                                    id: ethnic_group.Id,
+                                    text: ethnic_group.Name
+                                });
+                            });
+                            return {
+                                results: results
+                            };
+                        },
+                        cache: true
+                    }
                 });
             }
         };
 
         $scope.LoadBloodGroupList = function () {
             if ($scope.BloodGroupList.length === 0) {
-                $http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (resp_bg_data) {
-                    $scope.BloodGroupListTemp = [];
-                    $scope.BloodGroupListTemp = resp_bg_data;
-                    $scope.BloodGroupList = angular.copy($scope.BloodGroupListTemp);
+                //$http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (resp_bg_data) {
+                //    $scope.BloodGroupListTemp = [];
+                //    $scope.BloodGroupListTemp = resp_bg_data;
+                //    $scope.BloodGroupList = angular.copy($scope.BloodGroupListTemp);
+                //});
+                URL = baseUrl + '/api/Common/CloneBloodGroupList/';
+                $('#BloodGroupId').select2({
+                    placeholder: "Select",
+                    ajax: {
+                        dataType: "json",
+                        url: URL,
+                        data: function (params) {
+                            return {
+                                q: params.term, // search term
+                            };
+                        },
+                        processResults: function (data) {
+                            $scope.BloodGroupListTemp = [];
+                            $scope.BloodGroupListTemp = data;
+                            var results = [];
+                            $.each(data, function (index, blood_group) {
+                                results.push({
+                                    id: blood_group.Id,
+                                    text: blood_group.BloodGroup_Name
+                                });
+                            });
+                            return {
+                                results: results
+                            };
+                        },
+                        cache: true
+                    }
                 });
             }
         };
 
         $scope.LoadRelationshipList = function () {
             if ($scope.RelationshipList.length === 0) {
-                $http.get(baseUrl + '/api/Common/RelationshipList/').success(function (resp_relationship_data) {
-                    $scope.RelationshipList = resp_relationship_data;
+                //$http.get(baseUrl + '/api/Common/RelationshipList/').success(function (resp_relationship_data) {
+                //    $scope.RelationshipList = resp_relationship_data;
+                //});
+                URL = baseUrl + '/api/Common/CloneRelationshipList/';
+                $('#EMERG_CONT_RELATIONSHIP_ID').select2({
+                    placeholder: "Select",
+                    ajax: {
+                        dataType: "json",
+                        url: URL,
+                        data: function (params) {
+                            return {
+                                q: params.term, // search term
+                            };
+                        },
+                        processResults: function (data) {
+                            var results = [];
+                            $.each(data, function (index, relations_ship) {
+                                results.push({
+                                    id: relations_ship.Id,
+                                    text: relations_ship.Name
+                                });
+                            });
+                            return {
+                                results: results
+                            };
+                        },
+                        cache: true
+                    }
                 });
             }
         };
@@ -3008,17 +3174,16 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $http.get(baseUrl + '/api/Common/OptionTypeList/').success(function (resp_option_data) {
                 $scope.OptionTypeList = resp_option_data;
             });
-            $scope.LoadNationalityList();
             // $scope.DropDownListValues();
 
      
             //Load Patient Dropdown lists
-            //$scope.LoadNationalityList();
-            //$scope.LoadMaritalStatusList();
-            //$scope.LoadEthnicGroupList();
-            //$scope.LoadBloodGroupList();
-            //$scope.LoadChronicConditionList();
-            //$scope.LoadRelationshipList();
+            $scope.LoadNationalityList();
+            $scope.LoadMaritalStatusList();
+            $scope.LoadEthnicGroupList();
+            $scope.LoadBloodGroupList();
+            $scope.LoadChronicConditionList();
+            $scope.LoadRelationshipList();
 
             $scope.loadCount = 3;
             $("#chatLoaderPV").show();
@@ -3196,8 +3361,38 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.File_FullPath = data.FILE_FULLPATH;
                         $scope.Upload_FileName = data.UPLOAD_FILENAME;
                         $scope.GenderId = data.GENDER_ID.toString();
-                        $scope.NationalityId = data.NATIONALITY_ID.toString();
-                        $scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
+                        // $scope.NationalityId = data.NATIONALITY_ID.toString();
+
+                         setTimeout(function () {
+                            $("#NationalityId").select2("trigger", "select", {
+                                data: { id: data.NATIONALITY_ID.toString(), text: data.Nationality }
+                            });
+                            $("#GenderId").select2("trigger", "select", {
+                                data: { id: data.GENDER_ID.toString(), text: data.GENDER_NAME }
+                            });
+                            $("#MaritalStatusId").select2("trigger", "select", {
+                                data: { id: data.MARITALSTATUS_ID.toString(), text: data.MaritalStatus }
+                            });
+                            $("#EthnicGroupId").select2("trigger", "select", {
+                                data: { id: data.ETHINICGROUP_ID.toString(), text: data.EthnicGroup }
+                            });
+                            $("#BloodGroupId").select2("trigger", "select", {
+                                data: { id: data.BLOODGROUP_ID.toString(), text: data.BLOODGROUP_NAME }
+                            });
+                            $("#EMERG_CONT_RELATIONSHIP_ID").select2("trigger", "select", {
+                                 data: { id: data.EMERG_CONT_RELATIONSHIP_ID.toString(), text: data.RelationShipName }
+                            });
+                            angular.forEach(data.SelectedChronicConnditionList, function (value, index) {
+                                $scope.EditSelectedChronicondition.push(value.Chronic_Id);
+                                $scope.SelectedChronicCondition = $scope.EditSelectedChronicondition;
+                                $scope.SelectedChronicConditionEdit = $scope.EditSelectedChronicondition;
+                                $("#SelectedChronicCondition").select2("trigger", "select", {
+                                    data: { id: value.Chronic_Id.toString(), text: value.ChronicCondition }
+                                });
+                            });
+                         });
+
+                        // $scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
                         $scope.DOB = DateFormatEdit($filter('date')(data.DOB, "dd-MMM-yyyy"));
 
                         $scope.HomeAreaCode = data.HOME_AREACODE;
@@ -3246,17 +3441,17 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                 }
                             });
                         }
-                        $scope.MaritalStatusId = data.MARITALSTATUS_ID.toString();
-                        $scope.BloodGroupId = data.BLOODGROUP_ID.toString();
+                        //$scope.MaritalStatusId = data.MARITALSTATUS_ID.toString();
+                        //$scope.BloodGroupId = data.BLOODGROUP_ID.toString();
                         $scope.PatientNo = data.PATIENTNO;
                         $scope.Createdby_ShortName = data.Createdby_ShortName;
                         $scope.InsuranceId = data.INSURANCEID;
                         $scope.MNR_No = data.MNR_NO;
                         $scope.DropDownListValue = 3;
                         $scope.NationalId = data.NATIONALID.toString();
-                        $scope.EthnicGroup = data.EthnicGroup;
-                        $scope.ViewGender = data.GENDER_NAME;
-                        $scope.ViewNationality = data.Nationality;
+                        //$scope.EthnicGroup = data.EthnicGroup;
+                        //$scope.ViewGender = data.GENDER_NAME;
+                        //$scope.ViewNationality = data.Nationality;
                         $scope.ViewUserName = data.UserName;
                         $scope.ViewGroupName = data.GroupName;
                         $scope.ViewCountryName = data.COUNTRY_NAME;
@@ -3264,12 +3459,12 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.ViewLocationName = data.LocationName;
                         $scope.Institution = data.Institution;
                         $scope.LanguageKnown = data.LanguageKnown;
-                        $scope.MaritalStatus = data.MaritalStatus;
-                        $scope.ViewBloodGroup = data.BLOODGROUP_NAME;
-                        $scope.RelationShipName = data.RelationShipName;
+                        // $scope.MaritalStatus = data.MaritalStatus;
+                        // $scope.ViewBloodGroup = data.BLOODGROUP_NAME;
+                        // $scope.RelationShipName = data.RelationShipName;
                         $scope.DietDescribe = data.DietDescribe;
                         $scope.AlergySubstance = data.AlergySubstance;
-                        $scope.ChronicCondition = data.ChronicCondition;
+                        // $scope.ChronicCondition = data.ChronicCondition;
                         $scope.EXCERCISE_SCHEDULE = data.EXCERCISE_SCHEDULE;
                         $scope.SMOKESUBSTANCE = data.SMOKESUBSTANCE;
                         $scope.ALCOHALSUBSTANCE = data.ALCOHALSUBSTANCE;
@@ -3440,11 +3635,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $scope.EditSelectedLanguage.push(value.Language_Id);
                             $scope.SelectedLanguage = $scope.EditSelectedLanguage;
                         });
-                        angular.forEach(data.SelectedChronicConnditionList, function (value, index) {
-                            $scope.EditSelectedChronicondition.push(value.Chronic_Id);
-                            $scope.SelectedChronicCondition = $scope.EditSelectedChronicondition;
-                            $scope.SelectedChronicConditionEdit = $scope.EditSelectedChronicondition;
-                        });
+                        //angular.forEach(data.SelectedChronicConnditionList, function (value, index) {
+                        //    $scope.EditSelectedChronicondition.push(value.Chronic_Id);
+                        //    $scope.SelectedChronicCondition = $scope.EditSelectedChronicondition;
+                        //    $scope.SelectedChronicConditionEdit = $scope.EditSelectedChronicondition;
+                        //});
 
                         $('#patientrowid').prop('disabled', true);
                         $("#chatLoaderPV").hide();
@@ -3886,7 +4081,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     angular.forEach($scope.SelectedChronicCondition, function (value, index) {
                         var obj = {
                             Id: 0,
-                            Chronic_Id: value
+                            Chronic_Id: parseInt(value)
                         }
                         $scope.PatientChronicCondition_List.push(obj);
                     });
