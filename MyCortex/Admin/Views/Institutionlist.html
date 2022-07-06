@@ -293,11 +293,16 @@
             crop = function () {
 
                 //Find the part of the image that is inside the crop box
+                //var crop_canvas,
+                //    left = $(image_target).offset().left - $container.offset().left, //$('.overlay').offset().left - $container.offset().left,
+                //    top = $(image_target).offset().top - $container.offset().top,//$('.overlay').offset().top - $container.offset().top,
+                //    width = $(image_target).width(), //$('.overlay').width(),
+                //    height = $(image_target).height();//$('.overlay').height();
                 var crop_canvas,
-                    left = $(image_target).offset().left - $container.offset().left, //$('.overlay').offset().left - $container.offset().left,
-                    top = $(image_target).offset().top - $container.offset().top,//$('.overlay').offset().top - $container.offset().top,
-                    width = $(image_target).width(), //$('.overlay').width(),
-                    height = $(image_target).height();//$('.overlay').height();
+                    left = $('.overlay').offset().left - $container.offset().left,
+                    top = $('.overlay').offset().top - $container.offset().top,
+                    width = $('.overlay').width(),
+                    height = $('.overlay').height();
 
                 crop_canvas = document.createElement('canvas');
 
