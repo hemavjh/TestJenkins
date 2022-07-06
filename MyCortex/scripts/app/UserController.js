@@ -327,7 +327,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             };
                         },
                         cache: true
-                    }
+                    },
+                    width: '100%'
                 });
             }
         };
@@ -3458,9 +3459,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.MNR_No = data.MNR_NO;
                         $scope.DropDownListValue = 3;
                         $scope.NationalId = data.NATIONALID.toString();
-                        //$scope.EthnicGroup = data.EthnicGroup;
-                        //$scope.ViewGender = data.GENDER_NAME;
-                        //$scope.ViewNationality = data.Nationality;
+                        $scope.EthnicGroup = data.EthnicGroup;
+                        $scope.ViewGender = data.GENDER_NAME;
+                        $scope.ViewNationality = data.Nationality;
                         $scope.ViewUserName = data.UserName;
                         $scope.ViewGroupName = data.GroupName;
                         $scope.ViewCountryName = data.COUNTRY_NAME;
@@ -3468,12 +3469,12 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.ViewLocationName = data.LocationName;
                         $scope.Institution = data.Institution;
                         $scope.LanguageKnown = data.LanguageKnown;
-                        // $scope.MaritalStatus = data.MaritalStatus;
-                        // $scope.ViewBloodGroup = data.BLOODGROUP_NAME;
-                        // $scope.RelationShipName = data.RelationShipName;
+                        $scope.MaritalStatus = data.MaritalStatus;
+                        $scope.ViewBloodGroup = data.BLOODGROUP_NAME;
+                        $scope.RelationShipName = data.RelationShipName;
                         $scope.DietDescribe = data.DietDescribe;
                         $scope.AlergySubstance = data.AlergySubstance;
-                        // $scope.ChronicCondition = data.ChronicCondition;
+                        $scope.ChronicCondition = data.ChronicCondition;
                         $scope.EXCERCISE_SCHEDULE = data.EXCERCISE_SCHEDULE;
                         $scope.SMOKESUBSTANCE = data.SMOKESUBSTANCE;
                         $scope.ALCOHALSUBSTANCE = data.ALCOHALSUBSTANCE;

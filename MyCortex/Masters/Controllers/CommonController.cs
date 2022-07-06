@@ -712,7 +712,7 @@ namespace MyCortex.Masters.Controllers
                                          queryString.Substring(1))["q"];
                 }
                 _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
-                model = repository.CloneRelationshipList(queryString);
+                model = repository.CloneRelationshipList(search_string);
                 return model;
             }
             catch (Exception ex)
