@@ -5243,21 +5243,32 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $http.post(baseUrl + '/api/PayBy/EligibilityRequestCall/', obj).success(function (data) {
                 //console.log(data);
                 if (data != null) {
-                    if (data.data.eligibilityId != null && data.data.eligibilityId != undefined) {
-                        $http.get(baseUrl + '/api/PayBy/EligibilityRequestDetail?eligibilityID=' + data.data.eligibilityId + '&facilityLicense=MF2007').success(function (data) {
+                    if (data.status == -2 || data.status == 1) {
+                        var elid = 0;
+                        if (data.status == -2) {
+                            elid = data.errors[0].split('/')[data.errors[0].split('/').length - 1];
+                            toastr.warning("particular patient already requested...", "warning");
+                        } else if (data.status == 1) {
+                            elid = data.data.eligibilityId;
+                        }
+                        $http.get(baseUrl + '/api/PayBy/EligibilityRequestDetail?eligibilityID=' + elid + '&facilityLicense=MF2007').success(function (data) {
                             if (data != null) {
-                                console.log(data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerId);
-                                $scope.emiratesID = data.data.eligibilityCheck.emiratesId;
-                                $scope.createby = data.data.eligibilityCheck.payer.payerName;
-                                $scope.orderon = data.data.eligibilityCheck.eligibilityCheckAnswer.authorizationEndDate;
-                                $scope.eligibilityDate = data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].startDate;
-                                $scope.cardno = data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].cardNumber;
-                                $scope.package = data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].packageName;
-                                $scope.clinician = data.data.eligibilityCheck.clinician.fullName;
-                                $scope.speciality = data.data.eligibilityCheck.clinician.specialty;
-                                $scope.serviceCategory = data.data.eligibilityCheck.serviceCategory.description;
+                                if (data.data != null) {
+                                    console.log(data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerId);
+                                    $scope.emiratesID = data.data.eligibilityCheck.emiratesId;
+                                    $scope.createby = data.data.eligibilityCheck.payer.payerName;
+                                    $scope.orderon = data.data.eligibilityCheck.eligibilityCheckAnswer.authorizationEndDate;
+                                    $scope.eligibilityDate = data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].startDate;
+                                    $scope.cardno = data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].cardNumber;
+                                    $scope.package = data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].packageName;
+                                    $scope.clinician = data.data.eligibilityCheck.clinician.fullName;
+                                    $scope.speciality = data.data.eligibilityCheck.clinician.specialty;
+                                    $scope.serviceCategory = data.data.eligibilityCheck.serviceCategory.description;
+                                }
                             }
                         });
+                    } else if (data.status == -3 || data.status == -1) {
+                        toastr.warning(data.errors[0], "warning");
                     }
                 }
             });
