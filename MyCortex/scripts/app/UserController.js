@@ -266,21 +266,21 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.speciality = "";
         $scope.serviceCategory = "";
 
-        ////$scope.maxdateDOB = '';
-        //// get minimum age from configuration set max date in DOB
-        //$scope.ConfigCode = "PATIENT_MIN_AGE";
-        //$scope.Today_Date = $filter('date')(new Date(), 'dd-MMM-yyyy');
-        //$scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-        //$http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).
-        //    success(function (data) {
-        //        if (data[0] != undefined) {
-        //            $scope.PatientMinAge = parseInt(data[0].ConfigValue);
-        //            $scope.maxdateDOB = moment().subtract($scope.PatientMinAge, 'years').format("YYYY-MM-DD");
-        //            var MDOB = $scope.maxdateDOB;
-        //            angular.element(document.getElementById('maxdateDOB')).val(MDOB);
-        //            angular.element('#Date_Birth').attr('max', $scope.maxdateDOB);
-        //        }
-        //    });
+        //$scope.maxdateDOB = '';
+        // get minimum age from configuration set max date in DOB
+        $scope.ConfigCode = "PATIENT_MIN_AGE";
+        $scope.Today_Date = $filter('date')(new Date(), 'dd-MMM-yyyy');
+        $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).
+            success(function (data) {
+                if (data[0] != undefined) {
+                    $scope.PatientMinAge = parseInt(data[0].ConfigValue);
+                    $scope.maxdateDOB = moment().subtract($scope.PatientMinAge, 'years').format("YYYY-MM-DD");
+                    var MDOB = $scope.maxdateDOB;
+                    angular.element(document.getElementById('maxdateDOB')).val(MDOB);
+                    angular.element('#Date_Birth').attr('max', $scope.maxdateDOB);
+                }
+            });
         $scope.EditgroupOption = 0;
         if ($window.localStorage['UserTypeId'] == 4 || $window.localStorage['UserTypeId'] == 5 || $window.localStorage['UserTypeId'] == 6) {
             $scope.EditgroupOption = 1;
