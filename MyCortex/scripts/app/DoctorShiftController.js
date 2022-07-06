@@ -129,13 +129,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
         $scope.TimeSlot54 = new Date();
         $scope.TimeSlot55 = new Date();
         $scope.TimeSlot56 = new Date();
-        $scope.NewAppointment2 = "0";
-        $scope.followup2 = "0";
-        $scope.NewAppointmentPrice2 = "0";
-        $scope.followupPrice2 = "0";
-        $scope.IntervalBt2 = "0";
-        $scope.Days2 = "0";
-        $scope.Minutes2 = "0";
+        
         $http.get(baseUrl + '/api/User/DepartmentListByInstitution/').success(function (data) {
             $scope.DepartmentList = data;
         });
@@ -156,7 +150,14 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             var $sel3 = $('#CCCG');
             $sel3.multiselect('enable');
             $scope.EditShiftDoctor();
-            // $scope.AppoinmentSlotClear();
+             //$scope.AppoinmentSlotClear();
+            $scope.NewAppointment2 = "0";
+        $scope.followup2 = "0";
+        $scope.NewAppointmentPrice2 = "0";
+        $scope.followupPrice2 = "0";
+        $scope.IntervalBt2 = "0";
+        $scope.Days2 = "0";
+        $scope.Minutes2 = "0";
             $scope.onDateRange();
             $('#saveDoctorShift1').attr("disabled", false);
             $('#saveDoctorShift2').attr("disabled", false);
@@ -238,6 +239,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     $scope.NewAppointment = $scope.NewAppointment2;
                     $scope.followup = $scope.followup2;
                     $scope.IntervalBt = $scope.IntervalBt2;
+                    $scope.NewAppointmentPrice = $scope.NewAppointmentPrice2;
+                    $scope.followupPrice = $scope.followupPrice2;
                 }
             } else {
                 $scope.NewAppointment = "0";
@@ -1436,8 +1439,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                         BookingOpen: $scope.Days,
                         BookingCancelLock: parseInt($scope.Minutes),
                         SelectedDaysList: selectedCheckedDays,
-                        MakeMeLookBusy: $scope.MakeMeLookBusy,
-                        MinimumSlots: parseInt($scope.MinimumSlots),
+                        MakeMeLookBusy: ($scope.MakeMeLookBusy == "") ? 0 : $scope.MakeMeLookBusy,
+                        MinimumSlots: ($scope.MinimumSlots == "") ? 0 : parseInt($scope.MinimumSlots),
                        // SelectedBusyList: selectedCheckedDays,
                     };
                     $('#saveDoctorShift1').attr("disabled", true);
@@ -1642,16 +1645,16 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             //    toastr.warning("Please Enter Make Me Look Busy Value", "warning");
             //    return false;
             //} 
-            else if ($scope.MakeMeLookBusy>50) {
-                //alert("Please Enter Minutes");
-                toastr.warning("Please Enter Make Me Look Busy Value Below 50% or Equal", "warning");
-                return false;
-            }
-            else if (typeof ($scope.MinimumSlots) == "undefined" || $scope.MinimumSlots == "0" || $scope.MinimumSlots == '') {
-                //alert("Please Enter Minutes");
-                toastr.warning("Please Enter Minimum Slots", "warning");
-                return false;
-            }
+            //else if ($scope.MakeMeLookBusy>50) {
+            //    //alert("Please Enter Minutes");
+            //    toastr.warning("Please Enter Make Me Look Busy Value Below 50% or Equal", "warning");
+            //    return false;
+            //}
+            //else if (typeof ($scope.MinimumSlots) == "undefined" || $scope.MinimumSlots == "0" || $scope.MinimumSlots == '') {
+            //    //alert("Please Enter Minutes");
+            //    toastr.warning("Please Enter Minimum Slots", "warning");
+            //    return false;
+            //}
             //else if (($scope.FromDate !== null) && ($scope.ToDate !== null)) {
             //    if ((ParseDate($scope.ToDate) < ParseDate($scope.FromDate))) {
             //        //alert("Start Date should not be greater than End Date");

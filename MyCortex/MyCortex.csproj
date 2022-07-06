@@ -1375,6 +1375,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Home\Models\OpenjetModel.cs" />
     <Compile Include="Login\Controller\LoginController.cs" />
     <Compile Include="Login\Model\AccountTypeModel.cs" />
     <Compile Include="Login\Model\EmployeeLoginModel.cs" />
@@ -1848,7 +1849,6 @@
     <Folder Include="Admin\Views\WebConfiguration\" />
     <Folder Include="App_Data\" />
     <Folder Include="Documents\" />
-    <Folder Include="Home\Models\" />
     <Folder Include="Repositories\Repositories\" />
     <Folder Include="scripts\ckeditor\skins\moono\images\hidpi\" />
   </ItemGroup>

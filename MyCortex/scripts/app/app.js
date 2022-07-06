@@ -590,6 +590,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
                         //if (data["Status"]) {
                         //}
                     });
+                    clearFirebaseToken();
                     $window.location.href = baseUrl + "/Home/LoginIndex#/";
                 } else {
                     if (result.dismiss) {
@@ -602,6 +603,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
                                 //if (data["Status"]) {;
                                 //}
                             });
+                            clearFirebaseToken();
                             $window.location.href = baseUrl + "/Home/LoginIndex#/";
                         } else {
                             timeLeft = 60;
@@ -627,6 +629,14 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         });
     }
 }]);
+
+function clearFirebaseToken() {
+    var msgSenderId = window.localStorage.getItem('fcmsgid');
+    if (msgSenderId != null) {
+        firebase.messaging().deleteToken(msgSenderId, 'FCM').then(function () { console.log('succ') }).catch(function () { console.log('err') });
+        window.localStorage.removeItem('fcmsgid');
+    }
+}
 
 EmpApp.config(function ($httpProvider) {
     //console.log('authInterceptorService')

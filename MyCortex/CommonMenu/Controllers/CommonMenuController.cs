@@ -50,7 +50,25 @@ namespace MyCortex.CommonMenu.Controllers
                 return null;
             }
         }
+        [HttpGet]
+        public IList<CommonTelephoneList> CommonTelephone_List(int InstitutionId)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<CommonTelephoneList> model;
+            try
+            {
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                model = repository.CommonTelephone_List(InstitutionId);
+                return model;
+            }
+            catch (Exception ex)
+            {
 
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
         /// <summary>
         /// Module list based on user login
         /// </summary>

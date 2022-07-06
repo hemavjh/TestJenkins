@@ -700,6 +700,9 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             else if (data == "13") {
                 toastr.error("Waiting for approval", "Warning");
             }
+            else if (data == "16") {
+                toastr.error("Username and Password does not exists. Please verify.", "Warning");
+            }
             else {
                 $scope.errorlist = "Username and/or Password are not matching, please verify";
                 toastr.error("Username and/or Password are not matching, please verify", "Warning");
