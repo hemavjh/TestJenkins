@@ -37,18 +37,18 @@
                         </div>
                         <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="DeviceList(1);" title="Active / All">
                     </div>
-                    <div class="col-sm-4">
+                    <!--<div class="col-sm-4">
                         <div class="inputGroups">
                             <a href="javascript:" ng-click="ClearPopup();AddDevicePopUP();" class="theme-btn-1 pull-right mt-15 btn-autosize pull-right ml-10" title="Click to Add New Device">Add New</a>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </form>
     </div>
 </div>
 
-<table st-table="emptydataTab" style="width: 100%" st-safe-src="rowCollectionTabFilter" st-search="query" class="table themeTable">
+<table st-table="emptydataDevice" style="width: 100%" st-safe-src="rowCollectionTabFilter" st-search="query" class="table themeTable">
     <thead>
         <tr style="text-align: center">
             <th st-ratio="5">#</th>
@@ -61,7 +61,7 @@
             <th st-ratio="10" st-sort="NUMBER_OF_DEVICES">Purpose</th>
             <th st-ratio="10" st-sort="NUMBER_OF_DEVICES">Parameter</th>
             <th st-ratio="10" st-sort="NUMBER_OF_DEVICES">Remarks</th>-->
-            <th st-ratio="10">Action</th>
+            <!--<th st-ratio="10">Action</th>-->
         </tr>
     </thead>
     <tbody>
@@ -81,7 +81,7 @@
             <td style="text-align: left"></td>
             <td style="text-align: left"></td>
             <td style="text-align: left"></td>-->
-            <td st-ratio="10" style="text-align: center;">
+            <!--<td st-ratio="10" style="text-align: center;">
 
                 <a href="javascript:" ng-click="ViewDevicePopUP(row.ID)" title="View"><i class="fa fa-eye" aria-hidden="true"></i></a>
 
@@ -97,20 +97,20 @@
                     <a href="javascript:" ng-click="ReInsertDevice(row.ID, 1)" title="Inactive">
                         <img src="../../Images/inactive.png" ng-if="row.IsActive==0" />
                     </a>
-                </a>
+                </a>-->
                 <!--<a href="javascript:" ng-click="DeleteDevice(row.ID)" title="Active">
                     <i class="fa fa-check-circle-o ng-scope" aria-hidden="true"></i>
                     <a href="javascript:" ng-click="DeleteDevice(row.ID)" title="InActive">
 
                     </a>
                 </a>-->
-            </td>
+            <!--</td>-->
         </tr>
     </tbody>
-    <tfoot ng-show="rowCollectionTabFilter.length >10">
+    <tfoot ng-show="rowCollectionTabFilter.length > Devicepage_size">
         <tr>
-            <td colspan="7" class="text-center">
-                <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+            <td colspan="8" class="text-center">
+                <div st-items-by-page="Devicepage_size" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
                      st-template="Masters/Views/pagination.custom.html"></div>
             </td>
         </tr>

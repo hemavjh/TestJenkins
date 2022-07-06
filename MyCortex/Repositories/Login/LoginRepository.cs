@@ -170,6 +170,7 @@ namespace MyCortex.Repositories.Login
                                   InstitutionId = p.IsNull("INSTITUTION_ID") ? 0 : p.Field<long>("INSTITUTION_ID"),
                                   Messagetype = p.Field<string>("Messagetype"),
                                   TabID = p.Field<long>("TABID"),
+                                  TabName = p.Field<string>("TabName"),
                                   Login_Session_Id = p.Field<Guid?>("Session_Id"),
 
                                   UserDetails = new UserModel()

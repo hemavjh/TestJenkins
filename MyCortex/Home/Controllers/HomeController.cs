@@ -33,6 +33,7 @@ using System.Text;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using MyCortex.Admin.Models;
+using MyCortex.Notification.Firebase;
 
 namespace MyCortex.Home.Controllers
 {
@@ -870,13 +871,24 @@ namespace MyCortex.Home.Controllers
         [HttpPost]
         public ActionResult LiveBoxNotify()
         {
-            int retid = 0;
-            Stream req = Request.InputStream;
-            req.Seek(0, System.IO.SeekOrigin.Begin);
-            string json = new StreamReader(req).ReadToEnd();
-            retid = liveBoxRepository.LiveBox_Notify_Log(json);
-            
-            return Content("SUCCESS");
+            try
+            {
+                int retid = 0;
+                Stream req = Request.InputStream;
+                req.Seek(0, System.IO.SeekOrigin.Begin);
+                string json = new StreamReader(req).ReadToEnd();
+                retid = liveBoxRepository.LiveBox_Notify_Log(json);
+                PushNotificationMessage message = new PushNotificationMessage();
+                message.Title = "Notification For Call";
+                message.Message = "call end";
+                long userid = Convert.ToInt64(Session["UserId"].ToString());
+                PushNotificationApiManager.sendNotification(message, 0, userid, 4);
+                return Content("SUCCESS");
+            }
+            catch (Exception e)
+            {
+                return Content("Failure : " + e.Message);
+            }
         }
 
         [HttpPost]

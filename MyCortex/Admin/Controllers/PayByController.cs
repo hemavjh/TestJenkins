@@ -22,7 +22,7 @@ using System.Web.Script.Serialization;
 
 namespace MyCortex.Admin.Controllers
 {
-    
+
     public class PayByController : ApiController
     {
         static readonly IGatewaySettingsRepository gatewayrepository = new GatewaySettingsRepository();
@@ -37,7 +37,7 @@ namespace MyCortex.Admin.Controllers
         [CheckSessionOutFilter]
         public HttpResponseMessage Token(double amount, string iapDeviceId = "", string appId = "", long Institution_Id = 0, long Department_Id = 0, long Appointment_Id = 0)
         {
-             _AppLogger = this.GetType().FullName;
+            _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             ServicePointManager.Expect100Continue = true;
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
@@ -54,7 +54,7 @@ namespace MyCortex.Admin.Controllers
             retid = patientAppointmentsRepository.PaymentProvider_Notity_Log(baseUrl + " --  domain test");
             PaySceneParams paySceneParams = new PaySceneParams
             {
-                redirectUrl = "https://"+ baseUrl +"/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
+                redirectUrl = "https://" + baseUrl + "/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
             };
 
             if (!string.IsNullOrEmpty(iapDeviceId) && !string.IsNullOrEmpty(appId))
@@ -69,7 +69,7 @@ namespace MyCortex.Admin.Controllers
             string privateKey = string.Empty;
             string publicKey = string.Empty;
             string partnetId = string.Empty;
-            double amount2 = Convert.ToDouble(gatewayrepository.PatientAmount(Institution_Id,Department_Id, Appointment_Id));
+            double amount2 = Convert.ToDouble(gatewayrepository.PatientAmount(Institution_Id, Department_Id, Appointment_Id));
             gatewayModel = gatewayrepository.GatewaySettings_Details(Institution_Id, 2, "RSAPrivateKey");
             if (gatewayModel.Count > 0)
             {
@@ -102,7 +102,7 @@ namespace MyCortex.Admin.Controllers
                 },
                 paySceneCode = payCode,
                 paySceneParams = paySceneParams,
-                notifyUrl = "https://"+ baseUrl +"/Home/Notify/"
+                notifyUrl = "https://" + baseUrl + "/Home/Notify/"
             };
             DateTime unixRef = new DateTime(1970, 1, 1, 0, 0, 0);
 
@@ -200,7 +200,7 @@ namespace MyCortex.Admin.Controllers
         [HttpPost]
         public HttpResponseMessage RefundNotify(long id, string merchantorderno, [FromBody] Newtonsoft.Json.Linq.JObject refund)
         {
-             _AppLogger = this.GetType().FullName;
+            _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
@@ -227,7 +227,7 @@ namespace MyCortex.Admin.Controllers
         [HttpPost]
         public HttpResponseMessage RefundPayByCheckoutSession([FromBody] Newtonsoft.Json.Linq.JObject form)
         {
-             _AppLogger = this.GetType().FullName;
+            _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             string redirectUrl = string.Empty;
             string privateKey = string.Empty;
@@ -277,7 +277,7 @@ namespace MyCortex.Admin.Controllers
                     },
                     operatorName = "zxy",
                     reason = "refund",
-                    notifyUrl = "https://"+ baseUrl + "/api/PayBy/RefundNotify?id=" + refundAppointmentId + "&merchantorderno=" + refundMerchantOrderNo + "",
+                    notifyUrl = "https://" + baseUrl + "/api/PayBy/RefundNotify?id=" + refundAppointmentId + "&merchantorderno=" + refundMerchantOrderNo + "",
                 };
                 DateTime unixRef = new DateTime(1970, 1, 1, 0, 0, 0);
                 payByCreateReq.requestTime = (DateTime.UtcNow.Ticks - unixRef.Ticks) / 10000;
@@ -523,17 +523,18 @@ namespace MyCortex.Admin.Controllers
             if (redirectUrl != String.Empty)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, new { status = 1, url = redirectUrl });
-            } 
+            }
             else
             {
                 return Request.CreateResponse(HttpStatusCode.OK, new { status = 0, error = "Payby Configuration Error" });
             }
-            
+
         }
 
         [HttpPost]
-        public HttpResponseMessage EligibilityRequestCall ([FromBody] Newtonsoft.Json.Linq.JObject form)
+        public HttpResponseMessage EligibilityRequestCall([FromBody] Newtonsoft.Json.Linq.JObject form)
         {
+            object objResponse;
             try
             {
                 RequestEligibility re = new RequestEligibility
@@ -570,14 +571,37 @@ namespace MyCortex.Admin.Controllers
                 using (HttpWebResponse res = (HttpWebResponse)req.GetResponse())
                 {
                     DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(RequestEligibilityResponse));
-                    object objResponse = jsonSerializer.ReadObject(res.GetResponseStream());
+                    objResponse = jsonSerializer.ReadObject(res.GetResponseStream());
                 }
             }
             catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.NotAcceptable);
             }
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.OK, objResponse);
+        }
+
+        [HttpGet]
+        public HttpResponseMessage EligibilityRequestDetail(long eligibilityID, string facilityLicense)
+        {
+            object objResponse;
+            string url = "https://integration.inhealth.ae/api/eligibilitycheck/GetEligibilityRequestDetailsByEligibilityId?eligibilityID=" + eligibilityID + "&facilityLicense=" + facilityLicense;
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
+            req.Method = "GET";
+            req.ContentType = "application/json";
+            req.Accept = "*/*";
+            //req.Headers["Connection"] = "keep-alive";
+            req.Headers["Accept-Encoding"] = "gzip, deflate, br";
+            req.Headers["Content-Language"] = "en";
+            req.Headers["Authorization"] = "c2d0928a-7463-428d-bd12-72fda8757089";
+
+            using (HttpWebResponse res = (HttpWebResponse)req.GetResponse())
+            {
+                DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(RequestEligibilityDetailResponse));
+                objResponse = jsonSerializer.ReadObject(res.GetResponseStream());
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, objResponse);
+
         }
     }
 }
