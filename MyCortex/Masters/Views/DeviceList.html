@@ -48,7 +48,7 @@
     </div>
 </div>
 
-<table st-table="emptydataDevice" style="width: 100%" st-safe-src="rowCollectionTabFilter" st-search="query" class="table themeTable">
+<table st-table="emptydataDevice" style="width: 100%" st-safe-src="rowCollectionDeviceFilter" st-search="query" class="table themeTable">
     <thead>
         <tr style="text-align: center">
             <th st-ratio="5">#</th>
@@ -65,7 +65,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-if="rowCollectionTabFilter.length==0">
+        <tr ng-if="rowCollectionDeviceFilter.length==0">
             <td colspan="6" style="text-align:center;">
                 No Data Available
             </td>
@@ -107,7 +107,7 @@
             <!--</td>-->
         </tr>
     </tbody>
-    <tfoot ng-show="rowCollectionTabFilter.length > Devicepage_size">
+    <tfoot ng-show="rowCollectionDeviceFilter.length > Devicepage_size">
         <tr>
             <td colspan="8" class="text-center">
                 <div st-items-by-page="Devicepage_size" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
