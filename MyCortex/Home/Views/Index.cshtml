@@ -1608,12 +1608,16 @@
 
     function logout() {
         clearFirebaseToken();
-        //location.href = 'Home/LoginOut';
+        setTimeout(function () {
+            location.href = 'Home/LoginOut';
+        }, 1000);
     }
 
     function logoutAlldevice() {
         clearFirebaseToken();
-        //location.href = 'Home/LoginOutAllDevice';
+        setTimeout(function () {
+            location.href = 'Home/LoginOut';
+        }, 1000);
     }
 
     function clearFirebaseToken() {
