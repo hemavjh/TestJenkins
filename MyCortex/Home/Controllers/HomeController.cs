@@ -353,6 +353,10 @@ namespace MyCortex.Home.Controllers
                         {
                             t.Add(i.GENDER_NAME.ToString());
                         }
+                        else
+                        {
+                            t.Add("");
+                        }
                         if (i.Employee_Name != null)
                         {
                             t.Add(i.Employee_Name.ToString());

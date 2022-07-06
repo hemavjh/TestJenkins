@@ -288,43 +288,75 @@ namespace MyCortex.Repositories.Template
             //Get the Section Group Details
             List<DataParameter> Sec_param = new List<DataParameter>();
             Sec_param.Add(new DataParameter("@TemplateType_Id", TemplateType_Id));
+            Sec_param.Add(new DataParameter("@PrimaryKey_Id", Id));
             DataTable Sec_dt = ClsDataBase.GetDataTable("[MYCORTEX].[TEMPLATE_SP_GETSECTION]", Sec_param);
-            DataRow Sec_dr = Sec_dt.Rows[0];
-            Section = Sec_dr["SECTION_NAME"].ToString();
-
-
-            //Get the User Result Data
-            List<DataParameter> Result_param = new List<DataParameter>();
-            Result_param.Add(new DataParameter("@TemplateType_Id", TemplateType_Id));
-            Result_param.Add(new DataParameter("@SectionName", Section));
-            Result_param.Add(new DataParameter("@PrimaryKey_Id", Id));
-            DataTable Result_dt = ClsDataBase.GetDataTable("[MYCORTEX].[TEMPLATE_RESULTLIST]", Result_param);
-
-            //Replaced Process
-            foreach (DataRow dtRow in Result_dt.Rows)
+            //DataRow Sec_dr = Sec_dt.Rows[0];
+            foreach (DataRow Sec_dr in Sec_dt.Rows)
             {
-                List<DataParameter> param2 = new List<DataParameter>();
-                param2.Add(new DataParameter("@TemplateType_Id", Template_Id));
-                param2.Add(new DataParameter("@SectionName", Section));
-                DataTable dt2 = ClsDataBase.GetDataTable("[MYCORTEX].[TEMPLATE_RESULT_TAGSLIST]", param2);
-                foreach (DataRow dtRow1 in dt2.Rows)
+            if(Sec_dr.ItemArray[1] != null && Sec_dr.ItemArray[1].ToString() != "") 
+             { 
+                Section = Sec_dr["SECTION_NAME"].ToString();
+                //Get the User Result Data
+                List<DataParameter> Result_param = new List<DataParameter>();
+                Result_param.Add(new DataParameter("@TemplateType_Id", TemplateType_Id));
+                Result_param.Add(new DataParameter("@SectionName", Section));
+                Result_param.Add(new DataParameter("@PrimaryKey_Id", Sec_dr[1].ToString()));
+                DataTable Result_dt = ClsDataBase.GetDataTable("[MYCORTEX].[TEMPLATE_RESULTLIST]", Result_param);
+
+                //Replaced Process
+                foreach (DataRow dtRow in Result_dt.Rows)
                 {
-                    FinalResult = Template;
-                    TagName = dtRow1["TagsName"].ToString();
-                    FieldName = dtRow1["FieldName"].ToString();
-                    EncryptFlag = int.Parse(dtRow1["ENCRYPT_FLAG"].ToString());
-                    TagsReplaceData = dtRow[FieldName].ToString();
-                    //if (EncryptFlag == 1)
-                    //{
-                    //    TagsReplaceData = DecryptFields.Decrypt(TagsReplaceData);
-                    //}
-                    Template = FinalResult.Replace(TagName, TagsReplaceData);
-                    //if (TemplateType_Id == 3)
-                    //{
-                        Template = Template.Replace("<p>", "");
-                        Template = Template.Replace("</p>", "");
-                    //}
+                    List<DataParameter> param2 = new List<DataParameter>();
+                    param2.Add(new DataParameter("@TemplateType_Id", Template_Id));
+                    param2.Add(new DataParameter("@SectionName", Section));
+                    DataTable dt2 = ClsDataBase.GetDataTable("[MYCORTEX].[TEMPLATE_RESULT_TAGSLIST]", param2);
+                    string Time = DateTime.Now.ToString("h:mm:ss tt");
+                    var URLConvert = "";
+                    foreach (DataRow dtRow1 in dt2.Rows)
+                    {
+                        FinalResult = Template;
+                        TagName = dtRow1["TagsName"].ToString();
+                        FieldName = dtRow1["FieldName"].ToString();
+                        EncryptFlag = int.Parse(dtRow1["ENCRYPT_FLAG"].ToString());
+                        //TagsReplaceData = dtRow[FieldName].ToString();
+                        if (TagName == "{Time}")
+                        {
+                            TagsReplaceData = Time;
+                        }
+                        else if (TagName == "{Login Url}")
+                        {
+                            URLConvert = dtRow[FieldName].ToString();
+                            TagsReplaceData = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
+                            //< a href =\" + URLConvert + " + "#/login </a>"
+                        }
+                        else if (TagName == "{Reset}")
+                        {
+                            URLConvert = dtRow[FieldName].ToString();
+                            TagsReplaceData = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
+                        }
+                        else if (TagName == "{Link}")
+                        {
+                            URLConvert = dtRow[FieldName].ToString();
+                            TagsReplaceData = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
+                        }
+                        else
+                        {
+                            TagsReplaceData = dtRow[FieldName].ToString();
+                        }
+                        //if (EncryptFlag == 1)
+                        //{
+                        //    TagsReplaceData = DecryptFields.Decrypt(TagsReplaceData);
+                        //}
+                        Template = FinalResult.Replace(TagName, TagsReplaceData);
+                        Template = Template.Replace(@"<p>", @"").Replace(@"</p>", @"");
+                        //if (TemplateType_Id == 3)
+                        //{
+                        //Template = Template.Replace("<p>", "");
+                        //Template = Template.Replace("</p>", "");
+                        //}
+                    }
                 }
+              }
             }
             return new SendEmailModel
             {
@@ -424,8 +456,8 @@ namespace MyCortex.Repositories.Template
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
-            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            //var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            //_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
                 param.Add(new DataParameter("@EMAIL_ERROR_REASON", Error_Reason));
@@ -436,7 +468,8 @@ namespace MyCortex.Repositories.Template
             }
             catch (Exception ex)
             {
-              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                //return null;
+              //_MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
         }
         /// <summary>
@@ -491,6 +524,36 @@ namespace MyCortex.Repositories.Template
             catch (Exception ex)
             {
               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
+        public NotifictaionUserFCM DeleteUser_FCMTocken(NotifictaionUserFCM objDetail)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                param.Add(new DataParameter("@USER_ID", objDetail.User_Id));
+                param.Add(new DataParameter("@FCMTOKEN", objDetail.FCMToken));
+                param.Add(new DataParameter("@DEVICETYPE", objDetail.DeviceType));
+
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USER_FCMTOKEN_SP_DELETE]", param);
+
+                NotifictaionUserFCM lst = (from p in dt.AsEnumerable()
+                                                      select new NotifictaionUserFCM()
+                                                      {
+                                                          flag = p.Field<int>("Flag")
+                                                      }).FirstOrDefault();
+                //return list;
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
