@@ -78,8 +78,8 @@ namespace MyCortex.Repositories.Admin
             param.Add(new DataParameter("@NOOF_HIVECHART_USER", obj.No_Of_HiveChartUsers));
             param.Add(new DataParameter("@NOOF_HIVE", obj.No_Of_Hive));
             param.Add(new DataParameter("@NOOF_HIVECHART", obj.No_Of_HiveChart));
-            param.Add(new DataParameter("@NOOF_HIVE_DEVICES", obj.No_Of_HiveDevices));
-            param.Add(new DataParameter("@NOOF_HIVECHART_DEVICES", obj.No_Of_HiveChartDevices));
+            //param.Add(new DataParameter("@NOOF_HIVE_DEVICES", obj.No_Of_HiveDevices));
+            //param.Add(new DataParameter("@NOOF_HIVECHART_DEVICES", obj.No_Of_HiveChartDevices));
             param.Add(new DataParameter("@CONTRACT_PERIODFROM", obj.Contract_PeriodFrom));
             param.Add(new DataParameter("@CONTRACT_PERIODTO", obj.Contract_PeriodTo));
             param.Add(new DataParameter("@SUBSCRIPTION_TYPE", obj.Subscription_Type));
@@ -111,8 +111,8 @@ namespace MyCortex.Repositories.Admin
                                                                No_Of_HiveChart = p.Field<int>("NOOF_HIVECHART"),
                                                                No_Of_HiveUsers = p.Field<int>("NOOF_HIVE_USER"),
                                                                No_Of_HiveChartUsers = p.Field<int>("NOOF_HIVECHART_USER"),
-                                                               No_Of_HiveDevices = p.Field<int>("NOOF_HIVE_DEVICES"),
-                                                               No_Of_HiveChartDevices = p.Field<int>("NOOF_HIVECHART_DEVICES"),
+                                                               //No_Of_HiveDevices = p.Field<int>("NOOF_HIVE_DEVICES"),
+                                                               //No_Of_HiveChartDevices = p.Field<int>("NOOF_HIVECHART_DEVICES"),
                                                                Contract_PeriodTo = p.Field<DateTime>("CONTRACT_PERIODTO"),
                                                                Subscription_Type = p.Field<int>("SUBSCRIPTION_TYPE"),
                                                                TelePhone_User=p.Field<int>("TELEPHONE_USER"),
@@ -454,8 +454,8 @@ namespace MyCortex.Repositories.Admin
                                                     No_Of_HiveChart = p.IsNull("NOOF_HIVECHART") ? 0 : p.Field<int?>("NOOF_HIVECHART"),
                                                     No_Of_HiveUsers = p.IsNull("NOOF_HIVE_USER") ? 0 : p.Field<int?>("NOOF_HIVE_USER"),
                                                     No_Of_HiveChartUsers = p.IsNull("NOOF_HIVECHART_USER") ? 0 : p.Field<int?>("NOOF_HIVECHART_USER"),
-                                                    No_Of_HiveDevices = p.IsNull("NOOF_HIVE_DEVICES") ? 0 : p.Field<int?>("NOOF_HIVE_DEVICES"),
-                                                    No_Of_HiveChartDevices = p.IsNull("NOOF_HIVECHART_DEVICES") ? 0 : p.Field<int?>("NOOF_HIVECHART_DEVICES"),
+                                                    //No_Of_HiveDevices = p.IsNull("NOOF_HIVE_DEVICES") ? 0 : p.Field<int?>("NOOF_HIVE_DEVICES"),
+                                                    //No_Of_HiveChartDevices = p.IsNull("NOOF_HIVECHART_DEVICES") ? 0 : p.Field<int?>("NOOF_HIVECHART_DEVICES"),
                                                     Contract_PeriodTo = p.Field<DateTime>("CONTRACT_PERIODTO"),
                                                     Subscription_Type = p.Field<int>("SUBSCRIPTION_TYPE"),
                                                     TelePhone_User=p.IsNull("TELEPHONE_USER")?0 : p.Field<int>("TELEPHONE_USER"),
@@ -473,10 +473,10 @@ namespace MyCortex.Repositories.Admin
                                                     Created_No_Of_Hivechart_Users = p.Field<int?>("CREATED_NO_OF_HIVECHART_USER"),
                                                     Remaining_No_Of_Hive_Users = p.Field<int?>("REMAIND_NO_OF_HIVE_USER"),
                                                     Remaining_No_Of_Hivechart_Users = p.Field<int?>("REMAIND_NO_OF_HIVECHART_USER"),
-                                                    Created_No_Of_Hive_Devices = p.Field<int?>("CREATED_NO_OF_HIVE_DEVICES"),
-                                                    Created_No_Of_Hivechart_Devices = p.Field<int?>("CREATED_NO_OF_HIVECHART_DEVICES"),
-                                                    Remaining_No_Of_Hive_Devices = p.Field<int?>("REMAIND_NO_OF_HIVE_DEVICES"),
-                                                    Remaining_No_Of_Hivechart_Devices = p.Field<int?>("REMAIND_NO_OF_HIVECHART_DEVICES"),
+                                                    //Created_No_Of_Hive_Devices = p.Field<int?>("CREATED_NO_OF_HIVE_DEVICES"),
+                                                    //Created_No_Of_Hivechart_Devices = p.Field<int?>("CREATED_NO_OF_HIVECHART_DEVICES"),
+                                                    //Remaining_No_Of_Hive_Devices = p.Field<int?>("REMAIND_NO_OF_HIVE_DEVICES"),
+                                                    //Remaining_No_Of_Hivechart_Devices = p.Field<int?>("REMAIND_NO_OF_HIVECHART_DEVICES"),
                                                     //SubscriptionId = p.Field<int>("SubScription_Id"),
                                                 }).FirstOrDefault();
             //ViewId = INS.Id;
