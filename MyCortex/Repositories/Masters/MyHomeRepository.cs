@@ -446,7 +446,8 @@ namespace MyCortex.Repositories.Masters
                                              {
                                                  RowNumber = p.Field<int>("ROW_NUM"),
                                                  ID = p.Field<long>("ID"),
-                                                 DeviceId = p.Field<string>("DEVICE_ID"),
+                                                 Device_Id = p.Field<long>("DEVICE_ID"),
+                                                 DeviceSerialNo = p.Field<string>("DEVICE_SERIALNO"),
                                                  DeviceName = p.Field<string>("DEVICE_NAME"), 
                                                  Make = p.Field<string>("MAKE"),
                                                  DeviceType = p.Field<string>("DEVICE_TYPE"),
