@@ -39,6 +39,6 @@ namespace MyCortex.Repositories
         void Device_Name_List_Delete(int id);
         IList<TabDashBoardAlertDetails> Get_ParameterValue(long patientId, long userTypeId, Guid login_Session_Id);
         IList<MonitoringProtocolModel> ParameterList(long UserId);
-        int Update_Device_SerialNo(long tab_ID, long deviceId,string DEVICE_SERIALNO);
+        TabDeviceIdModel Update_Device_SerialNo(TabDeviceIdModel obj);
     }
 }

@@ -342,23 +342,7 @@ namespace MyCortex.User.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
-        [AllowAnonymous]
-        [HttpPost]
-        [CheckSessionOutFilter]
-        public HttpResponseMessage Update_Device_SerialNo(long Tab_ID, long DeviceId,string DEVICE_SERIALNO)
-        {
-            try
-            {
-                repository.Update_Device_SerialNo(Tab_ID, DeviceId, DEVICE_SERIALNO);
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
-                return response;
-            }
-            catch
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-            }
-        }
-
+        
         [AllowAnonymous]
         [HttpGet]
         public HttpResponseMessage TabDevice_List(long InstitutionId, long Tab_ID)
@@ -654,6 +638,38 @@ namespace MyCortex.User.Controllers
                 model.Status = "False";
                 model.Message = "Error in Listing DeviceName";
                 model.TabDeviceList = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [CheckSessionOutFilter]
+        public HttpResponseMessage Update_Device_SerialNo([FromBody] TabDeviceIdModel obj)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            TabDeviceIdModel ModelData = new TabDeviceIdModel();
+            TabDeviceListReturnModels model = new TabDeviceListReturnModels();
+
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.Update_Device_SerialNo(obj);
+                messagestr = "Device Updated Successfully";
+                model.ReturnFlag = 1;
+                model.TabDeviceList = null;
+                model.Message = messagestr;
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                model.Status = "False";
+                model.Message = "Error in update device id";
+                model.TabDeviceList = null;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }

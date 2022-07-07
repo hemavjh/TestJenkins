@@ -37,7 +37,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
         $scope.HiveChart = 0;
         $scope.Hive_Users = 0;
         $scope.HiveChart_Users = 0;
-        $scope.Hive_Devices = 0;
+       // $scope.Hive_Devices = 0;
         $scope.HiveChart_Devices = 0;
         $scope.Contract_Period_From = "";
         $scope.Contract_Period_To = "";
@@ -566,7 +566,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     No_Of_HiveUsers: $scope.Hive_Users,
                     No_Of_Hive: $scope.Hive,
                     No_Of_HiveChart: $scope.HiveChart,
-                    No_Of_HiveDevices: typeof($scope.Hive_Devices) == "undefined" || $scope.Hive_Devices == "" ? 0 : $scope.Hive_Devices,
+                   // No_Of_HiveDevices: typeof($scope.Hive_Devices) == "undefined" || $scope.Hive_Devices == "" ? 0 : $scope.Hive_Devices,
                     No_Of_HiveChartDevices: typeof($scope.HiveChart_Devices) == "undefined" || $scope.HiveChart_Devices == "" ? 0 : $scope.HiveChart_Devices,
                     Contract_PeriodFrom: moment($scope.Contract_Period_From).format('DD-MMM-YYYY'),
                     Contract_PeriodTo: moment($scope.Contract_Period_To).format('DD-MMM-YYYY'),
@@ -738,7 +738,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     $scope.HiveChart = data.No_Of_HiveChart;
                     $scope.Hive_Users = data.No_Of_HiveUsers;
                     $scope.HiveChart_Users = data.No_Of_HiveChartUsers;
-                    $scope.Hive_Devices = data.No_Of_HiveDevices;
+                    //$scope.Hive_Devices = data.No_Of_HiveDevices;
                     $scope.HiveChart_Devices = data.No_Of_HiveChartDevices;
                     //$scope.Contract_Period_To = $filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy");
                     $scope.Contract_Period_To = DateFormatEdit($filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy"));
@@ -835,7 +835,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             $scope.HiveChart = 0;
             $scope.Hive_Users = 0;
             $scope.HiveChart_Users = 0;
-            $scope.Hive_Devices = 0;
+            //$scope.Hive_Devices = 0;
             $scope.HiveChart_Devices = 0;
             $scope.Contract_Period_From = "";
             $scope.Contract_Period_To = "";

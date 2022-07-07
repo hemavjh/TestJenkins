@@ -41,7 +41,14 @@ namespace MyCortex.Masters.Models
         public long TabId { get; set; }
         public string RefId { get; set; }
     }
-   
+
+    public class TabDeviceIdModel
+    {
+        public long DeviceId { get; set; }
+        public long TabId { get; set; }
+        public string DeviceSerialNumber { get; set; }
+    }
+
     public class TabDevicesModel
     {
         public string TotalRecord { get; set; }
