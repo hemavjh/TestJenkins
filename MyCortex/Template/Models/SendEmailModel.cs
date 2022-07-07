@@ -58,5 +58,6 @@ namespace MyCortex.Template.Models
         public string FCMToken { get; set; }
         public string DeviceType { get; set; }
         public string SiteUrl { get; set; }
+        public int flag { get; set; }
     }
 }

@@ -1608,19 +1608,54 @@
 
     function logout() {
         clearFirebaseToken();
-        location.href = 'Home/LoginOut';
+        setTimeout(function () {
+            location.href = 'Home/LoginOut';
+        }, 1000);
     }
 
     function logoutAlldevice() {
         clearFirebaseToken();
-        location.href = 'Home/LoginOutAllDevice';
+        setTimeout(function () {
+            location.href = 'Home/LoginOut';
+        }, 1000);
     }
 
     function clearFirebaseToken() {
+        var FCMToken_Change = "";
+        var usertoken = '';
+        var User_Id = '';
+        //User_Id = window.localStorage['UserId'];
+        //usertoken = window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='];
+        var Messaging = firebase.messaging();
         var msgSenderId = window.localStorage.getItem('fcmsgid');
-        if (msgSenderId != null) {
-            firebase.messaging().deleteToken(msgSenderId, 'FCM').then(function () { console.log('succ') }).catch(function () { console.log('err') });
-            window.localStorage.removeItem('fcmsgid');
-        }
+        firebase.messaging().getToken(msgSenderId, 'FCM').then(function (x) {
+            FCMToken_Change = x;
+            var obj = {
+                User_Id: window.localStorage['UserId'],
+                FCMToken: FCMToken_Change,
+                DeviceType: "web"
+            };
+            usertoken = window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='];
+            $.ajax({
+                url: baseUrl + '/api/SendEmail/DeleteUser_FCMTocken',
+                type: "POST",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Bearer " + usertoken);
+                },
+                data: obj,
+                dataType: "json"
+            })
+            if (msgSenderId != null) {
+                //console.log('MainIN' + FCMToken_Change);
+                firebase.messaging().deleteToken(msgSenderId, 'FCM').then(function () { console.log('succ') }).catch(function () { console.log('err') });
+                window.localStorage.removeItem('fcmsgid');
+            }
+        }).catch(function () { console.log('err') })
+        //console.log('MainIN'+FCMToken_Change);
+        //if (msgSenderId != null) {
+        //    //console.log('MainIN' + FCMToken_Change);
+        //    firebase.messaging().deleteToken(msgSenderId, 'FCM').then(function () { console.log('succ') }).catch(function () { console.log('err') });
+        //    window.localStorage.removeItem('fcmsgid');
+        //}
     }
 </script>
