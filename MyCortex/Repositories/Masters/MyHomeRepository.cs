@@ -1092,6 +1092,9 @@ namespace MyCortex.Repositories.Masters
                                                  {
                                                      Id= p.Field<int>("DEVICE_ID"),
                                                      DeviceName = p.Field<string>("NAME"),
+                                                     Make = p.Field<string>("MAKE"),
+                                                     ModelNumber = p.Field<string>("MODEL"),
+                                                     DeviceType = p.Field<string>("DEVICE_TYPE"),
                                                      IsActive = p.Field<int>("ISACTIVE")
                                                  }).ToList();
                 return lst;
