@@ -59,12 +59,12 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         //$http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
         //    $scope.DevicesLists = data;
         //});
-        $scope.InstitutionDeviceList = [];
+        /*$scope.InstitutionDeviceList = [];
         $http.get(baseUrl + '/api/MyHome/DeviceInstitutionList/?Institution_Id=' + $window.localStorage['InstitutionId']
         ).success(function (data) {
             $scope.InstitutionDeviceList = [];
             $scope.InstitutionDeviceList = data;
-        });
+        });*/
         /* if ($location.$$path == "/Hive") {
              $http.get(baseUrl + '/api/MyHome/Device_List/?IsActive=' + $scope.ISact + '&InstitutionId=' + $window.localStorage['InstitutionId'] + '&HiveType=' + 1).success(function (data) {
                  $scope.DevicesLists = data.TabDeviceList;
@@ -151,6 +151,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 var $sel2 = $('#tabdevice');
                 $sel2.multiselect('enable');
                 angular.element('#TabAddModal').modal('show');
+                $scope.DeviceList(1);
             }
         }
         $scope.ClearPopUp = function () {
@@ -235,12 +236,12 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
 
                                 $scope.No_Of_HiveChart_User = data.No_Of_HiveChartUsers;
                                 $scope.No_Of_Hive_User = data.No_Of_HiveUsers;
-                                $scope.No_Of_HiveChart_Devices = data.No_Of_HiveChartDevices;
-                                $scope.No_Of_Hive_Devices = data.No_Of_HiveDevices;
+                                /*$scope.No_Of_HiveChart_Devices = data.No_Of_HiveChartDevices;
+                                $scope.No_Of_Hive_Devices = data.No_Of_HiveDevices;*/
                                 $scope.Remaining_No_Of_Hive_Users = data.Remaining_No_Of_Hive_Users;
                                 $scope.Remaining_No_Of_Hivechart_Users = data.Remaining_No_Of_Hivechart_Users;
-                                $scope.Remaining_No_Of_Hive_Devices = data.Remaining_No_Of_Hive_Devices;
-                                $scope.Remaining_No_Of_Hivechart_Devices = data.Remaining_No_Of_Hivechart_Devices;
+                               /* $scope.Remaining_No_Of_Hive_Devices = data.Remaining_No_Of_Hive_Devices;
+                                $scope.Remaining_No_Of_Hivechart_Devices = data.Remaining_No_Of_Hivechart_Devices;*/
                                 //if ($scope.rowCollectionTab.length > 0) {
                                 //    angular.forEach($scope.rowCollectionTab, function (value, index) {
                                 //        $scope.UsersCount = $scope.UsersCount + value.UsersCount;
@@ -324,6 +325,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $sel2.multiselect('disable');
             var $sel3 = $('#tabdeviceview');
             $sel3.multiselect('disable');
+            $scope.DeviceList(1);
             $scope.ViewMyTab();
             angular.element('#TabViewModal').modal('show');
         }
@@ -495,6 +497,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $scope.showSave = true;
             $scope.IsEdit = true;
             $scope.IsShow = true;
+            $scope.DeviceList(1);
             $scope.ViewMyTab();
             angular.element('#TabAddModal').modal('show');
         }
@@ -992,25 +995,22 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 else if ($scope.IsActive == false) {
                     $scope.ISact = 0 //all
                 }
-                $http.get(baseUrl + '/api/MyHome/DeviceName_Admin_List/?IsActive=' + $scope.ISact).success(function (data) {
+                $http.get(baseUrl + '/api/MyHome/DeviceInstitutionList/?Institution_Id=' + $window.localStorage['InstitutionId']
+                ).success(function (data) {
                     $scope.emptydata = [];
                     $scope.rowCollection = [];
-                    $scope.rowCollectionTabFilter = [];
-                    $scope.emptydataDevice = data.TabDeviceList;
-                    $scope.rowCollection = data.TabDeviceList;
-                    $scope.rowCollectionTabFilter = angular.copy($scope.rowCollection);
-                    if ($scope.rowCollectionTabFilter.length > 0) {
+                    $scope.rowCollectionDeviceFilter = [];
+                    $scope.InstitutionDeviceList = [];
+                    $scope.InstitutionDeviceList = data;
+                    $scope.emptydataDevice = data;
+                    $scope.rowCollection = data;
+                    $scope.rowCollectionDeviceFilter = angular.copy($scope.rowCollection);
+                    if ($scope.rowCollectionDeviceFilter.length > 0) {
                         $scope.flag = 1;
                     }
                     else {
                         $scope.flag = 0;
                     }
-                    //if ($scope.rowCollectionTabFilter.length > 0) {
-                    //    $scope.TabDataCount = $scope.rowCollectionTabFilter[0].TotalRecord;
-                    //} else {
-                    //    $scope.TabDataCount = 0;
-                    //}
-                    //$scope.total_Devicepage = Math.ceil(($scope.TabDataCount) / ($scope.page_size));
                     $("#chatLoaderPV").hide();
                 }).error(function (data) {
                     $scope.error = "AN error has occured while Listing the records!" + data;
@@ -1028,10 +1028,10 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $scope.ResultListFiltered = [];
             var searchstring = angular.lowercase($scope.searchquery);
             if ($scope.searchquery == "") {
-                $scope.rowCollectionTabFilter = angular.copy($scope.rowCollection);
+                $scope.rowCollectionDeviceFilter = angular.copy($scope.rowCollection);
             }
             else {
-                $scope.rowCollectionTabFilter = $ff($scope.rowCollection, function (value) {
+                $scope.rowCollectionDeviceFilter = $ff($scope.rowCollection, function (value) {
                     return angular.lowercase(value.DeviceName).match(searchstring) ||
                         angular.lowercase(value.DeviceType).match(searchstring) ||
                         angular.lowercase(value.Make).match(searchstring) ||

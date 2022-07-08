@@ -41,7 +41,14 @@ namespace MyCortex.Masters.Models
         public long TabId { get; set; }
         public string RefId { get; set; }
     }
-   
+
+    public class TabDeviceIdModel
+    {
+        public long DeviceId { get; set; }
+        public long TabId { get; set; }
+        public string DeviceSerialNumber { get; set; }
+    }
+
     public class TabDevicesModel
     {
         public string TotalRecord { get; set; }
@@ -49,8 +56,10 @@ namespace MyCortex.Masters.Models
         public long ID { get; set; }
         public long TabId { get; set; }
         public string DeviceId { get; set; }
+        public long Device_Id { get; set; }
         public long ChildId { get; set; }
         public string DeviceName { get; set; } 
+        public string DeviceSerialNo { get; set; }
         public string Make { get; set; }
         public string DeviceType { get; set; }
         public string Series { get; set; }

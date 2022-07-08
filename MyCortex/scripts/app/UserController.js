@@ -657,8 +657,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
             $scope.submitted = false;
             $scope.editcertificate = true;
-            $('#btnsave').attr("disabled", true);
-            $('#btnsave2').attr("disabled", true);
+            $('#btnsave').attr("disabled", false);
+            $('#btnsave2').attr("disabled", false);
             $scope.uploadme = null;
             $scope.uploadme1 = null;
             $scope.uploadme2 = null;
@@ -790,23 +790,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         };
                     };
                     request.send();
-                } else {
-                    var request = new XMLHttpRequest();
-                    request.open('GET', picPath, true);
-                    request.responseType = 'blob';
-                    request.onload = function () {
-                        var reader = new FileReader();
-                        reader.readAsDataURL(request.response);
-                        reader.onload = function (e) {
-                            $scope.uploadmes = e.target.result;
-                            $scope.uploadme = $scope.uploadmes;
-                            $scope.uploadme1 = $scope.uploadmes;
-                            $scope.uploadme2 = $scope.uploadmes;
-                            $scope.$apply();
-                        };
-                    };
-                    request.send();
-                }
+                } 
             }
         };
 
@@ -872,36 +856,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         };
                     };
                     request.send();
-                } else {
-                    var request1 = new XMLHttpRequest();
-                    request1.open('GET', picPath1, true);
-                    request1.responseType = 'blob';
-                    request1.onload = function () {
-                        var reader1 = new FileReader();
-                        reader1.readAsDataURL(request1.response);
-                        reader1.onload = function (e) {
-                            $scope.uploadmes = e.target.result;
-                            $scope.uploadme1 = $scope.uploadmes;
-                            $scope.uploadme2 = $scope.uploadmes;
-                            $scope.$apply();
-                        };
-                    };
-                    request1.send();
-
-                    var request = new XMLHttpRequest();
-                    request.open('GET', picPath, true);
-                    request.responseType = 'blob';
-                    request.onload = function () {
-                        var reader = new FileReader();
-                        reader.readAsDataURL(request.response);
-                        reader.onload = function (e) {
-                            $scope.uploadmes = e.target.result;
-                            $scope.uploadme = $scope.uploadmes;
-                            $scope.$apply();
-                        };
-                    };
-                    request.send();
-                }
+                } 
             }
         };
         $scope.PatientgetBase64Image_Profile = function () {
@@ -1065,23 +1020,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         };
                     };
                     request.send();
-                } else {
-                    var request = new XMLHttpRequest();
-                    request.open('GET', picPath, true);
-                    request.responseType = 'blob';
-                    request.onload = function () {
-                        var reader = new FileReader();
-                        reader.readAsDataURL(request.response);
-                        reader.onload = function (e) {
-                            $scope.uploadmes = e.target.result;
-                            $scope.uploadme = $scope.uploadmes;
-                            $scope.uploadme1 = $scope.uploadmes;
-                            $scope.uploadme2 = $scope.uploadmes;
-                            $scope.$apply();
-                        };
-                    };
-                    request.send();
-                }
+                } 
             }
         };
         $scope.CancelPopup = function () {

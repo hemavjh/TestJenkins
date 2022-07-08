@@ -110,6 +110,10 @@ namespace MyCortex.Admin.Models
         public long Id { get; set; }
         public long Institution_Subcription_Id { get; set; }
         public int DeviceId { get; set; }
+        public string Make { get; set; }
+        public string DeviceType { get; set; }
+        public string Series { get; set; }
+        public string ModelNumber { get; set; }
         public int IsActive { get; set; }
         public long ChildId { get; set; }
         public string DeviceName { get; set; }

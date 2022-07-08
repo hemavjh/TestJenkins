@@ -685,6 +685,36 @@ namespace MyCortex.Template.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
+
+        /// <summary>
+        /// to Delete User FCM token for Notification sending
+        /// </summary>
+        /// <param name="UserFCM">User FCM Token detail</param>
+        /// <returns>Deleted FCM Token detail</returns>
+        [HttpPost]
+        public HttpResponseMessage DeleteUser_FCMTocken([FromBody] NotifictaionUserFCM UserFCM)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            NotifictaionUserFCM model = new NotifictaionUserFCM();
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+            try
+            {
+                model = repository.DeleteUser_FCMTocken(UserFCM);
+
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
         /// <summary>
         /// to get FCM token of a user
         /// </summary>
