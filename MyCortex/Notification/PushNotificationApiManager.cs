@@ -114,6 +114,10 @@ namespace MyCortex.Notification.Firebase
                     SendPushNotification(message, templateId, itemData.SiteUrl);
                 }
             }
+            if (model.Count == 0)
+            {
+                repository.SendEmail_Update(templateId, "NotRegistered", 2, "");  // 1 -> Delivered,  2 -> NOT-Delivered
+            }
         }
 
     }
