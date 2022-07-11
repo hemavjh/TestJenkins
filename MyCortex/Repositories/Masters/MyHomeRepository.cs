@@ -446,7 +446,8 @@ namespace MyCortex.Repositories.Masters
                                              {
                                                  RowNumber = p.Field<int>("ROW_NUM"),
                                                  ID = p.Field<long>("ID"),
-                                                 DeviceId = p.Field<string>("DEVICE_ID"),
+                                                 Device_Id = p.Field<long>("DEVICE_ID"),
+                                                 DeviceSerialNo = p.Field<string>("DEVICE_SERIALNO"),
                                                  DeviceName = p.Field<string>("DEVICE_NAME"), 
                                                  Make = p.Field<string>("MAKE"),
                                                  DeviceType = p.Field<string>("DEVICE_TYPE"),
@@ -464,29 +465,6 @@ namespace MyCortex.Repositories.Masters
               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
-        }
-
-        public int Update_Device_SerialNo(long Tab_ID, long DeviceId,string DEVICE_SERIALNO)
-        {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
-            List<DataParameter> param = new List<DataParameter>();
-            param.Add(new DataParameter("@Tab_ID", Tab_ID));
-            param.Add(new DataParameter("@DeviceID", DeviceId));
-            param.Add(new DataParameter("@DEVICE_SERIALNO", DEVICE_SERIALNO));
-            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
-            try
-            {
-                ClsDataBase.Update("[MYCORTEX].[DEVICEUPDATE]", param);
-                return 1;
-            }
-            catch (Exception ex)
-            {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
-                return 0;
-            }
-
         }
 
         public IList<TabUserModel> Get_TabUsers(long Institution_ID, long Tab_ID)
@@ -1105,6 +1083,39 @@ namespace MyCortex.Repositories.Masters
                 return null;
             }
         }
+
+        public TabDeviceIdModel Update_Device_SerialNo(TabDeviceIdModel insobj)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@TAB_ID", insobj.TabId));
+            param.Add(new DataParameter("@DeviceID", insobj.DeviceId));
+            param.Add(new DataParameter("@DEVICE_SERIALNO", insobj.DeviceSerialNumber));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[DEVICEUPDATE]", param);
+
+                TabDeviceIdModel INS = (from p in dt.AsEnumerable()
+                                              select
+                                              new TabDeviceIdModel()
+                                              {
+                                                  DeviceId = p.Field<long>("DeviceID"),
+                                                  TabId = p.Field<long>("TAB_ID"),
+                                                  DeviceSerialNumber = p.Field<string>("DEVICE_SERIALNO"),
+                                              }).FirstOrDefault();
+                return INS;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+
+        }
+
         public IList<TabDevicesModel> Device_InsertUpdate(TabDevicesModel insobj)
         {
              _AppLogger = this.GetType().FullName;
