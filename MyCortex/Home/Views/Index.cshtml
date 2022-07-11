@@ -1447,24 +1447,44 @@
         if (window.localStorage['UserTypeId'] != 2)
             chatService.openProfile();
     }
-    function audioCallUser() {
+    function audioCallUser(val = null) {
+        var startdate1 = moment(new Date(val + 'Z'));
+        var enddate1 = moment(new Date());
+        var diffTime = Math.abs(enddate1 - startdate1);
+        var TextIcon = Math.floor(diffTime / (60 * 1000));
+        var TextIconB = TextIcon;
+        if (TextIconB < 15 || val === null) {
+            if ($("#addressBook").hasClass("aqua") == true) {
+                $('.chatBody').toggleClass('chatBodyHalf');
+                $('.contactList').toggle();
+                $('#groupsList').hide();
+                $('#addressBook').toggleClass('aqua');
+                $('.chatBox').toggleClass('chatBoxBig');
+            }
 
-        if ($("#addressBook").hasClass("aqua") == true) {
-            $('.chatBody').toggleClass('chatBodyHalf');
-            $('.contactList').toggle();
-            $('#groupsList').hide();
-            $('#addressBook').toggleClass('aqua');
-            $('.chatBox').toggleClass('chatBoxBig');
+            chatService.initiateCall();
+            if(window.localStorage['UserTypeId'] != 2)
+                chatService.openProfile();
+        } else {
+            $('#chatBox').attr("style", "display:none");
+            $('#btnopenchat').attr("style", "display:none");
         }
-
-        chatService.initiateCall();
-        if(window.localStorage['UserTypeId'] != 2)
-            chatService.openProfile();
     }
-    function videoCallUser() {
-        chatService.initiateVideCall();
-        if(window.localStorage['UserTypeId'] != 2)
-            chatService.openProfile();
+    function videoCallUser(val = null) {
+        var startdate1 = moment(new Date(val + 'Z'));
+        var enddate1 = moment(new Date());
+        var diffTime = Math.abs(enddate1 - startdate1);
+        var TextIcon = Math.floor(diffTime / (60 * 1000));
+        var TextIconB = TextIcon;
+        if (TextIconB < 15 || val === null) {
+            chatService.initiateVideCall();
+            if(window.localStorage['UserTypeId'] != 2)
+                chatService.openProfile();
+        }
+        else {
+            $('#chatBox').attr("style", "display:none");
+            $('#btnopenchat').attr("style", "display:none");
+        }
     }
     function openUserChat(userType, viewUser, userValidity)
     {
