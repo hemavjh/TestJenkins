@@ -171,9 +171,11 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             // only active Language    
             $scope.LanguageList = data;
         });
+        $scope.TelephoneList = [];
         $http.get(baseUrl + '/api/InstitutionSubscription/TelephoningNameList/').success(function (data) {
             // only active Telephone    
             $scope.TelephoneList = data;
+            $scope.TelephoneDataList = data;
         });
         $http.get(baseUrl + '/api/InstitutionSubscription/PaymentModule_List/').success(function (data) {
             // only active Language    
@@ -699,7 +701,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     $scope.InstitutiontypeList = data.Module_List;
                     $scope.InstitutionChildList = data.ChildModuleList;
                     $scope.Module_listAdd = data.ChildModuleList;
-                    $scope.LanguageList = data.Language_List; 
+                    $scope.LanguageList = data.Language_List;
                     $scope.InstitutionLanguageList = data.ChildLanguageList;
                     $scope.InstitutionLanguageName = data.ChildLanguageList;
                     $scope.AllDeviceNameList = data.Device_list;
@@ -743,7 +745,12 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     //$scope.Contract_Period_To = $filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy");
                     $scope.Contract_Period_To = DateFormatEdit($filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy"));
                     $scope.Subscription_Type = data.Subscription_Type;
-                    $scope.TelePhone_User = data.TelePhone_User;
+                    $scope.TelephoneList = [];
+                    if (data.TelePhone_User == 0) {
+                        $scope.TelePhone_User = 1;
+                    } else {
+                        $scope.TelePhone_User = data.TelePhone_User;
+                    }
                     $scope.InsSub_Id = data.SubscriptionId;
                     /*$scope.Chroniccc = data.ChronicCc;
                     $scope.Chroniccg = data.ChronicCg;
@@ -821,12 +828,14 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                         }
                     })
                     $("#chatLoaderPV").hide();
+                    $scope.TelephoneList = $scope.TelephoneDataList;
+                    setTimeout(() => { angular.element($('#telephone_Id' + $scope.TelePhone_User)).prop('checked', true); }, 500);
                 });
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
             }
         };
-
+       
         //This is for clear the contents in the Page
         $scope.ClearInstitutionSubscriptionPopup = function () {
             $scope.Health_Care_Professionals = "";
