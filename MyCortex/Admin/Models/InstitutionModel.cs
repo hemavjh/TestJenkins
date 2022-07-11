@@ -27,6 +27,7 @@ namespace MyCortex.Admin.Models
         public long CountryId { get; set; }
         public string CountryName { get; set; }
         [Required]
+        public string CountryISO2 { get; set; }
         public long StateId { get; set; }
         public string StateName { get; set; }
         [Required]

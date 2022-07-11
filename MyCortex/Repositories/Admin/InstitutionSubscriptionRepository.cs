@@ -53,7 +53,8 @@ namespace MyCortex.Repositories.Admin
                                          CityId = p.Field<long>("CITYID"),
                                          CountryName = p.Field<string>("COUNTRY_NAME"),
                                          StateName = p.Field<string>("STATENAME"),
-                                         CityName = p.Field<string>("LOCATIONNAME")
+                                         CityName = p.Field<string>("LOCATIONNAME"),
+                                         CountryISO2= p.Field<string>("COUNTRY_ISO2"),
                                      }).FirstOrDefault();
             return list;
         }

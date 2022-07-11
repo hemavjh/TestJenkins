@@ -274,6 +274,56 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     angular.element('#Date_Birth').attr('max', $scope.maxdateDOB);
                 }
             });
+        if ($window.localStorage['UserTypeId'] == 3 || $window.localStorage['UserTypeId'] == 2) {
+            $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionDetailList/?Id=' + $scope.SelectedInstitutionId).success(function (data) {
+                var InitialCountry = "auto";
+                if (data != null) {
+                    if (data.CountryName == null || data.CountryName == undefined) {
+                        $scope.CountryISO2 = "";
+                        InitialCountry = "auto";
+                    } else {
+                        $scope.CountryISO2 = data.CountryISO2;
+                        InitialCountry = $scope.CountryISO2;
+                    }
+                }
+
+                var input = document.querySelector("#txtMobile");
+                var inputPhoneNo = window.intlTelInput(input, {
+                    formatOnDisplay: true,
+                    separateDialCode: true,
+                    initialCountry: InitialCountry,
+
+                    geoIpLookup: function (callback) {
+                        $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
+                            var countryCode = (resp && resp.country) ? resp.country : "";
+                            callback(countryCode);
+                        });
+                    },
+                    //preferredCountries: ["in"],
+                    utilsScript: "scripts/utils.js",
+                });
+
+            }).error(function (data) {
+                $scope.error = "AN error has occured while Listing the records!" + data;
+            });
+        } else {
+            var input = document.querySelector("#txtMobile");
+            var inputPhoneNo = window.intlTelInput(input, {
+                formatOnDisplay: true,
+                separateDialCode: true,
+                //initialCountry: InitialCountry,
+
+                geoIpLookup: function (callback) {
+                    $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
+                        var countryCode = (resp && resp.country) ? resp.country : "";
+                        callback(countryCode);
+                    });
+                },
+                //preferredCountries: ["in"],
+                utilsScript: "scripts/utils.js",
+            });
+        }
+
         $scope.EditgroupOption = 0;
         if ($window.localStorage['UserTypeId'] == 4 || $window.localStorage['UserTypeId'] == 5 || $window.localStorage['UserTypeId'] == 6) {
             $scope.EditgroupOption = 1;
@@ -481,6 +531,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $('#divInstitution').addClass("ng-valid");
                 $('#divInstitution').removeClass("ng-invalid");
             }
+
             $('#divGender').addClass("ng-invalid");
             $('#divDepartment').addClass("ng-invalid");
             $('#divUserType').addClass("ng-invalid");
