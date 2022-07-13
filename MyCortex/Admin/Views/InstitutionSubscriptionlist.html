@@ -176,7 +176,7 @@
                                                         <div class="row">
                                                             <div class="col-md-4" ng-repeat="(key,value) in LanguageList">
                                                                 <div ng-if="value.LanguageName == 'English'">
-                                                                    <input type="checkbox" disabled ng-model="InstitutionAddLanguageList[$index]=true" ng-init="checked=true" id="language{{value.Id}}" ng-click="LanguagelistChange('language'+value.Id,value);"/> {{value.LanguageName}}
+                                                                    <input type="checkbox" disabled ng-model="InstitutionAddLanguageList[$index]" ng-if="InstitutionAddLanguageList[$index]=true" ng-init="checked=true" id="language{{value.Id}}" ng-click="LanguagelistChange('language'+value.Id,value);"/> {{value.LanguageName}}
                                                                 </div>
                                                                 <div ng-if="value.LanguageName !== 'English'">
                                                                     <input type="checkbox" ng-model="InstitutionAddLanguageList[$index]" id="language{{value.Id}}" ng-click="LanguagelistChange('language'+value.Id,value);" />{{value.LanguageName}}

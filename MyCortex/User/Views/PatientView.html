@@ -178,7 +178,7 @@
                                                             <img width="180" height="180" class="responsiveProfileImage" src="../../Images/Others.png" />
                                                         </div>
                                                         <div ng-if="(uploadme!=null)&&uploadview ==true" valign="top" rowspan="6">
-                                                            <img width="180" height="180" class="responsiveProfileImage" src="{{uploadme}}" />
+                                                            <img width="180" height="180" class="responsiveProfileImage" ng-src="{{uploadme}}" />
                                                         </div>
                                                         <a href="javascript:" ng-show="PageParameter==0" ng-click="Active_PatientApproval()"
                                                            class="btn btn-autosize" title="Click to Approve the Patient">Approve</a>
@@ -207,7 +207,7 @@
                                                             <img width="280" height="180" class="responsiveProfileImage" src="../../Images/National_Male.png" />
                                                         </div>
                                                         <div ng-if="(uploadme1!=null)&&Nationaluploadview ==true" valign="top" rowspan="6">
-                                                            <img width="280" height="180" class="responsiveProfileImage" src="{{uploadme1}}" />
+                                                            <img width="280" height="180" class="responsiveProfileImage" ng-src="{{uploadme1}}" />
                                                         </div>
                                                         <!--<a href="javascript:" ng-show="PageParameter==0" ng-click="Active_PatientApproval()"
                                                            class="btn btn-autosize" title="Click to Approve the Patient">Approve</a>
@@ -691,7 +691,7 @@
                                                             <img width="280" height="180" class="responsiveProfileImage" src="../../Images/National_Male.png" />
                                                         </div>
                                                         <div ng-if="(uploadme2!=null)&&Insuranceuploadview ==true" valign="top" rowspan="6">
-                                                            <img width="280" height="180" class="responsiveProfileImage" src="{{uploadme2}}" />
+                                                            <img width="280" height="180" class="responsiveProfileImage" ng-src="{{uploadme2}}" />
                                                         </div>
                                                         <!--<a href="javascript:" ng-show="PageParameter==0" ng-click="Active_PatientApproval()"
                class="btn btn-autosize" title="Click to Approve the Patient">Approve</a>
@@ -728,7 +728,7 @@
         <div class="modal-content" style="width: 1000px;left: -155px;">
             <div class="modal-header">
                 <div class="col-sm-6">
-                    <img src="" id="patient_ins" style="width: 138px; height: 67px; cursor: pointer;">
+                    <img ng-src="" id="patient_ins" style="width: 138px; height: 67px; cursor: pointer;">
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
@@ -776,7 +776,7 @@
                                         <img width="80" height="80" class="responsiveProfileImage" src="../../Images/Others.png" />
                                     </div>
                                     <div ng-if="(uploadme!=null)&&uploadview ==true" valign="top" rowspan="6">
-                                        <img width="80" height="80" class="responsiveProfileImage" src="{{uploadme}}" />
+                                        <img width="80" height="80" class="responsiveProfileImage" ng-src="{{uploadme}}" />
                                     </div>
                                 </div>
                                 <div class="col-sm-4" style="line-height:2;">

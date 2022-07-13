@@ -470,7 +470,7 @@
                                                ng-click="PhotoUplaodSelected()" />
 
                                         <div ng-if="(uploadme!=null || uploadme!='')" valign="top" rowspan="6">
-                                            <img id="item-img-output" style=" width: 200px; height: 200px;" class="responsiveProfileImage" src="{{uploadme}}" />
+                                            <img id="item-img-output" style=" width: 200px; height: 200px;" class="responsiveProfileImage" ng-src="{{uploadme}}" />
                                         </div>
                                         <div style="margin-top: 15px;">
                                             <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="imageclearPatient();"
@@ -534,7 +534,7 @@
         <img id="item-img-output1" style=" width: 300px; height: 200px;" class="responsiveProfileImage2" src="../../Images/National_Male.png" />
     </div>-->
                                         <div ng-if="(uploadme1!=null || uploadme1!='')" valign="top" rowspan="6">
-                                            <img id="item-img-output1" style=" width: 300px; height: 200px;" class="responsiveProfileImage2" src="{{uploadme1}}" />
+                                            <img id="item-img-output1" style=" width: 300px; height: 200px;" class="responsiveProfileImage2" ng-src="{{uploadme1}}" />
                                         </div>
                                         <div style="margin-top: 15px;">
                                             <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="imageclearPatientNational();"
@@ -1343,7 +1343,7 @@
                                                    ng-click="InsurancePhotoUplaodSelected()" />
 
                                             <div ng-if="(uploadme2!=null || uploadme2!='')" valign="top" rowspan="6">
-                                                <img id="item-img-output2" style=" width: 300px; height: 200px;" class="responsiveProfileImage2" src="{{uploadme2}}" />
+                                                <img id="item-img-output2" style=" width: 300px; height: 200px;" class="responsiveProfileImage2" ng-src="{{uploadme2}}" />
                                             </div>
 
                                             <div style="margin-top: 15px;">

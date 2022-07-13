@@ -44,7 +44,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         //    }
         //}
         $http.get(baseUrl + '/Home/LoginLogoDetails/').success(function (resImage) {
-            document.getElementById("patient_ins").src = resImage[0];
+            document.getElementById.toString("patient_ins").src = resImage[0];
         });
         $scope.SearchMsg = "No Data Available";
         $scope.AdminFlowdata = InstSub.getSubID();
@@ -1229,8 +1229,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.InstitutiondetailsListTemp.splice(0, 0, obj);
                     //$scope.InstitutiondetailsListTemp.push(obj);
                     $scope.InstitutionList = angular.copy($scope.InstitutiondetailsListTemp);
-                    $scope.InstitutionId = $scope.AdminFlowdata.toString();
-
+                   // $scope.InstitutionId = $scope.AdminFlowdata.toString();
+                    $scope.AdminFlowdata = $scope.InstitutionId.toString();
                     if ($scope.InstitutionId != "0") {
                         $('#divInstitution').removeClass("ng-invalid");
                         $('#divInstitution').addClass("ng-valid");

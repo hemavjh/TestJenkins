@@ -83,7 +83,10 @@ EmailConfigurationcontroller.controller("EmailConfigurationController", ['$scope
         $scope.InstitutionList = [];
         $scope.InstitutionFilterList = [];
         $http.get(baseUrl + '/api/Institution/InstitutionDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-            $scope.Insitution_Name = data.Institution_Name;
+            if (data != null) {
+                $scope.Insitution_Name = data.Institution_Name;
+            }
+            //$scope.Insitution_Name = data.Institution_Name;
             // $scope.InstitutionFilterList =  angular.copy($scope.InstitutionList); 
         });
 

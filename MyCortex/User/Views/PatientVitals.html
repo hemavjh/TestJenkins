@@ -166,7 +166,7 @@
                             <!--<img src="../../Images/Premium.svg" ng-if="PatientType==2" style="position:absolute;top:20%;right:80%;height:50px;width:50px;">-->
                         </div>
                         <div ng-if="uploadme!=null &&uploadview ==true" valign="top" rowspan="6">
-                            <img src="{{uploadme}}" class="responsiveProfileImage" width="180" height="180" />
+                            <img ng-src="{{uploadme}}" class="responsiveProfileImage" width="180" height="180" />
                             <!--<img src="../../Images/Premium.svg" ng-if="PatientType==2" style="position:absolute;top:20%;right:80%;height:50px;width:50px;">-->
                         </div>
                     </div>
@@ -774,7 +774,7 @@
                 <div class="col-sm-7">
                     <h1 class="page-title" ng-show="ParameterValueList.length>=0">
                         Alerts<sub>
-                            <input type="image" src="../../Images/expand.gif"
+                            <input type="image" ng-src="../../Images/expand.gif"
                                    title='Click to Collapse'
                                    onclick="return divcollapse('tableid', 'tableid_img')"
                                    ng-click="AlertCountredDisplay('')"
@@ -873,7 +873,7 @@
 
                     </div>
 
-                    <div class="row centerScroll" ng-show="ParameterValueList.length>=0" infinityscroll="NextPage('tableid',0)" ng-style="ParameterValueList.length !== 0 && {'height':425px}" style="display:none; " id="tableid">
+                    <div class="row centerScroll" ng-show="ParameterValueList.length>=0" infinityscroll="NextPage('tableid',0)" [ng-style]="ParameterValueList.length !== 0 && {'height':425px}" style="display:none; " id="tableid">
                         <div class="col-sm-3" ng-repeat="row in ParameterValueList">
                             <div ng-class="{'alert alert-success nibp':row.LowCount>0,'alert alert-danger nibp':row.HighCount>0,'alert alert-warning nibp':row.MediumCount>0}">
                                 <div class="notificationsWarnings" ng-show="row.HighCount>0">
@@ -2327,12 +2327,12 @@
                                                             {{row.UOM_Name}}
                                                         </a>
                                                         <a href="home/GetPatient_OtherDataDocument?Id={{row.ParameterId}}" style="text-decoration:none;">
-                                                            <img target="_blank" src="../../Images/download1.png" title="Click to Download">
+                                                            <img target="_blank" ng-src="../../Images/download1.png" title="Click to Download">
                                                         </a>
                                                     </div>
                                                     <div class="alert alert-success nibp" ng-if="row.Type_Id==2 && LiveData_IsImage(row.UOM_Name)==true">
                                                         <img width="180" height="110" class="responsiveProfileImage"
-                                                             src="{{'data:image/png;base64,'+ row.LiveData_Blob}}" /><br />
+                                                             ng-src="{{'data:image/png;base64,'+ row.LiveData_Blob}}" /><br />
                                                         <a href="javascript:" ng-click="Patient_OtherData_Image_View(row.ParameterId)" title="View">
                                                             {{row.UOM_Name}}
                                                         </a>
@@ -2772,7 +2772,7 @@
                             <div class="col-sm-12">
                                 <div class="col-sm-6" style="width:20%">
                                     <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6">
-                                        <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
+                                        <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" ng-src="{{'data:image/png;base64,'+ PhotoBlob}}" />
                                     </div>
                                 </div>
                                 <div class="col-sm-6" style="width:80%">
@@ -5182,7 +5182,7 @@
                                         <div ng-if="(row.PhotoBlob!=null && row.PhotoBlob!='')" valign="top"
                                              rowspan="6">
                                             <img style="margin-left:45px;width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;" class="patientDetimg"
-                                                 src="{{'data:image/png;base64,'+ row.PhotoBlob}}" />
+                                                 ng-src="{{'data:image/png;base64,'+ row.PhotoBlob}}" />
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
@@ -5886,7 +5886,7 @@
                                                 <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/Others.png" />
                                             </div>
                                             <div ng-if="GetDoctorPhoto.PhotoBlob" valign="top" rowspan="6">
-                                                <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{uploadme2}}" />
+                                                <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" ng-src="{{uploadme2}}" />
                                             </div>
                                         </div>
                                         <div class="" style="width:80%">
@@ -6191,7 +6191,7 @@
                                     <div class="flex">
                                         <div class="" style="width:50%">
                                             <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6">
-                                                <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
+                                                <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" ng-src="{{'data:image/png;base64,'+ PhotoBlob}}" />
                                             </div>
                                         </div>
                                         <div class="" style="width:50%; text-align: center;">
@@ -6666,17 +6666,17 @@ Works in Mozilla, Webkit & IE.
                         });
                     });
 
-                    var thumb = getThumbnail(e.target, 50, 50);
-                    var $link = $('<a rel="fancybox">').attr({
-                        target: "_blank",
-                        href: imgObj.imgSrc
-                    }).append(thumb).appendTo($('.preview', $wrapper));
+                    //var thumb = getThumbnail(e.target, 50, 50);
+                    //var $link = $('<a rel="fancybox">').attr({
+                    //    target: "_blank",
+                    //    href: imgObj.imgSrc
+                    //}).append(thumb).appendTo($('.preview', $wrapper));
 
                 }).attr('src', imgObj.imgSrc);
 
             }
 
-            $("a[rel=fancybox]").fancybox();
+          //  $("a[rel=fancybox]").fancybox();
 
             var fileReaderAvailable = (typeof FileReader !== "undefined");
             var clipBoardAvailable = (window.clipboardData !== false);

@@ -88,7 +88,7 @@ GateWaySettingscontroller.controller("GateWaySettingsController", ['$scope', '$h
         $scope.searchqueryGatewaySettings = "";
         /* Filter the master list function for Search*/
         $scope.FilterGatewaySettingsList = function () {
-            var data = $scope.rowCollectionGatewaySettingsFilter.filter(item => item.GatewayId === parseInt($scope.selectedGateway));
+            var data = $scope.rowCollectionGatewaySettings.filter(item => item.GatewayId === parseInt($scope.selectedGateway));
 
             var searchstring = angular.lowercase($scope.searchqueryGatewaySettings);
             if ($scope.searchqueryGatewaySettings == "") {

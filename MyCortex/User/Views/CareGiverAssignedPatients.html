@@ -238,7 +238,7 @@
                         <img class="patientDetimg" src="../../Images/Others.png" />
                     </div>
                     <div ng-if="(row.Photo!=null && row.Photo!='')" valign="top" rowspan="6">
-                        <img class="patientDetimg" src="{{'data:image/png;base64,'+ row.Photo}}" />
+                        <img class="patientDetimg" ng-src="{{'data:image/png;base64,'+ row.Photo}}" />
 
                     </div>
                     <h1><span class="spanwrap">{{row.PatientName}}</span></h1>
