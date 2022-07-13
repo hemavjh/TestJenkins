@@ -196,7 +196,11 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
 
                                 $scope.DosageFromIDList = angular.copy($scope.DosageFromIDListTemp);
                             })
-                            $scope.total_pageDrug = Math.ceil(($scope.DrugCount) / ($scope.page_size));
+                            if ($scope.rowCollection.length > 0) {
+                                $scope.total_pageDrug = Math.ceil(($scope.DrugCount) / ($scope.page_size));
+                            } else {
+                                $scope.total_pageDrug = 1;
+                            }
                         })
                 }).error(function (data) {
                     $("#chatLoaderPV").hide();
@@ -265,6 +269,9 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
                         $scope.rowCollection = data;
                         if ($scope.rowCollection.length > 0) {
                             $scope.DrugCount = $scope.rowCollection[0].TotalRecord;
+                            $scope.total_pageDrug = Math.ceil(($scope.DrugCount) / ($scope.page_size));
+                        } else {
+                            $scope.total_pageDrug =1
                         }
                         $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
                         if ($scope.rowCollectionFilter.length > 0) {
@@ -273,8 +280,7 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
                         else {
                             $scope.flag = 0;
                         }
-
-                        $scope.total_pageDrug = Math.ceil(($scope.DrugCount) / ($scope.page_size));
+                       
                     });
             }
         }

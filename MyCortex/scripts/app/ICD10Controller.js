@@ -138,24 +138,27 @@ ICD10controller.controller("ICD10Controller", ['$scope', '$http', '$filter', '$r
                             $scope.emptydata = [];
                             $scope.rowCollection = [];
                             $scope.rowCollection = data;
-                            $scope.PatientCount = $scope.rowCollection[0].TotalRecord;
                             $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
-
                             if ($scope.rowCollectionFilter.length > 0) {
                                 $scope.flag = 1;
                             }
                             else {
                                 $scope.flag = 0;
                             }
-                            $http.get(baseUrl + '/api/MasterICD/CategoryMasterList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
-                                $("#chatLoaderPV").hide();
-                                $scope.CategoryIDListTemp = [];
-                                $scope.CategoryIDListTemp = data;
-                                var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
-                                $scope.CategoryIDListTemp.splice(0, 0, obj);
-                                $scope.CategoryIDList = angular.copy($scope.CategoryIDListTemp);
-                            });
-                            $scope.total_page = Math.ceil(($scope.PatientCount) / ($scope.page_size));
+                            if ($scope.rowCollection.length > 0) {
+                                $scope.PatientCount = $scope.rowCollection[0].TotalRecord;   
+                                $http.get(baseUrl + '/api/MasterICD/CategoryMasterList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
+                                    $("#chatLoaderPV").hide();
+                                    $scope.CategoryIDListTemp = [];
+                                    $scope.CategoryIDListTemp = data;
+                                    var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+                                    $scope.CategoryIDListTemp.splice(0, 0, obj);
+                                    $scope.CategoryIDList = angular.copy($scope.CategoryIDListTemp);
+                                });
+                                $scope.total_page = Math.ceil(($scope.PatientCount) / ($scope.page_size));
+                            } else {
+                                $scope.total_page = 1;
+                            }
                         })
                 }).error(function (data) {
                     $("#chatLoaderPV").hide();
@@ -196,7 +199,6 @@ ICD10controller.controller("ICD10Controller", ['$scope', '$http', '$filter', '$r
                         $scope.emptydata = [];
                         $scope.rowCollection = [];
                         $scope.rowCollection = data;
-                        $scope.PatientCount = $scope.rowCollection[0].TotalRecord;
                         $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
                         if ($scope.rowCollectionFilter.length > 0) {
                             $scope.flag = 1;
@@ -204,8 +206,12 @@ ICD10controller.controller("ICD10Controller", ['$scope', '$http', '$filter', '$r
                         else {
                             $scope.flag = 0;
                         }
-
-                        $scope.total_page = Math.ceil(($scope.PatientCount) / ($scope.page_size));
+                        if ($scope.rowCollection.length > 0) {
+                            $scope.PatientCount = $scope.rowCollection[0].TotalRecord; 
+                            $scope.total_page = Math.ceil(($scope.PatientCount) / ($scope.page_size));
+                        } else {
+                            $scope.total_page = 1;                          
+                        }
                     });
             }
         }

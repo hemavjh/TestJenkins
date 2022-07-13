@@ -232,10 +232,10 @@
                                                 <tr>
                                                     <td>
                                                         <div class="row">
-                                                            <div class="col-md-4" ng-repeat="(key,value) in TelephoneList">
-                                                                    <input type="radio" id="telephone_Id{{value.Id}}" ng-model="TelePhone_User" ng-click="TelePhoneChange('telephone_Id'+value.Id,value);"
-                                                                       value={{value.Id}} name="TelePhone"/> 
-                                                                {{value.Name}}
+                                                            <div class="col-md-4" ng-repeat="sel in TelephoneList">
+                                                            <input type="radio" id="telephone_Id{{sel.Id}}" ng-selected="{{TelePhone_User == sel.Id}}" ng-model="TelePhone_User" ng-click="TelePhoneChange('telephone_Id'+sel.Id,sel);"
+                                                                   value={{sel.Id}} name="TelePhone" />
+                                                            {{sel.Name}}
                                                             </div>
                                                         </div>
                                                     </td>
@@ -660,10 +660,10 @@
                                                 <tr>
                                                     <td>
                                                         <div class="row">
-                                                            <div class="col-md-4" ng-repeat="(key,value) in TelephoneList">
-                                                                    <input type="radio" disabled="disabled" id="telephone_Id{{value.Id}}" ng-model="TelePhone_User" ng-click="TelePhoneChange('telephone_Id'+value.Id,value);"
-                                                                       value={{value.Id}} name="TelePhone"/> 
-                                                                {{value.Name}}
+                                                            <div class="col-md-4" ng-repeat="sel in TelephoneList">
+                                                                <input type="radio" id="telephone_Id{{sel.Id}}" disabled="disabled" ng-selected="{{TelePhone_User == sel.Id}}" ng-model="TelePhone_User" ng-click="TelePhoneChange('telephone_Id'+sel.Id,sel);"
+                                                                       value={{sel.Id}} name="TelePhone" />
+                                                                {{sel.Name}}
                                                             </div>
                                                         </div>
                                                     </td>
