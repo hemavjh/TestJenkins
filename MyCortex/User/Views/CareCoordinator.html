@@ -270,7 +270,7 @@
                     <img class="patientDetimg" src="../../Images/Others.png" />
                 </div>
                 <div ng-if="(!row.Photo==null || !row.PhotoBlob==0)" valign="top" rowspan="6">
-                    <img class="patientDetimg" src="{{'data:image/png;base64,'+ row.PhotoBlob}}" />
+                    <img class="patientDetimg" ng-src="{{'data:image/png;base64,'+ row.PhotoBlob}}" />
 
                 </div>
                 <h1><span class="spanwrap">{{row.PatientName}}</span></h1>

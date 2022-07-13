@@ -1261,13 +1261,13 @@
                 $('#call-page').hide();
                 chatService.getaddressbookDetails($('#contactSearch').val());
             }
-        })
+        })        
         $(window).on("load", function () {
 
             $('#chatBox').attr("style", "display:none");
             $('#btnopenchat').hide();
             $("#showchatIcon").hide();
-            if (window.localStorage['UserTypeId'] != "1" && window.localStorage['UserTypeId'] != "3") {
+            if (window.localStorage['UserTypeId'] != "1" && window.localStorage['UserTypeId'] != "3" && @HttpContext.Current.Session["TelePhone_User"].ToString() == "1") {
                 utilService.initializeChat();
             }
 
@@ -1312,13 +1312,13 @@
 
     function openChatWindow() {
         if (window.localStorage['UserTypeId'] != "1" && window.localStorage['UserTypeId'] != "3") {
-            chatService.openChatfromOtherPage();
+                chatService.openChatfromOtherPage();
+            }
+            else {
+                $('#chatBox').attr("style", "display:none");
+                $('#btnopenchat').attr("style", "display:none");
+            }
         }
-        else {
-            $('#chatBox').attr("style", "display:none");
-            $('#btnopenchat').attr("style", "display:none");
-        }
-    }
     function openNav() {
         document.getElementById("mySidenav").style.width = "290px";
     }
@@ -1467,7 +1467,7 @@
                 chatService.openProfile();
         } else {
             $('#chatBox').attr("style", "display:none");
-            $('#btnopenchat').attr("style", "display:none");
+            $('#btnopenchat').attr("style", "display:flex");
         }
     }
     function videoCallUser(val = null) {
@@ -1483,7 +1483,7 @@
         }
         else {
             $('#chatBox').attr("style", "display:none");
-            $('#btnopenchat').attr("style", "display:none");
+            $('#btnopenchat').attr("style", "display:flex");
         }
     }
     function openUserChat(userType, viewUser, userValidity)

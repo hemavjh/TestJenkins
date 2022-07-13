@@ -17,18 +17,27 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
         $scope.calcNewYear;
         $scope.isvideo = false;
         $scope.islivebox = "";
+        $scope.isCometChat = "";
+        $scope.isAudio = false;
+        $scope.isVideoC = false;
         $http.get(baseUrl + '/api/CommonMenu/CommonTelephone_List?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (response) {
             if (response != null) {
                 if (response.length > 0) {
-                    $scope.islivebox = $filter('filter')(response, { ID: '2' })[0];
                     angular.forEach(response, function (item, index) {
                         $scope.Name = item.NAME;
-                        if ($scope.Name == 'LiveBox') {
-                            $('#MyvideoDisable').attr("disabled", true);
-                            $scope.isvideo = true;
-                        }
-                        else {
+                        if ($scope.Name == 'CometChat') {
+                            $('#AudioDisable').attr("disabled", true);
+                            $('#videoDisable').attr("disabled", true);
                             $('#MyvideoDisable').attr("disabled", false);
+                            $scope.isAudio = true;
+                            $scope.isVideoC = true;
+                            //    $('#btnopenchat').show();
+                        }
+                        else if ($scope.Name == 'LiveBox') {
+                            $('#MyvideoDisable').attr("disabled", true);
+                            $('#AudioDisable').attr("disabled", false);
+                            $('#videoDisable').attr("disabled", false);
+                            $scope.isvideo = true;
                         }
                     })
                 }
@@ -293,7 +302,7 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
             }
             else {
                 $('#chatBox').attr("style", "display:none");
-                $('#btnopenchat').attr("style", "display:none");
+                $('#btnopenchat').attr("style", "display:flex");
             }
         }
 

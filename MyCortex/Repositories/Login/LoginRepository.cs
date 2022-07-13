@@ -158,7 +158,7 @@ namespace MyCortex.Repositories.Login
             }
             else
             {
-                dt = ClsDataBase.GetDataTable("[MYCORTEX].LOGIN_SP_VALIDATIONSCHECK_INSERT", param);
+                dt = ClsDataBase.GetDataTable("[MYCORTEX].[LOGIN_SP_VALIDATIONSCHECK_INSERT]", param);
             }
             LoginModel lst = (from p in dt.AsEnumerable()
                               select
@@ -172,6 +172,7 @@ namespace MyCortex.Repositories.Login
                                   TabID = p.Field<long>("TABID"),
                                   TabName = p.Field<string>("TabName"),
                                   Login_Session_Id = p.Field<Guid?>("Session_Id"),
+                                  TelePhone_User = p.Field<int>("TelePhone_User"),
 
                                   UserDetails = new UserModel()
                                   {
