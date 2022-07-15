@@ -37,6 +37,7 @@ namespace MyCortex.User.Controller
         /// <param name="flag"></param>
         /// <param name="ViewDate"></param>
         /// <returns>Patient Appointment list for a date and doctor</returns>
+        [CheckSessionOutFilter]
         [HttpGet]
         public IList<PatientAppointmentsModel> DoctorAppointmentList(long Doctor_Id, int flag, DateTime? ViewDate, Guid Login_Session_Id)
         {
@@ -134,6 +135,7 @@ namespace MyCortex.User.Controller
         /// </summary>
         /// <param name="insobj"></param>
         /// <returns>inserted patient appointment</returns>
+        [CheckSessionOutFilter]
         [HttpPost]
         public HttpResponseMessage PatientAppointment_InsertUpdate(Guid Login_Session_Id,[FromBody] PatientAppointmentsModel insobj)
         {
@@ -306,7 +308,7 @@ namespace MyCortex.User.Controller
                 return null;
             }
         }
-
+        [CheckSessionOutFilter]
         [HttpGet]
         public IList<AppointmentPaymentHistory> AppointmentPaymentHistory(long appointmentId, Guid Login_Session_Id, long Institution_Id)
         {
@@ -365,7 +367,7 @@ namespace MyCortex.User.Controller
                 return null;
             }
         }
-
+        [CheckSessionOutFilter]
         [HttpGet]
         public HttpResponseMessage GetScheduledDates(Guid Login_Session_Id,long InstitutionId)
         {
@@ -461,7 +463,7 @@ namespace MyCortex.User.Controller
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
-
+        [CheckSessionOutFilter]
         [HttpPost]
         public HttpResponseMessage AddDoctorShiftInsertUpdate([FromBody] DoctorShiftModel obj, Guid Login_Session_Id)
         {

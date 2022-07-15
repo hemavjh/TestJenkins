@@ -35,6 +35,7 @@ namespace MyCortex.Template.Controllers
         /// </summary>
         /// <param name="obj">details of Email Template </param>      
         /// <returns>template details of the Inserted/Updated record</returns>
+        [HttpPost]
         public HttpResponseMessage EmailTemplateTag_AddEdit([FromBody] EmailTemplateDesignModel obj)
         {
 

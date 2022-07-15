@@ -31,6 +31,7 @@ namespace MyCortex.User.Controllers
         /// to get assigned patient list to a caregiver on CG login     
         /// </summary>
         /// <returns>assigned patient list to a caregiver</returns>
+        [CheckSessionOutFilter]
         [HttpGet]
         public IList<CareGiverModel> CareGiver_AssignedPatientList(long CareGiver_Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, Guid Login_Session_Id)
         {
@@ -54,6 +55,7 @@ namespace MyCortex.User.Controllers
         /// </summary>
         /// <param name="obj">CG assigned alert Id</param>
         /// <returns></returns>
+        [HttpPost]
         public HttpResponseMessage CG_Update_ClearAlerts(CareGiverModel obj)
         {
              _AppLogger = this.GetType().FullName;
@@ -76,6 +78,7 @@ namespace MyCortex.User.Controllers
         /// </summary>
         /// <param name="Patient_Id">Patient Id</param>
         /// <returns>CG assigned patient history list</returns>
+        [CheckSessionOutFilter]
         [HttpGet]
         public IList<CG_Patient_NotesModel> AlertHistory_View(long Patient_Id, Guid Login_Session_Id)
         {

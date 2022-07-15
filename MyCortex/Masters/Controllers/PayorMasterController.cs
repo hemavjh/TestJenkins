@@ -23,13 +23,14 @@ namespace MyCortex.Masters.Controllers
     public class PayorMasterController : ApiController
     {
         static readonly IPayorMasterRepository repository = new PayorMasterRepository();
- 
+
 
         /// <summary>
         /// to insert/update a Payor Master list
         /// </summary>
         /// <param name="obj">a Payor Master detail</param>
         /// <returns>inserted/updated Payor Master list</returns>
+        [HttpPost]
         public HttpResponseMessage PayorMaster_AddEdit([FromBody] PayorMasterModel obj)
         {
 

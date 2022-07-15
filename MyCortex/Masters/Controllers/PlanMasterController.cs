@@ -23,13 +23,14 @@ namespace MyCortex.Masters.Controllers
     public class PlanMasterController : ApiController
     {
         static readonly IPlanMasterRepository repository = new PlanMasterRepository();
- 
+
 
         /// <summary>
         /// to insert/update a Plan Master list
         /// </summary>
         /// <param name="obj">a Plan Master detail</param>
         /// <returns>inserted/updated Plan Master list</returns>
+        [HttpPost]
         public HttpResponseMessage PlanMasterAddEdit(Guid Login_Session_Id, [FromBody] PlanMasterModel obj)
         {
 
@@ -79,6 +80,7 @@ namespace MyCortex.Masters.Controllers
         }
 
         [HttpGet]
+        [CheckSessionOutFilter]
         public IList<PlanMasterModel> PlanList(int IsActive, long InstitutionId, int StartRowNumber, int EndRowNumber, Guid Login_Session_Id)
         {
             IList<PlanMasterModel> model;
@@ -92,6 +94,7 @@ namespace MyCortex.Masters.Controllers
         /// <param name="Id">Id of a Plan Master</param>
         /// <returns>Plan master details of a Plan master</returns>
         [HttpGet]
+        [CheckSessionOutFilter]
         public PlanMasterModel PlanMasterView(Guid Login_Session_Id, int Id)
         {
             PlanMasterModel model = new PlanMasterModel();

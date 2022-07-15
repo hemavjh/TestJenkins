@@ -110,6 +110,7 @@ namespace MyCortex.Template.Controllers
         /// <param name="BLOODGROUP_ID"></param>
         /// <param name="Group_Id"></param>
         /// <returns></returns>
+        [HttpGet]
         public IList<SendEmailModel> Get_SendEmail_UserList(string UserTypeId, long Institution_Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id)
         {
              _AppLogger = this.GetType().FullName;
@@ -349,6 +350,7 @@ namespace MyCortex.Template.Controllers
         /// <param name="Institution_Id"></param>
         /// <param name="TemplateType_Id"></param>
         /// <returns></returns>
+        [HttpGet]
         public SendEmailModel GenerateTemplate(long Id, long Template_Id, long Institution_Id, long TemplateType_Id)
         {
              _AppLogger = this.GetType().FullName;
@@ -391,6 +393,7 @@ namespace MyCortex.Template.Controllers
         /// <param name="INSTITUTION_ID"></param>
         /// <param name="TemplateType_Id"></param>
         /// <returns></returns>
+        [CheckSessionOutFilter] 
         [HttpGet]
         public IList<EmailHistoryListModel> EmailHistory_List(long? Id, DateTime? Period_From, DateTime? Period_To, int? Email_Stauts, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID, long TemplateType_Id, Guid Login_Session_Id)
         {
@@ -747,6 +750,7 @@ namespace MyCortex.Template.Controllers
         /// </summary>
         /// <param name="User_Id">User Id</param>
         /// <returns>Notification list of a user</returns>
+        [CheckSessionOutFilter]
         [HttpGet]
         public UserNotificationListModel User_get_NotificationList(long User_Id,Guid Login_Session_Id)
         {

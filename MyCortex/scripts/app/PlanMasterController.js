@@ -146,7 +146,12 @@ PlanMastercontroller.controller("PlanMasterController", ['$scope', '$http', '$fi
                             $scope.emptydata = [];
                             $scope.rowCollection = [];
                             $scope.rowCollection = data;
-                            $scope.PatientCount = $scope.rowCollection[0].TotalRecord;
+                            if ($scope.rowCollection.length > 0) {
+                                $scope.PatientCount = $scope.rowCollection[0].TotalRecord;
+                            } else {
+                                $scope.PatientCount = 0;
+                            }
+                            //$scope.PatientCount = $scope.rowCollection[0].TotalRecord;
                             $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
 
                             if ($scope.rowCollectionFilter.length > 0) {
