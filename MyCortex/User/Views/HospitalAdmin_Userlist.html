@@ -4,6 +4,35 @@
             opacity: 0;
         }
     </style>
+    <style>
+        .select2-container--default .select2-selection--single {
+            background-color: #fff;
+            border: 1px solid #ccc !important;
+            border-radius: 4px;
+            height: 34px;
+            font-size: 14px;
+            font-weight: 400;
+            padding: 3px 3px;
+        }
+
+        .select2-container--default .select2-selection--multiple {
+            background-color: #fff;
+            border: 1px solid #ccc !important;
+            border-radius: 4px;
+            height: 34px;
+            font-size: 14px;
+            font-weight: 400;
+            padding: 0px 3px;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 26px;
+            position: absolute;
+            top: 4px;
+            right: 7px;
+            width: 20px;
+        }
+    </style>
     <script>
         $('#btnLogo').click(function () {
             $("#UserLogo").trigger('click');
@@ -112,8 +141,8 @@
             if (day < 10)
                 day = '0' + day.toString();
 
-            var maxDate = year + '-' + month + '-' + day;           
-          $('#Date_Birth').attr('max', maxDate);            
+            var maxDate = year + '-' + month + '-' + day;
+            $('#Date_Birth').attr('max', maxDate);
         });
         function SetmaxDateDOB() {
             var maxdatedob = document.getElementById('maxdatedob').value;
@@ -280,7 +309,7 @@
                     </div>
                     <div class="col-sm-2">
                         <div class="inputGroups">
-                            <a href="javascript:" ng-click="AddUserPopUP();ClearPopUp();InstitutionBased_CountryStateList()"
+                            <a href="javascript:" ng-click="ClearPopUp();AddUserPopUP();InstitutionBased_CountryStateList()"
                                class="theme-btn-1 pull-right mt-15 text-center" onclick="SetmaxDateDOB();" title='Add New User'>Add New</a>
                         </div>
                     </div>
@@ -297,13 +326,13 @@
                         <label>
                             User Type
                         </label>
-                        <select class="form-control" data-style="form-control" ng-model="filter_CL_UserType" id="ddlustype" data-live-search="true" data-selectpicker data-collection-name="UserTypeList2"
+                        <select class="form-control" data-style="form-control" ng-model="filter_CL_UserType" id="filter_CL_UserType" data-live-search="true" data-collection-name="UserTypeList2"
                                 ng-change="getBase64Image();ClearGroup();">
                             <option value="0">Select</option>
-                            <option ng-repeat="sel in UserTypeList2"
+                            <!--<option ng-repeat="sel in UserTypeList2"
                                     ng-selected="filter_CL_UserType==sel.Id" value="{{sel.Id}}">
                                 {{sel.UserName}}
-                            </option>
+                            </option>-->
                         </select>
                     </div>
                     <div class="inputGroups">
@@ -317,13 +346,13 @@
                 <div class="col-sm-3">
                     <div class="inputGroups">
                         <label>Nationality</label>
-                        <select class="form-control" data-style="form-control" ng-model="Filter_CL_Nationality" id="Select5" data-live-search="true"
-                                data-selectpicker data-collection-name="NationalityList2">
+                        <select class="form-control" data-style="form-control" ng-model="Filter_CL_Nationality" id="Filter_CL_Nationality" data-live-search="true"
+                                 data-collection-name="NationalityList2">
                             <option value="0">Select</option>
-                            <option ng-repeat="sel in NationalityList2"
+                            <!--<option ng-repeat="sel in NationalityList2"
                                     ng-selected="Filter_CL_Nationality==sel.Id" value="{{sel.Id}}">
                                 {{sel.Name}}
-                            </option>
+                            </option>-->
                         </select>
                     </div>
                     <!--<div class="inputGroups">
@@ -449,8 +478,11 @@
 <div class="inputGroups center-block" style="text-align: center;max-width:320px;">
     <label>Group</label>
 
-    <select ng-model="AssignedGroup" multiple="multiple"
-            ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList" multiselect-dropdown style="width: 230px;"></select>
+    <!--<select ng-model="AssignedGroup" multiple="multiple"
+            ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList" multiselect-dropdown style="width: 230px;"></select>-->
+    <select class="form-control" data-style="form-control" ng-model="AssignedGroup" multiple="multiple" id="AssignedGroup">
+        <option value="0">Select</option>
+    </select>
     <a href="javascript:" ng-click="BuisnessuserAssignGroup()" class="theme-btn-1 mtb-15 mr-10">Update Group</a>
     <a href="javascript:" ng-click="AddGroupPopup(GroupClearPopUp())" class="
        theme-btn-1 mtb-15">Create Group</a>
@@ -600,13 +632,13 @@
                                                                 </sup>
                                                             </label>
                                                             <!--<div id="divGender" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                                            <select class="form-control" data-style="form-control" ng-model="GenderId" id="Select3" data-live-search="true" data-selectpicker data-collection-name="GenderList"
+                                                            <select class="form-control" data-style="form-control" ng-model="GenderId" id="GenderId" data-live-search="true" data-collection-name="GenderList"
                                                                     ng-change="getBase64Image();">
                                                                 <option value="0">Select</option>
-                                                                <option ng-repeat="sel in GenderList"
+                                                                <!--<option ng-repeat="sel in GenderList"
                                                                         ng-selected="GenderId==sel.Id" value="{{sel.Id}}">
                                                                     {{sel.Gender_Name}}
-                                                                </option>
+                                                                </option>-->
                                                             </select>
                                                             <!--</div>-->
                                                         </div>
@@ -621,13 +653,13 @@
                                                                 </sup>
                                                             </label>
                                                             <!--<div id="divDepartment" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                                            <select class="form-control" data-style="form-control" ng-model="DepartmentId" id="Select1"
-                                                                    data-live-search="true" data-selectpicker data-collection-name="DepartmentList">
+                                                            <select class="form-control" data-style="form-control" ng-model="DepartmentId" id="DepartmentId"
+                                                                    data-live-search="true" data-collection-name="DepartmentList">
                                                                 <option value="0">Select</option>
-                                                                <option ng-repeat="sel in DepartmentList"
+                                                                <!--<option ng-repeat="sel in DepartmentList"
                                                                         value="{{sel.Id}}" ng-selected="DepartmentId==sel.Id">
                                                                     {{sel.Department_Name}}
-                                                                </option>
+                                                                </option>-->
                                                             </select>
                                                             <!--</div>-->
                                                         </div>
@@ -669,21 +701,24 @@
                                                                 </sup>
                                                             </label>
                                                             <!--<div id="divUserType" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                                            <select class="form-control" data-style="form-control" ng-model="UserTypeId" id="Select2" data-live-search="true" data-selectpicker data-collection-name="UserTypeList"
+                                                            <select class="form-control" data-style="form-control" ng-model="UserTypeId" id="UserTypeId" data-live-search="true"  data-collection-name="UserTypeList"
                                                                     ng-change="getBase64Image();ClearGroup();">
                                                                 <option value="0">Select</option>
-                                                                <option ng-repeat="sel in UserTypeList"
+                                                                <!--<option ng-repeat="sel in UserTypeList"
                                                                         ng-selected="UserTypeId==sel.Id" value="{{sel.Id}}">
                                                                     {{sel.UserName}}
-                                                                </option>
+                                                                </option>-->
                                                             </select>
                                                             <!--</div>-->
                                                         </div>
                                                         <div class="inputGroups" ng-hide="UserTypeId==7">
                                                             <label>Group</label>
-                                                            <select ng-model="SelectedGroup" multiple="multiple"
+                                                            <!--<select ng-model="SelectedGroup" multiple="multiple"
                                                                     ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList"
                                                                     multiselect-dropdown style="width: 230px;">
+                                                                <option value="0">Select</option>
+                                                            </select>-->
+                                                            <select class="form-control" data-style="form-control" ng-model="SelectedGroup" multiple="multiple" id="SelectedGroup">
                                                                 <option value="0">Select</option>
                                                             </select>
                                                         </div>
@@ -788,13 +823,13 @@
                                                                 </sup>
                                                             </label>
                                                             <!--<div id="divNationality" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                                            <select class="form-control" data-style="form-control" ng-model="NationalityId" id="Select5" data-live-search="true"
-                                                                    data-selectpicker data-collection-name="NationalityList">
+                                                            <select class="form-control" data-style="form-control" ng-model="NationalityId" id="NationalityId" data-live-search="true"
+                                                                     data-collection-name="NationalityList">
                                                                 <option value="0">Select</option>
-                                                                <option ng-repeat="sel in NationalityList"
+                                                                <!--<option ng-repeat="sel in NationalityList"
                                                                         ng-selected="NationalityId==sel.Id" value="{{sel.Id}}">
                                                                     {{sel.Name}}
-                                                                </option>
+                                                                </option>-->
                                                             </select>
                                                             <!--</div>-->
                                                         </div>
@@ -873,7 +908,7 @@
                                                                 </sup>
                                                             </label>
                                                             <!--<div id="divCountry" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                                            <select class="form-control" data-style="form-control" data-live-search="true"
+                                                            <!--<select class="form-control" data-style="form-control" data-live-search="true"
                                                                     id="countryselectpicker" data-selectpicker
                                                                     data-collection-name="CountryNameList" ng-model="CountryId"
                                                                     ng-change="CountryBased_StateFunction();">
@@ -882,6 +917,12 @@
                                                                         value="{{sel.Id}}">
                                                                     {{sel.CountryName}}
                                                                 </option>
+                                                            </select>-->
+                                                            <select class="form-control" data-style="form-control" ng-model="CountryId" id="CountryId"
+                                                                    data-live-search="true" data-collection-name="CountryNameList"
+                                                                    ng-change="CountryBasedStateFunction();">
+                                                                <option value="0">Select</option>
+
                                                             </select>
                                                             <!--</div>-->
                                                         </div>
@@ -892,16 +933,21 @@
                                                                 </sup>
                                                             </label>
                                                             <!--<div id="divCity" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                                            <select class="form-control" data-style="form-control" id="SelectCity" data-live-search="true"
+                                                            <!--<select class="form-control" data-style="form-control" id="SelectCity" data-live-search="true"
                                                                     data-selectpicker data-collection-name="LocationName_List" ng-model="CityId">
                                                                 <option value="0">Select</option>
                                                                 <option ng-repeat="sel in LocationName_List"
                                                                         value="{{sel.Id}}">
                                                                     {{sel.LocationName}}
                                                                 </option>
+                                                            </select>-->
+                                                            <select class="form-control" data-style="form-control" ng-model="CityId" id="CityId"
+                                                                    data-live-search="true" data-collection-name="LocationName_List">
+                                                                <option value="0">Select</option>
+
                                                             </select>
-                                                        <!--</div>-->
-                                                    </div>
+                                                            <!--</div>-->
+                                                        </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="inputGroups">
@@ -925,7 +971,7 @@
                                                             </sup>
                                                         </label>
                                                         <div id="divState" class="ng-invalid ddlValidationBorder" ng-required="true">
-                                                            <select class="form-control" data-style="form-control" id="stateselectpicker"
+                                                            <!--<select class="form-control" data-style="form-control" id="stateselectpicker"
                                                                     data-live-search="true" data-selectpicker
                                                                     data-collection-name="StateName_List" ng-model="StateId"
                                                                     ng-change="StateBased_CityFunction();">
@@ -934,6 +980,12 @@
                                                                         value="{{sel.Id}}">
                                                                     {{sel.StateName}}
                                                                 </option>
+                                                            </select>-->
+                                                            <select class="form-control" data-style="form-control" id="StateId"
+                                                                    data-live-search="true" data-collection-name="StateName_List" ng-model="StateId"
+                                                                    ng-change="StateBasedCityFunction();">
+                                                                <option value="0">Select</option>
+                                                               
                                                             </select>
                                                         </div>
                                                     </div>

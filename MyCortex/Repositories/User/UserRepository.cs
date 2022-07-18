@@ -88,6 +88,37 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
+        /// <summary>      
+        /// Getting list of department
+        /// </summary>          
+        /// <returns>list of department</returns>
+        public IList<DepartmentModel> CloneDepartmentList(string searchstring)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                param.Add(new DataParameter("@SearchString", searchstring));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].CLONE_DEPARTMENT_SP_LIST", param);
+                List<DepartmentModel> lst = (from p in dt.AsEnumerable()
+                                             select new DepartmentModel()
+                                             {
+                                                 Id = p.Field<long>("Id"),
+                                                 Department_Name = p.Field<string>("Department_Name"),
+                                                 IsActive = p.Field<int>("IsActive")
+                                             }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
         public IList<DepartmentModel> DepartmentListByInstitution(long Institution_Id)
         {
              _AppLogger = this.GetType().FullName;
@@ -192,6 +223,37 @@ namespace MyCortex.Repositories.Uesr
             catch (Exception ex)
             {
               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
+        /// <summary>      
+        /// Getting list of business user types
+        /// </summary>          
+        /// <returns>list of business user types</returns>
+        public IList<BusinessUser_UserTypeListModel> Clone_BusinessUser_UserTypeList(string searchstring)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                param.Add(new DataParameter("@SearchString", searchstring));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].CLONE_BUSINESS_USER_SP_USERTYPELIST", param);
+                List<BusinessUser_UserTypeListModel> lst = (from p in dt.AsEnumerable()
+                                                            select new BusinessUser_UserTypeListModel()
+                                                            {
+                                                                Id = p.Field<long>("Id"),
+                                                                UserName = p.Field<string>("TypeName"),
+                                                                IsActive = p.Field<int>("IsActive")
+                                                            }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -1546,7 +1608,8 @@ namespace MyCortex.Repositories.Uesr
                                                {
                                                    Id = p.Field<long>("Id"),
                                                    User_Id = p.Field<long>("UserId"),
-                                                   Group_Id = p.Field<long>("Group_Id")
+                                                   Group_Id = p.Field<long>("Group_Id"),
+                                                   GroupName = p.Field<string>("GroupName")
                                                }).ToList();
             return INS;
         }

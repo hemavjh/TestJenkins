@@ -62,10 +62,41 @@ namespace MyCortex.Repositories.Masters
         }
 
         /// <summary>      
+        /// Getting Country to populate dropdown
+        /// </summary>          
+        /// <returns>Populated List of Country </returns>
+        public IList<CountryMasterModel> CloneCountryList(string searchstring)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                param.Add(new DataParameter("@SearchString", searchstring));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].CLONE_COUNTRYMASTER_SP_COUNTRYNAME", param);
+                List<CountryMasterModel> lst = (from p in dt.AsEnumerable()
+                                                select new CountryMasterModel()
+                                                {
+                                                    Id = p.Field<long>("Id"),
+                                                    CountryName = p.Field<string>("COUNTRY_NAME"),
+                                                    IsActive = p.Field<int>("IsActive")
+                                                }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
+        /// <summary>      
         /// Getting State to populate dropdown
         /// </summary>          
         /// <returns>List of State </returns>
-      public IList<StateMasterModel> StateList()
+        public IList<StateMasterModel> StateList()
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -153,6 +184,40 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
+        /// <summary>      
+        /// Getting State list of a country to populate dropdown
+        /// </summary>          
+        /// <returns>List of State of a country</returns>
+        public IList<StateMasterModel> Clone_Get_StateList(long CountryId, string searchstring)
+        {
+            string countryId = CountryId.ToString();
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                param.Add(new DataParameter("@COUNTRYID", countryId));
+                param.Add(new DataParameter("@SearchString", searchstring));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].CLONE_COUNTRYASEDSTATE_SP_LIST", param);
+                List<StateMasterModel> lst = (from p in dt.AsEnumerable()
+                                              select new StateMasterModel()
+                                              {
+                                                  Id = p.Field<long>("Id"),
+                                                  CountryId = p.Field<long?>("CountryId"),
+                                                  StateName = p.Field<string>("StateName"),
+                                                  IsActive = p.Field<int>("IsActive"),
+                                              }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
 
         /// <summary>      
         /// Getting city list of a state to populate dropdown
@@ -187,6 +252,44 @@ namespace MyCortex.Repositories.Masters
                 return null;
             }
         }
+
+        /// <summary>      
+        /// Getting city list of a state to populate dropdown
+        /// </summary>          
+        /// <returns>List of city of a state</returns>
+        public IList<LocationMasterModel> Clone_Get_LocationList(long CountryId, long StateId, string searchstring)
+        {
+            string countryId = CountryId.ToString();
+            string stateId = StateId.ToString();
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                param.Add(new DataParameter("@COUNTRYID", countryId));
+                param.Add(new DataParameter("@STATEID", stateId));
+                param.Add(new DataParameter("@SearchString", searchstring));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].CLONE_STATEBASEDLOCATION_SP_LIST", param);
+                List<LocationMasterModel> lst = (from p in dt.AsEnumerable()
+                                                 select new LocationMasterModel()
+                                                 {
+                                                     Id = p.Field<long>("Id"),
+                                                     // CountryId = p.Field<int?>("CountryId"),
+                                                     StateId = p.Field<long?>("StateId"),
+                                                     Active = p.Field<int>("IsActive"),
+                                                     LocationName = p.Field<string>("LocationName")
+                                                 }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
         /// <summary>
         /// user group list
         /// </summary>
@@ -218,6 +321,41 @@ namespace MyCortex.Repositories.Masters
                 return null;
             }
         }
+
+        /// <summary>
+        /// user group list
+        /// </summary>
+        /// <param name="Institution_Id">Institution Id</param>
+        /// <returns>users group list of a institution</returns>
+        public IList<GroupTypeModel> Clone_GroupTypeList(long Institution_Id, string searchstring)
+        {
+            string institution_Id = Institution_Id.ToString();
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                param.Add(new DataParameter("@INSTITUTION_ID", institution_Id));
+                param.Add(new DataParameter("@SearchString", searchstring));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].CLONE_GROUPTYPE_SP_LIST", param);
+                List<GroupTypeModel> lst = (from p in dt.AsEnumerable()
+                                            select new GroupTypeModel()
+                                            {
+                                                Id = p.Field<long>("Id"),
+                                                GROUP_NAME = p.Field<string>("GROUP_NAME"),
+                                                IsActive = p.Field<int>("IsActive")
+                                            }).ToList();
+                 return lst;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
         /// <summary>
         /// gender name list
         /// </summary>

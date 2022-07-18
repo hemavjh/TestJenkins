@@ -212,6 +212,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.InsCountryId = "0";
         $scope.InsStateId = "0";
         $scope.InsCityId = "0";
+        $scope.InsCountryName = "";
+        $scope.InsStateName = "";
+        $scope.InsCityName = "";
         $scope.PhotoValue = 0;
         $scope.PhotoValue1 = 0;
         $scope.PhotoValue2 = 0;
@@ -341,6 +344,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 URL = baseUrl + '/api/Common/CloneChronicConditionList/';
                 $('#SelectedChronicCondition').select2({
                     placeholder: "Select",
+                    selectAll: true,
                     ajax: {
                         dataType: "json",
                         url: URL,
@@ -363,25 +367,143 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             };
                         },
                         cache: true
-                    }
+                    },
+                    width: '100%'
                 });
             }
         };
 
+        $scope.LoadGroupTypeList = function () {
+            URL = baseUrl + '/api/Common/CloneGroupTypeList/';
+            $('#SelectedGroup').select2({
+                placeholder: "Select",
+                selectAll: true,
+                ajax: {
+                    dataType: "json",
+                    url: URL,
+                    data: function (params) {
+                        return {
+                            q: params.term, // search term
+                            Institution_Id: $scope.InstituteId
+                        };
+                    },
+                    processResults: function (data) {
+                        var results = [];
+                        $.each(data, function (index, group_type) {
+                            results.push({
+                                id: group_type.Id,
+                                text: group_type.GROUP_NAME
+                            });
+                        });
+                        $scope.GroupTypeList = results;
+                        return {
+                            results: results
+                        };
+                    },
+                    cache: true
+                },
+                width: '100%'
+            });
+        };
+
         $scope.LoadDepartmentList = function () {
             if ($scope.DepartmentList.length == 0) {
-                $http.get(baseUrl + '/api/Common/DepartmentList/').success(function (resp_department_data) {
-                    $scope.DepartmentList = resp_department_data;
+                URL = baseUrl + '/api/User/CloneDepartmentList/';
+                $('#DepartmentId').select2({
+                    placeholder: "Select",
+                    selectAll: true,
+                    ajax: {
+                        dataType: "json",
+                        url: URL,
+                        data: function (params) {
+                            return {
+                                q: params.term, // search term
+                            };
+                        },
+                        processResults: function (data) {
+                            var results = [];
+                            $.each(data, function (index, department) {
+                                results.push({
+                                    id: department.Id,
+                                    text: department.Department_Name
+                                });
+                            });
+                            $scope.DepartmentList = results;
+                            return {
+                                results: results
+                            };
+                        },
+                        cache: true
+                    },
+                    width: '100%'
                 });
             }
         };
 
         $scope.LoadBusinessUser_UserTypeList = function () {
             if ($scope.UserTypeList.length === 0) {
-                $http.get(baseUrl + '/api/Common/BusinessUser_UserTypeList/').success(function (resp_bu_data) {
-                    $scope.UserTypeList = resp_bu_data;
+                URL = baseUrl + '/api/user/Clone_BusinessUser_UserTypeList/';
+                $('#UserTypeId').select2({
+                    placeholder: "Select",
+                    selectAll: true,
+                    ajax: {
+                        dataType: "json",
+                        url: URL,
+                        data: function (params) {
+                            return {
+                                q: params.term, // search term
+                            };
+                        },
+                        processResults: function (data) {
+                            var results = [];
+                            $.each(data, function (index, user_type) {
+                                results.push({
+                                    id: user_type.Id,
+                                    text: user_type.UserName
+                                });
+                            });
+                            $scope.UserTypeList = results;
+                            return {
+                                results: results
+                            };
+                        },
+                        cache: true
+                    },
+                    width: '100%'
                 });
             }
+        };
+
+        $scope.LoadFilterBusinessUser_UserTypeList = function () {
+            URL = baseUrl + '/api/user/Clone_BusinessUser_UserTypeList/';
+            $('#filter_CL_UserType').select2({
+                placeholder: "Select",
+                selectAll: true,
+                ajax: {
+                    dataType: "json",
+                    url: URL,
+                    data: function (params) {
+                        return {
+                            q: params.term, // search term
+                        };
+                    },
+                    processResults: function (data) {
+                        var results = [];
+                        $.each(data, function (index, user_type) {
+                            results.push({
+                                id: user_type.Id,
+                                text: user_type.UserName
+                            });
+                        });
+                        $scope.UserTypeList = results;
+                        return {
+                            results: results
+                        };
+                    },
+                    cache: true
+                },
+                width: '100%'
+            });
         };
 
         $scope.LoadNationalityList = function () {
@@ -410,18 +532,44 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             };
                         },
                         cache: true
-                    }
+                    },
+                    width: '100%'
                 });
             }
         };
 
+        $scope.LoadFilterNationalityList = function () {
+            URL = baseUrl + '/api/Common/CloneNationalityList/';
+            $('#Filter_CL_Nationality').select2({
+                placeholder: "Select",
+                ajax: {
+                    dataType: "json",
+                    url: URL,
+                    data: function (params) {
+                        return {
+                            q: params.term, // search term
+                        };
+                    },
+                    processResults: function (data) {
+                        var results = [];
+                        $.each(data, function (index, nationality) {
+                            results.push({
+                                id: nationality.Id,
+                                text: nationality.Name
+                            });
+                        });
+                        return {
+                            results: results
+                        };
+                    },
+                    cache: true
+                },
+                width: '100%'
+            });
+        };
+
         $scope.LoadMaritalStatusList = function () {
             if ($scope.MaritalStatusList.length === 0) {
-                //$http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (resp_marg_data) {
-                //    $scope.MaritalStatusListTemp = [];
-                //    $scope.MaritalStatusListTemp = resp_marg_data;
-                //    $scope.MaritalStatusList = angular.copy($scope.MaritalStatusListTemp);
-                //});
                 URL = baseUrl + '/api/Common/CloneMaritalStatusList/';
                 $('#MaritalStatusId').select2({
                     placeholder: "Select",
@@ -448,18 +596,14 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             };
                         },
                         cache: true
-                    }
+                    },
+                    width: '100%'
                 });
             }
         };
 
         $scope.LoadEthnicGroupList = function () {
             if ($scope.EthnicGroupList.length === 0) {
-                //$http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (resp_eg_data) {
-                //    $scope.EthnicGroupListTemp = [];
-                //    $scope.EthnicGroupListTemp = resp_eg_data;
-                //    $scope.EthnicGroupList = angular.copy($scope.EthnicGroupListTemp);
-                //});
                 URL = baseUrl + '/api/Common/CloneEthnicGroupList/';
                 $('#EthnicGroupId').select2({
                     placeholder: "Select",
@@ -486,18 +630,14 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             };
                         },
                         cache: true
-                    }
+                    },
+                    width: '100%'
                 });
             }
         };
 
         $scope.LoadBloodGroupList = function () {
             if ($scope.BloodGroupList.length === 0) {
-                //$http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (resp_bg_data) {
-                //    $scope.BloodGroupListTemp = [];
-                //    $scope.BloodGroupListTemp = resp_bg_data;
-                //    $scope.BloodGroupList = angular.copy($scope.BloodGroupListTemp);
-                //});
                 URL = baseUrl + '/api/Common/CloneBloodGroupList/';
                 $('#BloodGroupId').select2({
                     placeholder: "Select",
@@ -524,16 +664,14 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             };
                         },
                         cache: true
-                    }
+                    },
+                    width: '100%'
                 });
             }
         };
 
         $scope.LoadRelationshipList = function () {
             if ($scope.RelationshipList.length === 0) {
-                //$http.get(baseUrl + '/api/Common/RelationshipList/').success(function (resp_relationship_data) {
-                //    $scope.RelationshipList = resp_relationship_data;
-                //});
                 URL = baseUrl + '/api/Common/CloneRelationshipList/';
                 $('#EMERG_CONT_RELATIONSHIP_ID').select2({
                     placeholder: "Select",
@@ -558,9 +696,105 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             };
                         },
                         cache: true
-                    }
+                    },
+                    width: '100%'
                 });
             }
+        };
+
+        $scope.LoadCountryList = function () {
+            URL = baseUrl + '/api/Common/CloneCountryList/';
+            $('#CountryId').select2({
+                placeholder: "Select",
+                ajax: {
+                    dataType: "json",
+                    url: URL,
+                    data: function (params) {
+                        return {
+                            q: params.term, // search term
+                        };
+                    },
+                    processResults: function (data) {
+                        var results = [];
+                        $.each(data, function (index, country) {
+                            results.push({
+                                id: country.Id,
+                                text: country.CountryName
+                            });
+                        });
+                        return {
+                            results: results
+                        };
+                    },
+                    cache: true
+                },
+                width: '100%'
+            });
+        };
+
+        $scope.LoadStateList = function (countryId) {
+            URL = baseUrl + '/api/Common/Clone_Get_StateList/';
+            $('#StateId').select2({
+                placeholder: "Select",
+                ajax: {
+                    dataType: "json",
+                    url: URL,
+                    data: function (params) {
+                        return {
+                            q: params.term, // search term,
+                            CountryId: countryId
+                        };
+                    },
+                    processResults: function (data) {
+                        var results = [];
+                        $.each(data, function (index, state) {
+                            results.push({
+                                id: state.Id,
+                                text: state.StateName
+                            });
+                        });
+                        
+                        return {
+                            results: results
+                        };
+                    },
+                    cache: true
+                },
+                width: '100%'
+            });
+        };
+
+        $scope.LoadCityList = function (countryId, stateId) {
+            URL = baseUrl + '/api/Common/Clone_Get_LocationList/';
+            $('#CityId').select2({
+                placeholder: "Select",
+                ajax: {
+                    dataType: "json",
+                    url: URL,
+                    data: function (params) {
+                        return {
+                            q: params.term, // search term,
+                            CountryId: countryId,
+                            StateId: stateId
+                        };
+                    },
+                    processResults: function (data) {
+                        var results = [];
+                        $.each(data, function (index, city) {
+                            results.push({
+                                id: city.Id,
+                                text: city.CityName
+                            });
+                        });
+                        
+                        return {
+                            results: results
+                        };
+                    },
+                    cache: true
+                },
+                width: '100%'
+            });
         };
 
         $scope.LoadDietTypeList = function () {
@@ -799,11 +1033,16 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.AppConfigurationProfileImageList();
             $scope.DropDownListValue = 1;
             if ($scope.Businessuesrclickcount == 1) {
-                $scope.BusinessUserDropdownList();
+                // $scope.BusinessUserDropdownList();
+                $scope.LoadBusinessUser_UserTypeList();
             }
             $scope.status = 2;
             $('[data-id="selectpicker"]').prop('disabled', false);
             $scope.SuperAdminDropdownsList();
+            $scope.LoadGenderList();
+            $scope.LoadGroupTypeList();
+            $scope.LoadDepartmentList();
+            $scope.LoadNationalityList();
             //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
             angular.element('#UserModal').modal('show');
         }
@@ -815,7 +1054,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             ////$scope.Country_onChange();
             //$scope.CityId = $scope.InsCityId;
             $scope.loadCount = $scope.loadCount - 1;
-            $scope.CountryId = $scope.InsCountryId;
+            // $scope.CountryId = $scope.InsCountryId;
 
             var cId = $scope.CountryId;
             if (cId != "0") {
@@ -823,50 +1062,119 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $('#divCountry').addClass("ng-valid");
             }
 
-            $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + $scope.InsCountryId).success(function (data) {
-                $scope.StateName_List = data;
-                $scope.StateId = $scope.InsStateId;
-                $scope.loadCount = $scope.loadCount - 1;
+            //$http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + $scope.InsCountryId).success(function (data) {
+            //    $scope.StateName_List = data;
+            //    $scope.StateId = $scope.InsStateId;
+            //    $scope.loadCount = $scope.loadCount - 1;
 
-                var sId = $scope.StateId;
-                if (sId != "0") {
-                    $('#divState').removeClass("ng-invalid");
-                    $('#divState').addClass("ng-valid");
-                }
+            //    var sId = $scope.StateId;
+            //    if (sId != "0") {
+            //        $('#divState').removeClass("ng-invalid");
+            //        $('#divState').addClass("ng-valid");
+            //    }
 
+            //});
+
+            URL = baseUrl + '/api/Common/Clone_Get_StateList/';
+            $('#StateId').select2({
+                placeholder: "Select",
+                ajax: {
+                    dataType: "json",
+                    url: URL,
+                    data: function (params) {
+                        return {
+                            q: params.term, // search term,
+                            CountryId: $scope.InsCountryId
+                        };
+                    },
+                    processResults: function (data) {
+                        var results = [];
+                        $.each(data, function (index, state) {
+                            results.push({
+                                id: state.Id,
+                                text: state.StateName
+                            });
+                        });
+                        // $scope.StateName_List = data;
+                        // $scope.StateId = $scope.InsStateId;
+                        //$scope.loadCount = $scope.loadCount - 1;
+
+                        //var sId = $scope.StateId;
+                        //if (sId != "0") {
+                        //    $('#divState').removeClass("ng-invalid");
+                        //    $('#divState').addClass("ng-valid");
+                        //}
+                        return {
+                            results: results
+                        };
+                    },
+                    cache: true
+                },
+                width: '100%'
             });
-            $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + $scope.InsCountryId + '&StateId=' + $scope.InsStateId).success(function (data) {
-                //$scope.LocationName_List =data ;    
-                $scope.LocationName_List = data;
-                $scope.CityId = $scope.InsCityId;
-                $scope.loadCount = $scope.loadCount - 1;
 
-                var cId = $scope.CityId;
-                if (cId != "0") {
-                    $('#divCity').removeClass("ng-invalid");
-                    $('#divCity').addClass("ng-valid");
-                }
+            //$http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + $scope.InsCountryId + '&StateId=' + $scope.InsStateId).success(function (data) {
+            //    //$scope.LocationName_List =data ;    
+            //    $scope.LocationName_List = data;
+            //    $scope.CityId = $scope.InsCityId;
+            //    $scope.loadCount = $scope.loadCount - 1;
+
+            //    var cId = $scope.CityId;
+            //    if (cId != "0") {
+            //        $('#divCity').removeClass("ng-invalid");
+            //        $('#divCity').addClass("ng-valid");
+            //    }
+            //});
+
+            URL = baseUrl + '/api/Common/Clone_Get_LocationList/';
+            $('#CityId').select2({
+                placeholder: "Select",
+                ajax: {
+                    dataType: "json",
+                    url: URL,
+                    data: function (params) {
+                        return {
+                            q: params.term, // search term,
+                            CountryId: $scope.InsCountryId,
+                            StateId: $scope.InsStateId
+                        };
+                    },
+                    processResults: function (data) {
+                        var results = [];
+                        $.each(data, function (index, city) {
+                            results.push({
+                                id: city.Id,
+                                text: city.CityName
+                            });
+                        });
+                        // $scope.LocationName_List = data;
+                        // $scope.CityId = $scope.InsCityId;
+                        //$scope.loadCount = $scope.loadCount - 1;
+
+                        //var cId = $scope.CityId;
+                        //if (cId != "0") {
+                        //    $('#divCity').removeClass("ng-invalid");
+                        //    $('#divCity').addClass("ng-valid");
+                        //}
+                        return {
+                            results: results
+                        };
+                    },
+                    cache: true
+                },
+                width: '100%'
             });
-
-            //$scope.StateBased_CityFunction();
-            ////$scope.State_onChange();
-
-            //$scope.CountryDuplicateId = $scope.CountryId;
-            //$scope.StateDuplicateId = $scope.StateId;
-            //$scope.LocationDuplicateId = $scope.CityId;
-
-            //if ($scope.CountryFlag = true) {
-            //    $scope.CountryId = $scope.CountryDuplicateId;
-            //    $scope.CountryFlag = false;
-            //}
-            //if ($scope.StateFlag = true) {
-            //    $scope.StateId = $scope.StateDuplicateId;
-            //    $scope.StateFlag = false;
-            //}
-            //if ($scope.CityFlag = true) {
-            //    $scope.CityId = $scope.LocationDuplicateId;
-            //    $scope.CityFlag = false;
-            //}
+            setTimeout(function () {
+                $("#CountryId").select2("trigger", "select", {
+                    data: { id: $scope.InsCountryId.toString(), text: $scope.InsCountryName }
+                });
+                $("#StateId").select2("trigger", "select", {
+                    data: { id: $scope.InsStateId.toString(), text: $scope.InsStateName }
+                });
+                $("#CityId").select2("trigger", "select", {
+                    data: { id: $scope.InsCityId.toString(), text: $scope.InsCityName }
+                });
+            });
         }
         $scope.ViewUserPopUP = function (CatId) {
             $("#UserLogo").val('');
@@ -1442,7 +1750,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.EthnicGroupList = [];
             $scope.MaritalStatusList = [];
             $scope.PatientChronicCondition_List = [];
-            $scope.SelectedGroup = "0";
+            // $scope.SelectedGroup = "0";
+            $scope.GroupTypeList = [];
             $scope.SelectedInstitution = "0";
             $scope.SelectedLanguage = "0";
             $scope.Home_PhoneNo = "";
@@ -1565,15 +1874,14 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 //        $('#divDepartment').addClass("ng-invalid");
                 //    }
                 //});
-
-                if ($scope.DepartmentId != "0") {
-                    $('#divDepartment').removeClass("ng-invalid");
-                    $('#divDepartment').addClass("ng-valid");
-                }
-                else {
-                    $('#divDepartment').removeClass("ng-valid");
-                    $('#divDepartment').addClass("ng-invalid");
-                }
+                //if ($scope.DepartmentId != "0") {
+                //    $('#divDepartment').removeClass("ng-invalid");
+                //    $('#divDepartment').addClass("ng-valid");
+                //}
+                //else {
+                //    $('#divDepartment').removeClass("ng-valid");
+                //    $('#divDepartment').addClass("ng-invalid");
+                //}
             }
         }
 
@@ -1581,19 +1889,19 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.BusinessUserDropdownList = function () {
             if ($scope.LoginType == 2 && $scope.DropDownListValue == 1) {
 
-                $http.get(baseUrl + '/api/User/BusinessUser_UserTypeList/').success(function (data) {
-                    console.log(data);
-                    $scope.UserTypeList = data;
-                    $scope.Businesstab1 = $scope.Businesstab1 + 1;
-                    if ($scope.UserTypeId != "0") {
-                        $('#divUserType').removeClass("ng-invalid");
-                        $('#divUserType').addClass("ng-valid");
-                    }
-                    else {
-                        $('#divUserType').removeClass("ng-valid");
-                        $('#divUserType').addClass("ng-invalid");
-                    }
-                });
+                //$http.get(baseUrl + '/api/User/BusinessUser_UserTypeList/').success(function (data) {
+                //    console.log(data);
+                //    $scope.UserTypeList = data;
+                //    $scope.Businesstab1 = $scope.Businesstab1 + 1;
+                //    if ($scope.UserTypeId != "0") {
+                //        $('#divUserType').removeClass("ng-invalid");
+                //        $('#divUserType').addClass("ng-valid");
+                //    }
+                //    else {
+                //        $('#divUserType').removeClass("ng-valid");
+                //        $('#divUserType').addClass("ng-invalid");
+                //    }
+                //});
                 $scope.Businesstab1 = $scope.Businesstab1 + 1;
 
                 //$http.get(baseUrl + '/api/Common/GenderList/').success(
@@ -1648,8 +1956,40 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         });
 
         if ($scope.LoginType == 2) {
-            $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
-                $scope.GroupTypeList = data;
+            //$http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
+            //    $scope.GroupTypeList = data;
+            //});
+            $scope.LoadFilterNationalityList();
+            $scope.LoadFilterBusinessUser_UserTypeList();
+            URL = baseUrl + '/api/Common/CloneGroupTypeList/';
+            $('#AssignedGroup').select2({
+                placeholder: "Select",
+                selectAll: true,
+                ajax: {
+                    dataType: "json",
+                    url: URL,
+                    data: function (params) {
+                        return {
+                            q: params.term, // search term
+                            Institution_Id: $scope.InstituteId
+                        };
+                    },
+                    processResults: function (data) {
+                        var results = [];
+                        $.each(data, function (index, group_type) {
+                            results.push({
+                                id: group_type.Id,
+                                text: group_type.GROUP_NAME
+                            });
+                        });
+                        $scope.GroupTypeList = results;
+                        return {
+                            results: results
+                        };
+                    },
+                    cache: true
+                },
+                width: '100%'
             });
         }
         //$scope.Patientcreatefunction = function()
@@ -1667,11 +2007,12 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
             $scope.tab1 = $scope.tab1 + 1;
             $scope.PatientgetBase64Image();
+            $scope.LoadGroupTypeList();
 
-            $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
-                $scope.GroupTypeList = data;
-                $scope.tab1 = $scope.tab1 + 1;
-            });
+            //$http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
+            //    $scope.GroupTypeList = data;
+            //    $scope.tab1 = $scope.tab1 + 1;
+            //});
 
             $http.get(baseUrl + '/api/PayorMaster/PayorList/?IsActive=' + 1 + '&InstitutionId=' + $scope.InstituteId + '&StartRowNumber=' + 1 + '&EndRowNumber=' + 30).success(function (data) {
                 $scope.PayorMasterList = data;
@@ -1872,24 +2213,64 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         //});
         $scope.InstitutionBased_CountryStateList = function () {
             if (typeof ($routeParams.Id) == "undefined") {
-                $http.get(baseUrl + '/api/Common/CountryList/').success(function (data) {
-                    //$http.get(baseUrl + '/api/Common/Get_CountryStateLocation_List').success(function (data) {
-                    $scope.CountryNameList = data;
-                    //only active Country
-                    //$scope.CountryNameList = $ff(data.CountryList, { IsActive: 1 });
-                    //$scope.State_Template = data.StateList;
-                    //$scope.City_Template = data.LocationList;
-                    $http.get(baseUrl + '/api/Institution/InstitutionDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                        $scope.InsCountryId = data.CountryId.toString();
-                        $scope.InsStateId = data.StateId.toString();
-                        $scope.InsCityId = data.CityId.toString();
-                        $scope.DefaultCountryState();
-                        /*$scope.CountryBased_StateFunction();
-                        //$scope.Country_onChange();
-                        //  $scope.CityId = $scope.InsCityId;
-                        $scope.StateBased_CityFunction();*/
-                    });
+                //$http.get(baseUrl + '/api/Common/CountryList/').success(function (data) {
+                //    //$http.get(baseUrl + '/api/Common/Get_CountryStateLocation_List').success(function (data) {
+                //    $scope.CountryNameList = data;
+                //    //only active Country
+                //    //$scope.CountryNameList = $ff(data.CountryList, { IsActive: 1 });
+                //    //$scope.State_Template = data.StateList;
+                //    //$scope.City_Template = data.LocationList;
+                //    $http.get(baseUrl + '/api/Institution/InstitutionDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                //        $scope.InsCountryId = data.CountryId.toString();
+                //        $scope.InsStateId = data.StateId.toString();
+                //        $scope.InsCityId = data.CityId.toString();
+                //        $scope.DefaultCountryState();
+                //        /*$scope.CountryBased_StateFunction();
+                //        //$scope.Country_onChange();
+                //        //  $scope.CityId = $scope.InsCityId;
+                //        $scope.StateBased_CityFunction();*/
+                //    });
+                //});
+                URL = baseUrl + '/api/Common/CloneCountryList/';
+                $('#CountryId').select2({
+                    placeholder: "Select",
+                    ajax: {
+                        dataType: "json",
+                        url: URL,
+                        data: function (params) {
+                            return {
+                                q: params.term, // search term
+                            };
+                        },
+                        processResults: function (data) {
+                            var results = [];
+                            $.each(data, function (index, country) {
+                                results.push({
+                                    id: country.Id,
+                                    text: country.CountryName
+                                });
+                            });
+                            return {
+                                results: results
+                            };
+                        },
+                        cache: true
+                    },
+                    width: '100%'
                 });
+                $http.get(baseUrl + '/api/Institution/InstitutionDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    $scope.InsCountryId = data.CountryId.toString();
+                    $scope.InsCountryName = data.CountryName;
+
+                    $scope.InsStateId = data.StateId.toString();
+                    $scope.InsStateName = data.StateName;
+
+                    $scope.InsCityId = data.CityId.toString();
+                    $scope.InsCityName = data.CityName;
+
+                    $scope.DefaultCountryState();
+                });
+
             }
         }
         $scope.PayorBased_PlanFunction = function (id) {
@@ -1911,14 +2292,6 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 });
             }
         }
-        $scope.StateBased_CityFunction = function () {
-            if ($scope.loadCount == 0) {
-                $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + $scope.CountryId + '&StateId=' + $scope.StateId).success(function (data) {
-                    $scope.LocationName_List = data;
-                });
-            }
-        }
-
         $scope.Filter_Country_onChange = function () {
             if ($scope.loadCount == 0) {
                 $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + $scope.filter_CountryId).success(function (data) {
@@ -1928,13 +2301,36 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 });
             }
         }
-
+        $scope.StateBased_CityFunction = function () {
+            if ($scope.loadCount == 0) {
+                $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + $scope.CountryId + '&StateId=' + $scope.StateId).success(function (data) {
+                    $scope.LocationName_List = data;
+                });
+            }
+        }
         $scope.Filter_State_onChange = function () {
             if ($scope.loadCount == 0) {
                 $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + $scope.filter_CountryId + '&StateId=' + $scope.filter_StataId).success(function (data) {
                     $scope.CityNameList = data;
                 });
             }
+        }
+
+        $scope.CountryBasedStateFunction = function () {
+            $scope.StateId = '0';
+            $scope.CityId = '0';
+            $scope.LoadStateList($scope.CountryId);
+        }
+        $scope.StateBasedCityFunction = function () {
+            $scope.CityId = '0';
+            $scope.LoadCityList($scope.CountryId, $scope.StateId);
+        }
+        $scope.Filter_Country_OnChange = function () {
+            $scope.LoadStateList($scope.filter_CountryId);
+        }
+
+        $scope.Filter_State_OnChange = function () {
+            $scope.LoadCityList($scope.filter_CountryId, $scope.filter_StataId);
         }
 
         $scope.User_Admin_List = function (MenuType) {
@@ -3127,13 +3523,17 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
      
             //Load Patient Dropdown lists
+            $scope.LoadGenderList();
             $scope.LoadNationalityList();
             $scope.LoadMaritalStatusList();
             $scope.LoadEthnicGroupList();
             $scope.LoadBloodGroupList();
             $scope.LoadChronicConditionList();
             $scope.LoadRelationshipList();
-
+            $scope.LoadBusinessUser_UserTypeList();
+            $scope.LoadDepartmentList();
+            $scope.LoadGroupTypeList();
+            
             $scope.loadCount = 3;
             $("#chatLoaderPV").show();
             photoview = true;
@@ -3312,9 +3712,18 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.GenderId = data.GENDER_ID.toString();
                         // $scope.NationalityId = data.NATIONALITY_ID.toString();
 
+                        $scope.LoadCountryList();
+                        $scope.LoadStateList(data.COUNTRY_ID);
+                        $scope.LoadCityList(data.COUNTRY_ID, data.STATE_ID);
                          setTimeout(function () {
                             $("#NationalityId").select2("trigger", "select", {
                                 data: { id: data.NATIONALITY_ID.toString(), text: data.Nationality }
+                            });
+                            $("#DepartmentId").select2("trigger", "select", {
+                                data: { id: data.DEPARTMENT_ID.toString(), text: data.Department_Name }
+                            });
+                             $("#UserTypeId").select2("trigger", "select", {
+                                 data: { id: data.UserType_Id.toString(), text: data.UserName }
                             });
                             $("#GenderId").select2("trigger", "select", {
                                 data: { id: data.GENDER_ID.toString(), text: data.GENDER_NAME }
@@ -3339,6 +3748,22 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                     data: { id: value.Chronic_Id.toString(), text: value.ChronicCondition }
                                 });
                             });
+                            angular.forEach(data.SelectedGroupList, function (value, index) {
+                                $scope.EditSelectedGroup.push(value.Group_Id);
+                                $scope.SelectedGroup = $scope.EditSelectedGroup;
+                                $("#SelectedGroup").select2("trigger", "select", {
+                                    data: { id: value.Group_Id.toString(), text: value.GroupName }
+                                });
+                            });
+                            $("#CountryId").select2("trigger", "select", {
+                                data: { id: data.COUNTRY_ID.toString(), text: data.COUNTRY_NAME }
+                            });
+                            $("#StateId").select2("trigger", "select", {
+                                data: { id: data.STATE_ID.toString(), text: data.StateName }
+                            });
+                            $("#CityId").select2("trigger", "select", {
+                                data: { id: data.CITY_ID.toString(), text: data.LocationName }
+                            });
                          });
 
                         // $scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
@@ -3352,9 +3777,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.Address1 = data.ADDRESS1;
                         $scope.Address2 = data.ADDRESS2;
                         $scope.Address3 = data.ADDRESS3;
-                        $scope.CountryId = data.COUNTRY_ID.toString();
-                        $scope.StateId = data.STATE_ID.toString();
-                        $scope.CityId = data.CITY_ID.toString();
+                        //$scope.CountryId = data.COUNTRY_ID.toString();
+                        //$scope.StateId = data.STATE_ID.toString();
+                        //$scope.CityId = data.CITY_ID.toString();
 
                         $scope.CountryDuplicateId = $scope.CountryId;
                         $scope.CountryFlag = true;
@@ -3364,31 +3789,31 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.CityFlag = true;
                         if ($scope.DropDownListValue == 4) {
 
-                            $http.get(baseUrl + '/api/Common/CountryList/').success(function (country_data) {
-                                $scope.CountryNameList = country_data;
-                                if ($scope.CountryFlag == true) {
-                                    $scope.CountryId = $scope.CountryDuplicateId;
-                                    $scope.CountryFlag = false;
-                                    $scope.loadCount = $scope.loadCount - 1;
-                                }
-                            });
-                            $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + data.COUNTRY_ID.toString()).success(function (state_data) {
-                                $scope.StateName_List = state_data;
-                                if ($scope.StateFlag == true) {
-                                    $scope.StateId = $scope.StateDuplicateId;
-                                    $scope.StateFlag = false;
-                                    $scope.loadCount = $scope.loadCount - 1;
-                                }
-                            });
-                            $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + data.COUNTRY_ID.toString() + '&StateId=' + data.STATE_ID.toString()).success(function (city_data) {
+                            // $http.get(baseUrl + '/api/Common/CountryList/').success(function (country_data) {
+                                //$scope.CountryNameList = country_data;
+                            if ($scope.CountryFlag == true) {
+                                $scope.CountryId = $scope.CountryDuplicateId;
+                                $scope.CountryFlag = false;
+                                $scope.loadCount = $scope.loadCount - 1;
+                            }
+                            // });
+                            // $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + data.COUNTRY_ID.toString()).success(function (state_data) {
+                                // $scope.StateName_List = state_data;
+                            if ($scope.StateFlag == true) {
+                                $scope.StateId = $scope.StateDuplicateId;
+                                $scope.StateFlag = false;
+                                $scope.loadCount = $scope.loadCount - 1;
+                            }
+                            // });
+                            // $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + data.COUNTRY_ID.toString() + '&StateId=' + data.STATE_ID.toString()).success(function (city_data) {
                                 //$scope.LocationName_List =data ;    
-                                $scope.LocationName_List = city_data;
-                                if ($scope.CityFlag == true) {
-                                    $scope.CityId = $scope.LocationDuplicateId;
-                                    $scope.CityFlag = false;
-                                    $scope.loadCount = $scope.loadCount - 1;
-                                }
-                            });
+                                // $scope.LocationName_List = city_data;
+                            if ($scope.CityFlag == true) {
+                                $scope.CityId = $scope.LocationDuplicateId;
+                                $scope.CityFlag = false;
+                                $scope.loadCount = $scope.loadCount - 1;
+                            }
+                            // });
                         }
                         //$scope.MaritalStatusId = data.MARITALSTATUS_ID.toString();
                         //$scope.BloodGroupId = data.BLOODGROUP_ID.toString();
@@ -5289,7 +5714,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         };
         $scope.Url = baseUrl;
         $scope.AssignedGroupList = [];
-        $scope.AssignedGroup = "0";
+        // $scope.AssignedGroup = "0";
         $scope.AssignedGroup_Id = "0";
         $scope.CreateGroupName = "";
         $scope.Create_GroupId = "0";

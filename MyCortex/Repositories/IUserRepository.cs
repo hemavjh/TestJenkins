@@ -14,10 +14,12 @@ namespace MyCortex.Repositories
     {
         IList<DoctorInstitutionModel> DoctorInstitutionList();
         IList<DepartmentModel> DepartmentList();
+        IList<DepartmentModel> CloneDepartmentList(string search);
         IList<DepartmentModel> DepartmentListByInstitution(long Institution_Id);
         IList<DocumentTypeModel> DocumentTypeList();
         IList<NotesTypeModel> NotesTypeList();
         IList<BusinessUser_UserTypeListModel> BusinessUser_UserTypeList();
+        IList<BusinessUser_UserTypeListModel> Clone_BusinessUser_UserTypeList(string search);
         UserModel Admin_InsertUpdate(Guid Login_Session_Id, UserModel insobj);
         long PatientChronicEdit(Guid Login_Session_Id, PatientChronicModel obj);
         long PatientGroupEdit(Guid Login_Session_Id, PatientGroupModel obj);

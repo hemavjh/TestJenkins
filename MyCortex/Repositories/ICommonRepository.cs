@@ -12,11 +12,15 @@ namespace MyCortex.Repositories
     interface ICommonRepository
     {       
         IList<CountryMasterModel> CountryList();
+        IList<CountryMasterModel> CloneCountryList(string search);
         IList<StateMasterModel> StateList();
         IList<LocationMasterModel> GetLocationList();
         IList<StateMasterModel> Get_StateList(long CountryId);
+        IList<StateMasterModel> Clone_Get_StateList(long CountryId, string search);
         IList<LocationMasterModel> Get_LocationList(long CountryId, long StateId);
+        IList<LocationMasterModel> Clone_Get_LocationList(long CountryId, long StateId, string search);
         IList<GroupTypeModel> GroupTypeList(long Institution_Id);
+        IList<GroupTypeModel> Clone_GroupTypeList(long Institution_Id, string search);
         IList<GenderMasterModel> GenderList();
         IList<GenderMasterModel> CloneGenderList(string search);
         IList<NationalityModel> NationalityList();

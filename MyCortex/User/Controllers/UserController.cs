@@ -95,6 +95,37 @@ namespace MyCortex.User.Controller
             }
         }
 
+        /// <summary>      
+        /// Getting list of department
+        /// </summary>          
+        /// <returns>list of department</returns>
+        [AllowAnonymous]
+        [HttpGet]
+        public IList<DepartmentModel> CloneDepartmentList()
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<DepartmentModel> model;
+            try
+            {
+                string search_string = "";
+                var queryString = this.Request.RequestUri.Query;
+                if (!String.IsNullOrWhiteSpace(queryString))
+                {
+                    search_string = HttpUtility.ParseQueryString(
+                                         queryString.Substring(1))["q"];
+                }
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                model = repository.CloneDepartmentList(search_string);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
         [HttpGet]
         public IList<DepartmentModel> DepartmentListByInstitution()
         {
@@ -170,6 +201,37 @@ namespace MyCortex.User.Controller
             catch (Exception ex)
             {
               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
+        /// <summary>      
+        /// Getting list of business user types
+        /// </summary>          
+        /// <returns>list of business user types</returns>
+        [AllowAnonymous]
+        [HttpGet]
+        public IList<BusinessUser_UserTypeListModel> Clone_BusinessUser_UserTypeList()
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<BusinessUser_UserTypeListModel> model;
+            try
+            {
+                string search_string = "";
+                var queryString = this.Request.RequestUri.Query;
+                if (!String.IsNullOrWhiteSpace(queryString))
+                {
+                    search_string = HttpUtility.ParseQueryString(
+                                         queryString.Substring(1))["q"];
+                }
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                model = repository.Clone_BusinessUser_UserTypeList(search_string);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }

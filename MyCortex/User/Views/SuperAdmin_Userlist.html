@@ -4,6 +4,35 @@
             opacity: 0;
         }
     </style>
+    <style>
+        .select2-container--default .select2-selection--single {
+            background-color: #fff;
+            border: 1px solid #ccc !important;
+            border-radius: 4px;
+            height: 34px;
+            font-size: 14px;
+            font-weight: 400;
+            padding: 3px 3px;
+        }
+
+        .select2-container--default .select2-selection--multiple {
+            background-color: #fff;
+            border: 1px solid #ccc !important;
+            border-radius: 4px;
+            height: 34px;
+            font-size: 14px;
+            font-weight: 400;
+            padding: 0px 3px;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 26px;
+            position: absolute;
+            top: 4px;
+            right: 7px;
+            width: 20px;
+        }
+    </style>
     <script>
         $('#btnLogo').click(function () {
             $("#UserLogo").trigger('click');
@@ -479,12 +508,12 @@
                                             </td>
                                             <td>
                                                 <!--<div id="divGender" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                                    <select class="form-control" data-style="form-control" ng-model="GenderId" id="Select10" data-live-search="true" data-selectpicker data-collection-name="GenderList" ng-required="true" ng-change="AdmingetBase64Image();" ng-disabled="Pat_UserTypeId==2">
+                                                    <select class="form-control" data-style="form-control" ng-model="GenderId" id="GenderId" data-live-search="true" data-collection-name="GenderList" ng-required="true" ng-change="AdmingetBase64Image();" ng-disabled="Pat_UserTypeId==2">
                                                         <option value="0">Select</option>
-                                                        <option ng-repeat="sel in GenderList" ng-selected="GenderId==sel.Id"
+                                                        <!--<option ng-repeat="sel in GenderList" ng-selected="GenderId==sel.Id"
                                                                 value="{{sel.Id}}">
                                                             {{sel.Gender_Name}}
-                                                        </option>
+                                                        </option>-->
                                                     </select>
                                                 <!--</div>-->
                                             </td>

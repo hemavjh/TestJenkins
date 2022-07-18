@@ -62,6 +62,37 @@ namespace MyCortex.Masters.Controllers
         }
 
         /// <summary>      
+        /// Getting Country to populate dropdown
+        /// </summary>          
+        /// <returns>Populated List of Country </returns>
+        [AllowAnonymous]
+        [HttpGet]
+        public IList<CountryMasterModel> CloneCountryList()
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<CountryMasterModel> model;
+            try
+            {
+                string search_string = "";
+                var queryString = this.Request.RequestUri.Query;
+                if (!String.IsNullOrWhiteSpace(queryString))
+                {
+                    search_string = HttpUtility.ParseQueryString(
+                                         queryString.Substring(1))["q"];
+                }
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                model = repository.CloneCountryList(search_string);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
+        /// <summary>      
         /// Getting State to populate dropdown
         /// </summary>          
         /// <returns>List of State </returns>
@@ -136,6 +167,41 @@ namespace MyCortex.Masters.Controllers
         }
 
         /// <summary>      
+        /// Getting State list of a country to populate dropdown
+        /// </summary>          
+        /// <returns>List of State of a country</returns>
+        [AllowAnonymous]
+        [HttpGet]
+        public IList<StateMasterModel> Clone_Get_StateList(long CountryId)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<StateMasterModel> model;
+            try
+            {
+                string search_string = "";
+                var queryString = this.Request.RequestUri.Query;
+                if (!String.IsNullOrWhiteSpace(queryString))
+                {
+                    search_string = HttpUtility.ParseQueryString(
+                                         queryString.Substring(1))["q"];
+                    if (String.IsNullOrWhiteSpace(search_string))
+                    {
+                        search_string = "";
+                    }
+                }
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                model = repository.Clone_Get_StateList(CountryId, search_string);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
+        /// <summary>      
         /// Getting city list of a state to populate dropdown
         /// </summary>          
         /// <returns>List of city of a state</returns>
@@ -159,6 +225,43 @@ namespace MyCortex.Masters.Controllers
                 return null;
             }
         }
+
+        /// <summary>      
+        /// Getting city list of a state to populate dropdown
+        /// </summary>          
+        /// <returns>List of city of a state</returns>
+        [AllowAnonymous]
+        [HttpGet]
+        public IList<LocationMasterModel>Clone_Get_LocationList(long CountryId, long StateId)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<LocationMasterModel> model;
+            try
+            {
+                string search_string = "";
+                var queryString = this.Request.RequestUri.Query;
+                if (!String.IsNullOrWhiteSpace(queryString))
+                {
+                    search_string = HttpUtility.ParseQueryString(
+                                         queryString.Substring(1))["q"];
+                    if (String.IsNullOrWhiteSpace(search_string))
+                    {
+                        search_string = "";
+                    }
+                }
+
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                model = repository.Clone_Get_LocationList(CountryId, StateId, search_string);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
         /// <summary>      
         /// Getting the list of country, state and city
         /// </summary>          
@@ -277,6 +380,7 @@ namespace MyCortex.Masters.Controllers
             MimeTypeToExtension[key] = result;
             return result;
         }
+
         /// <summary>
         /// user group list
         /// </summary>
@@ -302,6 +406,43 @@ namespace MyCortex.Masters.Controllers
                 return null;
             }
         }
+
+        /// <summary>
+        /// user group list
+        /// </summary>
+        /// <param name="Institution_Id">Institution Id</param>
+        /// <returns>users group list of a institution</returns>
+        [AllowAnonymous]
+        [HttpGet]
+        public IList<GroupTypeModel> CloneGroupTypeList(long Institution_Id)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<GroupTypeModel> model;
+            try
+            {
+                string search_string = "";
+                var queryString = this.Request.RequestUri.Query;
+                if (!String.IsNullOrWhiteSpace(queryString))
+                {
+                    search_string = HttpUtility.ParseQueryString(
+                                         queryString.Substring(1))["q"];
+                    if (String.IsNullOrWhiteSpace(search_string))
+                    {
+                        search_string = "";
+                    }
+                }
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                model = repository.Clone_GroupTypeList(Institution_Id, search_string);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
         /// <summary>
         /// gender name list
         /// </summary>
