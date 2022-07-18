@@ -298,11 +298,11 @@
                 </td>
                 <td style="text-align: left" title="{{row.FullName}}">
                     <div class="textwrap">
-                        <img src="../../Images/Patient_Male.png" width="30" height="30"
+                        <img ng-src="../../Images/Patient_Male.png" width="30" height="30"
                              ng-if="(row.GENDER_NAME| lowercase)=='male'" />
-                        <img src="../../Images/female.png" width="30" height="30"
+                        <img ng-src="../../Images/female.png" width="30" height="30"
                              ng-if="(row.GENDER_NAME| lowercase)=='female'" />
-                        <img src="../../Images/Others.png" width="30" height="30"
+                        <img ng-src="../../Images/Others.png" width="30" height="30"
                              ng-if="(row.GENDER_NAME| lowercase)!='female' && (row.GENDER_NAME| lowercase)!='male'" />
                         {{
  row.FullName.length > 25 ? row.FullName.substring(0,25)+"..." : row.FullName
@@ -336,13 +336,13 @@
                     <a href="javascript:;" ng-click="row.IsActive == 0 || EditPatientPopUp(row.Id)" title="Edit">
                         <i class="fa fa-pencil ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
                         <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
-                            <img src="../../Images/EditIcon.png" ng-if="row.IsActive==0" />
+                            <img ng-src="../../Images/EditIcon.png" ng-if="row.IsActive==0" />
                         </a>
                     </a>
                     <a href="javascript:;" ng-click="UserDetails_InActive(row.Id)" title="Active">
                         <i class="fa fa-check-circle-o ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
                         <a href="javascript:" ng-click="UserDetails_Active(row.Id)" title="Inactive">
-                            <img src="../../Images/inactive.png" ng-if="row.IsActive==0" />
+                            <img ng-src="../../Images/inactive.png" ng-if="row.IsActive==0" />
                         </a>
                 </td>
             </tr>

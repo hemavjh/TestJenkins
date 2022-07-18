@@ -32,6 +32,7 @@ namespace MyCortex.Admin.Controllers
         /// </summary>
         /// <param name="insobj">Institution object</param>
         /// <returns>Inserted/Updated Institution object</returns>
+        [HttpPost]
         public HttpResponseMessage Institution_AddEdit([FromBody] InstitutionModel insobj)
         {
              _AppLogger = this.GetType().FullName;

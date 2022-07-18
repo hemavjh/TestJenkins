@@ -78,6 +78,7 @@ namespace MyCortex.Masters.Controllers
         }
 
 
+        [CheckSessionOutFilter]
         [HttpGet]
         public WebConfigurationModel WebConfiguration_View(long Id, Guid Login_Session_Id)
         {
@@ -114,7 +115,7 @@ namespace MyCortex.Masters.Controllers
                 return null;
             }
         }
-
+        [CheckSessionOutFilter]
         [HttpPost]
         public HttpResponseMessage WebConfiguration_InsertUpdate(Guid Login_Session_Id, [FromBody] List<WebConfigurationModel> insobj)
         {

@@ -4365,7 +4365,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                
                     x.style.display = "block";
                     x.scrollTop = 0;
-                    document.getElementById(tableid + '_img').title = 'Click to Collapse';
+                    document.getElementById('tableid_img').title = 'Click to Collapse';
                 }
                 
             }
@@ -4386,7 +4386,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     i.src = "../../Images/collapse.gif"
                     x.style.display = "block";
                     x.scrollTop = 0;
-                    document.getElementById(tableid + '_img').title = 'Click to Collapse';
+                    document.getElementById('tableid_img').title = 'Click to Collapse';
                 }
 
             }
@@ -4407,7 +4407,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     i.src = "../../Images/collapse.gif"
                     x.style.display = "block";
                     x.scrollTop = 0;
-                    document.getElementById(tableid + '_img').title = 'Click to Collapse';
+                    document.getElementById('tableid_img').title = 'Click to Collapse';
                     
                 }
 

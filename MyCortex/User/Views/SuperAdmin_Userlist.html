@@ -372,7 +372,7 @@
                                                         </div>
 
                                                         <div valign="top" rowspan="6">
-                                                            <img id="item-img-output" class="responsiveProfileImage" src="{{uploadme}}" style="width:200px;height:200px;" />
+                                                            <img id="item-img-output" class="responsiveProfileImage" ng-src="{{uploadme}}" style="width:200px;height:200px;" />
                                                         </div>
 
                                                         <!--<div class="uploadIconContainer">
@@ -592,19 +592,19 @@
                             <!--ng-if="!uploadme==0 ||!uploadme==null"-->
                             <td style="width:180px;height:180px;" valign="top" rowspan="11">
                                 <div ng-if="uploadme!=null && uploadview ==true">
-                                    <img src="{{uploadme}}" width="180" height="180" />
+                                    <img ng-src="{{uploadme}}" width="180" height="180" />
                                 </div>
                                 <div ng-if="(ViewGender| lowercase)=='male' && (uploadme == null)&&uploadview ==true"
                                      valign="top" rowspan="6">
-                                    <img class="responsiveProfileImage" src="../../Images/Patient_Male" width="180" height="180" />
+                                    <img class="responsiveProfileImage" ng-src="../../Images/Patient_Male.png" width="180" height="180" />
                                 </div>
                                 <div ng-if="(ViewGender| lowercase)=='female' && (uploadme == null)&&uploadview ==true" valign="top" rowspan="6">
 
-                                    <img class="responsiveProfileImage" src="../../Images/female.png" width="180" height="180" />
+                                    <img class="responsiveProfileImage" ng-src="../../Images/female.png" width="180" height="180" />
                                 </div>
                                 <div ng-if="(ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male' && (uploadme == null)&&uploadview ==true"
                                      valign="top" rowspan="6">
-                                    <img class="responsiveProfileImage" src="../../Images/Others.png" width="180" height="180" />
+                                    <img class="responsiveProfileImage" ng-src="../../Images/Others.png" width="180" height="180" />
                                 </div>
                             </td>
                             <td style="width:7%">

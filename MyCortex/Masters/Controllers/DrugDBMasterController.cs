@@ -130,6 +130,7 @@ namespace MyCortex.Admin.Controllers
         /// </summary>
         /// <param name="obj">details of drug db master</param>
         /// <returns>inserted/updated drug db master</returns>
+        [HttpPost]
         public HttpResponseMessage DrugDBMaster_AddEdit([FromBody] DrugDBMasterModel obj)
          {
 

@@ -22,7 +22,7 @@ namespace MyCortex.Masters.Controllers
     public class MasterICDController : ApiController
     {
         static readonly IMasterICDReposistory repository = new MasterICDRepository();
- 
+
         private MyCortexLogger _MyLogger = new MyCortexLogger();
         string
             _AppLogger = string.Empty, _AppMethod = string.Empty;
@@ -35,7 +35,7 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public IList<CategoryMasterModel> CategoryMasterList(long Institution_Id)
         {
-             _AppLogger = this.GetType().FullName;
+            _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<CategoryMasterModel> model;
             try
@@ -45,7 +45,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
-              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -59,7 +59,7 @@ namespace MyCortex.Masters.Controllers
         ///   <param name="EndRowNumber">Institution Id</param>
         /// <returns>ICD master list of a institution</returns>
         [HttpGet]
-        public IList<MasterICDModel> ICDMasterList(int IsActive, long InstitutionId,int StartRowNumber, int EndRowNumber)
+        public IList<MasterICDModel> ICDMasterList(int IsActive, long InstitutionId, int StartRowNumber, int EndRowNumber)
         {
             IList<MasterICDModel> model;
             model = repository.ICDMasterList(IsActive, InstitutionId, StartRowNumber, EndRowNumber);
@@ -105,6 +105,7 @@ namespace MyCortex.Masters.Controllers
         /// </summary>
         /// <param name="obj">a ICD Master detail</param>
         /// <returns>inserted/updated ICD Master list</returns>
+        [HttpPost]
         public HttpResponseMessage MasterICD_AddEdit([FromBody] MasterICDModel obj)
         {
 

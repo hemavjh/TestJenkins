@@ -84,6 +84,7 @@ namespace MyCortex.Masters.Controllers
         /// </summary>
         /// <param name="obj">a Allergy Master detail</param>
         /// <returns>inserted/updated Allergy Master list</returns>
+        [HttpPost]
         public HttpResponseMessage MasterAllergy_AddEdit([FromBody] MasterAllergyModel obj)
         {
 

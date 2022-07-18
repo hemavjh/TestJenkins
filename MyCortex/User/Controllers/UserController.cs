@@ -987,6 +987,7 @@ namespace MyCortex.User.Controller
         /// </summary>
         /// <param name="insobj">group details </param>
         /// <returns>status detail of group creation</returns>
+        [HttpPost]
         public HttpResponseMessage GroupMaster_Insert([FromBody] GroupCreateModel insobj)
         {
              _AppLogger = this.GetType().FullName;
@@ -1790,6 +1791,7 @@ namespace MyCortex.User.Controller
         /// <param name="patientDataObj">Required Params: PatientId, ParameterId, ParameterValue, ActivityDate</param>
         /// <returns>inserted Health Data</returns>
       //  [CheckSessionOutFilter]
+        [HttpPost]
         public int PatientHealthDataBulk_Insert_Update(Guid Login_Session_Id, PatientHealthDataListModel patientDataListObj)
         {
              _AppLogger = this.GetType().FullName;

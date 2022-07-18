@@ -774,7 +774,7 @@
                 <div class="col-sm-7">
                     <h1 class="page-title" ng-show="ParameterValueList.length>=0">
                         Alerts<sub>
-                            <input type="image" src="../../Images/expand.gif"
+                            <input type="image" ng-src="../../Images/expand.gif"
                                    title='Click to Collapse'
                                    onclick="return divcollapse('tableid', 'tableid_img')"
                                    ng-click="AlertCountredDisplay('')"
@@ -873,7 +873,7 @@
 
                     </div>
 
-                    <div class="row centerScroll" ng-show="ParameterValueList.length>=0" infinityscroll="NextPage('tableid',0)" ng-style="ParameterValueList.length !== 0 && {'height':425px}" style="display:none; " id="tableid">
+                    <div class="row centerScroll" ng-show="ParameterValueList.length>=0" infinityscroll="NextPage('tableid',0)" [ng-style]="ParameterValueList.length !== 0 && {'height':425px}" style="display:none; " id="tableid">
                         <div class="col-sm-3" ng-repeat="row in ParameterValueList">
                             <div ng-class="{'alert alert-success nibp':row.LowCount>0,'alert alert-danger nibp':row.HighCount>0,'alert alert-warning nibp':row.MediumCount>0}">
                                 <div class="notificationsWarnings" ng-show="row.HighCount>0">
@@ -2327,7 +2327,7 @@
                                                             {{row.UOM_Name}}
                                                         </a>
                                                         <a href="home/GetPatient_OtherDataDocument?Id={{row.ParameterId}}" style="text-decoration:none;">
-                                                            <img target="_blank" src="../../Images/download1.png" title="Click to Download">
+                                                            <img target="_blank" ng-src="../../Images/download1.png" title="Click to Download">
                                                         </a>
                                                     </div>
                                                     <div class="alert alert-success nibp" ng-if="row.Type_Id==2 && LiveData_IsImage(row.UOM_Name)==true">
@@ -6676,7 +6676,7 @@ Works in Mozilla, Webkit & IE.
 
             }
 
-            //$("a[rel=fancybox]").fancybox();
+            $("a[rel=fancybox]").fancybox();
 
             var fileReaderAvailable = (typeof FileReader !== "undefined");
             var clipBoardAvailable = (window.clipboardData !== false);

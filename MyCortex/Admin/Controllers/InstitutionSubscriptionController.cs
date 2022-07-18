@@ -44,6 +44,7 @@ namespace MyCortex.Admin.Controllers
         /// </summary>
         /// <param name="insobj"></param>
         /// <returns></returns>
+        [HttpPost]
         public HttpResponseMessage InstitutionSubscription_AddEdit(Guid Login_Session_Id, [FromBody] InstitutionSubscriptionModel insobj)
         {
              _AppLogger = this.GetType().FullName;

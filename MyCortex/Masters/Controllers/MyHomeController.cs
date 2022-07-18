@@ -47,7 +47,7 @@ namespace MyCortex.User.Controllers
 
         [Authorize]
         [HttpGet]
-        [CheckSessionOutFilter]
+        //[CheckSessionOutFilter]
         public TabListModel Tab_ListView(int Id)
         {
             TabListModel model = new TabListModel();
@@ -57,7 +57,7 @@ namespace MyCortex.User.Controllers
 
         [Authorize]
         [HttpGet]
-        [CheckSessionOutFilter]
+        //[CheckSessionOutFilter]
         public HttpResponseMessage Tab_List_Delete(int Id)
         {
             if (Id > 0)
@@ -343,7 +343,7 @@ namespace MyCortex.User.Controllers
             }
         }
         
-        [AllowAnonymous]
+        
         [HttpGet]
         public HttpResponseMessage TabDevice_List(long InstitutionId, long Tab_ID)
         {
@@ -371,7 +371,6 @@ namespace MyCortex.User.Controllers
             }
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public HttpResponseMessage TabUser_List(long InstitutionId, long Tab_ID)
         {
@@ -642,7 +641,7 @@ namespace MyCortex.User.Controllers
             }
         }
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [HttpPost]
         [CheckSessionOutFilter]
         public HttpResponseMessage Update_Device_SerialNo([FromBody] TabDeviceIdModel obj)
@@ -737,6 +736,7 @@ namespace MyCortex.User.Controllers
                 return null;
             }
         }
+        [HttpPost]
         public HttpResponseMessage AddDeviceNameInsertUpdate([FromBody] TabDevicesModel obj)
         {
             _AppLogger = this.GetType().FullName;
@@ -818,7 +818,6 @@ namespace MyCortex.User.Controllers
                 return null;
             }
         }
-        
         public HttpResponseMessage Dashboard_UserParametersettings_InsertUpdate([FromBody] DashboardUserParameterSettingsModel model)
         {
              _AppLogger = this.GetType().FullName;
@@ -957,7 +956,7 @@ namespace MyCortex.User.Controllers
         */
         [Authorize]
         [HttpGet]
-        [CheckSessionOutFilter]
+       // [CheckSessionOutFilter]
         public TabDevicesModel ViewDevice_List(long Id)
         {
             TabDevicesModel model = new TabDevicesModel();
@@ -967,7 +966,7 @@ namespace MyCortex.User.Controllers
 
         [Authorize]
         [HttpGet]
-        [CheckSessionOutFilter]
+        //[CheckSessionOutFilter]
         public TabDevicesModel ViewDeviceName_List(long Id)
         {
             TabDevicesModel model = new TabDevicesModel();
@@ -976,7 +975,7 @@ namespace MyCortex.User.Controllers
         }
         [Authorize]
         [HttpGet]
-        [CheckSessionOutFilter]
+        //[CheckSessionOutFilter]
         public HttpResponseMessage Device_Delete(int Id)
         {
             if (Id > 0)
@@ -992,7 +991,7 @@ namespace MyCortex.User.Controllers
         }
         [Authorize]
         [HttpGet]
-        [CheckSessionOutFilter]
+        //[CheckSessionOutFilter]
         public HttpResponseMessage DeviceName_Delete(int Id)
         {
             if (Id > 0)

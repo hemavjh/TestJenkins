@@ -34,6 +34,7 @@ namespace MyCortex.EmailAlert.Controllers
         /// </summary>
         /// <param name="obj">Email Alert detail model</param>      
         /// <returns>Email Alert details of the Inserted/Updated record</returns>
+        [HttpPost]
         public HttpResponseMessage EmailAlertDetails_AddEdit([FromBody] EmailAlertmodel obj)
         {
 
