@@ -46,7 +46,7 @@ namespace MyCortex.Masters.Controllers
         }
 
         [HttpPost]
-        [CheckSessionOutFilter]
+        //[CheckSessionOutFilter]
         public HttpResponseMessage LanguageSettings_AddEdit(List<LanguageSettingsModel> model)
         {
              _AppLogger = this.GetType().FullName;

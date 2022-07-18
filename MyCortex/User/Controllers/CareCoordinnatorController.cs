@@ -51,6 +51,7 @@ namespace MyCortex.User.Controllers
         /// <param name="TypeId"></param>
         /// <param name="UserTypeId"></param>
         /// <returns></returns>
+        [CheckSessionOutFilter]
         [HttpPost]
         public IList<CareCoordinatorModel> CareCoordinator_PatientList(long Coordinator_Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int TypeId, long UserTypeId, Guid Login_Session_Id)
         {
@@ -68,7 +69,7 @@ namespace MyCortex.User.Controllers
                 return null;
             }
         }
-
+        [CheckSessionOutFilter]
         [HttpPost]
         public IList<CareCoordinatorModel> CareCoordinator_FilterPatientList(long Coordinator_Id, string PATIENTNO, string INSURANCEID, string NATIONALITY_ID, string MOBILE_NO, string EMAILID, long UserTypeId, string FIRSTNAME, string LASTNAME, string MRN, int TypeId, Guid Login_Session_Id, int? AdvanceFilter = 0)
         {
@@ -90,6 +91,7 @@ namespace MyCortex.User.Controllers
         /// Get the Care Giver name List based on users group        
         /// </summary>
         /// <returns> Care Giver List based on users groups</returns>
+         [HttpPost]
         public IList<CareGiverListModel> CareGiver_List(long Id)
         {
              _AppLogger = this.GetType().FullName;
@@ -110,6 +112,7 @@ namespace MyCortex.User.Controllers
         /// to insert Assign the Care Giver to a Patient.        
         /// </summary>  
         /// <returns>Inserted Care Giver Records with Status</returns>
+        [HttpPost]
         public HttpResponseMessage Assign_CareGiver([FromBody] AssignCareGiverModel Obj)
         {
              _AppLogger = this.GetType().FullName;
@@ -196,6 +199,8 @@ namespace MyCortex.User.Controllers
                 return null;
             }
         }
+        [CheckSessionOutFilter]
+        [HttpGet]
         public IList<GetParameterValueCountModel> Get_ParameterValueCount(long PatientId, long UserTypeId, Guid Login_Session_Id)
         {
              _AppLogger = this.GetType().FullName;
@@ -216,6 +221,7 @@ namespace MyCortex.User.Controllers
         /// Get the assign caregiver history
         /// </summary>
         /// <returns> assign caregiver history list</returns>
+        [CheckSessionOutFilter]
         [HttpGet]
         public IList<AssignCareGiverModel> Care_Coordinatorhistory(long CareGiverId, Guid Login_Session_Id)
         {

@@ -110,6 +110,7 @@ namespace MyCortex.Template.Controllers
         /// <param name="BLOODGROUP_ID"></param>
         /// <param name="Group_Id"></param>
         /// <returns></returns>
+        [HttpGet]
         public IList<SendEmailModel> Get_SendEmail_UserList(string UserTypeId, long Institution_Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id)
         {
              _AppLogger = this.GetType().FullName;
@@ -349,6 +350,7 @@ namespace MyCortex.Template.Controllers
         /// <param name="Institution_Id"></param>
         /// <param name="TemplateType_Id"></param>
         /// <returns></returns>
+        [HttpGet]
         public SendEmailModel GenerateTemplate(long Id, long Template_Id, long Institution_Id, long TemplateType_Id)
         {
              _AppLogger = this.GetType().FullName;
@@ -391,6 +393,7 @@ namespace MyCortex.Template.Controllers
         /// <param name="INSTITUTION_ID"></param>
         /// <param name="TemplateType_Id"></param>
         /// <returns></returns>
+        [CheckSessionOutFilter] 
         [HttpGet]
         public IList<EmailHistoryListModel> EmailHistory_List(long? Id, DateTime? Period_From, DateTime? Period_To, int? Email_Stauts, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID, long TemplateType_Id, Guid Login_Session_Id)
         {
@@ -685,6 +688,36 @@ namespace MyCortex.Template.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
+
+        /// <summary>
+        /// to Delete User FCM token for Notification sending
+        /// </summary>
+        /// <param name="UserFCM">User FCM Token detail</param>
+        /// <returns>Deleted FCM Token detail</returns>
+        [HttpPost]
+        public HttpResponseMessage DeleteUser_FCMTocken([FromBody] NotifictaionUserFCM UserFCM)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            NotifictaionUserFCM model = new NotifictaionUserFCM();
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+            try
+            {
+                model = repository.DeleteUser_FCMTocken(UserFCM);
+
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
         /// <summary>
         /// to get FCM token of a user
         /// </summary>
@@ -717,6 +750,7 @@ namespace MyCortex.Template.Controllers
         /// </summary>
         /// <param name="User_Id">User Id</param>
         /// <returns>Notification list of a user</returns>
+        [CheckSessionOutFilter]
         [HttpGet]
         public UserNotificationListModel User_get_NotificationList(long User_Id,Guid Login_Session_Id)
         {

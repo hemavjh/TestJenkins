@@ -30,23 +30,23 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 }
             }
         });
-        $scope.isCometChat = "";
-        $http.get(baseUrl + '/api/CommonMenu/CommonTelephone_List?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (response) {
-            if (response != null) {
-                if (response.length > 0) {
-                    $scope.islivebox = $filter('filter')(response, { ID: '1' })[0];
-                    angular.forEach(response, function (item, index) {
-                        $scope.Name = item.NAME;
-                        if ($scope.Name == 'CometChat') {
-                            $('#btnopenchat').show();
-                        }
-                        else {
-                            $('#btnopenchat').hide();
-                        }
-                    })
-                }
-            }
-        });
+        //$scope.isCometChat = "";
+        //$http.get(baseUrl + '/api/CommonMenu/CommonTelephone_List?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (response) {
+        // if (response != null) {
+        // if (response.length > 0) {
+        //  $scope.islivebox = $filter('filter')(response, { ID: '1' })[0];
+        //  angular.forEach(response, function (item, index) {
+        //   $scope.Name = item.NAME;
+        //  if ($scope.Name == 'CometChat') {
+        //  $('#btnopenchat').show();
+        //  }
+        //  else {
+        //   $('#btnopenchat').hide();
+        //   }
+        //     })
+        //        }
+        //    }
+        //});
         var dtToday = new Date();
 
         var month = dtToday.getMonth() + 1;
@@ -4365,7 +4365,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                
                     x.style.display = "block";
                     x.scrollTop = 0;
-                    document.getElementById(tableid + '_img').title = 'Click to Collapse';
+                    document.getElementById('tableid_img').title = 'Click to Collapse';
                 }
                 
             }
@@ -4386,7 +4386,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     i.src = "../../Images/collapse.gif"
                     x.style.display = "block";
                     x.scrollTop = 0;
-                    document.getElementById(tableid + '_img').title = 'Click to Collapse';
+                    document.getElementById('tableid_img').title = 'Click to Collapse';
                 }
 
             }
@@ -4407,7 +4407,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     i.src = "../../Images/collapse.gif"
                     x.style.display = "block";
                     x.scrollTop = 0;
-                    document.getElementById(tableid + '_img').title = 'Click to Collapse';
+                    document.getElementById('tableid_img').title = 'Click to Collapse';
                     
                 }
 

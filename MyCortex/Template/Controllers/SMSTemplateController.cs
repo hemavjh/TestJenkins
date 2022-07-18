@@ -35,7 +35,7 @@ namespace MyCortex.Template.Controllers
         /// </summary>
         /// <param name="obj">details of SMS Template </param>      
         /// <returns>template details of the Inserted/Updated record</returns>
-
+        [HttpPost]
         public HttpResponseMessage SMSTemplateTag_AddEdit([FromBody] SMSTemplateDesignModel obj)
         {
             IList<SMSTemplateDesignModel> ModelData = new List<SMSTemplateDesignModel>();

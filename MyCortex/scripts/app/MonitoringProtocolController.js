@@ -494,7 +494,11 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                     }
                 }
                 $scope.duration_list = rw.duration_list;
-                $scope.weekdays = rw.WeeklyData;
+                if (rw.Com_DurationType == 2) {
+                    $scope.weekdays = rw.WeeklyData;
+                } else {
+                    $scope.weekdays = $scope.weeklist;
+                }
                 $scope.index = ind;
             }
         }
@@ -1370,7 +1374,7 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                         $scope.MonitoringProtocolDetailsListGo();
 
                         $scope.ProtocolClear();
-                        $scope.CloneProtocolFunction();
+                        /*$scope.CloneProtocolFunction();*/
                     }
                 });
             //}

@@ -156,19 +156,23 @@
         });
     </script>
     <script>
-        var input = document.querySelector("#txtMobile");
-        var inputPhoneNo = window.intlTelInput(input, {
-            formatOnDisplay: true,
-            separateDialCode: true,
-            geoIpLookup: function (callback) {
-                $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
-                    var countryCode = (resp && resp.country) ? resp.country : "";
-                    callback(countryCode);
-                });
-            },
-            //preferredCountries: ["in"],
-            utilsScript: "scripts/utils.js",
-        });
+        //var InitialCountry = document.getElementById('CountryISO2').value;
+        
+        //var input = document.querySelector("#txtMobile");
+        //var inputPhoneNo = window.intlTelInput(input, {
+        //    formatOnDisplay: true,
+        //    separateDialCode: true,
+        //    initialCountry:  InitialCountry,
+            
+        //    geoIpLookup: function (callback) {
+        //        $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
+        //            var countryCode = (resp && resp.country) ? resp.country : "";
+        //            callback(countryCode);
+        //        });
+        //    },
+        //    //preferredCountries: ["in"],
+        //    utilsScript: "scripts/utils.js",
+        //});
 
         //inputPhoneNo.setNumber("+91 98765 43210");
 
@@ -182,13 +186,13 @@
 
             const PhoneNumber = inputPhoneNo.getNumber();
             //alert(PhoneNumber);
-
+            alert(inputPhoneNo.getSelectedCountryData());
             var countryData = inputPhoneNo.getSelectedCountryData();
             var countryCode = countryData.dialCode; // using updated doc, code has been replaced with dialCode
             var iso2 = countryData.iso2;
             countryCode = "+" + countryCode;
             //alert(countryCode);
-            //alert(iso2);
+            alert(iso2);
 
             var number = document.getElementById("txtMobile").value;
             //alert(number);
@@ -693,6 +697,7 @@
                                                 onkeypress="OnlySpecCharNum(event)" />-->
                                                             <input type="text" class="form-control" id="txtMobile" name="tel"
                                                                    ng-model="MobileNo" ng-required="true" onblur="txtPhoneChange()" />
+                                                            
                                                         </div>
                                                         <div class="inputGroups">
                                                             <label>
@@ -747,7 +752,7 @@
                                                 </div>-->
                                                             <div ng-if="(uploadme!=null||uploadme!='')" valign="top"
                                                                  rowspan="6">
-                                                                <img id="item-img-output" class="responsiveProfileImage mb-10" src="{{uploadme}}" />
+                                                                <img id="item-img-output" class="responsiveProfileImage mb-10" ng-src="{{uploadme}}" />
                                                             </div>
                                                             <a class="textRight theme-btn-2 mr-10" style="max-width: 250px;" href="javascript:"
                                                                ng-click="imageclear()" title="Clear">
@@ -1191,7 +1196,7 @@
                                                     </div>
                                                     <div ng-if="(uploadme!=null || uploadme!=0)&&uploadview ==true"
                                                          valign="top" rowspan="6">
-                                                        <img style="width:150px;height:150px;" class="responsiveProfileImage" src="{{uploadme}}" />
+                                                        <img style="width:150px;height:150px;" class="responsiveProfileImage" ng-src="{{uploadme}}" />
                                                     </div>
                                                 </div>
                                             </div>

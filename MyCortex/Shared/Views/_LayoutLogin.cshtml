@@ -68,7 +68,7 @@
         });
         var PhotoList = jQuery.parseJSON('@Html.Action("LoginPageLogoDetails", "Home")');
         $(document).ready(function () {
-            document.getElementById("InstLogo").src = PhotoList[0];
+            document.getElementById.toString("InstLogo").src = PhotoList[0];
         });
 
         var ProductName = jQuery.parseJSON('@Html.Action("GetProduct_Details", "Home")');
@@ -86,12 +86,12 @@
                 show_login(ProductName[0]);
             }
 
-            var productnamespan = document.getElementById('productnamespan');
-            if ('textContent' in productnamespan) {
-                productnamespan.textContent = ProductName[0];
-            } else {
-                productnamespan.innerText = ProductName[0];
-            }
+            //var productnamespan = document.getElementById('productnamespan');
+            //if ('textContent' in productnamespan) {
+            //    productnamespan.textContent = ProductName[0];
+            //} else {
+            //    productnamespan.innerText = ProductName[0];
+            //}
         });
         function show_login(val) {
             if (val == 'MyCortex') {

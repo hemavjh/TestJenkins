@@ -131,6 +131,7 @@ namespace MyCortex.Admin.Controllers
         /// </summary>
         /// <param name="insobj">standard protocol details model object</param>
         /// <returns>inserted/updated standard protocol detail model</returns>
+        [HttpPost]
         public HttpResponseMessage StandardProtocol_AddEdit([FromBody] ProtocolModel insobj)
         {
 

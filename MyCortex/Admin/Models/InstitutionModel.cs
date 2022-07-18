@@ -29,6 +29,7 @@ namespace MyCortex.Admin.Models
         [Required]
         public long StateId { get; set; }
         public string StateName { get; set; }
+        public string CountryISO2 { get; set; }
         [Required]
         public long CityId { get; set; }
         public string CityName { get; set; }

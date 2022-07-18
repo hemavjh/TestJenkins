@@ -36,6 +36,7 @@ namespace MyCortex.Masters.Controllers
         /// <param name="obj">Fields of AV/Chat Settings Page</param>      
         /// <returns>Identity (Primary Key) value of the Inserted/Updated record</returns>
         [HttpPost]
+        [CheckSessionOutFilter]
         public HttpResponseMessage ShiftTimings_InsertUpdate(Guid Login_Session_Id, [FromBody] ShiftTimingsModel insobj)
         {
              _AppLogger = this.GetType().FullName;
@@ -92,6 +93,7 @@ namespace MyCortex.Masters.Controllers
         /// <param name="Id">Id of a IsActive</param>        
         /// <returns>Populated List of AppoinmentSlot list Details DataTable</returns>
         [HttpGet]
+        [CheckSessionOutFilter]
         public IList<ShiftTimingsModel> ShiftTimings_List(int? IsActive, long InstituteId, Guid Login_Session_Id)
         {
              _AppLogger = this.GetType().FullName;
@@ -116,6 +118,7 @@ namespace MyCortex.Masters.Controllers
         /// <param name="Id">Id of a AppoinmentSlot</param>    
         /// <returns>Populated a AppoinmentSlot Details DataTable </returns>
         [HttpGet]
+        [CheckSessionOutFilter]
         public ShiftTimingsModel ShiftTimings_View(long Id, Guid Login_Session_Id)
         {
              _AppLogger = this.GetType().FullName;

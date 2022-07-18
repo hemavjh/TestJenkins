@@ -17,18 +17,27 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
         $scope.calcNewYear;
         $scope.isvideo = false;
         $scope.islivebox = "";
+        $scope.isCometChat = "";
+        $scope.isAudio = false;
+        $scope.isVideoC = false;
         $http.get(baseUrl + '/api/CommonMenu/CommonTelephone_List?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (response) {
             if (response != null) {
                 if (response.length > 0) {
-                    $scope.islivebox = $filter('filter')(response, { ID: '2' })[0];
                     angular.forEach(response, function (item, index) {
                         $scope.Name = item.NAME;
-                        if ($scope.Name == 'LiveBox') {
-                            $('#MyvideoDisable').attr("disabled", true);
-                            $scope.isvideo = true;
-                        }
-                        else {
+                        if ($scope.Name == 'CometChat') {
+                            $('#AudioDisable').attr("disabled", true);
+                            $('#videoDisable').attr("disabled", true);
                             $('#MyvideoDisable').attr("disabled", false);
+                            $scope.isAudio = true;
+                            $scope.isVideoC = true;
+                            //    $('#btnopenchat').show();
+                        }
+                        else if ($scope.Name == 'LiveBox') {
+                            $('#MyvideoDisable').attr("disabled", true);
+                            $('#AudioDisable').attr("disabled", false);
+                            $('#videoDisable').attr("disabled", false);
+                            $scope.isvideo = true;
                         }
                     })
                 }
@@ -39,7 +48,7 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
         function intial_loading() {
             //get the browser timezone.
             //$scope.getTimeZone = new Date().getTimezoneOffset(); //Intl.DateTimeFormat().resolvedOptions().timeZone; 
-            
+
             patientAppointmentList();
             getPreviousAppointmentList();
             //if ($scope.$parent.userTypeId == 5) {
@@ -50,7 +59,7 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
         $scope.Patient_PerPage_past = 0;
         //$scope.PageStart = 0;
         //$scope.PageEnd = 0;
-        $scope.NextPage = function (id,id1) {
+        $scope.NextPage = function (id, id1) {
             //angular.element(myElement).hasClass('my-class');
             var element1 = angular.element(document.querySelector('#' + id));
             var element = angular.element(document.querySelector('#' + id1));
@@ -94,7 +103,7 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                                 //$scope.UpComingAppointmentDetails = [];
                                 Array.prototype.push.apply($scope.UpComingAppointmentDetails, data.PatientAppointmentList);
                                 //$scope.UpComingAppointmentDetails.push(data.PatientAppointmentList);
-                                compareAppointmentDates();                            
+                                compareAppointmentDates();
 
                             });
                             //}
@@ -138,8 +147,8 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                                     $scope.PreviousAppointmentCount = $scope.PreviousAppointmentDetails.length;
                                 }
                             });
-                            
-                       
+
+
                         });
                     }
                     else {
@@ -160,7 +169,7 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                                     $scope.PreviousAppointmentCount = $scope.PreviousAppointmentDetails.length;
                                 }
                             });
-                            
+
                         });
                     }
 
@@ -192,7 +201,7 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                 });
             });
         }
-      
+
         function compareAppointmentDates() {
             $scope.calcNewYear = setInterval(checkdates(), 1000);
         }
@@ -206,12 +215,12 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
             //    $("#payment_waveLoader").hide();
             //}).error(function (data) { console.log(data); $("#payment_waveLoader").hide(); });
             localStorage.setItem('rowId', Row.Id);
-            $rootScope.$emit("show_payment_history", {id: Row.Id});
+            $rootScope.$emit("show_payment_history", { id: Row.Id });
         }
         function checkdates() {
             var AppoinList = $scope.UpComingAppointmentDetails;
             for (i = 0; i < AppoinList.length; i++) {
-                var startdate1 = moment(new Date($scope.UpComingAppointmentDetails[i].Appointment_FromTime+'Z'));
+                var startdate1 = moment(new Date($scope.UpComingAppointmentDetails[i].Appointment_FromTime + 'Z'));
                 var enddate1 = moment(new Date());
                 var diff1 = Math.abs(enddate1 - startdate1);
                 //var days1 = Math.floor(diff1 / (60 * 60 * 24 * 1000));
@@ -220,8 +229,8 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                 //var seconds1 = Math.floor(diff1 / 1000) - ((days1 * 24 * 60 * 60) + (hours1 * 60 * 60) + (minutes1 * 60));
                 var CallRemain1 = Math.floor(diff1 / (60 * 1000));
                 $scope.CallButton1 = CallRemain1;
-                var date_future = (new Date($scope.UpComingAppointmentDetails[i].Appointment_FromTime+'Z'));
-               
+                var date_future = (new Date($scope.UpComingAppointmentDetails[i].Appointment_FromTime + 'Z'));
+
                 var date_now = (new Date());
 
                 var seconds = Math.floor((date_future - (date_now)) / 1000);
@@ -282,8 +291,28 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
         }
         $scope.$on("appointment_list", intial_loading);
 
-        $scope.openvideocall = function (patientName, ConferenceId) {
-           // if (typeof ($scope.islivebox) != 'undefined' && $scope.islivebox != "") {
+        $scope.openchaticon = function (Row) {
+            var startdate1 = moment(new Date(Row.Appointment_FromTime + 'Z'));
+            var enddate1 = moment(new Date());
+            var diffTime = Math.abs(enddate1 - startdate1);
+            var TextIcon = Math.floor(diffTime / (60 * 1000));
+            $scope.TextIconB = TextIcon;
+            if ($scope.TextIconB < 15) {
+                chatService.openChatfromOtherPage();
+            }
+            else {
+                $('#chatBox').attr("style", "display:none");
+                $('#btnopenchat').attr("style", "display:flex");
+            }
+        }
+
+        $scope.openvideocall = function (patientName, ConferenceId, Row) {
+            var startdate1 = moment(new Date(Row.Appointment_FromTime + 'Z'));
+            var enddate1 = moment(new Date());
+            var diffTime = Math.abs(enddate1 - startdate1);
+            var TextIcon = Math.floor(diffTime / (60 * 1000));
+            $scope.TextIconB = TextIcon;
+            if ($scope.TextIconB < 15) {
                 var emp = JSON.parse(JSON.parse(window.localStorage["18792f60bb2dbf1:common_store/user"]));
                 patientName = emp.name;
                 $('#Patient_AppointmentPanel').addClass('hidden');
@@ -297,10 +326,11 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                 }
                 var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
                 document.getElementById('Patient_VideoCall').innerHTML = tag;
-           // }
-            //else {
-            //    toastr.warning("You Haven't Subscribed For This Livebox. Please Contact Your Administrator", "warning");
-            //}
+            }
+            else {
+                $('#Patient_AppointmentPanel').addClass('show');
+                $('#Patient_VideoCall').addClass('hidden');
+            }
         }
     }
 ]);
