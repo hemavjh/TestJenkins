@@ -152,7 +152,7 @@ namespace MyCortex.Login.Controller
                     HttpContext.Current.Session["UserTypeId"] = model.UserTypeId.ToString();
                     HttpContext.Current.Session["InstitutionId"] = model.InstitutionId.ToString();
                     HttpContext.Current.Session["Login_Session_Id"] = model.Login_Session_Id.ToString();
-
+                    HttpContext.Current.Session["TelePhone_User"] = model.TelePhone_User.ToString();
                     if ((model.data == 2) == true)
                     {
                         model.ReturnFlag = 0;
