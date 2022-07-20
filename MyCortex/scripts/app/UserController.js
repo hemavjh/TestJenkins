@@ -317,21 +317,24 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $scope.error = "AN error has occured while Listing the records!" + data;
             });
         } else {
-            var input = document.querySelector("#txtMobile");
-            var inputPhoneNo = window.intlTelInput(input, {
-                formatOnDisplay: true,
-                separateDialCode: true,
-                //initialCountry: InitialCountry,
+            var view_name = $location.$$path.split('/')[1];
+            if (view_name != "PatientView") {
+                var input = document.querySelector("#txtMobile");
+                var inputPhoneNo = window.intlTelInput(input, {
+                    formatOnDisplay: true,
+                    separateDialCode: true,
+                    //initialCountry: InitialCountry,
 
-                geoIpLookup: function (callback) {
-                    $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
-                        var countryCode = (resp && resp.country) ? resp.country : "";
-                        callback(countryCode);
-                    });
-                },
-                //preferredCountries: ["in"],
-                utilsScript: "scripts/utils.js",
-            });
+                    geoIpLookup: function (callback) {
+                        $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
+                            var countryCode = (resp && resp.country) ? resp.country : "";
+                            callback(countryCode);
+                        });
+                    },
+                    //preferredCountries: ["in"],
+                    utilsScript: "scripts/utils.js",
+                });
+            }
         }
 
         $scope.EditgroupOption = 0;
@@ -833,7 +836,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $.each(data, function (index, city) {
                             results.push({
                                 id: city.Id,
-                                text: city.CityName
+                                text: city.LocationName
                             });
                         });
                         

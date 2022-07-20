@@ -1455,7 +1455,7 @@ namespace MyCortex.Repositories.Uesr
                 {
                     byte[] returnCertificate = (byte[])dt.Rows[0]["CERTIFICATE_BLOBDATA"];
                     View.Certificate_FileName = (string)dt.Rows[0]["FILE_NAME"];
-                    View.FileType = (string)dt.Rows[0]["FILETYPE"];
+                    View.FileType = (string)dt.Rows[0]["FILETYPE"].ToString();
                     View.CertificateBlob = decrypt.DecryptFile(returnCertificate);
                 }
                 if (!Convert.IsDBNull(dt.Rows[0]["USER_NATIONAL_PHOTO"]))
