@@ -7813,7 +7813,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             if (searchstring2 == "undefined") searchstring2 = '';
             var searchstring3 = angular.lowercase($scope.ImportanceSearch);
             if (searchstring3 == "undefined") searchstring3 = '';
-
+            
             $scope.PatientNotesrowCollectionFilter = [];
             if ($scope.NotesTypeSearch == "" && $scope.FlagSearch == 0 && $scope.ImportanceSearch == 0) {
                 $scope.PatientNotesrowCollectionFilter = [];
@@ -7826,17 +7826,17 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 
             } else if ($scope.NotesTypeSearch == "" && $scope.FlagSearch != 0 && $scope.ImportanceSearch == 0) {
                 $scope.PatientNotesrowCollectionFilter = $ff($scope.PatientNotesrowCollection, function (value) {
-                    return angular.lowercase(value.NotesFlag.toString()).match(searchstring2);
+                    return angular.lowercase(value.NotesFlag.toString()).match(searchstring2) && angular.lowercase(value.Importance.toString()).match(searchstring3);
                 });
 
             } else if ($scope.NotesTypeSearch == "" && $scope.FlagSearch == 0 && $scope.ImportanceSearch != 0) {
                 $scope.PatientNotesrowCollectionFilter = $ff($scope.PatientNotesrowCollection, function (value) {
-                    return angular.lowercase(value.Importance.toString()).match(searchstring3);
+                    return angular.lowercase(value.Importance.toString()).match(searchstring3) && angular.lowercase(value.NotesFlag.toString()).match(searchstring2);
                 });
 
             }else if ($scope.NotesTypeSearch != "" && $scope.FlagSearch != 0 && $scope.ImportanceSearch == 0) {
                 $scope.PatientNotesrowCollectionFilter = $ff($scope.PatientNotesrowCollection, function (value) {
-                    return (angular.lowercase(value.NotesType.toString()).match(searchstring1) && angular.lowercase(value.NotesFlag.toString()).match(searchstring2));
+                    return (angular.lowercase(value.NotesType.toString()).match(searchstring1) && angular.lowercase(value.NotesFlag.toString()).match(searchstring2) && angular.lowercase(value.Importance.toString()).match(searchstring3));
                 });
                 
             } else if ($scope.NotesTypeSearch != "" && $scope.FlagSearch != 0 && $scope.ImportanceSearch != 0) {
@@ -7845,7 +7845,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 });
             } else if ($scope.NotesTypeSearch != "" && $scope.FlagSearch == 0 && $scope.ImportanceSearch != 0) {
                 $scope.PatientNotesrowCollectionFilter = $ff($scope.PatientNotesrowCollection, function (value) {
-                    return angular.lowercase(value.NotesType.toString()).match(searchstring1) && angular.lowercase(value.Importance.toString()).match(searchstring3);
+                    return angular.lowercase(value.NotesType.toString()).match(searchstring1) && angular.lowercase(value.NotesFlag.toString()).match(searchstring2) && angular.lowercase(value.Importance.toString()).match(searchstring3);
                 });
                 
             } else if ($scope.NotesTypeSearch == "" && $scope.FlagSearch != 0 && $scope.ImportanceSearch != 0) {
