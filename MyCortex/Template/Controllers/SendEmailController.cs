@@ -167,7 +167,9 @@ namespace MyCortex.Template.Controllers
                     model1 = repository.GenerateTemplate(itemData.UserId, itemData.Template_Id, itemData.Institution_Id, itemData.TemplateType_Id);
                     itemData.Email_Subject = model1.Email_Subject;
                     itemData.Email_Body = model1.Email_Body;
-                    ModelData = repository.SendEmail_AddEdit(itemData);
+                    itemData.Email_Body = model1.Email_Body.Replace("<p>", "").Replace("</p>", "")
+                     .Replace("<br>", "").Replace("<br /> ", "").Replace("</p> ", "\n<p ").Replace("&nbsp;", " ").Replace("\n", " ");
+                     ModelData = repository.SendEmail_AddEdit(itemData);
 
                     if (itemData.TemplateType_Id == 1)
                     {

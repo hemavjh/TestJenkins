@@ -185,7 +185,7 @@ namespace MyCortex.Repositories.Template
                 param.Add(new DataParameter("@API_RETURN_ID", obj.ResponseId));
                 param.Add(new DataParameter("@CREATED_BY", obj.Created_By));
                 {
-                    DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].SENDEMAIL_INSERTUPDATE ", param);
+                    DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].SENDEMAIL_INSERTUPDATE", param);
                     IList<SendEmailModel> list = (from p in dt.AsEnumerable()
                                                   select new SendEmailModel()
                                                   {
@@ -311,6 +311,7 @@ namespace MyCortex.Repositories.Template
                     param2.Add(new DataParameter("@SectionName", Section));
                     DataTable dt2 = ClsDataBase.GetDataTable("[MYCORTEX].[TEMPLATE_RESULT_TAGSLIST]", param2);
                     string Time = DateTime.Now.ToString("h:mm:ss tt");
+                    string dateandtime  = DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt");
                     var URLConvert = "";
                     foreach (DataRow dtRow1 in dt2.Rows)
                     {
@@ -322,6 +323,10 @@ namespace MyCortex.Repositories.Template
                         if (TagName == "{Time}")
                         {
                             TagsReplaceData = Time;
+                        }
+                        else if(TagName == "{date and time}")
+                        {
+                             TagsReplaceData = dateandtime;
                         }
                         else if (TagName == "{Login Url}")
                         {

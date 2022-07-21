@@ -146,7 +146,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                 else if (EmailSectionType == "Diagnostic Alert Medium")
                     $scope.SectionType = "BASIC,DIAG_COMP_ALERT";
                 else if (EmailSectionType == "Missed Call by doctor")
-                    $scope.SectionType = "APPOINTMENT,CG_ASSIGN";
+                    $scope.SectionType = "APPOINTMENT,CG_ASSIGN,BASIC";
                 else if (EmailSectionType == "Missed Call by patient")
                     $scope.SectionType = "APPOINTMENT,CG_ASSIGN";
                 else if (EmailSectionType == "Patient Appointment Cancellation")
@@ -158,7 +158,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                 else if (EmailSectionType == "Patient Appointment Reminder(to Patient)")
                     $scope.SectionType = "BASIC,APPOINTMENT";
                 else if (EmailSectionType == "Patient Sign up")
-                    $scope.SectionType = "BASIC";
+                    $scope.SectionType = "BASIC,APPOINTMENT";
                 else if (EmailSectionType == "Patient Sign up Approved")
                     $scope.SectionType = "BASIC";
                 else if (EmailSectionType == "Patient sign up more information required")
