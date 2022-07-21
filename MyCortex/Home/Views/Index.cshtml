@@ -1455,7 +1455,8 @@
         var diffTime = Math.abs(enddate1 - startdate1);
         var TextIcon = Math.floor(diffTime / (60 * 1000));
         var TextIconB = TextIcon;
-        if (TextIconB < 15 || val === null) {
+        var PatientAppstarttime = document.getElementsByClassName('homepadamicon phones').value;
+        if (TextIconB < PatientAppstarttime || val === null) {
             if ($("#addressBook").hasClass("aqua") == true) {
                 $('.chatBody').toggleClass('chatBodyHalf');
                 $('.contactList').toggle();
@@ -1478,7 +1479,8 @@
         var diffTime = Math.abs(enddate1 - startdate1);
         var TextIcon = Math.floor(diffTime / (60 * 1000));
         var TextIconB = TextIcon;
-        if (TextIconB < 15 || val === null) {
+        var PatientAppstarttime = document.getElementsByClassName('homepadamicon phones').value
+        if (TextIconB < PatientAppstarttime || val === null) {
             chatService.initiateVideCall();
             if(window.localStorage['UserTypeId'] != 2)
                 chatService.openProfile();
