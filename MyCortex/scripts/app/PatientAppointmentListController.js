@@ -218,52 +218,59 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
             $rootScope.$emit("show_payment_history", { id: Row.Id });
         }
         function checkdates() {
-            var AppoinList = $scope.UpComingAppointmentDetails;
-            for (i = 0; i < AppoinList.length; i++) {
-                var startdate1 = moment(new Date($scope.UpComingAppointmentDetails[i].Appointment_FromTime + 'Z'));
-                var enddate1 = moment(new Date());
-                var diff1 = Math.abs(enddate1 - startdate1);
-                //var days1 = Math.floor(diff1 / (60 * 60 * 24 * 1000));
-                //var hours1 = Math.floor(diff1 / (60 * 60 * 1000)) - (days1 * 24);
-                //var minutes1 = Math.floor(diff1 / (60 * 1000)) - ((days1 * 24 * 60) + (hours1 * 60));
-                //var seconds1 = Math.floor(diff1 / 1000) - ((days1 * 24 * 60 * 60) + (hours1 * 60 * 60) + (minutes1 * 60));
-                var CallRemain1 = Math.floor(diff1 / (60 * 1000));
-                $scope.CallButton1 = CallRemain1;
-                var date_future = (new Date($scope.UpComingAppointmentDetails[i].Appointment_FromTime + 'Z'));
+            $scope.ConfigCode = "PAT_APPOINTMENT_START";
+            $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+                $scope.PAT_APPOINTMENT_START = data1[0].ConfigValue;
+                var Patientstarttime = $scope.PAT_APPOINTMENT_START;
+                document.getElementsByClassName('homepadamicon phones').value = Patientstarttime;
+                var AppoinList = $scope.UpComingAppointmentDetails;
+                for (i = 0; i < AppoinList.length; i++) {
+                    var startdate1 = moment(new Date($scope.UpComingAppointmentDetails[i].Appointment_FromTime + 'Z'));
+                    var enddate1 = moment(new Date());
+                    var diff1 = Math.abs(enddate1 - startdate1);
+                    //var days1 = Math.floor(diff1 / (60 * 60 * 24 * 1000));
+                    //var hours1 = Math.floor(diff1 / (60 * 60 * 1000)) - (days1 * 24);
+                    //var minutes1 = Math.floor(diff1 / (60 * 1000)) - ((days1 * 24 * 60) + (hours1 * 60));
+                    //var seconds1 = Math.floor(diff1 / 1000) - ((days1 * 24 * 60 * 60) + (hours1 * 60 * 60) + (minutes1 * 60));
+                    var CallRemain1 = Math.floor(diff1 / (60 * 1000));
+                    $scope.CallButton1 = CallRemain1;
+                    var date_future = (new Date($scope.UpComingAppointmentDetails[i].Appointment_FromTime + 'Z'));
 
-                var date_now = (new Date());
+                    var date_now = (new Date());
 
-                var seconds = Math.floor((date_future - (date_now)) / 1000);
-                var minutes = Math.floor(seconds / 60);
-                var hours = Math.floor(minutes / 60);
-                var days = Math.floor(hours / 24);
-                if (days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0) {
+                    var seconds = Math.floor((date_future - (date_now)) / 1000);
+                    var minutes = Math.floor(seconds / 60);
+                    var hours = Math.floor(minutes / 60);
+                    var days = Math.floor(hours / 24);
+                    if (days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0) {
 
+                    }
+                    hours = hours - (days * 24);
+                    minutes = minutes - (days * 24 * 60) - (hours * 60);
+                    seconds = seconds - (days * 24 * 60 * 60) - (hours * 60 * 60) - (minutes * 60);
+                    var timeDiffString1 = "";
+                    if (days != 0) {
+                        timeDiffString1 = timeDiffString1 + days + ' day ';
+                    }
+                    if (hours != 0) {
+                        timeDiffString1 = timeDiffString1 + hours + ' hr ';
+                    }
+                    if (minutes != 0) {
+                        timeDiffString1 = timeDiffString1 + minutes + ' min ';
+                    }
+                    if (seconds != 0) {
+                        timeDiffString1 = timeDiffString1 + seconds + ' sec';
+                    }
+                    AppoinList[i].TimeDifference = timeDiffString1;
+                    AppoinList[i]['RemainingTimeInMinutes'] = CallRemain1;
                 }
-                hours = hours - (days * 24);
-                minutes = minutes - (days * 24 * 60) - (hours * 60);
-                seconds = seconds - (days * 24 * 60 * 60) - (hours * 60 * 60) - (minutes * 60);
-                var timeDiffString1 = "";
-                if (days != 0) {
-                    timeDiffString1 = timeDiffString1 + days + ' day ';
+                if ($scope.UpComingAppointmentDetails != null) {
+                    $scope.UpComingAppointmentCount = $scope.UpComingAppointmentDetails.length;
                 }
-                if (hours != 0) {
-                    timeDiffString1 = timeDiffString1 + hours + ' hr ';
-                }
-                if (minutes != 0) {
-                    timeDiffString1 = timeDiffString1 + minutes + ' min ';
-                }
-                if (seconds != 0) {
-                    timeDiffString1 = timeDiffString1 + seconds + ' sec';
-                }
-                AppoinList[i].TimeDifference = timeDiffString1;
-                AppoinList[i]['RemainingTimeInMinutes'] = CallRemain1;
-            }
-            if ($scope.UpComingAppointmentDetails != null) {
-                $scope.UpComingAppointmentCount = $scope.UpComingAppointmentDetails.length;
-            }
-            $scope.UpComingAppointmentDetails = AppoinList;
-            //$scope.$apply();
+                $scope.UpComingAppointmentDetails = AppoinList;
+                //$scope.$apply();
+           });
         }
         function CG_PatientAppointment_List() {
             $http.get(baseUrl + '/api/User/CG_PatientAppointmentList/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId + '&UserId=' + $window.localStorage['UserId']).success(function (data) {
@@ -297,12 +304,15 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
             var diffTime = Math.abs(enddate1 - startdate1);
             var TextIcon = Math.floor(diffTime / (60 * 1000));
             $scope.TextIconB = TextIcon;
-            if ($scope.TextIconB < 15) {
+            if ($scope.TextIconB < $scope.PAT_APPOINTMENT_START) {
                 chatService.openChatfromOtherPage();
             }
-            else {
+            else if ($scope.Name == 'CometChat') {
                 $('#chatBox').attr("style", "display:none");
                 $('#btnopenchat').attr("style", "display:flex");
+            } else {
+                $('#chatBox').attr("style", "display:none");
+                $('#btnopenchat').attr("style", "display:none");
             }
         }
 
@@ -312,7 +322,7 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
             var diffTime = Math.abs(enddate1 - startdate1);
             var TextIcon = Math.floor(diffTime / (60 * 1000));
             $scope.TextIconB = TextIcon;
-            if ($scope.TextIconB < 15) {
+            if ($scope.TextIconB < $scope.PAT_APPOINTMENT_START) {
                 var emp = JSON.parse(JSON.parse(window.localStorage["18792f60bb2dbf1:common_store/user"]));
                 patientName = emp.name;
                 $('#Patient_AppointmentPanel').addClass('hidden');
