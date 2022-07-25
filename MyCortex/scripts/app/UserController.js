@@ -621,6 +621,36 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             });
         };
 
+        $scope.LoadFilterNationalityList = function () {
+            URL = baseUrl + '/api/Common/CloneNationalityList/';
+            $('#filter_NationalityId').select2({
+                placeholder: "Select",
+                ajax: {
+                    dataType: "json",
+                    url: URL,
+                    data: function (params) {
+                        return {
+                            q: params.term, // search term
+                        };
+                    },
+                    processResults: function (data) {
+                        var results = [];
+                        $.each(data, function (index, nationality) {
+                            results.push({
+                                id: nationality.Id,
+                                text: nationality.Name
+                            });
+                        });
+                        return {
+                            results: results
+                        };
+                    },
+                    cache: true
+                },
+                width: '100%'
+            });
+        };
+
         $scope.LoadMaritalStatusList = function () {
             if ($scope.MaritalStatusList.length === 0) {
                 URL = baseUrl + '/api/Common/CloneMaritalStatusList/';
