@@ -7821,7 +7821,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             }
             else if ($scope.NotesTypeSearch != "" && $scope.FlagSearch == 0 && $scope.ImportanceSearch == 0) {
                 $scope.PatientNotesrowCollectionFilter = $ff($scope.PatientNotesrowCollection, function (value) {
-                    return angular.lowercase(value.NotesType.toString()).match(searchstring1);
+                    return angular.lowercase(value.NotesType.toString()).match(searchstring1) && angular.lowercase(value.NotesFlag.toString()).match(searchstring2) && angular.lowercase(value.Importance.toString()).match(searchstring3);
                 });
                 
             } else if ($scope.NotesTypeSearch == "" && $scope.FlagSearch != 0 && $scope.ImportanceSearch == 0) {
