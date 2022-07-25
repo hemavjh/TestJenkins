@@ -2011,41 +2011,41 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         });
 
         if ($scope.LoginType == 2) {
-            //$http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
-            //    $scope.GroupTypeList = data;
-            //});
+            $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
+                $scope.GroupTypeList = data;
+            });
             $scope.LoadFilterNationalityList();
             $scope.LoadFilterBusinessUser_UserTypeList();
-            URL = baseUrl + '/api/Common/CloneGroupTypeList/';
-            $('#AssignedGroup').select2({
-                placeholder: "Select",
-                selectAll: true,
-                ajax: {
-                    dataType: "json",
-                    url: URL,
-                    data: function (params) {
-                        return {
-                            q: params.term, // search term
-                            Institution_Id: $scope.InstituteId
-                        };
-                    },
-                    processResults: function (data) {
-                        var results = [];
-                        $.each(data, function (index, group_type) {
-                            results.push({
-                                id: group_type.Id,
-                                text: group_type.GROUP_NAME
-                            });
-                        });
-                        $scope.GroupTypeList = results;
-                        return {
-                            results: results
-                        };
-                    },
-                    cache: true
-                },
-                width: '100%'
-            });
+            //URL = baseUrl + '/api/Common/CloneGroupTypeList/';
+            //$('#AssignedGroup').select2({
+            //    placeholder: "Select",
+            //    selectAll: true,
+            //    ajax: {
+            //        dataType: "json",
+            //        url: URL,
+            //        data: function (params) {
+            //            return {
+            //                q: params.term, // search term
+            //                Institution_Id: $scope.InstituteId
+            //            };
+            //        },
+            //        processResults: function (data) {
+            //            var results = [];
+            //            $.each(data, function (index, group_type) {
+            //                results.push({
+            //                    id: group_type.Id,
+            //                    text: group_type.GROUP_NAME
+            //                });
+            //            });
+            //            $scope.GroupTypeList = results;
+            //            return {
+            //                results: results
+            //            };
+            //        },
+            //        cache: true
+            //    },
+            //    width: '100%'
+            //});
         }
         //$scope.Patientcreatefunction = function()
         //{
