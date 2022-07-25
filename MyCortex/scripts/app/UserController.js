@@ -292,58 +292,60 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     angular.element('#Date_Birth').attr('max', $scope.maxdateDOB);
                 }
             });
-        if ($window.localStorage['UserTypeId'] == 3 || $window.localStorage['UserTypeId'] == 2) {
-            $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionDetailList/?Id=' + $scope.SelectedInstitutionId).success(function (data) {
-                var InitialCountry = "auto";
-                if (data != null) {
-                    if (data.CountryName == null || data.CountryName == undefined) {
-                        $scope.CountryISO2 = "";
-                        InitialCountry = "auto";
-                    } else {
-                        $scope.CountryISO2 = data.CountryISO2;
-                        InitialCountry = $scope.CountryISO2;
-                    }
-                }
+        //if ($window.localStorage['UserTypeId'] == 3 || $window.localStorage['UserTypeId'] == 2) {
+        $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionDetailList/?Id=' + $scope.SelectedInstitutionId).success(function (data) {
 
-                var input = document.querySelector("#txtMobile");
-                var inputPhoneNo = window.intlTelInput(input, {
-                    formatOnDisplay: true,
-                    separateDialCode: true,
-                    initialCountry: InitialCountry,
+            //this is for country code display based on settings
+                //var InitialCountry = "auto";
+                //if (data != null) {
+                //    if (data.CountryName == null || data.CountryName == undefined) {
+                //        $scope.CountryISO2 = "";
+                //        InitialCountry = "auto";
+                //    } else {
+                //        $scope.CountryISO2 = data.CountryISO2;
+                //        InitialCountry = $scope.CountryISO2;
+                //    }
+                //}
 
-                    geoIpLookup: function (callback) {
-                        $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
-                            var countryCode = (resp && resp.country) ? resp.country : "";
-                            callback(countryCode);
-                        });
-                    },
-                    //preferredCountries: ["in"],
-                    utilsScript: "scripts/utils.js",
-                });
+                //var input = document.querySelector("#txtMobile");
+                //var inputPhoneNo = window.intlTelInput(input, {
+                //    formatOnDisplay: true,
+                //    separateDialCode: true,
+                //    initialCountry: InitialCountry,
+
+                //    geoIpLookup: function (callback) {
+                //        $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
+                //            var countryCode = (resp && resp.country) ? resp.country : "";
+                //            callback(countryCode);
+                //        });
+                //    },
+                //    //preferredCountries: ["in"],
+                //    utilsScript: "scripts/utils.js",
+                //});
 
             }).error(function (data) {
                 $scope.error = "AN error has occured while Listing the records!" + data;
             });
-        } else {
-            var view_name = $location.$$path.split('/')[1];
-            if (view_name != "PatientView") {
-                var input = document.querySelector("#txtMobile");
-                var inputPhoneNo = window.intlTelInput(input, {
-                    formatOnDisplay: true,
-                    separateDialCode: true,
-                    //initialCountry: InitialCountry,
+        //} else {
+        //    var view_name = $location.$$path.split('/')[1];
+        //    if (view_name != "PatientView") {
+        //        var input = document.querySelector("#txtMobile");
+        //        var inputPhoneNo = window.intlTelInput(input, {
+        //            formatOnDisplay: true,
+        //            separateDialCode: true,
+        //            //initialCountry: InitialCountry,
 
-                    geoIpLookup: function (callback) {
-                        $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
-                            var countryCode = (resp && resp.country) ? resp.country : "";
-                            callback(countryCode);
-                        });
-                    },
-                    //preferredCountries: ["in"],
-                    utilsScript: "scripts/utils.js",
-                });
-            }
-        }
+        //            geoIpLookup: function (callback) {
+        //                $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
+        //                    var countryCode = (resp && resp.country) ? resp.country : "";
+        //                    callback(countryCode);
+        //                });
+        //            },
+        //            //preferredCountries: ["in"],
+        //            utilsScript: "scripts/utils.js",
+        //        });
+        //    }
+        //}
 
         $scope.EditgroupOption = 0;
         if ($window.localStorage['UserTypeId'] == 4 || $window.localStorage['UserTypeId'] == 5 || $window.localStorage['UserTypeId'] == 6) {

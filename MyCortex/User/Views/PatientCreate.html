@@ -177,19 +177,19 @@
     }
 </script>
 <script>
-    //var input = document.querySelector("#txtMobile");
-    //var inputPhoneNo = window.intlTelInput(input, {
-    //    formatOnDisplay: true,
-    //    separateDialCode: true,
-    //    geoIpLookup: function (callback) {
-    //        $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
-    //            var countryCode = (resp && resp.country) ? resp.country : "";
-    //            callback(countryCode);
-    //        });
-    //    },
-    //    //preferredCountries: ["in"],
-    //    utilsScript: "scripts/utils.js",
-    //});
+    var input = document.querySelector("#txtMobile");
+    var inputPhoneNo = window.intlTelInput(input, {
+        formatOnDisplay: true,
+        separateDialCode: true,
+        geoIpLookup: function (callback) {
+            $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
+                var countryCode = (resp && resp.country) ? resp.country : "";
+                callback(countryCode);
+            });
+        },
+        //preferredCountries: ["in"],
+        utilsScript: "scripts/utils.js",
+    });
 
     //inputPhoneNo.setNumber("+91 98765 43210");
 
