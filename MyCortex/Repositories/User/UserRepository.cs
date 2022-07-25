@@ -87,6 +87,65 @@ namespace MyCortex.Repositories.Uesr
                 return null;
             }
         }
+        /// <summary>      
+        /// Getting list of InsuranceServiceCategory
+        /// </summary>          
+        /// <returns>list of InsuranceServiceCategory</returns>
+        public IList<InsuranceServiceCategoryModel> InsuranceServiceCategory()
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GETINSURANCE_SERVICE_CATEGORY]");
+                List<InsuranceServiceCategoryModel> lst = (from p in dt.AsEnumerable()
+                                             select new InsuranceServiceCategoryModel()
+                                             {
+                                                 ServiceCategoryID = p.Field<long>("SERVICECATEGORYID"),
+                                                 Category = p.Field<string>("CATEGORY"),
+                                                 IsActive = p.Field<int>("ISACTIVE")
+                                             }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
+        /// <summary>      
+        /// Getting list of InsuranceServiceCategory
+        /// </summary>          
+        /// <returns>list of InsuranceServiceCategory</returns>
+        public IList<InsuranceConsultationCategoryModel> InsuranceConsultationCategory()
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GETINSURANCE_CONSULTATION_CATEGORY]");
+                List<InsuranceConsultationCategoryModel> lst = (from p in dt.AsEnumerable()
+                                                           select new InsuranceConsultationCategoryModel()
+                                                           {
+                                                               ConsultationCategoryID = p.Field<long>("CONSULTATIONCATEGORYID"),
+                                                               Category = p.Field<string>("CATEGORY"),
+                                                               IsActive = p.Field<int>("ISACTIVE")
+                                                           }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
 
         /// <summary>      
         /// Getting list of department

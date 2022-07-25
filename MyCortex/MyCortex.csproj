@@ -1567,6 +1567,8 @@
     <Compile Include="User\Models\GenderMasterModel.cs" />
     <Compile Include="User\Models\GroupTypeModel.cs" />
     <Compile Include="User\Models\InstitutionModel.cs" />
+    <Compile Include="User\Models\InsuranceConsultationCategoryModel.cs" />
+    <Compile Include="User\Models\InsuranceServiceCategoryModel.cs" />
     <Compile Include="User\Models\ItemizedUserDetailsModel.cs" />
     <Compile Include="User\Models\LanguageProficiencyModel.cs" />
     <Compile Include="User\Models\MaritalStatusModel.cs" />

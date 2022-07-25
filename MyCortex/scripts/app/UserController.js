@@ -267,8 +267,16 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.package = "";
         $scope.clinician = "";
         $scope.speciality = "";
-        $scope.serviceCategory = "";
-
+        $scope.ServiceCategory = "0";
+        $scope.ServiceCategoryList = [];
+        $scope.ConsultationCategory = "0";
+        $scope.ConsultationCategoryList = [];
+        $http.get(baseUrl + '/api/User/InsuranceServiceCategory/').success(function (data) {
+            $scope.ServiceCategoryList = data;
+        });
+        $http.get(baseUrl + '/api/User/InsuranceConsultationCategory/').success(function (data) {
+            $scope.ConsultationCategoryList = data;
+        });
         //$scope.maxdateDOB = '';
         // get minimum age from configuration set max date in DOB
         $scope.ConfigCode = "PATIENT_MIN_AGE";
@@ -1047,7 +1055,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $scope.currentTab = 1;
             //}
         }
+        $scope.CancelPopUP = function () {
+            angular.element('#EligibilityModel').modal('hide');
+        }
+        $scope.Eligibility = function () {
+            angular.element('#EligibilityModel').modal('show');
 
+        }
         $scope.Businessuesrclickcount = 1;
         $scope.AddUserPopUP = function () {
             if ($scope.LoginType == '1') {

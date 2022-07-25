@@ -14,6 +14,8 @@ namespace MyCortex.Repositories
     {
         IList<DoctorInstitutionModel> DoctorInstitutionList();
         IList<DepartmentModel> DepartmentList();
+        IList<InsuranceServiceCategoryModel> InsuranceServiceCategory();
+        IList<InsuranceConsultationCategoryModel> InsuranceConsultationCategory();
         IList<DepartmentModel> CloneDepartmentList(string search);
         IList<DepartmentModel> DepartmentListByInstitution(long Institution_Id);
         IList<DocumentTypeModel> DocumentTypeList();

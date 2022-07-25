@@ -94,8 +94,52 @@ namespace MyCortex.User.Controller
                 return null;
             }
         }
+        /// <summary>      
+        /// Getting list of InsuranceServiceCategory
+        /// </summary>          
+        /// <returns>list of InsuranceServiceCategory</returns>
+        [HttpGet]
+        public IList<InsuranceServiceCategoryModel> InsuranceServiceCategory()
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<InsuranceServiceCategoryModel> model;
+            try
+            {
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                model = repository.InsuranceServiceCategory();
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
 
         /// <summary>      
+        /// Getting list of InsuranceServiceCategory
+        /// </summary>          
+        /// <returns>list of InsuranceServiceCategory</returns>
+        [HttpGet]
+        public IList<InsuranceConsultationCategoryModel> InsuranceConsultationCategory()
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<InsuranceConsultationCategoryModel> model;
+            try
+            {
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                model = repository.InsuranceConsultationCategory();
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+        //<summary>      
         /// Getting list of department
         /// </summary>          
         /// <returns>list of department</returns>
