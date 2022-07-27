@@ -70,7 +70,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.editcertificate = "";
         $scope.EmailId = "";
         $scope.MobileNo = "";
-        $scope.MobileNo_CC = "";
+        $scope.MobileNo_CC = ""; 
         $scope.DepartmentId = "0";
         $scope.UserTypeId = "0";
         $scope.GenderId = "0";
@@ -1057,9 +1057,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $scope.currentTab = 1;
             //}
         }
-        $scope.CancelPopUP = function () {
+        $scope.EligibilityCancelPopUP = function () {
             angular.element('#EligibilityModel').modal('hide');
         }
+        $scope.EligibilityNationalId = "";
         $scope.Eligibility = function () {
             angular.element('#EligibilityModel').modal('show');
 
@@ -1864,6 +1865,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.ExpiryDate = "";
             $scope.SelectedPayor = "0";
             $scope.SelectedPlan = "0";
+            $scope.ServiceCategory =[];
+            $scope.ConsultationCategory =[];
         }
 
 
