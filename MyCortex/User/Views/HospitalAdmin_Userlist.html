@@ -482,14 +482,13 @@
 <div class="inputGroups center-block" style="text-align: center;max-width:320px;">
     <label>Group</label>
 
-    <!--<select ng-model="AssignedGroup" multiple="multiple"
-            ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList" multiselect-dropdown style="width: 230px;"></select>-->
-    <select class="form-control" data-style="form-control" ng-model="AssignedGroup" multiple="multiple" id="AssignedGroup">
+    <select ng-model="AssignedGroup" multiple="multiple"
+            ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList" multiselect-dropdown style="width: 230px;"></select>
+    <!--<select class="form-control" data-style="form-control" ng-model="AssignedGroup" multiple="multiple" id="AssignedGroup">
         <option value="0">Select</option>
-    </select>
+    </select>-->
     <a href="javascript:" ng-click="BuisnessuserAssignGroup()" class="theme-btn-1 mtb-15 mr-10">Update Group</a>
-    <a href="javascript:" ng-click="AddGroupPopup(GroupClearPopUp())" class="
-       theme-btn-1 mtb-15">Create Group</a>
+    <a href="javascript:" ng-click="AddGroupPopup(GroupClearPopUp())" class="theme-btn-1 mtb-15">Create Group</a>
 </div>
 <br />
 <br />
