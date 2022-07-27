@@ -559,6 +559,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 },
                 width: '100%'
             });
+            });
         };
 
         $scope.LoadNationalityList = function () {
@@ -1880,6 +1881,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.ExpiryDate = "";
             $scope.SelectedPayor = "0";
             $scope.SelectedPlan = "0";
+
+            $scope.DepartmentList = [];
+            $scope.UserTypeList = [];
+            $('#SelectedChronicCondition').html('').select2({ data: { id: null, text: null } });
+            $('#SelectedGroup').html('').select2({ data: { id: null, text: null } });
         }
 
 
