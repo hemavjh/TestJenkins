@@ -278,14 +278,15 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'listDay,listWeek'
+                    right: 'listDay,listWeek,listMonth'
                 },
 
                 // customize the button names,
                 // otherwise they'd all just say "list"
                 views: {
                     listDay: { buttonText: 'list day' },
-                    listWeek: { buttonText: 'list week' }
+                    listWeek: { buttonText: 'list week' },
+                    listMonth: { buttonText: 'list month' }
                 },
 
                 initialView: 'listWeek',
