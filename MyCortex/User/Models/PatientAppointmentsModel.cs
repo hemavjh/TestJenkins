@@ -110,6 +110,7 @@ namespace MyCortex.User.Model
     {
         public DateTime AppointmentFromDateTime { get; set; }
         public DateTime AppointmentToDateTime { get; set; }
+        public DateTime Appointment_Date { get; set; }
         public string FromTime { get; set; }
         public string ToTime { get; set; }
         public string AppointmentTime { get; set; }

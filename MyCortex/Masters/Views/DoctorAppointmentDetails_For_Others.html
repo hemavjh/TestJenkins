@@ -53,21 +53,31 @@
                         </sup>
                     </label>
                     <!--<select id="Specialist" ng-model="SelectedDoctor" multiple="multiple"
-                    ng-options="item2.Id as item2.FullName for item2 in DoctorList"
-                    multiselect-dropdown style="width: 220px;"></select>-->
+            ng-options="item2.Id as item2.FullName for item2 in DoctorList"
+            multiselect-dropdown style="width: 220px;"></select>-->
                     <select id="doctorlist" class="col-sm-12" ng-model="SelectedDoctor" data-live-search="true" data-selectpicker data-collection-name="DoctorList">
                         <option ng-repeat="list in DoctorList" class="doc-opt" value="{{list.Id}}">{{list.FullName}}</option>
                     </select>
                 </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <div class="inputGroups">
                     <label class="sub-title">
-                        Select Date<sup>
+                        Start Date<sup>
                             <font class='mandatory-field'>*</font>
                         </sup>
                     </label>
                     <input id="SearchDate" class="form-control" type="date" ng-model="SearchDate" />
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="inputGroups">
+                    <label class="sub-title">
+                        End Date<sup>
+                            <font class='mandatory-field'>*</font>
+                        </sup>
+                    </label>
+                    <input id="SearchEndDate" class="form-control" type="date" ng-model="SearchEndDate" />
                 </div>
             </div>
             <div class="col-sm-3">
@@ -78,17 +88,12 @@
                         </sup>
                     </label>
                     <select id="timezone" class="col-sm-12" ng-model="TimeZoneID" data-live-search="true" data-selectpicker data-collection-name="TimeZoneList">
-        <option ng-repeat="list in TimeZoneList" ng-selected="TimeZoneID == set.TimeZoneId" class="{{list.TimeZoneName}}" value="{{list.TimeZoneId}}">{{list.TimeZoneDisplayName}}</option>
-    </select>
-                    <!--<select id="timezone" class="form-control" ng-model="TimeZoneID">
-                        <option ng-repeat="set in TimeZoneList" ng-required="true" ng-selected="TimeZoneID == set.TimeZoneId"
-                                value="{{set.TimeZoneId}}">
-                            {{set.TimeZoneDisplayName}}
-                        </option>
-                    </select>-->
+                        <option ng-repeat="list in TimeZoneList" ng-selected="TimeZoneID == set.TimeZoneId" class="{{list.TimeZoneName}}" 
+                                value="{{list.TimeZoneId}}">{{list.TimeZoneDisplayName}}</option>
+                    </select>
                 </div>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-2">
                 <div class="inputGroups pt-17">
                     <a href="javascript:void(0);" ng-click="DoctorAppointmentlist();" class="theme-btn-1 pull-right mt-15"
                        title="Click to View Dotor Appointment List">Submit</a>
@@ -104,8 +109,9 @@
             <tr style="text-align: center">
                 <th st-ratio="5">S.No</th>
                 <th st-ratio="10" st-sort="Generic_Name">Patient Name</th>
-                <th st-ratio="8" st-sort="ToDate">Appointment Start Time</th>
-                <th st-ratio="8" st-sort="ToDate">Appointment End Time</th>
+                <th st-ratio="8" st-sort="ToDate">Appointment Date</th>
+                <th st-ratio="8" st-sort="ToDate">Appointment Time</th>
+                <!--<th st-ratio="8" st-sort="ToDate">Appointment End Time</th>-->
                 <th st-ratio="8">Action</th>
             </tr>
         </thead>
@@ -121,11 +127,14 @@
                 <td style="text-align: left; max-width: 150px; word-wrap: break-word; ">
                     <div class="textwrap">{{row.PatientName.length > 25 ? row.PatientName.substring(0,25)+"..." : row.PatientName}}</div>
                 </td>
+                <!--<td style="text-align: left">
+                    {{row.Date}}
+                </td>-->
                 <td style="text-align: left">
-                    {{row.FromTime}}
+                    {{row.Appointment_Date | date :'dd-MMM-yyyy' }}
                 </td>
-                <td style="text-align: left">
-                    {{row.ToTime}}
+                <td style="text-align: center">
+                    {{row.FromTime}} - {{row.ToTime}}
                 </td>
                 <td style="text-align: center">
                     <a href="javascript:void(0);" ng-click="CancelPatientShift(row.id)" title="View">

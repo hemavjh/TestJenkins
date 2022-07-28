@@ -460,13 +460,14 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
-        public IList<DoctorAppointmentTimeSlotModel> GetDoctorAppointmentDetails(long DoctorId, DateTime Date, Guid Login_Session_Id, long TimeZoneId, long Institution_Id)
+        public IList<DoctorAppointmentTimeSlotModel> GetDoctorAppointmentDetails(long DoctorId, DateTime Date,DateTime EndDate, Guid Login_Session_Id, long TimeZoneId, long Institution_Id)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@DOCTORID", DoctorId));
             param.Add(new DataParameter("@DATE", Date));
+            param.Add(new DataParameter("@ENDDATE", EndDate));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             param.Add(new DataParameter("@TIMEZONE_ID", TimeZoneId));
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
@@ -481,7 +482,8 @@ namespace MyCortex.Repositories.Uesr
                                                                 FromTime = p.Field<string>("FromTime"),
                                                                 ToTime = p.Field<string>("ToTime"),
                                                                 PatientName = p.Field<string>("PatientName"),
-                                                                id = p.Field<long>("ID")
+                                                                id = p.Field<long>("ID"),
+                                                                Appointment_Date = p.Field<DateTime>("APPOINTMENT_DATE"),
                                                             }).ToList();
                 return lst;
             }
