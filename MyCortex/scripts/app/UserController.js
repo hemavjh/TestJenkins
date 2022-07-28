@@ -6014,10 +6014,6 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.GroupClearPopUp();
         }
         $scope.GroupClearPopUp = function () {
-            $scope.DepartmentList = [];
-            $scope.UserTypeList = [];
-            $('#SelectedChronicCondition').html('').select2({ data: { id: null, text: null } });
-            $('#SelectedGroup').html('').select2({ data: { id: null, text: null } });
             $scope.CreateGroupName = "";
             $scope.Create_GroupId = "0";
         };
