@@ -559,7 +559,6 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 },
                 width: '100%'
             });
-            });
         };
 
         $scope.LoadNationalityList = function () {
