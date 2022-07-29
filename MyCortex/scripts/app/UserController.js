@@ -631,6 +631,36 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             });
         };
 
+        $scope.LoadFilterNationalityList = function () {
+            URL = baseUrl + '/api/Common/CloneNationalityList/';
+            $('#filter_NationalityId').select2({
+                placeholder: "Select",
+                ajax: {
+                    dataType: "json",
+                    url: URL,
+                    data: function (params) {
+                        return {
+                            q: params.term, // search term
+                        };
+                    },
+                    processResults: function (data) {
+                        var results = [];
+                        $.each(data, function (index, nationality) {
+                            results.push({
+                                id: nationality.Id,
+                                text: nationality.Name
+                            });
+                        });
+                        return {
+                            results: results
+                        };
+                    },
+                    cache: true
+                },
+                width: '100%'
+            });
+        };
+
         $scope.LoadMaritalStatusList = function () {
             if ($scope.MaritalStatusList.length === 0) {
                 URL = baseUrl + '/api/Common/CloneMaritalStatusList/';
@@ -1865,8 +1895,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.ExpiryDate = "";
             $scope.SelectedPayor = "0";
             $scope.SelectedPlan = "0";
-            $scope.ServiceCategory =[];
-            $scope.ConsultationCategory =[];
+
+            $scope.DepartmentList = [];
+            $scope.UserTypeList = [];
+            $('#SelectedChronicCondition').html('').select2({ data: { id: null, text: null } });
+            $('#SelectedGroup').html('').select2({ data: { id: null, text: null } });
+            $scope.ServiceCategory = [];
+            $scope.ConsultationCategory = [];
         }
 
 
@@ -5995,10 +6030,6 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.GroupClearPopUp();
         }
         $scope.GroupClearPopUp = function () {
-            $scope.DepartmentList = [];
-            $scope.UserTypeList = [];
-            $('#SelectedChronicCondition').html('').select2({ data: { id: null, text: null } });
-            $('#SelectedGroup').html('').select2({ data: { id: null, text: null } });
             $scope.CreateGroupName = "";
             $scope.Create_GroupId = "0";
         };
