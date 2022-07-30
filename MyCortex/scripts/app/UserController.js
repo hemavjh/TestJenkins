@@ -593,7 +593,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             }
         };
 
-        $scope.LoadFilterNationalityList = function () {
+        $scope.LoadFilterCLNationalityList = function () {
             URL = baseUrl + '/api/Common/CloneNationalityList/';
             $('#Filter_CL_Nationality').select2({
                 placeholder: "Select",
@@ -2049,7 +2049,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
                 $scope.GroupTypeList = data;
             });
-            $scope.LoadFilterNationalityList();
+            $scope.LoadFilterCLNationalityList();
             $scope.LoadFilterBusinessUser_UserTypeList();
             //URL = baseUrl + '/api/Common/CloneGroupTypeList/';
             //$('#AssignedGroup').select2({
@@ -5653,9 +5653,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         }
 
         $scope.Reset_CC_Filter = function () {
-            $scope.filter_CL_UserType = "0";
             $scope.filter_CL_Group = "";
+            $scope.filter_CL_UserType = "0";
             $scope.Filter_CL_Nationality = "0";
+            setTimeout(function () {
+                $("#filter_CL_UserType").val('0').trigger('change');
+                $("#Filter_CL_Nationality").val('0').trigger('change');
+            });
             $scope.BusinessUserFilter = $scope.BusinessUserList;
         }
 
