@@ -65,7 +65,7 @@ namespace MyCortex.Masters.Controllers
         /// Getting Country to populate dropdown
         /// </summary>          
         /// <returns>Populated List of Country </returns>
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         public IList<CountryMasterModel> CloneCountryList()
         {
@@ -170,7 +170,7 @@ namespace MyCortex.Masters.Controllers
         /// Getting State list of a country to populate dropdown
         /// </summary>          
         /// <returns>List of State of a country</returns>
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         public IList<StateMasterModel> Clone_Get_StateList(long CountryId)
         {
@@ -230,7 +230,7 @@ namespace MyCortex.Masters.Controllers
         /// Getting city list of a state to populate dropdown
         /// </summary>          
         /// <returns>List of city of a state</returns>
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         public IList<LocationMasterModel>Clone_Get_LocationList(long CountryId, long StateId)
         {
@@ -412,7 +412,7 @@ namespace MyCortex.Masters.Controllers
         /// </summary>
         /// <param name="Institution_Id">Institution Id</param>
         /// <returns>users group list of a institution</returns>
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         public IList<GroupTypeModel> CloneGroupTypeList(long Institution_Id)
         {
@@ -503,7 +503,7 @@ namespace MyCortex.Masters.Controllers
         /// gender name list
         /// </summary>
         /// <returns>gender name list</returns>
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         public IList<GenderMasterModel> CloneGenderList()
         {
@@ -589,7 +589,7 @@ namespace MyCortex.Masters.Controllers
         /// nationality name list
         /// </summary>
         /// <returns>nationality name list</returns>
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         public IList<NationalityModel> CloneNationalityList()
         {
@@ -669,7 +669,7 @@ namespace MyCortex.Masters.Controllers
         /// marital status name list
         /// </summary>
         /// <returns>marital status name list</returns>
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         public IList<MaritalStatusModel> CloneMaritalStatusList()
         {
@@ -725,7 +725,7 @@ namespace MyCortex.Masters.Controllers
         /// Ethnic Group status name list
         /// </summary>
         /// <returns>Ethnic Group name list</returns>
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         public IList<EthinnicGroupModel> CloneEthnicGroupList()
         {
@@ -781,7 +781,7 @@ namespace MyCortex.Masters.Controllers
         /// Chronic condition status name list
         /// </summary>
         /// <returns>chronic condition name list</returns>
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         public IList<ChronicConditionModel> CloneChronicConditionList()
         {
@@ -836,7 +836,7 @@ namespace MyCortex.Masters.Controllers
         /// relation ship name list
         /// </summary>
         /// <returns>relation ship name list</returns>
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         public IList<RelationshipMasterModel> CloneRelationshipList()
         {
@@ -963,7 +963,7 @@ namespace MyCortex.Masters.Controllers
         /// blood group name list
         /// </summary>
         /// <returns></returns>
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         public IList<BloodGroupModel> CloneBloodGroupList()
         {

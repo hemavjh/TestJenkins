@@ -36,6 +36,7 @@ PatientApproval.controller("PatientApprovalController", ['$scope', '$http', '$ro
         $scope.loadCount = 0;
         $scope.rowCollectionFilter = [];
         $scope.TabClick = false;
+        $scope.usertoken = $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='];
 
         $scope.ResetPatientFilter = function () {
             $scope.Filter_PatientNo = "";
@@ -107,6 +108,9 @@ PatientApproval.controller("PatientApprovalController", ['$scope', '$http', '$ro
                 $('#Filter_GenderId').select2({
                     placeholder: "Select",
                     ajax: {
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                        },
                         dataType: "json",
                         url: URL,
                         data: function (params) {
@@ -139,6 +143,9 @@ PatientApproval.controller("PatientApprovalController", ['$scope', '$http', '$ro
                 placeholder: "Select",
                 selectAll: true,
                 ajax: {
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                    },
                     dataType: "json",
                     url: URL,
                     data: function (params) {
@@ -173,6 +180,9 @@ PatientApproval.controller("PatientApprovalController", ['$scope', '$http', '$ro
                 $('#filter_NationalityId').select2({
                     placeholder: "Select",
                     ajax: {
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                        },
                         dataType: "json",
                         url: URL,
                         data: function (params) {
@@ -205,6 +215,9 @@ PatientApproval.controller("PatientApprovalController", ['$scope', '$http', '$ro
                 $('#filter_MaritalStatus').select2({
                     placeholder: "Select",
                     ajax: {
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                        },
                         dataType: "json",
                         url: URL,
                         data: function (params) {
@@ -239,6 +252,9 @@ PatientApproval.controller("PatientApprovalController", ['$scope', '$http', '$ro
                 $('#filter_EthinicGroupId').select2({
                     placeholder: "Select",
                     ajax: {
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                        },
                         dataType: "json",
                         url: URL,
                         data: function (params) {
@@ -273,6 +289,9 @@ PatientApproval.controller("PatientApprovalController", ['$scope', '$http', '$ro
                 $('#filter_BloodGroupId').select2({
                     placeholder: "Select",
                     ajax: {
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                        },
                         dataType: "json",
                         url: URL,
                         data: function (params) {
@@ -306,6 +325,9 @@ PatientApproval.controller("PatientApprovalController", ['$scope', '$http', '$ro
             $('#filter_CountryId').select2({
                 placeholder: "Select",
                 ajax: {
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                    },
                     dataType: "json",
                     url: URL,
                     data: function (params) {
@@ -336,6 +358,9 @@ PatientApproval.controller("PatientApprovalController", ['$scope', '$http', '$ro
             $('#filter_StataId').select2({
                 placeholder: "Select",
                 ajax: {
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                    },
                     dataType: "json",
                     url: URL,
                     data: function (params) {
@@ -367,6 +392,9 @@ PatientApproval.controller("PatientApprovalController", ['$scope', '$http', '$ro
             $('#filter_CityId').select2({
                 placeholder: "Select",
                 ajax: {
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                    },
                     dataType: "json",
                     url: URL,
                     data: function (params) {
