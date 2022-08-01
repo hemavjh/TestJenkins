@@ -70,7 +70,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.editcertificate = "";
         $scope.EmailId = "";
         $scope.MobileNo = "";
-        $scope.MobileNo_CC = "";
+        $scope.MobileNo_CC = ""; 
         $scope.DepartmentId = "0";
         $scope.UserTypeId = "0";
         $scope.GenderId = "0";
@@ -1128,7 +1128,14 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $scope.currentTab = 1;
             //}
         }
+        $scope.EligibilityCancelPopUP = function () {
+            angular.element('#EligibilityModel').modal('hide');
+        }
+        $scope.EligibilityNationalId = "";
+        $scope.Eligibility = function () {
+            angular.element('#EligibilityModel').modal('show');
 
+        }
         $scope.Businessuesrclickcount = 1;
         $scope.AddUserPopUP = function () {
             if ($scope.LoginType == '1') {
@@ -1940,6 +1947,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.UserTypeList = [];
             $('#SelectedChronicCondition').html('').select2({ data: { id: null, text: null } });
             $('#SelectedGroup').html('').select2({ data: { id: null, text: null } });
+            $scope.ServiceCategory = [];
+            $scope.ConsultationCategory = [];
         }
 
 
