@@ -12,12 +12,41 @@
     <style>
         .toggle {
             border-radius: 20px;
-        } 
+        }
+
             .toggle.ios .toggle-handle {
                 border-radius: 20px;
-            } 
+            }
+
         .linkhead {
             margin-left: -16px;
+        }
+        .select2-container--default .select2-selection--single {
+            background-color: #fff;
+            border: 1px solid #ccc !important;
+            border-radius: 4px;
+            height: 34px;
+            font-size: 14px;
+            font-weight: 400;
+            padding: 3px 3px;
+        }
+
+        .select2-container--default .select2-selection--multiple {
+            background-color: #fff;
+            border: 1px solid #ccc !important;
+            border-radius: 4px;
+            height: auto;
+            font-size: 14px;
+            font-weight: 400;
+            padding: 1px 3px 4px 5px;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 26px;
+            position: absolute;
+            top: 4px;
+            right: 7px;
+            width: 20px;
         }
     </style>
 
@@ -178,7 +207,7 @@
                                         multiselect-dropdown style="width: 230px;">
                                 </select>-->
                                 <select class="form-control" data-style="form-control" ng-model="filter_GroupId" multiple="multiple" id="filter_GroupId">
-                                    <option value="0">Select</option>
+                                    <!--<option value="0">Select</option>-->
                                 </select>
                             </div>
                         </div>
