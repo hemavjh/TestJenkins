@@ -34,7 +34,7 @@ Homecontroller.controller("homeController", ['$scope', '$http', '$routeParams', 
                     else if ($window.localStorage['UserTypeId'] == "2")
                         window.location.href = baseUrl + "/Home/Index#/PatientVitals/0/1";
                     else if ($window.localStorage['UserTypeId'] == "4")
-                        window.location.href = baseUrl + "/Home/Index#/Thirtydays_appointments";
+                        window.location.href = baseUrl + "/Home/Index#/TodaysAppoint_ments";
                     else if ($window.localStorage['UserTypeId'] == "5")
                         window.location.href = baseUrl + "/Home/Index#/CareGiverAssignedPatients";
                     else if ($window.localStorage['UserTypeId'] == "6")

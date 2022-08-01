@@ -4435,7 +4435,7 @@ namespace MyCortex.User.Controller
         static Size GetThumbnailSize(Image original)
         {
             // Maximum size of any dimension.
-            const int maxPixels = 40;
+            const int maxPixels = 25;
 
             // Width and height.
             int originalWidth = original.Width;

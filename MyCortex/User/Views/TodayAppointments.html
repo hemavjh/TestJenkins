@@ -199,24 +199,21 @@
         $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
     });
 </script>
-<ul class="secondaryMenu">
+<!--<ul class="secondaryMenu">
     <li>
-        <a class="secondaryMenuActive" href="Home/Index#/TodaysAppoint_ments" title="Today Appointment Page" data-menu="Appointment">
-            Today's
-            Appointment
-        </a>
-    </li>
-    <li>
+        <a class="secondaryMenuActive"  title="Appointment" data-menu="Appointment">Appointment</a>
+    </li>-->
+    <!--<li>
         <a href="Home/Index#/Thirtydays_appointments" title="Click here to go Next 30 Days Appointment Page">
             Next 30
             Days Appointments
         </a>
-    </li>
-</ul>
+    </li>-->
+<!--</ul>-->
 <div class="row">
     <div class="lds-ripple" id="chatLoaderPV1" style="display: none;z-index:10000"><div></div><div></div></div>
     <div class="col-md-12">
-        <h1 class="title1">Today's Appointment</h1>
+        <h1 class="secondaryMenuActive" data-menu="Appointment" style="color:#032b5c !important;">Appointment</h1>
         <div ng-init="calendarListView();">
             <div id='calendar5'></div>
             <!--<div id="calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="myCalendar"></div>-->
