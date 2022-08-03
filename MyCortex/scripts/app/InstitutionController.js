@@ -519,7 +519,7 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
             $scope.FileName = "";
             $scope.uploadme = "";
             $('#InstitutionLogo').val('');
-
+            $('.responsiveProfileImage').attr('src', '');
         };
         /*THIS IS FOR LIST FUNCTION*/
         $scope.InstitutionDetailsListGo = function () {
