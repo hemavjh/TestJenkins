@@ -1955,7 +1955,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         // editable time value from app settings	
 
         $scope.AppConfigurationProfileImageList = function () {
-            $scope.ProfileImageSize = "5242880";    // 5 MB
+           $scope.ProfileImageSize = "5242880";    // 5 MB
             $scope.ConfigCode = "PROFILE_PICTURE";
             $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
             $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).
@@ -3525,6 +3525,35 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     return false;
                 }
             }
+
+            if ($scope.uploadme1 != "" && $scope.uploadme1 != null) {
+                if ($scope.dataURItoBlob($scope.uploadme1).size > $scope.ProfileImageSize) {
+                    var alertmsg = "Uploaded National Photo size cannot be greater than " + ($scope.ProfileImageSize / 1024 / 1024).toString() + "MB";
+                    if ($scope.ProfileImageSize <= 1045504) {
+                        alertmsg = "Uploaded National Photo size cannot be greater than " + ($scope.ProfileImageSize / 1024).toString() + "KB";
+                    }
+                    //alert(alertmsg);
+                    toastr.warning(alertmsg, "warning");
+                    $("#chatLoaderPV").hide();
+                    $scope.currentTab = 1;
+                    return false;
+                }
+            }
+
+            if ($scope.uploadme2 != "" && $scope.uploadme2 != null) {
+                if ($scope.dataURItoBlob($scope.uploadme2).size > $scope.ProfileImageSize) {
+                    var alertmsg = "Uploaded Insurance Photo size cannot be greater than " + ($scope.ProfileImageSize / 1024 / 1024).toString() + "MB";
+                    if ($scope.ProfileImageSize <= 1045504) {
+                        alertmsg = "Uploaded Insurance Photo size cannot be greater than " + ($scope.ProfileImageSize / 1024).toString() + "KB";
+                    }
+                    //alert(alertmsg);
+                    toastr.warning(alertmsg, "warning");
+                    $("#chatLoaderPV").hide();
+                    $scope.currentTab = 6;
+                    return false;
+                }
+            }
+
             if ($scope.Editresumedoc != null) {
                 if ($scope.Editresumedoc != undefined && $scope.Editresumedoc != null && $scope.Editresumedoc != "") {
                     if ($scope.dataURItoBlob($scope.Editresumedoc).size > 1048576) {
@@ -4545,6 +4574,14 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.AdminDefaultConfiguration = 1;
             $scope.User_InsertUpdate();
         }
+        $scope.ConfigCode = "PROFILE_PICTURE";
+        $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).
+            success(function (data) {
+                if (data[0] != undefined) {
+                    $scope.ProfileImageSize = parseInt(data[0].ConfigValue);
+                }
+            });
         $scope.User_InsertUpdate = function () {
             // Mobile Number Validation...
             var countryData = inputPhoneNo.getSelectedCountryData();

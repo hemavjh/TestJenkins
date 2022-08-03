@@ -2310,7 +2310,7 @@ namespace MyCortex.User.Controller
                                 Image img = ToImage(fileData);
                                 Size thumbnailSize = GetThumbnailSize(img);
                                 Image ThumImage = ResizeImage(img, thumbnailSize.Width, thumbnailSize.Height);
-                                Image Cimage = ResizeImage(img, 40, 40);
+                                Image Cimage = ResizeImage(img, 100, 100);
                                 //ImageConverter Class convert Image object to Byte array.
                                 byte[] compressimage = (byte[])(new ImageConverter()).ConvertTo(Cimage, typeof(byte[]));
                                 byte[] compressimage1 = (byte[])(new ImageConverter()).ConvertTo(ThumImage, typeof(byte[]));
@@ -4479,7 +4479,7 @@ namespace MyCortex.User.Controller
         static Size GetThumbnailSize(Image original)
         {
             // Maximum size of any dimension.
-            const int maxPixels = 25;
+            const int maxPixels = 75;
 
             // Width and height.
             int originalWidth = original.Width;

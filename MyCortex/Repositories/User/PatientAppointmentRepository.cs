@@ -61,6 +61,7 @@ namespace MyCortex.Repositories.Uesr
                                                           Photo = p.Field<string>("PHOTO_NAME"),
                                                           PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
                                                           Smoker = p.Field<string>("Smoker"),
+                                                          Status = p.Field<int>("STATUS"),
                                                       }).ToList();
                 return lst;
             }
