@@ -181,6 +181,7 @@
     var inputPhoneNo = window.intlTelInput(input, {
         formatOnDisplay: true,
         separateDialCode: true,
+        onlyCountries: ['AE'],
         geoIpLookup: function (callback) {
             $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
                 var countryCode = (resp && resp.country) ? resp.country : "";
@@ -190,18 +191,16 @@
         //preferredCountries: ["in"],
         utilsScript: "scripts/utils.js",
     });
-
+    inputPhoneNo.setCountry('AE');
     //inputPhoneNo.setNumber("+91 98765 43210");
 
     function txtPhoneChange() {
-        //$("#btnsave1").removeAttr("ng-click");
-
         //alert("event fired");
         //var phoneNo = document.getElementById("txtPhone");
 
         //var txtiso2 = document.getElementById("txthdCountryiso2").value;
         //alert(txtiso2);
-        //inputPhoneNo.setCountry(txtiso2);
+
 
         const PhoneNumber = inputPhoneNo.getNumber();
         //alert(PhoneNumber);
@@ -233,17 +232,9 @@
                 //alert("Phone number invalid");
                 swal.fire("Phone number invalid");
                 document.getElementById("txthdFullNumber").value = "";
-                //$("#btnsave1").removeAttr("ng-click");
-
             }
             else {
                 document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
-                // $("#btnsave1").attr("ng-click", 'submitted=true');
-                //$("#patientform").attr("ng-submit", 'User_InsertUpdate();');
-                //$("#patientform").trigger("submit");
-                //alert('sds');
-                //angular.element('#btnsave1').triggerHandler('ng-click');
-                //ng - submit="User_InsertUpdate();"  ng - click="submitted=true"
             }
         }
 
@@ -1364,12 +1355,6 @@
                                                 {{sel.PlanName}}
                                             </option>
                                         </select>
-                                    </div>
-                                    <div class="inputGroups">
-                                        <button type="submit" class="theme-btn-1 mr-10 mtb-15 btn-save" title="Click to ELIGIBILITY"
-                                                ng-click="Eligibility();">
-                                            Eligibility
-                                        </button>
                                     </div>
                                 </div>
 

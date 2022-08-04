@@ -16,6 +16,7 @@ namespace MyCortex.Repositories
         IList<DepartmentModel> DepartmentList();
         IList<InsuranceServiceCategoryModel> InsuranceServiceCategory();
         IList<InsuranceConsultationCategoryModel> InsuranceConsultationCategory();
+        IList<ClinicianDetail_list> ClinicianDetails(long INSTITUTION_ID);
         IList<DepartmentModel> CloneDepartmentList(string search);
         IList<DepartmentModel> DepartmentListByInstitution(long Institution_Id);
         IList<DocumentTypeModel> DocumentTypeList();
@@ -144,6 +145,6 @@ namespace MyCortex.Repositories
         bool UserSession_Status(string Login_Session_Id);
         IList<CometChat_User> GetCometChatUserList(long InstitutionId);
         long UpdateUserLanguage(long UserId, long LanguageId);
-        int Save_User_Eligiblity_Logs(string eligibiltyId, string eligibility_request, string eligibility_response, int patient_id);
+        int Save_User_Eligiblity_Logs(string eligibiltyId, int patient_id, responseModel Obj);
     }
 }

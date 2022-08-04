@@ -116,7 +116,7 @@ namespace MyCortex.User.Controller
                 return null;
             }
         }
-
+        
         /// <summary>      
         /// Getting list of InsuranceServiceCategory
         /// </summary>          
@@ -131,6 +131,25 @@ namespace MyCortex.User.Controller
             {
                 _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.InsuranceConsultationCategory();
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
+        [HttpGet]
+        public IList<ClinicianDetail_list> ClinicianDetails(long INSTITUTION_ID)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<ClinicianDetail_list> model;
+            try
+            {
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                model = repository.ClinicianDetails(INSTITUTION_ID);
                 return model;
             }
             catch (Exception ex)
@@ -4835,10 +4854,11 @@ namespace MyCortex.User.Controller
         }
 
         [HttpPost]
-        public int Save_User_Eligibility(string eligibiltyId, string eligibility_request, string eligibility_response, int patient_id)
+        public int Save_User_Eligibility(string eligibility_id, int patient_id, [FromBody] responseModel Obj)
         {
+            responseModel ModelData = new responseModel();
             int resp = 0;
-            resp = repository.Save_User_Eligiblity_Logs(eligibiltyId, eligibility_request, eligibility_response, patient_id);
+            resp = repository.Save_User_Eligiblity_Logs(eligibility_id, patient_id, Obj);
             return resp;
         }
     }

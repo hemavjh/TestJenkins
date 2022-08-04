@@ -7,6 +7,7 @@ namespace MyCortex.User.Models
 {
     public class InsuranceConsultationCategoryModel
     {
+        public long Id { get; set; }
         public long ConsultationCategoryID { get; set; }
         public string Category { get; set; }
         public int? IsActive { get; set; }
