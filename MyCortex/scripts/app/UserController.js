@@ -279,7 +279,6 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.serviceCategory = "";
         $scope.usertoken = $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='];
 
-        });
         //$scope.maxdateDOB = '';
         // get minimum age from configuration set max date in DOB
         $scope.ConfigCode = "PATIENT_MIN_AGE";
