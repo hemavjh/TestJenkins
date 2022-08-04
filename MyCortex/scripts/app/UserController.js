@@ -276,6 +276,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $http.get(baseUrl + '/api/User/InsuranceConsultationCategory/').success(function (data) {
             $scope.ConsultationCategoryList = data;
         });
+        $scope.serviceCategory = "";
+        $scope.usertoken = $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='];
+
+        });
         //$scope.maxdateDOB = '';
         // get minimum age from configuration set max date in DOB
         $scope.ConfigCode = "PATIENT_MIN_AGE";
@@ -372,6 +376,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $('#GenderId').select2({
                     placeholder: "Select",
                     ajax: {
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                        },
                         dataType: "json",
                         url: URL,
                         data: function (params) {
@@ -408,6 +415,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     placeholder: "Select",
                     selectAll: true,
                     ajax: {
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                        },
                         dataType: "json",
                         url: URL,
                         data: function (params) {
@@ -441,6 +451,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 placeholder: "Select",
                 selectAll: true,
                 ajax: {
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                    },
                     dataType: "json",
                     url: URL,
                     data: function (params) {
@@ -475,6 +488,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     placeholder: "Select",
                     selectAll: true,
                     ajax: {
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                        },
                         dataType: "json",
                         url: URL,
                         data: function (params) {
@@ -509,6 +525,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     placeholder: "Select",
                     selectAll: true,
                     ajax: {
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                        },
                         dataType: "json",
                         url: URL,
                         data: function (params) {
@@ -542,6 +561,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 placeholder: "Select",
                 selectAll: true,
                 ajax: {
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                    },
                     dataType: "json",
                     url: URL,
                     data: function (params) {
@@ -574,6 +596,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $('#NationalityId').select2({
                     placeholder: "Select",
                     ajax: {
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                        },
                         dataType: "json",
                         url: URL,
                         data: function (params) {
@@ -600,11 +625,14 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             }
         };
 
-        $scope.LoadFilterNationalityList = function () {
+        $scope.LoadFilterCLNationalityList = function () {
             URL = baseUrl + '/api/Common/CloneNationalityList/';
             $('#Filter_CL_Nationality').select2({
                 placeholder: "Select",
                 ajax: {
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                    },
                     dataType: "json",
                     url: URL,
                     data: function (params) {
@@ -635,6 +663,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $('#filter_NationalityId').select2({
                 placeholder: "Select",
                 ajax: {
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                    },
                     dataType: "json",
                     url: URL,
                     data: function (params) {
@@ -666,6 +697,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $('#MaritalStatusId').select2({
                     placeholder: "Select",
                     ajax: {
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                        },
                         dataType: "json",
                         url: URL,
                         data: function (params) {
@@ -700,6 +734,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $('#EthnicGroupId').select2({
                     placeholder: "Select",
                     ajax: {
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                        },
                         dataType: "json",
                         url: URL,
                         data: function (params) {
@@ -734,6 +771,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $('#BloodGroupId').select2({
                     placeholder: "Select",
                     ajax: {
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                        },
                         dataType: "json",
                         url: URL,
                         data: function (params) {
@@ -768,6 +808,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $('#EMERG_CONT_RELATIONSHIP_ID').select2({
                     placeholder: "Select",
                     ajax: {
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                        },
                         dataType: "json",
                         url: URL,
                         data: function (params) {
@@ -799,6 +842,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $('#CountryId').select2({
                 placeholder: "Select",
                 ajax: {
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                    },
                     dataType: "json",
                     url: URL,
                     data: function (params) {
@@ -829,6 +875,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $('#StateId').select2({
                 placeholder: "Select",
                 ajax: {
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                    },
                     dataType: "json",
                     url: URL,
                     data: function (params) {
@@ -861,6 +910,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $('#CityId').select2({
                 placeholder: "Select",
                 ajax: {
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                    },
                     dataType: "json",
                     url: URL,
                     data: function (params) {
@@ -1188,6 +1240,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $('#StateId').select2({
                 placeholder: "Select",
                 ajax: {
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                    },
                     dataType: "json",
                     url: URL,
                     data: function (params) {
@@ -1239,6 +1294,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $('#CityId').select2({
                 placeholder: "Select",
                 ajax: {
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                    },
                     dataType: "json",
                     url: URL,
                     data: function (params) {
@@ -2074,7 +2132,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
                 $scope.GroupTypeList = data;
             });
-            $scope.LoadFilterNationalityList();
+            $scope.LoadFilterCLNationalityList();
             $scope.LoadFilterBusinessUser_UserTypeList();
             //URL = baseUrl + '/api/Common/CloneGroupTypeList/';
             //$('#AssignedGroup').select2({
@@ -2350,6 +2408,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $('#CountryId').select2({
                     placeholder: "Select",
                     ajax: {
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("Authorization", "Bearer " + $scope.usertoken);
+                        },
                         dataType: "json",
                         url: URL,
                         data: function (params) {
@@ -5818,9 +5879,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         }
 
         $scope.Reset_CC_Filter = function () {
-            $scope.filter_CL_UserType = "0";
             $scope.filter_CL_Group = "";
+            $scope.filter_CL_UserType = "0";
             $scope.Filter_CL_Nationality = "0";
+            setTimeout(function () {
+                $("#filter_CL_UserType").val('0').trigger('change');
+                $("#Filter_CL_Nationality").val('0').trigger('change');
+            });
             $scope.BusinessUserFilter = $scope.BusinessUserList;
         }
 

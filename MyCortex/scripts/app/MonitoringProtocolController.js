@@ -154,27 +154,29 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                     //'occur_inter': true,
                     //'occur_inter_val': 0
                 }],
-                'Comp_ParameterSettingslist': [{
-                    'Id': 0,
-                    'Protocol_Id': 0,
-                    'ProtocolName': '',
-                    'Institution_Id': 0,
-                    'Institution_Name': '',
-                    'Parameter_Id': 0,
-                    'ParameterName': '',
-                    'Com_DurationType': 0,
-                    'DurationName': '',
-                    'Comp_Duration': '0',
-                    'Isactive': 1,
-                    'Created_By': $scope.User_Id,
-                    'occur_inter': true,
-                    'occur_inter_val': 0,
-                    'duration_list': [],
-                    'starttime': '',
-                    'endtime': '',
-                    'selectedDays': '',
-                    'WeeklyData': $scope.weeklist
-                }]
+                'Comp_ParameterSettingslist': [
+                    //{
+                //    'Id': 0,
+                //    'Protocol_Id': 0,
+                //    'ProtocolName': '',
+                //    'Institution_Id': 0,
+                //    'Institution_Name': '',
+                //    'Parameter_Id': 0,
+                //    'ParameterName': '',
+                //    'Com_DurationType': 0,
+                //    'DurationName': '',
+                //    'Comp_Duration': '0',
+                //    'Isactive': 1,
+                //    'Created_By': $scope.User_Id,
+                //    'occur_inter': true,
+                //    'occur_inter_val': 0,
+                //    'duration_list': [],
+                //    'starttime': '',
+                //    'endtime': '',
+                //    'selectedDays': '',
+                //    'WeeklyData': $scope.weeklist
+                //}
+                        ]
             }];
             $scope.Diagostic_ParameterSettingslist = [{
                 'Id': 0,
@@ -1428,27 +1430,29 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                     //'occur_inter': true,
                     //'occur_inter_val': 0
                 }],
-                'Comp_ParameterSettingslist': [{
-                    'Id': 0,
-                    'Protocol_Id': 0,
-                    'ProtocolName': '',
-                    'Institution_Id': 0,
-                    'Institution_Name': '',
-                    'Parameter_Id': 0,
-                    'ParameterName': '',
-                    'Com_DurationType': 0,
-                    'DurationName': '',
-                    'Comp_Duration': '0',
-                    'Isactive': 1,
-                    'Created_By': $scope.User_Id,
-                    'occur_inter': true,
-                    'occur_inter_val': 0,
-                    'duration_list': [],
-                    'starttime': '',
-                    'endtime': '',
-                    'selectedDays': '',
-                    'WeeklyData': $scope.weeklist
-                }]
+                'Comp_ParameterSettingslist': [
+                    //{
+                    //'Id': 0,
+                    //'Protocol_Id': 0,
+                    //'ProtocolName': '',
+                    //'Institution_Id': 0,
+                    //'Institution_Name': '',
+                    //'Parameter_Id': 0,
+                    //'ParameterName': '',
+                    //'Com_DurationType': 0,
+                    //'DurationName': '',
+                    //'Comp_Duration': '0',
+                    //'Isactive': 1,
+                    //'Created_By': $scope.User_Id,
+                    //'occur_inter': true,
+                    //'occur_inter_val': 0,
+                    //'duration_list': [],
+                    //'starttime': '',
+                    //'endtime': '',
+                    //'selectedDays': '',
+                    //'WeeklyData': $scope.weeklist
+                    //}
+                ]
             }];
             $scope.Ranges = [{ id: 0, name: 'Select' }, { id: 1, name: 'High' }, { id: 2, name: 'Medium' }, { id: 3, name: 'Low' }, { id: 4, name: 'Low' }, { id: 5, name: 'Medium' }, { id: 6, name: 'High' }]
             $scope.Diagostic_ParameterSettingslist = [{
@@ -1773,54 +1777,58 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                         if ($scope.Id <= 0) {
                             $scope.ParameterSettingslist[0].Comp_ParameterSettingslist.splice(itemIndex, 1);
                             if ($scope.ParameterSettingslist[0].Comp_ParameterSettingslist.length == 0) {
-                                $scope.ParameterSettingslist[0].Comp_ParameterSettingslist = [{
-                                    'Id': 0,
-                                    'Protocol_Id': 0,
-                                    'ProtocolName': '',
-                                    'Institution_Id': 0,
-                                    'Institution_Name': '',
-                                    'Parameter_Id': 0,
-                                    'ParameterName': '',
-                                    'Com_DurationType': 0,
-                                    'DurationName': '',
-                                    'Comp_Duration': '0',
-                                    'Isactive': 1,
-                                    'Created_By': $scope.User_Id,
-                                    'occur_inter': true,
-                                    'occur_inter_val': 0,
-                                    'duration_list': [],
-                                    'starttime': '',
-                                    'endtime': '',
-                                    'selectedDays': '',
-                                    'WeeklyData': $scope.weeklist
-                                }];
+                                $scope.ParameterSettingslist[0].Comp_ParameterSettingslist = [
+                                    //{
+                                    //'Id': 0,
+                                    //'Protocol_Id': 0,
+                                    //'ProtocolName': '',
+                                    //'Institution_Id': 0,
+                                    //'Institution_Name': '',
+                                    //'Parameter_Id': 0,
+                                    //'ParameterName': '',
+                                    //'Com_DurationType': 0,
+                                    //'DurationName': '',
+                                    //'Comp_Duration': '0',
+                                    //'Isactive': 1,
+                                    //'Created_By': $scope.User_Id,
+                                    //'occur_inter': true,
+                                    //'occur_inter_val': 0,
+                                    //'duration_list': [],
+                                    //'starttime': '',
+                                    //'endtime': '',
+                                    //'selectedDays': '',
+                                    //'WeeklyData': $scope.weeklist
+                                    //}
+                                ];
                             }
                         }
                         else {
                             $scope.ParameterSettingslist[0].Comp_ParameterSettingslist.splice(itemIndex, 1);
 
                             if ($scope.ParameterSettingslist[0].Comp_ParameterSettingslist.length == 0) {
-                                $scope.ParameterSettingslist[0].Comp_ParameterSettingslist = [{
-                                    'Id': 0,
-                                    'Protocol_Id': 0,
-                                    'ProtocolName': '',
-                                    'Institution_Id': 0,
-                                    'Institution_Name': '',
-                                    'Parameter_Id': 0,
-                                    'ParameterName': '',
-                                    'Com_DurationType': 0,
-                                    'DurationName': '',
-                                    'Comp_Duration': '0',
-                                    'Isactive': 1,
-                                    'Created_By': $scope.User_Id,
-                                    'occur_inter': true,
-                                    'occur_inter_val': 0,
-                                    'duration_list': [],
-                                    'starttime': '',
-                                    'endtime': '',
-                                    'selectedDays': '',
-                                    'WeeklyData': $scope.weeklist
-                                }];
+                                $scope.ParameterSettingslist[0].Comp_ParameterSettingslist = [
+                                    //{
+                                    //'Id': 0,
+                                    //'Protocol_Id': 0,
+                                    //'ProtocolName': '',
+                                    //'Institution_Id': 0,
+                                    //'Institution_Name': '',
+                                    //'Parameter_Id': 0,
+                                    //'ParameterName': '',
+                                    //'Com_DurationType': 0,
+                                    //'DurationName': '',
+                                    //'Comp_Duration': '0',
+                                    //'Isactive': 1,
+                                    //'Created_By': $scope.User_Id,
+                                    //'occur_inter': true,
+                                    //'occur_inter_val': 0,
+                                    //'duration_list': [],
+                                    //'starttime': '',
+                                    //'endtime': '',
+                                    //'selectedDays': '',
+                                    //'WeeklyData': $scope.weeklist
+                                    //}
+                                ];
 
                             }
                         }
