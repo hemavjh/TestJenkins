@@ -1143,9 +1143,6 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.Clinicianlist = "";
             $scope.ConsultationCategory = "";
         }
-        //$http.get(baseUrl + '/api/User/ClinicianDetails/?InstitutionId=' + $scope.InstituteId).success(function (data) {
-        //    $scope.ClinicianDetailsList = data;
-        //});
         $scope.EligibilityNationalId = "";
         $scope.EligibilityPopup = function () {
             $scope.ClinicianDetailsList = [];
@@ -1203,6 +1200,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.LoadGroupTypeList();
             $scope.LoadDepartmentList();
             $scope.LoadNationalityList();
+            $scope.LoadBusinessUser_UserTypeList();
             //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
             angular.element('#UserModal').modal('show');
         }
