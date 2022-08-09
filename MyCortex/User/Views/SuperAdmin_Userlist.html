@@ -270,7 +270,7 @@
             <th st-ratio="15" st-sort="EMAILID">Email</th>
             <!--<th st-ratio="10" st-sort="">Status</th>-->
             <th st-ratio="15" st-sort="LoginTime">Last Login</th>
-            <th st-ratio="7" st-sort="Is_Master">Is Master</th>
+            <th st-ratio="7" st-sort="Is_Master" ng-show="UserTypeId==3">Is Master</th>
             <th st-ratio="8">Action</th>
         </tr>
     </thead>
@@ -313,7 +313,7 @@
             <td style="text-align: left">
                 {{row.LoginTime| date :'dd-MMM-yyyy hh:mm a'}}
             </td>
-            <td style="text-align: left">
+            <td style="text-align: left" ng-show="UserTypeId==3">
                 {{row.Is_Master}}
             </td>
             <td style="text-align: center">

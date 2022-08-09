@@ -12,6 +12,7 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
         $scope.Institution_Id = "";
         $scope.UserTypeId = parseInt($window.localStorage["UserTypeId"]);
         $scope.UserTypeName = "0";
+        $scope.IsMaster = 0;
         $scope.Usertypelist = [];
         $scope.Userlist = [];
         $scope.ExpiryNever = false;
@@ -527,9 +528,12 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
             $("#chatLoaderPV").show();
             if ($scope.UserTypeId == 1) {
                 $scope.UserTypeName = "3";
+                $scope.IsMaster = 1;
                 $scope.InstituteId = "-1";
+            } else if ($scope.UserTypeId == 3) {
+                $scope.IsMaster = 0;
             }
-            $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + $scope.UserTypeName + '&InstitutionId=' + $scope.InstituteId).success(function (data) {
+            $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + $scope.UserTypeName + '&InstitutionId=' + $scope.InstituteId + '&IS_MASTER=' + $scope.IsMaster).success(function (data) {
                 $scope.Userlist = data;
                 $("#chatLoaderPV").hide();
             });

@@ -964,7 +964,7 @@ namespace MyCortex.Repositories.Uesr
         /// </summary>          
         /// <returns> user list of a institution</returns>
         //  [CheckSessionOut]
-        public IList<ItemizedUserDetailsModel> UserDetails_List(long Id, long InstitutionId, int? IsActive, Guid Login_Session_Id)
+        public IList<ItemizedUserDetailsModel> UserDetails_List(long Id, long InstitutionId, int? IsActive, Guid Login_Session_Id, int UserType_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             //List<ItemizedUserDetailsModel> products = new List<ItemizedUserDetailsModel>();
@@ -972,6 +972,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@IsActive", IsActive));
             param.Add(new DataParameter("@InstitutionId", InstitutionId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@UserType_Id", UserType_Id));
 
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].USERDETAILS_SP_LIST", param);
             List<ItemizedUserDetailsModel> list = (from p in dt.AsEnumerable()

@@ -305,14 +305,14 @@ namespace MyCortex.User.Controller
         /// <returns> user list of a institution</returns>
       //  [CheckSessionOutFilter]
         [HttpGet]
-        public IList<ItemizedUserDetailsModel> UserDetailsbyUserType_List(long Id, int? IsActive, Guid Login_Session_Id)
+        public IList<ItemizedUserDetailsModel> UserDetailsbyUserType_List(long Id, int? IsActive, Guid Login_Session_Id, int UserType_Id)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<ItemizedUserDetailsModel> model;
-                model = UserDetails_List(Id, Int32.Parse(HttpContext.Current.Session["InstitutionId"].ToString()), IsActive, Login_Session_Id);
+                model = UserDetails_List(Id, Int32.Parse(HttpContext.Current.Session["InstitutionId"].ToString()), IsActive, Login_Session_Id, UserType_Id);
                 return model;
             }
             catch(Exception ex)
@@ -351,10 +351,10 @@ namespace MyCortex.User.Controller
         /// <returns> user list of a institution</returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public IList<ItemizedUserDetailsModel> UserDetails_List(long Id, long InstitutionId, int? IsActive, Guid Login_Session_Id)
+        public IList<ItemizedUserDetailsModel> UserDetails_List(long Id, long InstitutionId, int? IsActive, Guid Login_Session_Id, int UserType_Id)
         {
             IList<ItemizedUserDetailsModel> model;
-            model = repository.UserDetails_List(Id, InstitutionId, IsActive, Login_Session_Id);
+            model = repository.UserDetails_List(Id, InstitutionId, IsActive, Login_Session_Id, UserType_Id);
             return model;
         }
 

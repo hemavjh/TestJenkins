@@ -2508,10 +2508,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
         $scope.User_Admin_List = function (MenuType) {
             if ($window.localStorage['UserTypeId'] == 1 || $window.localStorage['UserTypeId'] == 3) {
+                $scope.UserTypeId = $window.localStorage['UserTypeId'];
                 $("#chatLoaderPV").show();
                 $scope.MenuTypeId = MenuType;
                 $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
-                $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId + '&UserType_Id=' + $scope.UserTypeId).success(function (data) {
                     $scope.emptydata = [];
                     $scope.UserDetailsList = [];
                     $scope.UserDetailsList = data;
@@ -2533,11 +2534,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.BusinessUser_List = function (MenuType) {
             if ($window.localStorage['UserTypeId'] == 3) {
                 $("#chatLoaderPV").show();
-
+                $scope.UserTypeId = $window.localStorage['UserTypeId'];
                 $scope.MenuTypeId = MenuType;
                 $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
 
-                $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId + '&UserType_Id=' + $scope.UserTypeId).success(function (data) {
                     $scope.BusineessUseremptydata = [];
                     $scope.BusinessUserList = [];
                     $scope.BusinessUserList = data;

@@ -78,11 +78,11 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         //    $scope.UserLists = data;
         //});
         if ($location.$$path == "/Hive") {
-            $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + 2 + '&InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
+            $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + 2 + '&InstitutionId=' + $window.localStorage['InstitutionId'] + '&IS_MASTER=' + 1).success(function (data) {
                 $scope.UserLists = data;
             });
         } else {
-            $http.get(baseUrl + '/api/User/UserDetails_List/?Id=' + 2 + '&InstitutionId=' + $window.localStorage['InstitutionId'] + '&IsActive=' + 1 + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            $http.get(baseUrl + '/api/User/UserDetails_List/?Id=' + 2 + '&InstitutionId=' + $window.localStorage['InstitutionId'] + '&IsActive=' + 1 + '&Login_Session_Id=' + $scope.LoginSessionId + '&UserType_Id=' + $scope.UserTypeId).success(function (data) {
                 $scope.UserLists = data;
             });
         }
