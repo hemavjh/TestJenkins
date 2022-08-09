@@ -244,69 +244,68 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-4" style="cursor: pointer" ng-repeat="row in emptydata" ng-click="ComplianceAlert_PatientData(row.Id)">
-            <div class="patientDet">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="row">
-                            <div class="col-sm-8">
-                                <label>MRN</label>
-                                <span>{{row.MRN_NO}}</span>
-                            </div>
-                            <div class="col-sm-6">
-                                <label>Smoker</label>
-                                <span>{{row.Smoker_Option!=''?'Yes':'UnKnown'}}</span>
-                            </div>
-                            <div class="col-sm-6">
-                                <label>Diabetic</label>
-                                <span>{{row.Diabetic_Option==''?'Unknown':row.Diabetic_Option}}</span>
-                            </div>
-                            <div class="col-sm-6">
-                                <label>Hypertension</label>
-                                <span>{{row.HyperTension_Option==''?'Unknown':row.HyperTension_Option}}</span>
-                            </div>
-                            <div class="col-sm-6">
-                                <label>Cholesterol</label>
-                                <span>{{row.Cholestrol_Option==''?'Unknown':row.Cholestrol_Option}}</span>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-6 pt-30">
-                        <div ng-if="(row.ViewGenderName| lowercase)=='male' && (row.PhotoBlob == null || row.PhotoBlob==0)"
-                             valign="top" rowspan="6">
-                            <img class="patientDetimg" src="../../Images/male.png" text-align: center" />
-                        </div>
-                        <div ng-if="(row.ViewGenderName| lowercase)=='female' && (row.PhotoBlob == null || row.PhotoBlob==0)"
-                             valign="top" rowspan="6">
-                            <img class="patientDetimg" src="../../Images/female.png" />
-                        </div>
-                        <div ng-if="(row.ViewGenderName| lowercase)!='female' && (row.ViewGenderName| lowercase)!='male' && (row.PhotoBlob == null || row.PhotoBlob==0)"
-                             valign="top" rowspan="6">
-                            <img class="patientDetimg" src="../../Images/Others.png" />
-                        </div>
-                        <div ng-if="(!row.Photo==null || !row.PhotoBlob==0)" valign="top" rowspan="6">
-                            <img class="patientDetimg" ng-src="{{'data:image/png;base64,'+ row.PhotoBlob}}" />
-                        </div>
-                        <h1><span class="spanwrap">{{row.PatientName}}</span></h1>
-                    </div>
+        <div class="col-sm-3" style="cursor: pointer" ng-repeat="row in emptydata" ng-click="ComplianceAlert_PatientData(row.Id)">
+            <div class="patientListCard">
+                <!--<div class="col-sm-6 pt-30">-->
+                <div ng-if="(row.ViewGenderName| lowercase)=='male' && (row.PhotoBlob == null || row.PhotoBlob==0)"
+                     valign="top" rowspan="6">
+                    <img class="patientDetimg" src="../../Images/Patient_Male.png" text-align: center" />
+                </div>
+                <div ng-if="(row.ViewGenderName| lowercase)=='female' && (row.PhotoBlob == null || row.PhotoBlob==0)"
+                     valign="top" rowspan="6">
+                    <img class="patientDetimg" src="../../Images/Patient_Male.png" />
+                </div>
+                <div ng-if="(row.ViewGenderName| lowercase)!='female' && (row.ViewGenderName| lowercase)!='male' && (row.PhotoBlob == null || row.PhotoBlob==0)"
+                     valign="top" rowspan="6">
+                    <img class="patientDetimg" src="../../Images/Others.png" />
+                </div>
+                <div ng-if="(!row.Photo==null || !row.PhotoBlob==0)" valign="top" rowspan="6">
+                    <img class="patientDetimg" ng-src="{{'data:image/png;base64,'+ row.PhotoBlob}}" />
+                </div>
+                <h1><span class="spanwrap">{{row.PatientName}}</span></h1>
+                <!--</div>-->
+                <!--<div class="row">-->
+                <!-- <div class="col-sm-6">-->
+                <!--<div class="row">-->
+                <div class="cardViewDetails">
+                    <label>MRN</label>
+                    <span>{{row.MRN_NO}}</span>
+                </div>
+                <div class="cardViewDetails">
+                    <label>Smoker</label>
+                    <span>{{row.Smoker_Option!=''?'Yes':'UnKnown'}}</span>
+                </div>
+                <div class="cardViewDetails">
+                    <label>Diabetic</label>
+                    <span>{{row.Diabetic_Option==''?'Unknown':row.Diabetic_Option}}</span>
+                </div>
+                <div class="cardViewDetails">
+                    <label>Hypertension</label>
+                    <span>{{row.HyperTension_Option==''?'Unknown':row.HyperTension_Option}}</span>
+                </div>
+                <div class="cardViewDetails">
+                    <label>Cholesterol</label>
+                    <span>{{row.Cholestrol_Option==''?'Unknown':row.Cholestrol_Option}}</span>
                 </div>
 
-                <div class="notificationsWarnings">
-                    <i class="fas fa-bell highBell" ng-show="row.HighCount>0"></i>
-                    <span ng-show="row.HighCount>0">{{row.HighCount==0?'':row.HighCount}}</span>
-                </div>
-                <div class="notificationsWarnings mediumPosition">
-                    <i class="fas fa-bell mediumBell" ng-show="row.MediumCount>0"></i>
-                    <span ng-show="row.MediumCount>0">{{row.MediumCount==0?'':row.MediumCount}}</span>
-                </div>
-                <div class="notificationsWarnings lowPosition">
-                    <i class="fas fa-bell lowBell" ng-show="row.LowCount>0"></i>
-                    <span ng-show="row.LowCount>0">{{row.LowCount==0?'':row.LowCount}}</span>
-                </div>
-            </div>
+            <!--</div>-->
+        </div>
+        <!-- </div>-->
+        <div class="notificationsWarnings" ng-show="row.HighCount>0">
+            <i class="fas fa-bell highBell" ng-show="row.HighCount>0"></i>
+            <span ng-show="row.HighCount>0">{{row.HighCount==0?'':row.HighCount}}</span>
+        </div>
+        <div class="notificationsWarnings mediumPosition" ng-show="row.MediumCount>0">
+            <i class="fas fa-bell mediumBell" ng-show="row.MediumCount>0"></i>
+            <span ng-show="row.MediumCount>0">{{row.MediumCount==0?'':row.MediumCount}}</span>
+        </div>
+        <div class="notificationsWarnings lowPosition" ng-show="row.LowCount>0">
+            <i class="fas fa-bell lowBell" ng-show="row.LowCount>0"></i>
+            <span ng-show="row.LowCount>0">{{row.LowCount==0?'':row.LowCount}}</span>
+        </div>
         </div>
     </div>
+   <!-- </div>-->
     <div ng-show="PatientCount>Patient_PerPage">
         <ul class="pagination nav" ng-repeat="row in PageCountArray">
             <li class="active"><a ng-click="Next_CareCoordinator_PatientListFunction(row.PageNumber)">{{row.PageNumber}}</a></li>
