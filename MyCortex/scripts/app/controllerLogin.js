@@ -428,12 +428,12 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
         $scope.Validationcontrols = function () {
             $scope.errorlist = null;
 
-            if (typeof ($scope.Username) == "undefined" || $scope.Username == "") {
+            if (typeof ($scope.Username) == "undefined" || $scope.Username == "" || $scope.Username == null) {
                 $scope.errorlist = "Please enter Email";
                 $("#chatLoaderPV").hide();
                 return false;
             }
-            else if (typeof ($scope.Password) == "undefined" || $scope.Password == "") {
+            else if (typeof ($scope.Password) == "undefined" || $scope.Password == "" || $scope.Password == null) {
                 $scope.errorlist = "Please enter Password";
                 $("#chatLoaderPV").hide();
                 return false;
@@ -569,6 +569,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                     $window.localStorage['inactivity_logout'] = 0;
                     $window.localStorage['UserTypeId'] = $scope.UserTypeId;
                     $window.localStorage['Login_Session_Id'] = data.Login_Session_Id;
+                    $window.localStorage['FullName'] = data.FullName;
                     if ($scope.UserTypeId == 1) {
                         $window.localStorage['InstitutionId'] = -1;
                     }
