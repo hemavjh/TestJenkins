@@ -467,9 +467,9 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
         //alert(getOS());
 
         var IpAddress = "";
-        $http.get("http://api.ipify.org/?format=json").then(function (response) {
-            IpAddress = response.data.ip;
-        });
+        //$http.get("http://api.ipify.org/?format=json").then(function (response) {
+        //    IpAddress = response.data.ip;
+        //});
 
         var Login_Country = "";
         var Login_City = "";
@@ -519,7 +519,6 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             if ((tem = ua.match(/version\/(\d+)/i)) != null) M.splice(1, 1, tem[1]);
             return M.join(' ');
         })();
-
         //LoginController js
         $scope.UserLogin_AddEdit = function () {
             if ($scope.isExpired) {

@@ -579,4 +579,3 @@
         }); b.addEvent(b.Chart, "afterDrawChartBox", function () { this.pane.forEach(function (a) { a.render() }) }); b.addEvent(b.Series, "afterInit", function () { var a = this.chart; a.inverted && a.polar && (this.isRadialSeries = !0, this instanceof z.column && (this.isRadialBar = !0)) }); k(b.Chart.prototype, "get", function (a, d) { return b.find(this.pane, function (a) { return a.options.id === d }) || a.call(this, d) })
     }); A(t, "masters/highcharts-more.src.js", [], function () { })
 });
-//# sourceMappingURL=highcharts-more.js.map
