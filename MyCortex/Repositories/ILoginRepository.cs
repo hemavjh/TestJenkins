@@ -24,7 +24,7 @@ namespace MyCortex.Repositories
 
         int ChangePassword(long Id, string NewPassword, string OldPassword, string Confirmpassword, long ModifiedUser_Id, long InstitutionId, int PageTypeId);
         ResetPasswordReturnModel ResetPassword(long Id, string NewPassword, string ReenterPassword, long Institution_Id, long createdBy, string EmailId);
-        IList<UsertypeModal> Userdetailslist(int UserTypeId,long InstitutionId);
+        IList<UsertypeModal> Userdetailslist(int UserTypeId,long InstitutionId,int IS_MASTER);
         IList<UsertypeModal> Usertypedetailslist();
         LoginModel GetPasswordHistory_Count(long UserId);
         UsertypeModal LastPasswordChangeTime(long UserId);

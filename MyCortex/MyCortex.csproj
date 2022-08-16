@@ -1545,6 +1545,7 @@
     <Compile Include="User\Controllers\CareCoordinnatorController.cs" />
     <Compile Include="User\Controllers\CareGiverController.cs" />
     <Compile Include="User\Controllers\ColorPreferenceController.cs" />
+    <Compile Include="User\Controllers\EligibilityCheckController.cs" />
     <Compile Include="User\Controllers\PatientAppointmentsController.cs" />
     <Compile Include="User\Controllers\PatientApprovalController.cs" />
     <Compile Include="User\Controllers\PatientDeviceDataController.cs" />
@@ -1833,6 +1834,7 @@
     <Folder Include="Admin\Views\AllergyMasterModel\" />
     <Folder Include="Admin\Views\AllergyMaster\" />
     <Folder Include="Admin\Views\ColorPreference\" />
+    <Folder Include="Admin\Views\EligibilityCheck\" />
     <Folder Include="Admin\Views\IMasterAllergyRepository\" />
     <Folder Include="Admin\Views\IPayorMasterRepository\" />
     <Folder Include="Admin\Views\IPlanMasterRepository\" />

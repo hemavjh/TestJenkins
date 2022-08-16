@@ -947,13 +947,14 @@ namespace MyCortex.Repositories.Login
         /// <param name="UserTypeId"> User Type Id (business users, patient)</param>
         /// <param name="InstitutionId">institution of the user</param>
         /// <returns>user basic details list model</returns>
-        public IList<UsertypeModal> Userdetailslist(int UserTypeId, long InstitutionId)
+        public IList<UsertypeModal> Userdetailslist(int UserTypeId, long InstitutionId, int IS_MASTER)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@USERTYPEID", UserTypeId));
             param.Add(new DataParameter("@INSTITUTIONID", InstitutionId));
+            param.Add(new DataParameter("@IS_MASTER", IS_MASTER));
 
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
             _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
