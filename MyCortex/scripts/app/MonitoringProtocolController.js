@@ -237,9 +237,11 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
 
             if ($scope.ViewParamList1.length > 0) {
                 $ff($scope.ViewParamList1, function (masterVal1, masterInd1) {
-                    return row.NormalRange_High = masterVal1.NormalRange_High,
-                        row.NormalRange_Low = masterVal1.NormalRange_low,
-                        row.Units_Id = masterVal1.Units_ID
+                    return row.NormalRange_High = masterVal1.NormalRange_High.toString(),
+                        row.NormalRange_Low = masterVal1.NormalRange_low.toString(),
+                        row.Units_Id = masterVal1.Units_ID,
+                        row.Min_Possible = masterVal1.Min_Possible.toString(),
+                        row.Max_Possible = masterVal1.Max_Possible.toString()
                 })
             }
 
@@ -247,6 +249,8 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                 row.NormalRange_High = "";
                 row.NormalRange_Low = "";
                 row.Units_Id = "";
+                row.Min_Possible = "";
+                row.Max_Possible = "";
             };
         };
 
@@ -1101,7 +1105,7 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                 'NormalRange_Low': '',
                 'Diag_Range': 0,
                 'Diag_Range_Min': '',
-                'Diag_Range_Max': ''
+                'Diag_Range_Max': '',
             };
             $scope.Diagostic_ParameterSettingslist.push(obj);
         };
@@ -1264,6 +1268,86 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
             for (var b1 = 0; b1 < zy.length; b1++) {
                 for (var b2 = 0; b2 < diag_alert.length; b2++) {
                     if (zy[b1].Parameter_Id == diag_alert[b2].Parameter_Id) {
+
+                        for (var ia = 0; ia < zy.length; ia++) {
+                            if (zy[ia].Parameter_Id == zy[b1].Parameter_Id) {
+
+                                if (zy[b1].Min_Possible < zy[ia].Diag_Range_Min && zy[b1].Max_Possible > zy[ia].Diag_Range_Max) {
+                                    if (zy[b1].Diag_Range == 1) {
+                                        if (zy[b1].NormalRange_High <= zy[ia].Diag_Range_Min && zy[ia].Diag_Range_Min <= zy[ia].Diag_Range_Max) {
+                                            if (zy[ia].Diag_Range == 2 && zy[ia].Diag_Range_Max >= zy[b1].Diag_Range_Min) {
+                                                toastr.warning("Please enter that your high min range is greater than your medium max range", "Warning");
+                                                return;
+                                            }
+                                        } else if (zy[ia].Diag_Range == 1) {
+                                            toastr.warning("Please enter that your high min range is not greater than your high max range", "Warning");
+                                            return;
+                                        }
+                                    }
+
+                                    if (zy[b1].Diag_Range == 2) {
+                                        if (zy[b1].NormalRange_High <= zy[ia].Diag_Range_Min && zy[ia].Diag_Range_Min <= zy[ia].Diag_Range_Max) {
+                                            if (zy[ia].Diag_Range == 3 && zy[ia].Diag_Range_Max >= zy[b1].Diag_Range_Min) {
+                                                toastr.warning("Please enter that your medium min range is greater than your low max range", "Warning");
+                                                return;
+                                            }
+                                        } else if (zy[ia].Diag_Range == 2) {
+                                            toastr.warning("Please enter that your medium min range is not greater than your medium max range", "Warning");
+                                            return;
+                                        }
+                                    }
+
+                                    if (zy[b1].Diag_Range == 3) {
+                                        if (zy[ia].Diag_Range == 3 && zy[b1].NormalRange_High >= zy[ia].Diag_Range_Min && zy[ia].Diag_Range_Min <= zy[ia].Diag_Range_Max) {
+                                            toastr.warning("Please enter that your low min range is greater than your normal max range", "Warning");
+                                            return;
+
+                                        } else if (zy[ia].Diag_Range == 3 && (zy[b1].NormalRange_High >= zy[ia].Diag_Range_Min || zy[ia].Diag_Range_Min >= zy[ia].Diag_Range_Max)) {
+                                            toastr.warning("Please enter that your low min range is not greater than your low max range", "Warning");
+                                            return;
+                                        }
+                                    }
+
+                                    if (zy[b1].Diag_Range == 4) {
+                                        if (zy[ia].Diag_Range == 4 && zy[b1].NormalRange_Low <= zy[ia].Diag_Range_Max && zy[b1].Diag_Range_Max >= zy[ia].Diag_Range_Min) {
+                                            toastr.warning("Please enter that your second low max range is lesser than your normal min range", "Warning");
+                                            return;
+                                        } else if (zy[b1].Diag_Range == 4 && zy[ia].Diag_Range_Min >= zy[ia].Diag_Range_Max) {
+                                            toastr.warning("Please enter that your second low min range is not greater than your second low max range", "Warning");
+                                            return;
+                                        }
+                                    }
+
+                                    if (zy[b1].Diag_Range == 5) {
+                                        if (zy[b1].NormalRange_Low >= zy[ia].Diag_Range_Max && zy[b1].Diag_Range_Max >= zy[ia].Diag_Range_Min) {
+                                            if (zy[ia].Diag_Range == 4 && zy[ia].Diag_Range_Max >= zy[b1].Diag_Range_Min) {
+                                                toastr.warning("Please enter that your second medium max range is lesser than your low min range", "Warning");
+                                                return;
+                                            }
+                                        } else if (zy[ia].Diag_Range == 5) {
+                                            toastr.warning("Please enter that your second medium min range is not greater than your second medium max range", "Warning");
+                                            return;
+                                        }
+                                    }
+
+                                    if (zy[b1].Diag_Range == 6) {
+                                        if (zy[b1].NormalRange_Low >= zy[ia].Diag_Range_Max && zy[b1].Diag_Range_Max >= zy[ia].Diag_Range_Min) {
+                                            if (zy[ia].Diag_Range == 5 && zy[ia].Diag_Range_Min >= zy[b1].Diag_Range_Max) {
+                                                toastr.warning("Please enter that your second high max range is lesser than your medium min range", "Warning");
+                                                return;
+                                            }
+                                        } else if (zy[ia].Diag_Range == 6) {
+                                            toastr.warning("Please enter that your second high min range is not greater than your second high max range", "Warning");
+                                            return;
+                                        }
+                                    }
+                                } else {
+                                    toastr.warning("Please enter that your min range is greater than min possible and max range is lesser than max possible", "Warning");
+                                    return;
+                                }
+                            }
+                        }
+        
                         diag_alert[b2].ParameterName = zy[b1].ParameterName;
                         diag_alert[b2].Units_Id = zy[b1].Units_Id;
                         diag_alert[b2].UnitsName = zy[b1].UnitsName;
