@@ -313,8 +313,9 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                     var tooltip = '<div class="tooltipevent patientCard" style="top:' + ($(tip).offset().top - 5) + 'px;left:' + ($(tip).offset().left + ($(tip).width()) / 2) + 'px"><div class="row">' + '<div class="col-sm-6"><div class="row">'
                         + '<div class="col-sm-12"><label>MRN No.:</label><span>' + calEvent.event.extendedProps.MRN_No + '</span></div>'
                         + '<div class="col-sm-12"><label>Smoker:</label><span>' + calEvent.event.extendedProps.Smoker + '</span></div>'
-                        + '<div class="col-sm-12"><label>Reason For Visit:</label><span>' + calEvent.event.extendedProps.ReasonForVisit
-                        + '</span></div>' + '</div></div>' + '<div class="col-sm-3"><img style="width:50px; height:50px;" src="' + calEvent.event.extendedProps.Photo
+                        + '<div class="col-sm-12"><label>Reason For Visit:</label><span>' + calEvent.event.extendedProps.ReasonForVisit + '</span></div>'
+                        //+ '<div class="col-sm-12"><label>Status.:</label><span>' + calEvent.event.extendedProps.Status + '</span></div>'
+                        + '</div></div>' + '<div class="col-sm-3"><img style="width:50px; height:50px;" src="' + calEvent.event.extendedProps.Photo
                         + '"/><div class="col-sm-12"><h3><span>' + calEvent.event.extendedProps.PatientName + '</span></h3></div></div>' + '</div></div>';
 
                     var $tooltip = $('body').append(tooltip); //$(tooltip).appendTo('body');
@@ -484,7 +485,7 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
             $http.get(baseUrl + '/api/PatientAppointments/DoctorAppointmentList/?Doctor_Id=' + $scope.Doctor_Id + '&flag=' + 2 + '&ViewDate=' + moment() + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (patientdata) {
                 angular.forEach(patientdata, function (value, index) {
                     var obj = {
-                        title: moment(value.Appointment_FromTime).format('hh:mm a') + '-' + moment(value.Appointment_ToTime).format('hh:mm a') + '-' + value.PatientName,
+                        title: moment(value.Appointment_FromTime).format('hh:mm a') + '-' + moment(value.Appointment_ToTime).format('hh:mm a') + '-' + value.PatientName + (value.Status==5 ? '-(Waiting For Approval)' : ''),
                         start: value.Appointment_FromTime,
                         end: value.Appointment_ToTime,
                         id: value.Patient_Id,
@@ -493,7 +494,8 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                         MRN_No: value.MRN_No,
                         Photo: value.PhotoBlob == null ? '../../Images/male.png' : 'data:image/png;base64,' + value.PhotoBlob,
                         Smoker: value.Smoker == 1 ? 'Yes' ? value.Smoker == 2 : 'No' : 'UnKnown',
-                        ReasonForVisit: value.ReasonForVisit
+                        ReasonForVisit: value.ReasonForVisit,
+                        Status: value.Status
                     };
                     $scope.calendar5.push(obj);
                 })

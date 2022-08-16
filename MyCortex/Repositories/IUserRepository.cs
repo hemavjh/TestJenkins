@@ -16,6 +16,7 @@ namespace MyCortex.Repositories
         IList<DepartmentModel> DepartmentList();
         IList<InsuranceServiceCategoryModel> InsuranceServiceCategory();
         IList<InsuranceConsultationCategoryModel> InsuranceConsultationCategory();
+        IList<ClinicianDetail_list> ClinicianDetails(long INSTITUTION_ID);
         IList<DepartmentModel> CloneDepartmentList(string search);
         IList<DepartmentModel> DepartmentListByInstitution(long Institution_Id);
         IList<DocumentTypeModel> DocumentTypeList();
@@ -30,7 +31,7 @@ namespace MyCortex.Repositories
         UserModel GetUserDetails(long Id, Guid Login_Session_Id, long Logged_User_Id);
         UserReturnModel UserDetails_InActive(long Id);
         UserReturnModel UserDetails_Active(long Id);
-        IList<ItemizedUserDetailsModel> UserDetails_List(long Id, long InstitutionId, int? IsActive, Guid Login_Session_Id);
+        IList<ItemizedUserDetailsModel> UserDetails_List(long Id, long InstitutionId, int? IsActive, Guid Login_Session_Id, int UserType_Id);
         IList<ItemizedUserDetailsModel> Doctor_Group_CCCG_List(long DoctorId, long InstitutionId, int? IsActive, Guid Login_Session_Id);
         UserList Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber,string SearchQuery,string SearchEncryptedQuery);
         List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber, string NATIONALITY_ID, String SearchQuery, string PATIENTNO, string INSURANCEID, string MOBILE_NO, string EMAILID, string FIRSTNAME, string LASTNAME, string MRNNO, int? AdvanceFilter);
@@ -144,6 +145,6 @@ namespace MyCortex.Repositories
         bool UserSession_Status(string Login_Session_Id);
         IList<CometChat_User> GetCometChatUserList(long InstitutionId);
         long UpdateUserLanguage(long UserId, long LanguageId);
-        int Save_User_Eligiblity_Logs(string eligibiltyId, string eligibility_request, string eligibility_response, int patient_id);
+        int Save_User_Eligiblity_Logs(string eligibiltyId, int patient_id, responseModel Obj);
     }
 }

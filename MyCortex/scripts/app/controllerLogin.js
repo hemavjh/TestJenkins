@@ -428,12 +428,12 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
         $scope.Validationcontrols = function () {
             $scope.errorlist = null;
 
-            if (typeof ($scope.Username) == "undefined" || $scope.Username == "") {
+            if (typeof ($scope.Username) == "undefined" || $scope.Username == "" || $scope.Username == null) {
                 $scope.errorlist = "Please enter Email";
                 $("#chatLoaderPV").hide();
                 return false;
             }
-            else if (typeof ($scope.Password) == "undefined" || $scope.Password == "") {
+            else if (typeof ($scope.Password) == "undefined" || $scope.Password == "" || $scope.Password == null) {
                 $scope.errorlist = "Please enter Password";
                 $("#chatLoaderPV").hide();
                 return false;
@@ -568,6 +568,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                     $window.localStorage['inactivity_logout'] = 0;
                     $window.localStorage['UserTypeId'] = $scope.UserTypeId;
                     $window.localStorage['Login_Session_Id'] = data.Login_Session_Id;
+                    $window.localStorage['FullName'] = data.FullName;
                     if ($scope.UserTypeId == 1) {
                         $window.localStorage['InstitutionId'] = -1;
                     }
@@ -1317,6 +1318,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
         $scope.InstituteId = $routeParams.Id;
         $scope.OldPassword = $routeParams.pwd;
         $scope.PageParameter = 1;
+        $scope.IsMaster = 0;
         //$scope.cur = parseInt((new Date().getDate()).toString() + (new Date().getMonth() + 1).toString() + (new Date().getFullYear()).toString());
         $scope.cur = new Date().getTime();
         var no = $scope.fix.toString();
@@ -1839,7 +1841,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
         /* User basic details list*/
         $scope.Userdetailsdatalist = function () {
             $("#chatLoaderPV").show();
-            $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + $scope.UserTypeName + '&InstitutionId=' + $scope.InstituteId).success(function (data) {
+            $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + $scope.UserTypeName + '&InstitutionId=' + $scope.InstituteId + '&IS_MASTER=' + $scope.IsMaster).success(function (data) {
                 $scope.Userlist = data;
                 $("#chatLoaderPV").hide();
             });

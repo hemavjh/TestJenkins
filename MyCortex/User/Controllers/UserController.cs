@@ -116,7 +116,7 @@ namespace MyCortex.User.Controller
                 return null;
             }
         }
-
+        
         /// <summary>      
         /// Getting list of InsuranceServiceCategory
         /// </summary>          
@@ -131,6 +131,25 @@ namespace MyCortex.User.Controller
             {
                 _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.InsuranceConsultationCategory();
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
+        [HttpGet]
+        public IList<ClinicianDetail_list> ClinicianDetails(long INSTITUTION_ID)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<ClinicianDetail_list> model;
+            try
+            {
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+                model = repository.ClinicianDetails(INSTITUTION_ID);
                 return model;
             }
             catch (Exception ex)
@@ -286,14 +305,14 @@ namespace MyCortex.User.Controller
         /// <returns> user list of a institution</returns>
       //  [CheckSessionOutFilter]
         [HttpGet]
-        public IList<ItemizedUserDetailsModel> UserDetailsbyUserType_List(long Id, int? IsActive, Guid Login_Session_Id)
+        public IList<ItemizedUserDetailsModel> UserDetailsbyUserType_List(long Id, int? IsActive, Guid Login_Session_Id, int UserType_Id)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<ItemizedUserDetailsModel> model;
-                model = UserDetails_List(Id, Int32.Parse(HttpContext.Current.Session["InstitutionId"].ToString()), IsActive, Login_Session_Id);
+                model = UserDetails_List(Id, Int32.Parse(HttpContext.Current.Session["InstitutionId"].ToString()), IsActive, Login_Session_Id, UserType_Id);
                 return model;
             }
             catch(Exception ex)
@@ -332,10 +351,10 @@ namespace MyCortex.User.Controller
         /// <returns> user list of a institution</returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public IList<ItemizedUserDetailsModel> UserDetails_List(long Id, long InstitutionId, int? IsActive, Guid Login_Session_Id)
+        public IList<ItemizedUserDetailsModel> UserDetails_List(long Id, long InstitutionId, int? IsActive, Guid Login_Session_Id, int UserType_Id)
         {
             IList<ItemizedUserDetailsModel> model;
-            model = repository.UserDetails_List(Id, InstitutionId, IsActive, Login_Session_Id);
+            model = repository.UserDetails_List(Id, InstitutionId, IsActive, Login_Session_Id, UserType_Id);
             return model;
         }
 
@@ -2310,7 +2329,7 @@ namespace MyCortex.User.Controller
                                 Image img = ToImage(fileData);
                                 Size thumbnailSize = GetThumbnailSize(img);
                                 Image ThumImage = ResizeImage(img, thumbnailSize.Width, thumbnailSize.Height);
-                                Image Cimage = ResizeImage(img, 40, 40);
+                                Image Cimage = ResizeImage(img, 100, 100);
                                 //ImageConverter Class convert Image object to Byte array.
                                 byte[] compressimage = (byte[])(new ImageConverter()).ConvertTo(Cimage, typeof(byte[]));
                                 byte[] compressimage1 = (byte[])(new ImageConverter()).ConvertTo(ThumImage, typeof(byte[]));
@@ -4479,7 +4498,7 @@ namespace MyCortex.User.Controller
         static Size GetThumbnailSize(Image original)
         {
             // Maximum size of any dimension.
-            const int maxPixels = 25;
+            const int maxPixels = 75;
 
             // Width and height.
             int originalWidth = original.Width;
@@ -4835,10 +4854,11 @@ namespace MyCortex.User.Controller
         }
 
         [HttpPost]
-        public int Save_User_Eligibility(string eligibiltyId, string eligibility_request, string eligibility_response, int patient_id)
+        public int Save_User_Eligibility(string eligibility_id, int patient_id, [FromBody] responseModel Obj)
         {
+            responseModel ModelData = new responseModel();
             int resp = 0;
-            resp = repository.Save_User_Eligiblity_Logs(eligibiltyId, eligibility_request, eligibility_response, patient_id);
+            resp = repository.Save_User_Eligiblity_Logs(eligibility_id, patient_id, Obj);
             return resp;
         }
     }

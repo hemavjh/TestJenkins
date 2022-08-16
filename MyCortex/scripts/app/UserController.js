@@ -267,6 +267,15 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.package = "";
         $scope.clinician = "";
         $scope.speciality = "";
+        $scope.ServiceCategory = "0";
+        $scope.ConsultationCategory = "0";
+        $scope.Clinicianlist = "0";
+        $http.get(baseUrl + '/api/User/InsuranceServiceCategory/').success(function (data) {
+            $scope.ServiceCategoryList = data;
+        });
+        $http.get(baseUrl + '/api/User/InsuranceConsultationCategory/').success(function (data) {
+            $scope.ConsultationCategoryList = data;
+        });
         $scope.serviceCategory = "";
         $scope.usertoken = $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='];
 
@@ -1130,11 +1139,17 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         }
         $scope.EligibilityCancelPopUP = function () {
             angular.element('#EligibilityModel').modal('hide');
+            $scope.ServiceCategory = "";
+            $scope.Clinicianlist = "";
+            $scope.ConsultationCategory = "";
         }
         $scope.EligibilityNationalId = "";
-        $scope.Eligibility = function () {
+        $scope.EligibilityPopup = function () {
+            $scope.ClinicianDetailsList = [];
+            $http.get(baseUrl + '/api/User/ClinicianDetails/?INSTITUTION_ID=' + $scope.InstituteId).success(function (data) {
+                $scope.ClinicianDetailsList = data;
+            });
             angular.element('#EligibilityModel').modal('show');
-
         }
         $scope.Businessuesrclickcount = 1;
         $scope.AddUserPopUP = function () {
@@ -1185,6 +1200,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.LoadGroupTypeList();
             $scope.LoadDepartmentList();
             $scope.LoadNationalityList();
+            $scope.LoadBusinessUser_UserTypeList();
             //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
             angular.element('#UserModal').modal('show');
         }
@@ -1955,7 +1971,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         // editable time value from app settings	
 
         $scope.AppConfigurationProfileImageList = function () {
-            $scope.ProfileImageSize = "5242880";    // 5 MB
+           $scope.ProfileImageSize = "5242880";    // 5 MB
             $scope.ConfigCode = "PROFILE_PICTURE";
             $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
             $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).
@@ -2492,10 +2508,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
         $scope.User_Admin_List = function (MenuType) {
             if ($window.localStorage['UserTypeId'] == 1 || $window.localStorage['UserTypeId'] == 3) {
+                $scope.UserTypeId = $window.localStorage['UserTypeId'];
                 $("#chatLoaderPV").show();
                 $scope.MenuTypeId = MenuType;
                 $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
-                $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId + '&UserType_Id=' + $scope.UserTypeId).success(function (data) {
                     $scope.emptydata = [];
                     $scope.UserDetailsList = [];
                     $scope.UserDetailsList = data;
@@ -2517,11 +2534,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.BusinessUser_List = function (MenuType) {
             if ($window.localStorage['UserTypeId'] == 3) {
                 $("#chatLoaderPV").show();
-
+                $scope.UserTypeId = $window.localStorage['UserTypeId'];
                 $scope.MenuTypeId = MenuType;
                 $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
 
-                $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId + '&UserType_Id=' + $scope.UserTypeId).success(function (data) {
                     $scope.BusineessUseremptydata = [];
                     $scope.BusinessUserList = [];
                     $scope.BusinessUserList = data;
@@ -3525,6 +3542,35 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     return false;
                 }
             }
+
+            if ($scope.uploadme1 != "" && $scope.uploadme1 != null) {
+                if ($scope.dataURItoBlob($scope.uploadme1).size > $scope.ProfileImageSize) {
+                    var alertmsg = "Uploaded National Photo size cannot be greater than " + ($scope.ProfileImageSize / 1024 / 1024).toString() + "MB";
+                    if ($scope.ProfileImageSize <= 1045504) {
+                        alertmsg = "Uploaded National Photo size cannot be greater than " + ($scope.ProfileImageSize / 1024).toString() + "KB";
+                    }
+                    //alert(alertmsg);
+                    toastr.warning(alertmsg, "warning");
+                    $("#chatLoaderPV").hide();
+                    $scope.currentTab = 1;
+                    return false;
+                }
+            }
+
+            if ($scope.uploadme2 != "" && $scope.uploadme2 != null) {
+                if ($scope.dataURItoBlob($scope.uploadme2).size > $scope.ProfileImageSize) {
+                    var alertmsg = "Uploaded Insurance Photo size cannot be greater than " + ($scope.ProfileImageSize / 1024 / 1024).toString() + "MB";
+                    if ($scope.ProfileImageSize <= 1045504) {
+                        alertmsg = "Uploaded Insurance Photo size cannot be greater than " + ($scope.ProfileImageSize / 1024).toString() + "KB";
+                    }
+                    //alert(alertmsg);
+                    toastr.warning(alertmsg, "warning");
+                    $("#chatLoaderPV").hide();
+                    $scope.currentTab = 6;
+                    return false;
+                }
+            }
+
             if ($scope.Editresumedoc != null) {
                 if ($scope.Editresumedoc != undefined && $scope.Editresumedoc != null && $scope.Editresumedoc != "") {
                     if ($scope.dataURItoBlob($scope.Editresumedoc).size > 1048576) {
@@ -4540,11 +4586,159 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         //    }
         //}
 
+        $scope.Validationcontrols = function () {
+            if (typeof ($scope.SelectedPayor) == "undefined" || $scope.SelectedPayor == "" || $scope.SelectedPayor == "0") {
+                //alert("Please enter PayorName");
+                toastr.warning("Please enter Insurner ", "warning");
+                return false;
+            }
+            else if (typeof ($scope.ServiceCategory) == "undefined" || $scope.ServiceCategory == "" || $scope.ServiceCategory == "0") {
+                //alert("Please enter ShortCode");
+                toastr.warning("Please enter Service Category", "warning");
+                return false;
+            }
+            else if (typeof ($scope.ConsultationCategory) == "undefined" || $scope.ConsultationCategory == "" || $scope.ConsultationCategory == "0") {
+                //alert("Please enter Description");
+                toastr.warning("Please enter Consultation Category", "warning");
+                return false;
+            }
+            else if (typeof ($scope.Clinicianlist) == "undefined" || $scope.Clinicianlist == "" || $scope.Clinicianlist == "0") {
+                //alert("Please enter ReferCode");
+                toastr.warning("Please enter Clinician", "warning");
+                return false;
+            }
+            else if (typeof ($scope.MobileNo) == "undefined" || $scope.MobileNo == "" || $scope.MobileNo == "0") {
+                //alert("Please enter ReferCode");
+                toastr.warning("Please enter MobileNo", "warning");
+                return false;
+            }
+
+            return true;
+        };
+        $scope.eligibilityId = "";
+        $scope.Eligibility_InsertUpdate = function () {
+            // Mobile Number Validation...
+            var countryData = inputPhoneNo.getSelectedCountryData();
+            var countryCode = countryData.dialCode;
+            $scope.countrycode = countryCode;
+
+            countrycode = "+" + countryCode;
+            document.getElementById("txthdCountryCode").value = countryCode;
+            var isValidNum = inputPhoneNo.isValidNumber();
+
+            if (!isValidNum) {
+                swal.fire("Phone number invalid");
+                document.getElementById("txthdFullNumber").value = "";
+                return;
+            } else {
+                document.getElementById("txthdFullNumber").value = document.getElementById("txtMobile").value
+
+            }
+            
+            $scope.MobileNo_CC = document.getElementById("txthdFullNumber").value;
+            if ($scope.Validationcontrols() == true) {
+                $("#chatLoaderPV").show();
+                var obj = {
+                    ServiceCategory: $scope.ServiceCategory,
+                    ConsultationCategory: $scope.ConsultationCategory,
+                    MOBILE_NO: $scope.MobileNo_CC,
+                    NATIONALITY_ID: $scope.NationalId,
+                    PayorId: $scope.SelectedPayor,
+                    Clinicianlist: $scope.Clinicianlist,
+                    countrycode: $scope.countrycode
+                }
+                $('#Elibtnsave1').attr("disabled", true);
+                $http.post(baseUrl + '/api/EligibilityCheck/AddEligibilityEequest/', obj).success(function (data) {
+                    // $("#chatLoaderPV").hide();
+                    if (data != null) {
+                        if (data.status == -2 || data.status == 1) {
+                            var elid = 0;
+                            if (data.status == -2) {
+                                $("#chatLoaderPV").hide();
+                                $('#Elibtnsave1').attr("disabled", false);
+                                elid = data.errors[0].split('/')[data.errors[0].split('/').length - 1];
+                                toastr.warning("particular patient already requested...", "warning");
+                            } else if (data.status == 1) {
+                                elid = data.data.eligibilityId;
+                                $scope.eligibility_Id = elid;
+                                $scope.Clinician = $scope.Clinicianlist;
+                            }
+
+                            $http.get(baseUrl + '/api/PayBy/EligibilityRequestDetail?eligibilityID=' + elid + '&facilityLicense=MF2007').success(function (response_data) {
+                                if (response_data != null) {
+                                    if (response_data.data != null) {
+                                        console.log(response_data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerId);
+                                        $scope.emiratesID = response_data.data.eligibilityCheck.emiratesId;
+                                        $scope.createby = response_data.data.eligibilityCheck.payer.payerName;
+                                        $scope.orderon = response_data.data.eligibilityCheck.eligibilityCheckAnswer.authorizationEndDate;
+                                        $scope.eligibilityDate = response_data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].startDate;
+                                        $scope.cardno = response_data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].cardNumber;
+                                        $scope.package = response_data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].packageName;
+                                        $scope.clinician = response_data.data.eligibilityCheck.clinician.fullName;
+                                        $scope.speciality = response_data.data.eligibilityCheck.clinician.specialty;
+                                        $scope.serviceCategory = response_data.data.eligibilityCheck.serviceCategory.description;
+                                    }
+                                    $scope.eligibilityId = $scope.eligibility_Id
+                                    var elid = $scope.eligibilityId
+                                    $scope.eligibilityId = elid;
+                                    //$scope.Clinicia = $scope.Clinician;
+                                    //var Clinicianlist = $scope.Clinicia;
+                                    //$scope.Clinicia = Clinicianlist;
+
+                                    var Eligiurl = baseUrl + '/api/PayBy/EligibilityRequestDetail?eligibilityID=' + elid + '&facilityLicense=MF2007'
+                                    var eligibility_request = {
+                                        "url": Eligiurl,
+                                        "eligibilityID": elid,
+                                        "facilityLicense": 'MF2007'
+                                    };
+                                    eligibility_response = response_data.data;
+                                    $scope.user_id = $scope.Id;
+                                    $scope.save_user_eligibility_logs($scope.eligibilityId, eligibility_request, eligibility_response, $scope.user_id);
+                                }
+                            });
+                        } else if (data.status == -3 || data.status == -1) {
+                            $('#Elibtnsave1').attr("disabled", false);
+                            $("#chatLoaderPV").hide();
+                            toastr.warning(data.errors[0], "warning");
+                        }
+                    }
+                    angular.element('#EligibilityModel').modal('hide');
+                    $scope.ClearEligibility();
+                });
+            }
+        }
+
+        $scope.save_user_eligibility_logs = function (eligibilityId, eligibility_request, eligibility_response, user_id) {
+            Obj = {
+                "eligibility_response": JSON.stringify(eligibility_response),
+                "eligibility_request": JSON.stringify(eligibility_request)
+            }
+            $http.post(baseUrl + '/api/User/Save_User_Eligibility/?eligibility_id=' + eligibilityId + '&patient_id=' + user_id, Obj).success(function (data) {
+                $("#chatLoaderPV").hide();
+                $('#Elibtnsave1').attr("disabled", false);
+                if (data.data == 1) {
+                    console.log('saved logs');
+                }
+            });
+        }
+        $scope.ClearEligibility = function () {
+            $scope.ServiceCategory = "";
+            $scope.Clinicianlist = "";
+            $scope.ConsultationCategory = "";
+        }
         $scope.AdminDefaultConfiguration = 0;
         $scope.AdminInstitutionCreation = function () {
             $scope.AdminDefaultConfiguration = 1;
             $scope.User_InsertUpdate();
         }
+        $scope.ConfigCode = "PROFILE_PICTURE";
+        $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).
+            success(function (data) {
+                if (data[0] != undefined) {
+                    $scope.ProfileImageSize = parseInt(data[0].ConfigValue);
+                }
+            });
         $scope.User_InsertUpdate = function () {
             // Mobile Number Validation...
             var countryData = inputPhoneNo.getSelectedCountryData();
