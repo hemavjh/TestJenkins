@@ -345,10 +345,10 @@
             <th st-ratio="8" st-sort="ShortName">Table Short Name</th>
             <th st-ratio="8" st-sort="TableDisplayName">Table Display Name</th>
             <th st-ratio="8" st-sort="Details">Details</th>
-            <th st-ratio="12" st-sort="ColumnOrder">Column Order</th>
+            <th st-ratio="35" st-sort="ColumnOrder" >Column Order</th>
             <th st-ratio="8" st-sort="Action">Action</th>
             <th st-ratio="8" st-sort="ActionDateTime">Action Date Time</th>
-            <th st-ratio="16" st-sort="OldValue">Old Value</th>
+            <th st-ratio="12" st-sort="OldValue">Old Value</th>
             <th st-ratio="16" st-sort="NewValue">New Value</th>
         </tr>
     </thead>
@@ -370,7 +370,7 @@
                 {{row.Details}}
             </td>
             <td style="text-align: left">
-                <div class="textwrap">{{row.ColumnOrder}}</div>
+                <div class="textwrap" style="word-break: break-word;">{{row.ColumnOrder}}</div>
             </td>
             <td style="text-align: left">
                 {{row.Action}}
@@ -393,7 +393,7 @@
                 <!--<div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
                        st-template="Masters/Views/pagination.custom.html">
                 </div>-->
-                <ul class="pagination" style="margin-left:110px;">
+                <ul class="pagination" style="padding-left: 35%">
                     <li>
                         <a ng-click="setPage(1)">First</a>
                     </li>
