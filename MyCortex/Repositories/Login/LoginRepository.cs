@@ -181,6 +181,7 @@ namespace MyCortex.Repositories.Login
                                       FirstName = p.Field<string>("FirstName"),
                                       MiddleName = p.Field<string>("MiddleName"),
                                       LastName = p.Field<string>("LastName"),
+                                      FullName = p.Field<string>("FullName"),
                                       EMPLOYEMENTNO = p.Field<string>("EMPLOYEMENTNO") ?? "",
                                       EMAILID = p.Field<string>("EMAILID") ?? "",
                                       // EMAILID = p.Field<string>("EMAILID") ?? "",

@@ -569,7 +569,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                     $window.localStorage['inactivity_logout'] = 0;
                     $window.localStorage['UserTypeId'] = $scope.UserTypeId;
                     $window.localStorage['Login_Session_Id'] = data.Login_Session_Id;
-                    $window.localStorage['FullName'] = data.FullName;
+                    $window.localStorage['FullName'] = data.UserDetails.FullName;
                     if ($scope.UserTypeId == 1) {
                         $window.localStorage['InstitutionId'] = -1;
                     }
@@ -700,6 +700,9 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             }
             else if (data == "13") {
                 toastr.error("Waiting for approval", "Warning");
+            }
+            else if (data == "18") {
+                toastr.error("UserName Not Found")
             }
             else if (data == "16") {
                 toastr.error("Username and Password does not exists. Please verify.", "Warning");
