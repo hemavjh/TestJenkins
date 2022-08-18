@@ -20,6 +20,7 @@
     var inputPhoneNo = window.intlTelInput(input, {
         formatOnDisplay: true,
         separateDialCode: true,
+        onlyCountries: ['AE'],
         geoIpLookup: function (callback) {
             $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
                 var countryCode = (resp && resp.country) ? resp.country : "";
@@ -29,18 +30,15 @@
         //preferredCountries: ["in"],
         utilsScript: "scripts/utils.js",
     });
-
+    inputPhoneNo.setCountry('AE');
     //inputPhoneNo.setNumber("+91 98765 43210");
 
     function txtPhoneChange() {
-        //$("#btnsave1").removeAttr("ng-click");
-
         //alert("event fired");
         //var phoneNo = document.getElementById("txtPhone");
 
         //var txtiso2 = document.getElementById("txthdCountryiso2").value;
         //alert(txtiso2);
-        //inputPhoneNo.setCountry(txtiso2);
 
         const PhoneNumber = inputPhoneNo.getNumber();
         //alert(PhoneNumber);
@@ -72,19 +70,9 @@
                 //alert("Phone number invalid");
                 swal.fire("Phone number invalid");
                 document.getElementById("txthdFullNumber").value = "";
-                //$("#btnsave1").removeAttr("ng-click");
-
             }
             else {
                 document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
-                document.getElementById("txthdFullNumber").value = countryCode + "~" + number1;
-
-                // $("#btnsave1").attr("ng-click", 'submitted=true');
-                //$("#patientform").attr("ng-submit", 'User_InsertUpdate();');
-                //$("#patientform").trigger("submit");
-                //alert('sds');
-                //angular.element('#btnsave1').triggerHandler('ng-click');
-                //ng - submit="User_InsertUpdate();"  ng - click="submitted=true"
             }
         }
 
@@ -746,8 +734,8 @@
                                                         <span>{{PlanName}}</span>
                                                     </div>
                                                     <div class="inputGroups">
-                                                        <button type="button" class="theme-btn-1" title="Click to ELIGIBILITY"
-                                                                ng-click="Eligibility();">
+                                                        <button type="button" class="theme-btn-1" title="Click to Eligibility"
+                                                                ng-click="EligibilityPopup();">
                                                             Eligibility
                                                         </button>
                                                     </div>
@@ -867,97 +855,106 @@
 </div>
 <div id="EligibilityModel" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="EligibilityCancelPopUP()" style="color:#fff;">&times;</button>
-                <h4 class="modal-title">Eligibility Request</h4>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="inputGroups">
-                            <label>
-                                Insurner<sup>
-                                    <font class='mandatory-field'>*</font>
-                                </sup>
-                            </label>
-                            <select class="form-control" data-style="form-control" ng-model="SelectedPayor" ng-change="PayorBased_PlanFunction(0);" id="SelectedPayor" data-live-search="true" data-selectpicker data-collection-name="PayorMasterList"
-                                    ng-disabled="Pat_UserTypeId==2">
-                                <option value="0">Select</option>
-                                <option ng-repeat="sel in PayorMasterList"
-                                        ng-selected="SelectedPayor==sel.Id" value="{{sel.Id}}">
-                                    {{sel.PayorName}}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="inputGroups">
-                            <label>Emirates Id<sup><font class='mandatory-field'>*</font></sup></label>
-                            <input type="text" class="form-control" id="Text9" name="NationalId" ng-required="true" disabled="disabled"
-                                   ng-model="NationalId" placeholder="" ng-maxlength="50"
-                                   maxlength="50" />
+        <form class="form-horizontal" id="Eligilityform" role="form" style="font-size: small" ng-submit="Eligibility_InsertUpdate();" ng-class="{'submitted': submitted}">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="EligibilityCancelPopUP()" style="color:#fff;">&times;</button>
+                    <h4 class="modal-title">Eligibility Request</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="inputGroups">
+                                <label>
+                                    Insurner<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup>
+                                </label>
+                                    <select class="form-control" data-style="form-control" ng-model="SelectedPayor" ng-change="PayorBased_PlanFunction(0);" id="SelectedPayor"
+                                            data-live-search="true" data-selectpicker data-collection-name="PayorMasterList">
+                                        <option value="0">Select</option>
+                                        <option ng-repeat="sel in PayorMasterList"
+                                                ng-selected="SelectedPayor==sel.Id" value="{{sel.Id}}">
+                                            {{sel.PayorName}}
+                                        </option>
+                                    </select>
+                            </div>
+                            <div class="inputGroups">
+                                <label>Emirates Id<sup><font class='mandatory-field'>*</font></sup></label>
+                                <input type="text" class="form-control" id="Text9" name="NationalId" disabled="disabled"
+                                       ng-model="NationalId" placeholder="" ng-maxlength="50"
+                                       maxlength="50" />
+                            </div>
+
+                            <div class="inputGroups">
+                                <label>
+                                    Service Category<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup>
+                                </label>
+                                <select class="form-control" data-style="form-control" ng-model="ServiceCategory" id="Select10" data-live-search="true" data-selectpicker data-collection-name="ServiceCategoryList">
+                                    <option value="0">Select</option>
+                                    <option ng-repeat="sel in ServiceCategoryList" ng-selected="ServiceCategory==sel.Id"
+                                            value="{{sel.Id}}">
+                                        {{sel.Category}}
+                                    </option>
+                                </select>
+                            </div>
                         </div>
 
-                        <div class="inputGroups">
-                            <label>
-                                Service Category<sup>
-                                    <font class='mandatory-field'>*</font>
-                                </sup>
-                            </label>
-                            <select class="form-control" data-style="form-control" ng-model="ServiceCategory" id="Select10" data-live-search="true" data-selectpicker data-collection-name="ServiceCategoryList">
-                                <option value="0">Select</option>
-                                <option ng-repeat="sel in ServiceCategoryList" ng-selected="ServiceCategory==sel.Id"
-                                        value="{{sel.Id}}">
-                                    {{sel.Category}}
-                                </option>
-                            </select>
+                        <div class="col-sm-6">
+                            <div class="inputGroups">
+                                <label>
+                                    Clinician<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup>
+                                </label>
+                                <select class="form-control" data-style="form-control" ng-model="Clinicianlist" id="Select19"
+                                        data-live-search="true" data-selectpicker data-collection-name="ClinicianDetailsList">
+                                    <option value="0">Select</option>
+                                    <option ng-repeat="sel in ClinicianDetailsList" ng-selected="Clinicianlist==sel.HEALTH_LICENSE_CLINICIAN"
+                                            value="{{sel.HEALTH_LICENSE_CLINICIAN}}">
+                                        {{sel.HEALTH_LICENSE_CLINICIAN}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="inputGroups">
+                                <label>
+                                    Mobile No.<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup>
+                                </label>
+                                <input type="text" class="form-control" id="txtMobile" name="tel"
+                                       ng-model="MobileNo" ng-required="true" onblur="txtPhoneChange()" />
+                            </div>
+                            <div class="inputGroups">
+                                <label>
+                                    Consultation Category<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup>
+                                </label>
+                                <select class="form-control" data-style="form-control" ng-model="ConsultationCategory" id="Select10"
+                                        data-live-search="true" data-selectpicker data-collection-name="ConsultationCategoryList">
+                                    <option value="0">Select</option>
+                                    <option ng-repeat="sel in ConsultationCategoryList" ng-selected="ConsultationCategory==sel.Id" 
+                                            value="{{sel.Id}}">
+                                        {{sel.Category}}
+                                    </option>
+                                </select>
+                            </div>
                         </div>
+
                     </div>
+                </div>
 
-                    <div class="col-sm-6">
-                        <div class="inputGroups">
-                            <label>
-                                Clinician<sup>
-                                    <font class='mandatory-field'>*</font>
-                                </sup>
-                            </label>
-                            <select class="form-control" data-style="form-control" ng-model="Clinician" id="Select10"
-                                    data-live-search="true" data-selectpicker data-collection-name="Clinician">
-                                <option value="0">Select</option>
-                               
-                            </select>
-                        </div>
-                        <div class="inputGroups">
-                            <label>
-                                Mobile No.<sup>
-                                    <font class='mandatory-field'>*</font>
-                                </sup>
-                            </label>
-                            <input type="text" class="form-control" id="txtMobile" name="tel"
-                                   ng-model="MobileNo" ng-required="true" onblur="txtPhoneChange()" />
-                        </div>
-                        <div class="inputGroups">
-                            <label>
-                                Consultation Category<sup>
-                                    <font class='mandatory-field'>*</font>
-                                </sup>
-                            </label>
-                            <select class="form-control" data-style="form-control" ng-model="ConsultationCategory" id="Select10"
-                                    data-live-search="true" data-selectpicker data-collection-name="ConsultationCategoryList">
-                                <option value="0">Select</option>
-                                <option ng-repeat="sel in ConsultationCategoryList" ng-selected="ConsultationCategory==sel.Id"
-                                        value="{{sel.Id}}">
-                                    {{sel.Category}}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-
+                <div class="modal-footer" style="text-align:center;">
+                    <button type="submit" class="theme-btn-1 mr-10 mtb-15 btn-save" id="Elibtnsave1" ng-disabled="false" title="Click to Save"
+                            ng-click="submitted=true">
+                        Submit
+                    </button>
+                    <button type="button" class="theme-btn-2  btn-save" ng-click="EligibilityCancelPopUP()" title="Click to Cancel">Cancel</button>
                 </div>
             </div>
-
-            <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="theme-btn-2  btn-save" ng-click="EligibilityCancelPopUP()" title="Click to Cancel">Cancel</button>
-            </div>
-        </div>
+        </form>
     </div>
 </div>

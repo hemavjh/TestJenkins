@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyCortex.User.Model
 {
-    public class UserModel
+        public class UserModel
     {
 
         public long Id { get; set; }
@@ -202,6 +202,19 @@ namespace MyCortex.User.Model
         public string GroupName { get; set; }
         public string DeptName { get; set; }
         public string GenderName { get; set; }
+    }
+    
+    public class ClinicianDetail_list
+    {
+        public long Id { get; set; }
+        public int IsActive { get; set; }
+        public long INSTITUTION_ID { get; set; }
+        public string HEALTH_LICENSE_CLINICIAN { get; set; }
+    }
+    public class responseModel
+    {
+        public string eligibility_response { get; set; }
+        public string eligibility_request { get; set; }
     }
     public class UserInstitutionDetails_List
     {

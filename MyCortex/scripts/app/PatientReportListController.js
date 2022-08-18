@@ -11,6 +11,7 @@ PatientReportList.controller("PatientReportListController", ['$scope', '$http', 
         if ($window.localStorage['UserTypeId'] == 3) {
             $scope.current_page = 1;
             $scope.TotalPageAuditReport = 1;
+            $scope.IsMaster = 0;
             $scope.page_size = $window.localStorage['Pagesize'];
             $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
             $scope.rembemberCurrentPage = function (p) {
@@ -58,7 +59,7 @@ PatientReportList.controller("PatientReportListController", ['$scope', '$http', 
 
 
             $scope.UserTypeBaseduserName = function () {
-                $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + $scope.UserTypeId + '&InstitutionId=' + $scope.InstituteId).success(function (data) {
+                $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + $scope.UserTypeId + '&InstitutionId=' + $scope.InstituteId + '&IS_MASTER=' + $scope.IsMaster).success(function (data) {
                     $scope.UserName_listdataTemp = [];
                     $scope.UserName_listdataTemp = data;
                     var obj = { "Id": 0, "FullName": "Select", "IsActive": 1 };

@@ -823,7 +823,7 @@ namespace MyCortex.Login.Controller
         /// <param name="InstitutionId">institution of the user</param>
         /// <returns>user basic details list model</returns>
         [HttpGet]
-        public IEnumerable<UsertypeModal> Userdetailslist(int UserTypeId, long InstitutionId)
+        public IEnumerable<UsertypeModal> Userdetailslist(int UserTypeId, long InstitutionId, int IS_MASTER)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -831,7 +831,7 @@ namespace MyCortex.Login.Controller
             try
             {
                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
-                model = repository.Userdetailslist(UserTypeId, InstitutionId);
+                model = repository.Userdetailslist(UserTypeId, InstitutionId, IS_MASTER);
                 return model;
             }
             catch (Exception ex)
