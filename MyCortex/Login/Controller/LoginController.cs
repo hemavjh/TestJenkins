@@ -194,6 +194,13 @@ namespace MyCortex.Login.Controller
                         messagestr = "Inactive User Cannot Login";
                         model.Status = "False";
                     }
+                    else if ((model.data == 18) == true)
+                    {
+                        model.ReturnFlag = 0;
+                        messagestr = "UserName Not Found";
+                        languagekey = "UserName Not Found";
+                        model.Status = "False";
+                    }
                     else if ((model.data == 11) == true)
                     {
                         model.ReturnFlag = 1;

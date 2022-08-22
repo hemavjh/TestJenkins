@@ -1272,10 +1272,10 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                         for (var ia = 0; ia < zy.length; ia++) {
                             if (zy[ia].Parameter_Id == zy[b1].Parameter_Id) {
 
-                                if (zy[b1].Min_Possible < zy[ia].Diag_Range_Min && zy[b1].Max_Possible > zy[ia].Diag_Range_Max) {
+                                if (parseFloat(zy[b1].Min_Possible) < parseFloat(zy[ia].Diag_Range_Min) && parseFloat(zy[b1].Max_Possible) > parseFloat(zy[ia].Diag_Range_Max)) {
                                     if (zy[b1].Diag_Range == 1) {
-                                        if (zy[b1].NormalRange_High <= zy[ia].Diag_Range_Min && zy[ia].Diag_Range_Min <= zy[ia].Diag_Range_Max) {
-                                            if (zy[ia].Diag_Range == 2 && zy[ia].Diag_Range_Max >= zy[b1].Diag_Range_Min) {
+                                        if (parseFloat(zy[b1].NormalRange_High) <= parseFloat(zy[ia].Diag_Range_Min) && parseFloat(zy[ia].Diag_Range_Min) <= parseFloat(zy[ia].Diag_Range_Max)) {
+                                            if (zy[ia].Diag_Range == 2 && parseFloat(zy[ia].Diag_Range_Max) >= parseFloat(zy[b1].Diag_Range_Min)) {
                                                 toastr.warning("Please enter that your high min range is greater than your medium max range", "Warning");
                                                 return;
                                             }
@@ -1286,8 +1286,8 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                                     }
 
                                     if (zy[b1].Diag_Range == 2) {
-                                        if (zy[b1].NormalRange_High <= zy[ia].Diag_Range_Min && zy[ia].Diag_Range_Min <= zy[ia].Diag_Range_Max) {
-                                            if (zy[ia].Diag_Range == 3 && zy[ia].Diag_Range_Max >= zy[b1].Diag_Range_Min) {
+                                        if (parseFloat(zy[b1].NormalRange_High) <= parseFloat(zy[ia].Diag_Range_Min) && parseFloat(zy[ia].Diag_Range_Min) <= parseFloat(zy[ia].Diag_Range_Max)) {
+                                            if (zy[ia].Diag_Range == 3 && parseFloat(zy[ia].Diag_Range_Max) >= parseFloat(zy[b1].Diag_Range_Min)) {
                                                 toastr.warning("Please enter that your medium min range is greater than your low max range", "Warning");
                                                 return;
                                             }
@@ -1298,29 +1298,29 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                                     }
 
                                     if (zy[b1].Diag_Range == 3) {
-                                        if (zy[ia].Diag_Range == 3 && zy[b1].NormalRange_High >= zy[ia].Diag_Range_Min && zy[ia].Diag_Range_Min <= zy[ia].Diag_Range_Max) {
+                                        if (zy[ia].Diag_Range == 3 && parseFloat(zy[b1].NormalRange_High) >= parseFloat(zy[ia].Diag_Range_Min) && parseFloat(zy[ia].Diag_Range_Min) <= parseFloat(zy[ia].Diag_Range_Max)) {
                                             toastr.warning("Please enter that your low min range is greater than your normal max range", "Warning");
                                             return;
 
-                                        } else if (zy[ia].Diag_Range == 3 && (zy[b1].NormalRange_High >= zy[ia].Diag_Range_Min || zy[ia].Diag_Range_Min >= zy[ia].Diag_Range_Max)) {
+                                        } else if (zy[ia].Diag_Range == 3 && (parseFloat(zy[b1].NormalRange_High) >= parseFloat(zy[ia].Diag_Range_Min) || parseFloat(zy[ia].Diag_Range_Min) >= parseFloat(zy[ia].Diag_Range_Max))) {
                                             toastr.warning("Please enter that your low min range is not greater than your low max range", "Warning");
                                             return;
                                         }
                                     }
 
                                     if (zy[b1].Diag_Range == 4) {
-                                        if (zy[ia].Diag_Range == 4 && zy[b1].NormalRange_Low <= zy[ia].Diag_Range_Max && zy[b1].Diag_Range_Max >= zy[ia].Diag_Range_Min) {
+                                        if (zy[ia].Diag_Range == 4 && parseFloat(zy[b1].NormalRange_Low) <= parseFloat(zy[ia].Diag_Range_Max) && parseFloat(zy[b1].Diag_Range_Max) >= parseFloat(zy[ia].Diag_Range_Min)) {
                                             toastr.warning("Please enter that your second low max range is lesser than your normal min range", "Warning");
                                             return;
-                                        } else if (zy[b1].Diag_Range == 4 && zy[ia].Diag_Range_Min >= zy[ia].Diag_Range_Max) {
+                                        } else if (zy[b1].Diag_Range == 4 && parseFloat(zy[ia].Diag_Range_Min) >= parseFloat(zy[ia].Diag_Range_Max)) {
                                             toastr.warning("Please enter that your second low min range is not greater than your second low max range", "Warning");
                                             return;
                                         }
                                     }
 
                                     if (zy[b1].Diag_Range == 5) {
-                                        if (zy[b1].NormalRange_Low >= zy[ia].Diag_Range_Max && zy[b1].Diag_Range_Max >= zy[ia].Diag_Range_Min) {
-                                            if (zy[ia].Diag_Range == 4 && zy[ia].Diag_Range_Max >= zy[b1].Diag_Range_Min) {
+                                        if (parseFloat(zy[b1].NormalRange_Low) >= parseFloat(zy[ia].Diag_Range_Max) && parseFloat(zy[b1].Diag_Range_Max) >= parseFloat(zy[ia].Diag_Range_Min)) {
+                                            if (zy[ia].Diag_Range == 4 && parseFloat(zy[ia].Diag_Range_Max) >= parseFloat(zy[b1].Diag_Range_Min)) {
                                                 toastr.warning("Please enter that your second medium max range is lesser than your low min range", "Warning");
                                                 return;
                                             }
@@ -1331,8 +1331,8 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                                     }
 
                                     if (zy[b1].Diag_Range == 6) {
-                                        if (zy[b1].NormalRange_Low >= zy[ia].Diag_Range_Max && zy[b1].Diag_Range_Max >= zy[ia].Diag_Range_Min) {
-                                            if (zy[ia].Diag_Range == 5 && zy[ia].Diag_Range_Min >= zy[b1].Diag_Range_Max) {
+                                        if (parseFloat(zy[b1].NormalRange_Low) >= parseFloat(zy[ia].Diag_Range_Max) && parseFloat(zy[b1].Diag_Range_Max) >= parseFloat(zy[ia].Diag_Range_Min)) {
+                                            if (zy[ia].Diag_Range == 5 && parseFloat(zy[ia].Diag_Range_Min) >= parseFloat(zy[b1].Diag_Range_Max)) {
                                                 toastr.warning("Please enter that your second high max range is lesser than your medium min range", "Warning");
                                                 return;
                                             }
