@@ -167,10 +167,17 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
         $scope.InsuranceId = "";
         $scope.GenderId = "0";
         $scope.NationalityId = "0";
+        $scope.MaritalStatusId = "0";
+        $scope.EthnicGroupId = "0";
+        $scope.BloodGroupId = "0";
         $scope.EmailId = "";
         $scope.MobileNo = "";
         $scope.UserTypeId = 2;
         $scope.NationalityList = [];
+        $scope.MaritalStatusList = [];
+        $scope.EthnicGroupList = [];
+        $scope.BloodGroupList = [];
+
         $scope.GenderList = [];
         $scope.ProductName = "";
         $scope.Productlogin = "";
@@ -259,8 +266,20 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                 alert("Please select Nationality");
                 return false;
             }
+            else if (typeof ($scope.MaritalStatusId) == "undefined" || $scope.MaritalStatusId == "0") {
+                alert("Please select MaritalStatus");
+                return false;
+            }
+            else if (typeof ($scope.EthnicGroupId) == "undefined" || $scope.EthnicGroupId == "0") {
+                alert("Please select EthnicGroup", "warning");
+                return false;
+            }
             else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "") {
                 alert("Please select Date of Birth");
+                return false;
+            }
+            else if (typeof ($scope.BloodGroupId) == "undefined" || $scope.BloodGroupId == "0") {
+                alert("Please select BloodGroup");
                 return false;
             }
             //else if (isDate($scope.DOB) == false) {
@@ -343,7 +362,10 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                         MNR_NO: $scope.MNR_No,
                         GENDER_ID: $scope.GenderId == 0 ? null : $scope.GenderId,
                         NATIONALITY_ID: $scope.NationalityId == 0 ? null : $scope.NationalityId,
+                        MARITALSTATUS_ID: $scope.MaritalStatusId == 0 ? null : $scope.MaritalStatusId,
+                        ETHINICGROUP_ID: $scope.EthnicGroupId == 0 ? null : $scope.EthnicGroupId,
                         DOB: moment($scope.DOB).format('DD-MMM-YYYY'),
+                        BLOODGROUP_ID: $scope.BloodGroupId == 0 ? null : $scope.BloodGroupId,
                         EMAILID: $scope.EmailId,
                         MOBILE_NO: $scope.MobileNo,
                         UserType_Id: $scope.UserTypeId,
@@ -390,6 +412,9 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             $scope.InsuranceId = "";
             $scope.GenderId = "0";
             $scope.NationalityId = "0";
+            $scope.MaritalStatusId = "0";
+            $scope.EthnicGroupId = "0";
+            $scope.BloodGroupId = "0";
             $scope.EmailId = "";
             $scope.MobileNo = "";
             $scope.HideSignUpModal();
@@ -400,6 +425,21 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                 // This is for to get Nationality List 
                 $http.get(baseUrl + 'api/Common/NationalityList/').success(function (data) {
                     $scope.NationalityList = data;
+                });
+            }
+            if ($scope.MaritalStatusList.length == 0) {
+                $http.get(baseUrl + 'api/Common/MaritalStatusList/').success(function (data) {
+                    $scope.MaritalStatusList = data;
+                });
+            }
+            if ($scope.EthnicGroupList == 0) {
+                $http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (data) {
+                    $scope.EthnicGroupList = data;
+                });
+            }
+            if ($scope.BloodGroupList == 0) {
+                $http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (data) {
+                    $scope.BloodGroupList = data;
                 });
             }
             if ($scope.GenderList.length == 0) {
@@ -880,11 +920,17 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
         $scope.InsuranceId = "";
         $scope.GenderId = "0";
         $scope.NationalityId = "0";
+        $scope.MaritalStatusId = "0";
+        $scope.EthnicGroupId = "0";
+        $scope.BloodGroupId = "0";
         $scope.EmailId = "";
         $scope.MobileNo = "";
         $scope.MobileNo_CC = "";
         $scope.UserTypeId = 2;
         $scope.NationalityList = [];
+        $scope.MaritalStatusList = [];
+        $scope.EthnicGroupList = [];
+        $scope.BloodGroupList = [];
         $scope.GenderList = [];
         $window.localStorage['UserId'] = "0";
         $scope.SelectedLanguage = 0;
@@ -900,6 +946,9 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
         $scope.insuranceid = "Insurance ID";
         $scope.gender = "Gender";
         $scope.nationality = "Nationality";
+        $scope.MaritalStatus = "MaritalStatus"
+        $scope.EthnicGroup = "EthnicGroup";
+        $scope.BloodGroup = "BloodGroup";
         $scope.dob = "DOB";
         $scope.email = "Email";
         $scope.mobilenumber = "Mobile Number";
@@ -972,6 +1021,15 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                             if (masterVal.LANGUAGE_KEY === "nationality") {
                                 $scope.nationality = masterVal.LANGUAGE_TEXT;
                             }
+                            if (masterVal.LANGUAGE_KEY === "MaritalStatus") {
+                                $scope.MaritalStatus = masterVal.LANGUAGE_TEXT;
+                            }
+                            if (masterVal.LANGUAGE_KEY === "EthnicGroup") {
+                                $scope.EthnicGroup = masterVal.LANGUAGE_TEXT;
+                            }
+                            if (masterVal.LANGUAGE_KEY === "BloodGroup") {
+                                $scope.BloodGroup = masterVal.LANGUAGE_TEXT;
+                            }
                             if (masterVal.LANGUAGE_KEY === "dob") {
                                 $scope.dob = masterVal.LANGUAGE_TEXT;
                             }
@@ -1037,6 +1095,15 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                 }
                 if (masterVal.LANGUAGE_KEY === "nationality") {
                     $scope.nationality = masterVal.LANGUAGE_TEXT;
+                }
+                if (masterVal.LANGUAGE_KEY === "MaritalStatus") {
+                    $scope.MaritalStatus = masterVal.LANGUAGE_TEXT;
+                }
+                if (masterVal.LANGUAGE_KEY === "EthnicGroup") {
+                    $scope.EthnicGroup = masterVal.LANGUAGE_TEXT;
+                }
+                if (masterVal.LANGUAGE_KEY === "BloodGroup") {
+                    $scope.BloodGroup = masterVal.LANGUAGE_TEXT;
                 }
                 if (masterVal.LANGUAGE_KEY === "dob") {
                     $scope.dob = masterVal.LANGUAGE_TEXT;
@@ -1109,6 +1176,18 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             else if (typeof ($scope.NationalityId) == "undefined" || $scope.NationalityId == "0") {
                 //alert("Please select Nationality");
                 toastr.warning("Please select Nationality", "warning");
+                return false;
+            }
+            else if (typeof ($scope.MaritalStatusId) == "undefined" || $scope.MaritalStatusId == "0") {
+                toastr.warning("Please select Marital Status", "warning");
+                return false;
+            }
+            else if (typeof ($scope.EthnicGroupId) == "undefined" || $scope.EthnicGroupId == "0") {
+                toastr.warning("Please select EthnicGroup", "warning");
+                return false;
+            }
+            else if (typeof ($scope.BloodGroupId) == "undefined" || $scope.BloodGroupId == "0") {
+                toastr.warning("Please select BloodGroup","warning");
                 return false;
             }
             else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "") {
@@ -1200,7 +1279,10 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                             //MNR_NO: $scope.MNR_No,
                             GENDER_ID: $scope.GenderId == 0 ? null : $scope.GenderId,
                             NATIONALITY_ID: $scope.NationalityId == 0 ? null : $scope.NationalityId,
+                            MARITALSTATUS_ID: $scope.MaritalStatusId == 0 ? null : $scope.MaritalStatusId,
+                            ETHINICGROUP_ID: $scope.EthnicGroupId == 0 ? null : $scope.EthnicGroupId,
                             DOB: $scope.DOB,
+                            BLOODGROUP_ID: $scope.BloodGroupId == 0 ? null : $scope.BloodGroupId,
                             EMAILID: $scope.EmailId,
                             MOBILE_NO: $scope.MobileNo_CC,
                             UserType_Id: $scope.UserTypeId,
@@ -1269,6 +1351,9 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             $scope.InsuranceId = "";
             $scope.GenderId = "0";
             $scope.NationalityId = "0";
+            $scope.MaritalStatusId = "0";
+            $scope.EthnicGroupId = "0";
+            $scope.BloodGroupId = "0";
             $scope.EmailId = "";
             $scope.MobileNo = "";
             $scope.MobileNo_CC = "";
@@ -1279,6 +1364,19 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
         // This is for to get Nationality List 
         $http.get(baseUrl + 'api/Common/NationalityList/').success(function (data) {
             $scope.NationalityList = data;
+        });
+
+        $http.get(baseUrl + 'api/Common/MaritalStatusList/').success(function (data) {
+            $scope.MaritalStatusList = data;
+
+        });
+
+        $http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (data) {
+              $scope.EthnicGroupList = data;
+        });
+
+        $http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (data) {
+            $scope.BloodGroupList = data;
         });
 
         // This is for to get Gender List
