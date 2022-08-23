@@ -878,6 +878,9 @@ namespace MyCortex.Home.Controllers
                 req.Seek(0, System.IO.SeekOrigin.Begin);
                 string json = new StreamReader(req).ReadToEnd();
                 retid = liveBoxRepository.LiveBox_Notify_Log(json);
+                dynamic data = JsonConvert.DeserializeObject(json);
+                string conferencename = data.conferencename;
+                retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename);
                 //PushNotificationMessage message = new PushNotificationMessage();
                 //message.Title = "Notification For Call";
                 //message.Message = "call end";
@@ -890,6 +893,7 @@ namespace MyCortex.Home.Controllers
                 return Content("Failure : " + e.Message);
             }
         }
+
 
         [HttpPost]
         public ActionResult LiveBoxVideoNotify()

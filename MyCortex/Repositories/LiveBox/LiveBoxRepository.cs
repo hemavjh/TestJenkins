@@ -23,5 +23,14 @@ namespace MyCortex.Repositories.LiveBox
             retid = ClsDataBase.Insert("[MYCORTEX].[LIVEBOX_NOTIFY_LOG]", param, true);
             return retid;
         }
+        public int LiveBox_Notify_UPDATE(string conferencename)
+        {
+            int retid = 0;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@conferencename", conferencename));
+            retid = ClsDataBase.Insert("[MYCORTEX].[LIVEBOX_NOTIFY_LOG_GET_SP]", param, true);
+            return retid;
+
+        }
     }
 }

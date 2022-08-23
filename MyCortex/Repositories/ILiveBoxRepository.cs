@@ -9,5 +9,6 @@ namespace MyCortex.Repositories
     interface ILiveBoxRepository
     {
         int LiveBox_Notify_Log(string LogText);
+        int LiveBox_Notify_UPDATE(string conferencename);
     }
 }
