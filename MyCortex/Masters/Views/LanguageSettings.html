@@ -137,9 +137,9 @@
         </colgroup>
         <thead>
             <tr style="text-align: center">
-                <th st-ratio="20" rowspan="1" st-sort="">Language Key</th>
-                <th st-ratio="40" rowspan="1" st-sort="">Language Text</th>
-                <th st-ratio="40" rowspan="1" st-sort="">Default</th>
+                <th st-ratio="20" rowspan="1" st-sort="" style="width: 20%;">LANGUAGE_KEY</th>
+                <th st-ratio="40" rowspan="1" st-sort="" style="width: 40%;">LANGUAGE_TEXT</th>
+                <th st-ratio="40" rowspan="1" st-sort="" style="width: 40%;">LANGUAGE_DEFAULT</th>
             </tr>
         </thead>
 
@@ -155,7 +155,7 @@
                 </td>
                 <td style="text-align: left">
                     <input type="text" class="form-control" style="max-width:100% !important"
-                           ng-model="LanguageText[row.ID]" placeholder="" ng-if="IsEdit==true">
+                           ng-model="row.LANGUAGE_TEXT" placeholder="" ng-if="IsEdit==true">
                     <span ng-if="IsEdit==false">{{row.LANGUAGE_TEXT}}</span>
                 </td>
                 <td style="text-align: left">

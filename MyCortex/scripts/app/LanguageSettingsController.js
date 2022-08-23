@@ -108,7 +108,7 @@ LanguageSettingscontroller.controller("LanguageSettingsController", ['$scope', '
                     ID: value.ID,
                     INSTITUTION_ID: $window.localStorage['InstitutionId'],
                     LANGUAGE_ID: parseInt($scope.selectedLanguage),
-                    LANGUAGE_TEXT: $scope.LanguageText[value.ID],
+                    LANGUAGE_TEXT: value.LANGUAGE_TEXT,
                     LANGUAGE_KEY: $scope.rowCollectionLanguageSettings[index].LANGUAGE_KEY,
                     LANGUAGE_DEFAULT: $scope.rowCollectionLanguageSettings[index].LANGUAGE_DEFAULT
                 }
@@ -215,6 +215,9 @@ LanguageSettingscontroller.controller("LanguageSettingsController", ['$scope', '
             $scope.$apply(function () {
                 $scope.LanguageText = excelRows.map(x => x.LANGUAGE_TEXT);
                 $scope.rowCollectionLanguageSettings = excelRows;
+                angular.forEach($scope.rowCollectionLanguageSettings, function (masterVal, index) {
+                    $scope.rowCollectionLanguageSettings[index].LANGUAGE_TEXT = masterVal.LANGUAGE_TEXT;
+                });
             });
         };
     }
