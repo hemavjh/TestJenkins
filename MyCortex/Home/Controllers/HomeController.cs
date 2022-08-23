@@ -891,7 +891,7 @@ namespace MyCortex.Home.Controllers
                 page.ClientScript.RegisterStartupScript(
                     typeof(Page),
                     "Test",
-                    "<script src='~/Scripts/app/PatientAppointmentListController.js' type='text/javascript'>video_call_end();</script>");
+                    "<script src='~/Scripts/app/PatientAppointmentListController.js?v2.1.83' type='text/javascript'>video_call_end();</script>");
                 return Content("SUCCESS");
             }
             catch (Exception e)
