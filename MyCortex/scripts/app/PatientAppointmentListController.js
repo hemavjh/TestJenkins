@@ -343,6 +343,11 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                 $('#Patient_VideoCall').addClass('hidden');
             }
         }
+
+        function video_call_end() {
+            $('#Patient_AppointmentPanel').addClass('show');
+            $('#Patient_VideoCall').addClass('hidden');
+        }
     }
 ]);
 

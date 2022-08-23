@@ -34,6 +34,7 @@ using System.IO;
 using System.Runtime.Serialization.Json;
 using MyCortex.Admin.Models;
 using MyCortex.Notification.Firebase;
+using System.Web.UI;
 
 namespace MyCortex.Home.Controllers
 {
@@ -883,6 +884,11 @@ namespace MyCortex.Home.Controllers
                 //message.Message = "call end";
                 //long userid = Convert.ToInt64(Session["UserId"].ToString());
                 //PushNotificationApiManager.sendNotification(message, 0, userid, 4);
+                Page page = HttpContext.CurrentHandler as Page;
+                page.ClientScript.RegisterStartupScript(
+                    typeof(Page),
+                    "Test",
+                    "<script src='~/Scripts/app/PatientAppointmentListController.js' type='text/javascript'>video_call_end();</script>");
                 return Content("SUCCESS");
             }
             catch (Exception e)
