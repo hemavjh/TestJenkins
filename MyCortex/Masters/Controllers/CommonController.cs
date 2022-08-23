@@ -644,7 +644,7 @@ namespace MyCortex.Masters.Controllers
         /// marital status name list
         /// </summary>
         /// <returns>marital status name list</returns>
-        [Authorize]
+        [AllowAnonymous]
         [HttpGet]
         public IList<MaritalStatusModel> MaritalStatusList()
         {
@@ -700,7 +700,7 @@ namespace MyCortex.Masters.Controllers
         /// Ethnic Group status name list
         /// </summary>
         /// <returns>Ethnic Group name list</returns>
-        [Authorize]
+        [AllowAnonymous]
         [HttpGet]
         public IList<EthinnicGroupModel> EthnicGroupList()
         {
@@ -938,7 +938,7 @@ namespace MyCortex.Masters.Controllers
         /// blood group name list
         /// </summary>
         /// <returns></returns>
-        [Authorize]
+        [AllowAnonymous]
         [HttpGet]
         public IList<BloodGroupModel> BloodGroupList()
         {

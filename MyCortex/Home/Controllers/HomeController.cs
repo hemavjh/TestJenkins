@@ -34,6 +34,7 @@ using System.IO;
 using System.Runtime.Serialization.Json;
 using MyCortex.Admin.Models;
 using MyCortex.Notification.Firebase;
+using System.Web.UI;
 
 namespace MyCortex.Home.Controllers
 {
@@ -878,11 +879,19 @@ namespace MyCortex.Home.Controllers
                 req.Seek(0, System.IO.SeekOrigin.Begin);
                 string json = new StreamReader(req).ReadToEnd();
                 retid = liveBoxRepository.LiveBox_Notify_Log(json);
+                dynamic data = JsonConvert.DeserializeObject(json);
+                string conferencename = data.conferencename;
+                retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename);
                 //PushNotificationMessage message = new PushNotificationMessage();
                 //message.Title = "Notification For Call";
                 //message.Message = "call end";
                 //long userid = Convert.ToInt64(Session["UserId"].ToString());
                 //PushNotificationApiManager.sendNotification(message, 0, userid, 4);
+                Page page = HttpContext.CurrentHandler as Page;
+                page.ClientScript.RegisterStartupScript(
+                    typeof(Page),
+                    "Test",
+                    "<script src='~/Scripts/app/PatientAppointmentListController.js?v2.1.83' type='text/javascript'>video_call_end();</script>");
                 return Content("SUCCESS");
             }
             catch (Exception e)
@@ -890,6 +899,7 @@ namespace MyCortex.Home.Controllers
                 return Content("Failure : " + e.Message);
             }
         }
+
 
         [HttpPost]
         public ActionResult LiveBoxVideoNotify()
