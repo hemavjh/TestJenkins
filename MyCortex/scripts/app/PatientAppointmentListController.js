@@ -322,8 +322,8 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
             var diffTime = Math.abs(enddate1 - startdate1);
             var TextIcon = Math.floor(diffTime / (60 * 1000));
             $scope.TextIconB = TextIcon;
-            //var fullname = $window.localStorage['FullName'];
-            //patientName = fullname;
+            var fullname = $window.localStorage['FullName'];
+            patientName = fullname;
             if ($scope.TextIconB < $scope.PAT_APPOINTMENT_START) {
                // var emp = JSON.parse(JSON.parse(window.localStorage["18792f60bb2dbf1:common_store/user"]));
                 $('#Patient_AppointmentPanel').addClass('hidden');
