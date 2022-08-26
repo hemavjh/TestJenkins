@@ -216,7 +216,7 @@ LanguageSettingscontroller.controller("LanguageSettingsController", ['$scope', '
                 $scope.LanguageText = excelRows.map(x => x.LANGUAGE_TEXT);
                 $scope.rowCollectionLanguageSettings = excelRows;
                 angular.forEach($scope.rowCollectionLanguageSettings, function (masterVal, index) {
-                    $scope.rowCollectionLanguageSettings[index].LANGUAGE_TEXT = masterVal.LANGUAGE_TEXT;
+                    $scope.rowCollectionLanguageSettings[index].LANGUAGE_TEXT = masterVal.LANGUAGE_TEXT.replace(/^\s+|\s+$/gm, '');
                 });
             });
         };
