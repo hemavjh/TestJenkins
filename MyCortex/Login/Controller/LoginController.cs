@@ -196,9 +196,8 @@ namespace MyCortex.Login.Controller
                     }
                     else if ((model.data == 18) == true)
                     {
-                        model.ReturnFlag = 0;
+                        model.ReturnFlag = 1;
                         messagestr = "UserName Not Found";
-                        languagekey = "UserName Not Found";
                         model.Status = "False";
                     }
                     else if ((model.data == 11) == true)
