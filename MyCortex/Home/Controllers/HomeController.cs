@@ -885,13 +885,13 @@ namespace MyCortex.Home.Controllers
                 //PushNotificationMessage message = new PushNotificationMessage();
                 //message.Title = "Notification For Call";
                 //message.Message = "call end";
-                //long userid = Convert.ToInt64(Session["UserId"].ToString());
+                //long userid = 102111;
                 //PushNotificationApiManager.sendNotification(message, 0, userid, 4);
-                Page page = HttpContext.CurrentHandler as Page;
-                page.ClientScript.RegisterStartupScript(
-                    typeof(Page),
-                    "Test",
-                    "<script src='~/Scripts/app/PatientAppointmentListController.js?v2.1.83' type='text/javascript'>video_call_end();</script>");
+                //Page page = HttpContext.CurrentHandler as Page;
+                //page.ClientScript.RegisterStartupScript(
+                //    typeof(Page),
+                //    "Test",
+                //    "<script src='~/Scripts/app/PatientAppointmentListController.js?v2.1.83' type='text/javascript'>video_call_end();</script>");
                 return Content("SUCCESS");
             }
             catch (Exception e)
