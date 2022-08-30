@@ -719,9 +719,13 @@ namespace MyCortex.User.Controller
                     {
                         Event_Code = "ADMIN_USER_CREATION";
                     }
-                    else if (userObj.ApprovalFlag != "0" && userObj.UserType_Id == 2)
+                    else if (userObj.ApprovalFlag != "0" && userObj.UserType_Id != 2)
                     {
                         Event_Code = "PAT_SIGNUP_APPROVE";
+                    }
+                    else if (userObj.ApprovalFlag == "1" && userObj.UserType_Id == 2)
+                    {
+                        Event_Code = "PAT_SIGNUP_HOSADMIN";
                     }
                     AlertEvents AlertEventReturn = new AlertEvents();
                     IList<EmailListModel> EmailList;
@@ -736,7 +740,7 @@ namespace MyCortex.User.Controller
                         AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, ModelData.Id, (long)userObj.INSTITUTION_ID, EmailList);
                     }
 
-                    if (userObj.ApprovalFlag == "0" && userObj.UserType_Id == 2)
+                    if (userObj.ApprovalFlag == "1" && userObj.UserType_Id == 2)
                     {
                         Event_Code = "PAT_SIGNUP_HOSADMIN";
                         AlertEvents AlertEventReturn_HA = new AlertEvents();
