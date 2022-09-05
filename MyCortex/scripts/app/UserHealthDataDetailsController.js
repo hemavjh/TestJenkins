@@ -69,7 +69,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
         $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
             $scope.DateFormat = data1[0].ConfigValue;
-            $scope.DOB = moment($scope.DOB).format(angular.uppercase($scope.DateFormat))
+            $scope.DOB1 = moment($scope.DOB).format(angular.uppercase($scope.DateFormat))
         });
 
         //list the Notes type
@@ -760,11 +760,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $scope.uploadme = null;
                     }
                 })
-                $scope.ConfigCode = "DATEFORMAT_TYPE";
-                $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-                    $scope.DateFormat = data1[0].ConfigValue;                    
-                });
+                //$scope.ConfigCode = "DATEFORMAT_TYPE";
+                //$scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+                //$http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+                //    $scope.DateFormat = data1[0].ConfigValue;                    
+                //});
 
                 $http.get(baseUrl + '/api/User/PatientBasicDetailsList/?PatientId=' + $scope.SelectedPatientId).success(function (data) {
                     $("#chatLoaderPV").hide();
@@ -783,6 +783,46 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.showUserType = data.UserType;
                     $scope.PhotoBlobs = data.PhotoBlobs;
                     methodcnt = methodcnt - 1;
+
+                    $scope.bookcc = 0;
+                    $scope.bookCg = 0;
+                    $scope.bookCl = 0;
+                    $scope.bookSc = 0;
+                    $scope.bookpa = 0;
+                    var current_date = new Date().getFullYear() + '-' + (((new Date().getMonth() + 1).toString().length > 1) ? ((new Date().getMonth() + 1).toString()) : '0' + (new Date().getMonth() + 1).toString()) + '-' + (((new Date().getDate()).toString().length > 1) ? ((new Date().getDate()).toString()) : '0' + (new Date().getDate()).toString());
+                    angular.element(document.getElementById('datee')).attr('min', current_date);
+                    $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
+                        if (data != null) {
+                            if (data.IsCc) { $scope.bookcc = 6; }
+                            if (data.IsCg) { $scope.bookCg = 5; }
+                            if (data.IsCl) { $scope.bookCl = 4; }
+                            if (data.IsSc) { $scope.bookSc = 7; }
+                            if (data.IsPatient) { $scope.bookpa = 2; }
+                            if (data.MinRescheduleDays) { $scope.MakeMeLookBusy = data.MinRescheduleDays; }
+                            if (data.MinimumSlots) { $scope.MinimumSlots = data.MinimumSlots; }
+                            $scope.NewAppointmentDuration = data.NewAppointmentDuration;
+                            $scope.FollowUpDuration = data.FollowUpDuration;
+                            if (data.MaxScheduleDays) {
+                                var futu_date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + data.MaxScheduleDays);
+                                var futureDate = futu_date.getFullYear() + '-' + (((futu_date.getMonth() + 1).toString().length > 1) ? ((futu_date.getMonth() + 1).toString()) : '0' + (futu_date.getMonth() + 1).toString()) + '-' + (((futu_date.getDate()).toString().length > 1) ? ((futu_date.getDate()).toString()) : '0' + (futu_date.getDate()).toString());
+                                angular.element(document.getElementById('datee')).attr('max', futureDate);
+                            }
+                            $scope.UserTypeId = $window.localStorage['UserTypeId'];
+                            if ($scope.bookcc == $scope.UserTypeId || $scope.bookCg == $scope.UserTypeId || $scope.bookCl == $scope.UserTypeId || $scope.bookSc == $scope.UserTypeId || $scope.bookpa == $scope.UserTypeId) {
+                                document.getElementById("BookNew").disabled = false;
+                                $scope.BookNewSettings = true;
+                            } else {
+                                document.getElementById("BookNew").disabled = true;
+                                $scope.BookNewSettings = false;
+                            }
+                        }
+                        if (data == null) {
+                            //alert('Please Check OrgSettings, Appointment User Is Empty!');
+                            toastr.info("Please Check Appointment Settings are Missing!", "info");
+                            return false;
+                        }
+                    });
+
                     $('#User_id').show();
                     $('#patient_profile').show();
                     $('#BrainGroup').show();
@@ -798,9 +838,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     MOBILE_NO.textContent = $scope.MobileNo;
 
                     var DOB = document.getElementById('DOB');
-                    $scope.DOB = moment($scope.DOB).format(angular.uppercase($scope.DateFormat));
-                    $scope.DOB1 = moment($scope.DOB).format('DD-MMM-YYYY');
-                    DOB.textContent = $scope.DOB;
+                    $scope.DOB1 = moment($scope.DOB).format(angular.uppercase($scope.DateFormat));
+                    $scope.DOB2 = moment($scope.DOB).format('DD-MMM-YYYY');
+                    DOB.textContent = $scope.DOB1;
 
                     var fullname = document.getElementById('fullname');
                     fullname.textContent = $scope.FullName;
@@ -808,7 +848,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     var Gender = document.getElementById('Gender');
                     Gender.textContent = $scope.ViewGenderName;
 
-                    var dob = $scope.DOB1;
+                    var dob = $scope.DOB2;
                     var gt = DateFormat(dob);
                     dob = gt.replace(/-/gi, '');
                     var year = dob.substr(4, 9);
@@ -926,44 +966,6 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
                     $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                         $scope.TimeZoneList = data;
-                    });
-                    $scope.bookcc = 0;
-                    $scope.bookCg = 0;
-                    $scope.bookCl = 0;
-                    $scope.bookSc = 0;
-                    $scope.bookpa = 0;
-                    var current_date = new Date().getFullYear() + '-' + (((new Date().getMonth() + 1).toString().length > 1) ? ((new Date().getMonth() + 1).toString()) : '0' + (new Date().getMonth() + 1).toString()) + '-' + (((new Date().getDate()).toString().length > 1) ? ((new Date().getDate()).toString()) : '0' + (new Date().getDate()).toString());
-                    angular.element(document.getElementById('datee')).attr('min', current_date);
-                    $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
-                        if (data != null) {
-                            if (data.IsCc) { $scope.bookcc = 6; }
-                            if (data.IsCg) { $scope.bookCg = 5; }
-                            if (data.IsCl) { $scope.bookCl = 4; }
-                            if (data.IsSc) { $scope.bookSc = 7; }
-                            if (data.IsPatient) { $scope.bookpa = 2; }
-                            if (data.MinRescheduleDays) { $scope.MakeMeLookBusy = data.MinRescheduleDays; }
-                            if (data.MinimumSlots) { $scope.MinimumSlots = data.MinimumSlots; }
-                            $scope.NewAppointmentDuration = data.NewAppointmentDuration; 
-                            $scope.FollowUpDuration = data.FollowUpDuration;
-                            if (data.MaxScheduleDays) {
-                                var futu_date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + data.MaxScheduleDays);
-                                var futureDate = futu_date.getFullYear() + '-' + (((futu_date.getMonth() + 1).toString().length > 1) ? ((futu_date.getMonth() + 1).toString()) : '0' + (futu_date.getMonth() + 1).toString()) + '-' + (((futu_date.getDate()).toString().length > 1) ? ((futu_date.getDate()).toString()) : '0' + (futu_date.getDate()).toString());
-                                angular.element(document.getElementById('datee')).attr('max', futureDate);
-                            }
-                            $scope.UserTypeId = $window.localStorage['UserTypeId'];
-                            if ($scope.bookcc == $scope.UserTypeId || $scope.bookCg == $scope.UserTypeId || $scope.bookCl == $scope.UserTypeId || $scope.bookSc == $scope.UserTypeId || $scope.bookpa == $scope.UserTypeId) {
-                                document.getElementById("BookNew").disabled = false;
-                                $scope.BookNewSettings = true;
-                            } else {
-                                document.getElementById("BookNew").disabled = true;
-                                $scope.BookNewSettings = false;
-                            }
-                        }
-                        if (data == null) {
-                            //alert('Please Check OrgSettings, Appointment User Is Empty!');
-                            toastr.info("Please Check Appointment Settings are Missing!", "info");
-                            return false;
-                        }
                     });
 
                     $scope.SearchAvailibleDoctorsList = function () {

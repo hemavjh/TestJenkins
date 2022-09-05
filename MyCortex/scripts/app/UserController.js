@@ -393,6 +393,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                     text: gender.Gender_Name
                                 });
                             });
+                            $scope.GenderList = results;
                             return {
                                 results: results
                             };
@@ -1444,12 +1445,12 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 var maleId = 0;
                 var feMaleId = 0;
                 angular.forEach($scope.GenderList, function (value, index) {
-                    $scope.Gender_Name = value.Gender_Name;
+                    $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
-                        maleId = value.Id.toString();
+                        maleId = value.id.toString();
                     }
                     else if ($scope.Gender_Name.toLowerCase() == "female") {
-                        feMaleId = value.Id.toString();
+                        feMaleId = value.id.toString();
                     }
                 });
 
@@ -1512,12 +1513,12 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 var maleId = 0;
                 var feMaleId = 0;
                 angular.forEach($scope.GenderList, function (value, index) {
-                    $scope.Gender_Name = value.Gender_Name;
+                    $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
-                        maleId = value.Id.toString();
+                        maleId = value.id.toString();
                     }
                     else if ($scope.Gender_Name.toLowerCase() == "female") {
-                        feMaleId = value.Id.toString();
+                        feMaleId = value.id.toString();
                     }
                 });
 
@@ -1697,12 +1698,12 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 var maleId = 0;
                 var feMaleId = 0;
                 angular.forEach($scope.GenderList, function (value, index) {
-                    $scope.Gender_Name = value.Gender_Name;
+                    $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
-                        maleId = value.Id.toString();
+                        maleId = value.id.toString();
                     }
                     else if ($scope.Gender_Name.toLowerCase() == "female") {
-                        feMaleId = value.Id.toString();
+                        feMaleId = value.id.toString();
                     }
                 });
 
