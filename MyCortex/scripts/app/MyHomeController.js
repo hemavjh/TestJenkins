@@ -175,10 +175,13 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
 
         }
         $scope.CancelPopup = function () {
+            $scope.DeviceEmpty = true;
             angular.element('#TabAddModal').modal('hide');
         }
         $scope.Cancel_MYTAB = function () {
             $scope.currentTab = "1";
+            $scope.DeviceEmpty = true;
+            $scope.UserInfoEmpty = true;
             //$location.path("/Hive");
             //$location.path("/HiveChart");
             $scope.ClearPopUp();
@@ -242,8 +245,8 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                                 $scope.No_Of_Hive_Devices = data.No_Of_HiveDevices;*/
                                 $scope.Remaining_No_Of_Hive_Users = data.Remaining_No_Of_Hive_Users;
                                 $scope.Remaining_No_Of_Hivechart_Users = data.Remaining_No_Of_Hivechart_Users;
-                               /* $scope.Remaining_No_Of_Hive_Devices = data.Remaining_No_Of_Hive_Devices;
-                                $scope.Remaining_No_Of_Hivechart_Devices = data.Remaining_No_Of_Hivechart_Devices;*/
+                                /* $scope.Remaining_No_Of_Hive_Devices = data.Remaining_No_Of_Hive_Devices;
+                                 $scope.Remaining_No_Of_Hivechart_Devices = data.Remaining_No_Of_Hivechart_Devices;*/
                                 //if ($scope.rowCollectionTab.length > 0) {
                                 //    angular.forEach($scope.rowCollectionTab, function (value, index) {
                                 //        $scope.UsersCount = $scope.UsersCount + value.UsersCount;
@@ -538,27 +541,27 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             'IsActive': true
         }];
 
+        $scope.ChangeUserInfo = function (UserId) {
+            console.log(UserId);
+            if (UserId != null) {
+                $scope.UserInfoEmpty = true;
+            }
+            else {
+                $scope.UserInfoEmpty = false;
+            }
+        }
+        $scope.UserInfoEmpty = true;
         /*This is a Addrow function to add new row and save  */
         $scope.MyHomeAdd = function () {
             var TSDuplicate = 0;
-            if ($scope.MyHomeRow >= 0) {
-                var obj = {
-                    'ID': $scope.HomeId,
-                    'UserId': $scope.UserId,
-                    'PIN': $scope.PIN,
-                    'IsActive': true
-                }
-                $scope.AddUserParameters[$scope.MyHomeRow] = obj;
+            var UserinfoAdd = 0;
+            if ($scope.UserInfoEmpty == true) {
+                $scope.UserInfoEmpty = false;
+            } else {
+                toastr.warning("Please Select in User Info Tab", "Warning");
+                return false;
             }
-            else {
-                $scope.AddUserParameters.push({
-                    'ID': $scope.HomeId,
-                    'UserId': $scope.UserId,
-                    'PIN': $scope.PIN,
-                    'IsActive': true
-                })
-            }
-
+            
             angular.forEach($scope.AddUserParameters, function (value1, index1) {
                 angular.forEach($scope.AddUserParameters, function (value2, index2) {
                     if (index1 > index2 && value1.UserId == value2.UserId && (value1.IsActive == true && value2.IsActive == true)) {
@@ -569,7 +572,30 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
 
             if (TSDuplicate == 1) {
                 toastr.info("User Name already exist, cannot be Duplicated", "info");
+                UserinfoAdd = 1;
+                $scope.UserInfoEmpty = true;
                 return false;
+            }
+
+            if ($scope.MyHomeRow >= 0) {
+                if (UserinfoAdd == 0) {
+                    var obj = {
+                        'ID': $scope.HomeId,
+                        'UserId': $scope.UserId,
+                        'PIN': $scope.PIN,
+                        'IsActive': true
+                    }
+                    $scope.AddUserParameters[$scope.MyHomeRow] = obj;
+                }
+
+            }
+            else {
+                $scope.AddUserParameters.push({
+                    'ID': $scope.HomeId,
+                    'UserId': $scope.UserId,
+                    'PIN': $scope.PIN,
+                    'IsActive': true
+                })
             }
         };
 
@@ -596,7 +622,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         };
 
         $scope.MyHomeDelete = function (Delete_Id, rowIndex, UserId) {
-
+            $scope.UserInfoEmpty = true;
             Swal.fire({
                 title: 'Do you like to delete this Hive Id Details?',
                 html: '',
@@ -670,19 +696,57 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             'Id': $scope.DeviceId,
             'DeviceId': $scope.Id
         }];*/
-
+        $scope.ChangeDevice = function (Id) {
+            console.log(Id);
+            if (Id != null) {
+                $scope.DeviceEmpty = true;
+            }
+            else {
+                $scope.DeviceEmpty = false;
+            }
+        }
+        $scope.DeviceEmpty = true;
         $scope.MyDeviceAdd = function () {
-            var DuplicateDevice = 0;
+            $scope.DuplicateDevice = 0;
+            var deviceadd = 0;
+            if ($scope.DeviceEmpty == true) {
+                $scope.DeviceEmpty = false;
+                
+            }else {
+                toastr.warning("Please Select Device Info Tab", "Warning");
+                
+                return false;
+            }
+
+           
+
+            angular.forEach($scope.AddDeviceParameters, function (value1, index1) {
+                angular.forEach($scope.AddDeviceParameters, function (value2, index2) {
+                    if (index1 > index2 && value1.Id == value2.Id && (value1.IsActive == true && value2.IsActive == true)) {
+                        $scope.DuplicateDevice = 1;
+                    };
+                });
+            });
+
+            if ($scope.DuplicateDevice == 1) {
+                toastr.info("Device already exist, cannot be Duplicated", "info");
+                deviceadd = 1;
+                $scope.DeviceEmpty = true;
+                return false;
+            }
             if ($scope.MyDeviceRow >= 0) {
-                var obj = {
-                    'Id': 0,
-                    'DeviceId': 0,
-                    'DeviceName': '',
-                    'TabId': null,
-                    'UserId': null,
-                    'IsActive': true
+                if (deviceadd == 0) {
+
+                    var obj = {
+                        'Id': 0,
+                        'DeviceId': 0,
+                        'DeviceName': '',
+                        'TabId': null,
+                        'UserId': null,
+                        'IsActive': true
+                    }
+                    $scope.AddDeviceParameters[$scope.MyDeviceRow] = obj;
                 }
-                $scope.AddDeviceParameters[$scope.MyDeviceRow] = obj;
             }
             else {
                 $scope.AddDeviceParameters.push({
@@ -694,22 +758,11 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     'IsActive': true
                 })
             }
-
-            angular.forEach($scope.AddDeviceParameters, function (value1, index1) {
-                angular.forEach($scope.AddDeviceParameters, function (value2, index2) {
-                    if (index1 > index2 && value1.Id == value2.Id && (value1.IsActive == true && value2.IsActive == true)) {
-                        DuplicateDevice = 1;
-                    };
-                });
-            });
-
-            if (DuplicateDevice == 1) {
-                toastr.info("Device already exist, cannot be Duplicated", "info");
-                return false;
-            }
+            
         };
 
         $scope.MyDeviceDelete = function (Delete_Id, rowIndex) {
+            $scope.DeviceEmpty = true;
             Swal.fire({
                 title: 'Do you like to delete this Hive Device Details?',
                 html: '',

@@ -247,7 +247,7 @@
                                                                         <td>
                                                                             <div style="width:500px;">
                                                                                 <select ng-model="row.UserId" class="form-control" style="width:500px;" multiselect-dropdown
-                                                                                        ng-options="item1.Id as item1.FullName for item1 in UserLists" id="userlisttab">
+                                                                                        ng-options="item1.Id as item1.FullName for item1 in UserLists" id="userlisttab" ng-change="ChangeUserInfo(row.UserId)">
                                                                                     <option value="">Select</option>
                                                                                 </select>
                                                                             </div>
@@ -308,7 +308,7 @@
                                                                         <td>
                                                                             <div style="width:500px;">
                                                                                 <select ng-model="row.Id" class="form-control" style="width:500px;" multiselect-dropdown
-                                                                                        ng-options="item1.Id as item1.DeviceName for item1 in InstitutionDeviceList" id="tabdevice">
+                                                                                        ng-options="item1.Id as item1.DeviceName for item1 in InstitutionDeviceList" id="tabdevice" ng-change="ChangeDevice(row.Id)">
                                                                                     <option value="">Select</option>
                                                                                 </select>
                                                                             </div>
