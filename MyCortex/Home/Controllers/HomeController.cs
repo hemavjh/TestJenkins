@@ -35,6 +35,8 @@ using System.Runtime.Serialization.Json;
 using MyCortex.Admin.Models;
 using MyCortex.Notification.Firebase;
 using System.Web.UI;
+using Newtonsoft.Json.Linq;
+using MyCortex.User.Controller;
 
 namespace MyCortex.Home.Controllers
 {
@@ -884,11 +886,17 @@ namespace MyCortex.Home.Controllers
                 //message.Message = "call end";
                 //long userid = Convert.ToInt64(Session["UserId"].ToString());
                 //PushNotificationApiManager.sendNotification(message, 0, userid, 4);
-                Page page = HttpContext.CurrentHandler as Page;
-                page.ClientScript.RegisterStartupScript(
-                    typeof(Page),
-                    "Test",
-                    "<script src='~/Scripts/app/PatientAppointmentListController.js' type='text/javascript'>video_call_end();</script>");
+                string baseUrl = System.Web.HttpContext.Current.Request.Url.Host.ToString();
+                string redirectUrl = "https://" + baseUrl + "/Home/Index#/PatientVitals/0/1";
+                if (redirectUrl != String.Empty)
+                {
+                    var controller = new PatientAppointmentsController
+                    {
+                        Request = new System.Net.Http.HttpRequestMessage(),
+                        Configuration = new System.Web.Http.HttpConfiguration()
+                    };
+                    var response = controller.RedirectToPatientVitals(redirectUrl);
+                }
                 return Content("SUCCESS");
             }
             catch (Exception e)
@@ -912,6 +920,35 @@ namespace MyCortex.Home.Controllers
                 //message.Message = "call end";
                 //long userid = Convert.ToInt64(Session["UserId"].ToString());
                 //PushNotificationApiManager.sendNotification(message, 0, userid, 4);
+                if (json.Contains("recordedvideoURL"))
+                {
+                    string conference_name = JObject.Parse(json)["conferencename"].ToString();
+                    string recording_url = JObject.Parse(json)["recordedvideoURL"].ToString();
+                    string baseUrl = System.Web.HttpContext.Current.Request.Url.Host.ToString();
+                    string source_path = System.Web.HttpContext.Current.Server.MapPath("~/Images");
+                    string pathToNewFolder = System.IO.Path.Combine(source_path, "Video");
+                    DirectoryInfo directory = Directory.CreateDirectory(pathToNewFolder);
+                    try
+                    {
+                        var httpRequest = System.Web.HttpContext.Current.Request;
+                        var postedFile = httpRequest.Files[recording_url];
+                        var fileid = System.Guid.NewGuid() + ".txt";
+                        string returnPath = System.IO.Path.Combine(pathToNewFolder, fileid);
+
+                        FileStream fs = new FileStream(returnPath, FileMode.OpenOrCreate);
+                        StreamWriter str = new StreamWriter(fs);
+                        str.BaseStream.Seek(0, SeekOrigin.End);
+                        str.Write(recording_url);
+                        str.Flush();
+                        str.Close();
+                        fs.Close();
+                        int response = repository.Save_Video_Call_Recording_Logs(conference_name, returnPath);
+                    }
+                    catch (Exception err)
+                    {
+                        Console.WriteLine(err.Message);
+                    }
+                }
                 return Content("SUCCESS");
             }
             catch (Exception e)

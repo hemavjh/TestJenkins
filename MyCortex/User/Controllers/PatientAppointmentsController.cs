@@ -545,5 +545,18 @@ namespace MyCortex.User.Controller
             }
         }
 
+        [HttpGet]
+        public HttpResponseMessage RedirectToPatientVitals(string redirectUrl)
+        {
+            try
+            {
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, new { status = 1, url = redirectUrl });
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ex);
+            }
+        }
     }
 }
