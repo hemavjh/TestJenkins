@@ -5340,5 +5340,15 @@ namespace MyCortex.Repositories.Uesr
             response = ClsDataBase.Insert("[MYCORTEX].[USER_ELIGIBILITY_LOG]", param, true);
             return response;
         }
+
+        public int Save_Video_Call_Recording_Logs(string conference_id, string recording_url)
+        {
+            int response = 0;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@CONFERENCE_ID", conference_id));
+            param.Add(new DataParameter("@RECORDING_URL", recording_url));
+            response = ClsDataBase.Insert("[MYCORTEX].[VIDEO_CALL_RECORDING_LOG]", param, true);
+            return response;
+        }
     }
 }
