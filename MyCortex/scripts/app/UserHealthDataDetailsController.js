@@ -4440,7 +4440,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         }
                         else {
                             $('#noalertsred').show();
-                            
+                            $('#noalerts').hide();
                         }
                         $('#chatLoaderPVhigh').hide();
 
@@ -4467,6 +4467,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             $('#noalertsyellow').hide();
                         } else {
                             $('#noalertsyellow').show();
+                            $('#noalerts').hide();
                             
                         }
                         $('#chatLoaderPVhigh').hide();
@@ -4495,7 +4496,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             }
                             else {
                                 $('#noalertsgreen').show();
-                                
+                                $('#noalerts').hide();
                             }
                             $('#chatLoaderPVhigh').hide();
 
