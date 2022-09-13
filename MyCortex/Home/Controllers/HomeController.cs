@@ -908,6 +908,13 @@ namespace MyCortex.Home.Controllers
             }
         }
 
+        [HttpGet]
+        public long GetUserid(string UserName)
+        {
+            long Id;
+            Id = repository.GetUserid(UserName);
+            return Id;
+        }
 
         [HttpPost]
         public ActionResult LiveBoxVideoNotify()
