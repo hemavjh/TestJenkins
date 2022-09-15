@@ -393,6 +393,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                     text: gender.Gender_Name
                                 });
                             });
+                            $scope.GenderList = results;
                             return {
                                 results: results
                             };
@@ -1178,6 +1179,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             photoview = false;
             photoview1 = false;
             photoview2 = false;
+            $scope.GenderId = "0";
             $scope.uploadview = false;
             $scope.loadCount = 3;
             $scope.currentTab = "1";
@@ -1440,16 +1442,17 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         photoview2 = false;
         var request = "";
         $scope.getBase64Image = function () {
+            $scope.Editclearimage();
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
                 var feMaleId = 0;
                 angular.forEach($scope.GenderList, function (value, index) {
-                    $scope.Gender_Name = value.Gender_Name;
+                    $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
-                        maleId = value.Id.toString();
+                        maleId = value.id.toString();
                     }
                     else if ($scope.Gender_Name.toLowerCase() == "female") {
-                        feMaleId = value.Id.toString();
+                        feMaleId = value.id.toString();
                     }
                 });
 
@@ -1508,16 +1511,17 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         // patient creation
         $scope.PatientgetBase64Image = function () {
             $scope.LoadGenderList();
+            $scope.Editclearimage();
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
                 var feMaleId = 0;
                 angular.forEach($scope.GenderList, function (value, index) {
-                    $scope.Gender_Name = value.Gender_Name;
+                    $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
-                        maleId = value.Id.toString();
+                        maleId = value.id.toString();
                     }
                     else if ($scope.Gender_Name.toLowerCase() == "female") {
-                        feMaleId = value.Id.toString();
+                        feMaleId = value.id.toString();
                     }
                 });
 
@@ -1576,12 +1580,12 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 var maleId = 0;
                 var feMaleId = 0;
                 angular.forEach($scope.GenderList, function (value, index) {
-                    $scope.Gender_Name = value.Gender_Name;
+                    $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
-                        maleId = value.Id.toString();
+                        maleId = value.id.toString();
                     }
                     else if ($scope.Gender_Name.toLowerCase() == "female") {
-                        feMaleId = value.Id.toString();
+                        feMaleId = value.id.toString();
                     }
                 });
 
@@ -1616,12 +1620,12 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 var maleId = 0;
                 var feMaleId = 0;
                 angular.forEach($scope.GenderList, function (value, index) {
-                    $scope.Gender_Name = value.Gender_Name;
+                    $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
-                        maleId = value.Id.toString();
+                        maleId = value.id.toString();
                     }
                     else if ($scope.Gender_Name.toLowerCase() == "female") {
-                        feMaleId = value.Id.toString();
+                        feMaleId = value.id.toString();
                     }
                 });
 
@@ -1656,12 +1660,12 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 var maleId = 0;
                 var feMaleId = 0;
                 angular.forEach($scope.GenderList, function (value, index) {
-                    $scope.Gender_Name = value.Gender_Name;
+                    $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
-                        maleId = value.Id.toString();
+                        maleId = value.id.toString();
                     }
                     else if ($scope.Gender_Name.toLowerCase() == "female") {
-                        feMaleId = value.Id.toString();
+                        feMaleId = value.id.toString();
                     }
                 });
 
@@ -1693,16 +1697,17 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
         //Admin creation
         $scope.AdmingetBase64Image = function () {
+            $scope.Editclearimage();
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
                 var feMaleId = 0;
                 angular.forEach($scope.GenderList, function (value, index) {
-                    $scope.Gender_Name = value.Gender_Name;
+                    $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
-                        maleId = value.Id.toString();
+                        maleId = value.id.toString();
                     }
                     else if ($scope.Gender_Name.toLowerCase() == "female") {
-                        feMaleId = value.Id.toString();
+                        feMaleId = value.id.toString();
                     }
                 });
 
@@ -2981,6 +2986,17 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.AdmingetBase64Image();
         };
 
+        $scope.Editclearimage = function () {
+            $scope.Photo = "";
+            $scope.FileName = "";
+            $scope.uploadme = "";
+            $('#UserLogo').val('');
+            photoview = false;
+            photoview1 = false;
+            photoview2 = false;
+            $scope.uploadview = false;
+            $scope.UserPhotoValue = 0;
+        }
 
         $scope.imageclear = function () {
             $scope.Photo = "";
@@ -3045,16 +3061,16 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         }
 
         /*This is for getting a file url for uploading the url into the database*/
-        $scope.dataURItoBlob = function (dataURI) {
-            var binary = atob(dataURI.split(',')[1]);
-            var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-            var array = [];
-            for (var i = 0; i < binary.length; i++) {
-                array.push(binary.charCodeAt(i));
-            }
-            return new Blob([new Uint8Array(array)], {
-                type: mimeString
-            });
+            $scope.dataURItoBlob = function (dataURI) {
+                var binary = atob(dataURI.split(',')[1]);
+                var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+                var array = [];
+                for (var i = 0; i < binary.length; i++) {
+                    array.push(binary.charCodeAt(i));
+                }
+                return new Blob([new Uint8Array(array)], {
+                    type: mimeString
+                });
         }
 
         /* Read file name for the  National Photo and file */
@@ -3544,30 +3560,34 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             }
 
             if ($scope.uploadme1 != "" && $scope.uploadme1 != null) {
-                if ($scope.dataURItoBlob($scope.uploadme1).size > $scope.ProfileImageSize) {
-                    var alertmsg = "Uploaded National Photo size cannot be greater than " + ($scope.ProfileImageSize / 1024 / 1024).toString() + "MB";
-                    if ($scope.ProfileImageSize <= 1045504) {
-                        alertmsg = "Uploaded National Photo size cannot be greater than " + ($scope.ProfileImageSize / 1024).toString() + "KB";
+                if ($scope.NatUploadme != '../../Images/National_Male.png') {
+                    if ($scope.dataURItoBlob($scope.uploadme1).size > $scope.ProfileImageSize) {
+                        var alertmsg = "Uploaded National Photo size cannot be greater than " + ($scope.ProfileImageSize / 1024 / 1024).toString() + "MB";
+                        if ($scope.ProfileImageSize <= 1045504) {
+                            alertmsg = "Uploaded National Photo size cannot be greater than " + ($scope.ProfileImageSize / 1024).toString() + "KB";
+                        }
+                        //alert(alertmsg);
+                        toastr.warning(alertmsg, "warning");
+                        $("#chatLoaderPV").hide();
+                        $scope.currentTab = 1;
+                        return false;
                     }
-                    //alert(alertmsg);
-                    toastr.warning(alertmsg, "warning");
-                    $("#chatLoaderPV").hide();
-                    $scope.currentTab = 1;
-                    return false;
                 }
             }
 
             if ($scope.uploadme2 != "" && $scope.uploadme2 != null) {
-                if ($scope.dataURItoBlob($scope.uploadme2).size > $scope.ProfileImageSize) {
-                    var alertmsg = "Uploaded Insurance Photo size cannot be greater than " + ($scope.ProfileImageSize / 1024 / 1024).toString() + "MB";
-                    if ($scope.ProfileImageSize <= 1045504) {
-                        alertmsg = "Uploaded Insurance Photo size cannot be greater than " + ($scope.ProfileImageSize / 1024).toString() + "KB";
+                if ($scope.INSUploadme != '../../Images/National_Male.png') {
+                    if ($scope.dataURItoBlob($scope.uploadme2).size > $scope.ProfileImageSize) {
+                        var alertmsg = "Uploaded Insurance Photo size cannot be greater than " + ($scope.ProfileImageSize / 1024 / 1024).toString() + "MB";
+                        if ($scope.ProfileImageSize <= 1045504) {
+                            alertmsg = "Uploaded Insurance Photo size cannot be greater than " + ($scope.ProfileImageSize / 1024).toString() + "KB";
+                        }
+                        //alert(alertmsg);
+                        toastr.warning(alertmsg, "warning");
+                        $("#chatLoaderPV").hide();
+                        $scope.currentTab = 6;
+                        return false;
                     }
-                    //alert(alertmsg);
-                    toastr.warning(alertmsg, "warning");
-                    $("#chatLoaderPV").hide();
-                    $scope.currentTab = 6;
-                    return false;
                 }
             }
 
@@ -4123,6 +4143,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         }
                         else {
                             $scope.uploadme1 = '../../Images/National_Male.png';//null;
+                            var uploadmee1 = $scope.uploadme1;
+                            $scope.NatUploadme = uploadmee1;
                         }
 
                         methodcnt2 = methodcnt2 - 1;
@@ -4133,6 +4155,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         }
                         else {
                             $scope.uploadme2 = '../../Images/National_Male.png';//null;
+                            var uploadmee2 = $scope.uploadme2;
+                            $scope.INSUploadme = uploadmee2;
                         }
                         
                         $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {

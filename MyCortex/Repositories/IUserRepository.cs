@@ -45,6 +45,8 @@ namespace MyCortex.Repositories
         IList<InstitutionShortCode> GetInstitutionFromShortName(string INSTITUTION_CODE);
 
         int Get_Exist_AnyUnEncryptedUser();
+
+        long GetUserid(string UserName);
         string GetInstitutionName(string INSTITUTION_CODE);
         IList<PatientHealthDataModel> HealthDataDetails_List(long Patient_Id, long OptionType_Id, long Group_Id, long UnitsGroupType, Guid Login_Session_Id,long StartRowNumber, long EndRowNumber,int Active, int IsGraphPlot);
         bool UserChangePwdURL(long Id, string url);
@@ -146,5 +148,6 @@ namespace MyCortex.Repositories
         IList<CometChat_User> GetCometChatUserList(long InstitutionId);
         long UpdateUserLanguage(long UserId, long LanguageId);
         int Save_User_Eligiblity_Logs(string eligibiltyId, int patient_id, responseModel Obj);
+        int Save_Video_Call_Recording_Logs(string conference_id, string recording_url);
     }
 }

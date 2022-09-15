@@ -2196,6 +2196,42 @@ namespace MyCortex.Repositories.Uesr
             return list;
         }
 
+        public long GetUserid(string Username)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            long id;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@UserName", Username));
+
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_USERID_EMAIL]", param);
+                if (dt != null)
+                {
+                    if (dt.Rows.Count > 0)
+                    {
+                        return id = Convert.ToInt64(dt.Rows[0][0]);
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return 0;
+            }
+        }
         public PatientHealthDataModel PatientHealthData_Sync_Insert_Update(Guid Login_Session_Id, PatientHealthDataModel insobj)
         {
             List<DataParameter> param = new List<DataParameter>();
@@ -5338,6 +5374,16 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@ELIGIBILITY_RESPONSE",Obj.eligibility_response));
             param.Add(new DataParameter("@PATIENT_ID", patient_id));
             response = ClsDataBase.Insert("[MYCORTEX].[USER_ELIGIBILITY_LOG]", param, true);
+            return response;
+        }
+
+        public int Save_Video_Call_Recording_Logs(string conference_id, string recording_url)
+        {
+            int response = 0;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@CONFERENCE_ID", conference_id));
+            param.Add(new DataParameter("@RECORDING_URL", recording_url));
+            response = ClsDataBase.Insert("[MYCORTEX].[VIDEO_CALL_RECORDING_LOG]", param, true);
             return response;
         }
     }
