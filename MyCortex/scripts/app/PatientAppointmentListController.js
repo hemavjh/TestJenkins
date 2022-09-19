@@ -318,8 +318,8 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
 
         window.addEventListener('EndCallEvent', function (e) {
             console.log("End Call");
-            var url = "https://mycortexdev1.vjhsoftware.in/Home/Index#/PatientVitals/0/1" //Pass Your Url
-            window.open(url, '_self')
+            var url = "https://mycortexdev1.vjhsoftware.in/Home/Index#/PatientVitals/0/1"; //Pass Your Url
+            window.open(url, '_self');
         }, false);
 
         $scope.openvideocall = function (patientName, ConferenceId, Row) {
@@ -330,7 +330,7 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
             $scope.TextIconB = TextIcon;
             var fullname = $window.localStorage['FullName'];
             patientName = fullname;
-            if ($scope.TextIconB > $scope.PAT_APPOINTMENT_START) {
+            if ($scope.TextIconB < $scope.PAT_APPOINTMENT_START) {
                // var emp = JSON.parse(JSON.parse(window.localStorage["18792f60bb2dbf1:common_store/user"]));
                 $('#Patient_AppointmentPanel').addClass('hidden');
                 $('#Patient_VideoCall').addClass('show');
