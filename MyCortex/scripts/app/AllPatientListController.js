@@ -183,28 +183,151 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
                             $scope.PageCountArray = [];
                             $scope.Patientemptydata = [];
                             $scope.PatientList = [];
-                            $scope.PatientList = Patientdata;
-                            $scope.Patientemptydata = Patientdata;
-                            //$scope.PatientCount = $scope.PatientList.length;
-                            if ($scope.PatientList.length > 0) {
-                                $scope.PatientCount = $scope.PatientList[0].TotalRecord;
-                            }
-                            if ($scope.searchquery == '') {
-                                total = Math.ceil(($scope.PatientCount) / ($scope.Patient_PerPage));
-                                $scope.total_page = Math.ceil(($scope.PatientCount) / ($scope.Patient_PerPage));
-                                for (var i = 0; i < total; i++) {
-                                    var obj = {
-                                        PageNumber: i + 1
+
+                            if ($scope.UserTypeId === "6") {
+                                $scope.CC_PatientNo = "";
+                                $scope.CC_InsuranceId = "";
+                                $scope.CC_GenderId = "0";
+                                $scope.CC_NationalityId = "";
+                                $scope.CC_EthinicGroupId = "0";
+                                $scope.CC_MOBILE_NO = "";
+                                $scope.CC_HomePhoneNo = "";
+                                $scope.CC_Email = "";
+                                $scope.CC_MaritalStatus = "0";
+                                $scope.CC_CountryId = "0";
+                                $scope.CC_StataId = "0";
+                                $scope.CC_CityId = "0";
+                                $scope.CC_BloodGroupId = "0";
+                                $scope.CC_GroupId = "0";
+                                $scope.PageNumber = 1;
+                                $scope.PageParameter = 1;
+                                $http.post(baseUrl + '/api/CareCoordinnator/CareCoordinator_PatientList/?Coordinator_Id=' + $scope.Doctor_Id + '&PATIENTNO=' + $scope.CC_PatientNo + '&INSURANCEID=' + $scope.CC_InsuranceId + '&GENDER_ID=' + $scope.CC_GenderId + '&NATIONALITY_ID=' + $scope.CC_NationalityId + '&ETHINICGROUP_ID=' + $scope.CC_EthinicGroupId + '&MOBILE_NO=' + $scope.CC_MOBILE_NO + '&HOME_PHONENO=' + $scope.CC_HomePhoneNo + '&EMAILID=' + $scope.CC_Email + '&MARITALSTATUS_ID=' + $scope.CC_MaritalStatus + '&COUNTRY_ID=' + $scope.CC_CountryId + '&STATE_ID=' + $scope.CC_StataId + '&CITY_ID=' + $scope.CC_CityId + '&BLOODGROUP_ID=' + $scope.CC_BloodGroupId + '&Group_Id=' + $scope.CC_GroupId + '&TypeId=' + $scope.PageParameter + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId
+                                ).success(function (patient_data) {
+                                    $scope.rowCollectionFilter = $ff(patient_data, function (value) {
+                                        angular.forEach(Patientdata, function (item) {
+                                            if (item.Id === value.Id) {
+
+                                                item.HighCount = value.HighCount;
+                                                item.MediumCount = value.MediumCount;
+                                                item.LowCount = value.LowCount;
+
+                                                return (value.HighCount > 0 && $scope.HighSelected == true) ||
+                                                    (value.MediumCount > 0 && $scope.MediumSelected == true) ||
+                                                    (value.LowCount > 0 && $scope.LowSelected == true) ||
+                                                    ($scope.NoAlertSelected == true && value.HighCount == 0 && value.MediumCount == 0 && value.LowCount == 0);
+                                            }
+                                        });
+                                    });
+                                    $scope.PatientList = Patientdata;
+                                    $scope.Patientemptydata = Patientdata;
+                                    //$scope.PatientCount = $scope.PatientList.length;
+                                    if ($scope.PatientList.length > 0) {
+                                        $scope.PatientCount = $scope.PatientList[0].TotalRecord;
                                     }
-                                    $scope.PageCountArray.push(obj);
-                                }
-                                if ($scope.PageCountArray.length > 1) {
-                                    $scope.IsPagenation = true;
-                                }
+                                    if ($scope.searchquery == '') {
+                                        total = Math.ceil(($scope.PatientCount) / ($scope.Patient_PerPage));
+                                        $scope.total_page = Math.ceil(($scope.PatientCount) / ($scope.Patient_PerPage));
+                                        for (var i = 0; i < total; i++) {
+                                            var obj = {
+                                                PageNumber: i + 1
+                                            }
+                                            $scope.PageCountArray.push(obj);
+                                        }
+                                        if ($scope.PageCountArray.length > 1) {
+                                            $scope.IsPagenation = true;
+                                        }
+                                    }
+                                    $scope.PatientFilter = angular.copy($scope.PatientList);
+                                    $scope.PatientFilterCopyList = angular.copy($scope.PatientList);
+                                    $("#chatLoaderPV").hide();
+                                });
+                            } else if ($scope.UserTypeId === "5") {
+                                $scope.CG_PatientNo = "";
+                                $scope.CG_InsuranceId = "";
+                                $scope.CG_GenderId = 0;
+                                $scope.CG_NationalityId = 0;
+                                $scope.CG_EthinicGroupId = 0;
+                                $scope.CG_MOBILE_NO = "";
+                                $scope.CG_HomePhoneNo = "";
+                                $scope.CG_Email = "";
+                                $scope.CG_MaritalStatus = 0;
+                                $scope.CG_CountryId = "0";
+                                $scope.CG_StateId = "0";
+                                $scope.CG_CityId = "0";
+                                $scope.CG_BloodGroupId = "0";
+                                $scope.CG_GroupId = "0";
+                                $scope.PageNumber = 1;
+
+                                $scope.HighSelected = false;
+                                $scope.MediumSelected = false;
+                                $scope.LowSelected = false;
+                                $scope.NoAlertSelected = false;
+
+                                $http.get(baseUrl + '/api/CareGiver/CareGiver_AssignedPatientList/?CareGiver_Id=' + $scope.Doctor_Id + '&PATIENTNO=' + $scope.CG_PatientNo + '&INSURANCEID=' + $scope.CG_InsuranceId + '&GENDER_ID=' + $scope.CG_GenderId + '&NATIONALITY_ID=' + $scope.CG_NationalityId + '&ETHINICGROUP_ID=' + $scope.CG_EthinicGroupId + '&MOBILE_NO=' + $scope.CG_MOBILE_NO + '&HOME_PHONENO=' + $scope.CG_HomePhoneNo + '&EMAILID=' + $scope.CG_Email + '&MARITALSTATUS_ID=' + $scope.CG_MaritalStatus + '&COUNTRY_ID=' + $scope.CG_CountryId + '&STATE_ID=' + $scope.CG_StataId + '&CITY_ID=' + $scope.CG_CityId + '&BLOODGROUP_ID=' + $scope.CG_BloodGroupId + '&Group_Id=' + $scope.CG_GroupId + '&PageNumber=' + $scope.PageNumber + '&Login_Session_Id=' + $scope.LoginSessionId
+                                ).success(function (patient_data) {
+                                    $scope.rowCollectionFilter = $ff(patient_data, function (value) {
+                                        angular.forEach(Patientdata, function (item) {
+                                            if (item.Id === value.Id) {
+
+                                                item.HighCount = value.HighCount;
+                                                item.MediumCount = value.MediumCount;
+                                                item.LowCount = value.LowCount;
+
+                                                return (value.HighCount > 0 && $scope.HighSelected == true) ||
+                                                    (value.MediumCount > 0 && $scope.MediumSelected == true) ||
+                                                    (value.LowCount > 0 && $scope.LowSelected == true) ||
+                                                    ($scope.NoAlertSelected == true && value.HighCount == 0 && value.MediumCount == 0 && value.LowCount == 0);
+                                            }
+                                        });
+                                    });
+                                    $scope.PatientList = Patientdata;
+                                    $scope.Patientemptydata = Patientdata;
+                                    //$scope.PatientCount = $scope.PatientList.length;
+                                    if ($scope.PatientList.length > 0) {
+                                        $scope.PatientCount = $scope.PatientList[0].TotalRecord;
+                                    }
+                                    if ($scope.searchquery == '') {
+                                        total = Math.ceil(($scope.PatientCount) / ($scope.Patient_PerPage));
+                                        $scope.total_page = Math.ceil(($scope.PatientCount) / ($scope.Patient_PerPage));
+                                        for (var i = 0; i < total; i++) {
+                                            var obj = {
+                                                PageNumber: i + 1
+                                            }
+                                            $scope.PageCountArray.push(obj);
+                                        }
+                                        if ($scope.PageCountArray.length > 1) {
+                                            $scope.IsPagenation = true;
+                                        }
+                                    }
+                                    $scope.PatientFilter = angular.copy($scope.PatientList);
+                                    $scope.PatientFilterCopyList = angular.copy($scope.PatientList);
+                                    $("#chatLoaderPV").hide();
+                                });
                             }
-                            $scope.PatientFilter = angular.copy($scope.PatientList);
-                            $scope.PatientFilterCopyList = angular.copy($scope.PatientList);
-                            $("#chatLoaderPV").hide();
+                            if ($scope.UserTypeId != "5" && $scope.UserTypeId != "6") {
+                                $scope.PatientList = Patientdata;
+                                $scope.Patientemptydata = Patientdata;
+                                //$scope.PatientCount = $scope.PatientList.length;
+                                if ($scope.PatientList.length > 0) {
+                                    $scope.PatientCount = $scope.PatientList[0].TotalRecord;
+                                }
+                                if ($scope.searchquery == '') {
+                                    total = Math.ceil(($scope.PatientCount) / ($scope.Patient_PerPage));
+                                    $scope.total_page = Math.ceil(($scope.PatientCount) / ($scope.Patient_PerPage));
+                                    for (var i = 0; i < total; i++) {
+                                        var obj = {
+                                            PageNumber: i + 1
+                                        }
+                                        $scope.PageCountArray.push(obj);
+                                    }
+                                    if ($scope.PageCountArray.length > 1) {
+                                        $scope.IsPagenation = true;
+                                    }
+                                }
+                                $scope.PatientFilter = angular.copy($scope.PatientList);
+                                $scope.PatientFilterCopyList = angular.copy($scope.PatientList);
+                                $("#chatLoaderPV").hide();
+                            }
                         });
                     });
                 });

@@ -264,6 +264,18 @@
                         <label>Cholesterol</label>
                         <span>{{row.Cholestrol_Option==''?'Unknown':row.Cholestrol_Option}}</span>
                     </div>
+                    <div class="notificationsWarnings" ng-show="row.HighCount>0">
+                        <i class="fas fa-bell highBell" ng-show="row.HighCount>0"></i>
+                        <span ng-show="row.HighCount>0">{{row.HighCount==0?'':row.HighCount}}</span>
+                    </div>
+                    <div class="notificationsWarnings mediumPosition" ng-show="row.MediumCount>0">
+                        <i class="fas fa-bell mediumBell" ng-show="row.MediumCount>0"></i>
+                        <span ng-show="row.MediumCount>0">{{row.MediumCount==0?'':row.MediumCount}}</span>
+                    </div>
+                    <div class="notificationsWarnings lowPosition" ng-show="row.LowCount>0">
+                        <i class="fas fa-bell lowBell" ng-show="row.LowCount>0"></i>
+                        <span ng-show="row.LowCount>0">{{row.LowCount==0?'':row.LowCount}}</span>
+                    </div>
                     <div class="cardViewDetails">
 
                     </div>
