@@ -234,6 +234,7 @@
     <script src="@Url.Content("~/Scripts/app/CommonController.js?v2.1.85")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/app/AppointmentSlotController.js?v2.1.85")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/app/SlotTimingController.js?v2.1.85")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/app/RecordController.js?v2.1.85")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/pageSelect.directive.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/smart-table.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/jquery.marquee.js")" type="text/javascript"></script>
@@ -1276,6 +1277,10 @@
             // create group option for Care Giver and Care Coordinator
             if (window.localStorage['UserTypeId'] != "5" && window.localStorage['UserTypeId'] != "6") {
                 $('#addGroup').hide();
+            }
+
+            if (window.localStorage['UserTypeId'] == "3" && @HttpContext.Current.Session["Recording_Type"] != "1") {
+                $('#Recording').hide();
             }
         });
 

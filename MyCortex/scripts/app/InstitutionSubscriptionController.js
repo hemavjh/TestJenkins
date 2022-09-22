@@ -44,6 +44,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
         $scope.V_Contract_Period_From = "";
         $scope.V_Contract_Period_To = "";
         $scope.Subscription_Type = "1";
+        $scope.Recording_Type = "1";
         $scope.TelePhone_User = 1;
         /* $scope.Chroniccc = false;
          $scope.Chroniccg = false;
@@ -573,6 +574,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     Contract_PeriodFrom: moment($scope.Contract_Period_From).format('DD-MMM-YYYY'),
                     Contract_PeriodTo: moment($scope.Contract_Period_To).format('DD-MMM-YYYY'),
                     Subscription_Type: $scope.Subscription_Type,
+                    Recording_Type: $scope.Recording_Type,
                     TelePhone_User: $scope.TelePhone_User,
                     Institution_Modules: $scope.InstitutionModule_List,
                     Module_List: $scope.InstitutiontypeList,
@@ -745,6 +747,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     //$scope.Contract_Period_To = $filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy");
                     $scope.Contract_Period_To = DateFormatEdit($filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy"));
                     $scope.Subscription_Type = data.Subscription_Type;
+                    $scope.Recording_Type = data.Recording_Type;
                     $scope.TelephoneList = [];
                     if (data.TelePhone_User == 0) {
                         $scope.TelePhone_User = 1;
@@ -849,6 +852,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             $scope.Contract_Period_From = "";
             $scope.Contract_Period_To = "";
             $scope.Subscription_Type = "1";
+            $scope.Recording_Type = "1";
             $scope.TelePhone_User = 1;
             $scope.InstitutionModule_List = [];
             $scope.InstitutionAddList = [];

@@ -120,6 +120,9 @@ namespace MyCortex.User.Model
         public long? MakeMeLookBusy { get; set; }
         public long? MinimumSlots { get; set; }
         public long? appointment_price { get; set; }
+        public string MerchantOrderNo { get; set; }
+        public string amount { get; set; }
+        public string status { get; set; }
     }
 
     public class AppointmentDuration

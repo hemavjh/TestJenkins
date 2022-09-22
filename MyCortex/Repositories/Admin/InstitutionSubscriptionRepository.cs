@@ -84,6 +84,7 @@ namespace MyCortex.Repositories.Admin
             param.Add(new DataParameter("@CONTRACT_PERIODFROM", obj.Contract_PeriodFrom));
             param.Add(new DataParameter("@CONTRACT_PERIODTO", obj.Contract_PeriodTo));
             param.Add(new DataParameter("@SUBSCRIPTION_TYPE", obj.Subscription_Type));
+            param.Add(new DataParameter("@RECORDING_TYPE", obj.Recording_Type));
             param.Add(new DataParameter("@TELEPHONE_USER", obj.TelePhone_User));
             param.Add(new DataParameter("@SESSION_ID", LoginSession));
             param.Add(new DataParameter("@Created_by", HttpContext.Current.Session["UserId"]));
@@ -116,6 +117,7 @@ namespace MyCortex.Repositories.Admin
                                                                //No_Of_HiveChartDevices = p.Field<int>("NOOF_HIVECHART_DEVICES"),
                                                                Contract_PeriodTo = p.Field<DateTime>("CONTRACT_PERIODTO"),
                                                                Subscription_Type = p.Field<int>("SUBSCRIPTION_TYPE"),
+                                                               Recording_Type = p.Field<int>("RECORDING_TYPE"),
                                                                TelePhone_User=p.Field<int>("TELEPHONE_USER"),
                                                                TimeZone_ID = p.Field<int>("TIMEZONE_ID"),
                                                                flag = p.Field<int>("flag"),
@@ -459,6 +461,7 @@ namespace MyCortex.Repositories.Admin
                                                     //No_Of_HiveChartDevices = p.IsNull("NOOF_HIVECHART_DEVICES") ? 0 : p.Field<int?>("NOOF_HIVECHART_DEVICES"),
                                                     Contract_PeriodTo = p.Field<DateTime>("CONTRACT_PERIODTO"),
                                                     Subscription_Type = p.Field<int>("SUBSCRIPTION_TYPE"),
+                                                    Recording_Type = p.IsNull("RECORDING_TYPE") ? 0 : p.Field<int>("RECORDING_TYPE"),
                                                     TelePhone_User=p.IsNull("TELEPHONE_USER")?0 : p.Field<int>("TELEPHONE_USER"),
                                                     TimeZone_ID = p.IsNull("TIMEZONE_ID") ? 0 : p.Field<int>("TIMEZONE_ID"),
                                                     Appointment_Module_Id = p.IsNull("APPOINTMENT_MODULE_ID") ? 0 : p.Field<int>("APPOINTMENT_MODULE_ID"),

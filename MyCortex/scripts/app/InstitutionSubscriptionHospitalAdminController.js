@@ -109,6 +109,7 @@ InstitutionSubscriptionHAcontroller.controller("InstitutionSubscriptionHospitalA
                     $scope.No_Of_HiveChart_Devices = data.No_Of_HiveChartDevices;*/
                     $scope.Contract_Period_To = $filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy");
                     $scope.Subscription_Type = data.Subscription_Type;
+                    $scope.Recording_Type = data.Recording_Type;
                     $scope.TelePhone_User = data.TelePhone_User;
                     $scope.InsSub_Id = data.SubscriptionId;
                     $scope.TimeZoneId = data.TimeZone_ID;

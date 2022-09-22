@@ -173,6 +173,7 @@ namespace MyCortex.Repositories.Login
                                   TabName = p.Field<string>("TabName"),
                                   Login_Session_Id = p.Field<Guid?>("Session_Id"),
                                   TelePhone_User = p.Field<int>("TelePhone_User"),
+                                  Recording_Type = p.IsNull("RECORDING_TYPE") ? 0 : p.Field<int>("RECORDING_TYPE"),
 
                                   UserDetails = new UserModel()
                                   {

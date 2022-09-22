@@ -515,6 +515,7 @@
     <Content Include="Masters\Views\MyhomeChart.html" />
     <Content Include="Masters\Views\Payor.html" />
     <Content Include="Masters\Views\PlanMaster.html" />
+    <Content Include="Masters\Views\Recording.html" />
     <Content Include="Masters\Views\SlotTiming.html" />
     <Content Include="Masters\Views\ChatSettings.html" />
     <Content Include="Masters\Views\DrugDBlist.html" />
@@ -591,6 +592,7 @@
     <Content Include="scripts\app\PayorMasterController.js" />
     <Content Include="scripts\app\PlanMasterController.js" />
     <Content Include="scripts\app\ProtocolController.js" />
+    <Content Include="scripts\app\RecordController.js" />
     <Content Include="scripts\app\SendEmailController.js" />
     <Content Include="scripts\app\SlotTimingController.js" />
     <Content Include="scripts\app\SMSConfigurationController.js" />
