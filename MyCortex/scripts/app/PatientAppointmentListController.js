@@ -20,6 +20,8 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
         $scope.isCometChat = "";
         $scope.isAudio = false;
         $scope.isVideoC = false;
+
+        
         $http.get(baseUrl + '/api/CommonMenu/CommonTelephone_List?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (response) {
             if (response != null) {
                 if (response.length > 0) {
@@ -203,7 +205,8 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
         }
 
         function compareAppointmentDates() {
-            $scope.calcNewYear = setInterval(checkdates(), 1000);
+            //$scope.calcNewYear = setInterval(checkdates(), 1000);
+            $scope.calcNewYear = checkdates();
         }
         $scope.show_payment_history = function (Row) {
             //$scope.paymentHistory = [];
@@ -316,11 +319,11 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
             }
         }
 
-        window.addEventListener('EndCallEvent', function (e) {
-            console.log("End Call");
-            var url = "https://mycortexdev1.vjhsoftware.in/Home/Index#/PatientVitals/0/1" //Pass Your Url
-            window.open(url, '_self')
-        }, false);
+        //window.addEventListener('EndCallEvent', function (e) {
+        //    console.log("End Call");
+        //    var url = "https://mycortexdev1.vjhsoftware.in/Home/Index#/PatientVitals/0/1" //Pass Your Url
+        //    window.open(url, '_self')
+        //}, false);
 
         $scope.openvideocall = function (patientName, ConferenceId, Row) {
             var startdate1 = moment(new Date(Row.Appointment_FromTime + 'Z'));
@@ -330,9 +333,11 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
             $scope.TextIconB = TextIcon;
             var fullname = $window.localStorage['FullName'];
             patientName = fullname;
-            if ($scope.TextIconB > $scope.PAT_APPOINTMENT_START) {
+            if ($scope.TextIconB < $scope.PAT_APPOINTMENT_START) {
                // var emp = JSON.parse(JSON.parse(window.localStorage["18792f60bb2dbf1:common_store/user"]));
+                $('#Patient_AppointmentPanel').removeClass('show');
                 $('#Patient_AppointmentPanel').addClass('hidden');
+                $('#Patient_VideoCall').removeClass('hidden');
                 $('#Patient_VideoCall').addClass('show');
                 var IsAdmin = false;
                 if ($window.localStorage["UserTypeId"] == 2) {
@@ -343,6 +348,28 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                 }
                 var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
                 document.getElementById('Patient_VideoCall').innerHTML = tag;
+
+                /*Getting the Event */
+                var GetEvent = io('https://demoserver.livebox.co.in:3030/', { transports: ['websocket'] });
+
+                /* Passing the Event */
+                GetEvent.on("endConferenceListenerData", function (conferenceData) {
+                    /* dispatch the Event */
+                    document.dispatchEvent(new CustomEvent("EndCallEvent", {
+                        detail: { conferenceData }, bubbles: true, cancelable: true, composed: false
+                    }, false));
+                });
+
+                /* addeventListener for EndcallEvent */
+                var EndcallEventClick = document;
+                EndcallEventClick.addEventListener("EndCallEvent", function (event) {
+                    var ConferenceData = event.detail.conferenceData;
+                    console.log("endCallEventPassed", ConferenceData);
+                    $('#Patient_AppointmentPanel').removeClass('hidden');
+                    $('#Patient_AppointmentPanel').addClass('show');
+                    $('#Patient_VideoCall').removeClass('show');
+                    $('#Patient_VideoCall').addClass('hidden');
+                });
             }
             else {
                 $('#Patient_AppointmentPanel').addClass('show');
