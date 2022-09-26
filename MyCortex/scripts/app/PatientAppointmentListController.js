@@ -347,7 +347,7 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                     IsAdmin = true;
                 }
                 var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
-                document.getElementById('Patient_VideoCall').innerHTML = tag;
+                document.getElementById('Patient_VideoCall').innerHTML = tag; 
 
                 /*Getting the Event */
                 var GetEvent = io('https://demoserver.livebox.co.in:3030/', { transports: ['websocket'] });
@@ -365,10 +365,13 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                 EndcallEventClick.addEventListener("EndCallEvent", function (event) {
                     var ConferenceData = event.detail.conferenceData;
                     console.log("endCallEventPassed", ConferenceData);
+                    var tag = $sce.trustAsHtml('<iframe scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+                    document.getElementById('Patient_VideoCall').innerHTML = tag;
                     $('#Patient_AppointmentPanel').removeClass('hidden');
                     $('#Patient_AppointmentPanel').addClass('show');
                     $('#Patient_VideoCall').removeClass('show');
                     $('#Patient_VideoCall').addClass('hidden');
+
                 });
             }
             else {
