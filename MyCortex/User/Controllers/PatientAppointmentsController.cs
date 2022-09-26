@@ -463,6 +463,38 @@ namespace MyCortex.User.Controller
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
+
+        [HttpGet]
+        public HttpResponseMessage GetAppointmentDoctorDetails(long DoctorId, DateTime Date, DateTime EndDate, Guid Login_Session_Id, long TimeZoneId, long Institution_Id)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<DoctorAppointmentTimeSlotModel> ModelData = new List<DoctorAppointmentTimeSlotModel>();
+            DoctorAppointmentTimeSlotReturnModel model = new DoctorAppointmentTimeSlotReturnModel();
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.GetAppointmentDoctorDetails(DoctorId, Date, EndDate, Login_Session_Id, TimeZoneId, Institution_Id);
+                model.DoctorAppointmentTimeSlotList = ModelData;
+                model.Status = "True";
+                model.Message = "List of Slots";
+                model.Error_Code = "";
+                model.ReturnFlag = 0;
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                model.Status = "False";
+                model.Message = "Error in getting Scheduled Date";
+                model.Error_Code = ex.Message;
+                model.ReturnFlag = 0;
+                model.DoctorAppointmentTimeSlotList = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
         [CheckSessionOutFilter]
         [HttpPost]
         public HttpResponseMessage AddDoctorShiftInsertUpdate([FromBody] DoctorShiftModel obj, Guid Login_Session_Id)

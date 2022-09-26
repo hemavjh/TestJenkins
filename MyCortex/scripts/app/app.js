@@ -59,6 +59,7 @@ var EmpApp = angular.module('EmpApp', [
     'AppointmentSlotController',
     'SlotTimingController',
     'DoctorAppointmentDetailsForOthersController',
+    'RecordController',
     "AppointmentApprovalController"
 ]);
 
@@ -436,6 +437,10 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         when('/HiveChart', {
             templateUrl: baseUrl + 'Masters/Views/MyhomeChart.html',
             controller: 'MyHomeController'
+        }).
+        when('/Recording', {
+            templateUrl: baseUrl + 'Masters/Views/Recording.html',
+            controller: 'RecordController'
         }).
         when('/DeviceListChart', {
             templateUrl: baseUrl + 'Masters/Views/DeviceListChart.html',

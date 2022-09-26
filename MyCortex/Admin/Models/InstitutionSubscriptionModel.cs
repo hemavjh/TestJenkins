@@ -35,6 +35,7 @@ namespace MyCortex.Admin.Models
         [Required]
         public DateTime Contract_PeriodTo { get; set; }
         public int Subscription_Type { get; set; }
+        public int Recording_Type { get; set; }
         public int TelePhone_User { get; set; }
 
         public int? IsActive { get; set; }

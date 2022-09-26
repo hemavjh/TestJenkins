@@ -315,23 +315,23 @@
                                                     </td>
                                                 </tr>
                                                 <!--<tr>
-                                                    <td>
-                                                        <label>No. of Hive BT Devices</label>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" class="form-control" id="text14" ng-model="Hive_Devices" style="width:190px" maxlength="9"
-                                                               ng-maxlength="9" onkeypress="varifyNumberPositive(event)">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label>No. of Hive Chart BT Devices</label>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" class="form-control" id="text15" ng-model="HiveChart_Devices" style="width:190px" maxlength="9"
-                                                               ng-maxlength="9" onkeypress="varifyNumberPositive(event)">
-                                                    </td>
-                                                </tr>-->
+        <td>
+            <label>No. of Hive BT Devices</label>
+        </td>
+        <td>
+            <input type="text" class="form-control" id="text14" ng-model="Hive_Devices" style="width:190px" maxlength="9"
+                   ng-maxlength="9" onkeypress="varifyNumberPositive(event)">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>No. of Hive Chart BT Devices</label>
+        </td>
+        <td>
+            <input type="text" class="form-control" id="text15" ng-model="HiveChart_Devices" style="width:190px" maxlength="9"
+                   ng-maxlength="9" onkeypress="varifyNumberPositive(event)">
+        </td>
+    </tr>-->
                                                 <tr>
                                                     <td>
                                                         <label>Contract Period<sup><font class='mandatory-field'>*</font></sup></label>
@@ -376,25 +376,42 @@
                                                         </table>
                                                     </td>
                                                 </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Recording<sup><font class='mandatory-field'>*</font></sup></label>
+                                                    </td>
+                                                    <td class="nopadding">
+                                                        <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
+                                                            <tr>
+                                                                <td>
+                                                                    <!--<div id="divInssType" class="ng-valid ddlValidationBorder" ng-required="true">-->
+                                                                    <input type="radio" value="1" ng-model="Recording_Type" ng-checked="checked='true'"> Active
+                                                                    <input type="radio" value="2" ng-model="Recording_Type"> Deactive
+                                                                    <!--</div>-->
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
                                                 <!--<tr>
-        <td>
-            <label>Chronic Edit<sup><font class='mandatory-field'>*</font></sup></label>
-        </td>
-        <td class="nopadding">
-            <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
-                <tr>
-                    <td>-->
+    <td>
+        <label>Chronic Edit<sup><font class='mandatory-field'>*</font></sup></label>
+    </td>
+    <td class="nopadding">
+        <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
+            <tr>
+                <td>-->
                                                 <!--<div id="divInssChronicEdit" class="ng-invalid ddlValidationBorder" ng-required="true">-->
                                                 <!--<input type="checkbox" class="input-checkbox" name="Chroniccc"  ng-model="Chroniccc">CC
-        <input type="checkbox" class="input-checkbox" name="Chroniccg"  ng-model="Chroniccg">CG
-        <input type="checkbox" class="input-checkbox" name="Chroniccl"  ng-model="Chroniccl">CL
-        <input type="checkbox" class="input-checkbox" name="Chronicsc"  ng-model="Chronicsc">SC-->
+    <input type="checkbox" class="input-checkbox" name="Chroniccg"  ng-model="Chroniccg">CG
+    <input type="checkbox" class="input-checkbox" name="Chroniccl"  ng-model="Chroniccl">CL
+    <input type="checkbox" class="input-checkbox" name="Chronicsc"  ng-model="Chronicsc">SC-->
                                                 <!--</div>-->
                                                 <!--</td>
-                    </tr>
-                </table>
-            </td>
-        </tr>-->
+                </tr>
+            </table>
+        </td>
+    </tr>-->
                                                 <tr>
                                                     <td width="13%">
                                                         <Lable>Appointment Module<sup><font class='mandatory-field'>*</font></sup></Lable>
@@ -754,23 +771,37 @@
                                                         </table>
                                                     </td>
                                                 </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Recording Type</label>
+                                                    </td>
+                                                    <td class="nopadding">
+                                                        <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
+                                                            <tr>
+                                                                <td>
+                                                                    {{Recording_Type==1 ? "Active" : "Deactive"}}
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
                                                 <!-- <tr>
-            <td>
-                <label>Chronic Edit<sup><font class='mandatory-field'>*</font></sup></label>
-            </td>
-            <td class="nopadding">
-                <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
-                    <tr>
-                        <td>
-                            <input type="checkbox" class="input-checkbox" name="Chroniccc" ng-init="checked=true" value="1" ng-model="Chroniccc" disabled>CC
-                            <input type="checkbox" class="input-checkbox" name="Chroniccg" ng-init="checked=true" value="1" ng-model="Chroniccg" disabled>CG
-                            <input type="checkbox" class="input-checkbox" name="Chroniccl" ng-init="checked=true" value="1" ng-model="Chroniccl" disabled>CL
-                            <input type="checkbox" class="input-checkbox" name="Chronicsc" ng-init="checked=true" value="1" ng-model="Chronicsc" disabled>SC
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>-->
+        <td>
+            <label>Chronic Edit<sup><font class='mandatory-field'>*</font></sup></label>
+        </td>
+        <td class="nopadding">
+            <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
+                <tr>
+                    <td>
+                        <input type="checkbox" class="input-checkbox" name="Chroniccc" ng-init="checked=true" value="1" ng-model="Chroniccc" disabled>CC
+                        <input type="checkbox" class="input-checkbox" name="Chroniccg" ng-init="checked=true" value="1" ng-model="Chroniccg" disabled>CG
+                        <input type="checkbox" class="input-checkbox" name="Chroniccl" ng-init="checked=true" value="1" ng-model="Chroniccl" disabled>CL
+                        <input type="checkbox" class="input-checkbox" name="Chronicsc" ng-init="checked=true" value="1" ng-model="Chronicsc" disabled>SC
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>-->
                                                 <tr>
                                                     <td width="7%">
                                                         <label>Appointment Module</label>

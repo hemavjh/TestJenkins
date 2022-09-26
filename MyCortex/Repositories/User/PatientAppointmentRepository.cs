@@ -495,6 +495,43 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
+        public IList<DoctorAppointmentTimeSlotModel> GetAppointmentDoctorDetails(long DoctorId, DateTime Date, DateTime EndDate, Guid Login_Session_Id, long TimeZoneId, long Institution_Id)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@DOCTORID", DoctorId));
+            param.Add(new DataParameter("@DATE", Date));
+            param.Add(new DataParameter("@ENDDATE", EndDate));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@TIMEZONE_ID", TimeZoneId));
+            param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[APPOINTMENT_DOCTOR_DETAILS_SP_LIST]", param);
+                List<DoctorAppointmentTimeSlotModel> lst = (from p in dt.AsEnumerable()
+                                                            select new DoctorAppointmentTimeSlotModel()
+                                                            {
+                                                                FromTime = p.Field<string>("FromTime"),
+                                                                ToTime = p.Field<string>("ToTime"),
+                                                                PatientName = p.Field<string>("PatientName"),
+                                                                id = p.Field<long>("ID"),
+                                                                Appointment_Date = p.Field<DateTime>("APPOINTMENT_DATE"),
+                                                                MerchantOrderNo = p.Field<string>("MERCHANTORDERNO"),
+                                                                amount = p.Field<string>("AMOUNT"),
+                                                                status = p.Field<string>("STATUS")
+                                                            }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
         public IList<DoctorShiftModel> DoctorShift_InsertUpdate(DoctorShiftModel obj, Guid Login_Session_Id)
         {
              _AppLogger = this.GetType().FullName;
