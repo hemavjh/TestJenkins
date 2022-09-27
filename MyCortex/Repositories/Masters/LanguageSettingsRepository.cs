@@ -164,7 +164,9 @@ namespace MyCortex.Repositories.Masters
 
                     jsonOutput.Append("\"" + item.LanguageKey + "\":\"" + item.LanguageText + "\"");
                 }
+                jsonOutput = jsonOutput.Replace("\\n\\","").Replace("\\n","").Replace("\\","");
                 var response = JsonConvert.DeserializeObject("{\"lng\":{" + jsonOutput + "}}");
+
 
                 return response;
             }
