@@ -379,7 +379,7 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
 
                     }
                     else {
-                        if (displaynameing == $window.localStorage['FullName']) {
+                        if (displaynameing == $window.localStorage['FullName'].toLocaleLowerCase()) {
                             var tag = $sce.trustAsHtml('<iframe scrolling=""  allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
                             document.getElementById('Patient_VideoCall').innerHTML = tag;
                             $('#Patient_AppointmentPanel').removeClass('hidden');
