@@ -25,6 +25,7 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                 if (response.length > 0) {
                     angular.forEach(response, function (item, index) {
                         $scope.Name = item.NAME;
+                        $scope.Recording = item.Recording_Type;
                         if ($scope.Name == 'CometChat') {
                             $('#AudioDisable').attr("disabled", true);
                             $('#videoDisable').attr("disabled", true);
@@ -315,13 +316,18 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                 $('#btnopenchat').attr("style", "display:none");
             }
         }
-
+        
         $scope.openvideocall = function (patientName, ConferenceId, Row) {
             var startdate1 = moment(new Date(Row.Appointment_FromTime + 'Z'));
             var enddate1 = moment(new Date());
             var diffTime = Math.abs(enddate1 - startdate1);
             var TextIcon = Math.floor(diffTime / (60 * 1000));
             $scope.TextIconB = TextIcon;
+            if ($scope.Recording == 1) {
+                var IsRecording = true;
+            } else {
+                var IsRecording = false;
+            }
             var fullname = $window.localStorage['FullName'];
             patientName = fullname;
             if ($scope.TextIconB < $scope.PAT_APPOINTMENT_START) {
@@ -335,7 +341,7 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                 else if ($window.localStorage["UserTypeId"] != 2) {
                     IsAdmin = true;
                 }
-                var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+                var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&recording=' + IsRecording +'" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
                 document.getElementById('Patient_VideoCall').innerHTML = tag;
             }
             else {

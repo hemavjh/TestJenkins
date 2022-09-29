@@ -84,6 +84,7 @@ namespace MyCortex.Repositories.Menu
                                               {
                                                   Id = p.Field<long>("ID"),
                                                   NAME = p.Field<string>("Name"),
+                                                  Recording_Type = p.Field<int>("Recording_Type")
                                               }).ToList();
                 return lst;
             }

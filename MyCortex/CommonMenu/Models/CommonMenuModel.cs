@@ -27,5 +27,6 @@ namespace MyCortex.CommonMenu.Models
     {
         public long Id { get; set; }
         public string NAME { get; set; }
+        public int Recording_Type { get; set; }
     }
 }
