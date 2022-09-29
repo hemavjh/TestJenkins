@@ -1272,7 +1272,7 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                         for (var ia = 0; ia < zy.length; ia++) {
                             if (zy[ia].Parameter_Id == zy[b1].Parameter_Id) {
 
-                                if (parseFloat(zy[b1].Min_Possible) < parseFloat(zy[ia].Diag_Range_Min) && parseFloat(zy[b1].Max_Possible) > parseFloat(zy[ia].Diag_Range_Max)) {
+                               // if (parseFloat(zy[b1].Min_Possible) < parseFloat(zy[ia].Diag_Range_Min) && parseFloat(zy[b1].Max_Possible) > parseFloat(zy[ia].Diag_Range_Max)) {
                                     if (zy[b1].Diag_Range == 1) {
                                         if (parseFloat(zy[b1].NormalRange_High) <= parseFloat(zy[ia].Diag_Range_Min) && parseFloat(zy[ia].Diag_Range_Min) <= parseFloat(zy[ia].Diag_Range_Max)) {
                                             if (zy[ia].Diag_Range == 2 && parseFloat(zy[ia].Diag_Range_Max) >= parseFloat(zy[b1].Diag_Range_Min)) {
@@ -1341,10 +1341,10 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                                             return;
                                         }
                                     }
-                                } else {
-                                    toastr.warning("Please enter that your min range is greater than min possible and max range is lesser than max possible", "Warning");
-                                    return;
-                                }
+                                //} else {
+                                //    toastr.warning("Please enter that your min range is greater than min possible and max range is lesser than max possible", "Warning");
+                                //    return;
+                                //}
                             }
                         }
         
