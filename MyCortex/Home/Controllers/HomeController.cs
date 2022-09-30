@@ -176,6 +176,7 @@ namespace MyCortex.Home.Controllers
                 Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
                 Response.Cache.SetNoStore();
                 Session.Abandon();
+                Session.Clear();
 
                 //var claimsIdentity = (ClaimsIdentity)User.Identity;
                 //IEnumerable<Claim> claims = claimsIdentity.Claims;

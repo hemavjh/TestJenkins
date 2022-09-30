@@ -18,7 +18,7 @@ namespace MyCortex.Repositories
         TabIdReturnModels Get_Tab_ID(long InstitutionId, string Ref_ID);
         IList<TabDevicesModel> Get_TabDevices(long Institution_ID, long Tab_ID);
         IList<TabUserModel> Get_TabUsers(long Institution_ID, long Tab_ID);
-        IList<ParameterModels> Parameter_Lists(long ParamGroup_ID, long TabId);
+        IList<ParameterModels> Parameter_Lists(long ParamGroup_ID, long TabId,long? Language_ID);
         TabUserDetails Tab_User_Validation(TabUserDetails TabLoginObj);
         TabAdminDetails Tab_Logout_Validation(TabAdminDetails TabLoginObj);
         TabUserDashBordDetails GetDashBoardListDetails(long InstitutionId, long UserId, long TabId, Guid Login_Session_Id);

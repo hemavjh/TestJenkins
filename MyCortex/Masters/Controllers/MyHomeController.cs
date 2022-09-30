@@ -401,7 +401,7 @@ namespace MyCortex.User.Controllers
         [Authorize]
         [HttpGet]
         [CheckSessionOutFilter]
-        public HttpResponseMessage Parameter_List_GroupID(long ParamGroup_ID, long TabId)
+        public HttpResponseMessage Parameter_List_GroupID(long ParamGroup_ID, long TabId,long? Language_ID)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -409,7 +409,7 @@ namespace MyCortex.User.Controllers
             ParameterReturnModels model = new ParameterReturnModels();
             try
             {
-                ModelData = repository.Parameter_Lists(ParamGroup_ID, TabId);
+                ModelData = repository.Parameter_Lists(ParamGroup_ID, TabId, Language_ID);
 
                 model.ParameterList = ModelData;
                 model.Message = "";
