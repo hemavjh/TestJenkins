@@ -27,6 +27,7 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                 if (response.length > 0) {
                     angular.forEach(response, function (item, index) {
                         $scope.Name = item.NAME;
+                        $scope.Recording = item.Recording_Type;
                         if ($scope.Name == 'CometChat') {
                             $('#AudioDisable').attr("disabled", true);
                             $('#videoDisable').attr("disabled", true);
@@ -332,6 +333,11 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
             var TextIcon = Math.floor(diffTime / (60 * 1000));
             $scope.TextIconB = TextIcon;
             $scope.EndCall = Row;
+            if ($scope.Recording == 1) {
+                var IsRecording = true;
+            } else {
+                var IsRecording = false;
+            }
             var fullname = $window.localStorage['FullName'];
             patientName = fullname;
             if ($scope.TextIconB < $scope.PAT_APPOINTMENT_START) {
@@ -391,6 +397,8 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                     
                  
                 });
+                var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&recording=' + IsRecording +'" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+                document.getElementById('Patient_VideoCall').innerHTML = tag;
             }
             else {
                 $('#Patient_AppointmentPanel').addClass('show');

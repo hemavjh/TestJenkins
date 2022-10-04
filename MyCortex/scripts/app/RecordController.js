@@ -44,7 +44,7 @@ Record.controller("RecordController", ['$scope', '$http', '$routeParams', '$loca
             }
             $scope.getTimeZoneList();
         });
-        
+
         $http.get(baseUrl + '/api/PatientAppointments/AppointmentReasonType_List/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
             $scope.AppointmentReasonTypeListTemp = [];
             $scope.AppointmentReasonTypeListTemp = data;
@@ -61,12 +61,77 @@ Record.controller("RecordController", ['$scope', '$http', '$routeParams', '$loca
         $scope.ConfigCode1 = "CURRENCY_FORMAT_TYPE";
         $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode1 + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
             $scope.CurrencyValue = data[0].ConfigValue;
-            
+
         });
         $http.get(baseUrl + '/api/Attendance/Clinician_UserList/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
             $scope.DoctorList = $ff(data, { IsActive: 1, TypeName: "Clinician" });;
-           // $scope.DoctorList = data;
+            // $scope.DoctorList = data;
         });
+
+        //$scope.onChangeDoctor = function () {
+        //    var SelectedDoctorId = "";
+        //    angular.forEach($scope.SelectedDoctor, function (Id, index) {
+        //        if ($scope.SelectedDoctor.length == 1) {
+        //            SelectedDoctorId = Id.toString();
+        //        }
+        //        else if (SelectedDoctorId != "" || $scope.SelectedDoctor.length > 1) {
+        //            SelectedDoctorId = SelectedDoctorId + Id + ',';
+
+        //        }
+        //    });
+        //    if ($scope.SelectedDoctor.length != 1) {
+        //        SelectedDoctorId = SelectedDoctorId.toString().slice(0, -1);
+        //    }
+        //}
+       
+        $scope.VideoPlay = function (row) {
+            console.log(row);
+            window.open("https://demoserver.livebox.co.in:3030/recordedvideos/0bc5ffef-95dc-40a0-bf7f-116fe1361c08/0bc5ffef-95dc-40a0-bf7f-116fe1361c08-2022-9-28:18:23:44.mp4", "_blank");
+            //let Videowindow = window.open("", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes");
+            //Videowindow("<html><head><title>Test</title><style>body{margin: 0px;}iframe{border-width: 0px;}</style></head>");
+            //Videowindow("<body><video width='100%' height='100%' src='row:" + row.recording_url + " #toolbar=0&navpanes=0&scrollbar=0'></video></body></html>");
+             }
+
+        $scope.AppointmentExport = function () {
+            var data = document.getElementById('recording');
+            var file = XLSX.utils.table_to_book(data, { sheet: "sheet1" });
+            XLSX.write(file, { bookType: 'xlsx', bookSST: true, type: 'base64' });
+            XLSX.writeFile(file, 'RecordingDetials.xlsx');
+        }
+
+        $scope.filterPaymentList = function () {
+            var searchstring1 = angular.lowercase($scope.Paymentsearch);
+            $scope.rowCollectionFilter = [];
+            if ($scope.Paymentsearch == undefined) {
+                $scope.rowCollectionFilter = [];
+                $scope.rowCollectionFilter = angular.copy($scope.rowCollectionFilter1);
+            }
+            else if ($scope.Paymentsearch == "PAID_SUCCESS") {
+                $scope.rowCollectionFilter = [];
+                $scope.rowCollectionFilter = $ff($scope.rowCollectionFilter1, function (value) {
+                    if (value.status != null && value.status != "FAILURE") {
+                        return angular.lowercase(value.status.toString()).match(searchstring1);
+                    }
+                    });
+            } else if ($scope.Paymentsearch == "FAILURE") {
+                $scope.rowCollectionFilter = [];
+                $scope.rowCollectionFilter = $ff($scope.rowCollectionFilter1, function (value) {
+                    if (value.status != null) {
+                        return angular.lowercase(value.status.toString()).match(searchstring1);
+                    }
+                    });
+            }
+        }
+        //$scope.recordedvideoURL = [];
+        //$http.get(baseUrl + '/api/User/GetVideoURL/?recordedvideoURL='+ $scope.recordedvideoURL).success(function (data) {
+        //    $scope.url = data;
+        //    if (data == 0) {
+        //        $("#newEncry").css('display', 'inline-block');
+        //    } else if (data == 1) {
+        //        $("#newEncry").css('display', 'none');
+        //    }
+        //});
+
         $scope.getTimeZoneList = function () {
             //$scope.TimeZoneList = [];
             $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
@@ -109,15 +174,29 @@ Record.controller("RecordController", ['$scope', '$http', '$routeParams', '$loca
                 return;
             }
             $("#chatLoaderPV").show();
+            var SelectedDoctorId = "";
+            angular.forEach($scope.SelectedDoctor, function (Id, index) {
+                if ($scope.SelectedDoctor.length == 1) {
+                    SelectedDoctorId = Id.toString();
+                }
+                else if (SelectedDoctorId != "" || $scope.SelectedDoctor.length > 1) {
+                    SelectedDoctorId = SelectedDoctorId + Id + ',';
+
+                }
+            });
+            if ($scope.SelectedDoctor.length != 1) {
+                SelectedDoctorId = SelectedDoctorId.toString().slice(0, -1);
+            }
             var datee = new Date($scope.SearchDate).getFullYear().toString() + '-' + (((new Date($scope.SearchDate).getMonth() + 1).toString().length > 1) ? (new Date($scope.SearchDate).getMonth() + 1).toString() : ('0' + (new Date($scope.SearchDate).getMonth() + 1).toString())) + '-' + ((new Date($scope.SearchDate).getDate().toString().length > 1) ? new Date($scope.SearchDate).getDate().toString() : ('0' + new Date($scope.SearchDate).getDate().toString()))
             var datee1 = new Date($scope.SearchEndDate).getFullYear().toString() + '-' + (((new Date($scope.SearchEndDate).getMonth() + 1).toString().length > 1) ? (new Date($scope.SearchEndDate).getMonth() + 1).toString() : ('0' + (new Date($scope.SearchEndDate).getMonth() + 1).toString())) + '-' + ((new Date($scope.SearchEndDate).getDate().toString().length > 1) ? new Date($scope.SearchEndDate).getDate().toString() : ('0' + new Date($scope.SearchEndDate).getDate().toString()))
-            $http.get(baseUrl + '/api/PatientAppointments/GetAppointmentDoctorDetails/?DoctorId=' + $scope.SelectedDoctor + '&Date=' + datee + '&EndDate=' + datee1 + '&Login_Session_Id=' + $scope.LoginSessionId + '&TimeZoneId=' + $scope.TimeZoneID + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data1) {
+            $http.get(baseUrl + '/api/PatientAppointments/GetAppointmentDoctorDetails/?DoctorIds=' + SelectedDoctorId + '&Date=' + datee + '&EndDate=' + datee1 + '&Login_Session_Id=' + $scope.LoginSessionId + '&TimeZoneId=' + $scope.TimeZoneID + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data1) {
                 $("#chatLoaderPV").hide();
+                $scope.rowCollectionFilter1 = data1.DoctorAppointmentTimeSlotList;
                 $scope.rowCollectionFilter = data1.DoctorAppointmentTimeSlotList;
-                if (data1.DoctorAppointmentTimeSlotList.length == 0) {
-                    $scope.flag = 0;
-                } else {
+                if ($scope.rowCollectionFilter > 0) {
                     $scope.flag = 1;
+                } else {
+                    $scope.flag = 0;
                 }
             }).error(function (data) { $("#chatLoaderPV").hide(); });
             //}

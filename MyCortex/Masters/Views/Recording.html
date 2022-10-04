@@ -34,119 +34,159 @@
         <div></div>
         <div></div>
     </div>
-    <div class="panel panel-default">
-        <form role="form" class="panel-body">
-            <div class="col-sm-3">
-                <div class="inputGroups">
-                    <label class="sub-title">
-                        Select Doctor<sup>
-                            <font class='mandatory-field'>*</font>
-                        </sup>
-                    </label>
-                    <select id="doctorlist" class="col-sm-12" ng-model="SelectedDoctor" data-live-search="true" data-selectpicker data-collection-name="DoctorList">
-                        <option ng-repeat="list in DoctorList" class="doc-opt" value="{{list.Id}}">{{list.FullName}}</option>
-                    </select>
+        <div class="panel panel-default">
+            <form role="form" class="panel-body">
+                <div class="col-sm-3">
+                    <div class="inputGroups">
+                        <label class="sub-title">
+                            Select Doctor<sup>
+                                <font class='mandatory-field'>*</font>
+                            </sup>
+                        </label>
+                        <!--<select id="doctorlist" ng-model="SelectedDoctor" multiselect-dropdown data-live-search="true"
+                    multiple="multiple" data-selectpicker data-collection-name="DoctorList">
+                <option ng-repeat="list in DoctorList" class="doc-opt" value="{{list.Id}}">{{list.FullName}}</option>
+            </select>-->
+                        <select ng-model="SelectedDoctor" class="col-sm-12" multiple="multiple" id="doctorlist" ng-change="onChangeDoctor()"
+                                ng-options="item1.Id as item1.FullName for item1 in DoctorList" multiselect-dropdown></select>
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="inputGroups">
-                    <label class="sub-title">
-                        Start Date<sup>
-                            <font class='mandatory-field'>*</font>
-                        </sup>
-                    </label>
-                    <input id="SearchDate" class="form-control" type="date" ng-model="SearchDate" />
+                <div class="col-sm-2">
+                    <div class="inputGroups">
+                        <label class="sub-title">
+                            Start Date<sup>
+                                <font class='mandatory-field'>*</font>
+                            </sup>
+                        </label>
+                        <input id="SearchDate" class="form-control" type="date" ng-model="SearchDate" />
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="inputGroups">
-                    <label class="sub-title">
-                        End Date<sup>
-                            <font class='mandatory-field'>*</font>
-                        </sup>
-                    </label>
-                    <input id="SearchEndDate" class="form-control" type="date" ng-model="SearchEndDate" />
+                <div class="col-sm-2">
+                    <div class="inputGroups">
+                        <label class="sub-title">
+                            End Date<sup>
+                                <font class='mandatory-field'>*</font>
+                            </sup>
+                        </label>
+                        <input id="SearchEndDate" class="form-control" type="date" ng-model="SearchEndDate" />
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="inputGroups">
-                    <label class="sub-title">
-                        Select TimeZone<sup>
-                            <font class='mandatory-field'>*</font>
-                        </sup>
-                    </label>
-                    <select id="timezone" style="width: 100%;" class="col-sm-12" ng-model="TimeZoneID" data-live-search="true" data-selectpicker data-collection-name="TimeZoneList">
-                        <option ng-repeat="list in TimeZoneList" ng-selected="TimeZoneID == set.TimeZoneId" class="{{list.TimeZoneName}}"
-                                value="{{list.TimeZoneId}}">
-                            {{list.TimeZoneDisplayName}}
-                        </option>
-                    </select>
+                <div class="col-sm-3">
+                    <div class="inputGroups">
+                        <label class="sub-title">
+                            Select TimeZone<sup>
+                                <font class='mandatory-field'>*</font>
+                            </sup>
+                        </label>
+                        <select id="timezone" style="width: 100%;" class="col-sm-12" ng-model="TimeZoneID" data-live-search="true" data-selectpicker data-collection-name="TimeZoneList">
+                            <option ng-repeat="list in TimeZoneList" ng-selected="TimeZoneID == set.TimeZoneId" class="{{list.TimeZoneName}}"
+                                    value="{{list.TimeZoneId}}">
+                                {{list.TimeZoneDisplayName}}
+                            </option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="inputGroups pt-17">
-                    <a href="javascript:void(0);" ng-click="DoctorAppointmentlist();" class="theme-btn-1 pull-right mt-15"
-                       title="Click to View Dotor Appointment List">Submit</a>
+                <div class="col-sm-2" style="right: 279px; top: -1px;">
+                    <div class="inputGroups pt-17">
+                        <a href="javascript:void(0);" ng-click="DoctorAppointmentlist();" class="theme-btn-1 pull-right mt-15"
+                           title="Click to View Dotor Appointment List">Submit</a>
+                    </div>
                 </div>
-            </div>
+                <div class="col-sm-2" style="right: 75px; bottom: 65px;">
+                    <div class="inputGroups">
+                        <label class="sub-title"> PayBy Filter </label>
+                        <select class="form-control" ng-model="Paymentsearch" id="ddlsearchfield" ng-required="true">
+                            <option value="">Select</option>
+                            <option value="PAID_SUCCESS">PAID</option>
+                            <option value="FAILURE">FAILURE</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-2" style="left: 93%; margin-top: -130px;">
+                    <div class="inputGroups">
+                        <label>&nbsp;</label>
+                        <a href="javascript:" title="Go" class="theme-btn-1 ml-20" ng-click="filterPaymentList()">Go</a>
+                    </div>
+                </div>
+                <div class="col-sm-2" style=" margin-top: -5%; left: 89%;">
+                    <div class="inputGroups">
+                        <button type="button" class="theme-btn-1 mr-10 mt-20"  ng-click="AppointmentExport()"
+                                title="Click to Download">
+                            Export to Excel
+                        </button>
+                        </div>
+                    </div>
+</form>
+        </div>
 
-        </form>
-    </div>
+        <table id="recording" st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" st-search="query"
+               class="table themeTable">
+            <thead>
+                <tr style="text-align: center">
+                    <th st-ratio="5">S.No</th>
+                    <th st-ratio="8">Appointment ID</th>
+                    <th st-ratio="10" st-sort="Generic_Name">Patient Name</th>
+                    <th st-ratio="8" st-sort="ToDate">Appointment Date</th>
+                    <th st-ratio="8" st-sort="ToDate">Appointment Time</th>
+                    <!--<th st-ratio="8" st-sort="ToDate">Appointment End Time</th>-->
+                    <th st-ratio="8">PayBy ID</th>
+                    <th st-ratio="8">PayBy Status</th>
+                    <th st-ratio="8">Amount</th>
+                    <th st-ratio="8">Recording Video URL</th>
 
-    <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" st-search="query"
-           class="table themeTable">
-        <thead>
-            <tr style="text-align: center">
-                <th st-ratio="5">S.No</th>
-                <th st-ratio="10" st-sort="Generic_Name">Patient Name</th>
-                <th st-ratio="8" st-sort="ToDate">Appointment Date</th>
-                <th st-ratio="8" st-sort="ToDate">Appointment Time</th>
-                <!--<th st-ratio="8" st-sort="ToDate">Appointment End Time</th>-->
-                <th st-ratio="8">PayBy ID</th>
-                <th st-ratio="8">PayBy Status</th>
-                <th st-ratio="8">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-if="flag==0 && rowCollectionFilter.length==0">
+                    <td colspan="15" style="text-align: center">
+                        No Data Available
+                    </td>
+                </tr>
+                <tr ng-repeat="row in emptydata">
+                    <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
 
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-if="flag==0 && rowCollectionFilter.length==0">
-                <td colspan="15" style="text-align: center">
-                    No Data Available
-                </td>
-            </tr>
-            <tr ng-repeat="row in emptydata">
-                <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+                    <td style="text-align: left">
+                        {{row.id}}
+                    </td>
 
-                <td style="text-align: left; max-width: 150px; word-wrap: break-word; ">
-                    <div class="textwrap">{{row.PatientName.length > 25 ? row.PatientName.substring(0,25)+"..." : row.PatientName}}</div>
-                </td>
-                <!--<td style="text-align: left">
+                    <td style="text-align: left; max-width: 150px; word-wrap: break-word; ">
+                        <div class="textwrap">{{row.PatientName.length > 25 ? row.PatientName.substring(0,25)+"..." : row.PatientName}}</div>
+                    </td>
+                    <!--<td style="text-align: left">
         {{row.Date}}
     </td>-->
-                <td style="text-align: left">
-                    {{row.Appointment_Date | date :'dd-MMM-yyyy' }}
-                </td>
-                <td style="text-align: center">
-                    {{row.FromTime}} - {{row.ToTime}}
-                </td>
-                <td style="text-align: center">
-                    {{row.MerchantOrderNo}}
-                </td>
-                <td style="text-align: center">
-                    {{row.status}}
-                </td>
-                <td style="text-align: center">
-                    {{CurrencyValue}} {{row.amount}}
-                </td>
-            </tr>
-        </tbody>
-        <!--<tfoot ng-show="rowCollectionFilter.length >10">
-            <tr>
-                <td colspan="15" class="text-center">
-                    <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
-                         st-template="Masters/Views/pagination.custom.html"></div>
-                </td>
-            </tr>
-        </tfoot>-->
-    </table>
-</div>
+                    <td style="text-align: left">
+                        {{row.Appointment_Date | date :'dd-MMM-yyyy' }}
+                    </td>
+                    <td style="text-align: center">
+                        {{row.FromTime}} - {{row.ToTime}}
+                    </td>
+                    <td style="text-align: center">
+                        {{row.MerchantOrderNo}}
+                    </td>
+                    <td style="text-align: center">
+                        {{row.status}}
+                    </td>
+                    <td style="text-align: center">
+
+                        <!--{{CurrencyValue}}--> AED {{row.amount}}
+                    </td>
+                    <td style="text-align: center">
+                        <div ng-hide="row.status=='FAILURE'">
+                            <button href="{{row.recording_url}}" id="test"  type="button" class="theme-btn-1 mt-10 mr-10" ng-click="VideoPlay(row)" target="_blank" controls controlsList="nodownload">
+                               View Video
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            <!--<tfoot ng-show="rowCollectionFilter.length >10">
+                <tr>
+                    <td colspan="15" class="text-center">
+                        <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                             st-template="Masters/Views/pagination.custom.html"></div>
+                    </td>
+                </tr>
+            </tfoot>-->
+        </table>
+    </div>

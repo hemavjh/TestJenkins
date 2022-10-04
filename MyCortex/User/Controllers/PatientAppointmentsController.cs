@@ -465,7 +465,7 @@ namespace MyCortex.User.Controller
         }
 
         [HttpGet]
-        public HttpResponseMessage GetAppointmentDoctorDetails(long DoctorId, DateTime Date, DateTime EndDate, Guid Login_Session_Id, long TimeZoneId, long Institution_Id)
+        public HttpResponseMessage GetAppointmentDoctorDetails(string DoctorIds, DateTime Date, DateTime EndDate, Guid Login_Session_Id, long TimeZoneId, long Institution_Id)
         {
             _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -474,7 +474,7 @@ namespace MyCortex.User.Controller
             string messagestr = "";
             try
             {
-                ModelData = repository.GetAppointmentDoctorDetails(DoctorId, Date, EndDate, Login_Session_Id, TimeZoneId, Institution_Id);
+                ModelData = repository.GetAppointmentDoctorDetails(DoctorIds, Date, EndDate, Login_Session_Id, TimeZoneId, Institution_Id);
                 model.DoctorAppointmentTimeSlotList = ModelData;
                 model.Status = "True";
                 model.Message = "List of Slots";

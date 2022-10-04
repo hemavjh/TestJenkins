@@ -123,6 +123,7 @@ namespace MyCortex.User.Model
         public string MerchantOrderNo { get; set; }
         public string amount { get; set; }
         public string status { get; set; }
+        public string recording_url { get; set; }
     }
 
     public class AppointmentDuration
