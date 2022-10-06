@@ -1378,6 +1378,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Home\Models\OpenjetModel.cs" />
+    <Compile Include="Livebox\Controllers\LiveboxController.cs" />
     <Compile Include="Login\Controller\LoginController.cs" />
     <Compile Include="Login\Model\AccountTypeModel.cs" />
     <Compile Include="Login\Model\EmployeeLoginModel.cs" />
@@ -1855,6 +1856,8 @@
     <Folder Include="Admin\Views\WebConfiguration\" />
     <Folder Include="App_Data\" />
     <Folder Include="Documents\" />
+    <Folder Include="Livebox\Models\" />
+    <Folder Include="Livebox\Views\" />
     <Folder Include="Repositories\Repositories\" />
     <Folder Include="scripts\ckeditor\skins\moono\images\hidpi\" />
   </ItemGroup>
