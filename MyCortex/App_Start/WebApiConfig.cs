@@ -18,7 +18,7 @@ namespace MyCortex
             //methods: "*");
             //config.EnableCors(cors);
 
-            EnableCorsAttribute cors = new EnableCorsAttribute("https://demoserver.livebox.co.in/", "*", "GET, POST, PUT, DELETE, OPTIONS");
+            EnableCorsAttribute cors = new EnableCorsAttribute("https://demoserver.livebox.co.in", "*", "GET, POST, PUT, DELETE, OPTIONS");
             config.EnableCors(cors);
             //config.MessageHandlers.Add(new MyCortexLogHandler());
 

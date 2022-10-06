@@ -52,21 +52,21 @@ namespace MyCortex
             
             return HttpContext.Current.Request.AppRelativeCurrentExecutionFilePath.StartsWith(_WebApiExecutionPath);
         }
-        protected void Application_BeginRequest()
-        {
-            //if (Request.Headers.AllKeys.Contains("Origin") && Request.HttpMethod == "OPTIONS")
-            //{
-            //    Response.Flush();
-            //}
-            if (Request.Headers.AllKeys.Contains("Origin") && Request.HttpMethod == "OPTIONS")
-            {
-                Response.Headers.Add("Access-Control-Allow-Origin", "https://demoserver.livebox.co.in");
-                Response.Headers.Add("Access-Control-Allow-Headers",
-                  "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-                Response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-                Response.Headers.Add("Access-Control-Allow-Credentials", "true");
-                Response.Flush();
-            }
-        }
+        //protected void Application_BeginRequest()
+        //{
+        //    //if (Request.Headers.AllKeys.Contains("Origin") && Request.HttpMethod == "OPTIONS")
+        //    //{
+        //    //    Response.Flush();
+        //    //}
+        //    if (Request.Headers.AllKeys.Contains("Origin") && Request.HttpMethod == "OPTIONS")
+        //    {
+        //        Response.Headers.Add("Access-Control-Allow-Origin", "https://demoserver.livebox.co.in");
+        //        Response.Headers.Add("Access-Control-Allow-Headers",
+        //          "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+        //        Response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        //        Response.Headers.Add("Access-Control-Allow-Credentials", "true");
+        //        Response.Flush();
+        //    }
+        //}
     }
 }
