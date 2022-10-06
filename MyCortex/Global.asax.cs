@@ -56,7 +56,10 @@ namespace MyCortex
         {
             if (Request.Headers.AllKeys.Contains("Origin"))
             {
-                Response.Flush();
+                if (Request.UrlReferrer.AbsoluteUri.Remove(Request.UrlReferrer.AbsoluteUri.Length - 1) != Request.Headers.GetValues("Origin")[0])
+                {
+                    Response.Flush();
+                }   
             }
             //if (Request.Headers.AllKeys.Contains("Origin") && Request.HttpMethod == "OPTIONS")
             //{
