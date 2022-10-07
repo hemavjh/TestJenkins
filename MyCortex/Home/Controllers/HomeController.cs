@@ -872,42 +872,42 @@ namespace MyCortex.Home.Controllers
             return Content("SUCCESS");
         }
 
-        //[HttpPost]
-        //public ActionResult LiveBoxNotify()
-        //{
-        //    try
-        //    {
-        //        int retid = 0;
-        //        Stream req = Request.InputStream;
-        //        req.Seek(0, System.IO.SeekOrigin.Begin);
-        //        string json = new StreamReader(req).ReadToEnd();
-        //        retid = liveBoxRepository.LiveBox_Notify_Log(json);
-        //        dynamic data = JsonConvert.DeserializeObject(json);
-        //        string conferencename = data.conferencename;
-        //        retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename);
-        //        //PushNotificationMessage message = new PushNotificationMessage();
-        //        //message.Title = "Notification For Call";
-        //        //message.Message = "call end";
-        //        //long userid = 102111;
-        //        //PushNotificationApiManager.sendNotification(message, 0, userid, 4);
-        //        string baseUrl = System.Web.HttpContext.Current.Request.Url.Host.ToString();
-        //        string redirectUrl = "https://" + baseUrl + "/Home/Index#/PatientVitals/0/1";
-        //        if (redirectUrl != String.Empty)
-        //        {
-        //            var controller = new PatientAppointmentsController
-        //            {
-        //                Request = new System.Net.Http.HttpRequestMessage(),
-        //                Configuration = new System.Web.Http.HttpConfiguration()
-        //            };
-        //            var response = controller.RedirectToPatientVitals(redirectUrl);
-        //        }
-        //        return Content("SUCCESS");
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return Content("Failure : " + e.Message);
-        //    }
-        //}
+        [HttpPost]
+        public ActionResult LiveBoxNotify()
+        {
+            try
+            {
+                int retid = 0;
+                Stream req = Request.InputStream;
+                req.Seek(0, System.IO.SeekOrigin.Begin);
+                string json = new StreamReader(req).ReadToEnd();
+                retid = liveBoxRepository.LiveBox_Notify_Log(json);
+                dynamic data = JsonConvert.DeserializeObject(json);
+                string conferencename = data.conferencename;
+                retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename);
+                //PushNotificationMessage message = new PushNotificationMessage();
+                //message.Title = "Notification For Call";
+                //message.Message = "call end";
+                //long userid = 102111;
+                //PushNotificationApiManager.sendNotification(message, 0, userid, 4);
+                string baseUrl = System.Web.HttpContext.Current.Request.Url.Host.ToString();
+                string redirectUrl = "https://" + baseUrl + "/Home/Index#/PatientVitals/0/1";
+                if (redirectUrl != String.Empty)
+                {
+                    var controller = new PatientAppointmentsController
+                    {
+                        Request = new System.Net.Http.HttpRequestMessage(),
+                        Configuration = new System.Web.Http.HttpConfiguration()
+                    };
+                    var response = controller.RedirectToPatientVitals(redirectUrl);
+                }
+                return Content("SUCCESS");
+            }
+            catch (Exception e)
+            {
+                return Content("Failure : " + e.Message);
+            }
+        }
 
         [HttpGet]
         public long GetUserid(string UserName)
@@ -917,58 +917,58 @@ namespace MyCortex.Home.Controllers
             return Id;
         }
 
-        //[HttpPost]
-        //public ActionResult LiveBoxVideoNotify()
-        //{
-        //    try
-        //    {
-        //        int retid = 0;
-        //        Stream req = Request.InputStream;
-        //        req.Seek(0, System.IO.SeekOrigin.Begin);
-        //        string json = new StreamReader(req).ReadToEnd();
-        //        retid = liveBoxRepository.LiveBox_Notify_Log(json);
-        //        //PushNotificationMessage message = new PushNotificationMessage();
-        //        //message.Title = "Notification For Call";
-        //        //message.Message = "call end";
-        //        //long userid = Convert.ToInt64(Session["UserId"].ToString());
-        //        //PushNotificationApiManager.sendNotification(message, 0, userid, 4);
-        //        if (json.Contains("recordedvideoURL"))
-        //        {
-        //            string conference_name = JObject.Parse(json)["conferencename"].ToString();
-        //            string recording_url = JObject.Parse(json)["recordedvideoURL"].ToString();
-        //            string Recordingurl = JObject.Parse(json)["recordedvideoURL"].ToString();
-        //            string baseUrl = System.Web.HttpContext.Current.Request.Url.Host.ToString();
-        //            string source_path = System.Web.HttpContext.Current.Server.MapPath("~/Images");
-        //            string pathToNewFolder = System.IO.Path.Combine(source_path, "Video");
-        //            DirectoryInfo directory = Directory.CreateDirectory(pathToNewFolder);
-        //            try
-        //            {
-        //                var httpRequest = System.Web.HttpContext.Current.Request;
-        //                var postedFile = httpRequest.Files[recording_url];
-        //                var fileid = System.Guid.NewGuid() + ".txt";
-        //                string returnPath = System.IO.Path.Combine(pathToNewFolder, fileid);
+        [HttpPost]
+        public ActionResult LiveBoxVideoNotify()
+        {
+            try
+            {
+                int retid = 0;
+                Stream req = Request.InputStream;
+                req.Seek(0, System.IO.SeekOrigin.Begin);
+                string json = new StreamReader(req).ReadToEnd();
+                retid = liveBoxRepository.LiveBox_Notify_Log(json);
+                //PushNotificationMessage message = new PushNotificationMessage();
+                //message.Title = "Notification For Call";
+                //message.Message = "call end";
+                //long userid = Convert.ToInt64(Session["UserId"].ToString());
+                //PushNotificationApiManager.sendNotification(message, 0, userid, 4);
+                if (json.Contains("recordedvideoURL"))
+                {
+                    string conference_name = JObject.Parse(json)["conferencename"].ToString();
+                    string recording_url = JObject.Parse(json)["recordedvideoURL"].ToString();
+                    string Recordingurl = JObject.Parse(json)["recordedvideoURL"].ToString();
+                    string baseUrl = System.Web.HttpContext.Current.Request.Url.Host.ToString();
+                    string source_path = System.Web.HttpContext.Current.Server.MapPath("~/Images");
+                    string pathToNewFolder = System.IO.Path.Combine(source_path, "Video");
+                    DirectoryInfo directory = Directory.CreateDirectory(pathToNewFolder);
+                    try
+                    {
+                        var httpRequest = System.Web.HttpContext.Current.Request;
+                        var postedFile = httpRequest.Files[recording_url];
+                        var fileid = System.Guid.NewGuid() + ".txt";
+                        string returnPath = System.IO.Path.Combine(pathToNewFolder, fileid);
 
-        //                FileStream fs = new FileStream(returnPath, FileMode.OpenOrCreate);
-        //                StreamWriter str = new StreamWriter(fs);
-        //                str.BaseStream.Seek(0, SeekOrigin.End);
-        //                str.Write(recording_url);
-        //                str.Flush();
-        //                str.Close();
-        //                fs.Close();
-        //                int response = repository.Save_Video_Call_Recording_Logs(conference_name, returnPath, Recordingurl);
-        //            }
-        //            catch (Exception err)
-        //            {
-        //                Console.WriteLine(err.Message);
-        //            }
-        //        }
-        //        return Content("SUCCESS");
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return Content("Failure : " + e.Message);
-        //    }
-        //}
+                        FileStream fs = new FileStream(returnPath, FileMode.OpenOrCreate);
+                        StreamWriter str = new StreamWriter(fs);
+                        str.BaseStream.Seek(0, SeekOrigin.End);
+                        str.Write(recording_url);
+                        str.Flush();
+                        str.Close();
+                        fs.Close();
+                        int response = repository.Save_Video_Call_Recording_Logs(conference_name, returnPath, Recordingurl);
+                    }
+                    catch (Exception err)
+                    {
+                        Console.WriteLine(err.Message);
+                    }
+                }
+                return Content("SUCCESS");
+            }
+            catch (Exception e)
+            {
+                return Content("Failure : " + e.Message);
+            }
+        }
 
         [HttpPost]
         public ActionResult RefundNotify(long id, string merchantorderno)
