@@ -56,10 +56,17 @@ namespace MyCortex
         {
             if (Request.Headers.AllKeys.Contains("Origin"))
             {
-                if (Request.Url.Scheme + "://" + Request.Url.Authority != Request.Headers.GetValues("Origin")[0])
+                if (Request.Url != null)
+                {
+                    if (Request.Url.Scheme + "://" + Request.Url.Authority != Request.Headers.GetValues("Origin")[0])
+                    {
+                        Response.Flush();
+                    }
+                }
+                else
                 {
                     Response.Flush();
-                }   
+                }
             }
             //if (Request.Headers.AllKeys.Contains("Origin") && Request.HttpMethod == "OPTIONS")
             //{
