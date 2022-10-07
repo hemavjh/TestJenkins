@@ -86,11 +86,11 @@ Record.controller("RecordController", ['$scope', '$http', '$routeParams', '$loca
        
         $scope.VideoPlay = function (row) {
             console.log(row);
-            window.open("https://demoserver.livebox.co.in:3030/recordedvideos/0bc5ffef-95dc-40a0-bf7f-116fe1361c08/0bc5ffef-95dc-40a0-bf7f-116fe1361c08-2022-9-28:18:23:44.mp4", "_blank");
-            //let Videowindow = window.open("", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes");
-            //Videowindow("<html><head><title>Test</title><style>body{margin: 0px;}iframe{border-width: 0px;}</style></head>");
-            //Videowindow("<body><video width='100%' height='100%' src='row:" + row.recording_url + " #toolbar=0&navpanes=0&scrollbar=0'></video></body></html>");
-             }
+            //window.open(" <video id=myVideo controlsList=nodownload src ='row:" + row.recording_url + "#toolbar=0&navpanes=0&scrollbar=0'></video >", "_blank");
+            let Videowindow = window.open("", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes");
+            Videowindow.document.write("<html><head><title>Test</title><style>body {margin: 0px;}iframe {border-width: 0px;}</style></head >");
+            Videowindow.document.write("<body onpageshow='playVideo()'><video width='100%' height='100%' oncontextmenu='return false;' id='myVideo' autoPlay='autoPlay' controls controlsList='nodownload'><source src='" + row.recording_url + "' type='video/mp4'></video></body><script>function playVideo(){document.getElementById('myVideo').play()}</script></html>")
+        }
 
         $scope.AppointmentExport = function () {
             var data = document.getElementById('recording');
