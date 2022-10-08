@@ -10,5 +10,6 @@ namespace MyCortex.Repositories
     {
         int LiveBox_Notify_Log(string LogText);
         int LiveBox_Notify_UPDATE(string conferencename);
+        int LiveBox_Recording_url(string conferencename, string recording_url);
     }
 }

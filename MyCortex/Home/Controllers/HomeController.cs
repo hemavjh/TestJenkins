@@ -884,11 +884,14 @@ namespace MyCortex.Home.Controllers
                 retid = liveBoxRepository.LiveBox_Notify_Log(json);
                 dynamic data = JsonConvert.DeserializeObject(json);
                 string conferencename = data.conferencename;
+                string recording_url = data.recordedvideoURL;
+                retid = liveBoxRepository.LiveBox_Recording_url(conferencename, recording_url);
                 retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename);
                 //PushNotificationMessage message = new PushNotificationMessage();
                 //message.Title = "Notification For Call";
                 //message.Message = "call end";
                 //long userid = 102111;
+
                 //PushNotificationApiManager.sendNotification(message, 0, userid, 4);
                 string baseUrl = System.Web.HttpContext.Current.Request.Url.Host.ToString();
                 string redirectUrl = "https://" + baseUrl + "/Home/Index#/PatientVitals/0/1";

@@ -522,7 +522,7 @@ namespace MyCortex.Repositories.Uesr
                                                                 MerchantOrderNo = p.Field<string>("MERCHANTORDERNO"),
                                                                 amount = p.Field<string>("AMOUNT"),
                                                                 status = p.Field<string>("STATUS"),
-                                                                recording_url = p.Field<string>("RECORDEDVIDEOURL")
+                                                                recording_url = p.Field<string>("RECORDINGURL")
                                                             }).ToList();
                 return lst;
             }
