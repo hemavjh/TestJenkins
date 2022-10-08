@@ -78,14 +78,14 @@
                                 <font class='mandatory-field'>*</font>
                             </sup>
                         </label>
-                        <select id="timezone" style="width: 100%;" class="col-sm-12" ng-model="TimeZoneID" data-live-search="true" data-selectpicker data-collection-name="TimeZoneList">
-                            <option ng-repeat="list in TimeZoneList" ng-selected="TimeZoneID == set.TimeZoneId" class="{{list.TimeZoneName}}"
-                                    value="{{list.TimeZoneId}}">
-                                {{list.TimeZoneDisplayName}}
-                            </option>
-                        </select>
+                            <select id="timezone" style="width: 100%;" class="col-sm-12" ng-model="TimeZoneID" data-live-search="true" data-selectpicker data-collection-name="TimeZoneList">
+                                <option ng-repeat="list in TimeZoneList" ng-selected="TimeZoneID == set.TimeZoneId" class="{{list.TimeZoneName}}"
+                                        value="{{list.TimeZoneId}}">
+                                    {{list.TimeZoneDisplayName}}
+                                </option>
+                            </select>
+                        </div>
                     </div>
-                </div>
                 <div class="col-sm-2" style="right: 279px; top: -1px;">
                     <div class="inputGroups pt-17">
                         <a href="javascript:void(0);" ng-click="DoctorAppointmentlist();" class="theme-btn-1 pull-right mt-15"
@@ -97,7 +97,7 @@
                         <label class="sub-title"> PayBy Filter </label>
                         <select class="form-control" ng-model="Paymentsearch" id="ddlsearchfield" ng-required="true">
                             <option value="">Select</option>
-                            <option value="PAID_SUCCESS">PAID</option>
+                            <option value="PAID">PAID</option>
                             <option value="FAILURE">FAILURE</option>
                         </select>
                     </div>
@@ -114,8 +114,8 @@
                                 title="Click to Download">
                             Export to Excel
                         </button>
-                        </div>
                     </div>
+                </div>
 </form>
         </div>
 
