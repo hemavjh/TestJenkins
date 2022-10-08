@@ -101,12 +101,15 @@ Record.controller("RecordController", ['$scope', '$http', '$routeParams', '$loca
 
         $scope.filterPaymentList = function () {
             var searchstring1 = angular.lowercase($scope.Paymentsearch);
+            angular.forEach($scope.rowCollectionFilter1, function (value, index) {
+                value.status = value.status.replace("PAID_SUCCESS", "PAID");
+            });
             $scope.rowCollectionFilter = [];
             if ($scope.Paymentsearch == undefined) {
                 $scope.rowCollectionFilter = [];
                 $scope.rowCollectionFilter = angular.copy($scope.rowCollectionFilter1);
             }
-            else if ($scope.Paymentsearch == "PAID_SUCCESS") {
+            else if ($scope.Paymentsearch == "PAID") {
                 $scope.rowCollectionFilter = [];
                 $scope.rowCollectionFilter = $ff($scope.rowCollectionFilter1, function (value) {
                     if (value.status != null && value.status != "FAILURE") {
@@ -193,6 +196,9 @@ Record.controller("RecordController", ['$scope', '$http', '$routeParams', '$loca
                 $("#chatLoaderPV").hide();
                 $scope.rowCollectionFilter1 = data1.DoctorAppointmentTimeSlotList;
                 $scope.rowCollectionFilter = data1.DoctorAppointmentTimeSlotList;
+                angular.forEach($scope.rowCollectionFilter1, function (value, index) {
+                    value.status = value.status.replace("PAID_SUCCESS", "PAID");
+                });
                 if ($scope.rowCollectionFilter > 0) {
                     $scope.flag = 1;
                 } else {
