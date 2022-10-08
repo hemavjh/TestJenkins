@@ -54,7 +54,7 @@ namespace MyCortex
         }
         protected void Application_BeginRequest()
         {
-            if (Request.Headers.AllKeys.Contains("Origin"))
+            if (Request.Headers.AllKeys.Contains("origin") || Request.Headers.AllKeys.Contains("Origin"))
             {
                 if (Request.Url != null)
                 {
