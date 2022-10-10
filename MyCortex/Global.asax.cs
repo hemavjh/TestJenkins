@@ -54,20 +54,21 @@ namespace MyCortex
         }
         protected void Application_BeginRequest()
         {
-            if (Request.Headers.AllKeys.Contains("origin") || Request.Headers.AllKeys.Contains("Origin"))
-            {
-                if (Request.Url != null)
-                {
-                    if (Request.Url.Scheme + "://" + Request.Url.Authority != Request.Headers.GetValues("Origin")[0])
-                    {
-                        Response.Flush();
-                    }
-                }
-                else
-                {
-                    Response.Flush();
-                }
-            }
+            //if (Request.Headers.AllKeys.Contains("origin") || Request.Headers.AllKeys.Contains("Origin"))
+            //{
+            //    if (Request.Url != null)
+            //    {
+            //        if (Request.Url.Scheme + "://" + Request.Url.Authority != Request.Headers.GetValues("Origin")[0])
+            //        {
+            //            Response.Flush();
+            //        }
+            //    }
+            //    else
+            //    {
+            //        Response.Flush();
+            //    }
+            //}
+
             //if (Request.Headers.AllKeys.Contains("Origin") && Request.HttpMethod == "OPTIONS")
             //{
             //    Response.Headers.Add("Access-Control-Allow-Origin", "https://localhost:49700");
