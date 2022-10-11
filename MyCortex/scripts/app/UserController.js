@@ -294,7 +294,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     angular.element('#Date_Birth').attr('max', $scope.maxdateDOB);
                 }
             });
-        //if ($window.localStorage['UserTypeId'] == 3 || $window.localStorage['UserTypeId'] == 2) {
+       //if ($window.localStorage['UserTypeId'] == 3 || $window.localStorage['UserTypeId'] == 2) {
         $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionDetailList/?Id=' + $scope.SelectedInstitutionId).success(function (data) {
 
             //this is for country code display based on settings
@@ -2000,11 +2000,77 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).success(function (data) {
                     $scope.InstitutiondetailsListTemp = [];
                     $scope.InstitutiondetailsListTemp = data;
-                    var obj = { "Id": 0, "Name": "Select", "IsActive": 0 };
+                    var obj = { "Id": 0, "Name": "Select", "IsActive": 0, "Country_ISO3": 0};
                     $scope.InstitutiondetailsListTemp.splice(0, 0, obj);
                     //$scope.InstitutiondetailsListTemp.push(obj);
                     $scope.InstitutionList = angular.copy($scope.InstitutiondetailsListTemp);
-                    $scope.InstitutionId = $scope.AdminFlowdata.toString();
+                        if ($scope.AdminFlowdata != undefined) {
+                            $scope.InstitutionId = $scope.AdminFlowdata.toString();
+                            var d = $scope.InstitutionList.filter(x => x.Id === parseInt($scope.InstitutionId));
+                            var iso2 = d[0].Country_ISO2;
+                            var countryCode = d[0].CountryCode;
+                            var input = document.querySelector("#txtMobile");
+                            var inputPhoneNo = window.intlTelInput(input, {
+                                formatOnDisplay: true,
+                                separateDialCode: true,
+                                onlyCountries: [iso2],
+                                geoIpLookup: function (callback) {
+                                    $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
+                                        var countryCode = (resp && resp.country) ? resp.country : "";
+                                        callback(countryCode);
+                                    });
+                                },
+                                //preferredCountries: ["in"],
+                                utilsScript: "scripts/utils.js",
+                            });
+                            $scope.InputPhoneNo1 = inputPhoneNo;
+                            const PhoneNumber = inputPhoneNo.getNumber();
+                            var countryData = inputPhoneNo.getSelectedCountryData();
+                            var countryCode = countryData.dialCode; // using updated doc, code has been replaced with dialCode
+                            var iso2 = countryData.iso2;
+                            var number = document.getElementById("txtMobile").value;
+                            document.getElementById("txthdCountryiso2").value = iso2;
+                            document.getElementById("txthdCountryCode").value = countryCode;
+                            document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
+                        } else if ($scope.Id == '0') {
+                            var input = document.querySelector("#txtMobile");
+                            var inputPhoneNo = window.intlTelInput(input, {
+                                formatOnDisplay: true,
+                                separateDialCode: true,
+                                geoIpLookup: function (callback) {
+                                    $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
+                                        var countryCode = (resp && resp.country) ? resp.country : "";
+                                        callback(countryCode);
+                                    });
+                                },
+                                //preferredCountries: ["in"],
+                                utilsScript: "scripts/utils.js",
+                            });
+                        } else {
+                            $http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).success(function (data) {
+                                $scope.InstitutiondetailsListTemp1 = [];
+                                $scope.InstitutiondetailsListTemp1 = data;
+                                $scope.InsListId = $scope.InsListId1;
+                                var Inslist = $scope.InstitutiondetailsListTemp1.filter(x => x.Id === parseInt($scope.InsListId));
+                                var iso2 = Inslist[0].Country_ISO2;
+                                //$scope.InstitutionId = $scope.AdminFlowdata.toString();
+                                var input = document.querySelector("#txtMobile");
+                                var inputPhoneNo = window.intlTelInput(input, {
+                                    formatOnDisplay: true,
+                                    separateDialCode: true,
+                                    onlyCountries: [iso2],
+                                    geoIpLookup: function (callback) {
+                                        $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
+                                            var countryCode = (resp && resp.country) ? resp.country : "";
+                                            callback(countryCode);
+                                        });
+                                    },
+                                    //preferredCountries: ["in"],
+                                    utilsScript: "scripts/utils.js",
+                                });
+                            });
+                    }
+
                     if ($scope.InstitutionId != "0") {
                         $('#divInstitution').removeClass("ng-invalid");
                         $('#divInstitution').addClass("ng-valid");
@@ -2015,6 +2081,33 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     }
 
                 });
+
+                //$scope.txtPhoneChange = function () {
+                //   //var input = document.querySelector("#txtMobile");
+                //    var inputPhoneNo = $scope.inputPhoneNo1;
+                //    const PhoneNumber = inputPhoneNo.getNumber();
+                //    var countryData = inputPhoneNo.getSelectedCountryData();
+                //    var countryCode = countryData.dialCode; // using updated doc, code has been replaced with dialCode
+                //    var iso2 = countryData.iso2;
+                //    countryCode = "+" + countryCode;
+                //    var number = document.getElementById("txtMobile").value;
+                //    document.getElementById("txthdCountryiso2").value = iso2;
+                //    document.getElementById("txthdCountryCode").value = countryCode;
+                //    //document.getElementById("txthdFullNumber").value = PhoneNumber;
+                //    document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
+                //    if (PhoneNumber != "") {
+                //        var isValidNum = inputPhoneNo.isValidNumber();
+                //        if (!isValidNum) {
+                //            swal.fire("Phone number invalid");
+                //            document.getElementById("txthdFullNumber").value = "";
+                //        }
+                //        else {
+                //            document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
+                //        }
+                //    }
+                //    //inputPhoneNo.setCountry(txtiso2);
+                //}
+
 
                 //$http.get(baseUrl + '/api/Common/GenderList/').success(
                 //    function (data) {
@@ -3884,7 +3977,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.Id = data.Id;
                         $scope.rowId = data.Id;
                         $scope.InstitutionId = data.INSTITUTION_ID.toString();
-
+                        $scope.InsListId1= $scope.InstitutionId;
                         $scope.DepartmentId = data.DEPARTMENT_ID.toString();
                         $scope.FirstName = data.FirstName;
                         $scope.MiddleName = data.MiddleName;
@@ -4765,13 +4858,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             });
         $scope.User_InsertUpdate = function () {
             // Mobile Number Validation...
-            var countryData = inputPhoneNo.getSelectedCountryData();
-            var countryCode = countryData.dialCode; // using updated doc, code has been replaced with dialCode
+            var countryData = $scope.InputPhoneNo1;
+            var countryCode = countryData.dialCodes; // using updated doc, code has been replaced with dialCode
 
             countryCode = "+" + countryCode;
             document.getElementById("txthdCountryCode").value = countryCode;
 
-            var isValidNum = inputPhoneNo.isValidNumber();
+            var isValidNum = $scope.InputPhoneNo1.isValidNumber();
 
             if (!isValidNum) {
                 swal.fire("Phone number invalid");

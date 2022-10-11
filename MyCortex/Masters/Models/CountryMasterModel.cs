@@ -38,6 +38,10 @@ namespace MyCortex.Masters.Models
         public long Id { get; set; }
         public string Name { get; set; }
         public int IsActive { get; set; }
+        public string Country_ISO3 { get; set; }
+        public string Country_ISO2 { get; set; }
+        public string CountryCode { get; set; }
+        public string Timezone { get; set; }
     }
 
     // to populate Dropdown
