@@ -3029,10 +3029,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.Patientemptydata = [];
                     $scope.PatientList = [];
                     $scope.PatientList = data;
-                    $scope.Patientemptydata = data;
+                    $scope.Patientemptydata = data;                    
                     if ($scope.PatientList.length > 0) {
                         $scope.PatientCount = $scope.PatientList[0].TotalRecord;
                         $scope.total_pages = Math.ceil(($scope.PatientCount) / ($scope.page_size));
+                    } else {
+                        $scope.PatientCount =0;
+                        $scope.total_pages = 0;
                     }
                 });
         }

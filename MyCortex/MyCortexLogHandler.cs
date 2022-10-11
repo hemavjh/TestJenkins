@@ -82,6 +82,15 @@ namespace MyCortex
 
     public class LogFilterAttribute : System.Web.Http.Filters.ActionFilterAttribute
     {
+        //public override void OnActionExecuting(HttpActionContext actionContext)
+        //{
+        //    //IEnumerable<string> values;
+        //    //if (actionContext.Request.Headers.TryGetValues("Origin", out values) && values.First() != actionContext.Request.RequestUri.Scheme + "://" + actionContext.Request.RequestUri.Authority)
+        //    //{
+        //    //    actionContext.Response.
+        //    //}
+        //    base.OnActionExecuting(actionContext);
+        //}
         public override void OnActionExecuted(HttpActionExecutedContext filterContext)
         {
             string requestBody = string.Empty;
