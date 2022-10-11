@@ -509,28 +509,30 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public IList<ParameterModels> Parameter_Lists(long ParamGroup_ID, long TabId)
+        public IList<ParameterModels> Parameter_Lists(long ParamGroup_ID, long TabId,long? Language_ID)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@PARAMGROUPID", ParamGroup_ID));
             param.Add(new DataParameter("@Tab_ID", TabId));
+            param.Add(new DataParameter("@Language_ID", Language_ID));
             try
             {
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_PARAMETER_LIST_ON_GROUPID]", param);
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_PARAMETER_LIST_ON_GROUPID_LANGUAGE]", param);
                 List<ParameterModels> lst = (from p in dt.AsEnumerable()
                                           select new ParameterModels()
                                           {
                                               ParameterId = p.Field<long>("ID"),
                                               ParameterName = p.Field<string>("NAME"),
+                                              DisplayParameterName = p.Field<string>("LANGUAGE_TEXT"),                                             
                                           }).ToList();
                 return lst;
             }
             catch (Exception ex)
             {
               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
-                return null;
+              return null;
             }
         }
 

@@ -5505,9 +5505,18 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
         $scope.InstitueDefaultConfiguration16 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=16', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration17();
             }).error(function (data) {
                 //alert("Error In Step 16");
                 toastr.error("Error In Step 16", "warning");
+                $scope.InstitueDefaultConfiguration17();
+            });
+        };
+        $scope.InstitueDefaultConfiguration17 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=17', $scope.InstitutionCreatedID).success(function (data) {
+            }).error(function (data) {
+                //alert("Error In Step 17");
+                toastr.error("Error In Step 17", "warning");
             });
         };
 

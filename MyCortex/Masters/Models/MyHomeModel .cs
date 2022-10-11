@@ -119,6 +119,7 @@ namespace MyCortex.Masters.Models
     {
         public long ParameterId { get; set; }
         public string ParameterName { get; set; }
+        public string DisplayParameterName { get; set; }
     }
 
     public class ParameterReturnModels
