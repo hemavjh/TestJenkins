@@ -283,7 +283,7 @@ namespace MyCortex.Masters.Models
         public int UnreadCount { get; set; }
         public int Flag { get; set; }
         public string DeviceType { get; set; }
-        public long UserTypeId { get; set; }
+        public long UserTypeId { get; set; }        
         public  TabDeviceUserDetails  UserDetails { get; set; }
         /*public IList<TabDeviceParameterDetails> TabParameterList { get; set; }*/
         public IList<TabDeviceParameterList> TabParameterList { get; set; }
@@ -328,7 +328,7 @@ namespace MyCortex.Masters.Models
         public int HighCount { get; set; }
         public int MediumCount { get; set; }
         public int LowCount { get; set; }
-
+        public string DisplayParameterName { get; set; }
     }
     public class TabDeviceUserDetails
     {
