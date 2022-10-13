@@ -166,7 +166,8 @@ namespace MyCortex.Repositories.Uesr
                                                     //   ReasonTypeId = p.Field<long>("REASONTYPE_ID"),    
                                                        //   Created_Date = p.Field<DateTime>("CREATED_DATE"),
                                                        flag = p.Field<int>("flag"),
-                                                       ConferenceId = p.Field<string>("CONFERENCE_ID")
+                                                       ConferenceId = p.Field<string>("CONFERENCE_ID"),
+                                                       Appointment_Price=p.Field<long>("Appointment_Price")
                                                    }).ToList();
             return INS;
         
