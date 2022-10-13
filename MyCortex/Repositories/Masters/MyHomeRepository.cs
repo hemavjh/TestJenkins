@@ -662,7 +662,7 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public IList<TabDashBoardAlertDetails> Get_ParameterValue(long PatientId, long UserTypeId, Guid Login_Session_Id)
+        public IList<TabDashBoardAlertDetails> Get_ParameterValue(long PatientId, long UserTypeId, Guid Login_Session_Id, long Language_Id)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -673,6 +673,7 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@PatientId", PatientId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             param.Add(new DataParameter("@ISTAB", 1));
+            param.Add(new DataParameter("@LANGUAGE_ID", Language_Id));
             try
             {
                 DataTable dt = new DataTable();
@@ -705,7 +706,8 @@ namespace MyCortex.Repositories.Masters
                                                          TypeName = p.Field<string>("TYPENAME"),
                                                          CreatedByShortName = p.Field<string>("CREATEDBY_SHORTNAME"),
                                                          ComDurationType = p.Field<string>("DurationType"),
-                                                         TimeDifference = "(" + p.Field<string>("TIME_DIFFERENCE") + ")"
+                                                         TimeDifference = "(" + p.Field<string>("TIME_DIFFERENCE") + ")",
+                                                         DisplayParameterName = p.Field<string>("LANGUAGE_TEXT"),
                                                      }).ToList();
                 return list;
             }

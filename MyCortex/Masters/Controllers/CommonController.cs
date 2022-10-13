@@ -1395,7 +1395,7 @@ namespace MyCortex.Masters.Controllers
                 model.Languages = lngrepository.InstituteLanguage_List(Institution_Id);
                 //model.LanguageText = lngrepository.LanguageKeyValue_List(Language_Id, Institution_Id);
                 //model.AppConfigurations = repository.AppConfigurationDetails(string.Empty, Institution_Id);
-                return Request.CreateResponse(HttpStatusCode.OK, model); ;
+                return Request.CreateResponse(HttpStatusCode.OK, model); 
             }
             catch (Exception ex)
             {

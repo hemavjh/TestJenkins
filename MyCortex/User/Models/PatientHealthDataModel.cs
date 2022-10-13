@@ -20,6 +20,7 @@ namespace MyCortex.User.Model
         public DateTime Created_Dt { get; set; }
         public DateTime Activity_Date { get; set; }
         public string ParameterName { get; set; }
+        public string DisplayParameterName { get; set; }
         public long ParameterId { get; set; }
         public decimal ParameterValue { get; set; }
         public decimal ParameterTarget { get; set; }

@@ -1328,7 +1328,7 @@ namespace MyCortex.User.Controller
 
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage PatientHealthData_List_On_Parameter(long Patient_Id, int OptionType_Id, long Group_Id, long Parameter_Id, Guid Login_Session_Id, int Active = 1, long UnitsGroupType = 1, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0, int IsGraphPlot = 0)
+        public HttpResponseMessage PatientHealthData_List_On_Parameter(long Patient_Id, int OptionType_Id, long Group_Id, long Parameter_Id, Guid Login_Session_Id, int Active = 1, long UnitsGroupType = 1, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0, int IsGraphPlot = 0,long Language_Id=1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -1347,7 +1347,7 @@ namespace MyCortex.User.Controller
                     EndRowNumber = Page * _metadata.per_page;
                 }
 
-                model = repository.HealthData_List_On_Parameter(Patient_Id, OptionType_Id, Group_Id, Parameter_Id, UnitsGroupType, Login_Session_Id, StartRowNumber, EndRowNumber, Active, IsGraphPlot);
+                model = repository.HealthData_List_On_Parameter(Patient_Id, OptionType_Id, Group_Id, Parameter_Id, UnitsGroupType, Login_Session_Id, StartRowNumber, EndRowNumber, Active, IsGraphPlot,Language_Id);
                 if (model != null)
                 {
                     if (model.Count > 0)
@@ -1794,7 +1794,7 @@ namespace MyCortex.User.Controller
         /// <returns></returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage PatientAppointmentList(long Patient_Id, Guid Login_Session_Id, int StartRowNumber= 0, int EndRowNumber= 0)
+        public HttpResponseMessage PatientAppointmentList(long Patient_Id, Guid Login_Session_Id, int StartRowNumber= 0, int EndRowNumber= 0,long Language_Id=1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -1803,7 +1803,7 @@ namespace MyCortex.User.Controller
             try
             {
 
-                ModelData = repository.PatientAppointmentList(Patient_Id, Login_Session_Id, StartRowNumber, EndRowNumber);
+                ModelData = repository.PatientAppointmentList(Patient_Id, Login_Session_Id, StartRowNumber, EndRowNumber,Language_Id);
                 model.Status = "True";
                 model.Message = "Patient Appointment";
                 model.Error_Code = "";
@@ -1892,7 +1892,7 @@ namespace MyCortex.User.Controller
 
         [HttpGet]
         [CheckSessionOutFilter]
-        public HttpResponseMessage PatientPreviousAppointmentList(long Patient_Id, Guid Login_Session_Id, int StartRowNumber = 0, int EndRowNumber = 0)
+        public HttpResponseMessage PatientPreviousAppointmentList(long Patient_Id, Guid Login_Session_Id, int StartRowNumber = 0, int EndRowNumber = 0,long Language_Id=1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -1901,7 +1901,7 @@ namespace MyCortex.User.Controller
             try
             {
 
-                ModelData = repository.PatientPreviousAppointmentList(Patient_Id, Login_Session_Id, StartRowNumber, EndRowNumber);
+                ModelData = repository.PatientPreviousAppointmentList(Patient_Id, Login_Session_Id, StartRowNumber, EndRowNumber,Language_Id);
                 model.Status = "True";
                 model.Message = "Patient Previous Appointments";
                 model.Error_Code = "";

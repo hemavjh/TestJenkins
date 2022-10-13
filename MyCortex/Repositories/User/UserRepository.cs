@@ -2032,7 +2032,7 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Patient_Id">Patient Id</param>
         /// <param name="OptionType_Id">Daily(1), 1 Week(2), 1 Month(3), 3 Month(4), 1 Year(5), Year Till Date(6) and All(7)</param>
         /// <returns>List of Health Data</returns>
-        public IList<PatientHealthDataModel> HealthData_List_On_Parameter(long Patient_Id, long OptionType_Id, long Group_Id, long Parameter_Id, long UnitsGroupType, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber, int Active, int IsGraphPlot)
+        public IList<PatientHealthDataModel> HealthData_List_On_Parameter(long Patient_Id, long OptionType_Id, long Group_Id, long Parameter_Id, long UnitsGroupType, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber, int Active, int IsGraphPlot,long Language_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
@@ -2045,6 +2045,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@UNITSGROUP_ID", UnitsGroupType));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             param.Add(new DataParameter("@IsGraphPlot", IsGraphPlot));
+            param.Add(new DataParameter("@Language_Id", Language_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENTHEALTH_DATA_SP_LIST]", param);
             List<PatientHealthDataModel> list = (from p in dt.AsEnumerable()
                                                  select new PatientHealthDataModel()
@@ -2053,6 +2054,7 @@ namespace MyCortex.Repositories.Uesr
                                                      RowNumber = p.Field<int>("ROW_NUM"),
                                                      ParameterId = p.Field<long>("PARAMETER"),
                                                      ParameterName = p.Field<string>("PARAMETERNAME"),
+                                                     DisplayParameterName = p.Field<string>("LANGUAGE_TEXT"),
                                                      XAxis = p.Field<string>("xaxis") ?? "",
                                                      // Average = p.IsNull("PARAM_AVG") ? 0 : p.Field<decimal>("PARAM_AVG"),
                                                      UOM_Name = p.Field<string>("UNITNAME") ?? "",
@@ -2451,7 +2453,7 @@ namespace MyCortex.Repositories.Uesr
         /// </summary>
         /// <param name="Patient_Id">Patient Id</param>
         /// <returns></returns>
-        public IList<PatientAppointmentsModel> PatientAppointmentList(long PatientId, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber)
+        public IList<PatientAppointmentsModel> PatientAppointmentList(long PatientId, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber, long Language_Id)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -2460,6 +2462,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
             param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
+            param.Add(new DataParameter("@Language_Id", Language_Id));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
             _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
@@ -2483,6 +2486,7 @@ namespace MyCortex.Repositories.Uesr
                                                           Doctor_Id = p.Field<long>("DOCTOR_ID"),
                                                           Id = p.Field<long>("Id"),
                                                           Doctor_DepartmentName = p.Field<string>("DEPARTMENT_NAME"),
+                                                          DisplayDepartmentName = p.Field<string>("LANGUAGE_TEXT"),
                                                           DoctorDepartmentId = p.Field<long>("DEPARTMENT_ID"),
                                                           ViewGenderName = p.Field<string>("GENDER_NAME"),
                                                           Institution_Id = p.Field<long>("INSTITUTION_ID"),
@@ -2594,7 +2598,7 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
-        public IList<PatientAppointmentsModel> PatientPreviousAppointmentList(long PatientId, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber)
+        public IList<PatientAppointmentsModel> PatientPreviousAppointmentList(long PatientId, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber, long Language_Id=1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -2603,6 +2607,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
             param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
+            param.Add(new DataParameter("@Language_Id", Language_Id));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
             _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
@@ -2626,6 +2631,7 @@ namespace MyCortex.Repositories.Uesr
                                                           Doctor_Id = p.Field<long>("DOCTOR_ID"),
                                                           Id = p.Field<long>("Id"),
                                                           Doctor_DepartmentName = p.Field<string>("DEPARTMENT_NAME"),
+                                                          DisplayDepartmentName = p.Field<string>("LANGUAGE_TEXT"),
                                                           ViewGenderName = p.Field<string>("GENDER_NAME"),
                                                           Payment_Status = (p.IsNull("PAYMENT_STATUS") ? "" : p.Field<string>("PAYMENT_STATUS")),
                                                       }).ToList();
