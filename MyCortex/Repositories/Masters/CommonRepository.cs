@@ -976,7 +976,11 @@ namespace MyCortex.Repositories.Masters
                                      select new ddItemList()
                                      {
                                          Id = p.Field<long>("Id"),
-                                         Name = p.Field<string>("INSTITUTION_NAME")
+                                         Name = p.Field<string>("INSTITUTION_NAME"),
+                                         Country_ISO3 = p.Field<string>("COUNTRY_ISO3"),
+                                         Country_ISO2 = p.Field<string>("COUNTRY_ISO2"),
+                                         CountryCode = p.Field<string>("COUNTRY_CODE"),
+                                         Timezone = p.Field<string>("TIMEZONE")
                                      }).ToList();
             return list;
         }

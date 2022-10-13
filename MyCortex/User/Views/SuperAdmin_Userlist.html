@@ -54,12 +54,12 @@
                     width: 300,
                     height: 300
                 }/*,
-                points: {
-                    topLeftX: 0,
-                    topLeftY: 0,
-                    bottomRightX: 0,
-                    bottomRightY: 0
-                }*/
+                    points: {
+                        topLeftX: 0,
+                        topLeftY: 0,
+                        bottomRightX: 0,
+                        bottomRightY: 0
+                    }*/
             });
 
             $('#UserLogo').on('change', function () {
@@ -99,11 +99,13 @@
             }
         });
     </script>
-    <script>
+    <!--<script>
         var input = document.querySelector("#txtMobile");
+        var iso2 = document.getElementsByName("Countryiso2").value;
         var inputPhoneNo = window.intlTelInput(input, {
             formatOnDisplay: true,
             separateDialCode: true,
+            onlyCountries: [iso2],
             geoIpLookup: function (callback) {
                 $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
                     var countryCode = (resp && resp.country) ? resp.country : "";
@@ -113,8 +115,8 @@
             //preferredCountries: ["in"],
             utilsScript: "scripts/utils.js",
         });
-        
-        //inputPhoneNo.setNumber("+91 98765 43210");
+
+        // inputPhoneNo.setNumber("+91 98765 43210");
 
         function txtPhoneChange() {
             //alert("event fired");
@@ -123,7 +125,6 @@
             //var txtiso2 = document.getElementById("txthdCountryiso2").value;
             //alert(txtiso2);
             //inputPhoneNo.setCountry(txtiso2);
-
             const PhoneNumber = inputPhoneNo.getNumber();
             //alert(PhoneNumber);
 
@@ -151,7 +152,7 @@
                 //alert(isValidNum);
                 if (!isValidNum) {
                     //toastr.error("Phone Number Invalid", "warning");
-                   // alert("Phone number invalid");
+                    // alert("Phone number invalid");
                     swal.fire("Phone number invalid");
                     document.getElementById("txthdFullNumber").value = "";
                 }
@@ -162,7 +163,35 @@
 
             //inputPhoneNo.setCountry(txtiso2);
         }
-    </script>
+    </script>-->
+
+    <!--<script>
+        var input = document.querySelector("#txtMobile");
+        function txtPhoneChange() {
+            var inputPhoneNo = document.getElementsByName("inputPhoneNo").value;
+            var iso2 = document.getElementById("txthdCountryiso2").value;
+            const PhoneNumber = inputPhoneNo.getNumber();
+            var countryData = inputPhoneNo.getSelectedCountryData();
+            var countryCode = countryData.dialCode; // using updated doc, code has been replaced with dialCode
+            var iso2 = countryData.iso2;
+            countryCode = "+" + countryCode;
+            var number = document.getElementById("txtMobile").value;
+            document.getElementById("txthdCountryiso2").value = iso2;
+            document.getElementById("txthdCountryCode").value = countryCode;
+            //document.getElementById("txthdFullNumber").value = PhoneNumber;
+            document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
+            if (PhoneNumber != "") {
+                var isValidNum = inputPhoneNo.isValidNumber();
+                //alert(isValidNum);
+                if (!isValidNum) {
+                    swal.fire("Phone number invalid");
+                    document.getElementById("txthdFullNumber").value = "";
+                }
+                else {
+                    document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
+                }
+            }
+    </script>-->
 </head>
 <style>
     .toggle {
@@ -573,7 +602,7 @@
                                                 <!--<input type="text" class="form-control" id="txtMobile" name="FirstName"
                                                 ng-model="MobileNo" ng-init="MobileNo=''" onblur="txtPhoneChange()" ng-required="true" />-->
                                                 <input type="text" class="form-control" id="txtMobile" name="tel"
-                                                       ng-model="MobileNo" ng-required="true" onblur="txtPhoneChange()" />
+                                                       ng-model="MobileNo" ng-required="true" />
                                             </td>
                                         </tr>
                                     </table>

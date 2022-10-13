@@ -108,8 +108,8 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                 $scope.Id = InsSubId;
                 $scope.Hcp_Pat = true;
                 $scope.status = 0;
-                $scope.Institutestatus();
                 $scope.InstitutionSubscriptionDetails_View();
+                $scope.Institutestatus();
                 $('#btnsave').attr("disabled", false);
                 $("#insselectpicker").attr("disabled", true);
                 angular.element('#InstitutionSubscriptionCreateModal').modal('show');
@@ -135,37 +135,63 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             $scope.Id = 1;
             $location.path("/SaveInstitution_Subscription/");
         };
+
+
         // This is for to get Institution Details List 
         $scope.Institutestatus = function () {
-            $http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).success(function (data) {
-                $scope.InstitutiondetailsListTemp = [];
-                $scope.InstitutiondetailsListTemp = data;
-                var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
-                $scope.InstitutiondetailsListTemp.splice(0, 0, obj);
-                //$scope.InstitutiondetailsListTemp.push(obj);
-                $scope.InstitutiondetailsList = angular.copy($scope.InstitutiondetailsListTemp);
-                $scope.Institution_Id = $scope.serviceData.toString();
+                $http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).success(function (data) {
+                    $scope.InstitutiondetailsListTemp = [];
+                    $scope.InstitutiondetailsListTemp = data;
+                    var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+                    $scope.InstitutiondetailsListTemp.splice(0, 0, obj);
+                    //$scope.InstitutiondetailsListTemp.push(obj);
+                    $scope.InstitutiondetailsList = angular.copy($scope.InstitutiondetailsListTemp);
+                    if ($scope.serviceData != undefined) {
+                        $scope.Institution_Id = $scope.serviceData.toString();
+                        var d = $scope.InstitutiondetailsList.filter(x => x.Id === parseInt($scope.Institution_Id));
+                        console.log(d);
+                        var offset = d[0].Timezone;
+                        var offset1 = offset.replace(/\\/g, "");
+                        var offset2 = JSON.parse(offset1);
+                        $scope.getoffset = offset2[0].gmtOffsetName;
+                        $scope.getoffset1 = $scope.getoffset.replace(/UTC/g, "");
+                        $scope.Zone = [];
+                        $scope.Zone = $scope.TimeZoneListID.filter(x => x.UtcOffSet === ($scope.getoffset1));
+                        $scope.TimeZoneListID = $scope.Zone;
+                    } else if ($scope.Id != '0') {
+                        $scope.Institution_Id1 = $scope.Institution_Id;
+                        var d = $scope.InstitutiondetailsListTemp.filter(x => x.Id === parseInt($scope.Institution_Id1));
+                        var offset = d[0].Timezone;
+                        var offset1 = offset.replace(/\\/g, "");
+                        var offset2 = JSON.parse(offset1);
+                        $scope.getoffset = offset2[0].gmtOffsetName;
+                        $scope.getoffset1 = $scope.getoffset.replace(/UTC/g, "");
+                        $scope.Zone = [];
+                        $scope.Zone = $scope.TimeZoneListID.filter(x => x.UtcOffSet === ($scope.getoffset1));
+                        $scope.TimeZoneListID = $scope.Zone;
+                    } else {
+                        $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                            $scope.TimeZoneListID = data;
+                        });
+                    }
 
-                if ($scope.Institution_Id != "0") {
-                    $('#divInssInstitute').removeClass("ng-invalid");
-                    $('#divInssInstitute').addClass("ng-valid");
-                }
-                else {
-                    $('#divInssInstitute').removeClass("ng-valid");
-                    $('#divInssInstitute').addClass("ng-invalid");
-                }
+                    if ($scope.Institution_Id != "0") {
+                        $('#divInssInstitute').removeClass("ng-invalid");
+                        $('#divInssInstitute').addClass("ng-valid");
+                    }
+                    else {
+                        $('#divInssInstitute').removeClass("ng-valid");
+                        $('#divInssInstitute').addClass("ng-invalid");
+                    }
 
-                $scope.InstituteGetDetails();
+                    $scope.InstituteGetDetails();
 
-            })
+                })
         }
         // This is for to get Institution Modiule List 
         $http.get(baseUrl + '/api/InstitutionSubscription/ModuleNameList/').success(function (data) {
             // only active Module    
             $scope.InstitutiontypeList = data;
-        });
-        $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-            $scope.TimeZoneListID = data;
         });
         // This is for to get Institution Language List 
         $http.get(baseUrl + '/api/InstitutionSubscription/LanguageNameList/').success(function (data) {
@@ -838,7 +864,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                 window.location.href = baseUrl + "/Home/LoginIndex";
             }
         };
-       
+
         //This is for clear the contents in the Page
         $scope.ClearInstitutionSubscriptionPopup = function () {
             $scope.Health_Care_Professionals = "";

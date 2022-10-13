@@ -288,7 +288,7 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
         $scope.weeklist = [{ day: 'S', status: 0, days: 'Su' }, { day: 'M', status: 0, days: 'Mo' }, { day: 'T', status: 0, days: 'Tu' }, { day: 'W', status: 0, days: 'We' }, { day: 'T', status: 0, days: 'Th' }, { day: 'F', status: 0, days: 'Fr' }, { day: 'S', status: 0, days: 'Sa' }];
         $scope.weeks = 0;
         $scope.index = 0;
-        $scope.Ranges = [{id: 0, name: 'Select'},{ id: 1, name: 'High' }, { id: 2, name: 'Medium' }, { id: 3, name: 'Low' }, { id: 4, name: 'Low' }, { id: 5, name: 'Medium' }, { id: 6, name: 'High' }]
+        $scope.Ranges = [{ id: 0, name: 'Select' }, { id: 1, name: 'High' }, { id: 2, name: 'Medium' }, { id: 3, name: 'Low' }] //, { id: 4, name: 'Low' }, { id: 5, name: 'Medium' }, { id: 6, name: 'High' }
         $scope.Diagostic_ParameterSettingslist = [{
             'Id': 0,
             'Parameter_Id': 0,
@@ -1538,7 +1538,7 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                     //}
                 ]
             }];
-            $scope.Ranges = [{ id: 0, name: 'Select' }, { id: 1, name: 'High' }, { id: 2, name: 'Medium' }, { id: 3, name: 'Low' }, { id: 4, name: 'Low' }, { id: 5, name: 'Medium' }, { id: 6, name: 'High' }]
+            $scope.Ranges = [{ id: 0, name: 'Select' }, { id: 1, name: 'High' }, { id: 2, name: 'Medium' }, { id: 3, name: 'Low' }] //, { id: 4, name: 'Low' }, { id: 5, name: 'Medium' }, { id: 6, name: 'High' }
             $scope.Diagostic_ParameterSettingslist = [{
                 'Id': 0,
                 'Parameter_Id': 0,

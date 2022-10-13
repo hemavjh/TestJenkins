@@ -1,6 +1,6 @@
-﻿    
+﻿
 <script>
-    
+
 
     $(function () {
 
@@ -47,71 +47,112 @@
             padding: 10px;
             cursor: pointer;
         }
-        pre{
-            display: none;
-        }
+
+    pre {
+        display: none;
+    }
 </style>
 
-    <div class="loginContainer">
-        <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
-        <div ng-hide="Productlogin == 1">
-            <img src="{{PrdImg}}" style="width: 13%; margin-bottom: -60px; margin-left: -7px;">
-            <h1>{{ProductName1}} Sign In</h1>
+
+<div class="loginContainer" ng-hide="ProductName1 == 'Hive'">
+    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+    <div ng-show="Productlogin ==0 && ProductName1 == 'MyCortex'">
+        <img src="{{PrdImg}}" style="width: 13%; margin-bottom: -60px; margin-left: -7px;">
+        <h1>{{ProductName1}} Sign In</h1>
+    </div>
+    <div ng-show="Productlogin ==1 && ProductName1 == 'MyHealth'">
+        <!--<h3>Sign In</h3>
+        <h2>New to {{ProductName1}}? Sign Up</h2>-->
+        <img src="{{PrdImg}}" style="width: 13%; margin-bottom: -68px; margin-left: -10px; ">
+        <h1>{{ProductName1}} Sign In</h1>
+    </div>
+    <!--<div ng-show="ProductName1 == 'Hive'">
+        <label style="color: #100146; font-family: 'Red Hat Display'; font-style: normal; font-weight: 800; font-size: 32px; line-height: 40px; position: absolute; width: 87px; height: 40px; left: 179px; top: 0px;">LogIn</label>
+        <label style="position: absolute; width: 203px; height: 24px; left: 133px; top: 52px; font-family: 'Red Hat Display'; font-style: normal; font-weight: 400; font-size: 16px; line-height: 24px; /* identical to box height, or 150% */ font-feature-settings: 'salt' on, 'liga' off; /* Dark!! */ color: #242424;">please login to your account</label>
+    </div>-->
+
+    <form>
+        <div class="inputGroups">
+            <label>Username</label>
+            <input type="text" placeholder="Enter Your Username" required="required" ng-model="Username" name="username"
+                   class="form-control" onkeypress="EmailFormate(event)" ng-keypress="usernamekeypress($event)" ng-keyup="$event.keyCode == 13 && UserLogin_AddEdit()">
         </div>
-        <div ng-hide="Productlogin == 0">
-            <!--<h3>Sign In</h3>
-            <h2>New to {{ProductName1}}? Sign Up</h2>-->
-            <img src="{{PrdImg}}" style="width: 13%; margin-bottom: -60px; margin-left: -7px;">
-            <h1>{{ProductName1}} Sign In</h1>
+
+        <label>Password</label>
+        <div class="viewPasswordClass">
+            <i class="fa fa-eye" id="viewPassword" style="cursor:pointer"></i>
+            <input type="password" id="psw" placeholder="Enter Your Password" required="required" ng-model="Password"
+                   ng-keyup="$event.keyCode == 13 && UserLogin_AddEdit()" name="psw" class="form-control">
         </div>
-        <form>
-            <div class="inputGroups">
-                <label>Username</label>
-                <input type="text" placeholder="Enter Your Username" required="required" ng-model="Username" name="username"
-                       class="form-control" onkeypress="EmailFormate(event)" ng-keypress="usernamekeypress($event)" ng-keyup="$event.keyCode == 13 && UserLogin_AddEdit()">
+        <div class="alert alert-danger def" ng-if="errorlist!=null">
+            <div ng-if="errorlist!=null">
+                {{errorlist}}
             </div>
-            
-            <label>Password</label>
+        </div>
+        <button ng-hide="ProductName1 == 'Hive'" type="button" class="loginBtn" ng-click="UserLogin_AddEdit()">Log in</button>
+        <div class="row">
+            <div class="col-xs-6">
+                <input ng-model="remember" name="remember" type="checkbox" ng-keyup="$event.keyCode == 13 && rememberMe()">
+                <label for="rem" class="pr-8">Remember Me</label>
+            </div>
+            <div class="col-xs-6 text-right">
+                <a href="#" data-toggle="modal" data-target="#forgotPasswordModal" class="prl-8">Forgot Password?</a>
+            </div>
+        </div>
+        <!-- <h2>Or login with</h2>
+        <div class="row">
+            <div class="col-xs-6">
+                <a href="#" title="Facebook" class="loginOptions" ng-click="getAccessToken();">
+                    <img src="./images/fb.png" style="width:30px;height:30px;" />
+                    <span>Facebook</span>
+                </a>
+            </div>
+            <div class="col-xs-6">
+                <a href="#" title="Google" class="loginOptions" ng-click="GoogleLogin()">
+                    <img src="./images/google.png" style="width:30px;height:30px;" />
+                    <span>Google</span>
+                </a>
+            </div>
+        </div>-->
+        <!--<div class="version">
+            V1.3
+        </div>-->
+    </form>
+</div>
+
+<div ng-show="ProductName1 == 'Hive'" class="containerhiv" style="top: 10px;"><img style="width: 150px;" src="{{PrdImg}}"> </div>
+<div class="container1" ng-show="ProductName1 == 'Hive'">
+    <form>
+        <div ng-show="ProductName1 == 'Hive'">
+            <label style="color: #100146; font-family: 'Red Hat Display'; font-style: normal; font-weight: 800; font-size: 32px; line-height: 40px; position: absolute; width: 87px; height: 40px; left: 210px; top: 0px;">LogIn</label>
+            <label style="position: absolute; width: 203px; height: 24px; left: 165px; top: 52px; font-family: 'Red Hat Display'; font-style: normal; font-weight: 400; font-size: 16px; line-height: 24px; /* identical to box height, or 150% */ font-feature-settings: 'salt' on, 'liga' off; /* Dark!! */ color: #242424; ">please login to your account</label>
+        </div>
+        <div class="inputGroups" style="margin-top: 70px; ">
+            <label style="font-family: 'Red Hat Display';">Username</label>
+            <input type="text" placeholder="Enter Your Username" required="required" ng-model="Username" name="username"
+                   class="form-control" onkeypress="EmailFormate(event)" ng-keypress="usernamekeypress($event)" ng-keyup="$event.keyCode == 13 && UserLogin_AddEdit()">
+        </div>
+        <div style="margin-top: 25px;">
+            <label style="font-family: 'Red Hat Display';">Password</label>
             <div class="viewPasswordClass">
                 <i class="fa fa-eye" id="viewPassword" style="cursor:pointer"></i>
                 <input type="password" id="psw" placeholder="Enter Your Password" required="required" ng-model="Password"
                        ng-keyup="$event.keyCode == 13 && UserLogin_AddEdit()" name="psw" class="form-control">
             </div>
-            <div class="alert alert-danger def" ng-if="errorlist!=null">
-                <div ng-if="errorlist!=null">
-                    {{errorlist}}
-                </div>
+        </div>
+        <div class="alert alert-danger def" ng-if="errorlist!=null">
+            <div ng-if="errorlist!=null">
+                {{errorlist}}
             </div>
-            <button type="button" class="loginBtn" ng-click="UserLogin_AddEdit()">Log in</button>
-            <div class="row">
-                <div class="col-xs-6">
-                    <input ng-model="remember" name="remember" type="checkbox" ng-keyup="$event.keyCode == 13 && rememberMe()">
-                    <label for="rem" class="pr-8">Remember Me</label>
-                </div>
-                <div class="col-xs-6 text-right">
-                    <a href="#" data-toggle="modal" data-target="#forgotPasswordModal" class="prl-8">Forgot Password?</a>
-                </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 text-right" style="left: 145px; top: 41px; width: 161px; height: 19px; font-family: 'Red Hat Display'; font-style: normal; font-weight: 400; font-size: 16px; line-height: 116%; color: #242424;  flex: none; order: 1; flex-grow: 0; ">
+                <a href="#" data-toggle="modal" style="top: 130px;" data-target="#forgotPasswordModal" class="prl-8">Forgot Password?</a>
             </div>
-           <!-- <h2>Or login with</h2>
-            <div class="row">
-                <div class="col-xs-6">
-                    <a href="#" title="Facebook" class="loginOptions" ng-click="getAccessToken();">
-                        <img src="./images/fb.png" style="width:30px;height:30px;" />
-                        <span>Facebook</span>
-                    </a>
-                </div>
-                <div class="col-xs-6">
-                    <a href="#" title="Google" class="loginOptions" ng-click="GoogleLogin()">
-                        <img src="./images/google.png" style="width:30px;height:30px;" />
-                        <span>Google</span>
-                    </a>
-                </div>
-            </div>-->
-            <!--<div class="version">
-        V1.3
-    </div>-->
-        </form>
-    </div>
+        </div>
+        <button class="buttonhiv" type="button" ng-click="UserLogin_AddEdit()">Log in</button>
+    </form>
+</div>
 
 <div id="signupModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -122,106 +163,106 @@
                 <h4 class="modal-title">Signup</h4>
             </div>
             <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="inputGroups">
-                                <label for="email">First Name<sup><font class='mandatory-field'>*</font></sup></label>
-                                <input type="text" class="form-control" name="FirstName" ng-model="FirstName"
-                                       ng-required="true" onkeypress="ParticularSpec(event)" placeholder="" ng-maxlength="100"
-                                       maxlength="100" />
-                            </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="inputGroups">
+                            <label for="email">First Name<sup><font class='mandatory-field'>*</font></sup></label>
+                            <input type="text" class="form-control" name="FirstName" ng-model="FirstName"
+                                   ng-required="true" onkeypress="ParticularSpec(event)" placeholder="" ng-maxlength="100"
+                                   maxlength="100" />
                         </div>
-                        <div class="col-sm-6">
-                            <div class="inputGroups">
-                                <label for="email">Middle Name</label>
-                                <input type="text" class="form-control" name="MiddleName" ng-model="MiddleName"
-                                       ng-required="true" onkeypress="ParticularSpec(event)" placeholder="" ng-maxlength="100"
-                                       maxlength="100" />
-                            </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="inputGroups">
+                            <label for="email">Middle Name</label>
+                            <input type="text" class="form-control" name="MiddleName" ng-model="MiddleName"
+                                   ng-required="true" onkeypress="ParticularSpec(event)" placeholder="" ng-maxlength="100"
+                                   maxlength="100" />
                         </div>
-                        <div class="col-sm-6">
-                            <div class="inputGroups">
-                                <label for="LastName">Last Name<sup><font class='mandatory-field'>*</font></sup></label>
-                                <input type="text" class="form-control" name="LastName" ng-model="LastName"
-                                       ng-required="true" onkeypress="ParticularSpec(event)" placeholder="" ng-maxlength="100"
-                                       maxlength="100" />
-                            </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="inputGroups">
+                            <label for="LastName">Last Name<sup><font class='mandatory-field'>*</font></sup></label>
+                            <input type="text" class="form-control" name="LastName" ng-model="LastName"
+                                   ng-required="true" onkeypress="ParticularSpec(event)" placeholder="" ng-maxlength="100"
+                                   maxlength="100" />
                         </div>
-                        <div class="col-sm-6">
-                            <div class="inputGroups">
-                                <label for="email">MRN No.<sup><font class='mandatory-field'>*</font></sup></label>
-                                <input type="text" class="form-control" name="MNR_No" ng-model="MNR_No" ng-init="MNR_No=''"
-                                       ng-required="true" onkeypress="" placeholder="" ng-maxlength="50" maxlength="50" />
-                            </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="inputGroups">
+                            <label for="email">MRN No.<sup><font class='mandatory-field'>*</font></sup></label>
+                            <input type="text" class="form-control" name="MNR_No" ng-model="MNR_No" ng-init="MNR_No=''"
+                                   ng-required="true" onkeypress="" placeholder="" ng-maxlength="50" maxlength="50" />
                         </div>
-                        <div class="col-sm-6">
-                            <div class="inputGroups">
-                                <label for="email">National ID</label>
-                                <input type="text" class="form-control" name="NationalId" ng-model="NationalId"
-                                       ng-init="NationalId=''" placeholder="" ng-maxlength="50" maxlength="50" onkeypress="" />
-                            </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="inputGroups">
+                            <label for="email">National ID</label>
+                            <input type="text" class="form-control" name="NationalId" ng-model="NationalId"
+                                   ng-init="NationalId=''" placeholder="" ng-maxlength="50" maxlength="50" onkeypress="" />
                         </div>
-                        <div class="col-sm-6">
-                            <div class="inputGroups">
-                                <label for="email">Insurance ID</label>
-                                <input type="text" class="form-control" name="InsuranceId" ng-model="InsuranceId"
-                                       ng-init="InsuranceId=''" placeholder="" ng-maxlength="50" maxlength="50" onkeypress="NoSpecChar(event)" />
-                            </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="inputGroups">
+                            <label for="email">Insurance ID</label>
+                            <input type="text" class="form-control" name="InsuranceId" ng-model="InsuranceId"
+                                   ng-init="InsuranceId=''" placeholder="" ng-maxlength="50" maxlength="50" onkeypress="NoSpecChar(event)" />
                         </div>
-                        <div class="col-sm-6">
-                            <div class="inputGroups">
-                                <label for="email">Sex<sup><font class='mandatory-field'>*</font></sup></label>
-                                <select class="form-control" ng-model="GenderId" ng-required="true">
-                                    <option value="0">Select</option>
-                                    <option ng-repeat="sel in GenderList" ng-selected="GenderId==sel.Id" value="{{sel.Id}}">
-                                        {{sel.Gender_Name}}
-                                    </option>
-                                </select>
-                            </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="inputGroups">
+                            <label for="email">Sex<sup><font class='mandatory-field'>*</font></sup></label>
+                            <select class="form-control" ng-model="GenderId" ng-required="true">
+                                <option value="0">Select</option>
+                                <option ng-repeat="sel in GenderList" ng-selected="GenderId==sel.Id" value="{{sel.Id}}">
+                                    {{sel.Gender_Name}}
+                                </option>
+                            </select>
                         </div>
-                        <div class="col-sm-6">
-                            <div class="inputGroups">
-                                <label for="email">Nationality<sup><font class='mandatory-field'>*</font></sup></label>
-                                <select class="form-control" placeholder="Nationality" ng-model="NationalityId"
-                                        ng-required="true">
-                                    <option value="0">Select</option>
-                                    <option ng-repeat="sel in NationalityList" ng-selected="NationalityId==sel.Id" value="{{sel.Id}}">
-                                        {{sel.Name}}
-                                    </option>
-                                </select>
-                            </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="inputGroups">
+                            <label for="email">Nationality<sup><font class='mandatory-field'>*</font></sup></label>
+                            <select class="form-control" placeholder="Nationality" ng-model="NationalityId"
+                                    ng-required="true">
+                                <option value="0">Select</option>
+                                <option ng-repeat="sel in NationalityList" ng-selected="NationalityId==sel.Id" value="{{sel.Id}}">
+                                    {{sel.Name}}
+                                </option>
+                            </select>
                         </div>
-                        <div class="col-sm-6">
-                            <div class="inputGroups">
-                                <label for="email">DOB<sup><font class='mandatory-field'>*</font></sup></label>
-                                <div class="date">
-                                    <!--<input type="text" placeholder="" class="form-control dateIcon" ng-model="DOB" ng-init="DOB=''"
-                                                ng-required="true">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>-->
-                                    <input type="date" placeholder="" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required"
-                                           ng-model="DOB" ng-init="DOB=''" ng-required="true">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="inputGroups">
-                                <label for="email">Email<sup><font class='mandatory-field'>*</font></sup></label>
-                                <input type="text" class="form-control" name="" ng-model="EmailId" ng-init="EmailId=''"
-                                       ng-required="true" placeholder="" ng-maxlength="50" maxlength="50" style="text-transform: lowercase;" />
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="inputGroups">
-                                <label for="email">Mobile No.<sup><font class='mandatory-field'>*</font></sup></label>
-                                <input type="text" class="form-control" name="" ng-model="MobileNo" ng-maxlength="20"
-                                       maxlength="20" onkeypress="OnlySpecCharNum(event)" ng-required="true" placeholder="" />
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="inputGroups">
+                            <label for="email">DOB<sup><font class='mandatory-field'>*</font></sup></label>
+                            <div class="date">
+                                <!--<input type="text" placeholder="" class="form-control dateIcon" ng-model="DOB" ng-init="DOB=''"
+                                            ng-required="true">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>-->
+                                <input type="date" placeholder="" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required"
+                                       ng-model="DOB" ng-init="DOB=''" ng-required="true">
                             </div>
                         </div>
                     </div>
-                    <button type="button" class="theme-btn-1 mt-10"  title="Click to Submit Signup Details"
-                            ng-click="SignupLogin_AddEdit()">
-                        Submit
-                    </button>
+                    <div class="col-sm-6">
+                        <div class="inputGroups">
+                            <label for="email">Email<sup><font class='mandatory-field'>*</font></sup></label>
+                            <input type="text" class="form-control" name="" ng-model="EmailId" ng-init="EmailId=''"
+                                   ng-required="true" placeholder="" ng-maxlength="50" maxlength="50" style="text-transform: lowercase;" />
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="inputGroups">
+                            <label for="email">Mobile No.<sup><font class='mandatory-field'>*</font></sup></label>
+                            <input type="text" class="form-control" name="" ng-model="MobileNo" ng-maxlength="20"
+                                   maxlength="20" onkeypress="OnlySpecCharNum(event)" ng-required="true" placeholder="" />
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="theme-btn-1 mt-10" title="Click to Submit Signup Details"
+                        ng-click="SignupLogin_AddEdit()">
+                    Submit
+                </button>
             </div>
             <!--<div class="modal-footer">
                 <label for="email" class="mr-10">Login With</label>
@@ -265,21 +306,21 @@
             </div>-->
         </div>
     </div>
-    <input type="hidden" id="productname" value=""/>
+    <input type="hidden" id="productname" value="" />
 </div>
 
 <!--<script>
-     
+
         $(function () {
-            
+
             $('body:not(".viewPassword")').click(function(){
-               
+
                 $('#viewPassword').addClass('fa-eye');
                 $('#viewPassword').removeClass('fa-eye-slash');
                 $('#psw').attr('type', 'password');
             })
             $('#viewPassword').on('mousedown', function () {
-               
+
                 $(this).addClass('fa-eye-slash');
                 $(this).removeClass('fa-eye');
                 $('#psw').attr('type', 'text');
