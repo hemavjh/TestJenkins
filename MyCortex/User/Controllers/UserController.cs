@@ -4861,5 +4861,13 @@ namespace MyCortex.User.Controller
             resp = repository.Save_User_Eligiblity_Logs(eligibility_id, patient_id, Obj);
             return resp;
         }
+
+        [HttpPost]
+        public int Save_User_Appointment_Eligibility(int appointment_id, int patient_id, string eligibility_id,  [FromBody] responseAppointmentModel Obj)
+        {
+            int resp = 0;
+            resp = repository.Save_User_Appointment_Eligiblity_Logs(appointment_id, patient_id, eligibility_id, Obj);
+            return resp;
+        }
     }
 }

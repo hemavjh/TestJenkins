@@ -54,6 +54,8 @@ namespace MyCortex.User.Controllers
                 re.payerId = payerId;
                 re.serviceCategoryId = serviceCategoryId;
                 re.countryCode = countryCode;
+                re.facilityLicense = "MF2007";
+
                 //RequestEligibility re = new RequestEligibility
                 //{
                 //    emiratesId = "784199765832854",

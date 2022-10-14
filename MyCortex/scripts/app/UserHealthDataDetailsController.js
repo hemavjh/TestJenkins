@@ -772,6 +772,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.FullName = data.FullName;
                     document.getElementById("fullname").title = data.FullName;
                     $scope.MobileNo = data.MOBILE_NO;
+                    $scope.PMobileNo = data.MOBILE_NO.split('~')[1];
                     $scope.Photo = data.Photo;
                     $scope.FileName = data.FileName;
                     $scope.DOB = data.DOB;//$filter('date')(data.DOB, "dd-MMM-yyyy");
@@ -782,6 +783,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.PatientType = data.Patient_Type;
                     $scope.showUserType = data.UserType;
                     $scope.PhotoBlobs = data.PhotoBlobs;
+                    $scope.countrycode = data.MOBILE_NO.split('~')[0];
                     methodcnt = methodcnt - 1;
                     $('#User_id').show();
                     $('#patient_profile').show();
@@ -943,7 +945,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             if (data.IsPatient) { $scope.bookpa = 2; }
                             if (data.MinRescheduleDays) { $scope.MakeMeLookBusy = data.MinRescheduleDays; }
                             if (data.MinimumSlots) { $scope.MinimumSlots = data.MinimumSlots; }
-                            $scope.NewAppointmentDuration = data.NewAppointmentDuration; 
+                            $scope.NewAppointmentDuration = data.NewAppointmentDuration;
                             $scope.FollowUpDuration = data.FollowUpDuration;
                             if (data.MaxScheduleDays) {
                                 var futu_date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + data.MaxScheduleDays);
@@ -1034,23 +1036,28 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
                         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
                         $scope.ViewGender = '';
-                            $http.get(baseUrl + '/api/User/UserDetails_View?Id=' + $scope.DoctorID + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                        $http.get(baseUrl + '/api/User/UserDetails_View?Id=' + $scope.DoctorID + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                             $scope.DoctorDetailList = data;
-                                                            
+
                             $("#chatLoaderPV").hide();
                             $scope.AppointmoduleID = data.Appointment_Module_Id;
                             $scope.AppointmoduleID1 = data.Appointment_Module_Id;
                             $scope.paymentdepartmentId = data.DEPARTMENT_ID;
                             $scope.paymentInstitutionId = data.INSTITUTION_ID;
                             $scope.TimeZoneID = data.TimeZone_Id.toString();
+                            document.getElementById("backToDocDiv").className = "col-sm-6 flex";
+                            document.getElementById("SaveBtnDiv").className = "col-sm-6 flex justify-end mt-3";
                             if (data.Appointment_Module_Id == 2) {
                                 setTimeout(function () { document.getElementById('Radio1').click(); }, 5000);
                             }
                             else if (data.Appointment_Module_Id == 3) {
+                                document.getElementById("backToDocDiv").className = "col-sm-5 flex";
+                                document.getElementById("SaveBtnDiv").className = "col-sm-3 flex justify-end mt-3";
+                                $('#shown').attr("disabled", true);
                                 setTimeout(function () { document.getElementById('Radio2').click(); }, 5000);
                             }
                         })
-                        
+
                         $http.get(baseUrl + '/api/User/UserDetails_GetPhoto/?Id=' + $scope.DoctorID).success(function (data1) {
                             $scope.GetDoctorPhoto = data1;
                             if (data1.PhotoBlob != null) {
@@ -1068,7 +1075,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         return [date.getFullYear(), mnth, day].join("-");
                     }
                     $scope.newAppoinmentDates = function () {
-                        $scope.TextArea1='';
+                        $scope.TextArea1 = '';
                         var dt = moment(new Date()).format('DD-MM-YYYY');
                         var AppointmentDate = moment($scope.AppoimDate).format('DD-MM-YYYY');
                         $scope.DoctorListWithTimeZone = [];
@@ -1171,7 +1178,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                     $scope.FollowUpDuration = data1.DoctorAppointmentDurationList[0].FollowUpDuration;
                                 }
                             }
-                           
+
                             if ($scope.newAppoiTimeSlot.length == 0) {
                                 $scope.DataNotAvailible = 1;
                             } else {
@@ -1205,7 +1212,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                 if ($scope.MS == $scope.MinimumSlots) {
                                     $scope.MinimumSlots = $scope.MinimumSlots;
                                 } else {
-                                    if ($scope.MS == null || $scope.MS =='') {
+                                    if ($scope.MS == null || $scope.MS == '') {
                                         $scope.MinimumSlots = $scope.MinimumSlots;
                                     } else {
                                         $scope.MinimumSlots = $scope.MS;
@@ -1232,7 +1239,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                             //    i = i - 1;
                                             //}
                                         });
-                                       
+
                                     }
                                     angular.forEach($scope.newAppoiTimeSlot, function (value, index) {
                                         var object = {
@@ -1241,7 +1248,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                             FromTime: value.FromTime,
                                             ToTime: value.ToTime,
                                             AppointmentTime: value.AppointmentTime,
-                                            IsBooked: value.IsBooked==true ? 1 : false,
+                                            IsBooked: value.IsBooked == true ? 1 : false,
                                             IdNo: index,
                                             IsBusy: $scope.randomno.lastIndexOf(index + 1) == -1 ? false : true,
                                             appointment_price: value.appointment_price
@@ -1265,7 +1272,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                     });
                                     //$scope.newAppoiTimeSlot1= $scope.newAppoiTimeSlot;
                                 }
-                               
+
                             } else {
                                 //$scope.newAppoiTimeSlot1=$scope.newAppoiTimeSlot;
                                 angular.forEach($scope.newAppoiTimeSlot, function (value, index) {
@@ -1282,9 +1289,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                     $scope.newAppoiTimeSlot1.push(object);
                                 });
                             }
-                        //---------------------------------
+                            //---------------------------------
                         }).error(function (data) { $("#appoint_waveLoader").hide(); });
-                       
+
                     }
 
                     function randomInt(min, range) {
@@ -1363,9 +1370,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $scope.DoctorListWithTimeZone = $scope.DoctorListWithTimeZone1;
                         $scope.showMainBox = true;
                     }
-                   
 
-                   
+
+
                     function convertdate(date) {
                         mnth = ("0" + (date.getMonth() + 1)).slice(-2),
                             day = ("0" + date.getDate()).slice(-2);
@@ -1381,11 +1388,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         } else if ($scope.AppoiToTime == undefined || $scope.AppoiToTime == null || $scope.AppoiToTime == "") {
                             //alert('Please select Appointment Time')
                             toastr.warning("Please select Appointment Time", "warning");
-                        } else if ($scope.TextArea1 == undefined || $scope.TextArea1 == null || $scope.TextArea1 == "") {                            
+                        } else if ($scope.TextArea1 == undefined || $scope.TextArea1 == null || $scope.TextArea1 == "") {
                             toastr.warning("Please enter the reason", "warning");
                         }/* else if ($scope.TimeZoneID == undefined || $scope.TimeZoneID == null || $scope.TimeZoneID == "") {
-                    alert('Please select TimeZone')
-                } */else {
+                            alert('Please select TimeZone')
+                        } */else {
                             $scope.RedirectParam = $window.location.hash.replace('#/PatientVitals/', '');
                             //$scope.RedirectParam = $scope.RedirectParam.replace('?orderId=414768633924763654', '');
 
@@ -1425,7 +1432,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                 }
                                 $('#shown').attr("disabled", true);
                                 $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-                                
+
                                 $http.post(baseUrl + '/api/PatientAppointments/PatientAppointment_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, objectSave).success(function (data) {
                                     //alert(data.Message);
                                     if (data.ReturnFlag == 1) {
@@ -1573,8 +1580,20 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                                 $scope.$broadcast("appointment_list");
                                             }
                                             $scope.appdocfilename = "";
+                                            if ($scope.AppointmoduleID == 3) {
+                                                $scope.Appointment_Id = data.PatientAppointmentList[0].Id;
+                                                var eligibility_url = baseUrl + '/api/PayBy/EligibilityRequestDetail?eligibilityID=' + $scope.eligibility_Id + '&facilityLicense=MF2007'
+                                                var eligibility_request = {
+                                                    "url": eligibility_url,
+                                                    "eligibilityID": $scope.eligibility_Id,
+                                                    "facilityLicense": 'MF2007'
+                                                };
+                                                eligibility_response = $scope.eligibility_response;
+                                                $scope.user_id = $window.localStorage['UserId'];
+                                                $scope.save_user_appointment_eligibility_logs($scope.Appointment_Id, $scope.user_id, $scope.eligibility_Id, eligibility_request, eligibility_response);
+                                            }
                                         }
-                                    } else { $("#appoint_waveLoader").hide();}
+                                    } else { $("#appoint_waveLoader").hide(); }
                                 }).error(function (data) { $("#appoint_waveLoader").hide(); });;
                             } else {
                                 var TZ = $scope.TimeZoneList.filter(x => x.TimeZoneId == $scope.TimeZoneID);
@@ -1728,14 +1747,94 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
                                 }).error(function (data) { $("#appoint_waveLoader").hide(); });;
                             }
-
-
-
-
                         }
                     }
 
+                    $scope.checkEligibility = function () {
+                        $('#shown').attr("disabled", true);
+                        var obj = {
+                            Clinicianlist: 'GN30148',
+                            ServiceCategory: 1,
+                            ConsultationCategory: 4,
+                            PayorId: 305,
+                            MOBILE_NO: $scope.PMobileNo,
+                            NATIONALITY_ID: $scope.NationalId,
+                            countrycode: $scope.countrycode
+                        }
+                        $http.post(baseUrl + '/api/EligibilityCheck/AddEligibilityEequest/', obj).success(function (data) {
+                            if (data != null) {
+                                if (data.status == -2) {
+                                    toastr.warning("particular patient already requested...", "warning");
+                                } else if (data.status == 1) {
+                                    setTimeout(function () {
+                                        $scope.eligibility_Id = data.data.eligibilityId;
+                                        $http.get(baseUrl + '/api/PayBy/EligibilityRequestDetail?eligibilityID=' + $scope.eligibility_Id + '&facilityLicense=MF2007').success(function (response_data) {
+                                            if (response_data != null) {
+                                                if (response_data.data != null) {
+                                                    result = response_data.data.eligibilityCheck.result;
+                                                    $scope.eligibility_response = response_data.data;
+                                                    if (result === true) {
+                                                        $('#shown').attr("disabled", false);
+                                                    } else {
+                                                        toastr.warning("Request for eligibility failed, appointment could not be created...", "warning");
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    }, 8000);
+                                } else if (data.status == -3 || data.status == -1) {
+                                    toastr.warning(data.errors[0], "warning");
+                                }
+                            }
+                        });
+                    }
+                    $scope.save_user_appointment_eligibility_logs = function (appointment_id, user_id, eligibilityId, eligibility_request, eligibility_response) {
+                        // eligibility_response = JSON.stringify(eligibility_response);
+                        Obj = {
+                            "eligibility_response": JSON.stringify(eligibility_response),
+                            "eligibility_request": JSON.stringify(eligibility_request),
+                            "Clinician_ID": eligibility_response.eligibilityCheck.clinician.clinicianId,
+                            "Clinician_License": eligibility_response.eligibilityCheck.clinician.licenseNo,
+                            "Clinician_Name": eligibility_response.eligibilityCheck.clinician.fullName,
+                            "Clinician_Speciality": eligibility_response.eligibilityCheck.clinician.specialty,
+                            "Eligibility_Answer_ID": eligibility_response.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerId,
+                            "ID_Payer": eligibility_response.eligibilityCheck.eligibilityCheckAnswer.idPayer,
+                            "Patient_First_Name": eligibility_response.eligibilityCheck.eligibilityCheckAnswer.firstName,
+                            "Patient_Last_Name": eligibility_response.eligibilityCheck.eligibilityCheckAnswer.lastName,
+                            "Patient_DOB": eligibility_response.eligibilityCheck.eligibilityCheckAnswer.birthDate,
+                            "Eligibility_Response_Date": eligibility_response.eligibilityCheck.transactionDate,
+                            "VIP": eligibility_response.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers.vVip,
+                            "Member_ID": eligibility_response.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers.cardNumber,
+                            "Package_Category": eligibility_response.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers.packageCategory,
+                            "Package_Name": eligibility_response.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers.packageName,
+                            "Network_Name": eligibility_response.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers.cardNetwork,
+                            "Policy_Name": eligibility_response.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers.policyName,
+                            "Policy_State_Date": eligibility_response.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers.startDate,
+                            "Policy_Expiry_Date": eligibility_response.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers.expiryDate,
+                            "Policy_ID": eligibility_response.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers.policyId,
 
+                            "Dental": JSON.stringify(eligibility_response.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers.eligibilityCheckAnswerBenefits),
+                            "Network_Notes": JSON.stringify(eligibility_response.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers.eligibilityCheckAnswerBenefits),
+                            "Limit": JSON.stringify(eligibility_response.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers.eligibilityCheckAnswerBenefits),
+                            "Optical": JSON.stringify(eligibility_response.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers.eligibilityCheckAnswerBenefits),
+                            "Outpatient_Deductible": JSON.stringify(eligibility_response.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers.eligibilityCheckAnswerBenefits),
+                            "OOP_Limit": JSON.stringify(eligibility_response.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers.eligibilityCheckAnswerBenefits),
+
+                            "Denial_Reason": eligibility_response.eligibilityCheck.denial.denialReason,
+                            "Denial_Code": eligibility_response.eligibilityCheck.denial.denialCode,
+                            "Eligibility_Request_Date": eligibility_response.eligibilityCheck.transactionDate,
+                            "Eligibility_Status": eligibility_response.eligibilityCheck.eligibilityStatusId,
+                            "Payer_ID": eligibility_response.eligibilityCheck.payer.payerId,
+                            "Payer_Name": eligibility_response.eligibilityCheck.payer.payerName,
+                            "Requested_By": user_id,
+                        }
+                        $http.post(baseUrl + '/api/User/Save_User_Appointment_Eligibility/?appointment_id=' + appointment_id + '&patient_id=' + user_id + '&eligibility_id=' + eligibilityId, Obj).success(function (data) {
+                            $("#chatLoaderPV").hide();
+                            if (data.data == 1) {
+                                console.log('saved appointment eligibility logs');
+                            }
+                        });
+                    }
                     function paybyCheck() {
                         var obj = {
                             paymentAppointmentId: $scope.paymentappointmentId,
