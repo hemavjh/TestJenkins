@@ -914,10 +914,10 @@ namespace MyCortex.User.Controller
         /// <returns>User basic details</returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public UserModel UserDetails_View(long Id, Guid Login_Session_Id)
+        public UserModel UserDetails_View(long Id, Guid Login_Session_Id, Int32 Language_Id =1)
         {
             UserModel model = new UserModel();
-            model = repository.UserDetails_View(Id, Login_Session_Id);
+            model = repository.UserDetails_View(Id, Login_Session_Id, Language_Id);
             return model;
         }
 
@@ -1328,7 +1328,7 @@ namespace MyCortex.User.Controller
 
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage PatientHealthData_List_On_Parameter(long Patient_Id, int OptionType_Id, long Group_Id, long Parameter_Id, Guid Login_Session_Id, int Active = 1, long UnitsGroupType = 1, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0, int IsGraphPlot = 0,long Language_Id=1)
+        public HttpResponseMessage PatientHealthData_List_On_Parameter(long Patient_Id, int OptionType_Id, long Group_Id, long Parameter_Id, Guid Login_Session_Id, int Active = 1, long UnitsGroupType = 1, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0, int IsGraphPlot = 0, Int32 Language_Id =1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -1794,7 +1794,7 @@ namespace MyCortex.User.Controller
         /// <returns></returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage PatientAppointmentList(long Patient_Id, Guid Login_Session_Id, int StartRowNumber= 0, int EndRowNumber= 0,long Language_Id=1)
+        public HttpResponseMessage PatientAppointmentList(long Patient_Id, Guid Login_Session_Id, int StartRowNumber= 0, int EndRowNumber= 0, Int32 Language_Id =1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -1892,7 +1892,7 @@ namespace MyCortex.User.Controller
 
         [HttpGet]
         [CheckSessionOutFilter]
-        public HttpResponseMessage PatientPreviousAppointmentList(long Patient_Id, Guid Login_Session_Id, int StartRowNumber = 0, int EndRowNumber = 0,long Language_Id=1)
+        public HttpResponseMessage PatientPreviousAppointmentList(long Patient_Id, Guid Login_Session_Id, int StartRowNumber = 0, int EndRowNumber = 0, Int32 Language_Id =1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;

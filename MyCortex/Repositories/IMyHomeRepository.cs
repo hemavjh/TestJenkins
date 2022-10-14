@@ -21,7 +21,7 @@ namespace MyCortex.Repositories
         IList<ParameterModels> Parameter_Lists(long ParamGroup_ID, long TabId,long? Language_ID);
         TabUserDetails Tab_User_Validation(TabUserDetails TabLoginObj);
         TabAdminDetails Tab_Logout_Validation(TabAdminDetails TabLoginObj);
-        TabUserDashBordDetails GetDashBoardListDetails(long InstitutionId, long UserId, long TabId, Guid Login_Session_Id,long Language_Id);
+        TabUserDashBordDetails GetDashBoardListDetails(long InstitutionId, long UserId, long TabId, Guid Login_Session_Id, Int32 Language_Id);
         IList<TabDevicesModel> Get_DeviceList(int? IsActive, long Institution_ID, long HiveType);
         IList<TabDevicesModel> Get_DeviceNameAdminList(int? IsActive);
         IList<TabDevicesModel> Get_DeviceNameList(int? IsActive);
@@ -37,7 +37,7 @@ namespace MyCortex.Repositories
         /*TabDevicesModel Get_Device_Id(long DeviceId);*/
         void Device_List_Delete(int Id);
         void Device_Name_List_Delete(int id);
-        IList<TabDashBoardAlertDetails> Get_ParameterValue(long patientId, long userTypeId, Guid login_Session_Id, long language_Id);
+        IList<TabDashBoardAlertDetails> Get_ParameterValue(long patientId, long userTypeId, Guid login_Session_Id, Int32 language_Id);
         IList<MonitoringProtocolModel> ParameterList(long UserId);
         TabDeviceIdModel Update_Device_SerialNo(TabDeviceIdModel obj);
     }

@@ -610,7 +610,7 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public TabUserDashBordDetails GetDashBoardListDetails(long InstitutionId, long UserId, long TabId, Guid Login_Session_Id,long Language_Id)
+        public TabUserDashBordDetails GetDashBoardListDetails(long InstitutionId, long UserId, long TabId, Guid Login_Session_Id, Int32 Language_Id)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -662,7 +662,7 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public IList<TabDashBoardAlertDetails> Get_ParameterValue(long PatientId, long UserTypeId, Guid Login_Session_Id, long Language_Id)
+        public IList<TabDashBoardAlertDetails> Get_ParameterValue(long PatientId, long UserTypeId, Guid Login_Session_Id, Int32 Language_Id)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -718,7 +718,7 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public IList<TabDeviceParameterList> GroupParameterNameLists(long InstitutionId, long Patient_Id, long Language_Id)
+        public IList<TabDeviceParameterList> GroupParameterNameLists(long InstitutionId, long Patient_Id, Int32 Language_Id)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;

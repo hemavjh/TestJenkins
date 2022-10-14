@@ -141,10 +141,10 @@ namespace MyCortex.Masters.Controllers
         /// <param name="Date">selected Date</param>
         /// <returns></returns>
         [HttpGet]
-        public IList<ByDateDepartmentModel> ByDateDept_List(long Institution_Id, DateTime Filter_Date, Guid Login_Session_Id)
+        public IList<ByDateDepartmentModel> ByDateDept_List(long Institution_Id, DateTime Filter_Date, Guid Login_Session_Id, Int32 Language_Id=1)
         {
             IList<ByDateDepartmentModel> model;
-            model = repository.ByDateDept_List(Institution_Id, Filter_Date, Login_Session_Id);
+            model = repository.ByDateDept_List(Institution_Id, Filter_Date, Login_Session_Id,Language_Id);
             return model;
         }
 

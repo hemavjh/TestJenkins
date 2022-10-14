@@ -328,14 +328,14 @@ namespace MyCortex.User.Controller
         }
 
         [HttpGet]
-        public IList<PatientAppointmentsModel> DepartmentwiseDoctorList(string DepartmentIds,long InstitutionId,DateTime Date,Int32 IsShift = 0)
+        public IList<PatientAppointmentsModel> DepartmentwiseDoctorList(string DepartmentIds,long InstitutionId,DateTime Date,Int32 IsShift = 0, Int32 Language_Id =1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<PatientAppointmentsModel> model;
-                model = repository.DepartmentwiseDoctorList(DepartmentIds, InstitutionId, Date, IsShift);
+                model = repository.DepartmentwiseDoctorList(DepartmentIds, InstitutionId, Date, IsShift,Language_Id);
                 return model;
             }
             catch (Exception ex)
@@ -351,14 +351,14 @@ namespace MyCortex.User.Controller
         /// <param name="Institution_Id">Institution Id</param>
         /// <returns>Appointment Reason type name list</returns>
         [HttpGet]
-        public IList<AppointmentReasonType> AppointmentReasonType_List(long Institution_Id)
+        public IList<AppointmentReasonType> AppointmentReasonType_List(long Institution_Id, Int32 Language_Id=1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<AppointmentReasonType> model;
-                model = repository.AppointmentReasonType_List(Institution_Id);
+                model = repository.AppointmentReasonType_List(Institution_Id, Language_Id);
                 return model;
             }
             catch (Exception ex)

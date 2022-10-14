@@ -162,6 +162,7 @@ namespace MyCortex.User.Model
     {
         public long ReasonTypeId { get; set; }
         public string ReasonType { get; set; }
+        public string DisplayReasonType { get; set; }
         public int IsActive { get; set; }
     }
 

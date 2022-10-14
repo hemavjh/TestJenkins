@@ -30,7 +30,7 @@ namespace MyCortex.Repositories.Masters
         /// Getting list of department for selected Date
         /// </summary>          
         /// <returns>list of department for Selected Date</returns>
-        public IList<ByDateDepartmentModel> ByDateDept_List(long Institution_Id, DateTime Filter_Date, Guid Login_Session_Id)
+        public IList<ByDateDepartmentModel> ByDateDept_List(long Institution_Id, DateTime Filter_Date, Guid Login_Session_Id, Int32 Language_Id)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -47,7 +47,8 @@ namespace MyCortex.Repositories.Masters
                                        select new ByDateDepartmentModel()
                                        {
                                            Id = p.Field<long>("Id"),
-                                           Department_Name = p.Field<string>("Department_Name")
+                                           Department_Name = p.Field<string>("Department_Name"),
+                                           DisplayDepartmentName= p.Field<string>("LANGUAGE_TEXT")
                                        }).ToList();
                 return lst;
             }

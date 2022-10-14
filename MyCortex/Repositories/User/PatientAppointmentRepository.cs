@@ -298,7 +298,7 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
-        public IList<PatientAppointmentsModel> DepartmentwiseDoctorList(string DepartmentIds,long InstitutionId, DateTime Date, Int32 IsShift)
+        public IList<PatientAppointmentsModel> DepartmentwiseDoctorList(string DepartmentIds,long InstitutionId, DateTime Date, Int32 IsShift, Int32 Language_Id)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -308,6 +308,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@InstitutionId", InstitutionId));
             param.Add(new DataParameter("@Date", Date));
             param.Add(new DataParameter("@IsShift", IsShift));
+            param.Add(new DataParameter("@Language_Id", Language_Id));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
             _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
@@ -319,6 +320,7 @@ namespace MyCortex.Repositories.Uesr
                                                           Doctor_Id = p.Field<long>("ID"),
                                                           DoctorName = p.Field<string>("FULLNAME"),
                                                           Doctor_DepartmentName = p.Field<string>("DEPARTMENT_NAME"),
+                                                          DisplayDepartmentName= p.Field<string>("LANGUAGE_TEXT"),
                                                           // Name_Specialization = p.Field<string>("NAMESPECIALIZATION"),
                                                           PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
                                                           ViewGenderName = p.Field<string>("VIEWGENDERNAME"),
@@ -337,12 +339,13 @@ namespace MyCortex.Repositories.Uesr
         /// </summary>
         /// <param name="Institution_Id">Institution Id</param>
         /// <returns>Appointment Reason type name list</returns>
-        public IList<AppointmentReasonType> AppointmentReasonType_List(long Institution_Id)
+        public IList<AppointmentReasonType> AppointmentReasonType_List(long Institution_Id,Int32 Language_id)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
+            param.Add(new DataParameter("@Language_id", Language_id));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
             _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
@@ -353,6 +356,7 @@ namespace MyCortex.Repositories.Uesr
                                                       {
                                                           ReasonTypeId = p.Field<long>("ID"),                                                         
                                                           ReasonType = p.Field<string>("REASONTYPE"),
+                                                          DisplayReasonType = p.Field<string>("LANGUAGE_TEXT"),
                                                           IsActive = p.Field<int>("ISACTIVE"), 
                                                       }).ToList();
                 return lst;

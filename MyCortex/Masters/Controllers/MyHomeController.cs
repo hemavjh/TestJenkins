@@ -516,7 +516,7 @@ namespace MyCortex.User.Controllers
         [Authorize]
         [HttpGet]
         [CheckSessionOutFilter]
-        public HttpResponseMessage TabDashboardDetails(long InstitutionId, long UserId, long TabId, Guid Login_Session_Id,long Language_Id=1)
+        public HttpResponseMessage TabDashboardDetails(long InstitutionId, long UserId, long TabId, Guid Login_Session_Id, Int32 Language_Id =1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -557,7 +557,7 @@ namespace MyCortex.User.Controllers
 
         [HttpGet]
         [CheckSessionOutFilter]
-        public HttpResponseMessage TabDashboardAlertsDetails(long PatientId, long UserTypeId, Guid Login_Session_Id, long Language_Id=1)
+        public HttpResponseMessage TabDashboardAlertsDetails(long PatientId, long UserTypeId, Guid Login_Session_Id, Int32 Language_Id =1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;

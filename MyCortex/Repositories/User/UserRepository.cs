@@ -1187,11 +1187,12 @@ namespace MyCortex.Repositories.Uesr
         /// </summary>
         /// <param name="Id">User Id</param>
         /// <returns>User basic details</returns>
-        public UserModel UserDetails_View(long Id, Guid Login_Session_Id)
+        public UserModel UserDetails_View(long Id, Guid Login_Session_Id, Int32 Language_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@LANGUAGE_ID", Language_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].USERDETAILS_SP_VIEW", param);
                 
             UserModel View = (from p in dt.AsEnumerable()
@@ -1212,7 +1213,8 @@ namespace MyCortex.Repositories.Uesr
                                   //DOB = p.Field<DateTime?>("DOB"),
                                   DOB_Encrypt = p.Field<string>("DOB_Encrypt"),
                                   Department_Name = p.Field<string>("Department_Name"),
-                                  InstitutionName = p.Field<string>("InstitutionName"),
+                                    DisplayDepartmentName = p.Field<string>("LANGUAGE_TEXT"),
+                                    InstitutionName = p.Field<string>("InstitutionName"),
                                   IsActive = p.Field<int?>("IsActive"),
                                   Photo =  p.Field<string>("PHOTO_NAME"),
                                   Photo_Fullpath =  p.Field<string>("PHOTO_FULLPATH"),
@@ -2032,7 +2034,7 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Patient_Id">Patient Id</param>
         /// <param name="OptionType_Id">Daily(1), 1 Week(2), 1 Month(3), 3 Month(4), 1 Year(5), Year Till Date(6) and All(7)</param>
         /// <returns>List of Health Data</returns>
-        public IList<PatientHealthDataModel> HealthData_List_On_Parameter(long Patient_Id, long OptionType_Id, long Group_Id, long Parameter_Id, long UnitsGroupType, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber, int Active, int IsGraphPlot,long Language_Id)
+        public IList<PatientHealthDataModel> HealthData_List_On_Parameter(long Patient_Id, long OptionType_Id, long Group_Id, long Parameter_Id, long UnitsGroupType, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber, int Active, int IsGraphPlot, Int32 Language_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
@@ -2453,7 +2455,7 @@ namespace MyCortex.Repositories.Uesr
         /// </summary>
         /// <param name="Patient_Id">Patient Id</param>
         /// <returns></returns>
-        public IList<PatientAppointmentsModel> PatientAppointmentList(long PatientId, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber, long Language_Id)
+        public IList<PatientAppointmentsModel> PatientAppointmentList(long PatientId, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber, Int32 Language_Id)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -2598,7 +2600,7 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
-        public IList<PatientAppointmentsModel> PatientPreviousAppointmentList(long PatientId, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber, long Language_Id=1)
+        public IList<PatientAppointmentsModel> PatientPreviousAppointmentList(long PatientId, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber, Int32 Language_Id =1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
