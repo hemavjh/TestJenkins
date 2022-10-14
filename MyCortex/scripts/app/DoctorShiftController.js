@@ -1606,7 +1606,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 toastr.warning("Please Enter NewAppointment Time Slot", "warning");
                 return false;
             }
-            else if (typeof ($scope.NewAppointmentPrice) == "undefined" || $scope.NewAppointmentPrice == "0" || $scope.NewAppointmentPrice == "") {
+            else if (typeof ($scope.NewAppointmentPrice) == "undefined" || $scope.NewAppointmentPrice == "") {
                 //alert("Please Enter NewAppointment");
                 toastr.warning("Please Enter New Appointment Price", "warning");
                 return false;
@@ -1616,7 +1616,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 toastr.warning("Please Enter followup Time Slot", "warning");
                 return false;
             }
-            else if (typeof ($scope.followupPrice) == "undefined" || $scope.followupPrice == "0" || $scope.followupPrice == "") {
+            else if (typeof ($scope.followupPrice) == "undefined" || $scope.followupPrice == "") {
                 //alert("Please Enter FollowUp");
                 toastr.warning("Please Enter Follow Up Price", "warning");
                 return false;
@@ -1674,12 +1674,12 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 if (data != null) {
                     const OrgDay = "";
                     const OrgSelectedDate = data.DefaultWorkingDays.split(',');
-                    if ($scope.NewAppointmentPrice == '' || $scope.NewAppointmentPrice == 0) {
-                        $scope.NewAppointmentPrice = data.NewAppointmentPrice;
-                    }
-                    if ($scope.followupPrice == '' || $scope.followupPrice == 0) {
-                        $scope.followupPrice = data.FollowUpPrice;
-                    }
+                    //if ($scope.NewAppointmentPrice == '' || $scope.NewAppointmentPrice == 0) {
+                    //    $scope.NewAppointmentPrice = data.NewAppointmentPrice;
+                    //}
+                    //if ($scope.followupPrice == '' || $scope.followupPrice == 0) {
+                    //    $scope.followupPrice = data.FollowUpPrice;
+                    //}
                     angular.forEach($scope.SelectedDays, function (value, index) {
                         angular.forEach(OrgSelectedDate, function (value1, index1) {
                             if (value1 == "monday") {

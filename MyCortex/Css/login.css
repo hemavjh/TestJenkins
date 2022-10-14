@@ -76,6 +76,13 @@ body {
     background-image: url(../images/MyHealthLoginBg.jpg);
     background-size: cover;
 }
+.loginBgHiv {
+    min-height: calc(118vh - 105px);
+    padding-bottom: 30px;
+    /* margin-top: 75px; */
+    background-image: url(../images/HiveloginBg.jpg);
+    background-size: cover;
+}
 .loginContainer {
     margin: 15px 15px;
     width: 450px;
@@ -84,6 +91,40 @@ body {
     border-radius: 5px;
     box-shadow: 2px 2px 10px #ccc;
     position: relative;
+}
+
+.containerhiv {
+    position: absolute;
+    /* width: 215px; */
+    height: 86px;
+    /* left: 741px; */
+    top: 80px;
+}
+
+.container1 {
+    /* display: flex; */
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 40px;
+    gap: 8px;
+    position: absolute;
+    width: 515px;
+    height: 425px;
+    /* left: 602px; */
+    /* top: 306px; */
+    background: #FFFFFF;
+    border: 1px solid #E8EAF6;
+    box-shadow: 16px 16px 32px -32px rgb(0 0 0 / 5%);
+    border-radius: 24px;
+}
+
+.buttonhiv {
+    color: #fff;
+    background: #100146;
+    border-radius: 24px;
+    width: 440px;
+    height: 55px;
+    margin-top: 60px;
 }
 
 .loginBgCor {
@@ -95,6 +136,12 @@ body {
     display: flex;
     align-items: center;
     justify-content: right;
+}
+
+.loginBgHiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .loginContainer h1 {
