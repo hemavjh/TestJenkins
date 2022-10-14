@@ -283,7 +283,7 @@ namespace MyCortex.Masters.Models
         public int UnreadCount { get; set; }
         public int Flag { get; set; }
         public string DeviceType { get; set; }
-        public long UserTypeId { get; set; }
+        public long UserTypeId { get; set; }        
         public  TabDeviceUserDetails  UserDetails { get; set; }
         /*public IList<TabDeviceParameterDetails> TabParameterList { get; set; }*/
         public IList<TabDeviceParameterList> TabParameterList { get; set; }
@@ -328,7 +328,7 @@ namespace MyCortex.Masters.Models
         public int HighCount { get; set; }
         public int MediumCount { get; set; }
         public int LowCount { get; set; }
-
+        public string DisplayParameterName { get; set; }
     }
     public class TabDeviceUserDetails
     {
@@ -340,6 +340,7 @@ namespace MyCortex.Masters.Models
         public long ID { get; set; }
         public string PatientName { get; set; }
         public string ParameterName { get; set; }
+        public string DisplayParameterName { get; set; }
         public decimal? Average { get; set; }
         public decimal? ParameterValue { get; set; }
         public int HighCount { get; set; }
@@ -397,8 +398,11 @@ namespace MyCortex.Masters.Models
         public long ReasonTypeId { get; set; }
         public long NewAppointmentId { get; set; }
         public string ReasonType { get; set; }
+        public string Amount { get; set; }
         public int IsActive { get; set; }
         public string ConferenceId { get; set; }
+
+
     }
     public class TabDashBoardMedicationDetails
     {

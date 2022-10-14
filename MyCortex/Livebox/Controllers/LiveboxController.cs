@@ -152,6 +152,24 @@ namespace MyCortex.Livebox.Controllers
             {
                 return Content("Failure : " + e.Message);
             }
-        }       
+        }
+
+        [HttpPost]
+        public ActionResult LiveBoxNotification()
+        {
+            try
+            {
+                int retid = 0;
+                Stream req = Request.InputStream;
+                req.Seek(0, System.IO.SeekOrigin.Begin);
+                string json = new StreamReader(req).ReadToEnd();
+                retid = liveBoxRepository.LiveBox_Notify_Log(json);
+                return Content("SUCCESS");
+            }
+            catch (Exception e)
+            {
+                return Content("Failure : " + e.Message);
+            }
+        }
     }
 }

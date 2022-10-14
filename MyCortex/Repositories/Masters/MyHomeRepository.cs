@@ -610,7 +610,7 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public TabUserDashBordDetails GetDashBoardListDetails(long InstitutionId, long UserId, long TabId, Guid Login_Session_Id)
+        public TabUserDashBordDetails GetDashBoardListDetails(long InstitutionId, long UserId, long TabId, Guid Login_Session_Id,long Language_Id)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -621,6 +621,7 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@INSTITUTIONID", InstitutionId));
             param.Add(new DataParameter("@USERID", UserId));
             param.Add(new DataParameter("@TABID", TabId));
+           // param.Add(new DataParameter("@LANGUAGE_ID", Language_Id));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
             _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
@@ -646,7 +647,7 @@ namespace MyCortex.Repositories.Masters
                                               }).FirstOrDefault();
                 if (lst != null)
                 {
-                    lst.TabParameterList = GroupParameterNameLists(lst.InstitutionId, UserId);
+                    lst.TabParameterList = GroupParameterNameLists(lst.InstitutionId, UserId,Language_Id);
                     //lst.TabAlertsList = Get_ParameterValue(lst.UserId, lst.UserTypeId, Login_Session_Id);
                     lst.TabAppointmentList = PatientAppoinmentsList(UserId, Login_Session_Id);
                     lst.TabMedicationList = MedicationView(UserId, Login_Session_Id);
@@ -661,7 +662,7 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public IList<TabDashBoardAlertDetails> Get_ParameterValue(long PatientId, long UserTypeId, Guid Login_Session_Id)
+        public IList<TabDashBoardAlertDetails> Get_ParameterValue(long PatientId, long UserTypeId, Guid Login_Session_Id, long Language_Id)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -672,6 +673,7 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@PatientId", PatientId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             param.Add(new DataParameter("@ISTAB", 1));
+            param.Add(new DataParameter("@LANGUAGE_ID", Language_Id));
             try
             {
                 DataTable dt = new DataTable();
@@ -704,7 +706,8 @@ namespace MyCortex.Repositories.Masters
                                                          TypeName = p.Field<string>("TYPENAME"),
                                                          CreatedByShortName = p.Field<string>("CREATEDBY_SHORTNAME"),
                                                          ComDurationType = p.Field<string>("DurationType"),
-                                                         TimeDifference = "(" + p.Field<string>("TIME_DIFFERENCE") + ")"
+                                                         TimeDifference = "(" + p.Field<string>("TIME_DIFFERENCE") + ")",
+                                                         DisplayParameterName = p.Field<string>("LANGUAGE_TEXT"),
                                                      }).ToList();
                 return list;
             }
@@ -715,7 +718,7 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public IList<TabDeviceParameterList> GroupParameterNameLists(long InstitutionId, long Patient_Id)
+        public IList<TabDeviceParameterList> GroupParameterNameLists(long InstitutionId, long Patient_Id, long Language_Id)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -724,6 +727,7 @@ namespace MyCortex.Repositories.Masters
             {
                 param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
                 param.Add(new DataParameter("@PATIENT_ID", Patient_Id));
+                param.Add(new DataParameter("@LANGUAGE_ID", Language_Id));
                 DataSet ds = ClsDataBase.GetDataSet("[MYCORTEX].[INSTITUTIONGROUPBASED_SP_PARAMETER_TABDASHBOARD_DATA]", param);
                 TabDeviceParameterList paramlist = new TabDeviceParameterList();
                 List<TabDeviceParameterList> lst = new List<TabDeviceParameterList>();
@@ -745,6 +749,7 @@ namespace MyCortex.Repositories.Masters
                                                                    HighCount = p.Field<int>("HighCount"),
                                                                    MediumCount = p.Field<int>("MediumCount"),
                                                                    LowCount = p.Field<int>("LowCount"),
+                                                                   DisplayParameterName = p.Field<string>("LANGUAGE_TEXT"),
                                                                }).ToList();
                         paramlist.ParameterList = list;
                     }
@@ -793,6 +798,7 @@ namespace MyCortex.Repositories.Masters
                                                           TimeDifference = p.Field<string>("TimeDifference"),
                                                           Payment_Status = (p.IsNull("PAYMENT_STATUS") ? "" : p.Field<string>("PAYMENT_STATUS")),
                                                           ConferenceId = p.Field<string>("CONFERENCE_ID"),
+                                                          Amount= p.Field<string>("AMOUNT"),
                                                       }).ToList();
                 return lst;
             }

@@ -17,6 +17,8 @@ namespace MyCortex.User.Model
 
         public long DoctorDepartmentId { get; set; }
         public string Doctor_DepartmentName { get; set; }
+        public string DisplayDepartmentName { get; set; }
+        
         public string PatientName { get; set; }
         public DateTime Appointment_Date { get; set; }
         public DateTime Appointment_FromTime { get; set; }
