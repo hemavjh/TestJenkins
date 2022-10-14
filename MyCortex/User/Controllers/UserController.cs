@@ -210,7 +210,7 @@ namespace MyCortex.User.Controller
         }
 
         [HttpGet]
-        public IList<DocumentTypeModel> DocumentTypeList()
+        public IList<DocumentTypeModel> DocumentTypeList(long Language_ID = 1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -218,7 +218,7 @@ namespace MyCortex.User.Controller
             try
             {
                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
-                model = repository.DocumentTypeList();
+                model = repository.DocumentTypeList(Language_ID);
                 return model;
             }
             catch (Exception ex)
@@ -3428,7 +3428,7 @@ namespace MyCortex.User.Controller
         /// <returns>Clinical notes list of a patient</returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage PatientNotes_List(long Patient_Id,int UserTypeID, int IsActive, Guid Login_Session_Id, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0)
+        public HttpResponseMessage PatientNotes_List(long Patient_Id,int UserTypeID, int IsActive, Guid Login_Session_Id, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0,long Language_ID = 1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -3447,7 +3447,7 @@ namespace MyCortex.User.Controller
                     StartRowNumber = ((Page - 1) * _metadata.per_page) + 1;
                     EndRowNumber = Page * _metadata.per_page;
                 }
-                model = repository.PatientNotes_List(Patient_Id, UserTypeID, IsActive, Login_Session_Id, StartRowNumber, EndRowNumber);
+                model = repository.PatientNotes_List(Patient_Id, UserTypeID, IsActive, Login_Session_Id, StartRowNumber, EndRowNumber, Language_ID);
                 if (model != null)
                 {
                     if (model.Count > 0)
@@ -3492,7 +3492,7 @@ namespace MyCortex.User.Controller
         /// <returns>details of a Client note</returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public DoctorNotesModel PatientNotes_View(long Id, Guid Login_Session_Id)
+        public DoctorNotesModel PatientNotes_View(long Id, Guid Login_Session_Id, long Language_ID = 1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -3500,7 +3500,7 @@ namespace MyCortex.User.Controller
             try
             {
                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
-                model = repository.PatientNotes_View(Id, Login_Session_Id);
+                model = repository.PatientNotes_View(Id, Login_Session_Id, Language_ID);
                 return model;
             }
             catch (Exception ex)
@@ -3986,7 +3986,7 @@ namespace MyCortex.User.Controller
         /// <returns></returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public Patient_OtherDataModel Patient_OtherData_View(long Id, Guid Login_Session_Id)
+        public Patient_OtherDataModel Patient_OtherData_View(long Id, Guid Login_Session_Id, long Language_ID = 1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -3994,7 +3994,7 @@ namespace MyCortex.User.Controller
             {
                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 Patient_OtherDataModel model = new Patient_OtherDataModel();
-                model = repository.Patient_OtherData_View(Id, Login_Session_Id);
+                model = repository.Patient_OtherData_View(Id, Login_Session_Id, Language_ID);
                 return model;
             }
             catch (Exception ex)
@@ -4012,7 +4012,7 @@ namespace MyCortex.User.Controller
         /// <returns></returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage Patient_OtherData_List(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0)
+        public HttpResponseMessage Patient_OtherData_List(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0, long Language_ID = 1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -4032,7 +4032,7 @@ namespace MyCortex.User.Controller
                     StartRowNumber = ((Page - 1) * _metadata.per_page) + 1;
                     EndRowNumber = Page * _metadata.per_page;
                 }
-                model = repository.Patient_OtherData_List(Patient_Id, IsActive, Login_Session_Id, StartRowNumber, EndRowNumber);
+                model = repository.Patient_OtherData_List(Patient_Id, IsActive, Login_Session_Id, StartRowNumber, EndRowNumber, Language_ID );
                 if (model != null)
                 {
                     if (model.Count > 0)

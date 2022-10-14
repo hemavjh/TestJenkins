@@ -31,11 +31,13 @@ namespace MyCortex.User.Model
         public long Institution_Id { get; set; }
 
         public Guid? Login_Session_Id { get; set; }
+        public string DisplayDocumentType { get; set; }
     }
     public class DocumentTypeModel
     {
         public long Id { get; set; }
         public string DocumentType { get; set; }
+        public string DisplayDocumentType { get; set; }
     }
     public class NotesTypeModel
     {

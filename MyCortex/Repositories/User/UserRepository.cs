@@ -208,7 +208,7 @@ namespace MyCortex.Repositories.Uesr
         }
 
 
-        public IList<DocumentTypeModel> DocumentTypeList()
+        public IList<DocumentTypeModel> DocumentTypeList(long Language_ID)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -217,12 +217,14 @@ namespace MyCortex.Repositories.Uesr
             _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
+                param.Add(new DataParameter("@Language_ID", Language_ID));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].DOCUMENTTYPE_SP_LIST");
                 List<DocumentTypeModel> lst = (from p in dt.AsEnumerable()
                                              select new DocumentTypeModel()
                                              {
                                                  Id = p.Field<long>("Id"),
-                                                 DocumentType = p.Field<string>("DOCUMENTTYPE")
+                                                 DocumentType = p.Field<string>("DOCUMENTTYPE"),
+                                                 DisplayDocumentType = p.Field<string>("LANGUAGE_TEXT")
                                              }).ToList();
                 return lst;
             }
@@ -2209,6 +2211,43 @@ namespace MyCortex.Repositories.Uesr
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_USERID_EMAIL]", param);
+                if (dt != null)
+                {
+                    if (dt.Rows.Count > 0)
+                    {
+                        return id = Convert.ToInt64(dt.Rows[0][0]);
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return 0;
+            }
+        }
+
+        public long Get_AppointmentDuration(string Conference_ID)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            long id;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Conference_ID", Conference_ID));
+
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_APPOINTMENT_DURATION]", param);
                 if (dt != null)
                 {
                     if (dt.Rows.Count > 0)
@@ -4226,7 +4265,7 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Patient_Id"></param>
         /// <param name="IsActive"></param>
         /// <returns>Clinical notes list of a patient</returns>
-        public IList<DoctorNotesModel> PatientNotes_List(long idval, int UserTypeID, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber)
+        public IList<DoctorNotesModel> PatientNotes_List(long idval, int UserTypeID, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber, long Language_ID)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -4241,7 +4280,8 @@ namespace MyCortex.Repositories.Uesr
                 param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
                 param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
                 param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENTDOCTORNOTES_SP_LIST", param);
+                param.Add(new DataParameter("@Language_ID", Language_ID));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENTDOCTORNOTES_SP_LIST]", param);
 
                 List<DoctorNotesModel> list = (from p in dt.AsEnumerable()
                                                select new DoctorNotesModel()
@@ -4257,7 +4297,8 @@ namespace MyCortex.Repositories.Uesr
                                                    Created_By = p.Field<long>("CREATED_BY"),
                                                    Created_By_Name = p.Field<string>("FULLNAME"),
                                                    Created_Dt = p.Field<DateTime>("CREATED_DT"),
-                                                   IsActive = p.Field<int>("ISACTIVE")
+                                                   IsActive = p.Field<int>("ISACTIVE"),
+                                                   DisplayNotesType = p.Field<string>("LANGUAGE_TEXT")
                                                }).ToList();
                 return list;
             }
@@ -4336,7 +4377,7 @@ namespace MyCortex.Repositories.Uesr
         /// </summary>
         /// <param name="Id">Client note Id</param>
         /// <returns>details of a Client note</returns>
-        public DoctorNotesModel PatientNotes_View(long Id, Guid Login_Session_Id)
+        public DoctorNotesModel PatientNotes_View(long Id, Guid Login_Session_Id, long Language_ID)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -4347,6 +4388,7 @@ namespace MyCortex.Repositories.Uesr
             {
                 param.Add(new DataParameter("@Id", Id));
                 param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+                param.Add(new DataParameter("@Language_ID", Language_ID));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENTNOTES_SP_VIEW", param);
                 DoctorNotesModel note = (from p in dt.AsEnumerable()
                                          select
@@ -4360,6 +4402,7 @@ namespace MyCortex.Repositories.Uesr
                                              Importance = p.Field<int>("Importance"),
                                              Created_By = p.Field<long>("CREATED_BY"),
                                              Created_Dt = p.Field<DateTime>("CREATED_DT"),
+                                             DisplayNotesType = p.Field<string>("LANGUAGE_TEXT")
                                          }).FirstOrDefault();
                 return note;
             }
@@ -4430,13 +4473,14 @@ namespace MyCortex.Repositories.Uesr
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public Patient_OtherDataModel Patient_OtherData_View(long Id,Guid Login_Session_Id)
+        public Patient_OtherDataModel Patient_OtherData_View(long Id,Guid Login_Session_Id, long Language_ID)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@Language_ID", Language_ID));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
             _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
@@ -4457,7 +4501,8 @@ namespace MyCortex.Repositories.Uesr
                                                    Remarks = p.Field<string>("Remarks"),
                                                    DocumentDate = p.Field<DateTime?>("DOCUMENT_DATE"),
                                                    DocumentType = p.Field<string>("DOCUMENT_TYPE"),
-                                                   Filetype= p.Field<string>("FILETYPE")
+                                                   Filetype= p.Field<string>("FILETYPE"),
+                                                   DisplayDocumentType = p.Field<string>("LANGUAGE_TEXT")
                                                }).FirstOrDefault();
                 return View;
             }
@@ -4505,7 +4550,7 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Patient_Id">Patient Id</param>
         /// <param name="IsActive">Active flag</param>
         /// <returns></returns>
-        public IList<Patient_OtherDataModel> Patient_OtherData_List(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber)
+        public IList<Patient_OtherDataModel> Patient_OtherData_List(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber, long Language_ID)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -4515,6 +4560,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
             param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
+            param.Add(new DataParameter("@Language_ID", Language_ID));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
             _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
@@ -4536,7 +4582,8 @@ namespace MyCortex.Repositories.Uesr
                                                         Remarks = p.Field<string>("Remarks"),
                                                         Created_Date = p.Field<DateTime>("Created_dt"),
                                                         DocumentDate = p.Field<DateTime?>("DOCUMENT_DATE"),
-                                                        DocumentType = p.Field<string>("DOCUMENT_TYPE")
+                                                        DocumentType = p.Field<string>("DOCUMENT_TYPE"),
+                                                        DisplayDocumentType = p.Field<string>("LANGUAGE_TEXT")
                                                     }).ToList();
                 return lst;
             }
