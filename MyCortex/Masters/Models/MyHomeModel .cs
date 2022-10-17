@@ -342,6 +342,7 @@ namespace MyCortex.Masters.Models
         public string PatientName { get; set; }
         public string ParameterName { get; set; }
         public string DisplayParameterName { get; set; }
+        public string DisplayUnitName { get; set; }
         public decimal? Average { get; set; }
         public decimal? ParameterValue { get; set; }
         public int HighCount { get; set; }

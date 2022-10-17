@@ -229,14 +229,14 @@ namespace MyCortex.User.Controller
         }
 
         [HttpGet]
-        public IList<NotesTypeModel> NotesTypeList()
+        public IList<NotesTypeModel> NotesTypeList(Int32 Language_Id=1)
         {
             /* _AppLogger = this.GetType().FullName;*/
             /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             IList<NotesTypeModel> model;
             try
             {               
-                model = repository.NotesTypeList();
+                model = repository.NotesTypeList(Language_Id);
                 return model;
             }
             catch (Exception ex)

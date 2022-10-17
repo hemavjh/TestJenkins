@@ -213,11 +213,12 @@ namespace MyCortex.Repositories.Uesr
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Language_ID", Language_ID));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
             _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
-                param.Add(new DataParameter("@Language_ID", Language_ID));
+                
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].DOCUMENTTYPE_SP_LIST");
                 List<DocumentTypeModel> lst = (from p in dt.AsEnumerable()
                                              select new DocumentTypeModel()
@@ -235,11 +236,12 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
-        public IList<NotesTypeModel> NotesTypeList()
+        public IList<NotesTypeModel> NotesTypeList(Int32 Language_ID)
         {
             /* _AppLogger = this.GetType().FullName;*/
             /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Language_ID", Language_ID));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
             /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
@@ -249,7 +251,8 @@ namespace MyCortex.Repositories.Uesr
                                                select new NotesTypeModel()
                                                {
                                                    Id = p.Field<int>("Id"),
-                                                   NotesType = p.Field<string>("NOTESTYPE")
+                                                   NotesType = p.Field<string>("NOTESTYPE"),
+                                                    DisplayNotesType = p.Field<string>("NOTESTYPE")
                                                }).ToList();
                 return lst;
             }

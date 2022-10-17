@@ -43,6 +43,7 @@ namespace MyCortex.User.Model
     {
         public int Id { get; set; }
         public string NotesType { get; set; }
+        public string DisplayNotesType { get; set; }
     }
     public class DocumentReturnModel
     {
