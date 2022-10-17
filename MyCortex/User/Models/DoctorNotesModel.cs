@@ -23,6 +23,7 @@ namespace MyCortex.Masters.Models
         public DateTime Created_Dt { get; set; }
         public long Modified_By { get; set; }
         public int IsActive { get; set; }
+        public string DisplayNotesType { get; set; }
     }
 
     public class DoctorNotesReturnModel

@@ -19,7 +19,7 @@ namespace MyCortex.Repositories
         IList<ClinicianDetail_list> ClinicianDetails(long INSTITUTION_ID);
         IList<DepartmentModel> CloneDepartmentList(string search);
         IList<DepartmentModel> DepartmentListByInstitution(long Institution_Id);
-        IList<DocumentTypeModel> DocumentTypeList();
+        IList<DocumentTypeModel> DocumentTypeList(long Language_ID);
         IList<NotesTypeModel> NotesTypeList();
         IList<BusinessUser_UserTypeListModel> BusinessUser_UserTypeList();
         IList<BusinessUser_UserTypeListModel> Clone_BusinessUser_UserTypeList(string search);
@@ -47,6 +47,7 @@ namespace MyCortex.Repositories
         int Get_Exist_AnyUnEncryptedUser();
 
         long GetUserid(string UserName);
+        long Get_AppointmentDuration(string Conference_ID);
         string GetInstitutionName(string INSTITUTION_CODE);
         IList<PatientHealthDataModel> HealthDataDetails_List(long Patient_Id, long OptionType_Id, long Group_Id, long UnitsGroupType, Guid Login_Session_Id,long StartRowNumber, long EndRowNumber,int Active, int IsGraphPlot);
         bool UserChangePwdURL(long Id, string url);
@@ -110,8 +111,8 @@ namespace MyCortex.Repositories
         IList<AllergyModel> AllergyDetails_InActive(AllergyModel noteobj);
         IList<AllergyModel> AllergyDetails_Active(AllergyModel noteobj);
         IList<DoctorNotesModel> PatientNotes_InsertUpdate(DoctorNotesModel noteobj);
-        IList<DoctorNotesModel> PatientNotes_List(long idval, int UserTypeID, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber);
-        DoctorNotesModel PatientNotes_View(long Id, Guid Login_Session_Id);
+        IList<DoctorNotesModel> PatientNotes_List(long idval, int UserTypeID, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber, long Language_ID);
+        DoctorNotesModel PatientNotes_View(long Id, Guid Login_Session_Id, long Language_ID);
 
         long MedicationInsertUpdate(Guid Login_Session_Id, List<DrugDBMasterModel> insobj);
         IList<DrugDBMasterModel> MedicationList(long Patient_Id, int Isactive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber);
@@ -128,9 +129,9 @@ namespace MyCortex.Repositories
 
 
         Patient_OtherDataModel Patient_OtherData_InsertUpdate(long Patient_Id, Guid Login_Session_Id,long Appointment_Id, long Id, string FileName, string DocumentName, string Remarks, byte[] fileData, long Created_By, DateTime? DocumentDates,int Is_Appointment,string Filetype,string DocumentType);
-        Patient_OtherDataModel Patient_OtherData_View(long Id,Guid Login_Session_Id);
+        Patient_OtherDataModel Patient_OtherData_View(long Id,Guid Login_Session_Id, long Language_ID);
         AppointmentFeeModel GetAppointmentFee(long Institution_Id, long Department_Id);
-        IList<Patient_OtherDataModel> Patient_OtherData_List(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber);
+        IList<Patient_OtherDataModel> Patient_OtherData_List(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber, long Language_ID);
         Patient_OtherDataModel Patient_OtherData_GetDocument(long Id);
         IList<Patient_OtherDataModel> Patient_Appointment_GetDocument(long Id);
         Patient_OtherDataModel Patient_OtherData_InActive(long Id, long Modified_By);
