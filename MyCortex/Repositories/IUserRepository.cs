@@ -20,7 +20,7 @@ namespace MyCortex.Repositories
         IList<DepartmentModel> CloneDepartmentList(string search);
         IList<DepartmentModel> DepartmentListByInstitution(long Institution_Id);
         IList<DocumentTypeModel> DocumentTypeList(long Language_ID);
-        IList<NotesTypeModel> NotesTypeList();
+        IList<NotesTypeModel> NotesTypeList(Int32 Language_Id);
         IList<BusinessUser_UserTypeListModel> BusinessUser_UserTypeList();
         IList<BusinessUser_UserTypeListModel> Clone_BusinessUser_UserTypeList(string search);
         UserModel Admin_InsertUpdate(Guid Login_Session_Id, UserModel insobj);

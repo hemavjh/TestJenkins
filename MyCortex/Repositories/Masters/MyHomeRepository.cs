@@ -707,7 +707,9 @@ namespace MyCortex.Repositories.Masters
                                                          CreatedByShortName = p.Field<string>("CREATEDBY_SHORTNAME"),
                                                          ComDurationType = p.Field<string>("DurationType"),
                                                          TimeDifference = "(" + p.Field<string>("TIME_DIFFERENCE") + ")",
-                                                         DisplayParameterName = p.Field<string>("LANGUAGE_TEXT"),
+                                                         //DisplayParameterName = p.Field<string>("LANGUAGE_TEXT"),
+                                                         DisplayParameterName = p.Field<string>("DISPLAYPARAMETERNAME"),
+                                                         DisplayUnitName = p.Field<string>("DISPLAYUNITNAME"),
                                                      }).ToList();
                 return list;
             }
