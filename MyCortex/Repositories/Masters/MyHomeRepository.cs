@@ -749,7 +749,8 @@ namespace MyCortex.Repositories.Masters
                                                                    HighCount = p.Field<int>("HighCount"),
                                                                    MediumCount = p.Field<int>("MediumCount"),
                                                                    LowCount = p.Field<int>("LowCount"),
-                                                                   DisplayParameterName = p.Field<string>("LANGUAGE_TEXT"),
+                                                                   DisplayParameterName = p.Field<string>("DISPLAYPARAMETERNAME"),
+                                                                   DisplayUnitName = p.Field<string>("DISPLAYUNITNAME"),
                                                                }).ToList();
                         paramlist.ParameterList = list;
                     }
@@ -1209,7 +1210,7 @@ namespace MyCortex.Repositories.Masters
 
         }
         
-        public IList<MonitoringProtocolModel> ParameterList(long UserId)
+        public IList<MonitoringProtocolModel> ParameterList(long UserId, Int32 Language_Id)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -1217,12 +1218,14 @@ namespace MyCortex.Repositories.Masters
             {
                 List<DataParameter> param = new List<DataParameter>();
                 param.Add(new DataParameter("@USER_ID", UserId));
+                param.Add(new DataParameter("@Language_Id", Language_Id));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].STANDARDPARAMETERNAME_BYSETTING_SP_LIST", param);
                 List<MonitoringProtocolModel> lst = (from p in dt.AsEnumerable()
                                                      select new MonitoringProtocolModel()
                                                      {
                                                          Id = p.Field<long>("PARAMETER_ID"),
                                                          Name = p.Field<string>("NAME"),
+                                                         DisplayParameterName = p.Field<string>("LANGUAGE_TEXT"),
                                                          Is_Selected = p.Field<int>("Is_Selected")
                                                      }).ToList();
                 return lst;

@@ -802,14 +802,14 @@ namespace MyCortex.User.Controllers
             }
         }
         [HttpGet]
-        public IList<MonitoringProtocolModel> ParameterList(long UserId)
+        public IList<MonitoringProtocolModel> ParameterList(long UserId,Int32 Language_Id=1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<MonitoringProtocolModel> model;
             try
             {
-                model = repository.ParameterList(UserId);
+                model = repository.ParameterList(UserId,Language_Id);
                 return model;
             }
             catch (Exception ex)

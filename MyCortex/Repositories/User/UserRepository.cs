@@ -2007,6 +2007,8 @@ namespace MyCortex.Repositories.Uesr
                                                      RowNumber = p.Field<int>("ROW_NUM"),
                                                      ParameterId = p.Field<long>("PARAMETER"),
                                                      ParameterName = p.Field<string>("PARAMETERNAME"),
+                                                     DisplayParameterName = p.Field<string>("DISPLAYPARAMETERNAME"),
+                                                     DisplayUnitName = p.Field<string>("DISPLAYUNITNAME"),
                                                      XAxis = p.Field<string>("xaxis") ?? "",
                                                      // Average = p.IsNull("PARAM_AVG") ? 0 : p.Field<decimal>("PARAM_AVG"),
                                                      UOM_Id = p.Field<long>("UNITID"),
@@ -2056,7 +2058,8 @@ namespace MyCortex.Repositories.Uesr
                                                      RowNumber = p.Field<int>("ROW_NUM"),
                                                      ParameterId = p.Field<long>("PARAMETER"),
                                                      ParameterName = p.Field<string>("PARAMETERNAME"),
-                                                     DisplayParameterName = p.Field<string>("LANGUAGE_TEXT"),
+                                                     DisplayParameterName = p.Field<string>("DISPLAYPARAMETERNAME"),
+                                                     DisplayUnitName = p.Field<string>("DISPLAYUNITNAME"),
                                                      XAxis = p.Field<string>("xaxis") ?? "",
                                                      // Average = p.IsNull("PARAM_AVG") ? 0 : p.Field<decimal>("PARAM_AVG"),
                                                      UOM_Name = p.Field<string>("UNITNAME") ?? "",
@@ -2488,7 +2491,8 @@ namespace MyCortex.Repositories.Uesr
                                                           Doctor_Id = p.Field<long>("DOCTOR_ID"),
                                                           Id = p.Field<long>("Id"),
                                                           Doctor_DepartmentName = p.Field<string>("DEPARTMENT_NAME"),
-                                                          DisplayDepartmentName = p.Field<string>("LANGUAGE_TEXT"),
+                                                          DisplayDepartmentName = p.Field<string>("DISPLAYDEPARTMENTNAME"),
+                                                          DisplayGenderName = p.Field<string>("DISPLAYGENDERNAME"),
                                                           DoctorDepartmentId = p.Field<long>("DEPARTMENT_ID"),
                                                           ViewGenderName = p.Field<string>("GENDER_NAME"),
                                                           Institution_Id = p.Field<long>("INSTITUTION_ID"),
@@ -2634,7 +2638,8 @@ namespace MyCortex.Repositories.Uesr
                                                           Doctor_Id = p.Field<long>("DOCTOR_ID"),
                                                           Id = p.Field<long>("Id"),
                                                           Doctor_DepartmentName = p.Field<string>("DEPARTMENT_NAME"),
-                                                          DisplayDepartmentName = p.Field<string>("LANGUAGE_TEXT"),
+                                                          DisplayDepartmentName = p.Field<string>("DISPLAYDEPARTMENTNAME"),
+                                                          DisplayGenderName = p.Field<string>("DISPLAYGENDERNAME"),
                                                           ViewGenderName = p.Field<string>("GENDER_NAME"),
                                                           Payment_Status = (p.IsNull("PAYMENT_STATUS") ? "" : p.Field<string>("PAYMENT_STATUS")),
                                                       }).ToList();
@@ -2652,12 +2657,13 @@ namespace MyCortex.Repositories.Uesr
         /// </summary>
         /// <param name="Patient_Id"></param>
         /// <returns></returns>
-        public IList<ParametersListModel> GroupParameterNameList(long Patient_Id, long UnitGroupType_Id)
+        public IList<ParametersListModel> GroupParameterNameList(long Patient_Id, long UnitGroupType_Id,Int32 Language_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             //param.Add(new DataParameter("@ParamGroup_Id", Group_Id));
             param.Add(new DataParameter("@Patient_Id", Patient_Id));
             param.Add(new DataParameter("@UNITSGROUP_ID", UnitGroupType_Id));
+            param.Add(new DataParameter("@Language_Id", Language_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[INSTITUTIONGROUPBASED_SP_PARAMETER]", param);
             List<ParametersListModel> list = (from p in dt.AsEnumerable()
                                               select new ParametersListModel()
@@ -2666,6 +2672,8 @@ namespace MyCortex.Repositories.Uesr
                                                   Group_Id = p.Field<long>("PARAMGROUP_ID"),
                                                   ParameterId = p.Field<long>("PARAMETER_ID"),
                                                   ParameterName = p.Field<string>("PARAMETERNAME"),
+                                                  DisplayParameterName = p.Field<string>("DISPLAYPARAMETERNAME"),
+                                                  DisplayUnitName = p.Field<string>("DISPLAYUNITNAME"),
                                                   Group_Name = p.Field<string>("PARAMGROUPNAME"),
                                                   Max_Possible = p.IsNull("MAX_POSSIBLE") ? 0 : p.Field<decimal>("MAX_POSSIBLE"),
                                                   Min_Possible = p.IsNull("MIN_POSSIBLE") ? 0 : p.Field<decimal>("MIN_POSSIBLE"),

@@ -329,6 +329,7 @@ namespace MyCortex.Masters.Models
         public int MediumCount { get; set; }
         public int LowCount { get; set; }
         public string DisplayParameterName { get; set; }
+        public string DisplayUnitName { get; set; }
     }
     public class TabDeviceUserDetails
     {

@@ -21,6 +21,7 @@ namespace MyCortex.User.Model
         public DateTime Activity_Date { get; set; }
         public string ParameterName { get; set; }
         public string DisplayParameterName { get; set; }
+        public string DisplayUnitName { get; set; }
         public long ParameterId { get; set; }
         public decimal ParameterValue { get; set; }
         public decimal ParameterTarget { get; set; }
@@ -86,6 +87,8 @@ namespace MyCortex.User.Model
     {
         public long ParameterId { get; set; }
         public string ParameterName { get; set; }
+        public string DisplayParameterName { get; set; }
+        public string DisplayUnitName { get; set; }
         public decimal ParameterValue { get; set; }
         public long UOM_Id { get; set; }
         public string UOM_Name { get; set; }

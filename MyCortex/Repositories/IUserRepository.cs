@@ -62,7 +62,7 @@ namespace MyCortex.Repositories
         IList<PatientAppointmentsModel> CG_Confirm_PatientAppointments(CG_PatientAppointmentConfirm obj);
         IList<PatientAppointmentsModel> PatientPreviousAppointmentList(long PatientId, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber, Int32 Language_Id);
         IList<PatientChronicCondition_List> Chronic_Conditions(long PatientId);
-        IList<ParametersListModel> GroupParameterNameList(long Patient_Id, long UnitGroupType_Id);
+        IList<ParametersListModel> GroupParameterNameList(long Patient_Id, long UnitGroupType_Id,int Language_Id);
         IList<PatientInstituteModel> GETPATIENTINSTITUTION(long ID);
         IList<PatientHealthDataModel> ParametersDetails_Delete(PatientHealthDataModel noteobj);
         IList<PatientHealthDataModel> ParametersDetails_Active(PatientHealthDataModel noteobj);

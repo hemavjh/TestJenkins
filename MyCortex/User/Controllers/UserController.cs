@@ -2005,10 +2005,10 @@ namespace MyCortex.User.Controller
         /// <param name="Patient_Id"></param>
         /// <returns></returns>
         [HttpGet]
-        public IList<ParametersListModel> GroupParameterNameList(long Patient_Id, long UnitGroupType_Id = 1)
+        public IList<ParametersListModel> GroupParameterNameList(long Patient_Id, long UnitGroupType_Id = 1, Int32 Language_Id=1)
         {
             IList<ParametersListModel> model;
-            model = repository.GroupParameterNameList(Patient_Id, UnitGroupType_Id);
+            model = repository.GroupParameterNameList(Patient_Id, UnitGroupType_Id, Language_Id);
             return model;
         }
 
