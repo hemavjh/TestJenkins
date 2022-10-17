@@ -112,7 +112,7 @@
                             <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px" ng-click="ViewUploadRecords(Row.Id)">View Uploaded Records |</a>
                             <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px" ng-click="RescheduleDocAppointment(Row)">Reschedule |</a>
                             <a href="" class="font-semibold m-bottom-0" style="font-size: 9px; margin-right: 2px" ng-click="CancelAppointmentModal(Row,Appointment_Id)"> Cancel |</a>
-                            <a href="" class="font-semibold m-bottom-0" style="font-size:9px" ng-show="Row.Payment_Status === 'UNPAID'" ng-click="AppointmentPayment(Row)" ng-hide="Row.Amount == 0 ">  Pay</a>
+                            <a href="" class="font-semibold m-bottom-0" style="font-size:9px" ng-show="Row.Payment_Status === 'UNPAID'" ng-click="AppointmentPayment(Row)" ng-hide="Row.Amount == 0 ||Row.Payment_Status =='PAID' ">  Pay</a>
                         </div>
                         <div class="flex">
                             <a class="homepadamicon chats" style="cursor: pointer" ng-click="openchaticon(Row);" onclick="openChatWindow()"><img class="kutticon" src="images/chats-icon.png"> </a>
