@@ -37,6 +37,7 @@ using MyCortex.Notification.Firebase;
 using System.Web.UI;
 using Newtonsoft.Json.Linq;
 using MyCortex.User.Controller;
+using MyCortex.User.Models;
 
 namespace MyCortex.Livebox.Controllers
 {
@@ -169,6 +170,25 @@ namespace MyCortex.Livebox.Controllers
             catch (Exception e)
             {
                 return Content("Failure : " + e.Message);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Get_AppointmentDuration(string Conference_ID)
+        {
+            List<string> t = new List<string>();
+            var jsonSerialiser = new JavaScriptSerializer();
+            try
+            {
+                IList<LiveboxModel> lst = (IList<LiveboxModel>)liveBoxRepository.Get_AppointmentDuration(Conference_ID);
+                t.Add(lst[0].ConferenceId.ToString());
+                t.Add(lst[0].Duration.ToString());
+                var json = jsonSerialiser.Serialize(t);
+                return Content(json);
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
         }
     }
