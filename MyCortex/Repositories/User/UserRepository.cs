@@ -4330,7 +4330,7 @@ namespace MyCortex.Repositories.Uesr
                                                    Created_By_Name = p.Field<string>("FULLNAME"),
                                                    Created_Dt = p.Field<DateTime>("CREATED_DT"),
                                                    IsActive = p.Field<int>("ISACTIVE"),
-                                                   DisplayNotesType = p.Field<string>("LANGUAGE_TEXT")
+                                                   DisplayNotesType = p.Field<string>("DISPLAYNOTESTYPE")
                                                }).ToList();
                 return list;
             }
@@ -4615,7 +4615,7 @@ namespace MyCortex.Repositories.Uesr
                                                         Created_Date = p.Field<DateTime>("Created_dt"),
                                                         DocumentDate = p.Field<DateTime?>("DOCUMENT_DATE"),
                                                         DocumentType = p.Field<string>("DOCUMENT_TYPE"),
-                                                        DisplayDocumentType = p.Field<string>("LANGUAGE_TEXT")
+                                                        DisplayDocumentType = p.Field<string>("DISPLAYDOCUMENT_TYPE")
                                                     }).ToList();
                 return lst;
             }
