@@ -3428,7 +3428,7 @@ namespace MyCortex.User.Controller
         /// <returns>Clinical notes list of a patient</returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage PatientNotes_List(long Patient_Id,int UserTypeID, int IsActive, Guid Login_Session_Id, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0,Int32 Language_ID = 1)
+        public HttpResponseMessage PatientNotes_List(long Patient_Id,int UserTypeID, int IsActive, Guid Login_Session_Id, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0,Int32 Language_ID=1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
