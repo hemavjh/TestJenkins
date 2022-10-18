@@ -1061,7 +1061,7 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="StartRowNumber"></param>
         ///  <param name="EndRowNumber"></param>
         /// <returns></returns>
-        public UserList Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber,string SearchQuery,string SearchEncryptedQuery)
+        public UserList Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber,string SearchQuery,string SearchEncryptedQuery,Guid Login_Session_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
@@ -1083,6 +1083,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@GroupId", Group_Id));
             param.Add(new DataParameter("@IsActive", IsActive));
             param.Add(new DataParameter("@InstitutionId", INSTITUTION_ID));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             param.Add(new DataParameter("@SearchQuery", SearchQuery == null? "" : SearchQuery));
             param.Add(new DataParameter("@SearchEncryptedQuery", SearchQuery == null? "" : SearchQuery));
             DataSet ds = ClsDataBase.GetDataSet("[MYCORTEX].PATIENT_SP_LIST_NEW", param);
