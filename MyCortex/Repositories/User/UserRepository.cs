@@ -3980,18 +3980,19 @@ namespace MyCortex.Repositories.Uesr
         /// </summary>
         /// <param name="Institution_Id">Institution Id</param>
         /// <returns></returns>
-        public IList<AllergyTypeModel> AllergyTypeList(long Institution_Id)
+        public IList<AllergyTypeModel> AllergyTypeList(long Institution_Id,int Language_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Institution_Id", Institution_Id));
+            param.Add(new DataParameter("@Language_Id", Language_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].ALERGYTYPE_SP_LIST", param);
             List<AllergyTypeModel> list = (from p in dt.AsEnumerable()
                                            select new AllergyTypeModel()
                                            {
                                                Id = p.Field<long>("Id"),
                                                AllergyTypeName = p.Field<string>("NAME"),
+                                               DisplayAllergyTypeName = p.Field<string>("DISPLAYALLERGYTYPENAME"),
                                                IsActive = p.Field<int>("ISACTIVE")
-
                                            }).ToList();
             return list;
         }
@@ -4023,16 +4024,18 @@ namespace MyCortex.Repositories.Uesr
         /// </summary>
         /// <param name="Institution_Id"></param>
         /// <returns></returns>
-        public IList<AllergyOnsetModel> AllergyOnsetList(long Institution_Id)
+        public IList<AllergyOnsetModel> AllergyOnsetList(long Institution_Id,int Language_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Institution_Id", Institution_Id));
+            param.Add(new DataParameter("@Language_Id", Language_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].ALLERGYONSET_SP_LIST", param);
             List<AllergyOnsetModel> list = (from p in dt.AsEnumerable()
                                             select new AllergyOnsetModel()
                                             {
                                                 Id = p.Field<long>("Id"),
                                                 AllergyOnsetName = p.Field<string>("NAME"),
+                                                DisplayAllergyOnsetName = p.Field<string>("DISPLAYALLERGYONSETNAME"),
                                                 IsActive = p.Field<int>("ISACTIVE")
 
                                             }).ToList();
@@ -4043,18 +4046,19 @@ namespace MyCortex.Repositories.Uesr
         /// </summary>
         /// <param name="Institution_Id"></param>
         /// <returns></returns>
-        public IList<AllergySeverityModel> AllergySeverityList(long Institution_Id)
+        public IList<AllergySeverityModel> AllergySeverityList(long Institution_Id,int Language_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Institution_Id", Institution_Id));
+            param.Add(new DataParameter("@Language_Id", Language_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].ALLERGYSEVERITY_SP_LIST", param);
             List<AllergySeverityModel> list = (from p in dt.AsEnumerable()
                                                select new AllergySeverityModel()
                                                {
                                                    Id = p.Field<long>("Id"),
                                                    AllergySeverityName = p.Field<string>("NAME"),
+                                                   DisplayAllergySeverityName = p.Field<string>("DISPLAYALLERGYSEVERITYNAME"),
                                                    IsActive = p.Field<int>("ISACTIVE")
-
                                                }).ToList();
             return list;
         }
@@ -4063,18 +4067,19 @@ namespace MyCortex.Repositories.Uesr
         /// </summary>
         /// <param name="Institution_Id"></param>
         /// <returns></returns>
-        public IList<AllergyReactionModel> AllergyReactionList(long Institution_Id)
+        public IList<AllergyReactionModel> AllergyReactionList(long Institution_Id,int language_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Institution_Id", Institution_Id));
+            param.Add(new DataParameter("@Language_Id", Language_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].ALLERGYREACTION_SP_LIST", param);
             List<AllergyReactionModel> list = (from p in dt.AsEnumerable()
                                                select new AllergyReactionModel()
                                                {
                                                    Id = p.Field<long>("Id"),
                                                    AllergyReactionName = p.Field<string>("ALLERGYREACTIONNAME"),
+                                                   DisplayAllergyReactionName = p.Field<string>("DISPLAYALLERGYREACTIONNAME"),
                                                    IsActive = p.Field<int>("ISACTIVE")
-
                                                }).ToList();
             return list;
         }
@@ -4151,14 +4156,15 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Patient_Id">Patient Id</param>
         /// <param name="IsActive">Active Flag</param>
         /// <returns>allergy list of a patient</returns>
-        public IList<AllergyModel> PatientAllergylist(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber)
+        public IList<AllergyModel> PatientAllergylist(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber, int Language_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@PatientId", Patient_Id));
             param.Add(new DataParameter("@ISACTIVE", IsActive));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
-            param.Add(new DataParameter("@EndRowNumber", EndRowNumber)); 
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
+            param.Add(new DataParameter("@Language_Id", Language_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_ALLERGY_DETAILS_SP_LIST", param);
             List<AllergyModel> lst = (from p in dt.AsEnumerable()
                                       select new AllergyModel()
@@ -4188,12 +4194,13 @@ namespace MyCortex.Repositories.Uesr
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public AllergyModel PatientAllergyView(long Id, Guid Login_Session_Id)
+        public AllergyModel PatientAllergyView(long Id, Guid Login_Session_Id,int Language_Id)
         {
             //long ViewId;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@LANGUAGE_ID", Language_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_ALLERGYDETAILS_SP_VIEW", param);
             AllergyModel ViewAllergy = (from p in dt.AsEnumerable()
                                         select
@@ -4204,11 +4211,15 @@ namespace MyCortex.Repositories.Uesr
                                             AllergenName = p.Field<string>("ALLERGENNAME"),
                                             AllergyTypeId = p.Field<long>("ALLERGYTYPE_ID"),
                                             AllergyTypeName = p.Field<string>("ALLERGYTYPE"),
+                                            DisplayAllergyTypeName = p.Field<string>("DISPLAYALLERGYTYPE"),
                                             AllergySeverityId = p.Field<long?>("SEVERITY_ID"),
                                             AllergySeverityName = p.Field<string>("SEVERITY"),
+                                            DisplayAllergySeverityName = p.Field<string>("DISPLAYSEVERITY"),
                                             AllergyOnsetId = p.Field<long?>("ONSET_ID"),
                                             AllergyOnsetName = p.Field<string>("ONSETNAME"),
+                                            DisplayAllergyOnsetName = p.Field<string>("DISPLAYONSETNAME"),
                                             AllergyReactionName = p.Field<string>("ALLERGYREACTIONNAME"),
+                                            DisplayAllergyReactionName = p.Field<string>("DISPLAYALLERGYREACTIONNAME"),
                                             OnSetDate = p.Field<DateTime?>("ONSETDATE"),
                                             Remarks = p.Field<string>("REMARKS"),
                                             Created_By = p.Field<long>("CREATEDBY"),

@@ -23,10 +23,14 @@ namespace MyCortex.User.Model
         public long Patient_Id { get; set; }
         public long Created_By { get; set; }
         public string AllergyTypeName { get; set; }
+        public string DisplayAllergyTypeName { get; set; }
         public string AllergenName { get; set; }
         public string AllergyOnsetName { get; set; }
+        public string DisplayAllergyOnsetName { get; set; }
         public string AllergySeverityName { get; set; }
+        public string DisplayAllergySeverityName { get; set; }
         public string AllergyReactionName { get; set; }
+        public string DisplayAllergyReactionName { get; set; }
         public IList<AllergyTypeModel> Allergy_TypeList { get; set; }
         public IList<AllergyenModel> Allergen_List { get; set; }
         public IList<AllergyOnsetModel> AllengyOnset_List { get; set; }
@@ -46,6 +50,7 @@ namespace MyCortex.User.Model
     {
         public long Id { get; set; }
         public string AllergyTypeName { get; set; }
+        public string DisplayAllergyTypeName { get; set; }
         public int IsActive { get; set; }
     }
     public class AllergyenModel
@@ -60,18 +65,21 @@ namespace MyCortex.User.Model
     {
         public long Id { get; set; }
         public string AllergyOnsetName { get; set; }
+        public string DisplayAllergyOnsetName { get; set; }
         public int IsActive { get; set; }
     }
     public class AllergySeverityModel
     {
         public long Id { get; set; }
         public string AllergySeverityName { get; set; }
+        public string DisplayAllergySeverityName { get; set; }
         public int IsActive { get; set; }
     }
     public class AllergyReactionModel
     {
         public long? Id { get; set; }
         public string AllergyReactionName { get; set; }
+        public string DisplayAllergyReactionName { get; set; }
         public int IsActive { get; set; }
     }
 

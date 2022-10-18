@@ -2890,7 +2890,7 @@ namespace MyCortex.User.Controller
         /// <param name="Institution_Id">Institution Id</param>
         /// <returns></returns>
         [HttpGet]
-        public IList<AllergyTypeModel> AllergyTypeList(long Institution_Id)
+        public IList<AllergyTypeModel> AllergyTypeList(long Institution_Id, int Language_Id=1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -2898,7 +2898,7 @@ namespace MyCortex.User.Controller
             try
             {
                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
-                model = repository.AllergyTypeList(Institution_Id);
+                model = repository.AllergyTypeList(Institution_Id,Language_Id);
                 return model;
             }
             catch (Exception ex)
@@ -2941,7 +2941,7 @@ namespace MyCortex.User.Controller
         /// <param name="Institution_Id"></param>
         /// <returns></returns>
         [HttpGet]
-        public IList<AllergyOnsetModel> AllergyOnsetList(long Institution_Id)
+        public IList<AllergyOnsetModel> AllergyOnsetList(long Institution_Id,int Language_Id=1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -2949,7 +2949,7 @@ namespace MyCortex.User.Controller
             try
             {
                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
-                model = repository.AllergyOnsetList(Institution_Id);
+                model = repository.AllergyOnsetList(Institution_Id, Language_Id);
                 return model;
             }
             catch (Exception ex)
@@ -2967,7 +2967,7 @@ namespace MyCortex.User.Controller
         /// <param name="Institution_Id"></param>
         /// <returns></returns>
         [HttpGet]
-        public IList<AllergySeverityModel> AllergySeverityList(long Institution_Id)
+        public IList<AllergySeverityModel> AllergySeverityList(long Institution_Id,int Language_Id)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -2975,7 +2975,7 @@ namespace MyCortex.User.Controller
             try
             {
                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
-                model = repository.AllergySeverityList(Institution_Id);
+                model = repository.AllergySeverityList(Institution_Id, Language_Id);
                 return model;
             }
             catch (Exception ex)
@@ -2992,7 +2992,7 @@ namespace MyCortex.User.Controller
         /// <param name="Institution_Id"></param>
         /// <returns></returns>
         [HttpGet]
-        public IList<AllergyReactionModel> AllergyReactionList(long Institution_Id)
+        public IList<AllergyReactionModel> AllergyReactionList(long Institution_Id, int Language_Id=1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -3000,7 +3000,7 @@ namespace MyCortex.User.Controller
             try
             {
                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
-                model = repository.AllergyReactionList(Institution_Id);
+                model = repository.AllergyReactionList(Institution_Id, Language_Id);
                 return model;
             }
             catch (Exception ex)
@@ -3086,7 +3086,7 @@ namespace MyCortex.User.Controller
         /// <returns>allergy list of a patient</returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage PatientAllergylist(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0)
+        public HttpResponseMessage PatientAllergylist(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0, int Language_Id=1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -3106,7 +3106,7 @@ namespace MyCortex.User.Controller
                     StartRowNumber = ((Page - 1) * _metadata.per_page) + 1;
                     EndRowNumber = Page * _metadata.per_page;
                 }
-                model = repository.PatientAllergylist(Patient_Id, IsActive, Login_Session_Id, StartRowNumber, EndRowNumber);
+                model = repository.PatientAllergylist(Patient_Id, IsActive, Login_Session_Id, StartRowNumber, EndRowNumber,Language_Id);
                 if (model != null)
                 {
                     if (model.Count > 0)
@@ -3294,7 +3294,7 @@ namespace MyCortex.User.Controller
         /// <returns></returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public AllergyModel PatientAllergyView(long Id, Guid Login_Session_Id)
+        public AllergyModel PatientAllergyView(long Id, Guid Login_Session_Id,int Languageg_Id=1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -3302,7 +3302,7 @@ namespace MyCortex.User.Controller
             try
             {
                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
-                model = repository.PatientAllergyView(Id, Login_Session_Id);
+                model = repository.PatientAllergyView(Id, Login_Session_Id, Languageg_Id);
             }
             catch (Exception ex)
             {

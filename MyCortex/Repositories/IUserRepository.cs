@@ -100,14 +100,14 @@ namespace MyCortex.Repositories
         string PatientICD10_Date_Overlapping(Guid Login_Session_Id,List<MasterICDModel> ICD10Groupobj);
         IList<MasterICDModel> ICD10Code_List(string ICD10CodeSearch, long Institution_Id);
 
-        IList<AllergyTypeModel> AllergyTypeList(long Institution_Id);
+        IList<AllergyTypeModel> AllergyTypeList(long Institution_Id,int Language_Id);
         IList<AllergyenModel> AllergenList(long ALLERGYTYPE_ID, long Institution_Id);
-        IList<AllergyOnsetModel> AllergyOnsetList(long Institution_Id);
-        IList<AllergySeverityModel> AllergySeverityList(long Institution_Id);
-        IList<AllergyReactionModel> AllergyReactionList(long Institution_Id);
+        IList<AllergyOnsetModel> AllergyOnsetList(long Institution_Id, int Language_id);
+        IList<AllergySeverityModel> AllergySeverityList(long Institution_Id, int Language_id);
+        IList<AllergyReactionModel> AllergyReactionList(long Institution_Id,int Language_id);
         IList<AllergyModel> Allergy_AddEdit(Guid Login_Session_Id,AllergyModel insobj);
-        IList<AllergyModel> PatientAllergylist(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber);
-        AllergyModel PatientAllergyView(long Id, Guid Login_Session_Id);
+        IList<AllergyModel> PatientAllergylist(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber,int Language_Id);
+        AllergyModel PatientAllergyView(long Id, Guid Login_Session_Id,int Languageg_Id);
         IList<AllergyModel> AllergyDetails_InActive(AllergyModel noteobj);
         IList<AllergyModel> AllergyDetails_Active(AllergyModel noteobj);
         IList<DoctorNotesModel> PatientNotes_InsertUpdate(DoctorNotesModel noteobj);
