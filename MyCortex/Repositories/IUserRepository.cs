@@ -47,7 +47,7 @@ namespace MyCortex.Repositories
         int Get_Exist_AnyUnEncryptedUser();
 
         long GetUserid(string UserName);
-        long Get_AppointmentDuration(string Conference_ID);
+        //long Get_AppointmentDuration(string Conference_ID);
         string GetInstitutionName(string INSTITUTION_CODE);
         IList<PatientHealthDataModel> HealthDataDetails_List(long Patient_Id, long OptionType_Id, long Group_Id, long UnitsGroupType, Guid Login_Session_Id,long StartRowNumber, long EndRowNumber,int Active, int IsGraphPlot);
         bool UserChangePwdURL(long Id, string url);
