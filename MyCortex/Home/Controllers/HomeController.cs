@@ -920,13 +920,13 @@ namespace MyCortex.Home.Controllers
             return Id;
         }
 
-        [HttpGet]
-        public long Get_AppointmentDuration(string Conference_ID)
-        {
-            long duration;
-            duration = repository.Get_AppointmentDuration(Conference_ID);
-            return duration;
-        }
+        //[HttpGet]
+        //public long Get_AppointmentDuration(string Conference_ID)
+        //{
+        //    long duration;
+        //    duration = repository.Get_AppointmentDuration(Conference_ID);
+        //    return duration;
+        //}
 
         [HttpPost]
         public ActionResult LiveBoxVideoNotify()

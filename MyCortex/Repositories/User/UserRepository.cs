@@ -2247,42 +2247,42 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
-        public long Get_AppointmentDuration(string Conference_ID)
-        {
-            _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
-            long id;
-            List<DataParameter> param = new List<DataParameter>();
-            param.Add(new DataParameter("@Conference_ID", Conference_ID));
+        //public long Get_AppointmentDuration(string Conference_ID)
+        //{
+        //    _AppLogger = this.GetType().FullName;
+        //    _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+        //    long id;
+        //    List<DataParameter> param = new List<DataParameter>();
+        //    param.Add(new DataParameter("@Conference_ID", Conference_ID));
 
-            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
-            try
-            {
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_APPOINTMENT_DURATION]", param);
-                if (dt != null)
-                {
-                    if (dt.Rows.Count > 0)
-                    {
-                        return id = Convert.ToInt64(dt.Rows[0][0]);
-                    }
-                    else
-                    {
-                        return 0;
-                    }
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            catch (Exception ex)
-            {
+        //    var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+        //    _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+        //    try
+        //    {
+        //        DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_APPOINTMENT_DURATION]", param);
+        //        if (dt != null)
+        //        {
+        //            if (dt.Rows.Count > 0)
+        //            {
+        //                return id = Convert.ToInt64(dt.Rows[0][0]);
+        //            }
+        //            else
+        //            {
+        //                return 0;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            return 0;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
-                return 0;
-            }
-        }
+        //        _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+        //        return 0;
+        //    }
+        //}
         public PatientHealthDataModel PatientHealthData_Sync_Insert_Update(Guid Login_Session_Id, PatientHealthDataModel insobj)
         {
             List<DataParameter> param = new List<DataParameter>();
