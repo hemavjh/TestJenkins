@@ -202,7 +202,7 @@ namespace MyCortex.Repositories.Masters
         /// </summary>
         /// <param name="Parameter_Id">Parameter Id</param>
         /// <returns> unit list of a parameter</returns>
-        public IList<ParamaterSettingsModel> ParameterMappingList(int? Parameter_Id, int? Institution_Id, int? Unitgroup_Type)
+        public IList<ParamaterSettingsModel> ParameterMappingList(int? Parameter_Id, int? Institution_Id, int? Unitgroup_Type, int Language_Id)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -219,6 +219,8 @@ namespace MyCortex.Repositories.Masters
                                                         Id = p.Field<long>("ID"),
                                                         Parameter_ID = p.Field<long>("PARAMETER_ID"),
                                                         Parameter_Name = p.Field<string>("PARAMETER_NAME"),
+                                                        DisplayParameterName = p.Field<string>("DISPLAYPARAMETERNAME"),
+                                                        DisplayUnitsName = p.Field<string>("DISPLAYUOMNAME"),
                                                         Units_ID = p.Field<long>("UNITS_ID"),
                                                         Units_Name = p.Field<string>("UNITS_NAME"),
                                                         UnitsGroup_ID = p.Field<long>("UNITSGROUP_ID"),

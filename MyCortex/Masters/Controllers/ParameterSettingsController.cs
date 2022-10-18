@@ -119,10 +119,10 @@ namespace MyCortex.Masters.Controllers
         /// <param name="Parameter_Id">Parameter Id</param>
         /// <returns> unit list of a parameter</returns>
         [HttpGet]
-        public IList<ParamaterSettingsModel> ParameterMappingList(int? Parameter_Id, int? Institution_Id = 0, int Unitgroup_Type = 0)
+        public IList<ParamaterSettingsModel> ParameterMappingList(int? Parameter_Id, int? Institution_Id = 0, int Unitgroup_Type = 0, int Language_Id=1)
         {
             IList<ParamaterSettingsModel> model;
-            model = repository.ParameterMappingList(Parameter_Id, Institution_Id, Unitgroup_Type);
+            model = repository.ParameterMappingList(Parameter_Id, Institution_Id, Unitgroup_Type,Language_Id);
             return model;
         }
 

@@ -49,7 +49,7 @@ namespace MyCortex.Repositories
         long GetUserid(string UserName);
         long Get_AppointmentDuration(string Conference_ID);
         string GetInstitutionName(string INSTITUTION_CODE);
-        IList<PatientHealthDataModel> HealthDataDetails_List(long Patient_Id, long OptionType_Id, long Group_Id, long UnitsGroupType, Guid Login_Session_Id,long StartRowNumber, long EndRowNumber,int Active, int IsGraphPlot);
+        IList<PatientHealthDataModel> HealthDataDetails_List(long Patient_Id, long OptionType_Id, long Group_Id, long UnitsGroupType, Guid Login_Session_Id,long StartRowNumber, long EndRowNumber,int Active, int IsGraphPlot,int Language_Id);
         bool UserChangePwdURL(long Id, string url);
         IList<PatientHealthDataModel> HealthData_List_On_Parameter(long Patient_Id, long OptionType_Id, long Group_Id, long Parameter_Id, long UnitsGroupType, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber, int Active, int IsGraphPlot, Int32 Language_Id);
         IList<PatientHealthDataModel> GoalDataDetails_List(long Patient_Id, Guid Login_Session_Id);
