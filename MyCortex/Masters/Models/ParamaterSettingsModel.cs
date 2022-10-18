@@ -29,6 +29,8 @@ namespace MyCortex.Masters.Models
         public int flag { get; set; }
         public string Institution_Name { get; set; }
         public string Parameter_Name { get; set; }
+        public string DisplayParameterName { get; set; }
+        public string DisplayUnitsName { get; set; }
         public string Units_Name { get; set; }
         public bool Diagnostic_Flag { get; set; }
         public bool Compliance_Flag { get; set; }

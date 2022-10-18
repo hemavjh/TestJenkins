@@ -1993,7 +1993,7 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Patient_Id">Patient Id</param>
         /// <param name="OptionType_Id">Daily(1), 1 Week(2), 1 Month(3), 3 Month(4), 1 Year(5), Year Till Date(6) and All(7)</param>
         /// <returns>List of Health Data</returns>
-        public IList<PatientHealthDataModel> HealthDataDetails_List(long Patient_Id, long OptionType_Id, long Group_Id, long UnitsGroupType, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber,int Active, int IsGraphPlot)
+        public IList<PatientHealthDataModel> HealthDataDetails_List(long Patient_Id, long OptionType_Id, long Group_Id, long UnitsGroupType, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber,int Active, int IsGraphPlot,int Language_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
@@ -2005,6 +2005,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@UNITSGROUP_ID", UnitsGroupType));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             param.Add(new DataParameter("@IsGraphPlot", IsGraphPlot));
+            param.Add(new DataParameter("@Language_Id", Language_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENTHEALTHDATA_SP_LISTS]", param);
             List<PatientHealthDataModel> list = (from p in dt.AsEnumerable()
                                                  select new PatientHealthDataModel()
@@ -4286,7 +4287,7 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Patient_Id"></param>
         /// <param name="IsActive"></param>
         /// <returns>Clinical notes list of a patient</returns>
-        public IList<DoctorNotesModel> PatientNotes_List(long idval, int UserTypeID, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber, long Language_ID)
+        public IList<DoctorNotesModel> PatientNotes_List(long idval, int UserTypeID, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber, Int32 Language_ID)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;

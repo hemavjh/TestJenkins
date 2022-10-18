@@ -49,7 +49,7 @@ namespace MyCortex.Repositories
         long GetUserid(string UserName);
         long Get_AppointmentDuration(string Conference_ID);
         string GetInstitutionName(string INSTITUTION_CODE);
-        IList<PatientHealthDataModel> HealthDataDetails_List(long Patient_Id, long OptionType_Id, long Group_Id, long UnitsGroupType, Guid Login_Session_Id,long StartRowNumber, long EndRowNumber,int Active, int IsGraphPlot);
+        IList<PatientHealthDataModel> HealthDataDetails_List(long Patient_Id, long OptionType_Id, long Group_Id, long UnitsGroupType, Guid Login_Session_Id,long StartRowNumber, long EndRowNumber,int Active, int IsGraphPlot,int Language_Id);
         bool UserChangePwdURL(long Id, string url);
         IList<PatientHealthDataModel> HealthData_List_On_Parameter(long Patient_Id, long OptionType_Id, long Group_Id, long Parameter_Id, long UnitsGroupType, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber, int Active, int IsGraphPlot, Int32 Language_Id);
         IList<PatientHealthDataModel> GoalDataDetails_List(long Patient_Id, Guid Login_Session_Id);
@@ -111,7 +111,7 @@ namespace MyCortex.Repositories
         IList<AllergyModel> AllergyDetails_InActive(AllergyModel noteobj);
         IList<AllergyModel> AllergyDetails_Active(AllergyModel noteobj);
         IList<DoctorNotesModel> PatientNotes_InsertUpdate(DoctorNotesModel noteobj);
-        IList<DoctorNotesModel> PatientNotes_List(long idval, int UserTypeID, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber, long Language_ID);
+        IList<DoctorNotesModel> PatientNotes_List(long idval, int UserTypeID, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber, Int32 Language_ID);
         DoctorNotesModel PatientNotes_View(long Id, Guid Login_Session_Id, long Language_ID);
 
         long MedicationInsertUpdate(Guid Login_Session_Id, List<DrugDBMasterModel> insobj);
