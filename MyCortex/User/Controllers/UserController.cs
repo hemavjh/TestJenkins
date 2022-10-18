@@ -2967,7 +2967,7 @@ namespace MyCortex.User.Controller
         /// <param name="Institution_Id"></param>
         /// <returns></returns>
         [HttpGet]
-        public IList<AllergySeverityModel> AllergySeverityList(long Institution_Id,int Language_Id)
+        public IList<AllergySeverityModel> AllergySeverityList(long Institution_Id,int Language_Id=1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
