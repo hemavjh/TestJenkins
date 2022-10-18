@@ -11,4 +11,11 @@ namespace MyCortex.User.Models
         public string Department_Name { get; set; }
         public int? IsActive { get; set; }
     }
+
+    public class LiveboxModel
+    {
+        public Int32 Duration { get; set; }
+        public Guid ConferenceId { get; set; }
+
+    }
 }
