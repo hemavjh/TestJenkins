@@ -5509,7 +5509,7 @@ namespace MyCortex.Repositories.Uesr
             return response;
         }
 
-        public int Save_Video_Call_Recording_Logs(string conference_id, string recording_url)
+        public int Save_Video_Call_Recording_Logs(string conference_id, string recording_url, string Recordingurl)
         {
             int response = 0;
             List<DataParameter> param = new List<DataParameter>();
