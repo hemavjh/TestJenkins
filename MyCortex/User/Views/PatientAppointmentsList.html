@@ -120,8 +120,8 @@
                             <button id="videoDisable" style="cursor: pointer" ng-if="isVideoC==true" disabled="disabled" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon Video"  value="{{Row.Appointment_FromTime}}" onclick="openChatWindow();videoCallUser(this.value)">
                                 <img style=" margin-top: -7px; padding-left: 0px; padding-top: 0px; padding-bottom: 0px; padding-right: 4px; width: 41px; margin-left: -9px;" src="images/Video-Icon.png">
                             </button>
-                            <button id="MyvideoDisable" ng-if="isvideo==true" title="my meeting" style="cursor: pointer" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon Video" disabled="disabled" ng-click="openvideocall(Row.PatientName,Row.ConferenceId,Row)">
-                                <img title="my meeting" style=" margin-top: -7px; padding-left: 0px; padding-top: 0px; padding-bottom: 0px; padding-right: 4px; width: 41px; margin-left: -9px;" src="images/Video-Icon.png">
+                            <button id="MyvideoDisable" ng-if="isvideo==true" title="Hive Meet" style="cursor: pointer" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon Video" disabled="disabled" ng-click="openvideocall(Row.PatientName,Row.ConferenceId,Row)">
+                                <img title="Hive Meet" style=" margin-top: -7px; padding-left: 0px; padding-top: 0px; padding-bottom: 0px; padding-right: 4px; width: 41px; margin-left: -9px;" src="images/Video-Icon.png">
                             </button>
                             <a class="homepadamicon trashs" style="cursor: pointer" ng-click="CancelAppointmentModal(Row,Appointment_Id)"><img class="kutticon" src="images/trashs-icon.png"> </a>
                         </div>
