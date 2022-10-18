@@ -48,7 +48,7 @@ namespace MyCortex.Repositories.Masters
                                        {
                                            Id = p.Field<long>("Id"),
                                            Department_Name = p.Field<string>("Department_Name"),
-                                           DisplayDepartmentName= p.Field<string>("LANGUAGE_TEXT")
+                                           DisplayDepartmentName= p.Field<string>("DisplayDepartment_Name")
                                        }).ToList();
                 return lst;
             }

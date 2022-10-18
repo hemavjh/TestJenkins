@@ -321,8 +321,8 @@ namespace MyCortex.Repositories.Uesr
                                                           Doctor_Id = p.Field<long>("ID"),
                                                           DoctorName = p.Field<string>("FULLNAME"),
                                                           Doctor_DepartmentName = p.Field<string>("DEPARTMENT_NAME"),
-                                                          DisplayDepartmentName= p.Field<string>("DISPLAYDEPARTMENTNAME"),
-                                                          DisplayGenderName = p.Field<string>("DISPLAYGENDERNAME"),
+                                                          DisplayDoctor_DepartmentName = p.Field<string>("DISPLAYDEPARTMENTNAME"),
+                                                          DisplayViewGenderName = p.Field<string>("DISPLAYGENDERNAME"),
                                                           // Name_Specialization = p.Field<string>("NAMESPECIALIZATION"),
                                                           PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
                                                           ViewGenderName = p.Field<string>("VIEWGENDERNAME"),
@@ -358,7 +358,7 @@ namespace MyCortex.Repositories.Uesr
                                                       {
                                                           ReasonTypeId = p.Field<long>("ID"),                                                         
                                                           ReasonType = p.Field<string>("REASONTYPE"),
-                                                          DisplayReasonType = p.Field<string>("LANGUAGE_TEXT"),
+                                                          DisplayReasonType = p.Field<string>("DISPLAYREASONTYPE"),
                                                           IsActive = p.Field<int>("ISACTIVE"), 
                                                       }).ToList();
                 return lst;

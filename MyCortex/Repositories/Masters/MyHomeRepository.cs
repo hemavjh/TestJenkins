@@ -525,7 +525,7 @@ namespace MyCortex.Repositories.Masters
                                           {
                                               ParameterId = p.Field<long>("ID"),
                                               ParameterName = p.Field<string>("NAME"),
-                                              DisplayParameterName = p.Field<string>("LANGUAGE_TEXT"),                                             
+                                              DisplayParameterName = p.Field<string>("DISPLAYNAME"),                                             
                                           }).ToList();
                 return lst;
             }
@@ -752,7 +752,7 @@ namespace MyCortex.Repositories.Masters
                                                                    MediumCount = p.Field<int>("MediumCount"),
                                                                    LowCount = p.Field<int>("LowCount"),
                                                                    DisplayParameterName = p.Field<string>("DISPLAYPARAMETERNAME"),
-                                                                   DisplayUnitName = p.Field<string>("DISPLAYUNITNAME"),
+                                                                   DisplayUomName = p.Field<string>("DISPLAYUNITNAME"),
                                                                }).ToList();
                         paramlist.ParameterList = list;
                     }
@@ -796,8 +796,10 @@ namespace MyCortex.Repositories.Masters
                                                           PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
                                                           Doctor_Id = p.Field<long>("DOCTOR_ID"),
                                                           Doctor_DepartmentName = p.Field<string>("DEPARTMENT_NAME"),
+                                                          DisplayDoctor_DepartmentName = p.Field<string>("DISPLAYDEPARTMENTNAME"),
                                                           DoctorDepartmentId = p.Field<long>("DEPARTMENT_ID"),
                                                           ViewGenderName = p.Field<string>("GENDER_NAME"),
+                                                          DisplayViewGenderName = p.Field<string>("DISPLAYGENDERNAME"),
                                                           TimeDifference = p.Field<string>("TimeDifference"),
                                                           Payment_Status = (p.IsNull("PAYMENT_STATUS") ? "" : p.Field<string>("PAYMENT_STATUS")),
                                                           ConferenceId = p.Field<string>("CONFERENCE_ID"),
@@ -1227,7 +1229,7 @@ namespace MyCortex.Repositories.Masters
                                                      {
                                                          Id = p.Field<long>("PARAMETER_ID"),
                                                          Name = p.Field<string>("NAME"),
-                                                         DisplayParameterName = p.Field<string>("LANGUAGE_TEXT"),
+                                                         DisplayName = p.Field<string>("DISPLAYNAME"),
                                                          Is_Selected = p.Field<int>("Is_Selected")
                                                      }).ToList();
                 return lst;

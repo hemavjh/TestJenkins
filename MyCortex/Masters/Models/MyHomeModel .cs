@@ -329,7 +329,7 @@ namespace MyCortex.Masters.Models
         public int MediumCount { get; set; }
         public int LowCount { get; set; }
         public string DisplayParameterName { get; set; }
-        public string DisplayUnitName { get; set; }
+        public string DisplayUomName { get; set; }
     }
     public class TabDeviceUserDetails
     {
@@ -403,7 +403,8 @@ namespace MyCortex.Masters.Models
         public string Amount { get; set; }
         public int IsActive { get; set; }
         public string ConferenceId { get; set; }
-
+        public string DisplayDoctor_DepartmentName { get; set; }
+        public string DisplayViewGenderName { get; set; }
 
     }
     public class TabDashBoardMedicationDetails

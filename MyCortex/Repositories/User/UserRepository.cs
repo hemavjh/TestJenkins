@@ -2534,8 +2534,8 @@ namespace MyCortex.Repositories.Uesr
                                                           Doctor_Id = p.Field<long>("DOCTOR_ID"),
                                                           Id = p.Field<long>("Id"),
                                                           Doctor_DepartmentName = p.Field<string>("DEPARTMENT_NAME"),
-                                                          DisplayDepartmentName = p.Field<string>("DISPLAYDEPARTMENTNAME"),
-                                                          DisplayGenderName = p.Field<string>("DISPLAYGENDERNAME"),
+                                                          DisplayDoctor_DepartmentName = p.Field<string>("DISPLAYDEPARTMENTNAME"),
+                                                          DisplayViewGenderName = p.Field<string>("DISPLAYGENDERNAME"),
                                                           DoctorDepartmentId = p.Field<long>("DEPARTMENT_ID"),
                                                           ViewGenderName = p.Field<string>("GENDER_NAME"),
                                                           Institution_Id = p.Field<long>("INSTITUTION_ID"),
@@ -2681,8 +2681,8 @@ namespace MyCortex.Repositories.Uesr
                                                           Doctor_Id = p.Field<long>("DOCTOR_ID"),
                                                           Id = p.Field<long>("Id"),
                                                           Doctor_DepartmentName = p.Field<string>("DEPARTMENT_NAME"),
-                                                          DisplayDepartmentName = p.Field<string>("DISPLAYDEPARTMENTNAME"),
-                                                          DisplayGenderName = p.Field<string>("DISPLAYGENDERNAME"),
+                                                          DisplayDoctor_DepartmentName = p.Field<string>("DISPLAYDEPARTMENTNAME"),
+                                                          DisplayViewGenderName = p.Field<string>("DISPLAYGENDERNAME"),
                                                           ViewGenderName = p.Field<string>("GENDER_NAME"),
                                                           Payment_Status = (p.IsNull("PAYMENT_STATUS") ? "" : p.Field<string>("PAYMENT_STATUS")),
                                                       }).ToList();
@@ -4071,7 +4071,7 @@ namespace MyCortex.Repositories.Uesr
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Institution_Id", Institution_Id));
-            param.Add(new DataParameter("@Language_Id", Language_Id));
+            param.Add(new DataParameter("@Language_Id", language_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].ALLERGYREACTION_SP_LIST", param);
             List<AllergyReactionModel> list = (from p in dt.AsEnumerable()
                                                select new AllergyReactionModel()

@@ -15,7 +15,7 @@ namespace MyCortex.Admin.Models
         public long Created_By { get; set; }
         public int flag { get; set; }
         public string Name { get; set; }
-        public string DisplayParameterName { get; set; }
+        public string DisplayName { get; set; }
         public int Is_Selected { get; set; }
         public IList<ProtocolModel> ChildModuleList { get; set; }
     }
