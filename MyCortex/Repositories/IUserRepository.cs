@@ -150,6 +150,7 @@ namespace MyCortex.Repositories
         long UpdateUserLanguage(long UserId, long LanguageId);
         int Save_User_Eligiblity_Logs(string eligibiltyId, int patient_id, responseModel Obj);
         int Save_User_Appointment_Eligiblity_Logs(int appointment_id, int patient_id, string eligibiltyId, responseAppointmentModel Obj);
-        int Save_Video_Call_Recording_Logs(string conference_id, string recording_url);
+        //int Save_Video_Call_Recording_Logs(string conference_id, string recording_url);
+        int Save_Video_Call_Recording_Logs(string conference_id, string recording_url, string Recordingurl);
     }
 }
