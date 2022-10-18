@@ -5456,7 +5456,60 @@ namespace MyCortex.Repositories.Uesr
             return response;
         }
 
-        public int Save_Video_Call_Recording_Logs(string conference_id, string recording_url, string Recordingurl)
+        public int Save_User_Appointment_Eligiblity_Logs(int appointment_id, int patient_id, string eligibility_id, responseAppointmentModel Obj)
+        {
+            responseModel ModelData = new responseModel();
+            int response = 0;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@APPOINTMENT_ID", appointment_id));
+            param.Add(new DataParameter("@PATIENT_ID", patient_id));
+            param.Add(new DataParameter("@ELIGIBILITY_ID", eligibility_id));
+
+            param.Add(new DataParameter("@CLINICIAN_ID", Obj.Clinician_ID));
+            param.Add(new DataParameter("@CLINICIAN_LICENSE", Obj.Clinician_License));
+            param.Add(new DataParameter("@CLINICIAN_NAME", Obj.Clinician_Name));
+            param.Add(new DataParameter("@CLINICIAN_SPECIALITY", Obj.Clinician_Speciality));
+            param.Add(new DataParameter("@ELIGIBILITY_ANSWER_ID", Obj.Eligibility_Answer_ID));
+            param.Add(new DataParameter("@ID_PAYER", Obj.ID_Payer));
+            param.Add(new DataParameter("@PATIENT_FIRST_NAME", Obj.Patient_First_Name));
+            param.Add(new DataParameter("@PATIENT_LAST_NAME", Obj.Patient_Last_Name));
+            param.Add(new DataParameter("@PATIENT_DOB", Obj.Patient_DOB));
+            param.Add(new DataParameter("@ELIGIBILITY_RESPONSE_DATE", Obj.Eligibility_Response_Date));
+
+            param.Add(new DataParameter("@VIP", Obj.VIP));
+            param.Add(new DataParameter("@MEMBER_ID", Obj.Member_ID));
+            param.Add(new DataParameter("@PACKAGE_CATEGORY", Obj.Package_Category));
+            param.Add(new DataParameter("@PACKAGE_NAME", Obj.Package_Name));
+
+            param.Add(new DataParameter("@NETWORK_NAME", Obj.Network_Name));
+            param.Add(new DataParameter("@POLICY_NAME", Obj.Policy_Name));
+            param.Add(new DataParameter("@POLICY_STATE_DATE", Obj.Policy_State_Date));
+            param.Add(new DataParameter("@POLICY_EXPIRY_DATE", Obj.Policy_Expiry_Date));
+
+            param.Add(new DataParameter("@POLICY_ID", Obj.Policy_ID));
+            param.Add(new DataParameter("@DENTAL", Obj.Dental));
+            param.Add(new DataParameter("@NETWORK_NOTES", Obj.Network_Notes));
+            param.Add(new DataParameter("@LIMIT", Obj.Limit));
+
+            param.Add(new DataParameter("@OPTICAL", Obj.Optical));
+            param.Add(new DataParameter("@OUTPATIENT_DEDUCTIBLE", Obj.Outpatient_Deductible));
+            param.Add(new DataParameter("@OOP_LIMIT", Obj.OOP_Limit));
+            param.Add(new DataParameter("@DENIAL_REASON", Obj.Denial_Reason));
+
+            param.Add(new DataParameter("@DENIAL_CODE", Obj.Denial_Code));
+            param.Add(new DataParameter("@ELIGIBILITY_REQUEST_DATE", Obj.Eligibility_Request_Date));
+            param.Add(new DataParameter("@ELIGIBILITY_STATUS", Obj.Eligibility_Status));
+            param.Add(new DataParameter("@PAYER_ID", Obj.Payer_ID));
+            param.Add(new DataParameter("@PAYER_NAME", Obj.Payer_Name));
+            param.Add(new DataParameter("@REQUESTED_BY", patient_id));
+
+            param.Add(new DataParameter("@ELIGIBILITY_REQUEST", Obj.eligibility_response));
+            param.Add(new DataParameter("@ELIGIBILITY_RESPONSE", Obj.eligibility_response));
+            response = ClsDataBase.Insert("[MYCORTEX].[USER_APPOINTMENT_ELIGIBILITY_LOG]", param, true);
+            return response;
+        }
+
+        public int Save_Video_Call_Recording_Logs(string conference_id, string recording_url)
         {
             int response = 0;
             List<DataParameter> param = new List<DataParameter>();

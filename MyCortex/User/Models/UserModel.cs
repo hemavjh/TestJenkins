@@ -217,6 +217,44 @@ namespace MyCortex.User.Model
         public string eligibility_response { get; set; }
         public string eligibility_request { get; set; }
     }
+    public class responseAppointmentModel
+    {
+        public string eligibility_response { get; set; }
+        public string eligibility_request { get; set; }
+
+        public int Clinician_ID { get; set; }
+        public string Clinician_License { get; set; }
+        public string Clinician_Name { get; set; }
+        public string Clinician_Speciality { get; set; }
+        public int Eligibility_Answer_ID { get; set; }
+        public string ID_Payer { get; set; }
+        public string Patient_First_Name { get; set; }
+        public string Patient_Last_Name { get; set; }
+        public string Patient_DOB { get; set; }
+        public string Eligibility_Response_Date { get; set; }
+        public string VIP { get; set; }
+        public string Member_ID { get; set; }
+        public string Package_Category { get; set; }
+        public string Package_Name { get; set; }
+        public string Network_Name { get; set; }
+        public string Policy_Name { get; set; }
+        public string Policy_State_Date { get; set; }
+        public string Policy_Expiry_Date { get; set; }
+        public int Policy_ID { get; set; }
+        public string Dental { get; set; }
+        public string Network_Notes { get; set; }
+        public string Limit { get; set; }
+        public string Optical { get; set; }
+        public string Outpatient_Deductible { get; set; }
+        public string OOP_Limit { get; set; }
+        public string Denial_Reason { get; set; }
+        public string Denial_Code { get; set; }
+        public string Eligibility_Request_Date { get; set; }
+        public int Eligibility_Status { get; set; }
+        public int Payer_ID { get; set; }
+        public string Payer_Name { get; set; }
+        public int Requested_By { get; set; }
+    }
     public class UserInstitutionDetails_List
     {
         public long? Id { get; set; }
