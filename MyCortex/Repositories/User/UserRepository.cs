@@ -225,7 +225,7 @@ namespace MyCortex.Repositories.Uesr
                                              {
                                                  Id = p.Field<long>("Id"),
                                                  DocumentType = p.Field<string>("DOCUMENTTYPE"),
-                                                 DisplayDocumentType = p.Field<string>("LANGUAGE_TEXT")
+                                                 DisplayDocumentType = p.Field<string>("DISPLAYDOCUMENTTYPE")
                                              }).ToList();
                 return lst;
             }
@@ -252,7 +252,7 @@ namespace MyCortex.Repositories.Uesr
                                                {
                                                    Id = p.Field<int>("Id"),
                                                    NotesType = p.Field<string>("NOTESTYPE"),
-                                                    DisplayNotesType = p.Field<string>("NOTESTYPE")
+                                                   DisplayNotesType = p.Field<string>("DISPLAYNOTESTYPE")
                                                }).ToList();
                 return lst;
             }
