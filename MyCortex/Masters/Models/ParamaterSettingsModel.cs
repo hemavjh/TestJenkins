@@ -36,6 +36,7 @@ namespace MyCortex.Masters.Models
         public bool Compliance_Flag { get; set; }
         public string UnitsGroup_Name { get; set; }
         public string Units_with_Group_Name { get; set; }
+        public string DisplayUnits_with_Group_Name { get; set; }
         public long? UnitsGroup_ID { get; set; }
     }
 }
