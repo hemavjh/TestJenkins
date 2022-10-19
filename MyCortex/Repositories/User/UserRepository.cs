@@ -4253,7 +4253,8 @@ namespace MyCortex.Repositories.Uesr
                                                       select new AllergyReactionModel()
                                                       {
                                                           Id = p.Field<long?>("ID"),
-                                                          AllergyReactionName = p.Field<string>("ALLERGYREACTIONNAME")
+                                                          AllergyReactionName = p.Field<string>("ALLERGYREACTIONNAME"),
+                                                          DisplayAllergyReactionName = p.Field<string>("ALLERGYREACTIONNAME")
                                                       }).ToList();
             return ViewAllergy;
         }
