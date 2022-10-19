@@ -52,7 +52,7 @@ namespace MyCortex.Repositories.LiveBox
             IList<LiveboxModel> list = (from p in dt.AsEnumerable()
                                  select new LiveboxModel()
                                  {
-                                     Duration = p.Field<Int32>("DURATION"),
+                                     Duration = p.Field<TimeSpan>("DURATION"),
                                      ConferenceId = p.Field<Guid>("CONFERENCE_ID")
 
                                  }).ToList();
