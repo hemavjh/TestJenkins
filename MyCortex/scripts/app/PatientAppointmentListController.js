@@ -36,7 +36,7 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                             $scope.isVideoC = true;
                             //    $('#btnopenchat').show();
                         }
-                        else if ($scope.Name == 'LiveBox') {
+                        else if ($scope.Name == 'Hive Meet') {
                             $('#MyvideoDisable').attr("disabled", true);
                             $('#AudioDisable').attr("disabled", false);
                             $('#videoDisable').attr("disabled", false);
