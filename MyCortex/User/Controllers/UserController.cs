@@ -229,7 +229,7 @@ namespace MyCortex.User.Controller
         }
 
         [HttpGet]
-        public IList<NotesTypeModel> NotesTypeList(Int32 Language_Id=1)
+        public IList<NotesTypeModel> NotesTypeList(Int32 Language_Id= 1)
         {
             /* _AppLogger = this.GetType().FullName;*/
             /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
