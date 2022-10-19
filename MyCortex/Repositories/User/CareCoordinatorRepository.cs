@@ -271,7 +271,7 @@ namespace MyCortex.Repositories.User
         /// <param name="PatientId"></param>
         /// <param name="UserTypeId"></param>
         /// <returns></returns>
-        public IList<GetParameterValueModel> Get_ParameterValue(long PatientId, long UserTypeId, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber, int Alert_Type)
+        public IList<GetParameterValueModel> Get_ParameterValue(long PatientId, long UserTypeId, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber, int Alert_Type, long Language_ID)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -281,6 +281,7 @@ namespace MyCortex.Repositories.User
             param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
             param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
             param.Add(new DataParameter("@AlertType", Alert_Type));
+            param.Add(new DataParameter("@Language_ID", Language_ID));
             try
             {
                 DataTable dt = new DataTable();
