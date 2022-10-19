@@ -67,12 +67,14 @@ namespace MyCortex.User.Model
         public long Id { get; set; }
         public string PatientName { get; set; }
         public string ParameterName { get; set; }
+        public string DisplayParameterName { get; set; }
         public decimal? Average { get; set; }
         public decimal? ParameterValue { get; set; }
         public int HighCount { get; set; }
         public int MediumCount { get; set; }
         public int LowCount { get; set; }
         public string UnitName { get; set; }
+        public string DisplayUnitName { get; set; }
         public string PageType { get; set; }
         public DateTime? Activity_Date { get; set; }
         public string DeviceType { get; set; }
