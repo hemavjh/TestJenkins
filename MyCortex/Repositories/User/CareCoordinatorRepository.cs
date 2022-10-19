@@ -313,6 +313,8 @@ namespace MyCortex.Repositories.User
                                                          TypeName = p.Field<string>("TYPENAME"),
                                                          Createdby_ShortName = p.Field<string>("CREATEDBY_SHORTNAME"),
                                                          Com_DurationType = p.Field<string>("DurationType"),
+                                                         DisplayParameterName = p.Field<string>("DISPLAYPARAMETERNAME"),
+                                                         DisplayUnitName = p.Field<string>("DISPLAYUNITNAME"),
                                                      }).ToList();
                 return list;
             }
