@@ -219,13 +219,13 @@ namespace MyCortex.Repositories.Uesr
             try
             {
                 
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].DOCUMENTTYPE_SP_LIST");
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].DOCUMENTTYPE_SP_LIST", param);
                 List<DocumentTypeModel> lst = (from p in dt.AsEnumerable()
                                              select new DocumentTypeModel()
                                              {
                                                  Id = p.Field<long>("Id"),
                                                  DocumentType = p.Field<string>("DOCUMENTTYPE"),
-                                                 DisplayDocumentType = p.Field<string>("LANGUAGE_TEXT")
+                                                 DisplayDocumentType = p.Field<string>("DISPLAYDOCUMENTTYPE")
                                              }).ToList();
                 return lst;
             }
@@ -236,23 +236,23 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
-        public IList<NotesTypeModel> NotesTypeList(Int32 Language_ID)
+        public IList<NotesTypeModel> NotesTypeList(Int32 Language_Id)
         {
             /* _AppLogger = this.GetType().FullName;*/
             /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
-            param.Add(new DataParameter("@Language_ID", Language_ID));
+            param.Add(new DataParameter("@Language_Id", Language_Id));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
             /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].NOTESTYPE_SP_LIST");
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].NOTESTYPE_SP_LIST", param);
                 List<NotesTypeModel> lst = (from p in dt.AsEnumerable()
                                                select new NotesTypeModel()
                                                {
                                                    Id = p.Field<int>("Id"),
                                                    NotesType = p.Field<string>("NOTESTYPE"),
-                                                    DisplayNotesType = p.Field<string>("NOTESTYPE")
+                                                   DisplayNotesType = p.Field<string>("DISPLAYNOTESTYPE")
                                                }).ToList();
                 return lst;
             }
