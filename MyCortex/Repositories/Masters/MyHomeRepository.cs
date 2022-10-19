@@ -649,7 +649,7 @@ namespace MyCortex.Repositories.Masters
                 {
                     lst.TabParameterList = GroupParameterNameLists(lst.InstitutionId, UserId,Language_Id);
                     //lst.TabAlertsList = Get_ParameterValue(lst.UserId, lst.UserTypeId, Login_Session_Id);
-                    lst.TabAppointmentList = PatientAppoinmentsList(UserId, Login_Session_Id);
+                    lst.TabAppointmentList = PatientAppoinmentsList(UserId, Login_Session_Id, Language_Id);
                     lst.TabMedicationList = MedicationView(UserId, Login_Session_Id);
                 }
 
@@ -768,7 +768,7 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public IList<TabDashBoardAppointmentDetails> PatientAppoinmentsList(long PatientId, Guid Login_Session_Id)
+        public IList<TabDashBoardAppointmentDetails> PatientAppoinmentsList(long PatientId, Guid Login_Session_Id, Int32 Language_Id)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -777,6 +777,7 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@Patient_Id", PatientId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             param.Add(new DataParameter("@ISTAB", 1));
+            param.Add(new DataParameter("@Language_Id", Language_Id));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
             _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
