@@ -79,6 +79,10 @@ namespace MyCortex.Home.Models
         public payer payer { get; set; }
         public consultationCategory consultationCategory { get; set; }
         public referralClinician referralClinician { get; set; }
+        public bool result { get; set; }
+        public string transactionDate { get; set; }
+        public string eligibilityIdentifier { get; set; }
+        public long eligibilityId { get; set; }
         public string referralLetterRefNo { get; set; }
         public string prescriptionReference { get; set; }
         public string userName { get; set; }
