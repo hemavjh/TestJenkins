@@ -183,14 +183,14 @@ namespace MyCortex.User.Controllers
         /// <param name="PatientId"></param>
         /// <param name="UserTypeId"></param>
         /// <returns></returns>
-        public IList<GetParameterValueModel> Get_ParameterValue(long PatientId, long UserTypeId, Guid Login_Session_Id, int StartRowNumber = 0, int EndRowNumber = 0, int AlertType = 0)
+        public IList<GetParameterValueModel> Get_ParameterValue(long PatientId, long UserTypeId, Guid Login_Session_Id, int StartRowNumber = 0, int EndRowNumber = 0, int AlertType = 0, long Language_ID = 1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 IList<GetParameterValueModel> model;
-                model = repository.Get_ParameterValue(PatientId, UserTypeId, Login_Session_Id, StartRowNumber, EndRowNumber, AlertType);
+                model = repository.Get_ParameterValue(PatientId, UserTypeId, Login_Session_Id, StartRowNumber, EndRowNumber, AlertType, Language_ID);
                 return model;
             }
             catch (Exception ex)

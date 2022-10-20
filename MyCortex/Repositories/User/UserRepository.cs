@@ -219,7 +219,7 @@ namespace MyCortex.Repositories.Uesr
             try
             {
                 
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].DOCUMENTTYPE_SP_LIST");
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].DOCUMENTTYPE_SP_LIST", param);
                 List<DocumentTypeModel> lst = (from p in dt.AsEnumerable()
                                              select new DocumentTypeModel()
                                              {
@@ -236,17 +236,17 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
-        public IList<NotesTypeModel> NotesTypeList(Int32 Language_ID)
+        public IList<NotesTypeModel> NotesTypeList(Int32 Language_Id)
         {
             /* _AppLogger = this.GetType().FullName;*/
             /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
             List<DataParameter> param = new List<DataParameter>();
-            param.Add(new DataParameter("@Language_ID", Language_ID));
+            param.Add(new DataParameter("@Language_Id", Language_Id));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
             /*_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);*/
             try
             {
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].NOTESTYPE_SP_LIST");
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].NOTESTYPE_SP_LIST", param);
                 List<NotesTypeModel> lst = (from p in dt.AsEnumerable()
                                                select new NotesTypeModel()
                                                {
@@ -1219,8 +1219,8 @@ namespace MyCortex.Repositories.Uesr
                                   //DOB = p.Field<DateTime?>("DOB"),
                                   DOB_Encrypt = p.Field<string>("DOB_Encrypt"),
                                   Department_Name = p.Field<string>("Department_Name"),
-                                    DisplayDepartmentName = p.Field<string>("LANGUAGE_TEXT"),
-                                    InstitutionName = p.Field<string>("InstitutionName"),
+                                  DisplayDepartment_Name = p.Field<string>("DISPLAYDEPARTMENT_NAME"),
+                                  InstitutionName = p.Field<string>("InstitutionName"),
                                   IsActive = p.Field<int?>("IsActive"),
                                   Photo =  p.Field<string>("PHOTO_NAME"),
                                   Photo_Fullpath =  p.Field<string>("PHOTO_FULLPATH"),
@@ -1255,6 +1255,7 @@ namespace MyCortex.Repositories.Uesr
                                   EthnicGroup = p.Field<string>("EthnicGroup"),
                                   UserName = p.Field<string>("UserName"),
                                   GENDER_NAME = p.Field<string>("GENDER_NAME"),
+                                  DisplayGENDER_NAME = p.Field<string>("DISPLAYGENDER_NAME"),
                                   Nationality = p.Field<string>("Nationality"),
                                   GroupName = p.Field<string>("GroupName"),
                                   COUNTRY_NAME = p.Field<string>("COUNTRY_NAME"),
@@ -4176,10 +4177,14 @@ namespace MyCortex.Repositories.Uesr
                                           AllergenName = p.Field<string>("ALLERGENNAME"),
                                           AllergyTypeId = p.Field<long>("ALLERGYTYPE_ID"),
                                           AllergyTypeName = p.Field<string>("ALLERGYTYPE"),
+                                          DisplayAllergyTypeName = p.Field<string>("DISPLAYALLERGYTYPE"),
                                           AllergySeverityName = p.Field<string>("SEVERITY") ?? "",
+                                          DisplayAllergySeverityName = p.Field<string>("DISPLAYSEVERITY") ?? "",
                                           AllergyOnsetName = p.Field<string>("ONSETNAME") ?? "",
+                                          DisplayAllergyOnsetName = p.Field<string>("DISPLAYONSETNAME") ?? "",
                                           OnSetDate = p.Field<DateTime?>("ONSETDATE"),
                                           AllergyReactionName = p.Field<string>("ALLERGYREACTIONNAME") ?? "",
+                                          DisplayAllergyReactionName = p.Field<string>("DISPLAYALLERGYREACTIONNAME") ?? "",
                                           IsActive = p.Field<int>("ISACTIVE"),
                                           Created_By_Name = p.Field<string>("FULLNAME"),
                                           Created_Dt = p.Field<DateTime>("CREATED_DT"),
@@ -4253,7 +4258,8 @@ namespace MyCortex.Repositories.Uesr
                                                       select new AllergyReactionModel()
                                                       {
                                                           Id = p.Field<long?>("ID"),
-                                                          AllergyReactionName = p.Field<string>("ALLERGYREACTIONNAME")
+                                                          AllergyReactionName = p.Field<string>("ALLERGYREACTIONNAME"),
+                                                          DisplayAllergyReactionName = p.Field<string>("ALLERGYREACTIONNAME")
                                                       }).ToList();
             return ViewAllergy;
         }

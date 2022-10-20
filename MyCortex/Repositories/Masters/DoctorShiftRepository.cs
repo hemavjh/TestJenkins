@@ -37,6 +37,8 @@ namespace MyCortex.Repositories.Masters
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@InstitutionId", Institution_Id));
             param.Add(new DataParameter("@Date", Filter_Date));
+            param.Add(new DataParameter("@Language_Id", Language_Id));
+
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
             _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
 
@@ -48,7 +50,7 @@ namespace MyCortex.Repositories.Masters
                                        {
                                            Id = p.Field<long>("Id"),
                                            Department_Name = p.Field<string>("Department_Name"),
-                                           DisplayDepartmentName= p.Field<string>("DisplayDepartment_Name")
+                                           DisplayDepartment_Name= p.Field<string>("DisplayDepartment_Name")
                                        }).ToList();
                 return lst;
             }

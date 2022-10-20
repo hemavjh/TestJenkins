@@ -130,7 +130,7 @@ namespace MyCortex.Masters.Models
     {
         public long Id { get; set; }
         public string Department_Name { get; set; }
-        public string DisplayDepartmentName { get; set; }
+        public string DisplayDepartment_Name { get; set; }
     }
     public class DoctorShiftDayDetailsModel
     {

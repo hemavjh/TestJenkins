@@ -229,7 +229,7 @@ namespace MyCortex.User.Controller
         }
 
         [HttpGet]
-        public IList<NotesTypeModel> NotesTypeList(Int32 Language_Id=1)
+        public IList<NotesTypeModel> NotesTypeList(Int32 Language_Id= 1)
         {
             /* _AppLogger = this.GetType().FullName;*/
             /* _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;*/
@@ -3294,7 +3294,7 @@ namespace MyCortex.User.Controller
         /// <returns></returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public AllergyModel PatientAllergyView(long Id, Guid Login_Session_Id,int Languageg_Id=1)
+        public AllergyModel PatientAllergyView(long Id, Guid Login_Session_Id,int Language_Id=1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -3302,7 +3302,7 @@ namespace MyCortex.User.Controller
             try
             {
                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
-                model = repository.PatientAllergyView(Id, Login_Session_Id, Languageg_Id);
+                model = repository.PatientAllergyView(Id, Login_Session_Id, Language_Id);
             }
             catch (Exception ex)
             {
