@@ -1992,9 +1992,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             //alert("Inactive record cannot be edited");
             toastr.info("Inactive record cannot be edited", "info");
         }
-        //$http.get(baseUrl + '/api/Common/InstitutionNameList/').success(function (data) {
-        //    $scope.InstitutionList = data;
-        //});
+        $http.get(baseUrl + '/api/Common/InstitutionNameList/').success(function (data) {
+            $scope.InstitutionList = data;
+        });
         $scope.SuperAdminDropdownsList = function () {
             if ($scope.LoginType == 1 || $scope.LoginType == 3) {
                 $http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).success(function (data) {
@@ -2047,9 +2047,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                 utilsScript: "scripts/utils.js",
                             });
                         } else {
-                            $http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).success(function (data) {
+                            //$http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).success(function (data) {
                                 $scope.InstitutiondetailsListTemp1 = [];
-                                $scope.InstitutiondetailsListTemp1 = data;
+                            $scope.InstitutiondetailsListTemp1 = $scope.InstitutionList;
                                 $scope.InsListId = $scope.InsListId1;
                                 var Inslist = $scope.InstitutiondetailsListTemp1.filter(x => x.Id === parseInt($scope.InsListId));
                                 var iso2 = Inslist[0].Country_ISO2;
@@ -2068,7 +2068,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                     //preferredCountries: ["in"],
                                     utilsScript: "scripts/utils.js",
                                 });
-                            });
+                           // });
                     }
 
                     if ($scope.InstitutionId != "0") {
