@@ -135,7 +135,12 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             $scope.Id = 1;
             $location.path("/SaveInstitution_Subscription/");
         };
-
+        $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            $scope.TimeZoneListID = data;
+        });
+        $http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).success(function (data) {
+            $scope.Institution_Id = data;
+        });
 
         // This is for to get Institution Details List 
         $scope.Institutestatus = function () {
@@ -158,7 +163,8 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                         $scope.Zone = [];
                         $scope.Zone = $scope.TimeZoneListID.filter(x => x.UtcOffSet === ($scope.getoffset1));
                         $scope.TimeZoneListID = $scope.Zone;
-                    } else if ($scope.Id != '0') {
+                    }
+                    else if ($scope.Id != '0') {
                         $scope.Institution_Id1 = $scope.Institution_Id;
                         var d = $scope.InstitutiondetailsListTemp.filter(x => x.Id === parseInt($scope.Institution_Id1));
                         var offset = d[0].Timezone;
@@ -169,7 +175,8 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                         $scope.Zone = [];
                         $scope.Zone = $scope.TimeZoneListID.filter(x => x.UtcOffSet === ($scope.getoffset1));
                         $scope.TimeZoneListID = $scope.Zone;
-                    } else {
+                    }
+                    else {
                         $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                             $scope.TimeZoneListID = data;
                         });
