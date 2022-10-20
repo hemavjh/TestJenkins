@@ -621,7 +621,7 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@INSTITUTIONID", InstitutionId));
             param.Add(new DataParameter("@USERID", UserId));
             param.Add(new DataParameter("@TABID", TabId));
-            param.Add(new DataParameter("@LANGUAGE_ID", Language_Id));
+           // param.Add(new DataParameter("@LANGUAGE_ID", Language_Id));
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
             _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
