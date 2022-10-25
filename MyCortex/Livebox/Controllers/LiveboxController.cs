@@ -86,7 +86,15 @@ namespace MyCortex.Livebox.Controllers
                 retid = liveBoxRepository.LiveBox_Notify_Log(json);
                 dynamic data = JsonConvert.DeserializeObject(json);
                 string conferencename = data.conferencename;
+                string recording_url = data.recordedvideoURL;
+                retid = liveBoxRepository.LiveBox_Recording_url(conferencename, recording_url);
                 retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename);
+                //PushNotificationMessage message = new PushNotificationMessage();
+                //message.Title = "Notification For Call";
+                //message.Message = "call end";
+                //long userid = 102111;
+
+                //PushNotificationApiManager.sendNotification(message, 0, userid, 4);
                 string baseUrl = System.Web.HttpContext.Current.Request.Url.Host.ToString();
                 string redirectUrl = "https://" + baseUrl + "/Home/Index#/PatientVitals/0/1";
                 if (redirectUrl != String.Empty)
@@ -116,7 +124,11 @@ namespace MyCortex.Livebox.Controllers
                 req.Seek(0, System.IO.SeekOrigin.Begin);
                 string json = new StreamReader(req).ReadToEnd();
                 retid = liveBoxRepository.LiveBox_Notify_Log(json);
-              
+                //PushNotificationMessage message = new PushNotificationMessage();
+                //message.Title = "Notification For Call";
+                //message.Message = "call end";
+                //long userid = Convert.ToInt64(Session["UserId"].ToString());
+                //PushNotificationApiManager.sendNotification(message, 0, userid, 4);
                 if (json.Contains("recordedvideoURL"))
                 {
                     string conference_name = JObject.Parse(json)["conferencename"].ToString();
