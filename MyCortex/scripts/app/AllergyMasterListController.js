@@ -84,16 +84,16 @@ allergyMasterList.controller("AllergyMasterList", ['$scope', '$http', '$filter',
                 $scope.inputPageNo = PageNo;
 
             $scope.current_page = PageNo;
-            //$scope.AllergyMasterList_Details();
+
             if ($scope.AllergyMastersearchquery == "") {
                 $scope.AllergyMasterList_Details();
             } else {
                 $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
                 $scope.PageEnd = $scope.current_page * $scope.page_size;
-                $scope.AllergySearch();
+                $scope.AllergyMasterList_Details();
             }
         }
-
+      
         $scope.AllergyMasterList_Details = function () {
             if ($window.localStorage['UserTypeId'] == 3) {
                 $("#chatLoaderPV").show();
@@ -179,6 +179,7 @@ allergyMasterList.controller("AllergyMasterList", ['$scope', '$http', '$filter',
             var searchstring = angular.lowercase($scope.AllergyMastersearchquery);
             if ($scope.AllergyMastersearchquery == "") {
                 $scope.AllergyMasterList = angular.copy($scope.AllergyMasterListFilterData);
+                $scope.AllergySearch();
             }
             else {
                 var val;
@@ -188,9 +189,11 @@ allergyMasterList.controller("AllergyMasterList", ['$scope', '$http', '$filter',
                 });
                 if ($scope.AllergyMasterList.length > 0) {
                     $scope.AllergyMasterflag = 1;
+                    $scope.AllergySearch();
                 }
                 else {
                     $scope.AllergyMasterflag = 0;
+                    $scope.AllergySearch();
                 }
             }
         }

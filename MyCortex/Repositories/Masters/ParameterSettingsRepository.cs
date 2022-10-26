@@ -212,6 +212,7 @@ namespace MyCortex.Repositories.Masters
                 param.Add(new DataParameter("@Parameter_Id", Parameter_Id));
                 param.Add(new DataParameter("@UNITSGROUP_ID", Unitgroup_Type));
                 param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
+                param.Add(new DataParameter("@Language_Id", Language_Id));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PARAMETERMAPPING_SP_LIST", param);
                 List<ParamaterSettingsModel> lst = (from p in dt.AsEnumerable()
                                                     select new ParamaterSettingsModel()

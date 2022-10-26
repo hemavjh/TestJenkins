@@ -4861,21 +4861,25 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             });
         $scope.User_InsertUpdate = function () {
             // Mobile Number Validation...
-            var countryData = $scope.InputPhoneNo1;
-            var countryCode = countryData.dialCodes; // using updated doc, code has been replaced with dialCode
-
-            countryCode = "+" + countryCode;
-            document.getElementById("txthdCountryCode").value = countryCode;
-
-            var isValidNum = $scope.InputPhoneNo1.isValidNumber();
-
-            if (!isValidNum) {
-                swal.fire("Phone number invalid");
-                document.getElementById("txthdFullNumber").value = "";
-                return;
+            if ($scope.InputPhoneNo1 == "" || $scope.InputPhoneNo1 == undefined || $scope.InputPhoneNo1 == null) {
             } else {
-                document.getElementById("txthdFullNumber").value = document.getElementById("txthdCountryCode").value + "~" + document.getElementById("txtMobile").value;
+                var countryData = $scope.InputPhoneNo1;
+                var countryCode = countryData.dialCodes; // using updated doc, code has been replaced with dialCode
+
+                countryCode = "+" + countryCode;
+                document.getElementById("txthdCountryCode").value = countryCode;
+
+                var isValidNum = $scope.InputPhoneNo1.isValidNumber();
+
+                if (!isValidNum) {
+                    swal.fire("Phone number invalid");
+                    document.getElementById("txthdFullNumber").value = "";
+                    return;
+                } else {
+                    document.getElementById("txthdFullNumber").value = document.getElementById("txthdCountryCode").value + "~" + document.getElementById("txtMobile").value;
+                }                  
             }
+            document.getElementById("txthdFullNumber").value = document.getElementById("txthdCountryCode").value + "~" + document.getElementById("txtMobile").value;
             $scope.MobileNo_CC = document.getElementById("txthdFullNumber").value;
 
             $('#btnsave').attr("disabled", true);

@@ -885,7 +885,10 @@ namespace MyCortex.Home.Controllers
                 dynamic data = JsonConvert.DeserializeObject(json);
                 string conferencename = data.conferencename;
                 string recording_url = data.recordedvideoURL;
-                retid = liveBoxRepository.LiveBox_Recording_url(conferencename, recording_url);
+                if (recording_url != "" || recording_url != String.Empty)
+                {
+                    retid = liveBoxRepository.LiveBox_Recording_url(conferencename, recording_url);
+                }
                 retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename);
                 //PushNotificationMessage message = new PushNotificationMessage();
                 //message.Title = "Notification For Call";
@@ -973,6 +976,24 @@ namespace MyCortex.Home.Controllers
                         Console.WriteLine(err.Message);
                     }
                 }
+                return Content("SUCCESS");
+            }
+            catch (Exception e)
+            {
+                return Content("Failure : " + e.Message);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult LiveBoxRemainingTimeNotify()
+        {
+            try
+            {
+                
+                Stream req = Request.InputStream;
+                req.Seek(0, System.IO.SeekOrigin.Begin);
+                string json = new StreamReader(req).ReadToEnd();
+                
                 return Content("SUCCESS");
             }
             catch (Exception e)
