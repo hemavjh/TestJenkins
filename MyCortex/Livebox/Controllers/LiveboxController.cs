@@ -171,7 +171,7 @@ namespace MyCortex.Livebox.Controllers
         }
 
         [HttpPost]
-        public ActionResult LiveBoxTimeNotify()
+        public ActionResult LiveBoxRemainingTimeNotify()
         {
             try
             {
