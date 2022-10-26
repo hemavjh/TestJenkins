@@ -120,24 +120,24 @@
     </form>
 </div>
 
-<div ng-show="ProductName1 == 'Hive'" class="containerhiv" style="top: 10px;"><img style="width: 150px;" src="{{PrdImg}}"> </div>
+<div ng-show="ProductName1 == 'Hive'" class="containerhiv" style="top: 50px; left: 665px;"><img style="width: 150px;" src="{{PrdImg}}"> </div>
 <div class="container1" ng-show="ProductName1 == 'Hive'">
     <form>
         <div ng-show="ProductName1 == 'Hive'">
-            <label style="color: #100146; font-family: 'Red Hat Display'; font-style: normal; font-weight: 800; font-size: 32px; line-height: 40px; position: absolute; width: 87px; height: 40px; left: 210px; top: 0px;">LogIn</label>
-            <label style="position: absolute; width: 203px; height: 24px; left: 165px; top: 52px; font-family: 'Red Hat Display'; font-style: normal; font-weight: 400; font-size: 16px; line-height: 24px; /* identical to box height, or 150% */ font-feature-settings: 'salt' on, 'liga' off; /* Dark!! */ color: #242424; ">please login to your account</label>
+            <label style="color: #100146; font-style: normal; font-weight: 800; font-size: 32px; line-height: 40px; position: absolute; width: 87px; height: 40px; left: 210px; top: 0px;">LogIn</label>
+            <label style="position: absolute; width: 205px; height: 24px; left: 155px; top: 52px; font-style: normal; font-weight: 400; font-size: 16px; line-height: 24px; /* identical to box height, or 150% */ font-feature-settings: 'salt' on, 'liga' off; /* Dark!! */ color: #242424; ">please login to your account</label>
         </div>
-        <div class="inputGroups" style="margin-top: 70px; ">
-            <label style="font-family: 'Red Hat Display';">Username</label>
+        <div class="inputGroups" style="margin-top: 45px; ">
+            <label style="">Username</label>
             <input type="text" placeholder="Enter Your Username" required="required" ng-model="Username" name="username"
                    class="form-control" onkeypress="EmailFormate(event)" ng-keypress="usernamekeypress($event)" ng-keyup="$event.keyCode == 13 && UserLogin_AddEdit()">
         </div>
         <div style="margin-top: 25px;">
-            <label style="font-family: 'Red Hat Display';">Password</label>
+            <label style="">Password</label>
             <div class="viewPasswordClass">
-                <i class="fa fa-eye" id="viewPassword" style="cursor:pointer"></i>
-                <input type="password" id="psw" placeholder="Enter Your Password" required="required" ng-model="Password"
-                       ng-keyup="$event.keyCode == 13 && UserLogin_AddEdit()" name="psw" class="form-control">
+                <i class="fa fa-eye" id="viewPassword1" style="cursor:pointer"></i>
+                <input type="password" id="psw1" placeholder="Enter Your Password" required="required" ng-model="Password"
+                       ng-keyup="$event.keyCode == 13 && UserLogin_AddEdit()" name="psw1" class="form-control">
             </div>
         </div>
         <div class="alert alert-danger def" ng-if="errorlist!=null">
@@ -146,11 +146,17 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-6 text-right" style="left: 145px; top: 41px; width: 161px; height: 19px; font-family: 'Red Hat Display'; font-style: normal; font-weight: 400; font-size: 16px; line-height: 116%; color: #242424;  flex: none; order: 1; flex-grow: 0; ">
+            <div class="col-xs-6 text-right" style="left: 145px; top: 30px; width: 161px; height: 19px; font-style: normal; font-weight: 400; font-size: 16px; line-height: 116%; color: #242424;  flex: none; order: 1; flex-grow: 0; ">
                 <a href="#" data-toggle="modal" style="top: 130px;" data-target="#forgotPasswordModal" class="prl-8">Forgot Password?</a>
             </div>
         </div>
         <button class="buttonhiv" type="button" ng-click="UserLogin_AddEdit()">Log in</button>
+        <!--<div class="row" >
+            <label style="width: 173px; margin-left: -43px; margin-top: 15px ;">Don't Have An Account?</label>
+            <div class="col-xs-6 text-right" style="left: 180px; top: 15px; width: 161px; height: 19px; font-style: normal; font-weight: 400; font-size: 16px; line-height: 116%; color: #242424; flex: none; order: 1; flex-grow: 0; ">
+                <a href="#" data-toggle="modal" data-target="#signupModalModal" class="prl-8">Signup</a>
+            </div>
+        </div>-->
     </form>
 </div>
 
@@ -309,35 +315,37 @@
     <input type="hidden" id="productname" value="" />
 </div>
 
-<!--<script>
+<script>
 
-        $(function () {
 
-            $('body:not(".viewPassword")').click(function(){
+    $(function () {
 
-                $('#viewPassword').addClass('fa-eye');
-                $('#viewPassword').removeClass('fa-eye-slash');
-                $('#psw').attr('type', 'password');
-            })
-            $('#viewPassword').on('mousedown', function () {
-
-                $(this).addClass('fa-eye-slash');
-                $(this).removeClass('fa-eye');
-                $('#psw').attr('type', 'text');
-            }).on('mouseup', function () {
-                $(this).addClass('fa-eye');
-                $(this).removeClass('fa-eye-slash');
-                $('#psw').attr('type', 'password');
-            });
+        $('body:not(".viewPasswordClass")').click(function () {
+            console.log('Press1');
+            $('#viewPassword1').addClass('fa-eye');
+            $('#viewPassword1').removeClass('fa-eye-slash');
+            $('#psw').attr('type', 'password');
         })
-
-        $("#DOB").datepicker({
-            format: "dd-M-yyyy",
-            forceParse: true,
-            endDate: '+0d',
-            autoclose: true,
-            todayHighlight: true,
-            toggleActive: true,
-            todayBtn: true
+        $('#viewPassword1').on('mousedown', function () {
+            console.log('Press2');
+            $(this).addClass('fa-eye-slash');
+            $(this).removeClass('fa-eye');
+            $('#psw1').attr('type', 'text');
+        }).on('mouseup', function () {
+            console.log('Press3');
+            $(this).addClass('fa-eye');
+            $(this).removeClass('fa-eye-slash');
+            $('#psw1').attr('type', 'password');
         });
-</script>-->
+    })
+
+    $("#DOB").datepicker({
+        format: "dd-M-yyyy",
+        forceParse: true,
+        endDate: '+0d',
+        autoclose: true,
+        todayHighlight: true,
+        toggleActive: true,
+        todayBtn: true
+    });
+</script>

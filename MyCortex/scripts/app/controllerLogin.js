@@ -1233,15 +1233,19 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             $scope.ProductName = data[0].ProductName;
             if ($scope.ProductName == 'MyCortex') {
                 $scope.Productlogin = 0;
-            } else {
+            } else if ($scope.ProductName1 == 'MyHealth') {
                 $scope.Productlogin = 1;
+            } else {
+                $scope.Productlogin = 2;
             }
 
             if ($scope.Productlogin == '1') {
                 document.getElementById('LoginSection').className = "loginBgHel";
             }
-            else {
+            else if ($scope.Productlogin == '0') {
                 document.getElementById('LoginSection').className = "loginBgCor";
+            } else {
+                document.getElementById('LoginSection').className = "loginBgHiv";
             }
         });
 
