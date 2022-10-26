@@ -985,6 +985,24 @@ namespace MyCortex.Home.Controllers
         }
 
         [HttpPost]
+        public ActionResult LiveBoxTimeNotify()
+        {
+            try
+            {
+                
+                Stream req = Request.InputStream;
+                req.Seek(0, System.IO.SeekOrigin.Begin);
+                string json = new StreamReader(req).ReadToEnd();
+                
+                return Content("SUCCESS");
+            }
+            catch (Exception e)
+            {
+                return Content("Failure : " + e.Message);
+            }
+        }
+
+        [HttpPost]
         public ActionResult RefundNotify(long id, string merchantorderno)
         {
              _AppLogger = this.GetType().FullName;
