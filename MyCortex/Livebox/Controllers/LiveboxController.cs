@@ -209,14 +209,19 @@ namespace MyCortex.Livebox.Controllers
         [HttpGet]
         public ActionResult Get_AppointmentDuration(string Conference_ID)
         {
-            List<string> t = new List<string>();
+            //List<string> t = new List<string>();
+            string name = "ConferenceId";
+            string name1 = "Duration";
             var jsonSerialiser = new JavaScriptSerializer();
             try
             {
                 IList<LiveboxModel> lst = (IList<LiveboxModel>)liveBoxRepository.Get_AppointmentDuration(Conference_ID);
-                t.Add(lst[0].ConferenceId.ToString());
-                t.Add(lst[0].Duration.ToString());
-                var json = jsonSerialiser.Serialize(t);
+                IDictionary<string, string> d = new Dictionary<string, string>();
+                d.Add(new KeyValuePair<string, string>(name, lst[0].ConferenceId.ToString()));
+                d.Add(new KeyValuePair<string, string>(name1, lst[0].Duration.ToString()));
+                //t.Add(lst[0].ConferenceId.ToString());
+                //t.Add(lst[0].Duration.ToString());
+                var json = jsonSerialiser.Serialize(d);
                 return Content(json);
             }
             catch (Exception ex)
