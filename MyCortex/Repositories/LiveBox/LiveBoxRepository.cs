@@ -72,7 +72,7 @@ namespace MyCortex.Repositories.LiveBox
 
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Conference_ID", Conference_ID));
-            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_APPOINTMENT_DURATION_TEST]", param);
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_APPOINTMENT_DURATION]", param);
             //IList<LiveboxModel> list = (from p in dt.AsEnumerable()
             //                            select new LiveboxModel()
             //                            {

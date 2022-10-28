@@ -1021,7 +1021,7 @@ namespace MyCortex.Home.Controllers
             var jsonSerialiser = new JavaScriptSerializer();
             try
             {
-                IList<LiveboxModel> lst = (IList<LiveboxModel>)liveBoxRepository.Get_AppointmentDuration_test(Conference_ID);
+                IList<LiveboxModel> lst = (IList<LiveboxModel>)liveBoxRepository.Get_AppointmentDuration(Conference_ID);
                 t.Add(lst[0].ConferenceId.ToString());
                 t.Add(lst[0].Duration.ToString());
                 var json = jsonSerialiser.Serialize(t);
