@@ -14,6 +14,6 @@ namespace MyCortex.Repositories
         int LiveBox_Notify_UPDATE(string conferencename);
         int LiveBox_Recording_url(string conferencename, string recording_url);
         IList<LiveboxModel> Get_AppointmentDuration(string Conference_ID);
-        IList<LiveboxModel> Get_AppointmentDuration_test(string Conference_ID);
+        //IList<LiveboxModel> Get_AppointmentDuration_test(string Conference_ID);
     }
 }
