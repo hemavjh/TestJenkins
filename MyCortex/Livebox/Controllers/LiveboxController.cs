@@ -240,12 +240,17 @@ namespace MyCortex.Livebox.Controllers
         {
             List<string> t = new List<string>();
             var jsonSerialiser = new JavaScriptSerializer();
+            string ConferenceName = "ConferenceId";
+            string Duration = "Duration";
             try
             {
                 IList<LiveboxModel> lst = (IList<LiveboxModel>)liveBoxRepository.Get_AppointmentDuration(Conference_ID);
-                t.Add(lst[0].ConferenceId.ToString());
-                t.Add(lst[0].Duration.ToString());
-                var json = jsonSerialiser.Serialize(t);
+                IDictionary<string,string> dic = new Dictionary<string,string>();
+                dic.Add(new KeyValuePair<string,string>(ConferenceName, lst[0].ConferenceId.ToString()));
+                dic.Add(new KeyValuePair<string, string>(Duration, lst[0].Duration.ToString()));
+                //t.Add(lst[0].ConferenceId.ToString());
+                //t.Add(lst[0].Duration.ToString());
+                var json = jsonSerialiser.Serialize(dic);
                 return Content(json);
             }
             catch (Exception ex)
