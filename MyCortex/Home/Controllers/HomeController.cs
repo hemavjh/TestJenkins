@@ -37,6 +37,7 @@ using MyCortex.Notification.Firebase;
 using System.Web.UI;
 using Newtonsoft.Json.Linq;
 using MyCortex.User.Controller;
+using MyCortex.User.Models;
 
 namespace MyCortex.Home.Controllers
 {
@@ -989,16 +990,46 @@ namespace MyCortex.Home.Controllers
         {
             try
             {
-                
+                int retFlag = 0;
+                //{"conferencename":"eb62b1ec-2fd5-4718-b8d9-fe2cc8c3971e","RemainingConferenceTime":"29:30"}
                 Stream req = Request.InputStream;
                 req.Seek(0, System.IO.SeekOrigin.Begin);
                 string json = new StreamReader(req).ReadToEnd();
-                
+                string ConferenceId = JObject.Parse(json)["conferencename"].ToString();
+                string RemainingTime = JObject.Parse(json)["RemainingConferenceTime"].ToString();
+
+                if (json.Contains("RemainingConferenceTime"))
+                {
+                    retFlag = liveBoxRepository.LiveBox_RemainingTime(ConferenceId, RemainingTime);
+                    Get_AppointmentDuration(ConferenceId);
+                }
+                else
+                {
+                    Get_AppointmentDuration(ConferenceId);
+                }
                 return Content("SUCCESS");
             }
             catch (Exception e)
             {
                 return Content("Failure : " + e.Message);
+            }
+        }
+        [HttpGet]
+        public ActionResult Get_AppointmentDuration(string Conference_ID)
+        {
+            List<string> t = new List<string>();
+            var jsonSerialiser = new JavaScriptSerializer();
+            try
+            {
+                IList<LiveboxModel> lst = (IList<LiveboxModel>)liveBoxRepository.Get_AppointmentDuration_test(Conference_ID);
+                t.Add(lst[0].ConferenceId.ToString());
+                t.Add(lst[0].Duration.ToString());
+                var json = jsonSerialiser.Serialize(t);
+                return Content(json);
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
         }
 
