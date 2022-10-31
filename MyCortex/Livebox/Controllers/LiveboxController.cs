@@ -103,9 +103,9 @@ namespace MyCortex.Livebox.Controllers
                 //PushNotificationApiManager.sendNotification(message, 0, userid, 4);
                 
                 string ConferenceId = JObject.Parse(json)["conferencename"].ToString();
-                string RemainingTime = JObject.Parse(json)["RemainingConferenceTime"].ToString();
+                string RemainingTime = JObject.Parse(json)["remainingtime"].ToString();
 
-                if (json.Contains("RemainingConferenceTime"))
+                if (json.Contains("remainingtime"))
                 {
                     retid = liveBoxRepository.LiveBox_RemainingTime(ConferenceId, RemainingTime);
                     Get_AppointmentDuration(ConferenceId);
@@ -198,9 +198,9 @@ namespace MyCortex.Livebox.Controllers
                 req.Seek(0, System.IO.SeekOrigin.Begin);
                 string json = new StreamReader(req).ReadToEnd();
                 string ConferenceId = JObject.Parse(json)["conferencename"].ToString();
-                string RemainingTime = JObject.Parse(json)["RemainingConferenceTime"].ToString();
+                string RemainingTime = JObject.Parse(json)["remainingtime"].ToString();
 
-                if (json.Contains("RemainingConferenceTime")) { 
+                if (json.Contains("remainingtime")) { 
                     retFlag = liveBoxRepository.LiveBox_RemainingTime(ConferenceId, RemainingTime);                
                     Get_AppointmentDuration(ConferenceId);
                 }
