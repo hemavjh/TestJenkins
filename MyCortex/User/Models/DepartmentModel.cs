@@ -14,8 +14,8 @@ namespace MyCortex.User.Models
 
     public class LiveboxModel
     {
-        public TimeSpan Duration { get; set; }
-        public Guid ConferenceId { get; set; }
+        public string Duration { get; set; }
+        public string ConferenceId { get; set; }
 
     }
 }

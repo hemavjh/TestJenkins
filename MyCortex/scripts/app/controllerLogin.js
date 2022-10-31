@@ -475,11 +475,13 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             if (typeof ($scope.Username) == "undefined" || $scope.Username == "" || $scope.Username == null) {
                 $scope.errorlist = "Please enter Email";
                 $("#chatLoaderPV").hide();
+                $("#chatLoaderPV1").hide();
                 return false;
             }
             else if (typeof ($scope.Password) == "undefined" || $scope.Password == "" || $scope.Password == null) {
                 $scope.errorlist = "Please enter Password";
                 $("#chatLoaderPV").hide();
+                $("#chatLoaderPV1").hide();
                 return false;
             }
             return true;
@@ -568,7 +570,11 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             if ($scope.isExpired) {
                 return false;
             }
-            $("#chatLoaderPV").show();
+            if ($scope.ProductName1 == 'Hive') {
+                $("#chatLoaderPV1").show();
+            } else {
+                $("#chatLoaderPV").show();
+            }
             var offsetTime = new Date().getTimezoneOffset();
 
             $scope.errorlist = "";
@@ -684,6 +690,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                         });
                 }).error(function (data) {
                     $("#chatLoaderPV").hide();
+                    $("#chatLoaderPV1").hide();
                     $scope.errorlist = "Login Failed! \n Invalid Username or Password ";
                 });
             }
@@ -696,11 +703,12 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             //            IdleDays = parseInt(data[0].ConfigValue);
             //            $window.localStorage['IdleDays'] = IdleDays;
             //        }
-            //});      
+            //});   
         };
 
         $scope.UserLogin = function (data, Message) {
             $("#chatLoaderPV").hide();
+            $("#chatLoaderPV1").hide();
             if (data == "1") {
                 toastr.error("Username and/or Password are not matching, please verify", "Warning");
                 // $scope.errorlist = "Username and/or Password are not matching, please verify";
@@ -1233,15 +1241,19 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             $scope.ProductName = data[0].ProductName;
             if ($scope.ProductName == 'MyCortex') {
                 $scope.Productlogin = 0;
-            } else {
+            } else if ($scope.ProductName1 == 'MyHealth') {
                 $scope.Productlogin = 1;
+            } else {
+                $scope.Productlogin = 2;
             }
 
             if ($scope.Productlogin == '1') {
                 document.getElementById('LoginSection').className = "loginBgHel";
             }
-            else {
+            else if ($scope.Productlogin == '0') {
                 document.getElementById('LoginSection').className = "loginBgCor";
+            } else {
+                document.getElementById('LoginSection').className = "loginBgHiv";
             }
         });
 

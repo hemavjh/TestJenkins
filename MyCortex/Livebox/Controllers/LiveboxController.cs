@@ -87,7 +87,10 @@ namespace MyCortex.Livebox.Controllers
                 dynamic data = JsonConvert.DeserializeObject(json);
                 string conferencename = data.conferencename;
                 string recording_url = data.recordedvideoURL;
-                retid = liveBoxRepository.LiveBox_Recording_url(conferencename, recording_url);
+                if (recording_url != "" || recording_url != String.Empty)
+                {
+                    retid = liveBoxRepository.LiveBox_Recording_url(conferencename, recording_url);
+                }
                 retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename);
                 //PushNotificationMessage message = new PushNotificationMessage();
                 //message.Title = "Notification For Call";
@@ -168,6 +171,35 @@ namespace MyCortex.Livebox.Controllers
         }
 
         [HttpPost]
+        public ActionResult LiveBoxRemainingTimeNotify()
+        {
+            try
+            {
+                int retFlag = 0;
+                //{"conferencename":"eb62b1ec-2fd5-4718-b8d9-fe2cc8c3971e","RemainingConferenceTime":"29:30"}
+                Stream req = Request.InputStream;
+                req.Seek(0, System.IO.SeekOrigin.Begin);
+                string json = new StreamReader(req).ReadToEnd();
+                string ConferenceId = JObject.Parse(json)["conferencename"].ToString();
+                string RemainingTime = JObject.Parse(json)["RemainingConferenceTime"].ToString();
+
+                if (json.Contains("RemainingConferenceTime")) { 
+                    retFlag = liveBoxRepository.LiveBox_RemainingTime(ConferenceId, RemainingTime);                
+                    Get_AppointmentDuration(ConferenceId);
+                }
+                else
+                {
+                    Get_AppointmentDuration(ConferenceId);
+                }
+                return Content("SUCCESS");
+            }
+            catch (Exception e)
+            {
+                return Content("Failure : " + e.Message);
+            }
+        }
+
+        [HttpPost]
         public ActionResult LiveBoxNotification()
         {
             try
@@ -185,17 +217,40 @@ namespace MyCortex.Livebox.Controllers
             }
         }
 
+
+        //public ActionResult Get_AppointmentDuration(string Conference_ID)
+        //{
+        //    List<string> t = new List<string>();
+        //    var jsonSerialiser = new JavaScriptSerializer();
+        //    try
+        //    {
+        //        IList<LiveboxModel> lst = (IList<LiveboxModel>)liveBoxRepository.Get_AppointmentDuration(Conference_ID);
+        //        t.Add(lst[0].ConferenceId.ToString());
+        //        t.Add(lst[0].Duration.ToString());
+        //        var json = jsonSerialiser.Serialize(t);
+        //        return Content(json);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return null;
+        //    }
+        //}
         [HttpGet]
         public ActionResult Get_AppointmentDuration(string Conference_ID)
         {
             List<string> t = new List<string>();
             var jsonSerialiser = new JavaScriptSerializer();
+            string ConferenceName = "ConferenceId";
+            string Duration = "Duration";
             try
             {
                 IList<LiveboxModel> lst = (IList<LiveboxModel>)liveBoxRepository.Get_AppointmentDuration(Conference_ID);
-                t.Add(lst[0].ConferenceId.ToString());
-                t.Add(lst[0].Duration.ToString());
-                var json = jsonSerialiser.Serialize(t);
+                IDictionary<string,string> dic = new Dictionary<string,string>();
+                dic.Add(new KeyValuePair<string,string>(ConferenceName, lst[0].ConferenceId.ToString()));
+                dic.Add(new KeyValuePair<string, string>(Duration, lst[0].Duration.ToString()));
+                //t.Add(lst[0].ConferenceId.ToString());
+                //t.Add(lst[0].Duration.ToString());
+                var json = jsonSerialiser.Serialize(dic);
                 return Content(json);
             }
             catch (Exception ex)

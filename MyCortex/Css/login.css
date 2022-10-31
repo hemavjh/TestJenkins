@@ -77,12 +77,34 @@ body {
     background-size: cover;
 }
 .loginBgHiv {
-    min-height: calc(118vh - 105px);
+    min-height: calc(120vh - 105px);
     padding-bottom: 30px;
     /* margin-top: 75px; */
     background-image: url(../images/HiveloginBg.jpg);
     background-size: cover;
 }
+
+.hivesignupcontainer {
+    /*display: flex;*/
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 30px;
+    gap: 8px;
+    position: absolute;
+    width: 990px;
+    height: 588px;
+    left: 455px;
+    top: 100px;
+    /* Whitey */
+
+    background: #FFFFFF;
+    /* Grayie */
+
+    border: 1px solid #E8EAF6;
+    box-shadow: 16px 16px 32px -32px rgba(0, 0, 0, 0.05);
+    border-radius: 24px;
+}
+
 .loginContainer {
     margin: 15px 15px;
     width: 450px;
@@ -95,21 +117,22 @@ body {
 
 .containerhiv {
     position: absolute;
-    /* width: 215px; */
+    width: 165px;
     height: 86px;
     /* left: 741px; */
     top: 80px;
 }
 
 .container1 {
-    /* display: flex; */
-    flex-direction: row;
+    display: flex;
+    /*flex-direction: row;*/
     align-items: flex-start;
     padding: 40px;
     gap: 8px;
-    position: absolute;
-    width: 515px;
-    height: 425px;
+    position: relative;
+    width: 514px;
+    height: 424px;
+    margin: 22px 15px;
     /* left: 602px; */
     /* top: 306px; */
     background: #FFFFFF;
@@ -124,7 +147,7 @@ body {
     border-radius: 24px;
     width: 440px;
     height: 55px;
-    margin-top: 60px;
+    margin-top: 35px;
 }
 
 .loginBgCor {

@@ -358,6 +358,8 @@
     <Content Include="Images\google.png" />
     <Content Include="Images\greendot.png" />
     <Content Include="Images\groups.png" />
+    <Content Include="Images\HiveIcon.png" />
+    <Content Include="Images\HiveloginBg.jpg" />
     <Content Include="Images\home1.png" />
     <Content Include="Images\home2.png" />
     <Content Include="Images\image.png" />
