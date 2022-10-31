@@ -119,7 +119,6 @@ namespace MyCortex.Notification.Firebase
                 repository.SendEmail_Update(templateId, "NotRegistered", 2, "");  // 1 -> Delivered,  2 -> NOT-Delivered
             }
         }
-
     }
     public class PushNotificationMessage
     {
