@@ -516,7 +516,7 @@ namespace MyCortex.Repositories.Uesr
             _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[APPOINTMENT_DOCTOR_DETAILS_SP_LIST]", param);
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[APPOINTMENT_DOCTOR_DETAILS_SP_LIST_TEST]", param);
                 List<DoctorAppointmentTimeSlotModel> lst = (from p in dt.AsEnumerable()
                                                             select new DoctorAppointmentTimeSlotModel()
                                                             {
