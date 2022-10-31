@@ -477,6 +477,24 @@ namespace MyCortex.Repositories.Template
               //_MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
         }
+
+        public void Configuration_Update(string Setting, int IS_NOTIFY,long Institution_Id)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            try
+            {
+                param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
+                param.Add(new DataParameter("@SETTINGS", Setting));
+                param.Add(new DataParameter("@IS_NOTIFY", IS_NOTIFY));
+                ClsDataBase.Update("[MYCORTEX].[NOTIFICATION_SP_INSERT_UPDATE]", param);
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+            }
+        }
         /// <summary>
         /// to update User FCM token for Notification sending
         /// </summary>

@@ -17,6 +17,7 @@ using System.Text.RegularExpressions;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
+using static MyCortex.Notification.Firebase.PushNotificationApiManager;
 
 namespace MyCortex.Notification
 {
