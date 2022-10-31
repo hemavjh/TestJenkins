@@ -883,6 +883,42 @@ namespace MyCortex.Home.Controllers
                 req.Seek(0, System.IO.SeekOrigin.Begin);
                 string json = new StreamReader(req).ReadToEnd();
                 retid = liveBoxRepository.LiveBox_Notify_Log(json);
+                if (json.Contains("recordedvideoURL"))
+                {
+                    string conference_name = JObject.Parse(json)["conferencename"].ToString();
+                    string Recordingurl = JObject.Parse(json)["recordedvideoURL"].ToString();
+
+                   // string baseUrl = System.Web.HttpContext.Current.Request.Url.Host.ToString();
+                    string source_path = System.Web.HttpContext.Current.Server.MapPath("~/Images");
+                    string pathToNewFolder = System.IO.Path.Combine(source_path, "Video");
+                    DirectoryInfo directory = Directory.CreateDirectory(pathToNewFolder);
+                    try
+                    {
+                        var httpRequest = System.Web.HttpContext.Current.Request;
+                        var postedFile = httpRequest.Files[Recordingurl];
+                        var fileid = System.Guid.NewGuid() + ".mp4";
+                        string returnPath = System.IO.Path.Combine(pathToNewFolder, fileid);
+                        ServicePointManager.Expect100Continue = true;
+                        ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                        string url = Recordingurl;
+                        string savePath = returnPath;
+                        WebClient client = new WebClient();
+                        client.DownloadFile(url, savePath);
+
+                        FileStream fs = new FileStream(returnPath, FileMode.OpenOrCreate);
+                        StreamWriter str = new StreamWriter(fs);
+                        str.BaseStream.Seek(0, SeekOrigin.End);
+                        str.Write(Recordingurl);
+                        str.Flush();
+                        str.Close();
+                        fs.Close();
+                        int response = repository.Save_Video_Call_Recording_Logs(conference_name, returnPath, Recordingurl);
+                    }
+                    catch (Exception err)
+                    {
+                        Console.WriteLine(err.Message);
+                    }
+                }
                 dynamic data = JsonConvert.DeserializeObject(json);
                 string conferencename = data.conferencename;
                 string recording_url = data.recordedvideoURL;
@@ -891,6 +927,7 @@ namespace MyCortex.Home.Controllers
                     retid = liveBoxRepository.LiveBox_Recording_url(conferencename, recording_url);
                 }
                 retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename);
+
                 //PushNotificationMessage message = new PushNotificationMessage();
                 //message.Title = "Notification For Call";
                 //message.Message = "call end";
@@ -952,6 +989,7 @@ namespace MyCortex.Home.Controllers
                     string conference_name = JObject.Parse(json)["conferencename"].ToString();
                     string recording_url = JObject.Parse(json)["recordedvideoURL"].ToString();
                     string Recordingurl = JObject.Parse(json)["recordedvideoURL"].ToString();
+                    
                     string baseUrl = System.Web.HttpContext.Current.Request.Url.Host.ToString();
                     string source_path = System.Web.HttpContext.Current.Server.MapPath("~/Images");
                     string pathToNewFolder = System.IO.Path.Combine(source_path, "Video");
@@ -960,8 +998,14 @@ namespace MyCortex.Home.Controllers
                     {
                         var httpRequest = System.Web.HttpContext.Current.Request;
                         var postedFile = httpRequest.Files[recording_url];
-                        var fileid = System.Guid.NewGuid() + ".txt";
+                        var fileid = System.Guid.NewGuid() + ".mp4";
                         string returnPath = System.IO.Path.Combine(pathToNewFolder, fileid);
+                        ServicePointManager.Expect100Continue = true;
+                        ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                        string url = Recordingurl;
+                        string savePath = returnPath;
+                        WebClient client = new WebClient();
+                        client.DownloadFile(url, savePath);
 
                         FileStream fs = new FileStream(returnPath, FileMode.OpenOrCreate);
                         StreamWriter str = new StreamWriter(fs);
