@@ -255,26 +255,62 @@ namespace MyCortex.Livebox.Controllers
         [HttpGet]
         public ActionResult Get_AppointmentDuration(string Conference_ID)
         {
+            //List<string> t = new List<string>();
+            //var jsonSerialiser = new JavaScriptSerializer();
+            //string ConferenceName = "ConferenceId";
+            //string Duration = "Duration";
+            //int Doctor_Id,Patient_Id;
+
+            //try
+            //{
+            //    IList<LiveboxModel> lst = (IList<LiveboxModel>)liveBoxRepository.Get_AppointmentDuration(Conference_ID);
+            //    IDictionary<string,string> dic = new Dictionary<string,string>();
+            //    dic.Add(new KeyValuePair<string,string>(ConferenceName, lst[0].ConferenceId.ToString()));
+            //    dic.Add(new KeyValuePair<string, string>(Duration, lst[0].Duration.ToString()));
+
+            //    //Doctor_Id = lst[0].Doctor_Id.ToString();
+
+            //    //t.Add(lst[0].ConferenceId.ToString());
+            //    //t.Add(lst[0].Duration.ToString());
+            //    var json = jsonSerialiser.Serialize(dic);
+
+            //    IList<EmailListModel> EmailList=alertrepository.UserSpecificEmailList(InstitutionId, Id);
+
+            //    return Content(json);
+            //}
+            //catch (Exception ex)
+            //{
+            //    return null;
+            //}
             List<string> t = new List<string>();
             var jsonSerialiser = new JavaScriptSerializer();
             string ConferenceName = "ConferenceId";
             string Duration = "Duration";
-            int Doctor_Id,Patient_Id;
+            string Doctor_Id = "Doctor_Id";
+            string Patient_Id = "Patient_Id";
 
             try
             {
                 IList<LiveboxModel> lst = (IList<LiveboxModel>)liveBoxRepository.Get_AppointmentDuration(Conference_ID);
-                IDictionary<string,string> dic = new Dictionary<string,string>();
-                dic.Add(new KeyValuePair<string,string>(ConferenceName, lst[0].ConferenceId.ToString()));
+                IDictionary<string, string> dic = new Dictionary<string, string>();
+                dic.Add(new KeyValuePair<string, string>(ConferenceName, lst[0].ConferenceId.ToString()));
                 dic.Add(new KeyValuePair<string, string>(Duration, lst[0].Duration.ToString()));
+                dic.Add(new KeyValuePair<string, string>(Doctor_Id, lst[0].Doctor_Id.ToString()));
+                dic.Add(new KeyValuePair<string, string>(Patient_Id, lst[0].Patient_Id.ToString()));
 
-                //Doctor_Id = lst[0].Doctor_Id.ToString();
-
-                //t.Add(lst[0].ConferenceId.ToString());
-                //t.Add(lst[0].Duration.ToString());
                 var json = jsonSerialiser.Serialize(dic);
 
-               // IList<EmailListModel> EmailList=alertrepository.UserSpecificEmailList(InstitutionId, Id);
+                if (json.Contains("Doctor_Id"))
+                {
+                    long DoctorID = Convert.ToInt64(JObject.Parse(json)["Doctor_Id"].ToString());
+                    IList<EmailListModel> EmailList = alertrepository.UserSpecificEmailList(InstitutionId, DoctorID);
+                }
+                if (json.Contains("Patient_Id"))
+                {
+                    long PatientID = Convert.ToInt64(JObject.Parse(json)["Patient_Id"].ToString());
+                    IList<EmailListModel> EmailList = alertrepository.UserSpecificEmailList(InstitutionId, PatientID);
+                }
+
 
                 return Content(json);
             }
