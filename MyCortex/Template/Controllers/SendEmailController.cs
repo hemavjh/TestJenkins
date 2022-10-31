@@ -24,6 +24,7 @@ using System.Net.Http.Headers;
 using System.Security.Cryptography.Xml;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
+using static MyCortex.Notification.Firebase.PushNotificationApiManager;
 
 namespace MyCortex.Template.Controllers
 {

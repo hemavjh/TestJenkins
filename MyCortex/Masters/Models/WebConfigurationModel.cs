@@ -28,4 +28,13 @@ namespace MyCortex.Masters.Models
         public string Message { get; set; }
         public IList<WebConfigurationModel> Configuration { get; set; }
     }
+
+    public class Configuration_Setting
+    {
+        public long ID { get; set; }
+        public long User_Id { get; set; }
+        public long INSTITUTION_ID { get; set; }
+        public long IS_NOTIFY { get; set; }
+        public string FCMToken { get; set; }
+    }
 }
