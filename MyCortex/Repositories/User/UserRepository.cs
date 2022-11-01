@@ -435,6 +435,7 @@ namespace MyCortex.Repositories.Uesr
             //param.Add(new DataParameter("@MNR_NO", insobj.MNR_NO));
             //param.Add(new DataParameter("@MRNPREFIX", insobj.MrnPrefix));
             param.Add(new DataParameter("@NATIONALID", insobj.NATIONALID));
+            param.Add(new DataParameter("@UID", insobj.UID));
             param.Add(new DataParameter("@SMOKER", insobj.SMOKER));
             param.Add(new DataParameter("@DIABETIC", insobj.DIABETIC));
             param.Add(new DataParameter("@HYPERTENSION", insobj.HYPERTENSION));
@@ -817,6 +818,7 @@ namespace MyCortex.Repositories.Uesr
                                     MNR_NO = p.Field<string>("MNR_NO"),
                                     INSURANCEID = p.Field<string>("INSURANCEID"),
                                     NATIONALID = p.Field<string>("NATIONALID"),
+                                    UID = p.Field<string>("UID"),
                                     EthnicGroup = p.Field<string>("EthnicGroup"),
                                     UserName = p.Field<string>("UserName"),
                                     GENDER_NAME = p.Field<string>("GENDER_NAME"),

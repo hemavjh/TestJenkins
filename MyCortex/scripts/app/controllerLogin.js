@@ -164,6 +164,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
         $scope.MNR_No = "";
         $scope.PatientNo = "";
         $scope.NationalId = "";
+        $scope.UID = "";
         $scope.InsuranceId = "";
         $scope.GenderId = "0";
         $scope.NationalityId = "0";
@@ -362,6 +363,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                         MiddleName: $scope.MiddleName,
                         LastName: $scope.LastName,
                         NATIONALID: $scope.NationalId,
+                        UID: $scope.UID,
                         INSURANCEID: $scope.InsuranceId,
                         MNR_NO: $scope.MNR_No,
                         GENDER_ID: $scope.GenderId == 0 ? null : $scope.GenderId,
@@ -413,6 +415,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             $scope.MNR_No = "";
             $scope.PatientNo = "";
             $scope.NationalId = "";
+            $scope.UID = "";
             $scope.InsuranceId = "";
             $scope.GenderId = "0";
             $scope.NationalityId = "0";
@@ -929,6 +932,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
         $scope.PrefixMRN = "";
         $scope.PatientNo = "";
         $scope.NationalId = "";
+        $scope.UID = "";
         $scope.InsuranceId = "";
         $scope.GenderId = "0";
         $scope.NationalityId = "0";
@@ -1190,18 +1194,18 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                 toastr.warning("Please select Nationality", "warning");
                 return false;
             }
-            else if (typeof ($scope.MaritalStatusId) == "undefined" || $scope.MaritalStatusId == "0") {
-                toastr.warning("Please select Marital Status", "warning");
-                return false;
-            }
-            else if (typeof ($scope.EthnicGroupId) == "undefined" || $scope.EthnicGroupId == "0") {
-                toastr.warning("Please select EthnicGroup", "warning");
-                return false;
-            }
-            else if (typeof ($scope.BloodGroupId) == "undefined" || $scope.BloodGroupId == "0") {
-                toastr.warning("Please select BloodGroup","warning");
-                return false;
-            }
+            //else if (typeof ($scope.MaritalStatusId) == "undefined" || $scope.MaritalStatusId == "0") {
+            //    toastr.warning("Please select Marital Status", "warning");
+            //    return false;
+            //}
+            //else if (typeof ($scope.EthnicGroupId) == "undefined" || $scope.EthnicGroupId == "0") {
+            //    toastr.warning("Please select EthnicGroup", "warning");
+            //    return false;
+            //}
+            //else if (typeof ($scope.BloodGroupId) == "undefined" || $scope.BloodGroupId == "0") {
+            //    toastr.warning("Please select BloodGroup","warning");
+            //    return false;
+            //}
             else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "") {
                 //alert("Please select Date of Birth");
                 toastr.warning("Please select Date of Birth", "warning");
@@ -1291,6 +1295,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                             MiddleName: $scope.MiddleName,
                             LastName: $scope.LastName,
                             NATIONALID: $scope.NationalId,
+                            UID: $scope.UID,
                             INSURANCEID: $scope.InsuranceId,
                             //MNR_NO: $scope.MNR_No,
                             GENDER_ID: $scope.GenderId == 0 ? null : $scope.GenderId,
@@ -1364,6 +1369,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             $scope.MNR_No = "";
             $scope.PatientNo = "";
             $scope.NationalId = "";
+            $scope.UID = "";
             $scope.InsuranceId = "";
             $scope.GenderId = "0";
             $scope.NationalityId = "0";

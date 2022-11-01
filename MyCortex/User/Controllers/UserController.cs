@@ -551,6 +551,7 @@ namespace MyCortex.User.Controller
                 //userObj.MNR_NO = userObj.MNR_NO;
                 userObj.INSURANCEID = userObj.INSURANCEID;
                 userObj.NATIONALID = userObj.NATIONALID;
+                userObj.UID = userObj.UID;
                 userObj.MOBILE_NO = userObj.MOBILE_NO;
                 userObj.EMERG_CONT_FIRSTNAME = userObj.EMERG_CONT_FIRSTNAME;
                 userObj.EMERG_CONT_LASTNAME = userObj.EMERG_CONT_LASTNAME;
