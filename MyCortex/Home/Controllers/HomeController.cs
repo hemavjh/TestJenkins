@@ -888,7 +888,7 @@ namespace MyCortex.Home.Controllers
                     string conference_name = JObject.Parse(json)["conferencename"].ToString();
                     string Recordingurl = JObject.Parse(json)["recordedvideoURL"].ToString();
 
-                   // string baseUrl = System.Web.HttpContext.Current.Request.Url.Host.ToString();
+                    string Url = System.Web.HttpContext.Current.Request.Url.Host.ToString();
                     string source_path = System.Web.HttpContext.Current.Server.MapPath("~/Images");
                     string pathToNewFolder = System.IO.Path.Combine(source_path, "Video");
                     DirectoryInfo directory = Directory.CreateDirectory(pathToNewFolder);
@@ -912,7 +912,7 @@ namespace MyCortex.Home.Controllers
                         str.Flush();
                         str.Close();
                         fs.Close();
-                        int response = repository.Save_Video_Call_Recording_Logs(conference_name, returnPath, Recordingurl);
+                        int response = repository.VideoCall_Recording_Logs(conference_name, fileid, Recordingurl);
                     }
                     catch (Exception err)
                     {
