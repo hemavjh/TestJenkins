@@ -222,7 +222,7 @@ namespace MyCortexService
                           //  Patient_Id = dr["Patient_Id"].ToString();
                             PushNotificationMessage message = new PushNotificationMessage();
                             message.Title = "Notificaion For Call";
-                            message.Message = "Waiting for your join in the call";
+                            message.Message = "Waiting for meet";
                             PushNotificationApiManager.SendLiveboxNotification(message, User_Id,  Institution_Id);
                         }
                     }

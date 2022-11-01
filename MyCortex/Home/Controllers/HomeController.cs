@@ -1100,8 +1100,8 @@ namespace MyCortex.Home.Controllers
             var jsonSerialiser = new JavaScriptSerializer();
             string ConferenceName = "ConferenceId";
             string Duration = "Duration";
-            string Doctor_Id = "Doctor_Id";
-            string Patient_Id= "Patient_Id";
+            //string Doctor_Id = "Doctor_Id";
+            //string Patient_Id= "Patient_Id";
 
             try
             {
