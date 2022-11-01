@@ -929,7 +929,7 @@ namespace MyCortex.Home.Controllers
                 {
                     retid = liveBoxRepository.LiveBox_Recording_url(conferencename, recording_url);
                 }
-                retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename);
+                retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename, InstitutionId);
 
                 //PushNotificationMessage message = new PushNotificationMessage();
                 //message.Title = "Notification For Call";

@@ -40,6 +40,7 @@ using MyCortex.User.Controller;
 using MyCortex.User.Models;
 using MyCortex.Notification.Models;
 using MyCortex.Repositories.EmailAlert;
+using MyCortex.Notification;
 
 namespace MyCortex.Livebox.Controllers
 {
@@ -94,7 +95,7 @@ namespace MyCortex.Livebox.Controllers
                 {
                     retid = liveBoxRepository.LiveBox_Recording_url(conferencename, recording_url);
                 }
-                retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename);
+                retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename, InstitutionId);
                 //PushNotificationMessage message = new PushNotificationMessage();
                 //message.Title = "Notification For Call";
                 //message.Message = "call end";
@@ -299,19 +300,20 @@ namespace MyCortex.Livebox.Controllers
                 dic.Add(new KeyValuePair<string, string>(Patient_Id, lst[0].Patient_Id.ToString()));
 
                 var json = jsonSerialiser.Serialize(dic);
+                //AlertEvents AlertEventReturn = new AlertEvents();
 
                 if (json.Contains("Doctor_Id"))
                 {
                     long DoctorID = Convert.ToInt64(JObject.Parse(json)["Doctor_Id"].ToString());
-                    IList<EmailListModel> EmailList = alertrepository.UserSpecificEmailList(InstitutionId, DoctorID);
+                    //IList<EmailListModel> EmailList = alertrepository.UserSpecificEmailList(InstitutionId, DoctorID);
+                   
                 }
                 if (json.Contains("Patient_Id"))
                 {
                     long PatientID = Convert.ToInt64(JObject.Parse(json)["Patient_Id"].ToString());
-                    IList<EmailListModel> EmailList = alertrepository.UserSpecificEmailList(InstitutionId, PatientID);
+                    //IList<EmailListModel> EmailList = alertrepository.UserSpecificEmailList(InstitutionId, PatientID);                   
                 }
-
-
+                
                 return Content(json);
             }
             catch (Exception ex)
