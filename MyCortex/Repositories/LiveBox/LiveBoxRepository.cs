@@ -87,8 +87,8 @@ namespace MyCortex.Repositories.LiveBox
                 LiveboxModel li = new LiveboxModel();
                 li.Duration = dt.Rows[i][0].ToString();
                 li.ConferenceId = dt.Rows[i][1].ToString();
-                li.Doctor_Id = dt.Rows[i][2].ToString();
-                li.Patient_Id = dt.Rows[i][3].ToString();
+                //li.Doctor_Id = dt.Rows[i][2].ToString();
+                //li.Patient_Id = dt.Rows[i][3].ToString();
                 list.Add(li);
             }
             return list;

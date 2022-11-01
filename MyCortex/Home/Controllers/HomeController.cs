@@ -1109,8 +1109,8 @@ namespace MyCortex.Home.Controllers
                 IDictionary<string, string> dic = new Dictionary<string, string>();
                 dic.Add(new KeyValuePair<string, string>(ConferenceName, lst[0].ConferenceId.ToString()));
                 dic.Add(new KeyValuePair<string, string>(Duration, lst[0].Duration.ToString()));
-                dic.Add(new KeyValuePair<string, string>(Doctor_Id, lst[0].Doctor_Id.ToString()));
-                dic.Add(new KeyValuePair<string, string>(Patient_Id, lst[0].Patient_Id.ToString()));
+               // dic.Add(new KeyValuePair<string, string>(Doctor_Id, lst[0].Doctor_Id.ToString()));
+               // dic.Add(new KeyValuePair<string, string>(Patient_Id, lst[0].Patient_Id.ToString()));
 
                 //Doctor_Id = lst[0].Doctor_Id.ToString();
 
@@ -1118,16 +1118,16 @@ namespace MyCortex.Home.Controllers
                 //t.Add(lst[0].Duration.ToString());
                 var json = jsonSerialiser.Serialize(dic);
 
-                if (json.Contains("Doctor_Id"))
-                {
-                    long DoctorID = Convert.ToInt64(JObject.Parse(json)["Doctor_Id"].ToString());
-                    IList<EmailListModel> EmailList = alertrepository.UserSpecificEmailList(InstitutionId, DoctorID);
-                }
-                if (json.Contains("Patient_Id"))
-                {
-                    long PatientID = Convert.ToInt64(JObject.Parse(json)["Patient_Id"].ToString());
-                    IList<EmailListModel> EmailList = alertrepository.UserSpecificEmailList(InstitutionId, PatientID);
-                }
+                //if (json.Contains("Doctor_Id"))
+                //{
+                //    long DoctorID = Convert.ToInt64(JObject.Parse(json)["Doctor_Id"].ToString());
+                //    IList<EmailListModel> EmailList = alertrepository.UserSpecificEmailList(InstitutionId, DoctorID);
+                //}
+                //if (json.Contains("Patient_Id"))
+                //{
+                //    long PatientID = Convert.ToInt64(JObject.Parse(json)["Patient_Id"].ToString());
+                //    IList<EmailListModel> EmailList = alertrepository.UserSpecificEmailList(InstitutionId, PatientID);
+                //}
 
                 return Content(json);
             }
@@ -1138,7 +1138,7 @@ namespace MyCortex.Home.Controllers
         }
 
         [HttpPost]
-        public ActionResult RefundNotify(long id, string merchantorderno)
+        public ActionResult RefundNotify(long id, string  merchantorderno)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
