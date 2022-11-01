@@ -126,6 +126,7 @@ namespace MyCortex.User.Model
         public string amount { get; set; }
         public string status { get; set; }
         public string recording_url { get; set; }
+        public string Fileid { get; set; }
     }
 
     public class AppointmentDuration
