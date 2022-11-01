@@ -341,6 +341,13 @@
             </div>
             <div class="col-sm-6" style="margin-left: -1px;">
                 <div class="inputGroups">
+                    <label>UID</label>
+                    <input type="text" class="form-control" id="Text19" name="UID" ng-model="UID" placeholder="" ng-maxlength="100"
+                           maxlength="100" />
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="inputGroups">
                     <label for="email">{{insuranceid}}<sup><font class='mandatory-field'>*</font></sup></label>
                     <input type="text" class="form-control" id="Text3" name="InsuranceId" ng-model="InsuranceId" ng-required="true"
                            ng-init="InsuranceId=''" placeholder="" ng-maxlength="50" maxlength="50" onkeypress="NoSpecChar(event)" />
@@ -369,29 +376,29 @@
                 </div>
             </div>
             <!--<div class="col-sm-6">
-                <div class="inputGroups">
-                    <label for="email">
-                        {{MaritalStatus}}<sup><font class='mandatory-field'>*</font></sup>
-                    </label>
-                    <select class="form-control" data-style="form-control" ng-model="MaritalStatusId" id="MaritalStatusId">
-                        <option value="0">Select</option>
-                        <option ng-repeat="sel in MaritalStatusList" ng-selected="MaritalStatusId==sel.Id" value="{{sel.Id}}">
-                            {{sel.Name}}
-                        </option>
-                    </select>
-                </div>
-            </div>-->
+        <div class="inputGroups">
+            <label for="email">
+                {{MaritalStatus}}<sup><font class='mandatory-field'>*</font></sup>
+            </label>
+            <select class="form-control" data-style="form-control" ng-model="MaritalStatusId" id="MaritalStatusId">
+                <option value="0">Select</option>
+                <option ng-repeat="sel in MaritalStatusList" ng-selected="MaritalStatusId==sel.Id" value="{{sel.Id}}">
+                    {{sel.Name}}
+                </option>
+            </select>
+        </div>
+    </div>-->
             <!--<div class="col-sm-6">
-                <div class="inputGroups">
-                    <label for="email">{{EthnicGroup}}<sup> <font class='mandatory-field'>*</font></sup></label>
-                    <select class="form-control" data-style="form-control" ng-model="EthnicGroupId" id="EthnicGroupId">
-                        <option value="0">Select</option>
-                        <option ng-repeat="sel in EthnicGroupList" ng-selected="EthnicGroupId==sel.Id" value="{{sel.Id}}">
-                            {{sel.Name}}
-                        </option>
-                    </select>
-                </div>
-            </div>-->
+        <div class="inputGroups">
+            <label for="email">{{EthnicGroup}}<sup> <font class='mandatory-field'>*</font></sup></label>
+            <select class="form-control" data-style="form-control" ng-model="EthnicGroupId" id="EthnicGroupId">
+                <option value="0">Select</option>
+                <option ng-repeat="sel in EthnicGroupList" ng-selected="EthnicGroupId==sel.Id" value="{{sel.Id}}">
+                    {{sel.Name}}
+                </option>
+            </select>
+        </div>
+    </div>-->
             <div class="col-sm-6">
                 <div class="inputGroups">
                     <label for="email">{{dob}}<sup><font class='mandatory-field'>*</font></sup></label>
@@ -408,16 +415,16 @@
                 </div>
             </div>
             <!--<div class="col-sm-6">
-                <div class="inputGroups">
-                    <label for="email">{{BloodGroup}}<sup><font class='mandatory-field'>*</font></sup></label>
-                    <select class="form-control" data-style="form-control" ng-model="BloodGroupId" id="BloodGroupId">
-                        <option value="0">Select</option>
-                        <option ng-repeat="sel in BloodGroupList" ng-selected="BloodGroupId==sel.Id" value="{{sel.Id}}">
-                            {{sel.BloodGroup_Name}}
-                        </option>
-                    </select>
-                </div>
-            </div>-->
+        <div class="inputGroups">
+            <label for="email">{{BloodGroup}}<sup><font class='mandatory-field'>*</font></sup></label>
+            <select class="form-control" data-style="form-control" ng-model="BloodGroupId" id="BloodGroupId">
+                <option value="0">Select</option>
+                <option ng-repeat="sel in BloodGroupList" ng-selected="BloodGroupId==sel.Id" value="{{sel.Id}}">
+                    {{sel.BloodGroup_Name}}
+                </option>
+            </select>
+        </div>
+    </div>-->
         </div>
         <!--<div>
             <p style="text-align:left;">
