@@ -18,6 +18,8 @@ namespace MyCortex.Repositories
         IList<SendEmailModel> SendEmail_ResendListing(SendEmailModel obj);
         IList<EmailHistoryListModel> EmailHistory_List(long? Id, DateTime? Period_From, DateTime? Period_To, int? Email_Stauts, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID, long TemplateType_Id, Guid Login_Session_Id);
         void SendEmail_Update(long Id, string Error_Reason, int Email_Status, string Sender_MessageId);
+
+        void Configuration_Update(string Setting, int IS_NOTIFY,long Institution_Id);
         NotifictaionUserFCM UpdateUser_FCMTocken(NotifictaionUserFCM objDetail);
         NotifictaionUserFCM DeleteUser_FCMTocken(NotifictaionUserFCM objDetail);
         List<NotifictaionUserFCM> UserFCMToken_Get_List(long User_Id);

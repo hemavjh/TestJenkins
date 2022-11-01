@@ -38,6 +38,8 @@ using System.Web.UI;
 using Newtonsoft.Json.Linq;
 using MyCortex.User.Controller;
 using MyCortex.User.Models;
+using MyCortex.Notification.Models;
+using MyCortex.Repositories.EmailAlert;
 
 namespace MyCortex.Livebox.Controllers
 {
@@ -49,6 +51,7 @@ namespace MyCortex.Livebox.Controllers
         //static readonly ICommonRepository commonrepository = new CommonRepository();
         //static readonly IGatewaySettingsRepository gatewayrepository = new GatewaySettingsRepository();
         //static readonly IPatientAppointmentsRepository patientAppointmentsRepository = new PatientAppointmentRepository();
+        static readonly AlertEventRepository alertrepository = new AlertEventRepository();
         static readonly ILiveBoxRepository liveBoxRepository = new LiveBoxRepository();
         //private LoginRepository login = new LoginRepository();
         private UserRepository repository = new UserRepository();
@@ -98,6 +101,20 @@ namespace MyCortex.Livebox.Controllers
                 //long userid = 102111;
 
                 //PushNotificationApiManager.sendNotification(message, 0, userid, 4);
+                
+                string ConferenceId = JObject.Parse(json)["conferencename"].ToString();
+                string RemainingTime = JObject.Parse(json)["remainingtime"].ToString();
+
+                if (json.Contains("remainingtime"))
+                {
+                    retid = liveBoxRepository.LiveBox_RemainingTime(ConferenceId, RemainingTime);
+                    Get_AppointmentDuration(ConferenceId);
+                }
+                else
+                {
+                    Get_AppointmentDuration(ConferenceId);
+                }
+
                 string baseUrl = System.Web.HttpContext.Current.Request.Url.Host.ToString();
                 string redirectUrl = "https://" + baseUrl + "/Home/Index#/PatientVitals/0/1";
                 if (redirectUrl != String.Empty)
@@ -181,9 +198,9 @@ namespace MyCortex.Livebox.Controllers
                 req.Seek(0, System.IO.SeekOrigin.Begin);
                 string json = new StreamReader(req).ReadToEnd();
                 string ConferenceId = JObject.Parse(json)["conferencename"].ToString();
-                string RemainingTime = JObject.Parse(json)["RemainingConferenceTime"].ToString();
+                string RemainingTime = JObject.Parse(json)["remainingtime"].ToString();
 
-                if (json.Contains("RemainingConferenceTime")) { 
+                if (json.Contains("remainingtime")) { 
                     retFlag = liveBoxRepository.LiveBox_RemainingTime(ConferenceId, RemainingTime);                
                     Get_AppointmentDuration(ConferenceId);
                 }
@@ -240,12 +257,25 @@ namespace MyCortex.Livebox.Controllers
         {
             List<string> t = new List<string>();
             var jsonSerialiser = new JavaScriptSerializer();
+            string ConferenceName = "ConferenceId";
+            string Duration = "Duration";
+            int Doctor_Id,Patient_Id;
+
             try
             {
                 IList<LiveboxModel> lst = (IList<LiveboxModel>)liveBoxRepository.Get_AppointmentDuration(Conference_ID);
-                t.Add(lst[0].ConferenceId.ToString());
-                t.Add(lst[0].Duration.ToString());
-                var json = jsonSerialiser.Serialize(t);
+                IDictionary<string,string> dic = new Dictionary<string,string>();
+                dic.Add(new KeyValuePair<string,string>(ConferenceName, lst[0].ConferenceId.ToString()));
+                dic.Add(new KeyValuePair<string, string>(Duration, lst[0].Duration.ToString()));
+
+                //Doctor_Id = lst[0].Doctor_Id.ToString();
+
+                //t.Add(lst[0].ConferenceId.ToString());
+                //t.Add(lst[0].Duration.ToString());
+                var json = jsonSerialiser.Serialize(dic);
+
+               // IList<EmailListModel> EmailList=alertrepository.UserSpecificEmailList(InstitutionId, Id);
+
                 return Content(json);
             }
             catch (Exception ex)

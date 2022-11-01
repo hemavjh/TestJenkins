@@ -16,6 +16,8 @@ namespace MyCortex.User.Models
     {
         public string Duration { get; set; }
         public string ConferenceId { get; set; }
+        public string Doctor_Id { get; set; }
+        public string Patient_Id { get; set; }
 
     }
 }
