@@ -1014,14 +1014,14 @@ namespace MyCortex.Home.Controllers
                     {
                         var httpRequest = System.Web.HttpContext.Current.Request;
                         var postedFile = httpRequest.Files[recording_url];
-                        var fileid = System.Guid.NewGuid() + ".mp4";
+                        var fileid = System.Guid.NewGuid() + ".txt";
                         string returnPath = System.IO.Path.Combine(pathToNewFolder, fileid);
-                        ServicePointManager.Expect100Continue = true;
-                        ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-                        string url = Recordingurl;
-                        string savePath = returnPath;
-                        WebClient client = new WebClient();
-                        client.DownloadFile(url, savePath);
+                        //ServicePointManager.Expect100Continue = true;
+                        //ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                        //string url = Recordingurl;
+                        //string savePath = returnPath;
+                        //WebClient client = new WebClient();
+                        //client.DownloadFile(url, savePath);
 
                         FileStream fs = new FileStream(returnPath, FileMode.OpenOrCreate);
                         StreamWriter str = new StreamWriter(fs);
