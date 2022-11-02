@@ -101,7 +101,7 @@ namespace MyCortex.Notification.Firebase
 
         }
 
-        public static void sendNotification(PushNotificationMessage message, long templateId, long User_Id, long NotificationFor)
+        public static async void sendNotification(PushNotificationMessage message, long templateId, long User_Id, long NotificationFor)
         {
             List<NotifictaionUserFCM> model = new List<NotifictaionUserFCM>();
             model = repository.UserFCMToken_Get_List(User_Id);
@@ -111,7 +111,13 @@ namespace MyCortex.Notification.Firebase
                 if ((NotificationFor == 3 && itemData.DeviceType == "web") || (NotificationFor == 2 && itemData.DeviceType != "web") || NotificationFor == 4)
                 {
                     message.FCMToken = itemData.FCMToken;
-                    SendPushNotification(message, templateId, itemData.SiteUrl);
+                    try
+                    {
+                        await SendPushNotification(message, templateId, itemData.SiteUrl);
+                    }
+                    catch
+                    {
+                    }
                 }
             }
             if (model.Count == 0)
@@ -120,7 +126,9 @@ namespace MyCortex.Notification.Firebase
             }
         }
 
-        public static void SendConfiguraionSettingNotification(PushNotificationMessage message, long User_Id,string Setting,long Institution_Id)
+    }
+
+    public static void SendConfiguraionSettingNotification(PushNotificationMessage message, long User_Id,string Setting,long Institution_Id)
         {
             List<NotifictaionUserFCM> model = new List<NotifictaionUserFCM>();
             model = repository.UserFCMToken_Get_List(User_Id);
