@@ -2882,7 +2882,7 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Photo"></param>
         /// <param name="Certificate"></param>
         /// <returns></returns>
-		public void UserDetails_NationalPhotoUpload(byte[] imageFile, int Id)
+		public void UserDetails_NationalPhotoUpload(byte[] imageFile, int Id,string Type)
         {
             DataEncryption encrypt = new DataEncryption();
 
@@ -2892,10 +2892,40 @@ namespace MyCortex.Repositories.Uesr
             if (imageFile != null)
             {
                 param.Add(new DataParameter("@BLOBDATA", encrypt.EncryptFile(imageFile)));
+                param.Add(new DataParameter("@TYPE", Type));
             }
             else
             {
                 param.Add(new DataParameter("@BLOBDATA", null));
+                param.Add(new DataParameter("@TYPE", null));
+            }
+            ClsDataBase.Update("[MYCORTEX].[TBLUPLOADUSERNATIONALIMAGE_SP_INSERTUPDATE]", param);
+
+        }
+
+        /// <summary>
+        /// to attach photo or National Image of user
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="Photo"></param>
+        /// <param name="Certificate"></param>
+        /// <returns></returns>
+        public void UserDetails_UIDPhotoUpload(byte[] imageFile, int Id,string Type)
+        {
+            DataEncryption encrypt = new DataEncryption();
+
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ID", Id));
+            //param.Add(new DataParameter("@BLOBDATA", encrypt.EncryptFile(imageFile)));
+            if (imageFile != null)
+            {
+                param.Add(new DataParameter("@BLOBDATA", encrypt.EncryptFile(imageFile)));
+                param.Add(new DataParameter("@TYPE", null));
+            }
+            else
+            {
+                param.Add(new DataParameter("@BLOBDATA", null));
+                param.Add(new DataParameter("@TYPE", null));
             }
             ClsDataBase.Update("[MYCORTEX].[TBLUPLOADUSERNATIONALIMAGE_SP_INSERTUPDATE]", param);
 
