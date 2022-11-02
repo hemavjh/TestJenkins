@@ -128,7 +128,7 @@ namespace MyCortex.Notification.Firebase
 
         //}
 
-        public static void SendConfiguraionSettingNotification(PushNotificationMessage message, long User_Id, string Setting, long Institution_Id)
+        public static async void SendConfiguraionSettingNotification(PushNotificationMessage message, long User_Id, string Setting, long Institution_Id)
         {
             List<NotifictaionUserFCM> model = new List<NotifictaionUserFCM>();
             model = repository.UserFCMToken_Get_List(User_Id);
@@ -136,10 +136,17 @@ namespace MyCortex.Notification.Firebase
             foreach (NotifictaionUserFCM itemData in model)
             {
                 message.FCMToken = itemData.FCMToken;
-                SendConfiguraionPushNotification(message, itemData.SiteUrl, Setting, Institution_Id);
+                try
+                {
+                    await SendConfiguraionPushNotification(message, itemData.SiteUrl, Setting, Institution_Id);
+                }
+                catch
+                {
+
+                }
             }
         }
-        public static void SendLiveboxNotification(PushNotificationMessage message, long User_Id, long Institution_Id)
+        public async static void SendLiveboxNotification(PushNotificationMessage message, long User_Id, long Institution_Id)
         {
             List<NotifictaionUserFCM> model = new List<NotifictaionUserFCM>();
             model = repository.UserFCMToken_Get_List(User_Id);
@@ -147,7 +154,14 @@ namespace MyCortex.Notification.Firebase
             foreach (NotifictaionUserFCM itemData in model)
             {
                 message.FCMToken = itemData.FCMToken;
-                SendPushLiveboxNotification(message, itemData.SiteUrl);
+                try
+                {
+                    await SendPushLiveboxNotification(message, itemData.SiteUrl);
+                }
+                catch
+                {
+
+                }
             }
         }
         private async static Task<IRestResponse> SendPushLiveboxNotification(PushNotificationMessage message, string Url)
@@ -218,7 +232,7 @@ namespace MyCortex.Notification.Firebase
 
             return null;
         }
-        private async static void SendConfiguraionPushNotification(PushNotificationMessage message, string Url, string Setting, long Institution_Id)
+        private async static Task SendConfiguraionPushNotification(PushNotificationMessage message, string Url, string Setting, long Institution_Id)
         {
             string
             _AppLogger = string.Empty, _AppMethod = string.Empty;
