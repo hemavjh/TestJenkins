@@ -2138,6 +2138,7 @@ namespace MyCortex.User.Controller
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
+        [AllowAnonymous]
         [HttpPost]
         public List<string> Attach_NationalIDPhoto(int Id, int Photo, int CREATED_BY, string Type)
         {
@@ -2201,6 +2202,7 @@ namespace MyCortex.User.Controller
         /// <param name="Photo"></param>
         /// <param name=""></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpPost]
         public List<string> Attach_UIDPhoto(int Id, int Photo, int CREATED_BY, string Type)
         {
