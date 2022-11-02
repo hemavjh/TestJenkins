@@ -53,6 +53,7 @@ namespace MyCortex.Repositories.LiveBox
             retid = ClsDataBase.Insert("[MYCORTEX].[GET_RECORDING_URL]", param, true);
             return retid;
         }
+      
 
         //public IList<LiveboxModel> Get_AppointmentDuration(string Conference_ID)
         //{

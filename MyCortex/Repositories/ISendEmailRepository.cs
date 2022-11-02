@@ -20,6 +20,7 @@ namespace MyCortex.Repositories
         void SendEmail_Update(long Id, string Error_Reason, int Email_Status, string Sender_MessageId);
 
         void Configuration_Update(string Setting, int IS_NOTIFY,long Institution_Id);
+        void LiveBox_UserDetails_Delete( long User_Id);
         NotifictaionUserFCM UpdateUser_FCMTocken(NotifictaionUserFCM objDetail);
         NotifictaionUserFCM DeleteUser_FCMTocken(NotifictaionUserFCM objDetail);
         List<NotifictaionUserFCM> UserFCMToken_Get_List(long User_Id);

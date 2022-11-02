@@ -925,7 +925,7 @@ namespace MyCortex.Home.Controllers
                 dynamic data = JsonConvert.DeserializeObject(json);
                 string conferencename = data.conferencename;
                 string recording_url = data.recordedvideoURL;
-                if (recording_url != "" || recording_url != String.Empty)
+                if (json.Contains("recordedvideoURL"))
                 {
                     retid = liveBoxRepository.LiveBox_Recording_url(conferencename, recording_url);
                 }
@@ -935,11 +935,12 @@ namespace MyCortex.Home.Controllers
                 //message.Title = "Notification For Call";
                 //message.Message = "call end";
                 //long userid = 102111;
-                string ConferenceId = JObject.Parse(json)["conferencename"].ToString();
-                string RemainingTime = JObject.Parse(json)["remainingtime"].ToString();
+                string ConferenceId = JObject.Parse(json)["conferencename"].ToString();                
 
                 if (json.Contains("remainingtime"))
                 {
+                    string RemainingTime = JObject.Parse(json)["remainingtime"].ToString();
+
                     retid = liveBoxRepository.LiveBox_RemainingTime(ConferenceId, RemainingTime);
                     Get_AppointmentDuration(ConferenceId);
                 }

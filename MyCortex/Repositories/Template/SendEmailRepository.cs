@@ -478,6 +478,23 @@ namespace MyCortex.Repositories.Template
             }
         }
 
+        public void LiveBox_UserDetails_Delete(long UserId)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            try
+            {
+                param.Add(new DataParameter("@UserId", UserId));
+
+                ClsDataBase.Insert("[MYCORTEX].[GET_RECORDING_URL]", param, true);
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+            }
+        }
+
         public void Configuration_Update(string Setting, int IS_NOTIFY,long Institution_Id)
         {
             _AppLogger = this.GetType().FullName;
