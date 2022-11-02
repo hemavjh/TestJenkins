@@ -487,7 +487,7 @@ namespace MyCortex.Repositories.Template
             {
                 param.Add(new DataParameter("@UserId", UserId));
 
-                ClsDataBase.Insert("[MYCORTEX].[GET_RECORDING_URL]", param, true);
+                ClsDataBase.Update("[MYCORTEX].[GET_RECORDING_URL]", param);
             }
             catch (Exception ex)
             {
