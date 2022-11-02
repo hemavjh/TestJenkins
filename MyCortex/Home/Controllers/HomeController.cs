@@ -38,6 +38,8 @@ using System.Web.UI;
 using Newtonsoft.Json.Linq;
 using MyCortex.User.Controller;
 using MyCortex.User.Models;
+using MyCortex.Notification.Models;
+using MyCortex.Repositories.EmailAlert;
 
 namespace MyCortex.Home.Controllers
 {
@@ -46,10 +48,11 @@ namespace MyCortex.Home.Controllers
     {
         public string returnError = "";
         private CommonMenuRepository db = new CommonMenuRepository();
+        static readonly AlertEventRepository alertrepository = new AlertEventRepository();
         static readonly ICommonRepository commonrepository = new CommonRepository();
         static readonly IGatewaySettingsRepository gatewayrepository = new GatewaySettingsRepository();
         static readonly IPatientAppointmentsRepository patientAppointmentsRepository = new PatientAppointmentRepository();
-        static readonly ILiveBoxRepository liveBoxRepository = new LiveBoxRepository();
+        static readonly ILiveBoxRepository liveBoxRepository = new LiveBoxRepository();        
         private LoginRepository login = new LoginRepository();
         private UserRepository repository = new UserRepository();
 
@@ -888,7 +891,7 @@ namespace MyCortex.Home.Controllers
                     string conference_name = JObject.Parse(json)["conferencename"].ToString();
                     string Recordingurl = JObject.Parse(json)["recordedvideoURL"].ToString();
 
-                   // string baseUrl = System.Web.HttpContext.Current.Request.Url.Host.ToString();
+                    string Url = System.Web.HttpContext.Current.Request.Url.Host.ToString();
                     string source_path = System.Web.HttpContext.Current.Server.MapPath("~/Images");
                     string pathToNewFolder = System.IO.Path.Combine(source_path, "Video");
                     DirectoryInfo directory = Directory.CreateDirectory(pathToNewFolder);
@@ -912,7 +915,7 @@ namespace MyCortex.Home.Controllers
                         str.Flush();
                         str.Close();
                         fs.Close();
-                        int response = repository.Save_Video_Call_Recording_Logs(conference_name, returnPath, Recordingurl);
+                        int response = repository.VideoCall_Recording_Logs(conference_name, fileid, Recordingurl);
                     }
                     catch (Exception err)
                     {
@@ -926,12 +929,25 @@ namespace MyCortex.Home.Controllers
                 {
                     retid = liveBoxRepository.LiveBox_Recording_url(conferencename, recording_url);
                 }
-                retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename);
+                retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename, InstitutionId);
 
                 //PushNotificationMessage message = new PushNotificationMessage();
                 //message.Title = "Notification For Call";
                 //message.Message = "call end";
                 //long userid = 102111;
+                string ConferenceId = JObject.Parse(json)["conferencename"].ToString();
+                string RemainingTime = JObject.Parse(json)["remainingtime"].ToString();
+
+                if (json.Contains("remainingtime"))
+                {
+                    retid = liveBoxRepository.LiveBox_RemainingTime(ConferenceId, RemainingTime);
+                    Get_AppointmentDuration(ConferenceId);
+                }
+                else
+                {
+                    Get_AppointmentDuration(ConferenceId);
+                }
+
 
                 //PushNotificationApiManager.sendNotification(message, 0, userid, 4);
                 string baseUrl = System.Web.HttpContext.Current.Request.Url.Host.ToString();
@@ -1040,9 +1056,9 @@ namespace MyCortex.Home.Controllers
                 req.Seek(0, System.IO.SeekOrigin.Begin);
                 string json = new StreamReader(req).ReadToEnd();
                 string ConferenceId = JObject.Parse(json)["conferencename"].ToString();
-                string RemainingTime = JObject.Parse(json)["RemainingConferenceTime"].ToString();
+                string RemainingTime = JObject.Parse(json)["remainingtime"].ToString();
 
-                if (json.Contains("RemainingConferenceTime"))
+                if (json.Contains("remainingtime"))
                 {
                     retFlag = liveBoxRepository.LiveBox_RemainingTime(ConferenceId, RemainingTime);
                     Get_AppointmentDuration(ConferenceId);
@@ -1058,17 +1074,61 @@ namespace MyCortex.Home.Controllers
                 return Content("Failure : " + e.Message);
             }
         }
+
+        //[HttpGet]
+        //public ActionResult Get_AppointmentDuration(string Conference_ID)
+        //{
+        //    List<string> t = new List<string>();
+        //    var jsonSerialiser = new JavaScriptSerializer();
+        //    try
+        //    {
+        //        IList<LiveboxModel> lst = (IList<LiveboxModel>)liveBoxRepository.Get_AppointmentDuration(Conference_ID);
+        //        t.Add(lst[0].ConferenceId.ToString());
+        //        t.Add(lst[0].Duration.ToString());
+        //        var json = jsonSerialiser.Serialize(t);
+        //        return Content(json);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return null;
+        //    }
+        //}
         [HttpGet]
         public ActionResult Get_AppointmentDuration(string Conference_ID)
         {
             List<string> t = new List<string>();
             var jsonSerialiser = new JavaScriptSerializer();
+            string ConferenceName = "ConferenceId";
+            string Duration = "Duration";
+            //string Doctor_Id = "Doctor_Id";
+            //string Patient_Id= "Patient_Id";
+
             try
             {
                 IList<LiveboxModel> lst = (IList<LiveboxModel>)liveBoxRepository.Get_AppointmentDuration(Conference_ID);
-                t.Add(lst[0].ConferenceId.ToString());
-                t.Add(lst[0].Duration.ToString());
-                var json = jsonSerialiser.Serialize(t);
+                IDictionary<string, string> dic = new Dictionary<string, string>();
+                dic.Add(new KeyValuePair<string, string>(ConferenceName, lst[0].ConferenceId.ToString()));
+                dic.Add(new KeyValuePair<string, string>(Duration, lst[0].Duration.ToString()));
+               // dic.Add(new KeyValuePair<string, string>(Doctor_Id, lst[0].Doctor_Id.ToString()));
+               // dic.Add(new KeyValuePair<string, string>(Patient_Id, lst[0].Patient_Id.ToString()));
+
+                //Doctor_Id = lst[0].Doctor_Id.ToString();
+
+                //t.Add(lst[0].ConferenceId.ToString());
+                //t.Add(lst[0].Duration.ToString());
+                var json = jsonSerialiser.Serialize(dic);
+
+                //if (json.Contains("Doctor_Id"))
+                //{
+                //    long DoctorID = Convert.ToInt64(JObject.Parse(json)["Doctor_Id"].ToString());
+                //    IList<EmailListModel> EmailList = alertrepository.UserSpecificEmailList(InstitutionId, DoctorID);
+                //}
+                //if (json.Contains("Patient_Id"))
+                //{
+                //    long PatientID = Convert.ToInt64(JObject.Parse(json)["Patient_Id"].ToString());
+                //    IList<EmailListModel> EmailList = alertrepository.UserSpecificEmailList(InstitutionId, PatientID);
+                //}
+
                 return Content(json);
             }
             catch (Exception ex)
@@ -1078,7 +1138,7 @@ namespace MyCortex.Home.Controllers
         }
 
         [HttpPost]
-        public ActionResult RefundNotify(long id, string merchantorderno)
+        public ActionResult RefundNotify(long id, string  merchantorderno)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;

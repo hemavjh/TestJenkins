@@ -131,6 +131,85 @@ namespace MyCortex.Notification.Firebase
                 SendConfiguraionPushNotification(message, itemData.SiteUrl, Setting, Institution_Id);
             }
         }
+        public static void SendLiveboxNotification(PushNotificationMessage message, long User_Id, long Institution_Id)
+        {
+            List<NotifictaionUserFCM> model = new List<NotifictaionUserFCM>();
+            model = repository.UserFCMToken_Get_List(User_Id);
+            // string url = HttpContext.Current.Request.Url.Authority;
+            foreach (NotifictaionUserFCM itemData in model)
+            {
+                message.FCMToken = itemData.FCMToken;
+                SendPushLiveboxNotification(message, itemData.SiteUrl);
+            }
+        }
+        private async static Task<IRestResponse> SendPushLiveboxNotification(PushNotificationMessage message, string Url)
+        {
+            string
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
+            _AppLogger = "MyCortex.Notification.Firebase.PushNotificationApiManager";
+            _AppMethod = "MoveNext";
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<AppConfigurationModel> model;
+            model = commonrepository.AppConfigurationDetails("FIREBASE_APITOKEN", Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]));
+
+            var client = new RestClient("https://fcm.googleapis.com/fcm/send");
+            client.Timeout = -1;
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("Content-Type", "application/json");
+            request.AddHeader("Authorization", "key=" + model[0].ConfigValue);
+
+            message.Message = message.Message.Replace("\n\n", Environment.NewLine);
+
+            // HttpContext.Current.Request.Url.Host;
+            // localhost
+            var my_jsondata = new
+            {
+                notification = new
+                {
+                    title = message.Title,
+                    body = message.Message,
+                    click_action = Url
+                },
+                to = message.FCMToken
+            };
+
+            //Tranform it to Json object
+            string json_data = JsonConvert.SerializeObject(my_jsondata);
+
+            _MyLogger.Exceptions("INFO", _AppLogger, json_data, null, _AppMethod);
+            request.AddParameter("application/json", json_data, ParameterType.RequestBody);
+
+            int deliveryStatus = 2;
+            string messageId = "";
+            string errormsg = "";
+
+            try
+            {
+
+                IRestResponse response = await client.ExecuteAsync(request);
+
+                var result = JsonConvert.DeserializeObject<PushNotificationResponse>(response.Content);
+
+                if (result != null)
+                {
+                    if (result.success == "1")
+                        deliveryStatus = 1;
+
+                    if (result.results[0].message_id != null)
+                        messageId = result.results[0].message_id;
+
+                    if (result.results[0].error != null)
+                        errormsg = result.results[0].error;
+                }
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+            }
+            
+
+            return null;
+        }
         private async static void SendConfiguraionPushNotification(PushNotificationMessage message, string Url,string Setting,long Institution_Id)
         {
             string

@@ -459,6 +459,7 @@ namespace MyCortexDB
 
             //return System.Configuration.ConfigurationManager.ConnectionStrings["Connection"].ToString();
             return DBConnectionStringBuilder.ConnectionString;
+            //return "server=SQL5080.site4now.net;database=DB_A66DEE_mycortexdemo;uid=DB_A66DEE_mycortexdemo_admin;password=vjh@0304;";
         }
         #endregion
 

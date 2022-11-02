@@ -516,7 +516,7 @@ namespace MyCortex.Repositories.Uesr
             _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[APPOINTMENT_DOCTOR_DETAILS_SP_LIST_TEST]", param);
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[APPOINTMENT_DOCTOR_DETAILS_SP_LIST]", param);
                 List<DoctorAppointmentTimeSlotModel> lst = (from p in dt.AsEnumerable()
                                                             select new DoctorAppointmentTimeSlotModel()
                                                             {
@@ -528,7 +528,8 @@ namespace MyCortex.Repositories.Uesr
                                                                 MerchantOrderNo = p.Field<string>("MERCHANTORDERNO"),
                                                                 amount = p.Field<string>("AMOUNT"),
                                                                 status = p.Field<string>("STATUS"),
-                                                                recording_url = p.Field<string>("RECORDINGURL")
+                                                                recording_url = p.Field<string>("RECORDINGURL"),
+                                                                Fileid = p.Field<string>("FILEID")
                                                             }).ToList();
                 return lst;
             }
