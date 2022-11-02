@@ -80,7 +80,7 @@ namespace MyCortex.Notification.Firebase
                     if (result.success == "1")
                         deliveryStatus = 1;
 
-                    if(result.results[0].message_id!=null)
+                    if (result.results[0].message_id != null)
                         messageId = result.results[0].message_id;
 
                     if (result.results[0].error != null)
@@ -101,7 +101,7 @@ namespace MyCortex.Notification.Firebase
 
         }
 
-        public static void sendNotification(PushNotificationMessage message, long templateId, long User_Id, long NotificationFor)
+        public static async void sendNotification(PushNotificationMessage message, long templateId, long User_Id, long NotificationFor)
         {
             List<NotifictaionUserFCM> model = new List<NotifictaionUserFCM>();
             model = repository.UserFCMToken_Get_List(User_Id);
@@ -111,7 +111,13 @@ namespace MyCortex.Notification.Firebase
                 if ((NotificationFor == 3 && itemData.DeviceType == "web") || (NotificationFor == 2 && itemData.DeviceType != "web") || NotificationFor == 4)
                 {
                     message.FCMToken = itemData.FCMToken;
-                    SendPushNotification(message, templateId, itemData.SiteUrl);
+                    try
+                    {
+                        await SendPushNotification(message, templateId, itemData.SiteUrl);
+                    }
+                    catch
+                    {
+                    }
                 }
             }
             if (model.Count == 0)
@@ -120,7 +126,9 @@ namespace MyCortex.Notification.Firebase
             }
         }
 
-        public static void SendConfiguraionSettingNotification(PushNotificationMessage message, long User_Id,string Setting,long Institution_Id)
+        //}
+
+        public static void SendConfiguraionSettingNotification(PushNotificationMessage message, long User_Id, string Setting, long Institution_Id)
         {
             List<NotifictaionUserFCM> model = new List<NotifictaionUserFCM>();
             model = repository.UserFCMToken_Get_List(User_Id);
@@ -206,11 +214,11 @@ namespace MyCortex.Notification.Firebase
             {
                 _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
-            
+
 
             return null;
         }
-        private async static void SendConfiguraionPushNotification(PushNotificationMessage message, string Url,string Setting,long Institution_Id)
+        private async static void SendConfiguraionPushNotification(PushNotificationMessage message, string Url, string Setting, long Institution_Id)
         {
             string
             _AppLogger = string.Empty, _AppMethod = string.Empty;
@@ -273,7 +281,7 @@ namespace MyCortex.Notification.Firebase
             }
             finally
             {
-                 repository.Configuration_Update(Setting, IS_NOTIFY, Institution_Id); //returnObj.results
+                repository.Configuration_Update(Setting, IS_NOTIFY, Institution_Id); //returnObj.results
             }
         }
         public class PushNotificationMessage

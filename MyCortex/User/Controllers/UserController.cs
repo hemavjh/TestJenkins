@@ -2138,7 +2138,125 @@ namespace MyCortex.User.Controller
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
+        [HttpPost]
+        public List<string> Attach_NationalIDPhoto(int Id, int Photo, int CREATED_BY, string Type)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            var UserId = Id;
+            var Created_By = CREATED_BY;
+            HttpResponseMessage result = null;
+            string filePath = "";
+            string returnPath = "";
+            var docfiles = new List<string>();
+            try
+            {
+                //if (fileName != null)
+                {
+                    var httpRequest = HttpContext.Current.Request;
+                    if (httpRequest.Files.Count > 0)
+                    {
+                        foreach (string file in httpRequest.Files)
+                        {
+                            var postedFile = httpRequest.Files[file];
 
+                            byte[] fileData = null;
+                            using (var binaryReader = new BinaryReader(postedFile.InputStream))
+                            {
+                                fileData = binaryReader.ReadBytes(postedFile.ContentLength);
+                            }
+                            if (Photo == 1)
+                            {
+                            
+                                repository.NationalIDPhotoupload(fileData, UserId, Type);
+                                //repository.UserDetails_NationalPhotoImageCompress(compressimage, compressimage1, UserId, Created_By);
+                            }
+                            //else if (Certificate == 1)
+                            //{
+                            //    repository.UserDetails_CertificateUpload(fileData, UserId);
+                            //}
+
+                            docfiles.Add(postedFile.ToString());
+                        }
+                        result = Request.CreateResponse(HttpStatusCode.OK, docfiles);
+                    }
+                    else
+                    {
+                        repository.NationalIDPhotoupload(null, UserId, Type);
+                        result = Request.CreateResponse(HttpStatusCode.OK);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+            }
+            return docfiles;
+        }
+        /// <summary>
+        /// to attach UID photo of user
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="Photo"></param>
+        /// <param name=""></param>
+        /// <returns></returns>
+        [HttpPost]
+        public List<string> Attach_UIDPhoto(int Id, int Photo, int CREATED_BY, string Type)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            var UserId = Id;
+            var Created_By = CREATED_BY;
+            HttpResponseMessage result = null;
+            string filePath = "";
+            string returnPath = "";
+            var docfiles = new List<string>();
+            try
+            {
+                //if (fileName != null)
+                {
+                    var httpRequest = HttpContext.Current.Request;
+                    if (httpRequest.Files.Count > 0)
+                    {
+                        foreach (string file in httpRequest.Files)
+                        {
+                            var postedFile = httpRequest.Files[file];
+
+                            byte[] fileData = null;
+                            using (var binaryReader = new BinaryReader(postedFile.InputStream))
+                            {
+                                fileData = binaryReader.ReadBytes(postedFile.ContentLength);
+                            }
+                            if (Photo == 1)
+                            {
+                               
+                                repository.UserIDPhotoUpload(fileData, UserId, Type);
+                                //repository.UserDetails_NationalPhotoImageCompress(compressimage, compressimage1, UserId, Created_By);
+                            }
+                            //else if (Certificate == 1)
+                            //{
+                            //    repository.UserDetails_CertificateUpload(fileData, UserId);
+                            //}
+
+                            docfiles.Add(postedFile.ToString());
+                        }
+                        result = Request.CreateResponse(HttpStatusCode.OK, docfiles);
+                    }
+                    else
+                    {
+                        repository.UserIDPhotoUpload(null, UserId, Type);
+                        result = Request.CreateResponse(HttpStatusCode.OK);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+            }
+            return docfiles;
+        }
         /// <summary>
         /// to attach National photo of user
         /// </summary>
@@ -2147,7 +2265,7 @@ namespace MyCortex.User.Controller
         /// <param name=""></param>
         /// <returns></returns>
         [HttpPost]
-        public List<string> AttachNationalPhoto(int Id, int Photo, int CREATED_BY,string Type)
+        public List<string> AttachNationalPhoto(int Id, int Photo, int CREATED_BY)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -2185,7 +2303,7 @@ namespace MyCortex.User.Controller
 
                             if (Photo == 1)
                             {
-                                repository.UserDetails_NationalPhotoUpload(fileData, UserId, Type);
+                                repository.UserDetails_NationalPhotoUpload(fileData, UserId);
                                 //repository.UserDetails_NationalPhotoImageCompress(compressimage, compressimage1, UserId, Created_By);
                             }
                             //else if (Certificate == 1)
@@ -2199,7 +2317,7 @@ namespace MyCortex.User.Controller
                     }
                     else
                     {
-                        repository.UserDetails_NationalPhotoUpload(null, UserId, Type);
+                        repository.UserDetails_NationalPhotoUpload(null, UserId);
                         result = Request.CreateResponse(HttpStatusCode.OK);
                     }
                 }
@@ -2219,71 +2337,6 @@ namespace MyCortex.User.Controller
         /// <param name="Photo"></param>
         /// <param name=""></param>
         /// <returns></returns>
-        [HttpPost]
-        public List<string> AttachUIDPhoto(int Id, int Photo, int CREATED_BY,string Type)
-        {
-             _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
-            var UserId = Id;
-            var Created_By = CREATED_BY;
-            HttpResponseMessage result = null;
-            string filePath = "";
-            string returnPath = "";
-            var docfiles = new List<string>();
-            try
-            {
-                //if (fileName != null)
-                {
-                    var httpRequest = HttpContext.Current.Request;
-                    if (httpRequest.Files.Count > 0)
-                    {
-                        foreach (string file in httpRequest.Files)
-                        {
-                            var postedFile = httpRequest.Files[file];
-
-                            byte[] fileData = null;
-                            using (var binaryReader = new BinaryReader(postedFile.InputStream))
-                            {
-                                fileData = binaryReader.ReadBytes(postedFile.ContentLength);
-                            }
-                            //Image x = (Bitmap)((new ImageConverter()).ConvertFrom(fileData));
-                            Image img = ToImage(fileData);
-                            Size thumbnailSize = GetThumbnailSize(img);
-                            Image ThumImage = ResizeImage(img, thumbnailSize.Width, thumbnailSize.Height);
-                            Image Cimage = ResizeImage(img, 40, 40);
-                            //ImageConverter Class convert Image object to Byte array.
-                            byte[] compressimage = (byte[])(new ImageConverter()).ConvertTo(Cimage, typeof(byte[]));
-                            byte[] compressimage1 = (byte[])(new ImageConverter()).ConvertTo(ThumImage, typeof(byte[]));
-
-
-                            if (Photo == 1)
-                            {
-                                repository.UserDetails_UIDPhotoUpload(fileData, UserId, Type);
-                                //repository.UserDetails_NationalPhotoImageCompress(compressimage, compressimage1, UserId, Created_By);
-                            }
-                            //else if (Certificate == 1)
-                            //{
-                            //    repository.UserDetails_CertificateUpload(fileData, UserId);
-                            //}
-
-                            docfiles.Add(postedFile.ToString());
-                        }
-                        result = Request.CreateResponse(HttpStatusCode.OK, docfiles);
-                    }
-                    else
-                    {
-                        repository.UserDetails_UIDPhotoUpload(null, UserId, Type);
-                        result = Request.CreateResponse(HttpStatusCode.OK);
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
-            }
-            return docfiles;
-        }
         /// <summary>
         /// to attach Insurance photo of user
         /// </summary>
@@ -2292,7 +2345,7 @@ namespace MyCortex.User.Controller
         /// <param name=""></param>
         /// <returns></returns>
         [HttpPost]
-        public List<string> AttachInsurancePhoto(int Id, int Photo, int CREATED_BY)
+        public List<string> AttachInsurancePhoto(int Id, int Photo, int CREATED_BY, string Type)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
