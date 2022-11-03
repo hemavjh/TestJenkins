@@ -72,6 +72,7 @@ namespace MyCortex.User.Model
 	    public string MNR_NO { get; set; }
 	    public  string NATIONALID  { get; set; }
         public string UID { get; set; }
+        public string Type { get; set; }
         public long? SMOKER { get; set; }
         public long? DIABETIC { get; set; }
         public long? HYPERTENSION { get; set; }
