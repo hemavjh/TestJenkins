@@ -31,6 +31,7 @@ using Newtonsoft.Json;
 using System.Runtime.Caching;
 using System.Data;
 using System.Reflection;
+using Microsoft.Owin.Logging;
 
 namespace MyCortex.User.Controller
 {
@@ -2138,15 +2139,75 @@ namespace MyCortex.User.Controller
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
+        //[AllowAnonymous]
+        //[HttpPost]
+        //public List<string> Attach_NationalIDPhoto(int Id, int Photo, int CREATED_BY, string Type)
+        //{
+        //    _AppLogger = this.GetType().FullName;
+        //    _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+        //    var UserId = Id;
+        //    var Created_By = CREATED_BY;
+        //    HttpResponseMessage result = null;
+        //    string filePath = "";
+        //    string returnPath = "";
+        //    var docfiles = new List<string>();
+        //    try
+        //    {
+        //        //if (fileName != null)
+        //        {
+        //            var httpRequest = HttpContext.Current.Request;
+        //            if (httpRequest.Files.Count > 0)
+        //            {
+        //                foreach (string file in httpRequest.Files)
+        //                {
+        //                    var postedFile = httpRequest.Files[file];
+
+        //                    byte[] fileData = null;
+        //                    using (var binaryReader = new BinaryReader(postedFile.InputStream))
+        //                    {
+        //                        fileData = binaryReader.ReadBytes(postedFile.ContentLength);
+        //                    }
+        //                    if (Photo == 1)
+        //                    {
+
+        //                        repository.NationalIDPhotoupload(fileData, UserId, Type);
+        //                        //repository.UserDetails_NationalPhotoImageCompress(compressimage, compressimage1, UserId, Created_By);
+        //                    }
+        //                    //else if (Certificate == 1)
+        //                    //{
+        //                    //    repository.UserDetails_CertificateUpload(fileData, UserId);
+        //                    //}
+
+        //                    docfiles.Add(postedFile.ToString());
+        //                }
+        //                result = Request.CreateResponse(HttpStatusCode.OK, docfiles);
+        //            }
+        //            else
+        //            {
+        //                repository.NationalIDPhotoupload(null, UserId, Type);
+        //                result = Request.CreateResponse(HttpStatusCode.OK);
+        //            }
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+        //    }
+        //    return docfiles;
+        //}
         [AllowAnonymous]
         [HttpPost]
-        public List<string> Attach_NationalIDPhoto(int Id, int Photo, int CREATED_BY, string Type)
+        public UploadDataReturnModel Attach_NationalIDPhoto(int Id, int Photo, int CREATED_BY, string Type)
         {
             _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             var UserId = Id;
             var Created_By = CREATED_BY;
             HttpResponseMessage result = null;
+            UploadDataReturnModel model = new UploadDataReturnModel();
+            model.Status = "False";
+            model.Message = "Invalid data";
             string filePath = "";
             string returnPath = "";
             var docfiles = new List<string>();
@@ -2168,7 +2229,7 @@ namespace MyCortex.User.Controller
                             }
                             if (Photo == 1)
                             {
-                            
+
                                 repository.NationalIDPhotoupload(fileData, UserId, Type);
                                 //repository.UserDetails_NationalPhotoImageCompress(compressimage, compressimage1, UserId, Created_By);
                             }
@@ -2180,6 +2241,8 @@ namespace MyCortex.User.Controller
                             docfiles.Add(postedFile.ToString());
                         }
                         result = Request.CreateResponse(HttpStatusCode.OK, docfiles);
+                        model.Message = "Uploaded Successfully!";
+                        model.Status = "True";
                     }
                     else
                     {
@@ -2193,7 +2256,7 @@ namespace MyCortex.User.Controller
             {
                 _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
-            return docfiles;
+            return model;
         }
         /// <summary>
         /// to attach UID photo of user

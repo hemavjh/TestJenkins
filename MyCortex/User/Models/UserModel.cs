@@ -184,7 +184,13 @@ namespace MyCortex.User.Model
         public string FileType { get; set; }
 
     }
-
+    public class UploadDataReturnModel
+    {
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public string Error_Code { get; set; }
+        public int ReturnFlag { get; set; }
+    }
     public class UserReturnModel
     {
         public string Status { get; set; }
