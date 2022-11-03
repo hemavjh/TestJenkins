@@ -11,11 +11,13 @@ using System.Web;
 using Newtonsoft.Json.Linq;
 using MyCortex.Masters.Models;
 using MyCortex.Repositories.Masters;
+using MyCortex.Repositories.LiveBox;
 
 namespace MyCortex.Notification.Firebase
 {
     public class PushNotificationApiManager
     {
+        static readonly ILiveBoxRepository LBrepository=new LiveBoxRepository();
         static readonly ISendEmailRepository repository = new SendEmailRepository();
         static readonly ICommonRepository commonrepository = new CommonRepository();
         private readonly static MyCortexLogger _MyLogger = new MyCortexLogger();
@@ -156,7 +158,7 @@ namespace MyCortex.Notification.Firebase
                 message.FCMToken = itemData.FCMToken;
                 try
                 {
-                    await SendPushLiveboxNotification(message, itemData.SiteUrl);
+                    await SendPushLiveboxNotification(message, itemData.SiteUrl,User_Id);
                 }
                 catch
                 {
@@ -164,7 +166,7 @@ namespace MyCortex.Notification.Firebase
                 }
             }
         }
-        private async static Task<IRestResponse> SendPushLiveboxNotification(PushNotificationMessage message, string Url)
+        private async static Task<IRestResponse> SendPushLiveboxNotification(PushNotificationMessage message, string Url, long User_Id)
         {
             string
             _AppLogger = string.Empty, _AppMethod = string.Empty;
@@ -228,7 +230,10 @@ namespace MyCortex.Notification.Firebase
             {
                 _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
-
+            finally
+            {
+                repository.LiveBox_UserDetails_Delete(User_Id); //returnObj.results
+            }
 
             return null;
         }
