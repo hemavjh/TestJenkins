@@ -3512,7 +3512,7 @@ namespace MyCortex.User.Controller
                     model.ReturnFlag = 1;
                 }
 
-                if (ModelData.Any(item => item.flag == 1) == true)
+                if (ModelData.Any(item => item.flag == 1) == true && noteobj.PatientId!=noteobj.Created_By)
                 {
                     string Event_Code = "";
                     Event_Code = "CLINICIAN_NOTE";
