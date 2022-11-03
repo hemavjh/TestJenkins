@@ -138,6 +138,16 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 $('#tabdevice').prop('disabled', false);
                 $scope.IsEdit = false;
                 $scope.IsShow = true;
+
+                $('#MyHomeUserList *').removeAttr("disabled");
+                $("#MyHomeUserTable *").removeAttr("disabled");
+                $('.myhomedropdown').removeAttr("disabled");
+                $('#MyHomeDeviceList *').removeAttr("disabled");
+                $("#MyHomeDeviceTable *").removeAttr("disabled");
+                $('.myhomedevicedropdown').removeAttr("disabled");
+
+                $scope.SelectedUserListTab = [];
+                $scope.SelectedTabDevice = [];
                 $scope.AddUserParameters = [];
                 $scope.AddDeviceParameters = [];
                 //$scope.AddUserParameters = [{
@@ -154,6 +164,10 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 $scope.showSave = true;
                 var $sel2 = $('#tabdevice');
                 $sel2.multiselect('enable');
+
+                var $sel22 = $('#userlisttab');
+                $sel22.multiselect('enable');
+                
                 angular.element('#TabAddModal').modal('show');
                 $scope.DeviceList(1);
             }
@@ -341,26 +355,26 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         $scope.ViewMYTABRESETPopUP = function (CatId) {
             $scope.Id = CatId;
             $scope.currentTab = "1";
-            $('#tabname').prop('disabled', true);
-            $('#refidtab').prop('disabled', true);
-            $('#modeltab').prop('disabled', true);
-            $('#ostab').prop('disabled', true);
-            $('#pintab').prop('disabled', true);
-            $('#Image2').prop('disabled', true);
-            $('#Image2').prop('title', 'Disable the Delete Icon');
-            $('#tabdevice').prop('disabled', true);
-            $('#tabdevice3').prop('disabled', true);
-            $('#MyHomeUserList *').attr('disabled', 'disabled');
-            $("#MyHomeUserTable *").attr("disabled", "disabled").off('click');
-            $("#MyHomeDeviceTable *").attr("disabled", "disabled").off('click');
-            $('.myhomedropdown *').attr("disabled", "disabled").off('click');
+            //$('#tabname').prop('disabled', true);
+            //$('#refidtab').prop('disabled', true);
+            //$('#modeltab').prop('disabled', true);
+            //$('#ostab').prop('disabled', true);
+            //$('#pintab').prop('disabled', true);
+            //$('#Image2').prop('disabled', true);
+            //$('#Image2').prop('title', 'Disable the Delete Icon');
+            //$('#tabdevice').prop('disabled', true);
+            //$('#tabdevice3').prop('disabled', true);
+            //$('#MyHomeUserList *').attr('disabled', 'disabled');
+            //$("#MyHomeUserTable *").attr("disabled", "disabled").off('click');
+            //$("#MyHomeDeviceTable *").attr("disabled", "disabled").off('click');
+            //$('.myhomedropdown *').attr("disabled", "disabled").off('click');
             $scope.showSave = false;
             $scope.IsEdit = true;
             $scope.IsShow = false;
-            var $sel2 = $('#tabdevice');
-            $sel2.multiselect('disable');
-            var $sel3 = $('#tabdeviceview');
-            $sel3.multiselect('disable');
+            //var $sel2 = $('#tabdevice');
+            //$sel2.multiselect('disable');
+            //var $sel3 = $('#tabdeviceview');
+            //$sel3.multiselect('disable');
             $scope.DeviceList(1);
             $scope.ViewMyTab();
             angular.element('#TabViewModalWithReset').modal('show');
