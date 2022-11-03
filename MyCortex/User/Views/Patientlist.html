@@ -298,12 +298,18 @@
                 </td>
                 <td style="text-align: left" title="{{row.FullName}}">
                     <div class="textwrap">
-                        <img ng-src="../../Images/Patient_Male.png" width="30" height="30"
-                             ng-if="(row.GENDER_NAME| lowercase)=='male'" />
-                        <img ng-src="../../Images/female.png" width="30" height="30"
-                             ng-if="(row.GENDER_NAME| lowercase)=='female'" />
-                        <img ng-src="../../Images/Others.png" width="30" height="30"
-                             ng-if="(row.GENDER_NAME| lowercase)!='female' && (row.GENDER_NAME| lowercase)!='male'" />
+                        <div ng-if="(row.GENDER_NAME| lowercase)=='male' && (row.PhotoBlob == null || row.PhotoBlob==0)">
+                            <img src="../../Images/Patient_Male.png" width="30" height="30" />
+                        </div>
+                        <div ng-if="(row.GENDER_NAME| lowercase)=='female'&& (row.PhotoBlob == null || row.PhotoBlob==0)">
+                            <img src="../../Images/female.png" width="30" height="30" />
+                        </div>
+                        <div ng-if="(row.GENDER_NAME| lowercase)!='female' && (row.GENDER_NAME| lowercase)!='male'&& (row.PhotoBlob == null || row.PhotoBlob==0)">
+                            <img src="../../Images/Others.png" width="30" height="30" />
+                        </div>
+                        <div ng-if="(row.PhotoBlob!=null && row.PhotoBlob!=0)">
+                            <img src="{{'data:image/png;base64,'+ row.PhotoBlob}}" width="30" height="30" />
+                        </div>
                         {{
  row.FullName.length > 25 ? row.FullName.substring(0,25)+"..." : row.FullName
                         }}
