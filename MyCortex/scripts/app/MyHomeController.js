@@ -645,7 +645,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $("#chatLoaderPV").show();
             $http.post(baseUrl + '/api/MyHome/Tab_User_Pin_Update/', obj).success(function (data) {
                 if (data.ReturnFlag == 1) {
-                    toastr.success("User Pin Is" + "(" + $scope.PIN + ")" + "Updated Successfully", "success");
+                    toastr.success("User Pin Is" + "(" + $scope.PIN + ")" + "Reset Successfully", "success");
                     $("#chatLoaderPV").hide();
                 }
                 else {
