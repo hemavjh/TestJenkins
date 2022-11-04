@@ -130,22 +130,18 @@ namespace MyCortex.Notification.Firebase
 
         //}
 
-        public static async void SendConfiguraionSettingNotification(PushNotificationMessage message, long User_Id, string Setting, long Institution_Id)
+        public static async void SendConfiguraionSettingNotification()
         {
-            List<NotifictaionUserFCM> model = new List<NotifictaionUserFCM>();
-            model = repository.UserFCMToken_Get_List(User_Id);
-            // string url = HttpContext.Current.Request.Url.Authority;
-            foreach (NotifictaionUserFCM itemData in model)
-            {
-                message.FCMToken = itemData.FCMToken;
-                try
-                {
-                    await SendConfiguraionPushNotification(message, itemData.SiteUrl, Setting, Institution_Id);
-                }
-                catch
-                {
+            List<FCMUserDetails> model = new List<FCMUserDetails>();
+            model = repository.FCMUsersBasedonInstitution(Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]));
 
-                }
+            foreach (FCMUserDetails itemData in model)
+            {
+                PushNotificationMessage message = new PushNotificationMessage();
+                message.Title = "Configuration Settings";
+                message.Message = "configuration changed";
+                message.FCMToken = itemData.FCMToken;
+                await SendConfiguraionPushNotification(message, itemData.SiteUrl, itemData.Settings, itemData.Institution_Id);
             }
         }
         public async static void SendLiveboxNotification(PushNotificationMessage message, long User_Id, long Institution_Id)
@@ -259,8 +255,8 @@ namespace MyCortex.Notification.Firebase
             {
                 notification = new
                 {
-                    title = "Setting",
-                    body = "Configuration Updated",
+                    title = message.Title,
+                    body = message.Message,
                     click_action = Url
                 },
                 to = message.FCMToken
@@ -282,7 +278,6 @@ namespace MyCortex.Notification.Firebase
                 IRestResponse response = await client.ExecuteAsync(request);
 
                 var result = JsonConvert.DeserializeObject<PushNotificationResponse>(response.Content);
-
                 if (result != null)
                 {
                     if (result.success == "1")

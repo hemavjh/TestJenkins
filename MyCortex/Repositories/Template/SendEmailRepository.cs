@@ -10,6 +10,7 @@ using System.Web.Script.Serialization;
 using MyCortex.Utilities;
 using MyCortex.Admin.Models;
 using MyCortex.Notification.Model;
+using System.Configuration;
 
 namespace MyCortex.Repositories.Template
 {
@@ -597,6 +598,44 @@ namespace MyCortex.Repositories.Template
                 return null;
             }
         }
+
+        /// <summary>
+        /// to get FCM token of a user
+        /// </summary>
+        /// <param name="User_Id">User Id</param>
+        /// <returns>FCM token detail of a user</returns>
+        public List<FCMUserDetails> FCMUsersBasedonInstitution(long Institution_Id)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            //_MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                List<DataParameter> parameter = new List<DataParameter>();
+                parameter.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[FCM_USERS_BASED_ON_INSTITUTION]", parameter);
+
+                List<FCMUserDetails> lst = (from p in dt.AsEnumerable()
+                                                 select new FCMUserDetails()
+                                                 {
+                                                     User_Id = p.Field<long>("USER_ID"),
+                                                     Settings = p.Field<string>("SETTINGS"),
+                                                     Institution_Id = p.Field<long>("INSTITUTION_ID"),
+                                                     FCMToken = p.Field<string>("FCMTOKEN"),
+                                                     DeviceType = p.Field<string>("DEVICETYPE"),
+                                                     SiteUrl = p.Field<string>("SITEURL")
+                                                 }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
         /// <summary>
         /// to get FCM token of a user
         /// </summary>

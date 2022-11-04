@@ -188,8 +188,9 @@ namespace MyCortexService
                     //        alertrepository.Appointment_Schedule_UpdateList(modobj.Id);
                     //    }
                     //}
-                    var Setting = "";
+                    /*var Setting = "";
                     List<DataParameter> parameter = new List<DataParameter>();
+                    parameter.Add(new DataParameter("@INSTITUTION_ID", 1));
                     DataTable dt1 = ClsDataBase.GetDataTable("[MYCORTEX].[FCM_USERS_BASED_ON_INSTITUTION]", parameter);
                     if (dt1.Rows.Count > 0)
                     {
@@ -201,9 +202,12 @@ namespace MyCortexService
                                 Institution_Id = long.Parse(dr["INSTITUTION_ID"].ToString());
                                 User_Id = long.Parse(dr["User_Id"].ToString());
                                 Setting = dr["SETTINGS"].ToString();
+
                                 PushNotificationMessage message = new PushNotificationMessage();
-                                message.Title = "Setting";
-                                message.Message = "Configuration Update";
+                                message.Title = "Configuration Settings";
+                                message.Message = "configuration changed";
+                                message.FCMToken = dr["FCMTOKEN"].ToString();
+
                                 PushNotificationApiManager.SendConfiguraionSettingNotification(message, User_Id, Setting, Institution_Id);
                             }
 
@@ -212,7 +216,9 @@ namespace MyCortexService
                         {
                             TraceException(ex);
                         }
-                    }
+                    }*/
+
+                    PushNotificationApiManager.SendConfiguraionSettingNotification();
 
                     DataTable dttbl = ClsDataBase.GetDataTable("[MYCORTEX].[LIVEBOX_USERDETAILS]");
                     if (dttbl.Rows.Count > 0)
