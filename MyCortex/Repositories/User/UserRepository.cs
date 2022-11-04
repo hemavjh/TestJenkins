@@ -982,6 +982,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@UserType_Id", UserType_Id));
 
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].USERDETAILS_SP_LIST", param);
+            DataEncryption decrypt = new DataEncryption();
             List<ItemizedUserDetailsModel> list = (from p in dt.AsEnumerable()
                                     select new ItemizedUserDetailsModel()
                                     {
@@ -1009,7 +1010,8 @@ namespace MyCortex.Repositories.Uesr
                                         NATIONALID = p.Field<string>("NATIONALID"),
                                         MNR_NO = p.Field<string>("MRN_NO"),
                                         PATIENT_ID = p.Field<string>("PATIENTNO"),
-                                        INSURANCEID = p.Field<string>("INSURANCEID")
+                                        INSURANCEID = p.Field<string>("INSURANCEID"),
+                                        PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
                                     }).ToList();
             //list.FullName = list.FullName;
             return list;
@@ -1089,6 +1091,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@SearchQuery", SearchQuery == null? "" : SearchQuery));
             param.Add(new DataParameter("@SearchEncryptedQuery", SearchQuery == null? "" : SearchQuery));
             DataSet ds = ClsDataBase.GetDataSet("[MYCORTEX].PATIENT_SP_LIST_NEW", param);
+            DataEncryption decrypt = new DataEncryption();
             List<ItemizedUserDetailsModel> list = (from p in ds.Tables[0].AsEnumerable()
                                                    select new ItemizedUserDetailsModel()
                                                    {
@@ -1105,6 +1108,7 @@ namespace MyCortex.Repositories.Uesr
                                                        GENDER_NAME = p.Field<string>("Gender_Name"),
                                                        LoginTime = p.Field<DateTime?>("LOGINTIME"),
                                                        EMAILID = p.Field<string>("EMAILID") ?? "",
+                                                       PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
                                                    }).OrderBy(o => o.FullName).ToList();
             UserCountDetails UCD = (from p in ds.Tables[1].AsEnumerable()
                                     select new UserCountDetails()

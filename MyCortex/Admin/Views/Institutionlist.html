@@ -660,7 +660,7 @@
                                                             <input type="text" class="form-control" id="Text5"
                                                                    ng-model="Institution_Name" ng-required="true"
                                                                    ng-init="Institution_Name=''" ng-maxlength="100"
-                                                                   maxlength="100" placeholder=""  onkeypress="ParticularSpec(event)">
+                                                                   maxlength="100" placeholder="" onkeypress="ParticularSpec(event)">
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -716,8 +716,8 @@
                                                             <div class="modal-body">
                                                                 <div class="row">
                                                                     <!--<div class="col-md-12 text-center">
-        <div id="image_demo"></div>
-    </div>-->
+                                                <div id="image_demo"></div>
+                                            </div>-->
                                                                     <button class="btn js-reset">Reset</button>
                                                                     <!--<button class="btn js-crop">Crop</button>-->
                                                                     <div class="crop-wrapper">
@@ -831,16 +831,16 @@
                                                         </td>
                                                         <td class="bootstrap-select">
                                                             <!--<div id="divInsCountry" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                                                <select class="form-control" data-style="form-control"
-                                                                        data-live-search="true" id="countryselectpicker"
-                                                                        data-selectpicker data-collection-name="CountryNameList"
-                                                                        ng-model="CountryId" ng-change="CountryBased_StateFunction();StateClearFunction();insCountryChange();">
-                                                                    <option value="0">Select</option>
-                                                                    <option ng-repeat="sel in CountryNameList"
-                                                                            value="{{sel.Id}}">
-                                                                        {{sel.CountryName}}
-                                                                    </option>
-                                                                </select>
+                                                            <select class="form-control" data-style="form-control"
+                                                                    data-live-search="true" id="countryselectpicker"
+                                                                    data-selectpicker data-collection-name="CountryNameList"
+                                                                    ng-model="CountryId" ng-change="CountryBased_StateFunction();StateClearFunction();insCountryChange();">
+                                                                <option value="0">Select</option>
+                                                                <option ng-repeat="sel in CountryNameList"
+                                                                        value="{{sel.Id}}">
+                                                                    {{sel.CountryName}}
+                                                                </option>
+                                                            </select>
                                                             <!--</div>-->
                                                         </td>
                                                     </tr>
@@ -854,16 +854,16 @@
                                                         </td>
                                                         <td>
                                                             <!--<div id="divInsState" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                                                <select class="form-control" data-style="form-control"
-                                                                        id="stateselectpicker" data-live-search="true"
-                                                                        data-selectpicker data-collection-name="StateName_List"
-                                                                        ng-model="StateNameId" ng-change="StateBased_CityFunction();LocationClearFunction();">
-                                                                    <option value="0">Select</option>
-                                                                    <option ng-repeat="sel in StateName_List"
-                                                                            value="{{sel.Id}}">
-                                                                        {{sel.StateName}}
-                                                                    </option>
-                                                                </select>
+                                                            <select class="form-control" data-style="form-control"
+                                                                    id="stateselectpicker" data-live-search="true"
+                                                                    data-selectpicker data-collection-name="StateName_List"
+                                                                    ng-model="StateNameId" ng-change="StateBased_CityFunction();LocationClearFunction();">
+                                                                <option value="0">Select</option>
+                                                                <option ng-repeat="sel in StateName_List"
+                                                                        value="{{sel.Id}}">
+                                                                    {{sel.StateName}}
+                                                                </option>
+                                                            </select>
                                                             <!--</div>-->
                                                         </td>
                                                     </tr>
@@ -877,29 +877,29 @@
                                                         </td>
                                                         <td>
                                                             <!--<div id="divInsCity" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                                                <select class="form-control" data-style="form-control" id="cityselectpicker"
-                                                                        data-live-search="true" data-selectpicker
-                                                                        data-collection-name="LocationName_List"
-                                                                        ng-model="LocationNameId">
-                                                                    <option value="0">Select</option>
-                                                                    <option ng-repeat="sel in LocationName_List "
-                                                                            value="{{sel.Id}}">
-                                                                        {{sel.LocationName}}
-                                                                    </option>
-                                                                </select>
+                                                            <select class="form-control" data-style="form-control" id="cityselectpicker"
+                                                                    data-live-search="true" data-selectpicker
+                                                                    data-collection-name="LocationName_List"
+                                                                    ng-model="LocationNameId">
+                                                                <option value="0">Select</option>
+                                                                <option ng-repeat="sel in LocationName_List "
+                                                                        value="{{sel.Id}}">
+                                                                    {{sel.LocationName}}
+                                                                </option>
+                                                            </select>
                                                             <!--</div>-->
                                                         </td>
                                                     </tr>
                                                     <!--<tr ng-show="Id != 0">
-                                                        <td>
-                                                            <label>Default Data</label>
-                                                        </td>
-                                                        <td>
-                                                            <button ng-click="InsertDefaultData();">
-                                                                Insert
-                                                            </button>
-                                                        </td>
-                                                    </tr>-->
+                                <td>
+                                    <label>Default Data</label>
+                                </td>
+                                <td>
+                                    <button ng-click="InsertDefaultData();">
+                                        Insert
+                                    </button>
+                                </td>
+                            </tr>-->
                                                 </table>
                                             </td>
                                         </tr>
@@ -908,13 +908,13 @@
                             </div>
                             <div class="modal-footer" style="text-align:center;">
                                 <!--<button type="button" class="theme-btn-1 mr-10" id="btnsave1" ng-disabled="false" title="Click to Save"
-                                        ng-click="Institution_AddEdit()" ng-hide="editInstbutton == 0">
-                                    Save
-                                </button>
-                                <button type="button" class="theme-btn-1 mr-10" id="btnsave2" ng-disabled="false" title="Save and Add Subscription"
-                                        ng-click="Institution_AddEdit_AndSubscription()" ng-hide="editInstbutton == 1">
-                                    Save and Add Subscription
-                                </button>-->
+                ng-click="Institution_AddEdit()" ng-hide="editInstbutton == 0">
+            Save
+        </button>
+        <button type="button" class="theme-btn-1 mr-10" id="btnsave2" ng-disabled="false" title="Save and Add Subscription"
+                ng-click="Institution_AddEdit_AndSubscription()" ng-hide="editInstbutton == 1">
+            Save and Add Subscription
+        </button>-->
                                 <button type="submit" class="theme-btn-1 mr-10" id="btnsave1" ng-disabled="false" title="Click to Save"
                                         ng-click="submitted= true;" ng-show="editInstbutton == 1">
                                     Save
@@ -928,6 +928,9 @@
                                     Cancel
                                 </button>
                             </div>
+                            <a id="runConfig" style="cursor: pointer; text-decoration: underline; float: right; margin-top: -35px; margin-right: 270px; " title="Click to re-run configuration" ng-click="InstitueConfiguration()" ng-show="editInstbutton == 1">
+                                Re-run configuration
+                            </a>
                         </div>
                     </div>
                 </div>
