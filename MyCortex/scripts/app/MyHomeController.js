@@ -132,7 +132,6 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 $('#refidtab').prop('disabled', false);
                 $('#modeltab').prop('disabled', false);
                 $('#ostab').prop('disabled', false);
-                $('#pintab').prop('disabled', false);
                 $('#Image2').prop('disabled', false);
                 $('#Image2').prop('title', 'Click to Delete');
                 $('#tabdevice').prop('disabled', false);
@@ -145,6 +144,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 $('#MyHomeDeviceList *').removeAttr("disabled");
                 $("#MyHomeDeviceTable *").removeAttr("disabled");
                 $('.myhomedevicedropdown').removeAttr("disabled");
+                $('#pintab').prop('disabled', true);
 
                 $scope.SelectedUserListTab = [];
                 $scope.SelectedTabDevice = [];
@@ -546,7 +546,6 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $('#modeltab').prop('disabled', false);
             $('#ostab').prop('disabled', false);
             $('#userlisttab').prop('disabled', false);
-            $('#pintab').prop('disabled', false);
             $('#Image2').prop('disabled', false);
             $('#Image2').prop('title', 'Click to Delete');
             $('#tabdevice').prop('disabled', false);
@@ -563,6 +562,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $scope.IsShow = true;
             $scope.DeviceList(1);
             $scope.ViewMyTab();
+            $('#pintab').prop('disabled', true);
             angular.element('#TabAddModal').modal('show');
         }
 
