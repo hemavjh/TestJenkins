@@ -33,6 +33,7 @@ namespace MyCortex.User.Controllers
             _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         [HttpPost]
+        [Authorize]
         public HttpResponseMessage AddEligibilityEequest([FromBody] Newtonsoft.Json.Linq.JObject form)
         {
             object objResponse;

@@ -29,6 +29,8 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         $scope.SelectedTabUser = "0";
         $scope.SelectedDevice = "0";
         $scope.SelectedTabPIN = "0";
+        $scope.SelectedUserListTab = [];
+        $scope.SelectedTabDevice = [];
         $scope.InstitutionDeviceList = [];
         $scope.Devicepage_size = $window.localStorage['Pagesize'];
         $scope.Devicepage_size1 = $window.localStorage['Pagesize'];
@@ -136,6 +138,16 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 $('#tabdevice').prop('disabled', false);
                 $scope.IsEdit = false;
                 $scope.IsShow = true;
+
+                $('#MyHomeUserList *').removeAttr("disabled");
+                $("#MyHomeUserTable *").removeAttr("disabled");
+                $('.myhomedropdown').removeAttr("disabled");
+                $('#MyHomeDeviceList *').removeAttr("disabled");
+                $("#MyHomeDeviceTable *").removeAttr("disabled");
+                $('.myhomedevicedropdown').removeAttr("disabled");
+
+                $scope.SelectedUserListTab = [];
+                $scope.SelectedTabDevice = [];
                 $scope.AddUserParameters = [];
                 $scope.AddDeviceParameters = [];
                 //$scope.AddUserParameters = [{
@@ -152,6 +164,10 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 $scope.showSave = true;
                 var $sel2 = $('#tabdevice');
                 $sel2.multiselect('enable');
+
+                var $sel22 = $('#userlisttab');
+                $sel22.multiselect('enable');
+                
                 angular.element('#TabAddModal').modal('show');
                 $scope.DeviceList(1);
             }
@@ -189,6 +205,10 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
 
         $scope.Cancel_MYTABView = function () {
             angular.element('#TabViewModal').modal('hide');
+        }
+
+        $scope.Cancel_MYTABRESETView = function () {
+            angular.element('#TabViewModalWithReset').modal('hide');
         }
 
 
@@ -334,6 +354,35 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $scope.ViewMyTab();
             angular.element('#TabViewModal').modal('show');
         }
+
+        $scope.ViewMYTABRESETPopUP = function (CatId) {
+            $scope.Id = CatId;
+            $scope.currentTab = "1";
+            //$('#tabname').prop('disabled', true);
+            //$('#refidtab').prop('disabled', true);
+            //$('#modeltab').prop('disabled', true);
+            //$('#ostab').prop('disabled', true);
+            //$('#pintab').prop('disabled', true);
+            //$('#Image2').prop('disabled', true);
+            //$('#Image2').prop('title', 'Disable the Delete Icon');
+            //$('#tabdevice').prop('disabled', true);
+            //$('#tabdevice3').prop('disabled', true);
+            //$('#MyHomeUserList *').attr('disabled', 'disabled');
+            //$("#MyHomeUserTable *").attr("disabled", "disabled").off('click');
+            //$("#MyHomeDeviceTable *").attr("disabled", "disabled").off('click');
+            //$('.myhomedropdown *').attr("disabled", "disabled").off('click');
+            $scope.showSave = false;
+            $scope.IsEdit = true;
+            $scope.IsShow = false;
+            //var $sel2 = $('#tabdevice');
+            //$sel2.multiselect('disable');
+            //var $sel3 = $('#tabdeviceview');
+            //$sel3.multiselect('disable');
+            $scope.DeviceList(1);
+            $scope.ViewMyTab();
+            angular.element('#TabViewModalWithReset').modal('show');
+        }
+
         /* THIS IS CANCEL VIEW POPUP FUNCTION  */
         $scope.CancelViewPopup = function () {
             angular.element('#TabAddModal').modal('hide');
@@ -360,18 +409,28 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 $scope.RefId = data.RefId;
                 $scope.Model = data.Model;
                 $scope.OS = data.OS;
+                $scope.EditSelectedUserListTab = [];
+                $scope.EditSelectedTabDevice = [];
                 $scope.AddUserParameters = data.UserList;
                 angular.forEach(data.UserList, function (value, index) {
                     $scope.EditSelectedTABUser.push(value.ID);
                     $scope.SelectedTabUser = $scope.EditSelectedTABUser;
+                    $scope.EditSelectedUserListTab.push(value.UserId);
                 });
+                $scope.SelectedUserListTab = $scope.EditSelectedUserListTab;
                 if ($scope.AddUserParameters.length > 0) {
                     $scope.MyHomeflag = 1;
                 }
                 else {
                     $scope.MyHomeflag = 0;
                 }
+
                 $scope.AddDeviceParameters = data.SelectedTabDeviceList;
+                angular.forEach(data.SelectedTabDeviceList, function (value, index) {
+                    $scope.EditSelectedTabDevice.push(value.DeviceId);
+                });
+                $scope.SelectedTabDevice = $scope.EditSelectedTabDevice;
+
                 if ($scope.AddDeviceParameters.length > 0) {
                     $scope.MyDeviceflag = 1;
                 }
@@ -534,12 +593,13 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
 
         $scope.MyHomeRow = "-1";
         // Add row concept for Patient Vital Parameters
-        $scope.AddUserParameters = [{
-            'ID': $scope.HomeId,
-            'UserId': $scope.UserId,
-            'PIN': $scope.PIN,
-            'IsActive': true
-        }];
+
+        //$scope.AddUserParameters = [{
+        //    'ID': $scope.HomeId,
+        //    'UserId': $scope.UserId,
+        //    'PIN': $scope.PIN,
+        //    'IsActive': true
+        //}];
 
         $scope.ChangeUserInfo = function (UserId) {
             console.log(UserId);
@@ -611,7 +671,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $("#chatLoaderPV").show();
             $http.post(baseUrl + '/api/MyHome/Tab_User_Pin_Update/', obj).success(function (data) {
                 if (data.ReturnFlag == 1) {
-                    toastr.success("User Pin Is" + "(" + $scope.PIN + ")" + "Updated Successfully", "success");
+                    toastr.success("User Pin Is" + "(" + $scope.PIN + ")" + "Reset Successfully", "success");
                     $("#chatLoaderPV").hide();
                 }
                 else {
@@ -908,6 +968,38 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 if ($scope.MYTAB_InsertUpdate_validation() == true) {
                     $("#chatLoaderPV").show();
 
+                    if ($scope.SelectedUserListTab.length >= $scope.AddUserParameters.length) {
+                        angular.forEach($scope.SelectedUserListTab, function (value, index) {
+                            var is_exist = false;
+                            angular.forEach($scope.AddUserParameters, function (value1, index1) {
+                                if (value1.UserId === value) {
+                                    is_exist = true;
+                                }
+                            });
+                            if (is_exist === false) {
+                                $scope.AddUserParameters.push({
+                                    'ID': $scope.HomeId,
+                                    'UserId': value,
+                                    'PIN': $scope.PIN,
+                                    'IsActive': true
+                                })
+                            };
+                        });
+                    } else {
+                        angular.forEach($scope.AddUserParameters, function (value1, index) {
+                            check_exists = checkExists(value1.UserId);
+                            if (!check_exists) {
+                                value1.IsActive = false;
+                            }
+                        });
+                    }
+
+                    function checkExists(userId) {
+                        return $scope.SelectedUserListTab.some(function (el) {
+                            return el === userId;
+                        });
+                    }
+
                     angular.forEach($ff($scope.AddUserParameters, { IsActive: true }), function (value, index) {
                         return value.UserId != '';
                     });
@@ -917,6 +1009,41 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     /* var DevicesListid = $ff($scope.DevicesLists, function (value) {
                          return value.ID != '';
                      });*/
+
+                    function checkDeviceExists(Id) {
+                        return $scope.SelectedTabDevice.some(function (el) {
+                            return el === Id;
+                        });
+                    }
+
+                    if ($scope.SelectedTabDevice.length >= $scope.AddDeviceParameters.length) {
+                        angular.forEach($scope.SelectedTabDevice, function (value, index) {
+                            var is_exist = false;
+                            angular.forEach($scope.AddDeviceParameters, function (value1, index1) {
+                                if (value1.Id === value) {
+                                    is_exist = true;
+                                }
+                            });
+                            if (is_exist === false) {
+                                $scope.AddDeviceParameters.push({
+                                    'Id': value,
+                                    'DeviceId': 0,
+                                    'DeviceName': '',
+                                    'TabId': null,
+                                    'UserId': null,
+                                    'IsActive': true
+                                });
+                            };
+                        });
+                    } else {
+                        angular.forEach($scope.AddDeviceParameters, function (value1, index) {
+                            check_exists = checkDeviceExists(value1.Id);
+                            if (!check_exists) {
+                                value1.IsActive = false;
+                            }
+                        });
+                    }
+
                     $scope.UserTabDetails_List = [];
                     angular.forEach($scope.SelectedTabUser, function (value, index) {
                         var obj = {
@@ -957,6 +1084,8 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                         //alert(data.Message);
                         if (data.ReturnFlag == 1) {
                             toastr.success(data.Message, "success");
+                            $scope.SelectedUserListTab = [];
+                            $scope.SelectedTabDevice = [];
                         }
                         else if (data.ReturnFlag == 0) {
                             toastr.warning(data.Message, "warning");
@@ -964,6 +1093,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                         $('#savemytab').attr("disabled", false);
                         $scope.TabList(HiveType);
                         $scope.Cancel_MYTAB();
+
                     }).error(function (data) {
                         $scope.error = "An error has occurred while deleting Parameter" + data;
                     });
