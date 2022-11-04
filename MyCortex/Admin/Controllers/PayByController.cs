@@ -582,6 +582,7 @@ namespace MyCortex.Admin.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public HttpResponseMessage EligibilityRequestDetail(long eligibilityID, string facilityLicense)
         {
             object objResponse;
