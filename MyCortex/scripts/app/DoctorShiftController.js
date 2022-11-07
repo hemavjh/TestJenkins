@@ -1454,19 +1454,20 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                         }
                         else if (data.ReturnFlag == 0) {
                             toastr.info(data.Message, "info");
+                            return false;
                         }
                         $('#saveDoctorShift1').attr("disabled", false);
                         $('#saveDoctorShift2').attr("disabled", false);
                         $('#saveDoctorShift3').attr("disabled", false);
                         $("#chatLoaderPV").hide();
-                        if (data.ReturnFlag == 1) {
+                        //if (data.ReturnFlag == 1) {
                             $scope.DoctorShiftClear();
                             $scope.CancelDoctorShift();
                             $scope.DoctorShiftListGo();
-                        }
-                        else {
-                            return false;
-                        }
+                        //}
+                        //else {
+                           
+                        //}
 
                     }).error(function (data) {
                         $scope.error = "An error has occurred while Adding Docor Shift" + data;
