@@ -1707,6 +1707,45 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 }
             }
         };
+        $scope.PatientgetBase64Image_UID = function () {
+            if ($scope.UserPhotoValue == 0) {
+                var maleId = 0;
+                var feMaleId = 0;
+                angular.forEach($scope.GenderList, function (value, index) {
+                    $scope.Gender_Name = value.text;
+                    if ($scope.Gender_Name.toLowerCase() == "male") {
+                        maleId = value.id.toString();
+                    }
+                    else if ($scope.Gender_Name.toLowerCase() == "female") {
+                        feMaleId = value.id.toString();
+                    }
+                });
+
+                var picPath1 = "../../Images/National_Male.png";
+                if (typeof ($scope.Gender_Name) != "undefined")
+                    if ($scope.GenderId == feMaleId) {
+                        picPath1 = "../../Images/National_Female.png";
+                    }
+                    else if ($scope.GenderId == maleId) {
+                        picPath1 = "../../Images/National_Male.png";
+                    }
+                if (photoview == false) {
+                    var request1 = new XMLHttpRequest();
+                    request1.open('GET', picPath1, true);
+                    request1.responseType = 'blob';
+                    request1.onload = function () {
+                        var reader1 = new FileReader();
+                        reader1.readAsDataURL(request1.response);
+                        reader1.onload = function (e) {
+                            $scope.uploadmes = e.target.result;
+                            $scope.uploadme3 = $scope.uploadmes;
+                            $scope.$apply();
+                        };
+                    };
+                    request1.send();
+                }
+            }
+        };
 
         //Admin creation
         $scope.AdmingetBase64Image = function () {
@@ -1948,6 +1987,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.uploadme2 = null;
             $('#UserLogo').val('');
             $('#NationalLogo').val('');
+            $('#UIDLogo').val('');
             $('#InsuranceLogo').val('');
             $scope.PhotoValue = 0;
             $scope.PhotoValue1 = 0;
@@ -3143,25 +3183,19 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.imageclearPatientNational = function () {
             $scope.NationalPhoto = "";
             $scope.NationalPhotoFilename = "";
-            $scope.UIdPhotoFilename = "";
             $scope.uploadme1 = "";
-            $scope.uploadme3 = "";
             $('#NationalLogo').val('');
-            $('#UIDLogo').val('');
             photoview = false;
             photoview1 = false;
             photoview3 = false;
             photoview2 = false;
             $scope.Nationaluploadview = false;
-            $scope.UIDuploadview = false;
             $scope.NationalPhotoValue = 0;
-            $scope.UIDPhotoValue = 0;
             $scope.PatientgetBase64Image_National();
         };
 
         $scope.imageclearPatientUID = function () {
             $scope.UIdPhotoFilename = "";
-            $scope.uploadme1 = "";
             $scope.uploadme3 = "";
             $('#UIDLogo').val('');
             photoview = false;
@@ -3170,7 +3204,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             photoview2 = false;
             $scope.UIDuploadview = false;
             $scope.UIDPhotoValue = 0;
-          //  $scope.PatientgetBase64Image_National();
+            $scope.PatientgetBase64Image_UID();
         };
         $scope.imageclearPatientInsurance = function () {
             $scope.InsurancePhoto = "";
@@ -4207,9 +4241,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.Createdby_ShortName = data.Createdby_ShortName;
                         $scope.InsuranceId = data.INSURANCEID;
                         $scope.MNR_No = data.MNR_NO;
-                        $scope.DropDownListValue = 3;
+                        $scope.DropDownListValue = 3; 
                         $scope.NationalId = data.NATIONALID.toString();
-                        $scope.UID = data.UID.toString();
+                        $scope.UID = data.UID;
                         $scope.EthnicGroup = data.EthnicGroup;
                         $scope.ViewGender = data.GENDER_NAME;
                         $scope.ViewNationality = data.Nationality;
@@ -5441,6 +5475,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             }
                             $("#UserLogo").val('');
                             $("#NationalLogo").val('');
+                            $("#UIDLogo").val('');
                             $("#InsuranceLogo").val('');
                             $('#btnsave').attr("disabled", false);
                             $('#btnsave1').attr("disabled", false);
@@ -5864,7 +5899,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 }
             } else {
                 if ($scope.PhotoValue1 == 1 && photoview3 == false && $scope.Id == 0) {
-                    if ($scope.UIDPhotoFullpath != undefined && UIDPhotoFullpath != "" && UIDPhotoFullpath != null) {
+                if ($scope.UIDPhotoFullpath != undefined && $scope.UIDPhotoFullpath != "" && $scope.UIDPhotoFullpath != null) {
                         if ($('#UIDLogo')[0].files[0] != undefined) {
                             UIdPhotoFilename = $('#UIDLogo')[0].files[0]['name'];
                             NationalimgBlob = $scope.dataURItoBlob($scope.UIDPhotoFullpath);
