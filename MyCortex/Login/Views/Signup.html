@@ -1,88 +1,93 @@
-﻿    <link href="../../Css/intlTelInput.css" rel="stylesheet" type="text/css" />
-    <link href="../../Css/sweetalert2.min.css" rel="stylesheet" type="text/css" />
-    <script>
-        $(function () {
-            var dtToday = new Date();
+﻿<link href="../../Css/intlTelInput.css" rel="stylesheet" type="text/css" />
+<link href="../../Css/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+<script>
+    $(function () {
+        var dtToday = new Date();
 
-            var month = dtToday.getMonth() + 1;
-            var day = dtToday.getDate();
-            var year = dtToday.getFullYear();
-            if (month < 10)
-                month = '0' + month.toString();
-            if (day < 10)
-                day = '0' + day.toString();
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
 
-            var maxDate = year + '-' + month + '-' + day;
-            //alert(maxDate);
-            $('#DOB').attr('max', maxDate);
+        var maxDate = year + '-' + month + '-' + day;
+        //alert(maxDate);
+        $('#DOB').attr('max', maxDate);
 
-        });
-    </script>
-    <script>
-        var input = document.querySelector("#txtMobile");
-        var inputPhoneNo = window.intlTelInput(input, {
-            formatOnDisplay: true,
-            separateDialCode: true,
-            onlyCountries: ['AE'],
-            geoIpLookup: function (callback) {
-                $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
-                    var countryCode = (resp && resp.country) ? resp.country : "";
-                    callback(countryCode);
-                });
-            },
-            //preferredCountries: ["in"],
-            utilsScript: "scripts/utils.js",
-        });
-        inputPhoneNo.setCountry('AE');
-        inputPhoneNo.setNumber("50 123 4567");
+    });
+</script>
+<script>
+    $('#doclogo').click(function () {
+        $("#nationalityresumedoc").trigger('click');
+    })
+</script>
+<script>
+    var input = document.querySelector("#txtMobile");
+    var inputPhoneNo = window.intlTelInput(input, {
+        formatOnDisplay: true,
+        separateDialCode: true,
+        onlyCountries: ['AE'],
+        geoIpLookup: function (callback) {
+            $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
+                var countryCode = (resp && resp.country) ? resp.country : "";
+                callback(countryCode);
+            });
+        },
+        //preferredCountries: ["in"],
+        utilsScript: "scripts/utils.js",
+    });
+    inputPhoneNo.setCountry('AE');
+    inputPhoneNo.setNumber("50 123 4567");
 
-        function txtPhoneChange() {
-            //alert("event fired");
-            //var phoneNo = document.getElementById("txtPhone");
+    function txtPhoneChange() {
+        //alert("event fired");
+        //var phoneNo = document.getElementById("txtPhone");
 
-            //var txtiso2 = document.getElementById("txthdCountryiso2").value;
-            //alert(txtiso2);
+        //var txtiso2 = document.getElementById("txthdCountryiso2").value;
+        //alert(txtiso2);
 
 
-            const PhoneNumber = inputPhoneNo.getNumber();
-            //alert(PhoneNumber);
+        const PhoneNumber = inputPhoneNo.getNumber();
+        //alert(PhoneNumber);
 
-            var countryData = inputPhoneNo.getSelectedCountryData();
-            var countryCode = countryData.dialCode; // using updated doc, code has been replaced with dialCode
-            var iso2 = countryData.iso2;
-            countryCode = "+" + countryCode;
-            //alert(countryCode);
-            //alert(iso2);
+        var countryData = inputPhoneNo.getSelectedCountryData();
+        var countryCode = countryData.dialCode; // using updated doc, code has been replaced with dialCode
+        var iso2 = countryData.iso2;
+        countryCode = "+" + countryCode;
+        //alert(countryCode);
+        //alert(iso2);
 
-            var number = document.getElementById("txtMobile").value;
-            //alert(number);
-            //alert(countryCode +"-" + number);
+        var number = document.getElementById("txtMobile").value;
+        //alert(number);
+        //alert(countryCode +"-" + number);
 
-            document.getElementById("txthdCountryiso2").value = iso2;
-            document.getElementById("txthdCountryCode").value = countryCode;
-            //document.getElementById("txthdFullNumber").value = PhoneNumber;
-            document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
+        document.getElementById("txthdCountryiso2").value = iso2;
+        document.getElementById("txthdCountryCode").value = countryCode;
+        //document.getElementById("txthdFullNumber").value = PhoneNumber;
+        document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
 
-            //var txtiso2 = document.getElementById("txthdCountryiso2").value;
-            //alert(txt);
+        //var txtiso2 = document.getElementById("txthdCountryiso2").value;
+        //alert(txt);
 
-            if (PhoneNumber != "") {
-                var isValidNum = inputPhoneNo.isValidNumber();
-                //alert(isValidNum);
-                if (!isValidNum) {
-                    //toastr.error("Phone Number Invalid", "warning");
-                    //alert("Phone number invalid");
-                    swal.fire("Phone number invalid");
-                    document.getElementById("txthdFullNumber").value = "";
-                }
-                else {
-                    document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
-                }
+        if (PhoneNumber != "") {
+            var isValidNum = inputPhoneNo.isValidNumber();
+            //alert(isValidNum);
+            if (!isValidNum) {
+                //toastr.error("Phone Number Invalid", "warning");
+                //alert("Phone number invalid");
+                swal.fire("Phone number invalid");
+                document.getElementById("txthdFullNumber").value = "";
             }
-
-            //inputPhoneNo.setCountry(txtiso2);
+            else {
+                document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
+            }
         }
-    </script>
+
+        //inputPhoneNo.setCountry(txtiso2);
+    }
+</script>
 <input type="text" hidden="hidden" id="txthdCountryCode" ng-model="PhoneCountryCode" />
 <input type="text" hidden="hidden" id="txthdCountryiso2" ng-model="PhoneCountryiso2" />
 <input type="text" hidden="hidden" id="txthdFullNumber" />
@@ -181,7 +186,7 @@
                         <option value="0">Select</option>
                         <option ng-repeat="sel in MaritalStatusList" ng-selected="MaritalStatusId==sel.Id" value="{{sel.Id}}">
                             {{sel.Name}}
-                            </option>
+                        </option>
                     </select>
                 </div>
             </div>
@@ -223,59 +228,59 @@
                 </div>
             </div>
             <!--<div class="col-sm-6">
-        <div class="inputGroups">
-            <label for="email">{{mobilenumber}}<sup><font class='mandatory-field'>*</font></sup></label>
-            <input type="text" class="form-control" id="Text6" name="" ng-model="MobileNo" ng-maxlength="20"
-                   maxlength="20" onkeypress="OnlySpecCharNum(event)" ng-required="true" placeholder="" />
-        </div>
-    </div>-->
+                <div class="inputGroups">
+                    <label for="email">{{mobilenumber}}<sup><font class='mandatory-field'>*</font></sup></label>
+                    <input type="text" class="form-control" id="Text6" name="" ng-model="MobileNo" ng-maxlength="20"
+                           maxlength="20" onkeypress="OnlySpecCharNum(event)" ng-required="true" placeholder="" />
+                </div>
+            </div>-->
 
         </div>
-            <div>
-                <p style="text-align:left;">
-                    {{defaultsignupacknowledgement}}
-                </p>
-                <p style="text-align:right;">
-                    {{signupacknowledgement}}
-                </p>
+        <div>
+            <p style="text-align:left;">
+                {{defaultsignupacknowledgement}}
+            </p>
+            <p style="text-align:right;">
+                {{signupacknowledgement}}
+            </p>
+        </div>
+        <div class="alert alert-danger def" ng-if="errorlist!=null">
+            <div ng-if="errorlist!=null">
+                {{errorlist}}
             </div>
-            <div class="alert alert-danger def" ng-if="errorlist!=null">
-                <div ng-if="errorlist!=null">
-                    {{errorlist}}
-                </div>
+        </div>
+        <button type="submit" class="theme-btn-1 mt-10" title="Click to Submit Signup Details" id="submit" ng-disabled="faslse"
+                ng-click="submitted= true;">
+            Submit
+        </button>
+        <!--<div class="row">
+            <div class="col-xs-6">
+                <input id="rem" ng-model="remember" name="remember" type="checkbox" ng-keyup="$event.keyCode == 13 && rememberMe()">
+                <label for="rem" class="pr-8">Remember Me</label>
             </div>
-            <button type="submit" class="theme-btn-1 mt-10" title="Click to Submit Signup Details" id="submit" ng-disabled="faslse"
-                    ng-click="submitted= true;">
-                Submit
-            </button>
-            <!--<div class="row">
-        <div class="col-xs-6">
-            <input id="rem" ng-model="remember" name="remember" type="checkbox" ng-keyup="$event.keyCode == 13 && rememberMe()">
-            <label for="rem" class="pr-8">Remember Me</label>
+            <div class="col-xs-6 text-right">
+                <a href="#" data-toggle="modal" data-target="#forgotPasswordModal" class="prl-8">Forgot Password?</a>
+            </div>
         </div>
-        <div class="col-xs-6 text-right">
-            <a href="#" data-toggle="modal" data-target="#forgotPasswordModal" class="prl-8">Forgot Password?</a>
-        </div>
-    </div>
-    <h2>Or login with</h2>
-    <div class="row">
-        <div class="col-xs-6">
-            <a href="#" title="Facebook" class="loginOptions" ng-click="getAccessToken();">
-                <img src="./images/fb.png" style="width:30px;height:30px;" />
-                <span>Facebook</span>
-            </a>
-        </div>
-        <div class="col-xs-6">
-            <a href="#" title="Google" class="loginOptions" ng-click="GoogleLogin()">
-                <img src="./images/google.png" style="width:30px;height:30px;" />
-                <span>Google</span>
-            </a>
-        </div>
-    </div>-->
-            <!--<div class="version">
-        V1.3
-    </div>-->
-</form>
+        <h2>Or login with</h2>
+        <div class="row">
+            <div class="col-xs-6">
+                <a href="#" title="Facebook" class="loginOptions" ng-click="getAccessToken();">
+                    <img src="./images/fb.png" style="width:30px;height:30px;" />
+                    <span>Facebook</span>
+                </a>
+            </div>
+            <div class="col-xs-6">
+                <a href="#" title="Google" class="loginOptions" ng-click="GoogleLogin()">
+                    <img src="./images/google.png" style="width:30px;height:30px;" />
+                    <span>Google</span>
+                </a>
+            </div>
+        </div>-->
+        <!--<div class="version">
+            V1.3
+        </div>-->
+    </form>
 </div>
 
 <div ng-show="ProductName == 'Hive'" class="containerhiv" style="top:20px"><img style="width: 150px;" src="{{PrdImg}}"> </div>
@@ -334,15 +339,35 @@
             </div>
             <div class="col-sm-6" style="margin-left: 1px;">
                 <div class="inputGroups">
-                    <label for="email">{{nationalityid}}<sup><font class='mandatory-field'>*</font></sup></label>
+                    <label for="email">{{nationalityid}}<sup><font class='mandatory-field'>*</font></sup>
+                        <span class="uploadIconContainer">
+                            <label for="Nationalityresumedoc" class="uploadIconBtn" style="display:initial;" ng-click="CertificateUplaodSelected()" title="Click to Upload File">
+                                <i class="fa fa-upload" aria-hidden="true" ></i>
+                                <!--<a href="javascript:" ng-click="CertificateView(Id,FileName)"><i class="fa fa-eye" aria-hidden="true"></i></a>-->
+                                <a href="javascript:" ><sub class="textwrap">{{CertificateFileName}}</sub></a>
+                            </label>
+                        </span>
+                    <input type="file" id="Nationalityresumedoc" class="dropzone" fileread="Nationalityresumedoc" onchange="angular.element(this).scope().EditdocfileChange(this)"
+                               name="Resume" title="Click to Upload File" style="height: 0px !important" accept="image/x-png,image/gif,image/jpeg">
+                    </label>
                     <input type="text" class="form-control" id="Text9" name="NationalId" ng-model="NationalId"
-                           ng-init="NationalId=''" placeholder="" ng-maxlength="50" maxlength="50" onkeypress="" ng-required="true" />
+                           ng-init="NationalId=''" placeholder="" ng-maxlength="50" maxlength="50" onkeypress="" ng-required="true">
                 </div>
             </div>
             <div class="col-sm-6" style="margin-left: -1px;">
                 <div class="inputGroups">
-                    <label>UID</label>
-                    <input type="text" class="form-control" id="Text19" name="UID" ng-model="UID" placeholder="" ng-maxlength="100"
+                    <label>
+                        UID<span class="uploadIconContainer">
+                            <label for="UidDocument" class="uploadIconBtn" style="display:initial;" ng-click="CertificateUplaodSelected()" title="Click to Upload File">
+                                <i class="fa fa-upload" aria-hidden="true"></i>
+                                <a href="javascript:"><sub class="textwrap">{{UIdFileName}}</sub></a>
+                            </label>
+                        </span>
+                        <input type="file" id="UidDocument" fileread="UidDocument" onchange="angular.element(this).scope().UIDfileChange(this)"
+                               name="Resume" title="Click to Upload File"
+                               style="height: 0px !important" accept="image/x-png,image/gif,image/jpeg">
+                    </label>
+                    <input type="text" class="form-control" id="Text19" name="UserID" ng-model="UID" placeholder="" ng-maxlength="100"
                            maxlength="100" />
                 </div>
             </div>
@@ -376,29 +401,29 @@
                 </div>
             </div>
             <!--<div class="col-sm-6">
-        <div class="inputGroups">
-            <label for="email">
-                {{MaritalStatus}}<sup><font class='mandatory-field'>*</font></sup>
-            </label>
-            <select class="form-control" data-style="form-control" ng-model="MaritalStatusId" id="MaritalStatusId">
-                <option value="0">Select</option>
-                <option ng-repeat="sel in MaritalStatusList" ng-selected="MaritalStatusId==sel.Id" value="{{sel.Id}}">
-                    {{sel.Name}}
-                </option>
-            </select>
-        </div>
-    </div>-->
+                <div class="inputGroups">
+                    <label for="email">
+                        {{MaritalStatus}}<sup><font class='mandatory-field'>*</font></sup>
+                    </label>
+                    <select class="form-control" data-style="form-control" ng-model="MaritalStatusId" id="MaritalStatusId">
+                        <option value="0">Select</option>
+                        <option ng-repeat="sel in MaritalStatusList" ng-selected="MaritalStatusId==sel.Id" value="{{sel.Id}}">
+                            {{sel.Name}}
+                        </option>
+                    </select>
+                </div>
+            </div>-->
             <!--<div class="col-sm-6">
-        <div class="inputGroups">
-            <label for="email">{{EthnicGroup}}<sup> <font class='mandatory-field'>*</font></sup></label>
-            <select class="form-control" data-style="form-control" ng-model="EthnicGroupId" id="EthnicGroupId">
-                <option value="0">Select</option>
-                <option ng-repeat="sel in EthnicGroupList" ng-selected="EthnicGroupId==sel.Id" value="{{sel.Id}}">
-                    {{sel.Name}}
-                </option>
-            </select>
-        </div>
-    </div>-->
+                <div class="inputGroups">
+                    <label for="email">{{EthnicGroup}}<sup> <font class='mandatory-field'>*</font></sup></label>
+                    <select class="form-control" data-style="form-control" ng-model="EthnicGroupId" id="EthnicGroupId">
+                        <option value="0">Select</option>
+                        <option ng-repeat="sel in EthnicGroupList" ng-selected="EthnicGroupId==sel.Id" value="{{sel.Id}}">
+                            {{sel.Name}}
+                        </option>
+                    </select>
+                </div>
+            </div>-->
             <div class="col-sm-6">
                 <div class="inputGroups">
                     <label for="email">{{dob}}<sup><font class='mandatory-field'>*</font></sup></label>
@@ -415,16 +440,16 @@
                 </div>
             </div>
             <!--<div class="col-sm-6">
-        <div class="inputGroups">
-            <label for="email">{{BloodGroup}}<sup><font class='mandatory-field'>*</font></sup></label>
-            <select class="form-control" data-style="form-control" ng-model="BloodGroupId" id="BloodGroupId">
-                <option value="0">Select</option>
-                <option ng-repeat="sel in BloodGroupList" ng-selected="BloodGroupId==sel.Id" value="{{sel.Id}}">
-                    {{sel.BloodGroup_Name}}
-                </option>
-            </select>
-        </div>
-    </div>-->
+                <div class="inputGroups">
+                    <label for="email">{{BloodGroup}}<sup><font class='mandatory-field'>*</font></sup></label>
+                    <select class="form-control" data-style="form-control" ng-model="BloodGroupId" id="BloodGroupId">
+                        <option value="0">Select</option>
+                        <option ng-repeat="sel in BloodGroupList" ng-selected="BloodGroupId==sel.Id" value="{{sel.Id}}">
+                            {{sel.BloodGroup_Name}}
+                        </option>
+                    </select>
+                </div>
+            </div>-->
         </div>
         <!--<div>
             <p style="text-align:left;">
@@ -439,10 +464,10 @@
                 {{errorlist}}
             </div>
         </div>-->
-    <div style="text-align: center; margin-top: 15px;">
-        <input type="checkbox">
-        <label>I'm agreeing to this and signing up</label>
-    </div>
+        <div style="text-align: center; margin-top: 15px;">
+            <input type="checkbox">
+            <label>I'm agreeing to this and signing up</label>
+        </div>
         <button type="submit" style="width: 443px; height: 56px; margin-left: 67px; margin-top: 30px; color: #fff; background: #100146; border-radius: 12px; " title="Click to Submit Signup Details" id="submit" ng-disabled="faslse"
                 ng-click="submitted= true;">
             Signup

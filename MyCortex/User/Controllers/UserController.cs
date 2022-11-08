@@ -2170,17 +2170,18 @@ namespace MyCortex.User.Controller
                             {
                                 fileData = binaryReader.ReadBytes(postedFile.ContentLength);
                             }
-                            if (Photo == 1)
-                            {
-
-                                repository.NationalIDPhotoupload(fileData, UserId, Type);
-                                //repository.UserDetails_NationalPhotoImageCompress(compressimage, compressimage1, UserId, Created_By);
-                            }
-                            //else if (Certificate == 1)
-                            //{
-                            //    repository.UserDetails_CertificateUpload(fileData, UserId);
-                            //}
-
+                                //Image x = (Bitmap)((new ImageConverter()).ConvertFrom(fileData));
+                                Image img = ToImage(fileData);
+                                Size thumbnailSize = GetThumbnailSize(img);
+                                Image ThumImage = ResizeImage(img, thumbnailSize.Width, thumbnailSize.Height);
+                                Image Cimage = ResizeImage(img, 40, 40);
+                                //ImageConverter Class convert Image object to Byte array.
+                                byte[] compressimage = (byte[])(new ImageConverter()).ConvertTo(Cimage, typeof(byte[]));
+                                byte[] compressimage1 = (byte[])(new ImageConverter()).ConvertTo(ThumImage, typeof(byte[]));
+                                if (Photo == 1)
+                                {
+                                    repository.NationalIDPhotoupload(fileData, UserId, Type);
+                                }
                             docfiles.Add(postedFile.ToString());
                         }
                         model.Message = "Uploaded Successfully!";

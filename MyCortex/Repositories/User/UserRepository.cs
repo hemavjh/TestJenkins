@@ -1483,6 +1483,7 @@ namespace MyCortex.Repositories.Uesr
                                         MNR_NO = p.Field<string>("MNR_NO"),
                                         INSURANCEID = p.Field<string>("INSURANCEID"),
                                         NATIONALID = p.Field<string>("NATIONALID"),
+                                        UID = p.Field<string>("UID"),
                                         EthnicGroup = p.Field<string>("EthnicGroup"),
                                         UserName = p.Field<string>("UserName"),
                                         GENDER_NAME = p.Field<string>("GENDER_NAME"),
@@ -1549,7 +1550,8 @@ namespace MyCortex.Repositories.Uesr
                                         NationalPhotoFullpath = p.Field<string>("NATIONAL_PHOTO_FULLPATH"),
                                         NationalPhotoFilename = p.Field<string>("NATIONAL_PHOTO_FILENAME"),
                                         InsurancePhotoFullpath = p.Field<string>("INSURANCE_PHOTO_FULLPATH"),
-                                        InsurancePhotoFilename = p.Field<string>("INSURANCE_PHOTO_FILENAME")
+                                        InsurancePhotoFilename = p.Field<string>("INSURANCE_PHOTO_FILENAME"),
+                                        Type = p.Field<string>("TYPE"),
                                     }).FirstOrDefault();
 
                 if (!Convert.IsDBNull(dt.Rows[0]["USER_PHOTO"]))
@@ -2913,10 +2915,10 @@ namespace MyCortex.Repositories.Uesr
 
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@ID", Id));
-            //param.Add(new DataParameter("@BLOBDATA", encrypt.EncryptFile(imageFile)));
+            //param.Add(new DataParameter("@BLOBDATA", encrypt.EncryptFile(fileData)));
             if (fileData != null)
             {
-                param.Add(new DataParameter("@BLOBDATA", (fileData)));
+                param.Add(new DataParameter("@BLOBDATA", encrypt.EncryptFile(fileData)));
                 param.Add(new DataParameter("@TYPE", Type));
             }
             else
