@@ -3363,13 +3363,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.currentTab = 2;
                     return false;
                 }
-                else if (typeof ($scope.NationalityId) == "undefined" || $scope.NationalityId == "0") {
-                    //alert("Please select Nationality under Additional Info");
-                    toastr.warning("Please select Nationality under Additional Info", "warning");
-                    $("#chatLoaderPV").hide();
-                    $scope.currentTab = 2;
-                    return false;
-                }
+                //else if (typeof ($scope.NationalityId) == "undefined" || $scope.NationalityId == "0") {
+                //    //alert("Please select Nationality under Additional Info");
+                //    toastr.warning("Please select Nationality under Additional Info", "warning");
+                //    $("#chatLoaderPV").hide();
+                //    $scope.currentTab = 2;
+                //    return false;
+                //}
                 else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "" || $scope.DOB == 'yyyy-mm-dd') {
                     //alert("Please select Date of Birth under Additional info");
                     toastr.warning("Please select Date of Birth under Additional info", "warning");
@@ -3475,13 +3475,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.currentTab = 1;
                     return false;
                 }
-                else if (typeof ($scope.InsuranceId) == "undefined" || $scope.InsuranceId == "") {
-                    //alert("Please enter Insurance ID");
-                    toastr.warning("Please enter Insurance ID", "warning");
-                    $("#chatLoaderPV").hide();
-                    $scope.currentTab = 1;
-                    return false;
-                }
+                //else if (typeof ($scope.InsuranceId) == "undefined" || $scope.InsuranceId == "") {
+                //    //alert("Please enter Insurance ID");
+                //    toastr.warning("Please enter Insurance ID", "warning");
+                //    $("#chatLoaderPV").hide();
+                //    $scope.currentTab = 1;
+                //    return false;
+                //}
                 else if (typeof ($scope.EmailId) == "undefined" || $scope.EmailId == "") {
                     //alert("Please enter Email");
                     toastr.warning("Please enter Email", "warning");
@@ -3523,13 +3523,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.currentTab = 1;
                     return false;
                 }
-                else if (typeof ($scope.NationalityId) == "undefined" || $scope.NationalityId == "0") {
-                    //alert("Please select Nationality under Additional Info");
-                    toastr.warning("Please select Nationality under Additional Info", "warning");
-                    $("#chatLoaderPV").hide();
-                    $scope.currentTab = 2;
-                    return false;
-                }
+                //else if (typeof ($scope.NationalityId) == "undefined" || $scope.NationalityId == "0") {
+                //    //alert("Please select Nationality under Additional Info");
+                //    toastr.warning("Please select Nationality under Additional Info", "warning");
+                //    $("#chatLoaderPV").hide();
+                //    $scope.currentTab = 2;
+                //    return false;
+                //}
                 else if (typeof ($scope.MaritalStatusId) == "undefined" || $scope.MaritalStatusId == "0") {
                     //alert("Please select Marital Status under Additional Info");
                     toastr.warning("Please select Marital Status under Additional Info", "warning");
