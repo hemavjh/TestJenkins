@@ -39,6 +39,71 @@ EmpApp.config(function (toastrConfig) {
         target: 'body'
     });
 });
+EmpApp.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+            element.bind('change', function () {
+                scope.$apply(function () {
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}]);
+EmpApp.directive("fileread", [
+    function () {
+        return {
+            scope: {
+                fileread: "="
+            },
+            link: function (scope, element, attributes) {
+                element.bind("change", function (changeEvent) {
+                    var reader = new FileReader();
+                    reader.onload = function (loadEvent) {
+                        scope.$apply(function () {
+                            scope.fileread = loadEvent.target.result;
+                            //scope.filename = changeEvent.target.files[0].name;
+                        });
+                    }
+                    if (changeEvent.target.files.length !== 0) {
+                        reader.readAsDataURL(changeEvent.target.files[0]);
+                    }
+                });
+            }
+        }
+    }
+]);
+
+EmpApp.directive('uploadFile', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            var file_uploaded = $parse(attrs.uploadFile);
+            element.bind('change', function () {
+                scope.$apply(function () {
+                    file_uploaded.assign(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}]);
+EmpApp.service('fileUpload', ['$http', function ($http) {
+    this.uploadFileToUrl = function (file, uploadUrl) {
+        var fd = new FormData();
+        fd.append('file', file);
+        $http.post(uploadUrl, fd, {
+            transformRequest: angular.identity,
+            headers: { 'Content-Type': undefined }
+        })
+            .success(function () {
+            })
+            .error(function () {
+            });
+    }
+}]);
 
 var MyCortexControllers = angular.module("AllyControllersLogin", []);
 var baseUrl = $("base").first().attr("href");
@@ -301,7 +366,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                 return false;
             }
             return true;
-        };      
+        };
         $http.get(baseUrl + '/api/Login/GetProduct_Details/').success(function (data) {
             $scope.ProductName1 = data[0].ProductName;
             var chk = $window.localStorage['inactivity_logout'];
@@ -938,6 +1003,12 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
         $scope.NationalityId = "0";
         $scope.MaritalStatusId = "0";
         $scope.EthnicGroupId = "0";
+        $scope.Type = "0";
+        $scope.CertificateValue = 0; 
+        $scope.CertificateFileName = "";
+        $scope.FileType = "";
+        $scope.UIdFileName = "";
+        $scope.EditFileName = "";
         $scope.BloodGroupId = "0";
         $scope.EmailId = "";
         $scope.MobileNo = "";
@@ -1236,6 +1307,74 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                 toastr.warning("Please enter Mobile No.", "warning");
                 return false;
             }
+            if ($scope.CertificateFileName != "") {
+                var fileval = 0;
+                $scope.filetype = $scope.CertificateFileName.split(".");
+                var fileExtenstion = "";
+                if ($scope.filetype.length > 0) {
+                    fileExtenstion = $scope.filetype[$scope.filetype.length - 1];
+                }
+                if (fileExtenstion.toLocaleLowerCase() == "jpeg" || fileExtenstion.toLocaleLowerCase() == "jpg" || fileExtenstion.toLocaleLowerCase() == "png"
+                    || fileExtenstion.toLocaleLowerCase() == "bmp" || fileExtenstion.toLocaleLowerCase() == "gif" || fileExtenstion.toLocaleLowerCase() == "ico"
+                    || fileExtenstion.toLocaleLowerCase() == "pdf" || fileExtenstion.toLocaleLowerCase() == "xls" || fileExtenstion.toLocaleLowerCase() == "xlsx"
+                    || fileExtenstion.toLocaleLowerCase() == "doc" || fileExtenstion.toLocaleLowerCase() == "docx" || fileExtenstion.toLocaleLowerCase() == "odt"
+                    || fileExtenstion.toLocaleLowerCase() == "txt" || fileExtenstion.toLocaleLowerCase() == "pptx" || fileExtenstion.toLocaleLowerCase() == "ppt"
+                    || fileExtenstion.toLocaleLowerCase() == "rtf" || fileExtenstion.toLocaleLowerCase() == "tex"
+                ) {
+                    fileval = 1;
+                }
+                else {
+                    fileval = 2;
+                }
+                if (fileval == 2) {
+                    toastr.warning("Please choose jpeg/jpg/png/bmp/gif/ico/pdf/xls/xlsx/doc/docx/odt/txt/pptx/ppt/rtf/tex file.", "warning");
+                    $("#chatLoaderPV").hide();
+                    return false;
+                }
+            }
+            if ($scope.Nationalityresumedoc != null) {
+                if ($scope.Nationalityresumedoc != undefined && $scope.Nationalityresumedoc != null && $scope.Nationalityresumedoc != "") {
+                    if ($scope.dataURItoBlob($scope.Nationalityresumedoc).size > 1048576) {
+                        toastr.warning("Certificate file size cannot be greater than 1MB", "warning");
+                        $("#chatLoaderPV").hide();
+                        return false;
+                    }
+                }
+            }
+            if ($scope.UIdFileName != "") {
+                var fileval = 0;
+                $scope.filetype = $scope.UIdFileName.split(".");
+                var fileExtenstion = "";
+                if ($scope.filetype.length > 0) {
+                    fileExtenstion = $scope.filetype[$scope.filetype.length - 1];
+                }
+                if (fileExtenstion.toLocaleLowerCase() == "jpeg" || fileExtenstion.toLocaleLowerCase() == "jpg" || fileExtenstion.toLocaleLowerCase() == "png"
+                    || fileExtenstion.toLocaleLowerCase() == "bmp" || fileExtenstion.toLocaleLowerCase() == "gif" || fileExtenstion.toLocaleLowerCase() == "ico"
+                    || fileExtenstion.toLocaleLowerCase() == "pdf" || fileExtenstion.toLocaleLowerCase() == "xls" || fileExtenstion.toLocaleLowerCase() == "xlsx"
+                    || fileExtenstion.toLocaleLowerCase() == "doc" || fileExtenstion.toLocaleLowerCase() == "docx" || fileExtenstion.toLocaleLowerCase() == "odt"
+                    || fileExtenstion.toLocaleLowerCase() == "txt" || fileExtenstion.toLocaleLowerCase() == "pptx" || fileExtenstion.toLocaleLowerCase() == "ppt"
+                    || fileExtenstion.toLocaleLowerCase() == "rtf" || fileExtenstion.toLocaleLowerCase() == "tex"
+                ) {
+                    fileval = 1;
+                }
+                else {
+                    fileval = 2;
+                }
+                if (fileval == 2) {
+                    toastr.warning("Please choose jpeg/jpg/png/bmp/gif/ico/pdf/xls/xlsx/doc/docx/odt/txt/pptx/ppt/rtf/tex file.", "warning");
+                    $("#chatLoaderPV").hide();
+                    return false;
+                }
+            }
+            if ($scope.UidDocument != null) {
+                if ($scope.UidDocument != undefined && $scope.UidDocument != null && $scope.UidDocument != "") {
+                    if ($scope.dataURItoBlob($scope.UidDocument).size > 1048576) {
+                        toastr.warning("Certificate file size cannot be greater than 1MB", "warning");
+                        $("#chatLoaderPV").hide();
+                        return false;
+                    }
+                }
+            }
             $scope.DOB = DateFormatEdit($scope.DOB);
             return true;
         };
@@ -1275,11 +1414,45 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                 $scope.prductName = " MyCortex?";
             }
         });
-
+        $scope.EditdocfileChange = function (e) {
+            if ($('#Nationalityresumedoc')[0].files[0] != undefined) {
+                $scope.CertificateFileName = $('#Nationalityresumedoc')[0].files[0]['name'];
+                $scope.FileType = $('#Nationalityresumedoc')[0].files[0]['type'];
+                // $scope.nationalityresumedoc = e.files[0];
+            }
+        }
+        
+        
+        $scope.UIDfileChange = function (e) {
+            if ($('#UidDocument')[0].files[0] != undefined) {
+                $scope.UIdFileName = $('#UidDocument')[0].files[0]['name'];
+                $scope.FileType = $('#UidDocument')[0].files[0]['type'];
+            }
+        }
+        $scope.CertificateUplaodSelected = function () {
+            $scope.CertificateValue = 1;
+        };
+        $scope.dataURItoBlob = function (dataURI) {
+            var binary = atob(dataURI.split(',')[1]);
+            var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+            var array = [];
+            for (var i = 0; i < binary.length; i++) {
+                array.push(binary.charCodeAt(i));
+            }
+            return new Blob([new Uint8Array(array)], {
+                type: mimeString
+            });
+        }
         /*This is Insert Function for SignUp */
         $scope.SignupLogin_AddEdit = function () {
             if ($scope.PatSignUpFlag == 1) {
                 if ($scope.SignupLogin_AddEdit_Validations() == true) {
+                    $scope.DocumentUpload = "";
+                    if ($scope.CertificateFileName == $scope.CertificateFileName) {
+                        $scope.DocumentUpload = $scope.CertificateFileName;
+                    } else {
+                        $scope.DocumentUpload = $scope.UIdFileName;
+                    }
                     // window.location.href = baseUrl + "/Home/Index#;
                     $("#chatLoaderPV").show();
                     $('#submit').attr("disabled", true);
@@ -1296,6 +1469,8 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                             LastName: $scope.LastName,
                             NATIONALID: $scope.NationalId,
                             UID: $scope.UID,
+                            FILE_NAME: $scope.DocumentUpload,
+                            FILETYPE: $scope.FileType,
                             INSURANCEID: $scope.InsuranceId,
                             //MNR_NO: $scope.MNR_No,
                             GENDER_ID: $scope.GenderId == 0 ? null : $scope.GenderId,
@@ -1330,6 +1505,8 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                                 toastr.success("You have been signed up successfully", "success");
                                 $scope.submitted = false;
                                 $('#submit').attr("disabled", false);
+                                var userid = data.UserDetails.Id;
+                                $scope.UserImageAttach(userid);
                                 $scope.CancelSignUpPopup();
                             } else {
                                 //alert(data.Message);
@@ -1361,6 +1538,85 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                 return false;
             }
         };
+        $scope.UserImageAttach = function (userid) {
+            $scope.PhotoValue = 1;
+            var photoview = false;
+            var userid = userid;
+            var FileName = "";
+            var CertificateFileName = "";
+            var FileType = "";
+            var fd = new FormData();
+            var imgBlobfile;
+            var itemIndexLogo = -1;
+            var itemIndexfile = -1;
+            var fd1 = new FormData();
+
+            if ($scope.CertificateFileName !="") {
+                $scope.PhotoValue = 1;
+                if ($('#Nationalityresumedoc')[0].files[0] != undefined) {
+                    $scope.CertificateFileName = $('#Nationalityresumedoc')[0].files[0]['name'];
+                    $scope.FileType = $('#Nationalityresumedoc')[0].files[0]['type'];
+                    imgBlobfile = $scope.dataURItoBlob($scope.Nationalityresumedoc);
+                    if (itemIndexLogo == -1) {
+                        itemIndexfile = 0;
+                    }
+                    else {
+                        itemIndexfile = 1;
+                    }
+                }
+                if (itemIndexfile != -1) {
+                    fd.append('file1', imgBlobfile);
+                }
+                $http.post(baseUrl + '/api/User/Attach_UserDocs/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&CREATED_BY=' + userid + '&Type=Nationality_Id',
+                    fd,
+                    {
+                        transformRequest: angular.identity,
+                        headers: {
+                            'Content-Type': undefined
+                        }
+                    }
+                )
+                    .success(function (response) {
+                        if ($scope.Resume == "") {
+                            $scope.Nationalityresumedoc = "";
+                        }
+                        
+                    })
+            }
+            else {
+                if ($scope.UIdFileName != "") {
+                    $scope.PhotoValue = 1;
+                    if ($('#UidDocument')[0].files[0] != undefined) {
+                        $scope.UIdFileName = $('#UidDocument')[0].files[0]['name'];
+                        $scope.FileType = $('#UidDocument')[0].files[0]['type'];
+                        imgBlobfile = $scope.dataURItoBlob($scope.UidDocument);
+                        if (itemIndexLogo == -1) {
+                            itemIndexfile = 0;
+                        }
+                        else {
+                            itemIndexfile = 1;
+                        }
+                    }
+                    if (itemIndexfile != -1) {
+                        fd.append('file1', imgBlobfile);
+                    }
+                    $http.post(baseUrl + '/api/User/Attach_UserDocs/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&CREATED_BY=' + userid + '&Type=UID',
+                        fd,
+                        {
+                            transformRequest: angular.identity,
+                            headers: {
+                                'Content-Type': undefined
+                            }
+                        }
+                    )
+                        .success(function (response) {
+                            if ($scope.Resume == "") {
+                                $scope.UidDocument = "";
+                            }
+                        })
+                }
+            }
+        }
         //This is for Clear the values
         $scope.CancelSignUpPopup = function () {
             $scope.FirstName = "";
@@ -1376,10 +1632,17 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             $scope.MaritalStatusId = "0";
             $scope.EthnicGroupId = "0";
             $scope.BloodGroupId = "0";
+            $scope.FileType = "";
             $scope.EmailId = "";
             $scope.MobileNo = "";
             $scope.MobileNo_CC = "";
             $scope.DOB = "";
+            $scope.CertificateFileName = "";
+            $scope.Nationalityresumedoc = "";
+            $scope.UIdFileName = "";
+            $scope.UidDocument = "";
+            $('#Nationalityresumedoc').val('');
+            $('#UidDocument').val('');
             //$scope.HideSignUpModal();
         }
 
@@ -1394,7 +1657,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
         });
 
         $http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (data) {
-              $scope.EthnicGroupList = data;
+            $scope.EthnicGroupList = data;
         });
 
         $http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (data) {

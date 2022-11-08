@@ -317,6 +317,10 @@
                                                             <!--{{DOB | date : format : "dd-MM-yyyy"}}-->
                                                         </span>
                                                     </div>
+                                                    <div class="inputGroups" style="max-width: 150px; word-wrap: break-word;">
+                                                        <label> UID</label>
+                                                        <span> {{UID}}</span>
+                                                    </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="inputGroups">
@@ -361,7 +365,25 @@
                                                             Save Chronic
                                                         </button>
                                                     </div>
-                                                </div>
+                                                    <div class="inputGroups">
+                                                        <div class="inputGroups">
+                                                            <label>UID image</label>
+                                                            <div ng-if="(ViewGender| lowercase)=='male' && (uploadme3 == null||uploadme3=='')&&UIDuploadview ==true"
+                                                                    valign="top" rowspan="6">
+                                                                <img width="200" height="180" class="responsiveProfileImage" src="../../Images/National_Male.png" />
+                                                            </div>
+                                                            <div ng-if="(ViewGender| lowercase)=='female' && (uploadme3 == null||uploadme3=='') && UIDuploadview ==true">
+                                                                <img width="280" height="180" class="responsiveProfileImage" src="../../Images/National_Female.png" />
+                                                            </div>
+                                                            <div ng-if="((ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male') && (uploadme3 == null || uploadme3=='' || uploadme3 == 'null') && UIDuploadview ==true"
+                                                                    valign="top" rowspan="6">
+                                                                <img width="280" height="180" class="responsiveProfileImage" src="../../Images/National_Male.png" />
+                                                            </div>
+                                                            <div ng-if="(uploadme3!=null)&&UIDuploadview ==true" valign="top" rowspan="6">
+                                                                <img width="280" height="180" class="responsiveProfileImage" ng-src="{{uploadme3}}" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                             </div>
 
                                         </div>

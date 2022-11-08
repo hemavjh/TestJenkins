@@ -105,6 +105,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.PatientNo = "";
         $scope.Createdby_ShortName = "";
         $scope.NationalId = "";
+        $scope.UID = "";
         $scope.InsuranceId = "";
         $scope.EMERG_CONT_FIRSTNAME = "";
         $scope.EMERG_CONT_MIDDLENAME = "";
@@ -224,12 +225,15 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.CertificateValue = 0;
         var photoview = false;
         var photoview1 = false;
+        var photoview3 = false;
         var photoview2 = false;
         $scope.uploadview = false;
         $scope.Nationaluploadview = false;
+        $scope.UIDuploadview = false;
         $scope.Insuranceuploadview = false;
         $scope.uploadme = null;
         $scope.uploadme1 = null;
+        $scope.uploadme3 = null;
         $scope.uploadme2 = null;
         $scope.DropDownListValue = 2;
         $scope.EditParameter = $routeParams.Editpatient;
@@ -242,6 +246,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.Member_ID = "";
         $scope.Policy_Number = "";
         $scope.Reference_ID = "";
+
         //$scope.Expiry_Date = "";
         $scope.SelectedPayor = "0";
         $scope.SelectedPlan = "0";
@@ -1178,6 +1183,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $("#UserLogo").val('');
             photoview = false;
             photoview1 = false;
+            photovie3 = false;
             photoview2 = false;
             $scope.GenderId = "0";
             $scope.uploadview = false;
@@ -1346,10 +1352,12 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $("#UserLogo").val('');
             $scope.uploadme = null;
             $scope.uploadme1 = null;
+            $scope.uploadme3 = null;
             $scope.uploadme2 = null;
             $scope.Id = CatId;
             photoview = true;
             photoview1 = false;
+            photoview3 = false;
             photoview2 = false;
             $scope.uploadview = false;
             $scope.DropDownListValue = 2;
@@ -1375,9 +1383,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.uploadme = null;
             $scope.uploadme1 = null;
             $scope.uploadme2 = null;
+            $scope.uploadme3 = null;
             $scope.Id = CatId;
             photoview = true;
             photoview1 = false;
+            photoview3 = false;
             photoview2 = false;
             $scope.uploadview = false;
             $scope.EditParameter = 4;
@@ -1439,6 +1449,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
         photoview = false;
         photoview1 = false;
+        photoview3 = false;
         photoview2 = false;
         var request = "";
         $scope.getBase64Image = function () {
@@ -1499,6 +1510,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $scope.uploadmes = e.target.result;
                             $scope.uploadme = $scope.uploadmes;
                             $scope.uploadme1 = $scope.uploadmes;
+                            $scope.uploadme3 = $scope.uploadmes;
                             $scope.uploadme2 = $scope.uploadmes;
                             $scope.$apply();
                         };
@@ -1554,6 +1566,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $scope.uploadmes = e.target.result;
                             $scope.uploadme1 = $scope.uploadmes;
                             $scope.uploadme2 = $scope.uploadmes;
+                            $scope.uploadme3 = $scope.uploadmes;
                             $scope.$apply();
                         };
                     };
@@ -1732,6 +1745,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $scope.uploadmes = e.target.result;
                             $scope.uploadme = $scope.uploadmes;
                             $scope.uploadme1 = $scope.uploadmes;
+                            $scope.uploadme3 = $scope.uploadmes;
                             $scope.uploadme2 = $scope.uploadmes;
                             $scope.$apply();
                         };
@@ -1890,6 +1904,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.PrefixMRN = "";
             $scope.PatientNo = "";
             $scope.NationalId = "";
+            $scope.UID = "";
             $scope.InsuranceId = "";
             $scope.EMERG_CONT_FIRSTNAME = "";
             $scope.EMERG_CONT_MIDDLENAME = "";
@@ -1929,6 +1944,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.FileName = "";
             $scope.uploadme = null;
             $scope.uploadme1 = null;
+            $scope.uploadme3 = null;
             $scope.uploadme2 = null;
             $('#UserLogo').val('');
             $('#NationalLogo').val('');
@@ -3076,6 +3092,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $('#UserLogo').val('');
             photoview = false;
             photoview1 = false;
+            photoview3 = false;
             photoview2 = false;
             $scope.uploadview = false;
             $scope.UserPhotoValue = 0;
@@ -3089,6 +3106,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $('#UserLogo').val('');
             photoview = false;
             photoview1 = false;
+            photoview3 = false;
             photoview2 = false;
             $scope.uploadview = false;
             $scope.UserPhotoValue = 0;
@@ -3101,6 +3119,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $('#UserLogo').val('');
             photoview = false;
             photoview1 = false;
+            photoview3 = false;
             photoview2 = false;
             $scope.uploadview = false;
             $scope.UserPhotoValue = 0;
@@ -3114,6 +3133,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $('#UserLogo').val('');
             photoview = false;
             photoview1 = false;
+            photoview3 = false;
             photoview2 = false;
             $scope.uploadview = false;
             $scope.UserPhotoValue = 0;
@@ -3123,14 +3143,34 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.imageclearPatientNational = function () {
             $scope.NationalPhoto = "";
             $scope.NationalPhotoFilename = "";
+            $scope.UIdPhotoFilename = "";
             $scope.uploadme1 = "";
+            $scope.uploadme3 = "";
             $('#NationalLogo').val('');
+            $('#UIDLogo').val('');
             photoview = false;
             photoview1 = false;
+            photoview3 = false;
             photoview2 = false;
             $scope.Nationaluploadview = false;
+            $scope.UIDuploadview = false;
             $scope.NationalPhotoValue = 0;
+            $scope.UIDPhotoValue = 0;
             $scope.PatientgetBase64Image_National();
+        };
+
+        $scope.imageclearPatientUID = function () {
+            $scope.UIdPhotoFilename = "";
+            $scope.uploadme1 = "";
+            $scope.uploadme3 = "";
+            $('#UIDLogo').val('');
+            photoview = false;
+            photoview1 = false;
+            photoview3 = false;
+            photoview2 = false;
+            $scope.UIDuploadview = false;
+            $scope.UIDPhotoValue = 0;
+          //  $scope.PatientgetBase64Image_National();
         };
         $scope.imageclearPatientInsurance = function () {
             $scope.InsurancePhoto = "";
@@ -3139,6 +3179,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $('#InsuranceLogo').val('');
             photoview = false;
             photoview1 = false;
+            photoview3 = false;
             photoview2 = false;
             $scope.Insuranceuploadview = false;
             $scope.InsurancePhotoValue = 0;
@@ -3173,6 +3214,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.NationalphotoChange = function () {
             if ($('#NationalLogo')[0].files[0] != undefined) {
                 $scope.NationalPhotoFilename = $('#NationalLogo')[0].files[0]['name'];
+                photoview3 = true;
+            }
+        }
+        $scope.UIDfileChange = function () {
+            if ($('#UIDLogo')[0].files[0] != undefined) {
+                $scope.UIdPhotoFilename = $('#UIDLogo')[0].files[0]['name'];
+                photoview1 = true;
             }
         }
         /* Read file name for the  National Photo and file */
@@ -3671,6 +3719,21 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 }
             }
 
+            if ($scope.uploadme3 != "" && $scope.uploadme3 != null) {
+                if ($scope.UIDUploadme != '../../Images/National_Male.png') {
+                    if ($scope.dataURItoBlob($scope.uploadme3).size > $scope.ProfileImageSize) {
+                        var alertmsg = "Uploaded National Photo size cannot be greater than " + ($scope.ProfileImageSize / 1024 / 1024).toString() + "MB";
+                        if ($scope.ProfileImageSize <= 1045504) {
+                            alertmsg = "Uploaded National Photo size cannot be greater than " + ($scope.ProfileImageSize / 1024).toString() + "KB";
+                        }
+                        //alert(alertmsg);
+                        toastr.warning(alertmsg, "warning");
+                        $("#chatLoaderPV").hide();
+                        $scope.currentTab = 2;
+                        return false;
+                    }
+                }
+            }
             if ($scope.uploadme2 != "" && $scope.uploadme2 != null) {
                 if ($scope.INSUploadme != '../../Images/National_Male.png') {
                     if ($scope.dataURItoBlob($scope.uploadme2).size > $scope.ProfileImageSize) {
@@ -3858,9 +3921,12 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             photoview = true;
             photoview1 = true;
             photoview2 = true;
+            photoview3 = true;
             var methodcnt = 2;
             var methodcnt1 = 2;
             var methodcnt2 = 2;
+            var methodcnt3 = 2;
+
             $scope.MenuTypeId = MenuType;
             if (MenuType == 3) {
                 if ($routeParams.Id != undefined && $routeParams.Id > 0) {
@@ -4017,6 +4083,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.PhotoFullpath = data.Photo_Fullpath;
 
                         $scope.NationalPhotoFullpath = data.NationalPhotoFullpath;
+                        $scope.UIDPhotoFullpath = data.NationalPhotoFullpath;
                         $scope.InsurancePhotoFullpath = data.InsurancePhotoFullpath;
                         $scope.UserTypeId = data.UserType_Id.toString();
 
@@ -4142,6 +4209,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.MNR_No = data.MNR_NO;
                         $scope.DropDownListValue = 3;
                         $scope.NationalId = data.NATIONALID.toString();
+                        $scope.UID = data.UID.toString();
                         $scope.EthnicGroup = data.EthnicGroup;
                         $scope.ViewGender = data.GENDER_NAME;
                         $scope.ViewNationality = data.Nationality;
@@ -4234,13 +4302,33 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         if (methodcnt1 == 0)
                             $scope.Nationaluploadview = true;
                         if (data.NationalPhotoBlob != null) {
-                            $scope.uploadme1 = 'data:image/png;base64,' + data.NationalPhotoBlob;
+                            if (data.Type == "Nationality_Id") {
+                                $scope.uploadme1 = 'data:image/png;base64,' + data.NationalPhotoBlob;
+                            }
+                      
+                        }
+                        else {
+                            
+                                $scope.uploadme1 = '../../Images/National_Male.png';//null;
+                                var uploadmee1 = $scope.uploadme1;
+                                $scope.NatUploadme = uploadmee1;
+                            
+                        }
+
+                        methodcnt3 = methodcnt1 - 1;
+                        if (methodcnt3 == 0)
+                            $scope.UIDuploadview = true;
+                        if (data.NationalPhotoBlob != null) {
+
+                            if (data.Type == "UID") {
+                                $scope.uploadme3 = 'data:image/png;base64,' + data.NationalPhotoBlob;
+                            }
 
                         }
                         else {
-                            $scope.uploadme1 = '../../Images/National_Male.png';//null;
-                            var uploadmee1 = $scope.uploadme1;
-                            $scope.NatUploadme = uploadmee1;
+                            $scope.uploadme3 = '../../Images/National_Male.png';//null;
+                            var uploadmee3 = $scope.uploadme3;
+                            $scope.UIDUploadme = uploadmee3;
                         }
 
                         methodcnt2 = methodcnt2 - 1;
@@ -4354,6 +4442,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $("#chatLoaderPV").hide();
                 photoview = false;
                 photoview1 = false;
+                photoview3 = false;
                 photoview2 = false;
             }
 
@@ -4382,6 +4471,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.NationalityPhotoUplaodSelected = function () {
             $scope.PhotoValue1 = 1;
             $scope.NationalPhotoValue = 1;
+        };
+        $scope.UIDPhotoUplaodSelected = function () {
+            $scope.PhotoValue1 = 1;
+            $scope.UIDPhotoValue = 1;
         };
         $scope.InsurancePhotoUplaodSelected = function () {
             $scope.PhotoValue2 = 1;
@@ -4901,6 +4994,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $("#chatLoaderPV").show();
                     $scope.PhotoFullpath = $('#item-img-output').attr('src');
                     $scope.NationalPhotoFullpath = $('#item-img-output1').attr('src');
+                    $scope.UIDPhotoFullpath = $('#item-img-output3').attr('src');
                     $scope.InsurancePhotoFullpath = $('#item-img-output2').attr('src'); //$('#item-img-output2').attr('src');
                     $scope.UserInstitutionDetails_List = [];
                     angular.forEach($scope.SelectedInstitution, function (value, index) {
@@ -4978,6 +5072,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
                             NationalPhotoFullpath: $scope.NationalPhotoFullpath,
                             NationalPhotoFilename: $scope.NationalPhotoFilename,
+                            NationalPhotoFilename: $scope.UIdPhotoFilename,
                             InsurancePhotoFullpath: $scope.InsurancePhotoFullpath,
                             InsurancePhotoFilename: $scope.InsurancePhotoFilename,
                             Photo: $scope.UserLogo,
@@ -5012,6 +5107,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             INSURANCEID: $scope.InsuranceId,
                             //MNR_NO: $scope.MNR_No,
                             NATIONALID: $scope.NationalId,
+                            UID: $scope.UID,
                             SMOKER: $scope.Smoker == 0 ? null : $scope.Smoker,
                             DIABETIC: $scope.Diabetic == 0 ? null : $scope.Diabetic,
                             HYPERTENSION: $scope.HyperTension == 0 ? null : $scope.HyperTension,
@@ -5142,6 +5238,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             Photo_Fullpath: $scope.PhotoFullpath,
                             NationalPhotoFullpath: $scope.NationalPhotoFullpath,
                             NationalPhotoFilename: $scope.NationalPhotoFilename,
+                            NationalPhotoFilename: $scope.UIdPhotoFilename,
                             InsurancePhotoFullpath: $scope.InsurancePhotoFullpath,
                             InsurancePhotoFilename: $scope.InsurancePhotoFilename,
                             Photo: $scope.UserLogo,
@@ -5175,6 +5272,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             INSURANCEID: $scope.InsuranceId,
                             //MNR_NO: $scope.MNR_No,
                             NATIONALID: $scope.NationalId,
+                            UID: $scope.UID,
                             SMOKER: $scope.Smoker == 0 ? null : $scope.Smoker,
                             DIABETIC: $scope.Diabetic == 0 ? null : $scope.Diabetic,
                             HYPERTENSION: $scope.HyperTension == 0 ? null : $scope.HyperTension,
@@ -5598,7 +5696,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     and saving the image uploaded in the local server. 
                     */
 
-                    $http.post(baseUrl + '/api/User/AttachNationalPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue1 + '&CREATED_BY=' + $window.localStorage['UserId'],
+                    $http.post(baseUrl + '/api/User/Attach_UserDocs/?Id=' + userid + '&Photo=' + $scope.PhotoValue1 + '&CREATED_BY=' + $window.localStorage['UserId'] + '&Type=Nationality_Id',
                         fd1,
                         {
                             transformRequest: angular.identity,
@@ -5617,6 +5715,43 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                 }
                             }
                         });
+                }
+            } else {
+                if (photoview3 == false) {
+                    photoview3 = true;
+
+                    if ($scope.UIDPhotoFullpath != undefined && $scope.UIDPhotoFullpath != "" && $scope.UIDPhotoFullpath != null) {
+                        NationalimgBlob = $scope.dataURItoBlob($scope.UIDPhotoFullpath);
+                        NationalitemIndexLogo = 0;
+
+                        if (NationalitemIndexLogo != -1) {
+                            fd1.append('file', NationalimgBlob);
+                        }
+                        /*
+                        calling the api method for read the file path 
+                        and saving the image uploaded in the local server. 
+                        */
+
+                        $http.post(baseUrl + '/api/User/Attach_UserDocs/?Id=' + userid + '&Photo=' + $scope.PhotoValue1 + '&CREATED_BY=' + $window.localStorage['UserId'] + '&Type=UID',
+                            fd1,
+                            {
+                                transformRequest: angular.identity,
+                                headers: {
+                                    'Content-Type': undefined
+                                }
+                            }
+                        )
+                            .success(function (response) {
+                                if ($scope.UIdPhotoFilename == "") {
+                                    $scope.UIDLogo = "";
+                                }
+                                else if (NationalitemIndexLogo > -1) {
+                                    if ($scope.UIdPhotoFilename != "" && response[NationalitemIndexLogo] != "") {
+                                        $scope.UIDLogo = response[NationalitemIndexLogo];
+                                    }
+                                }
+                            });
+                    }
                 }
             }
 
@@ -5706,7 +5841,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         calling the api method for read the file path 	
                         and saving the image uploaded in the local server. 	
                         */
-                        $http.post(baseUrl + '/api/User/AttachNationalPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue1 + '&CREATED_BY=' + $window.localStorage['UserId'],
+                        $http.post(baseUrl + '/api/User/Attach_UserDocs/?Id=' + userid + '&Photo=' + $scope.PhotoValue1 + '&CREATED_BY=' + $window.localStorage['UserId'] + '&Type=Nationality_Id',
                             fd1,
                             {
                                 transformRequest: angular.identity,
@@ -5716,15 +5851,52 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             }
                         )
                             .success(function (response) {
-                                if ($scope.NationalPhotoFilename == "") {
+                                if ($scope.UIdPhotoFilename == "") {
                                     $scope.NationalLogo = "";
                                 }
                                 else if (NationalitemIndexLogo > -1) {
-                                    if ($scope.NationalPhotoFilename != "" && response[NationalitemIndexLogo] != "") {
+                                    if ($scope.UIdPhotoFilename != "" && response[NationalitemIndexLogo] != "") {
                                         $scope.NationalLogo = response[NationalitemIndexLogo];
                                     }
                                 }
                             });
+                    }
+                }
+            } else {
+                if ($scope.PhotoValue1 == 1 && photoview3 == false && $scope.Id == 0) {
+                    if ($scope.UIDPhotoFullpath != undefined && UIDPhotoFullpath != "" && UIDPhotoFullpath != null) {
+                        if ($('#UIDLogo')[0].files[0] != undefined) {
+                            UIdPhotoFilename = $('#UIDLogo')[0].files[0]['name'];
+                            NationalimgBlob = $scope.dataURItoBlob($scope.UIDPhotoFullpath);
+                            NationalitemIndexLogo = 0;
+                        }
+                        if (NationalitemIndexLogo != -1) {
+                            fd1.append('file', NationalimgBlob);
+
+                            /*	
+                            calling the api method for read the file path 	
+                            and saving the image uploaded in the local server. 	
+                            */
+                            $http.post(baseUrl + '/api/User/Attach_UserDocs/?Id=' + userid + '&Photo=' + $scope.PhotoValue1 + '&CREATED_BY=' + $window.localStorage['UserId'] + '&Type=UID',
+                                fd1,
+                                {
+                                    transformRequest: angular.identity,
+                                    headers: {
+                                        'Content-Type': undefined
+                                    }
+                                }
+                            )
+                                .success(function (response) {
+                                    if ($scope.UIdPhotoFilename == "") {
+                                        $scope.UIDLogo = "";
+                                    }
+                                    else if (NationalitemIndexLogo > -1) {
+                                        if ($scope.UIdPhotoFilename != "" && response[NationalitemIndexLogo] != "") {
+                                            $scope.UIDLogo = response[NationalitemIndexLogo];
+                                        }
+                                    }
+                                });
+                        }
                     }
                 }
             }
@@ -5827,7 +5999,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         and saving the image uploaded in the local server. 
                         */
 
-                        $http.post(baseUrl + '/api/User/AttachNationalPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue1 + '&CREATED_BY=' + $window.localStorage['UserId'],
+                        $http.post(baseUrl + '/api/User/Attach_UserDocs/?Id=' + userid + '&Photo=' + $scope.PhotoValue1 + '&CREATED_BY=' + $window.localStorage['UserId'] + '&Type=Nationality_Id',
                             fd1,
                             {
                                 transformRequest: angular.identity,
@@ -5837,15 +6009,57 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             }
                         )
                             .success(function (response) {
-                                if ($scope.NationalPhotoFilename == "") {
-                                    $scope.NationalLogo = "";
+                                if ($scope.UIdPhotoFilename == "") {
+                                    $scope.UIDLogo = "";
                                 }
                                 else if (NationalitemIndexLogo > -1) {
-                                    if ($scope.NationalPhotoFilename != "" && response[NationalitemIndexLogo] != "") {
-                                        $scope.NationalLogo = response[NationalitemIndexLogo];
+                                    if ($scope.UIdPhotoFilename != "" && response[NationalitemIndexLogo] != "") {
+                                        $scope.UIDLogo = response[NationalitemIndexLogo];
                                     }
                                 }
                             });
+                    }
+                }
+            } else {
+                if ($scope.PhotoValue1 == 1 && photoview3 == true && $scope.Id > 0) {
+                    if ($scope.UIDPhotoFullpath != undefined && $scope.UIDPhotoFullpath != "" && $scope.UIDPhotoFullpath != null) {
+                        if ($('#UIDLogo')[0].files[0] != undefined) {
+                            UIdPhotoFilename = $('#UIDLogo')[0].files[0]['name'];
+                            NationalimgBlob = $scope.dataURItoBlob($scope.UIDPhotoFullpath);
+                            NationalitemIndexLogo = 0;
+
+                            // if ($scope.MenuTypeId == 1) {
+                            // document.getElementById("profileIcon").src = $scope.PhotoFullpath;
+                            // }
+                        }
+                        if (NationalitemIndexLogo != -1) {
+                            fd1.append('file', NationalimgBlob);
+
+                            /*
+                            calling the api method for read the file path 
+                            and saving the image uploaded in the local server. 
+                            */
+
+                            $http.post(baseUrl + '/api/User/Attach_UserDocs/?Id=' + userid + '&Photo=' + $scope.PhotoValue1 + '&CREATED_BY=' + $window.localStorage['UserId']+'&Type=UID',
+                                fd1,
+                                {
+                                    transformRequest: angular.identity,
+                                    headers: {
+                                        'Content-Type': undefined
+                                    }
+                                }
+                            )
+                                .success(function (response) {
+                                    if ($scope.UIdPhotoFilename == "") {
+                                        $scope.UIDLogo = "";
+                                    }
+                                    else if (NationalitemIndexLogo > -1) {
+                                        if ($scope.UIdPhotoFilename != "" && response[NationalitemIndexLogo] != "") {
+                                            $scope.UIDLogo = response[NationalitemIndexLogo];
+                                        }
+                                    }
+                                });
+                        }
                     }
                 }
             }
