@@ -1242,15 +1242,15 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                 toastr.warning("Please enter NationalId.", "warning");
                 return false;
             }
-            else if (typeof ($scope.InsuranceId) == "undefined" || $scope.InsuranceId == "") {
-                angular.forEach($scope.rowCollectionLanguageSettings, function (masterVal, masterInd) {
-                    if (masterVal.LANGUAGE_KEY === "pleaseenteravalidinsuranceid") {
-                        //alert(masterVal.LANGUAGE_TEXT);
-                        toastr.warning(masterVal.LANGUAGE_TEXT, "warning");
-                    }
-                });
-                return false;
-            }
+            //else if (typeof ($scope.InsuranceId) == "undefined" || $scope.InsuranceId == "") {
+            //    angular.forEach($scope.rowCollectionLanguageSettings, function (masterVal, masterInd) {
+            //        if (masterVal.LANGUAGE_KEY === "pleaseenteravalidinsuranceid") {
+            //            //alert(masterVal.LANGUAGE_TEXT);
+            //            toastr.warning(masterVal.LANGUAGE_TEXT, "warning");
+            //        }
+            //    });
+            //    return false;
+            //}
             else if (typeof ($scope.GenderId) == "undefined" || $scope.GenderId == "0") {
                 angular.forEach($scope.rowCollectionLanguageSettings, function (masterVal, masterInd) {
                     if (masterVal.LANGUAGE_KEY === "selectgender") {
@@ -1260,11 +1260,11 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                 });
                 return false;
             }
-            else if (typeof ($scope.NationalityId) == "undefined" || $scope.NationalityId == "0") {
-                //alert("Please select Nationality");
-                toastr.warning("Please select Nationality", "warning");
-                return false;
-            }
+            //else if (typeof ($scope.NationalityId) == "undefined" || $scope.NationalityId == "0") {
+            //    //alert("Please select Nationality");
+            //    toastr.warning("Please select Nationality", "warning");
+            //    return false;
+            //}
             //else if (typeof ($scope.MaritalStatusId) == "undefined" || $scope.MaritalStatusId == "0") {
             //    toastr.warning("Please select Marital Status", "warning");
             //    return false;
