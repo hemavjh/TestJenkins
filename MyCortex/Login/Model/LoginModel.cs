@@ -85,6 +85,8 @@ namespace MyCortex.Login.Model
         public string regionName { get; set; }
         public string timeZone { get; set; }
         public string zipcode { get; set; }
+        public bool isMYH { get; set; }
+        public string ShortCode { get; set; }
     }
 
     public class GmailToken

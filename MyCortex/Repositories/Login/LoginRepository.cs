@@ -98,7 +98,7 @@ namespace MyCortex.Repositories.Login
         /// </summary>
         /// <param name="loginObj">Login Credentials</param>
         /// <returns>Login validity details and User Information</returns>
-        public LoginModel Userlogin_AddEdit(string isMYH,string ShortCode, LoginModel obj)
+        public LoginModel Userlogin_AddEdit( LoginModel obj)
         {
             DataEncryption EncryptPassword = new DataEncryption();
             string Password = EncryptPassword.Encrypt(obj.Password);
@@ -149,8 +149,8 @@ namespace MyCortex.Repositories.Login
             param.Add(new DataParameter("@Login_DeviceOS", obj.DeviceOS));
             param.Add(new DataParameter("@Login_DeviceName", obj.DeviceName));
             param.Add(new DataParameter("@Login_TimeZone", obj.timeZone));
-            param.Add(new DataParameter("@isMYH", isMYH));
-            param.Add(new DataParameter("@ShortCode", ShortCode));
+            param.Add(new DataParameter("@isMYH", obj.isMYH));
+            param.Add(new DataParameter("@ShortCode", obj.ShortCode));
             //   param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
 
             DataTable dt = new DataTable();

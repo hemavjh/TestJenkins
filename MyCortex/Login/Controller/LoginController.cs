@@ -101,7 +101,7 @@ namespace MyCortex.Login.Controller
         /// <returns>Login validity details and User Information</returns>
         [AllowAnonymous]
         [HttpPost]
-        public HttpResponseMessage Userlogin_CheckValidity([FromBody] LoginModel loginObj,string isMYH="False",string ShortCode=null)
+        public HttpResponseMessage Userlogin_CheckValidity([FromBody] LoginModel loginObj)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -146,7 +146,7 @@ namespace MyCortex.Login.Controller
                     //DataEncryption EncryptPassword = new DataEncryption();
                     //loginObj.Password = EncryptPassword.Encrypt(loginObj.Password);
                     //loginObj.Username = EncryptPassword.Encrypt(username);
-                    model = repository.Userlogin_AddEdit(isMYH,ShortCode,loginObj);
+                    model = repository.Userlogin_AddEdit(loginObj);
 
                     HttpContext.Current.Session["UserId"] = model.UserId.ToString();
                     HttpContext.Current.Session["UserTypeId"] = model.UserTypeId.ToString();
