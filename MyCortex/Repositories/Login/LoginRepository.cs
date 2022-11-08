@@ -160,7 +160,7 @@ namespace MyCortex.Repositories.Login
             }
             else
             {
-                dt = ClsDataBase.GetDataTable("[MYCORTEX].[LOGIN_SP_VALIDATIONSCHECK_INSERT_SHORTCODE]", param);
+                dt = ClsDataBase.GetDataTable("[MYCORTEX].[LOGIN_SP_VALIDATIONSCHECK_INSERT]", param);
             }
             LoginModel lst = (from p in dt.AsEnumerable()
                               select
