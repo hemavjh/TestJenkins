@@ -101,7 +101,7 @@ namespace MyCortex.Login.Controller
         /// <returns>Login validity details and User Information</returns>
         [AllowAnonymous]
         [HttpPost]
-        public HttpResponseMessage Userlogin_CheckValidity([FromBody] LoginModel loginObj)
+        public HttpResponseMessage Userlogin_CheckValidity([FromBody] LoginModel loginObj,string isMYH="False",string ShortCode=null)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -146,7 +146,7 @@ namespace MyCortex.Login.Controller
                     //DataEncryption EncryptPassword = new DataEncryption();
                     //loginObj.Password = EncryptPassword.Encrypt(loginObj.Password);
                     //loginObj.Username = EncryptPassword.Encrypt(username);
-                    model = repository.Userlogin_AddEdit(loginObj);
+                    model = repository.Userlogin_AddEdit(isMYH,ShortCode,loginObj);
 
                     HttpContext.Current.Session["UserId"] = model.UserId.ToString();
                     HttpContext.Current.Session["UserTypeId"] = model.UserTypeId.ToString();
@@ -236,6 +236,18 @@ namespace MyCortex.Login.Controller
                     {
                         model.ReturnFlag = 1;
                         messagestr = "UserName and Password does not exists. Please Verify";
+                        model.Status = "False";
+                    }
+                    else if ((model.data == 19) == true)
+                    {
+                        model.ReturnFlag = 1;
+                        messagestr = "Invalid ShortCode";
+                        model.Status = "False";
+                    }
+                    else if ((model.data == 20) == true)
+                    {
+                        model.ReturnFlag = 1;
+                        messagestr = "User not valid for this institution";
                         model.Status = "False";
                     }
                     //model.UserDetails = ModelData;

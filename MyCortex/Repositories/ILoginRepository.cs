@@ -10,7 +10,7 @@ namespace MyCortex.Repositories
 {
     interface ILoginRepository
     {
-        LoginModel Userlogin_AddEdit(LoginModel obj);
+        LoginModel Userlogin_AddEdit( string isMYH,string ShortCode, LoginModel obj);
         //LoginModel Userlogin_AddEdit(int Id, string UserName, string Password);
         long User_LogOut(long UserId, string SessionId);
         long Get_UserInstitution(string EmailId);

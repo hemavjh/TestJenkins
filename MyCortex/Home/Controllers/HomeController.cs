@@ -619,7 +619,7 @@ namespace MyCortex.Home.Controllers
             try
             {
                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
-                model = login.Userlogin_AddEdit(model1);
+                model = login.Userlogin_AddEdit("false",null, model1);
 
             }
             catch (Exception ex)
