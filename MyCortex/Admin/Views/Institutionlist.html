@@ -908,13 +908,13 @@
                             </div>
                             <div class="modal-footer" style="text-align:center;">
                                 <!--<button type="button" class="theme-btn-1 mr-10" id="btnsave1" ng-disabled="false" title="Click to Save"
-                ng-click="Institution_AddEdit()" ng-hide="editInstbutton == 0">
-            Save
-        </button>
-        <button type="button" class="theme-btn-1 mr-10" id="btnsave2" ng-disabled="false" title="Save and Add Subscription"
-                ng-click="Institution_AddEdit_AndSubscription()" ng-hide="editInstbutton == 1">
-            Save and Add Subscription
-        </button>-->
+            ng-click="Institution_AddEdit()" ng-hide="editInstbutton == 0">
+        Save
+    </button>
+    <button type="button" class="theme-btn-1 mr-10" id="btnsave2" ng-disabled="false" title="Save and Add Subscription"
+            ng-click="Institution_AddEdit_AndSubscription()" ng-hide="editInstbutton == 1">
+        Save and Add Subscription
+    </button>-->
                                 <button type="submit" class="theme-btn-1 mr-10" id="btnsave1" ng-disabled="false" title="Click to Save"
                                         ng-click="submitted= true;" ng-show="editInstbutton == 1">
                                     Save
@@ -927,10 +927,11 @@
                                         ng-click="CancelInstitutionpopup()">
                                     Cancel
                                 </button>
+
+                                <a id="runConfig" style="cursor: pointer; text-decoration: underline; " title="Click to re-run configuration" ng-click="InstitueConfiguration()" ng-show="editInstbutton == 1">
+                                    Re-run configuration
+                                </a>
                             </div>
-                            <a id="runConfig" style="cursor: pointer; text-decoration: underline; float: right; margin-top: -35px; margin-right: 270px; " title="Click to re-run configuration" ng-click="InstitueConfiguration()" ng-show="editInstbutton == 1">
-                                Re-run configuration
-                            </a>
                         </div>
                     </div>
                 </div>

@@ -24,6 +24,7 @@ namespace MyCortex.Repositories
         NotifictaionUserFCM UpdateUser_FCMTocken(NotifictaionUserFCM objDetail);
         NotifictaionUserFCM DeleteUser_FCMTocken(NotifictaionUserFCM objDetail);
         List<NotifictaionUserFCM> UserFCMToken_Get_List(long User_Id);
+        List<FCMUserDetails> FCMUsersBasedonInstitution(long User_Id);
         UserNotificationListModel User_get_NotificationList(long User_Id, Guid Login_Session_Id);
         UserNotificationListModel ClearNotification_Update (long User_Id);
         UserNotificationListModel CountNotification_Update(long User_Id);

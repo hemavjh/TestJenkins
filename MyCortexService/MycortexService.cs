@@ -26,11 +26,13 @@ namespace MyCortexService
     {
         Timer timer = new Timer();
         Timer timer2 = new Timer();
+        Timer timer3 = new Timer();
         private string executedTime = "";
         private string lastexecutedTime = "";
         private string executedTimeNow = "";
         private Boolean isJob1running = false;
         private Boolean isJob2running = false;
+        private Boolean isJob3running = false;
 
         static readonly SendEmailRepository emailrepository = new SendEmailRepository();
         static readonly AlertEventRepository alertrepository = new AlertEventRepository();
@@ -51,6 +53,10 @@ namespace MyCortexService
             timer2.Elapsed += new ElapsedEventHandler(OnElapsedTime2);
             timer2.Interval = 300000; //number in milisecinds     // 300000 = 5 minute
             timer2.Enabled = true;
+
+            timer3.Elapsed += new ElapsedEventHandler(OnElapsedTime3);
+            timer3.Interval = 60000; //number in milisecinds     // 60000 = one minute
+            timer3.Enabled = true;
         }
 
         public void onDebug()
@@ -188,8 +194,9 @@ namespace MyCortexService
                     //        alertrepository.Appointment_Schedule_UpdateList(modobj.Id);
                     //    }
                     //}
-                    var Setting = "";
+                    /*var Setting = "";
                     List<DataParameter> parameter = new List<DataParameter>();
+                    parameter.Add(new DataParameter("@INSTITUTION_ID", 1));
                     DataTable dt1 = ClsDataBase.GetDataTable("[MYCORTEX].[FCM_USERS_BASED_ON_INSTITUTION]", parameter);
                     if (dt1.Rows.Count > 0)
                     {
@@ -201,9 +208,12 @@ namespace MyCortexService
                                 Institution_Id = long.Parse(dr["INSTITUTION_ID"].ToString());
                                 User_Id = long.Parse(dr["User_Id"].ToString());
                                 Setting = dr["SETTINGS"].ToString();
+
                                 PushNotificationMessage message = new PushNotificationMessage();
-                                message.Title = "Setting";
-                                message.Message = "Configuration Update";
+                                message.Title = "Configuration Settings";
+                                message.Message = "configuration changed";
+                                message.FCMToken = dr["FCMTOKEN"].ToString();
+
                                 PushNotificationApiManager.SendConfiguraionSettingNotification(message, User_Id, Setting, Institution_Id);
                             }
 
@@ -212,7 +222,7 @@ namespace MyCortexService
                         {
                             TraceException(ex);
                         }
-                    }
+                    }*/
 
                     DataTable dttbl = ClsDataBase.GetDataTable("[MYCORTEX].[LIVEBOX_USERDETAILS]");
                     if (dttbl.Rows.Count > 0)
@@ -654,6 +664,17 @@ namespace MyCortexService
                     TraceException(ex);
                 }
                 isJob2running = false;
+            }
+        }
+
+        private void OnElapsedTime3(object source, ElapsedEventArgs e)
+        {
+            if (!isJob3running)
+            {
+                isJob3running = true;
+                WriteToFile("Service3 started at " + DateTime.Now);
+                PushNotificationApiManager.SendConfiguraionSettingNotification();
+                isJob3running = false;
             }
         }
 

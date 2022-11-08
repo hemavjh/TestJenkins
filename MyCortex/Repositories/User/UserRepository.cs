@@ -1144,6 +1144,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@USERTYPE_ID", "2"));  // dont change
             //param.Add(new DataParameter("@SearchEncryptedQuery", EncryptPassword.Encrypt(SearchQuery)));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].SEARCH_PATIENT_SP_ALL_LIST", param);
+            DataEncryption decrypt = new DataEncryption();
             List<ItemizedUserDetailsModel> list = (from p in dt.AsEnumerable()
                                                    select new ItemizedUserDetailsModel()
                                                    {
@@ -1163,6 +1164,7 @@ namespace MyCortex.Repositories.Uesr
                                                        PATIENT_ID = p.Field<string>("PATIENT_ID"),
                                                        INSURANCEID = p.Field<string>("INSURANCEID"),
                                                        NATIONALID = p.Field<string>("NATIONALID"),
+                                                       PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB"))
                                                    }).OrderBy(o => o.FullName).ToList();
             return list;
         }
