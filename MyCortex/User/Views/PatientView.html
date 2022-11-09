@@ -317,9 +317,11 @@
                                                             <!--{{DOB | date : format : "dd-MM-yyyy"}}-->
                                                         </span>
                                                     </div>
-                                                    <div class="inputGroups" style="max-width: 150px; word-wrap: break-word;">
-                                                        <label> UID</label>
-                                                        <span> {{UID}}</span>
+                                                    <div class="inputGroups">
+                                                        <label>UID</label>
+                                                        <span>
+                                                            {{UID}}
+                                                        </span>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
@@ -369,14 +371,14 @@
                                                         <div class="inputGroups">
                                                             <label>UID image</label>
                                                             <div ng-if="(ViewGender| lowercase)=='male' && (uploadme3 == null||uploadme3=='')&&UIDuploadview ==true"
-                                                                    valign="top" rowspan="6">
+                                                                 valign="top" rowspan="6">
                                                                 <img width="200" height="180" class="responsiveProfileImage" src="../../Images/National_Male.png" />
                                                             </div>
                                                             <div ng-if="(ViewGender| lowercase)=='female' && (uploadme3 == null||uploadme3=='') && UIDuploadview ==true">
                                                                 <img width="280" height="180" class="responsiveProfileImage" src="../../Images/National_Female.png" />
                                                             </div>
                                                             <div ng-if="((ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male') && (uploadme3 == null || uploadme3=='' || uploadme3 == 'null') && UIDuploadview ==true"
-                                                                    valign="top" rowspan="6">
+                                                                 valign="top" rowspan="6">
                                                                 <img width="280" height="180" class="responsiveProfileImage" src="../../Images/National_Male.png" />
                                                             </div>
                                                             <div ng-if="(uploadme3!=null)&&UIDuploadview ==true" valign="top" rowspan="6">
@@ -384,6 +386,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </div>
                                             </div>
 
                                         </div>
@@ -892,14 +895,14 @@
                                         <font class='mandatory-field'>*</font>
                                     </sup>
                                 </label>
-                                    <select class="form-control" data-style="form-control" ng-model="SelectedPayor" ng-change="PayorBased_PlanFunction(0);" id="SelectedPayor"
-                                            data-live-search="true" data-selectpicker data-collection-name="PayorMasterList">
-                                        <option value="0">Select</option>
-                                        <option ng-repeat="sel in PayorMasterList"
-                                                ng-selected="SelectedPayor==sel.Id" value="{{sel.Id}}">
-                                            {{sel.PayorName}}
-                                        </option>
-                                    </select>
+                                <select class="form-control" data-style="form-control" ng-model="SelectedPayor" ng-change="PayorBased_PlanFunction(0);" id="SelectedPayor"
+                                        data-live-search="true" data-selectpicker data-collection-name="PayorMasterList">
+                                    <option value="0">Select</option>
+                                    <option ng-repeat="sel in PayorMasterList"
+                                            ng-selected="SelectedPayor==sel.Id" value="{{sel.Id}}">
+                                        {{sel.PayorName}}
+                                    </option>
+                                </select>
                             </div>
                             <div class="inputGroups">
                                 <label>Emirates Id<sup><font class='mandatory-field'>*</font></sup></label>
@@ -958,7 +961,7 @@
                                 <select class="form-control" data-style="form-control" ng-model="ConsultationCategory" id="Select10"
                                         data-live-search="true" data-selectpicker data-collection-name="ConsultationCategoryList">
                                     <option value="0">Select</option>
-                                    <option ng-repeat="sel in ConsultationCategoryList" ng-selected="ConsultationCategory==sel.Id" 
+                                    <option ng-repeat="sel in ConsultationCategoryList" ng-selected="ConsultationCategory==sel.Id"
                                             value="{{sel.Id}}">
                                         {{sel.Category}}
                                     </option>

@@ -1237,11 +1237,6 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             //    alert("Please enter MRN No.");
             //    return false;
             //}
-            else if (typeof ($scope.NationalId) == "undefined" || $scope.NationalId == "") {
-                //alert("Please enter NationalId.");
-                toastr.warning("Please enter NationalId.", "warning");
-                return false;
-            }
             //else if (typeof ($scope.InsuranceId) == "undefined" || $scope.InsuranceId == "") {
             //    angular.forEach($scope.rowCollectionLanguageSettings, function (masterVal, masterInd) {
             //        if (masterVal.LANGUAGE_KEY === "pleaseenteravalidinsuranceid") {
@@ -1277,11 +1272,22 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             //    toastr.warning("Please select BloodGroup","warning");
             //    return false;
             //}
-            else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "") {
+            else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "" || $scope.DOB == "Invalid date") {
                 //alert("Please select Date of Birth");
                 toastr.warning("Please select Date of Birth", "warning");
                 return false;
             }
+            else if ($scope.NationalId == "" && $scope.UID == "" ) {
+                //alert("Please select Date of Birth");
+                toastr.warning("Please Enter Emirates ID or UUID", "warning");
+                return false;
+            }
+            else if ($scope.CertificateFileName == "" && $scope.UIdFileName == "") {
+                //alert("Please select Date of Birth");
+                toastr.warning("Please Select Emirates ID or UUID Images ", "warning");
+                return false;
+            }
+           
             if ((ParseDate($scope.DOB)) > (ParseDate(today))) {
                 //alert("DOB Can Be Only select past date");
                 toastr.warning("DOB Can Be Only select past date", "warning");
@@ -1331,7 +1337,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                     $("#chatLoaderPV").hide();
                     return false;
                 }
-            }
+            } 
             if ($scope.Nationalityresumedoc != null) {
                 if ($scope.Nationalityresumedoc != undefined && $scope.Nationalityresumedoc != null && $scope.Nationalityresumedoc != "") {
                     if ($scope.dataURItoBlob($scope.Nationalityresumedoc).size > 1048576) {
