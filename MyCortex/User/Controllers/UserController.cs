@@ -2139,62 +2139,47 @@ namespace MyCortex.User.Controller
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
+
         [AllowAnonymous]
         [HttpPost]
-        public HttpResponseMessage Attach_UserDocs(int Id, int Photo, int CREATED_BY, string Type)
+        public HttpResponseMessage Attach_UserDocuments(int UserId, string Type)
         {
             _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
-            var UserId = Id;
-            var Created_By = CREATED_BY;
             HttpResponseMessage result = null;
+            DataEncryption encrypt = new DataEncryption();
+
             UploadDataReturnModel model = new UploadDataReturnModel();
             model.Status = "False";
             model.Message = "Invalid data";
-            string filePath = "";
-            string returnPath = "";
-            var docfiles = new List<string>();
             try
             {
-                //if (fileName != null)
+                var httpRequest = HttpContext.Current.Request;
+                if (httpRequest.Files.Count > 0)
                 {
-                    var httpRequest = HttpContext.Current.Request;
-                    if (httpRequest.Files.Count > 0)
+                    for (int i = 0; i < httpRequest.Files.Count; i++)
                     {
-                        foreach (string file in httpRequest.Files)
+                        var postedFile = httpRequest.Files[i];
+
+                        byte[] fileData = null;
+                        using (var binaryReader = new BinaryReader(postedFile.InputStream))
                         {
-                            var postedFile = httpRequest.Files[file];
-
-                            byte[] fileData = null;
-                            using (var binaryReader = new BinaryReader(postedFile.InputStream))
-                            {
-                                fileData = binaryReader.ReadBytes(postedFile.ContentLength);
-                            }
-                                //Image x = (Bitmap)((new ImageConverter()).ConvertFrom(fileData));
-                                Image img = ToImage(fileData);
-                                Size thumbnailSize = GetThumbnailSize(img);
-                                Image ThumImage = ResizeImage(img, thumbnailSize.Width, thumbnailSize.Height);
-                                Image Cimage = ResizeImage(img, 40, 40);
-                                //ImageConverter Class convert Image object to Byte array.
-                                byte[] compressimage = (byte[])(new ImageConverter()).ConvertTo(Cimage, typeof(byte[]));
-                                byte[] compressimage1 = (byte[])(new ImageConverter()).ConvertTo(ThumImage, typeof(byte[]));
-                                if (Photo == 1)
-                                {
-                                    repository.NationalIDPhotoupload(fileData, UserId, Type);
-                                }
-                            docfiles.Add(postedFile.ToString());
+                            fileData = binaryReader.ReadBytes(postedFile.ContentLength);
                         }
-                        model.Message = "Uploaded Successfully!";
-                        model.Status = "True";
-                        result = Request.CreateResponse(HttpStatusCode.OK, model);
-                    }
-                    else
-                    {
-                        repository.NationalIDPhotoupload(null, UserId, Type);
-                        result = Request.CreateResponse(HttpStatusCode.OK, model);
-                    }
-                }
 
+                        repository.Attach_UserDocuments(fileData, UserId, Type, i == 0 ? true : false, postedFile.FileName);
+                    }
+
+                    model.Message = "Uploaded Successfully!";
+                    model.Status = "True";
+                    result = Request.CreateResponse(HttpStatusCode.OK, model);
+                }
+                else
+                {
+                    model.Message = "Uploaded Failure!";
+                    model.Status = "False";
+                    result = Request.CreateResponse(HttpStatusCode.OK, model);
+                }
             }
             catch (Exception ex)
             {
@@ -2202,6 +2187,7 @@ namespace MyCortex.User.Controller
             }
             return result;
         }
+
         /// <summary>
         /// to attach UID photo of user
         /// </summary>

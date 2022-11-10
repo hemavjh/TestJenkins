@@ -69,7 +69,7 @@ namespace MyCortex.Repositories
         IList<PatientHealthDataModel> ParametersDetails_Active(PatientHealthDataModel noteobj);
         void UserDetails_PhotoUpload(byte[] imageFile, int Id);
         void UserDetails_NationalPhotoUpload(byte[] imageFile, int Id);
-        void NationalIDPhotoupload(byte[] fileData, int Id,string Type);
+        void Attach_UserDocuments(byte[] fileData, int UserId, string Type, bool isExistCheck, string fileName);
         void UserIDPhotoUpload(byte[] fileData, int Id, string Type);
 
         void UserDetails_InsurancePhotoUpload(byte[] imageFile, int Id);

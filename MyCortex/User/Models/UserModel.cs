@@ -156,6 +156,7 @@ namespace MyCortex.User.Model
         public IList<Patient_CurrentMedicalDetails> AddMedicines { get; set; }
         public IList<Patient_FamilyHeealthHistoryDetails> AddHealthProblem { get; set; }
         public IList<Patient_PastMedicalDetails> AddMedicalHistory { get; set; }
+        public IList<ProfileDocuments_List> ProfileDocuments { get; set; }
         public string PHOTOBLOB_LOW { get; set; }
         public string PHOTOBLOB_THUMB { get; set; }
         public bool IS_MASTER { get; set; }
@@ -292,6 +293,16 @@ namespace MyCortex.User.Model
         public string ChronicCondition { get; set; }
 
         public int? IsActive { get; set; }
+    }
+
+    public class ProfileDocuments_List
+    {
+        public long ID { get; set; }
+        public long USER_ID { get; set; }
+        public string NATIONAL_PHOTO_FULLPATH { get; set; }
+        public string NATIONAL_PHOTO_FILENAME { get; set; }
+        public Byte[] PhotoBlob { get; set; }
+        public string Type { get; set; }
     }
 
     public class InstitutionShortCode
