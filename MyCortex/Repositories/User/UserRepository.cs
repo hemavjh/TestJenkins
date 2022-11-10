@@ -13,6 +13,9 @@ using MyCortex.Utilities;
 using MyCortex.Admin.Models;
 using System.IO;
 using System.Data.SqlClient;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Web.UI.WebControls;
+
 namespace MyCortex.Repositories.Uesr
 {
     public class UserRepository : IUserRepository
@@ -1422,7 +1425,8 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             param.Add(new DataParameter("@Logged_User_Id", Logged_User_Id));
-            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].USERDETAILS_SP_VIEW_CLONE", param);
+            DataSet ds = ClsDataBase.GetDataSet("[MYCORTEX].USERDETAILS_SP_VIEW_CLONE", param);
+            DataTable dt = ds.Tables[0];
 
             string columnName = "RESULT";
             if (dt.Columns.Contains(columnName)) {
@@ -1639,6 +1643,21 @@ namespace MyCortex.Repositories.Uesr
                     {
                         View.SelectedInstitutionList = User_InstitutionDetails_View(View.Id);
                         View.SelectedLanguageList = User_Languages_View(View.Id);
+                    }
+
+                    if (ds.Tables.Count > 1)
+                    {
+                        List<ProfileDocuments_List> profileDocumentslist = (from p in ds.Tables[1].AsEnumerable()
+                                                                            select new ProfileDocuments_List()
+                                                                            {
+                                                                                ID = p.Field<long>("ID"),
+                                                                                USER_ID = p.Field<long>("USER_ID"),
+                                                                                NATIONAL_PHOTO_FULLPATH = p.Field<string>("NATIONAL_PHOTO_FULLPATH"),
+                                                                                NATIONAL_PHOTO_FILENAME = p.Field<string>("NATIONAL_PHOTO_FILENAME"),
+                                                                                PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
+                                                                                Type = p.Field<string>("TYPE"),
+                                                                            }).ToList();
+                        View.ProfileDocuments = profileDocumentslist;
                     }
                 }
                 else
@@ -2909,25 +2928,19 @@ namespace MyCortex.Repositories.Uesr
 
         }
 
-        public void NationalIDPhotoupload(byte[] fileData, int Id, string Type)
+        public void Attach_UserDocuments(byte[] fileData, int UserId, string Type, bool isExistCheck, string fileName)
         {
             DataEncryption encrypt = new DataEncryption();
 
             List<DataParameter> param = new List<DataParameter>();
-            param.Add(new DataParameter("@ID", Id));
-            //param.Add(new DataParameter("@BLOBDATA", encrypt.EncryptFile(fileData)));
-            if (fileData != null)
-            {
-                param.Add(new DataParameter("@BLOBDATA", encrypt.EncryptFile(fileData)));
-                param.Add(new DataParameter("@TYPE", Type));
-            }
-            else
-            {
-                param.Add(new DataParameter("@BLOBDATA", null));
-                param.Add(new DataParameter("@TYPE", null));
-            }
-            ClsDataBase.Update("[MYCORTEX].[TBLUPLOADUSERNATIONALIMAGE_SP_INSERTUPDATE]", param);
 
+            param.Add(new DataParameter("@isExistCheck", isExistCheck));
+            param.Add(new DataParameter("@USERID", UserId));
+            param.Add(new DataParameter("@Type", Type));
+            param.Add(new DataParameter("@BLOBDATA", encrypt.EncryptFile(fileData)));
+            param.Add(new DataParameter("@FileName", fileName));
+
+            ClsDataBase.Update("[MYCORTEX].[TBLUPLOADUSER_DOCS_SP_INSERTUPDATE]", param);
         }
 
         /// <summary>
