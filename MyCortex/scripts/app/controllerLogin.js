@@ -1421,18 +1421,81 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             }
         });
         $scope.EditdocfileChange = function (e) {
-            if ($('#Nationalityresumedoc')[0].files[0] != undefined) {
-                $scope.CertificateFileName = $('#Nationalityresumedoc')[0].files[0]['name'];
-                $scope.FileType = $('#Nationalityresumedoc')[0].files[0]['type'];
-                // $scope.nationalityresumedoc = e.files[0];
+            if ($('#Nationalityresumedoc')[0].files.length <= 4) {
+                let maxSize = (5 * 1024) * 1024;
+                let fileSize = 0; 
+                let filesizewarn = 0;
+                $scope.showNationalityFiles = [];
+                
+                for (var i = 0; i < e.files.length; i++) {
+                    fileSize = e.files[i].size; 
+                    if (fileSize >= maxSize) {
+                        $scope.fileexceed = "Each Image size exceeds 2 MB";               
+                        filesizewarn = 1;
+                    }                   
+                }
+
+                if (filesizewarn == 0) {
+                    for (var i = 0; i < e.files.length; i++) {
+                        $scope.showNationalityFiles.push(e.files[i])               
+                    }
+                    $scope.showUUIDFiles = [];
+                    $scope.UID = '';
+                } else {
+                    toastr.warning($scope.fileexceed, "File Size");
+                }
+                           
+            } else {
+                toastr.warning("Maximum 4 images should be allowed", "Files Count");
             }
+            //if ($('#Nationalityresumedoc')[0].files[0] != undefined) {
+            //    $scope.CertificateFileName = $('#Nationalityresumedoc')[0].files[0]['name'];
+            //    $scope.FileType = $('#Nationalityresumedoc')[0].files[0]['type'];
+            //    // $scope.nationalityresumedoc = e.files[0];
+            //}
+        }
+
+        $scope.nationalFileDelete = function (index) {
+            // delete the file
+            $scope.showNationalityFiles.splice(index, 1);
+        }
+        $scope.UUIDFileDelete = function (index) {
+            // delete the file
+            $scope.showUUIDFiles.splice(index, 1);
         }
         
-        
         $scope.UIDfileChange = function (e) {
-            if ($('#UidDocument')[0].files[0] != undefined) {
-                $scope.UIdFileName = $('#UidDocument')[0].files[0]['name'];
-                $scope.FileType = $('#UidDocument')[0].files[0]['type'];
+            //if ($('#UidDocument')[0].files[0] != undefined) {
+            //    $scope.UIdFileName = $('#UidDocument')[0].files[0]['name'];
+            //    $scope.FileType = $('#UidDocument')[0].files[0]['type'];
+            //}
+            if ($('#UidDocument')[0].files.length <= 4) {
+                let maxSize = (5 * 1024) * 1024;
+                let fileSize = 0;
+                let filesizewarn = 0;
+                $scope.showUUIDFiles = [];
+
+                for (var i = 0; i < e.files.length; i++) {
+                    fileSize = e.files[i].size;
+                    if (fileSize >= maxSize) {
+                        $scope.fileexceed = "Each Image File size exceeds 2 MB";
+                        filesizewarn = 1;
+                    }
+                }
+
+                if (filesizewarn == 0) {
+                    for (var i = 0; i < e.files.length; i++) {
+                        $scope.showUUIDFiles.push(e.files[i])
+                    }
+                    $scope.showNationalityFiles = [];
+                    $scope.NationalId = '';
+
+                } else {
+                    toastr.warning($scope.fileexceed, "File Size");
+                }
+
+            } else {
+                toastr.warning("Maximum 4 images should be allowed", "Files Count");
             }
         }
         $scope.CertificateUplaodSelected = function () {
@@ -1448,6 +1511,19 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             return new Blob([new Uint8Array(array)], {
                 type: mimeString
             });
+        }
+        $scope.fnNationalityClear=function()
+        {
+            if ($scope.UID != '') {
+                $scope.NationalId = '';
+                $scope.showNationalityFiles = [];
+            }             
+        }
+        $scope.fnUUIDClear = function () {
+            if ($scope.NationalId != '') {
+                $scope.UID = '';
+                $scope.showUUIDFiles = [];
+            }
         }
         /*This is Insert Function for SignUp */
         $scope.SignupLogin_AddEdit = function () {
@@ -1557,37 +1633,40 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             var itemIndexfile = -1;
             var fd1 = new FormData();
 
-            if ($scope.CertificateFileName !="") {
+            //if ($scope.CertificateFileName !="") {
+            if ($scope.showNationalityFiles.length > 0) {
                 $scope.PhotoValue = 1;
-                if ($('#Nationalityresumedoc')[0].files[0] != undefined) {
-                    $scope.CertificateFileName = $('#Nationalityresumedoc')[0].files[0]['name'];
-                    $scope.FileType = $('#Nationalityresumedoc')[0].files[0]['type'];
-                    imgBlobfile = $scope.dataURItoBlob($scope.Nationalityresumedoc);
+
+                /*if ($('#Nationalityresumedoc')[0].files[i] != undefined) {*/
+                for (var i = 0; i <= $scope.showNationalityFiles.length; i++) {
+                    $scope.CertificateFileName = $scope.showNationalityFiles.files[i]['name'];
+                    $scope.FileType = $scope.showNationalityFiles.files[i]['type'];
+                    imgBlobfile = $scope.dataURItoBlob($scope.showNationalityFiles.files[i]);
                     if (itemIndexLogo == -1) {
                         itemIndexfile = 0;
                     }
                     else {
                         itemIndexfile = 1;
                     }
-                }
-                if (itemIndexfile != -1) {
-                    fd.append('file1', imgBlobfile);
-                }
-                $http.post(baseUrl + '/api/User/Attach_UserDocs/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&CREATED_BY=' + userid + '&Type=Nationality_Id',
-                    fd,
-                    {
-                        transformRequest: angular.identity,
-                        headers: {
-                            'Content-Type': undefined
-                        }
+                    //}
+                    if (itemIndexfile != -1) {
+                        fd.append('file1', imgBlobfile);
                     }
-                )
-                    .success(function (response) {
+                }
+                    $http.post(baseUrl + '/api/User/Attach_UserDocs/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&CREATED_BY=' + userid + '&Type=Nationality_Id',
+                        fd,
+                        {
+                            transformRequest: angular.identity,
+                            headers: {
+                                'Content-Type': undefined
+                            }
+                        }
+                    ).success(function (response) {
                         if ($scope.Resume == "") {
                             $scope.Nationalityresumedoc = "";
                         }
-                        
                     })
+                
             }
             else {
                 if ($scope.UIdFileName != "") {

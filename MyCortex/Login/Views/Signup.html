@@ -292,7 +292,7 @@
         </p>-->
         <label style=" position: absolute; width: 107px; height: 40px; left: 251px; top: 0px; /* font-family: 'Red Hat Display'; */ font-style: normal; font-weight: 800; font-size: 32px; line-height: 40px;">Signup</label>
         <label style="position: absolute; /* width: 218px; */ height: 24px; left: 200px; top: 40px; font-style: normal; font-weight: 400; font-size: 16px; line-height: 24px; font-feature-settings: 'salt' on, 'liga' off; color: #242424; ">Please Signup to your account</label>
-        <h1 style=" margin-top: 40px; ">
+        <h1>
             <!--<img src="{{PrdImg}}" width="70" height="50">-->
             <!--MyCortex--><!--{{ProductName}} Sign Up-->
             <i class="fa fa-language" aria-hidden="true"></i>
@@ -339,19 +339,21 @@
             </div>
             <div class="col-sm-6" style="margin-left: 1px;">
                 <div class="inputGroups">
-                    <label for="email">Emirates ID<sup><font class='mandatory-field'>*</font></sup>
+                    <label for="email">
+                        Emirates ID<sup><font class='mandatory-field'>*</font></sup>
                         <span class="uploadIconContainer">
                             <label for="Nationalityresumedoc" class="uploadIconBtn" style="display:initial;" ng-click="CertificateUplaodSelected()" title="Click to Upload File">
-                                <i class="fa fa-upload" aria-hidden="true" ></i>
+                                <i class="fa fa-upload" aria-hidden="true"></i>
                                 <!--<a href="javascript:" ng-click="CertificateView(Id,FileName)"><i class="fa fa-eye" aria-hidden="true"></i></a>-->
-                                <a href="javascript:" ><sub class="textwrap">{{CertificateFileName}}</sub></a>
+                                <!--<a href="javascript:"><sub class="textwrap">{{CertificateFileName}}</sub></a>-->
                             </label>
                         </span>
-                    <input type="file" id="Nationalityresumedoc" multiple="multiple" class="dropzone" fileread="Nationalityresumedoc" onchange="angular.element(this).scope().EditdocfileChange(this)"
+                        <input type="file" id="Nationalityresumedoc" multiple="multiple" class="dropzone" fileread="Nationalityresumedoc" onchange="angular.element(this).scope().EditdocfileChange(this)"
                                name="Resume" title="Click to Upload File" style="height: 0px !important" accept="image/x-png,image/gif,image/jpeg">
                     </label>
                     <input type="text" class="form-control" id="Text9" name="NationalId" ng-model="NationalId"
-                           ng-init="NationalId=''" placeholder="" ng-maxlength="50" maxlength="50" onkeypress="">
+                           ng-init="NationalId=''" placeholder="" ng-maxlength="50" maxlength="50" onkeypress="" ng-change="fnUUIDClear()">
+                    <ul><li ng-repeat="file in showNationalityFiles"><label for="filename">{{file.name}} &nbsp;&nbsp;<a href="" ng-click="nationalFileDelete($index)"><i class="fa fa-times" aria-hidden="true"></i></a></label></li></ul>
                 </div>
             </div>
             <div class="col-sm-6" style="margin-left: -1px;">
@@ -360,7 +362,7 @@
                         UUID<span class="uploadIconContainer">
                             <label for="UidDocument" class="uploadIconBtn" style="display:initial;" ng-click="CertificateUplaodSelected()" title="Click to Upload File">
                                 <i class="fa fa-upload" aria-hidden="true"></i>
-                                <a href="javascript:"><sub class="textwrap">{{UIdFileName}}</sub></a>
+                                <!--<a href="javascript:"><sub class="textwrap">{{UIdFileName}}</sub></a>-->
                                 <!--<a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="imageclearPatientUID();"title="Clear" ng-hide="Pat_UserTypeId==2">Clear</a>-->
                             </label>
                         </span>
@@ -369,7 +371,8 @@
                                style="height: 0px !important" accept="image/x-png,image/gif,image/jpeg">
                     </label>
                     <input type="text" class="form-control" id="Text19" name="UserID" ng-model="UID" placeholder="" ng-maxlength="100"
-                           maxlength="100" />
+                           maxlength="100" ng-change="fnNationalityClear()" />
+                    <ul><li ng-repeat="files in showUUIDFiles"><label for="filename">{{files.name}} &nbsp;&nbsp;<a href="" ng-click="UUIDFileDelete($index)"><i class="fa fa-times" aria-hidden="true"></i></a></label></li></ul>
                 </div>
             </div>
             <!--<div class="col-sm-6">
@@ -465,11 +468,11 @@
                 {{errorlist}}
             </div>
         </div>-->
-        <div style="text-align: center; margin-top: 15px;">
+        <div style="text-align: center; margin-top: 10px;">
             <input type="checkbox">
             <label>I'm agreeing to this and signing up</label>
         </div>
-        <button type="submit" style="width: 443px; height: 56px; margin-left: 67px; margin-top: 30px; color: #fff; background: #100146; border-radius: 12px; " title="Click to Submit Signup Details" id="submit" ng-disabled="faslse"
+        <button type="submit" style="width: 443px; height: 56px; margin-left: 67px; margin-top: 15px; color: #fff; background: #100146; border-radius: 12px; " title="Click to Submit Signup Details" id="submit" ng-disabled="faslse"
                 ng-click="submitted= true;">
             Signup
         </button>
