@@ -1402,7 +1402,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             $scope.ProductName = data[0].ProductName;
             if ($scope.ProductName == 'MyCortex') {
                 $scope.Productlogin = 0;
-            } else if ($scope.ProductName1 == 'MyHealth') {
+            } else if ($scope.ProductName == 'MyHealth') {
                 $scope.Productlogin = 1;
             } else {
                 $scope.Productlogin = 2;
