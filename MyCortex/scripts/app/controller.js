@@ -155,7 +155,7 @@ MyCortexControllers.directive("fileread", [
                         });
                     }
                     if (changeEvent.target.files.length !== 0) {
-                        reader.readAsDataURL(changeEvent.target.files[0]);
+                            reader.readAsDataURL(changeEvent.target.files[0]);
                     }
                 });
             }
@@ -163,6 +163,38 @@ MyCortexControllers.directive("fileread", [
     }
 ]);
 
+MyCortexControllers.directive("filereadmulti", [
+    function () {
+        return {
+            scope: {
+                filereadmulti:"=?"
+            },
+            
+            link: function (scope, element, attributes) {
+                element.bind("change", function (changeEvent) {
+                    scope.filereadmulti = [];
+                    //console.log(this.hasOwnProperty('filereadmulti'))
+                    if (changeEvent.target.files.length <= 4) {
+                        for (var i = 0; i < changeEvent.target.files.length; i++) {
+                            var reader;
+                            reader = new FileReader();
+
+                            reader.onload = function (loadEvent) {
+                                scope.$apply(function () {
+                                    scope.filereadmulti.push(loadEvent.target.result);
+                                });
+                            }
+                            if (changeEvent.target.files.length !== 0) {
+                                reader.readAsDataURL(changeEvent.target.files[i]);
+                            }
+                        }
+                    }
+                   
+                });
+            }
+        }
+    }
+]);
 MyCortexControllers.directive('toggleCheckbox', function () {
     // based on https://github.com/minhur/bootstrap-toggle/issues/19
 
