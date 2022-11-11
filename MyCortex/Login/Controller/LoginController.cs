@@ -138,7 +138,7 @@ namespace MyCortex.Login.Controller
 
                 string messagestr = "";
                 string languagekey = "";
-                // string VisitorsIPAddr ='';
+                // string VisitorsIPAddr =''
                 try
                 {
                     // encrypt the password

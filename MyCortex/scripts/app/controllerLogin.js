@@ -638,6 +638,11 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             if ($scope.isExpired) {
                 return false;
             }
+            var isMYH = false;
+            //$scope.ProductName1 = 'MyHealth';
+            if ($scope.ProductName1 == 'MyHealth') {
+                isMYH = true;
+            }
             if ($scope.ProductName1 == 'Hive') {
                 $("#chatLoaderPV1").show();
             } else {
@@ -671,11 +676,17 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                     region: Login_region,
                     regionName: Login_regionName,
                     timezoneName: Login_timeZoneName,
-                    zipcode: Login_zipCode
+                    zipcode: Login_zipCode,
+                    isMYH: isMYH
                 };
 
                 //$http.get(baseUrl + '/api/Login/Userlogin_AddEdit/?Id=' + $scope.Id + '&UserName=' + $scope.Username + '&Password=' + $scope.Password).success(function (data) {
                 $http.post(baseUrl + '/api/Login/Userlogin_CheckValidity/', obj).success(function (data) {
+                    if (data.Status == 'False') {
+                        $("#chatLoaderPV").hide();
+                        $("#chatLoaderPV1").hide();
+                        $scope.errorlist = data.Message;
+                    } else {
                     $scope.UserId = data.UserId;
                     $scope.UserTypeId = data.UserTypeId;
                     $scope.InstitutionId = data.InstitutionId;
@@ -756,6 +767,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                             $window.localStorage['IdleDays'] = 600;
                             $scope.UserLogin(data, Message);
                         });
+                    }
                 }).error(function (data) {
                     $("#chatLoaderPV").hide();
                     $("#chatLoaderPV1").hide();
@@ -1279,12 +1291,12 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             }
             else if ($scope.NationalId == "" && $scope.UID == "" ) {
                 //alert("Please select Date of Birth");
-                toastr.warning("Please Enter Emirates ID or UUID", "warning");
+                toastr.warning("Please Enter Emirates ID or UID", "warning");
                 return false;
             }
-            else if ($scope.CertificateFileName == "" && $scope.UIdFileName == "") {
+            else if ($scope.showNationalityFiles.length == 0 && $scope.showUUIDFiles == 0) {
                 //alert("Please select Date of Birth");
-                toastr.warning("Please Select Emirates ID or UUID Images ", "warning");
+                toastr.warning("Please Select Emirates ID or UID Images ", "warning");
                 return false;
             }
            
@@ -1313,74 +1325,74 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                 toastr.warning("Please enter Mobile No.", "warning");
                 return false;
             }
-            if ($scope.CertificateFileName != "") {
-                var fileval = 0;
-                $scope.filetype = $scope.CertificateFileName.split(".");
-                var fileExtenstion = "";
-                if ($scope.filetype.length > 0) {
-                    fileExtenstion = $scope.filetype[$scope.filetype.length - 1];
-                }
-                if (fileExtenstion.toLocaleLowerCase() == "jpeg" || fileExtenstion.toLocaleLowerCase() == "jpg" || fileExtenstion.toLocaleLowerCase() == "png"
-                    || fileExtenstion.toLocaleLowerCase() == "bmp" || fileExtenstion.toLocaleLowerCase() == "gif" || fileExtenstion.toLocaleLowerCase() == "ico"
-                    || fileExtenstion.toLocaleLowerCase() == "pdf" || fileExtenstion.toLocaleLowerCase() == "xls" || fileExtenstion.toLocaleLowerCase() == "xlsx"
-                    || fileExtenstion.toLocaleLowerCase() == "doc" || fileExtenstion.toLocaleLowerCase() == "docx" || fileExtenstion.toLocaleLowerCase() == "odt"
-                    || fileExtenstion.toLocaleLowerCase() == "txt" || fileExtenstion.toLocaleLowerCase() == "pptx" || fileExtenstion.toLocaleLowerCase() == "ppt"
-                    || fileExtenstion.toLocaleLowerCase() == "rtf" || fileExtenstion.toLocaleLowerCase() == "tex"
-                ) {
-                    fileval = 1;
-                }
-                else {
-                    fileval = 2;
-                }
-                if (fileval == 2) {
-                    toastr.warning("Please choose jpeg/jpg/png/bmp/gif/ico/pdf/xls/xlsx/doc/docx/odt/txt/pptx/ppt/rtf/tex file.", "warning");
-                    $("#chatLoaderPV").hide();
-                    return false;
-                }
-            } 
-            if ($scope.Nationalityresumedoc != null) {
-                if ($scope.Nationalityresumedoc != undefined && $scope.Nationalityresumedoc != null && $scope.Nationalityresumedoc != "") {
-                    if ($scope.dataURItoBlob($scope.Nationalityresumedoc).size > 1048576) {
-                        toastr.warning("Certificate file size cannot be greater than 1MB", "warning");
-                        $("#chatLoaderPV").hide();
-                        return false;
-                    }
-                }
-            }
-            if ($scope.UIdFileName != "") {
-                var fileval = 0;
-                $scope.filetype = $scope.UIdFileName.split(".");
-                var fileExtenstion = "";
-                if ($scope.filetype.length > 0) {
-                    fileExtenstion = $scope.filetype[$scope.filetype.length - 1];
-                }
-                if (fileExtenstion.toLocaleLowerCase() == "jpeg" || fileExtenstion.toLocaleLowerCase() == "jpg" || fileExtenstion.toLocaleLowerCase() == "png"
-                    || fileExtenstion.toLocaleLowerCase() == "bmp" || fileExtenstion.toLocaleLowerCase() == "gif" || fileExtenstion.toLocaleLowerCase() == "ico"
-                    || fileExtenstion.toLocaleLowerCase() == "pdf" || fileExtenstion.toLocaleLowerCase() == "xls" || fileExtenstion.toLocaleLowerCase() == "xlsx"
-                    || fileExtenstion.toLocaleLowerCase() == "doc" || fileExtenstion.toLocaleLowerCase() == "docx" || fileExtenstion.toLocaleLowerCase() == "odt"
-                    || fileExtenstion.toLocaleLowerCase() == "txt" || fileExtenstion.toLocaleLowerCase() == "pptx" || fileExtenstion.toLocaleLowerCase() == "ppt"
-                    || fileExtenstion.toLocaleLowerCase() == "rtf" || fileExtenstion.toLocaleLowerCase() == "tex"
-                ) {
-                    fileval = 1;
-                }
-                else {
-                    fileval = 2;
-                }
-                if (fileval == 2) {
-                    toastr.warning("Please choose jpeg/jpg/png/bmp/gif/ico/pdf/xls/xlsx/doc/docx/odt/txt/pptx/ppt/rtf/tex file.", "warning");
-                    $("#chatLoaderPV").hide();
-                    return false;
-                }
-            }
-            if ($scope.UidDocument != null) {
-                if ($scope.UidDocument != undefined && $scope.UidDocument != null && $scope.UidDocument != "") {
-                    if ($scope.dataURItoBlob($scope.UidDocument).size > 1048576) {
-                        toastr.warning("Certificate file size cannot be greater than 1MB", "warning");
-                        $("#chatLoaderPV").hide();
-                        return false;
-                    }
-                }
-            }
+            //if ($scope.CertificateFileName != "") {
+            //    var fileval = 0;
+            //    $scope.filetype = $scope.CertificateFileName.split(".");
+            //    var fileExtenstion = "";
+            //    if ($scope.filetype.length > 0) {
+            //        fileExtenstion = $scope.filetype[$scope.filetype.length - 1];
+            //    }
+            //    if (fileExtenstion.toLocaleLowerCase() == "jpeg" || fileExtenstion.toLocaleLowerCase() == "jpg" || fileExtenstion.toLocaleLowerCase() == "png"
+            //        || fileExtenstion.toLocaleLowerCase() == "bmp" || fileExtenstion.toLocaleLowerCase() == "gif" || fileExtenstion.toLocaleLowerCase() == "ico"
+            //        || fileExtenstion.toLocaleLowerCase() == "pdf" || fileExtenstion.toLocaleLowerCase() == "xls" || fileExtenstion.toLocaleLowerCase() == "xlsx"
+            //        || fileExtenstion.toLocaleLowerCase() == "doc" || fileExtenstion.toLocaleLowerCase() == "docx" || fileExtenstion.toLocaleLowerCase() == "odt"
+            //        || fileExtenstion.toLocaleLowerCase() == "txt" || fileExtenstion.toLocaleLowerCase() == "pptx" || fileExtenstion.toLocaleLowerCase() == "ppt"
+            //        || fileExtenstion.toLocaleLowerCase() == "rtf" || fileExtenstion.toLocaleLowerCase() == "tex"
+            //    ) {
+            //        fileval = 1;
+            //    }
+            //    else {
+            //        fileval = 2;
+            //    }
+            //    if (fileval == 2) {
+            //        toastr.warning("Please choose jpeg/jpg/png/bmp/gif/ico/pdf/xls/xlsx/doc/docx/odt/txt/pptx/ppt/rtf/tex file.", "warning");
+            //        $("#chatLoaderPV").hide();
+            //        return false;
+            //    }
+            //} 
+            //if ($scope.Nationalityresumedoc != null) {
+            //    if ($scope.Nationalityresumedoc != undefined && $scope.Nationalityresumedoc != null && $scope.Nationalityresumedoc != "") {
+            //        if ($scope.dataURItoBlob($scope.Nationalityresumedoc).size > 1048576) {
+            //            toastr.warning("Certificate file size cannot be greater than 1MB", "warning");
+            //            $("#chatLoaderPV").hide();
+            //            return false;
+            //        }
+            //    }
+            //}
+            //if ($scope.UIdFileName != "") {
+            //    var fileval = 0;
+            //    $scope.filetype = $scope.UIdFileName.split(".");
+            //    var fileExtenstion = "";
+            //    if ($scope.filetype.length > 0) {
+            //        fileExtenstion = $scope.filetype[$scope.filetype.length - 1];
+            //    }
+            //    if (fileExtenstion.toLocaleLowerCase() == "jpeg" || fileExtenstion.toLocaleLowerCase() == "jpg" || fileExtenstion.toLocaleLowerCase() == "png"
+            //        || fileExtenstion.toLocaleLowerCase() == "bmp" || fileExtenstion.toLocaleLowerCase() == "gif" || fileExtenstion.toLocaleLowerCase() == "ico"
+            //        || fileExtenstion.toLocaleLowerCase() == "pdf" || fileExtenstion.toLocaleLowerCase() == "xls" || fileExtenstion.toLocaleLowerCase() == "xlsx"
+            //        || fileExtenstion.toLocaleLowerCase() == "doc" || fileExtenstion.toLocaleLowerCase() == "docx" || fileExtenstion.toLocaleLowerCase() == "odt"
+            //        || fileExtenstion.toLocaleLowerCase() == "txt" || fileExtenstion.toLocaleLowerCase() == "pptx" || fileExtenstion.toLocaleLowerCase() == "ppt"
+            //        || fileExtenstion.toLocaleLowerCase() == "rtf" || fileExtenstion.toLocaleLowerCase() == "tex"
+            //    ) {
+            //        fileval = 1;
+            //    }
+            //    else {
+            //        fileval = 2;
+            //    }
+            //    if (fileval == 2) {
+            //        toastr.warning("Please choose jpeg/jpg/png/bmp/gif/ico/pdf/xls/xlsx/doc/docx/odt/txt/pptx/ppt/rtf/tex file.", "warning");
+            //        $("#chatLoaderPV").hide();
+            //        return false;
+            //    }
+            //}
+            //if ($scope.UidDocument != null) {
+            //    if ($scope.UidDocument != undefined && $scope.UidDocument != null && $scope.UidDocument != "") {
+            //        if ($scope.dataURItoBlob($scope.UidDocument).size > 1048576) {
+            //            toastr.warning("Certificate file size cannot be greater than 1MB", "warning");
+            //            $("#chatLoaderPV").hide();
+            //            return false;
+            //        }
+            //    }
+            //}
             $scope.DOB = DateFormatEdit($scope.DOB);
             return true;
         };
@@ -1422,7 +1434,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
         });
         $scope.EditdocfileChange = function (e) {
             if ($('#Nationalityresumedoc')[0].files.length <= 4) {
-                let maxSize = (5 * 1024) * 1024;
+                let maxSize = (2 * 1024) * 1024;
                 let fileSize = 0; 
                 let filesizewarn = 0;
                 $scope.showNationalityFiles = [];
@@ -1470,7 +1482,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             //    $scope.FileType = $('#UidDocument')[0].files[0]['type'];
             //}
             if ($('#UidDocument')[0].files.length <= 4) {
-                let maxSize = (5 * 1024) * 1024;
+                let maxSize = (2 * 1024) * 1024;
                 let fileSize = 0;
                 let filesizewarn = 0;
                 $scope.showUUIDFiles = [];
@@ -1634,72 +1646,73 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             var fd1 = new FormData();
 
             //if ($scope.CertificateFileName !="") {
-            if ($scope.showNationalityFiles.length > 0) {
+            if ($scope.showNationalityFiles.length > 0)
+            {
                 $scope.PhotoValue = 1;
-
-                /*if ($('#Nationalityresumedoc')[0].files[i] != undefined) {*/
-                for (var i = 0; i <= $scope.showNationalityFiles.length; i++) {
-                    $scope.CertificateFileName = $scope.showNationalityFiles.files[i]['name'];
-                    $scope.FileType = $scope.showNationalityFiles.files[i]['type'];
-                    imgBlobfile = $scope.dataURItoBlob($scope.showNationalityFiles.files[i]);
-                    if (itemIndexLogo == -1) {
-                        itemIndexfile = 0;
-                    }
-                    else {
-                        itemIndexfile = 1;
-                    }
-                    //}
-                    if (itemIndexfile != -1) {
-                        fd.append('file1', imgBlobfile);
-                    }
+              
+                for (var i = 0; i < $scope.showNationalityFiles.length; i++) {
+                    $scope.CertificateFileName = $scope.showNationalityFiles[i]['name'];
+                    $scope.FileType = $scope.showNationalityFiles[i]['type'];                   
+                    fd.append('file1', $scope.showNationalityFiles[i]);
                 }
-                    $http.post(baseUrl + '/api/User/Attach_UserDocs/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&CREATED_BY=' + userid + '&Type=Nationality_Id',
-                        fd,
-                        {
-                            transformRequest: angular.identity,
-                            headers: {
-                                'Content-Type': undefined
-                            }
+                $http.post(baseUrl + '/api/User/Attach_UserDocuments/?UserId=' + userid + '&Type=Emirates_Id ',fd,
+                    {
+                        transformRequest: angular.identity,
+                        headers: {
+                            'Content-Type': undefined
                         }
-                    ).success(function (response) {
-                        if ($scope.Resume == "") {
-                            $scope.Nationalityresumedoc = "";
-                        }
-                    })
-                
+                    }
+                ).success(function (response) {
+                    $scope.showNationalityFiles = [];                    
+                })                                          
             }
             else {
-                if ($scope.UIdFileName != "") {
-                    $scope.PhotoValue = 1;
-                    if ($('#UidDocument')[0].files[0] != undefined) {
-                        $scope.UIdFileName = $('#UidDocument')[0].files[0]['name'];
-                        $scope.FileType = $('#UidDocument')[0].files[0]['type'];
-                        imgBlobfile = $scope.dataURItoBlob($scope.UidDocument);
-                        if (itemIndexLogo == -1) {
-                            itemIndexfile = 0;
-                        }
-                        else {
-                            itemIndexfile = 1;
-                        }
-                    }
-                    if (itemIndexfile != -1) {
-                        fd.append('file1', imgBlobfile);
-                    }
-                    $http.post(baseUrl + '/api/User/Attach_UserDocs/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&CREATED_BY=' + userid + '&Type=UID',
-                        fd,
-                        {
-                            transformRequest: angular.identity,
-                            headers: {
-                                'Content-Type': undefined
-                            }
-                        }
-                    )
-                        .success(function (response) {
-                            if ($scope.Resume == "") {
-                                $scope.UidDocument = "";
-                            }
-                        })
+                for (var i = 0; i < $scope.showUUIDFiles.length; i++) {
+                    $scope.CertificateFileName = $scope.showUUIDFiles[i]['name'];
+                    $scope.FileType = $scope.showUUIDFiles[i]['type'];
+                    fd.append('file1', $scope.showUUIDFiles[i]);
                 }
+                $http.post(baseUrl + '/api/User/Attach_UserDocuments/?UserId=' + userid + '&Type=UID ', fd,
+                    {
+                        transformRequest: angular.identity,
+                        headers: {
+                            'Content-Type': undefined
+                        }
+                    }
+                ).success(function (response) {
+                    $scope.showUUIDFiles = [];
+                }) 
+                //if ($scope.showNationalityFiles.length > 0) {
+                //    $scope.PhotoValue = 1;
+                //    if ($('#UidDocument')[0].files[0] != undefined) {
+                //        $scope.UIdFileName = $('#UidDocument')[0].files[0]['name'];
+                //        $scope.FileType = $('#UidDocument')[0].files[0]['type'];
+                //        imgBlobfile = $scope.dataURItoBlob($scope.UidDocument);
+                //        if (itemIndexLogo == -1) {
+                //            itemIndexfile = 0;
+                //        }
+                //        else {
+                //            itemIndexfile = 1;
+                //        }
+                //    }
+                //    if (itemIndexfile != -1) {
+                //        fd.append('file1', imgBlobfile);
+                //    }
+                //    $http.post(baseUrl + '/api/User/Attach_UserDocs/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&CREATED_BY=' + userid + '&Type=UID',
+                //        fd,
+                //        {
+                //            transformRequest: angular.identity,
+                //            headers: {
+                //                'Content-Type': undefined
+                //            }
+                //        }
+                //    )
+                //        .success(function (response) {
+                //            if ($scope.Resume == "") {
+                //                $scope.UidDocument = "";
+                //            }
+                //        })
+                //}
             }
         }
         //This is for Clear the values
