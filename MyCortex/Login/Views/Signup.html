@@ -91,7 +91,7 @@
 <input type="text" hidden="hidden" id="txthdCountryCode" ng-model="PhoneCountryCode" />
 <input type="text" hidden="hidden" id="txthdCountryiso2" ng-model="PhoneCountryiso2" />
 <input type="text" hidden="hidden" id="txthdFullNumber" />
-<div class="loginContainer" ng-show="ProductName == 'MyCortex'" style="width:636px;">
+<div class="loginContainer" ng-hide="ProductName == 'Hive'" style="width:636px;">
     <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
     <div>
         <!--<p class="SignUpContainer">
@@ -284,7 +284,7 @@
 </div>
 
 <div ng-show="ProductName == 'Hive'" class="containerhiv" style="top:20px"><img style="width: 150px;" src="{{PrdImg}}"> </div>
-<div class="hivesignupcontainer" style="width:636px;" ng-hide="ProductName == 'MyCortex'">
+<div class="hivesignupcontainer" style="width:636px;" ng-show="ProductName == 'Hive'">
     <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
     <div>
         <!--<p class="SignUpContainer">
