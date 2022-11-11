@@ -1294,7 +1294,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                 toastr.warning("Please Enter Emirates ID or UID", "warning");
                 return false;
             }
-            else if ($scope.showNationalityFiles.length == 0 && $scope.showUUIDFiles == 0) {
+            else if ($scope.showNationalityFiles.length == 0 && $scope.showUUIDFiles.length == 0) {
                 //alert("Please select Date of Birth");
                 toastr.warning("Please Select Emirates ID or UID Images ", "warning");
                 return false;
