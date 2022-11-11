@@ -310,6 +310,11 @@
                         <i class="fas fa-notes-medical"></i>Insurance Info
                     </a>
                 </li>
+                <li>
+                    <a ng-class="{'themeTabActive':currentTab=='7'}" ng-click="currentTab='7'; TabClickLoad(currentTab)">
+                        <i class="far fa-file"></i>Profile Documents
+                    </a>
+                </li>
             </ul>
             <div id="Div4">
 
@@ -383,7 +388,7 @@
                                         <span>{{Createdby_ShortName}}</span>
                                 </div>-->
 
-                                <div class="inputGroups">
+                                <!--<div class="inputGroups">
                                     <label>
                                         National ID<sup>
                                             <font class='mandatory-field'>*</font>
@@ -392,7 +397,7 @@
                                     <input type="text" class="form-control" id="Text9" name="NationalId" ng-required="true"
                                            ng-model="NationalId" ng-init="NationalId=''" placeholder="" ng-maxlength="50"
                                            maxlength="50" ng-disabled="Pat_UserTypeId==2" />
-                                </div>
+                                </div>-->
                                 <div class="inputGroups">
                                     <label>
                                         Insurance ID<sup>
@@ -530,7 +535,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-4">
+                            <!--<div class="col-sm-4">
                                 <div class="inputGroups" style="font-size: 16px;">
                                     <label style=" margin-left: 0px; margin-top: 29px;">National ID image</label>
                                 </div>
@@ -540,7 +545,7 @@
                                                onchange="angular.element(this).scope().NationalphotoChange(this)"
                                                name="NationalPhotoFilename" title="Click to Upload Nationality Photo "
                                                style="height: 0px !important" accept="image/x-png,image/gif,image/jpeg"
-                                               ng-click="NationalityPhotoUplaodSelected()" />
+                                               ng-click="NationalityPhotoUplaodSelected()" />-->
 
                                         <!--<div ng-if="(Gender_Name| lowercase)=='male' && (uploadme1==null || uploadme1=='' || uploadme1=='null' )" valign="top" rowspan="6">
                                             <img id="item-img-output1" style=" width: 300px; height: 200px;" class="responsiveProfileImage2" src="../../Images/National_Male.png" />
@@ -551,7 +556,7 @@
                                         <div ng-if="(((Gender_Name| lowercase)!='female' && (Gender_Name| lowercase)!='male') && (uploadme1==null || uploadme1=='' || uploadme1=='null'))" valign="top" rowspan="6">
                                             <img id="item-img-output1" style=" width: 300px; height: 200px;" class="responsiveProfileImage2" src="../../Images/National_Male.png" />
                                         </div>-->
-                                        <div ng-if="(uploadme1!=null || uploadme1!='')" valign="top" rowspan="6">
+                                        <!--<div ng-if="(uploadme1!=null || uploadme1!='')" valign="top" rowspan="6">
                                             <img id="item-img-output1" style=" width: 300px; height: 200px;" class="responsiveProfileImage2" ng-src="{{uploadme1}}" />
                                         </div>
                                         <div style="margin-top: 15px;">
@@ -591,7 +596,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
 
                         </div>
                     </div>
@@ -655,11 +660,11 @@
                                     </select>
                                     <!--</div>-->
                                 </div>
-                                 <div class="inputGroups">
+                                 <!--<div class="inputGroups">
                                     <label>UID</label>
                                     <input type="text" class="form-control" id="Text19" name="UserID" ng-model="UID" placeholder="" ng-maxlength="100"
                                             maxlength="100" />
-                                </div>
+                                </div>-->
                                 <div class="inputGroups">
                                     <label>
                                         Date of Birth<sup>
@@ -724,7 +729,7 @@
                                         {{ChronicCondition}}
                                     </span>-->
                                 </div>
-                                 <div class="inputGroups">
+                                 <!--<div class="inputGroups">
                                 <div class="inputGroups" style="font-size: 16px;">
                                     <label style=" margin-left: 0px; margin-top: 29px;">UID image</label>
                                 </div>
@@ -773,7 +778,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                             </div>
                         </div>
                     </div>
@@ -1461,6 +1466,102 @@
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-primary insurancecrop_image">Crop and Save</button>
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default m-0 bt-0" ng-show="currentTab=='7'">
+                    <div id="collapse11" class="panel-collapse">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="inputGroups">
+                                        <label>Emirates ID<sup><font class='mandatory-field'>*</font></sup></label>
+                                        <input type="text" class="form-control" id="Text9" name="NationalId" 
+                                               ng-model="NationalId" ng-init="NationalId=''" placeholder="" ng-maxlength="50"
+                                               maxlength="50"  />
+                                    </div>
+                                    <div class="inputGroups">
+                                        <div class="inputGroups" style="font-size: 16px;">
+                                            <label style=" margin-left: 0px; margin-top: 29px;">Emirates ID image</label>
+                                        </div>
+                                        <div class="inputGroups">
+                                            <div class="imgAdd2">
+                                                <input type="file" id="Nationalityresumedoc" filereadmulti="NationalUploadme" multiple file-upload
+                                                       onchange="angular.element(this).scope().NationalphotoChange(this, angular.element(this).scope().$index)"
+                                                       name="NationalPhotoFilename" title="Click to Upload Nationality Photo "
+                                                       style="height: 0px !important" accept="image/x-png,image/gif,image/jpeg"
+                                                       ng-click="NationalityPhotoUplaodSelected()" />
+                                                <div ng-if="(Nationalityresumedoc.length>0)"  valign="top" rowspan="6">
+                                                    <div class="row">
+                                                        <div class="col-sm-3" ng-repeat="l in NationalUploadme">
+                                                            <img id="item-img-output1" style="width: 272px;height: 177px;" class="responsiveProfileImage2" ng-src="{{l}}" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div ng-if="(uploadme1!=null || uploadme1!='')" ng-hide="Nationalityresumedoc.length>0" valign="top" rowspan="6">
+                                                    <img id="item-img-output1" style=" width: 300px; height: 200px;" class="responsiveProfileImage2" ng-src="{{uploadme1}}" />
+                                                </div>
+                                                <div style="margin-top: 15px;">
+                                                    <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="imageclearPatientNational();"
+                                                       title="Clear">
+                                                        Clear
+                                                    </a>
+                                                    <div style="max-width: 250px;" class="theme-btn-1">
+                                                        <label for="Nationalityresumedoc" class="mb-0" title="Click to Upload Logo">
+                                                            <i class="fa fa-upload"></i>
+                                                            <span>Upload Emirates ID Photo</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="inputGroups">
+                                        <label>UID</label>
+                                        <input type="text" class="form-control" id="Text19" name="UserID" ng-model="UID" placeholder="" ng-maxlength="100"
+                                               maxlength="100" />
+                                    </div>
+                                    <div class="inputGroups">
+                                        <div class="inputGroups" style="font-size: 16px;">
+                                            <label style=" margin-left: 0px; margin-top: 29px;">UID image</label>
+                                        </div>
+                                        <div class="inputGroups">
+                                            <div class="imgAdd2">
+                                                <input type="file" id="UIDshow" filereadmulti="UIDLogo" multiple file-upload onchange="angular.element(this).scope().UIDfileChange(this)"
+                                                       name="UIdPhotoFilename" title="Click to Upload Nationality Photo "
+                                                       style="height: 0px !important" accept="image/x-png,image/gif,image/jpeg"
+                                                       ng-click="UIDPhotoUplaodSelected()" />
+                                                <div ng-if="(UIDshow.length>0)" valign="top" rowspan="6">
+                                                    <div class="row">
+                                                        <div class="col-sm-3" ng-repeat="U in UIDLogo">
+                                                            <img id="item-img-output1" style="width: 272px;height: 177px;" class="responsiveProfileImage2" ng-src="{{U}}" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div ng-if="(uploadme3!=null || uploadme3!='')" ng-hide="UIDshow.length>0"  valign="top" rowspan="6">
+                                                    <img id="item-img-output1" style=" width: 300px; height: 200px;" class="responsiveProfileImage2" ng-src="{{uploadme3}}" />
+                                                </div>
+                                                <div style="margin-top: 15px;">
+                                                    <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="imageclearPatientUID();" title="Clear">
+                                                        Clear
+                                                    </a>
+                                                    <div style="max-width: 250px;" class="theme-btn-1">
+                                                        <label for="UIDshow" class="mb-0" title="Click to Upload Logo">
+                                                            <i class="fa fa-upload"></i>
+                                                            <span>Upload UID Photo</span>
+                                                        </label>
                                                     </div>
                                                 </div>
                                             </div>
