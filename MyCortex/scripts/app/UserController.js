@@ -143,6 +143,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.CountryList = [];
         $scope.StateList = [];
         $scope.LocationList = [];
+        $scope.Nationalityresumedoc = [];
+        $scope.UIDshow = [];
         $scope.SelectedInstitution = "0";
         $scope.UserGroupDetails_List = [];
         $scope.UserInstitutionDetails_List = [];
@@ -3300,6 +3302,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 let fileSize = 0;
                 let filesizewarn = 0;
                 $scope.UIDshow = [];
+                $scope.uploadme3 = "";
                 photoview1 = true;
                 for (var i = 0; i < e.files.length; i++) {
                     fileSize = e.files[i].size;
@@ -3320,7 +3323,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             }
             else {
                 toastr.warning("Maximum 4 images should be allowed", "Files Count");
-                scope.UIDLogo = [];
+                $scope.UIDLogo = [];
             }
         }
         /* Read file name for the  National Photo and file */
@@ -4468,7 +4471,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                         //$scope.SelectedPayor.push($scope.EditPayorId);
                                         $http.get(baseUrl + '/api/PlanMaster/PayorBasedPlan/?Id=' + data.PayorId).success(function (resp_data) {
                                             $scope.PayorBasedPlanList = resp_data;
-                                            if (data.length != 0) {
+                                            if (data.length != 0 && data.length != undefined) {
                                                 //$scope.SelectedPlan = "";
                                                 $scope.EditPlanId = "";
                                                 $scope.EditPlanId = resp_data[0].Id.toString();
@@ -5107,7 +5110,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 if ($scope.User_Admin_AddEdit_Validations() == true) {
                     $("#chatLoaderPV").show();
                     $scope.PhotoFullpath = $('#item-img-output').attr('src');
-                    $scope.InsurancePhotoFullpath = $('#item-img-output2').attr('src'); //$('#item-img-output2').attr('src');
+                    $scope.InsurancePhotoFullpath = $scope.uploadme2; //$('#item-img-output2').attr('src');
                     $scope.UserInstitutionDetails_List = [];
                     angular.forEach($scope.SelectedInstitution, function (value, index) {
                         var Institutionobj = {
@@ -5757,6 +5760,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             var fd1 = new FormData();
             var fd2 = new FormData();
             var fd3 = new FormData();
+            var fd4 = new FormData();
 
             if (photoview == false) {
                 photoview = true;
@@ -5795,68 +5799,56 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 }
             }
 
-          //  if (photoview1 == false) {
-           //     photoview1 = true;
-            //    if ($scope.Nationalityresumedoc != undefined && $scope.Nationalityresumedoc != "" && $scope.Nationalityresumedoc != null) {
-                    if ($scope.Nationalityresumedoc.length > 0) {
-                        $scope.PhotoValue = 1;
-                        for (var i = 0; i < $scope.Nationalityresumedoc.length; i++) {
-                            $scope.NationalFileName = $scope.Nationalityresumedoc[i]['name'];
-                            $scope.FileType = $scope.Nationalityresumedoc[i]['type'];
-                            fd1.append('file1', $scope.Nationalityresumedoc[i]);
-                        }
-                        $http.post(baseUrl + '/api/User/Attach_UserDocuments/?UserId=' + userid + '&Type=Emirates_Id ',
-                            fd1,
-                            {
-                                transformRequest: angular.identity,
-                                headers: {
-                                    'Content-Type': undefined
-                                }
-                            }
-                        ).success(function (response) {
-                            $scope.Nationalityresumedoc = [];
-                            $scope.NationalFileName = [];
-                        })
-                    }
-            //    }
-                //   }
-                else {
-                //if (photoview3 == false) {
-                //    photoview3 = true;
-
-                //    if ($scope.UIDshow != undefined && $scope.UIDshow != "" && $scope.UIDshow != null) {
-                        if ($scope.UIDshow.length > 0) {
-                            $scope.PhotoValue = 1;
-                            for (var i = 0; i < $scope.UIDshow.length; i++) {
-                                $scope.UIDFileName = $scope.UIDshow[i]['name'];
-                                $scope.FileType = $scope.UIDshow[i]['type'];
-                                fd3.append('file1', $scope.UIDshow[i]);
-                            }
-                            $http.post(baseUrl + '/api/User/Attach_UserDocuments/?UserId=' + userid + '&Type=UID',
-                                fd3,
-                                {
-                                    transformRequest: angular.identity,
-                                    headers: {
-                                        'Content-Type': undefined
-                                    }
-                                }
-                            ).success(function (response) {
-                                $scope.UIDshow = [];
-                                $scope.UIDFileName = [];
-                            })
+            if ($scope.Nationalityresumedoc.length > 0) {
+                $scope.PhotoValue = 1;
+                for (var i = 0; i < $scope.Nationalityresumedoc.length; i++) {
+                    $scope.NationalFileName = $scope.Nationalityresumedoc[i]['name'];
+                    $scope.FileType = $scope.Nationalityresumedoc[i]['type'];
+                    fd1.append('file1', $scope.Nationalityresumedoc[i]);
+                }
+                $http.post(baseUrl + '/api/User/Attach_UserDocuments/?UserId=' + userid + '&Type=Emirates_Id ',
+                    fd1,
+                    {
+                        transformRequest: angular.identity,
+                        headers: {
+                            'Content-Type': undefined
                         }
                     }
-          //      }
-          //  }
+                ).success(function (response) {
+                    $scope.Nationalityresumedoc = [];
+                    $scope.NationalFileName = [];
+                })
+            } else {
+                if ($scope.UIDshow.length > 0) {
+                    $scope.PhotoValue = 1;
+                    for (var i = 0; i < $scope.UIDshow.length; i++) {
+                        $scope.UIDFileName = $scope.UIDshow[i]['name'];
+                        $scope.FileType = $scope.UIDshow[i]['type'];
+                        fd3.append('file1', $scope.UIDshow[i]);
+                    }
+                    $http.post(baseUrl + '/api/User/Attach_UserDocuments/?UserId=' + userid + '&Type=UID',
+                        fd3,
+                        {
+                            transformRequest: angular.identity,
+                            headers: {
+                                'Content-Type': undefined
+                            }
+                        }
+                    ).success(function (response) {
+                        $scope.UIDshow = [];
+                        $scope.UIDFileName = [];
+                    })
+                }
+            }
+         
 
             if (photoview2 == false) {
                 photoview2 = true;
                 if ($scope.InsurancePhotoFullpath != undefined && $scope.InsurancePhotoFullpath != "" && $scope.InsurancePhotoFullpath != null) {
                     InsuranceimgBlob = $scope.dataURItoBlob($scope.InsurancePhotoFullpath);
                     InsuranceitemIndexLogo = 0;
-
                     if (InsuranceitemIndexLogo != -1) {
-                        fd2.append('file', InsuranceimgBlob);
+                        fd4.append('file', InsuranceimgBlob);
                     }
                     /*
                     calling the api method for read the file path 
@@ -5864,7 +5856,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     */
 
                     $http.post(baseUrl + '/api/User/AttachInsurancePhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue2 + '&CREATED_BY=' + $window.localStorage['UserId'],
-                        fd2,
+                        fd4,
                         {
                             transformRequest: angular.identity,
                             headers: {
@@ -5920,56 +5912,6 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     }
                 }
             }
-            //if ($scope.PhotoValue1 == 1 && photoview1 == false && $scope.Id == 0) {
-            //    if ($scope.Nationalityresumedoc != undefined && Nationalityresumedoc != "" && Nationalityresumedoc != null) {
-            //        if ($scope.Nationalityresumedoc.length > 0) {
-            //            $scope.PhotoValue = 1;
-            //            for (var i = 0; i < $scope.Nationalityresumedoc.length; i++) {
-            //                $scope.NationalFileName = $scope.Nationalityresumedoc[i]['name'];
-            //                $scope.FileType = $scope.Nationalityresumedoc[i]['type'];
-            //                fd1.append('file1', $scope.Nationalityresumedoc[i]);
-            //            }
-            //            $http.post(baseUrl + '/api/User/Attach_UserDocuments/?UserId=' + userid + '&Type=Emirates_Id ',
-            //                fd1,
-            //                {
-            //                    transformRequest: angular.identity,
-            //                    headers: {
-            //                        'Content-Type': undefined
-            //                    }
-            //                }
-            //            ).success(function (response) {
-            //                $scope.Nationalityresumedoc = [];
-            //                $scope.NationalFileName = [];
-            //            })
-            //        }
-            //    }
-            //} else {
-            //    if ($scope.PhotoValue1 == 1 && photoview3 == false && $scope.Id == 0) {
-            //            if ($scope.UIDshow != undefined && $scope.UIDshow != "" && $scope.UIDshow != null) {
-            //                if ($scope.UIDshow.length > 0) {
-            //                    $scope.PhotoValue = 1;
-            //                    for (var i = 0; i < $scope.UIDshow.length; i++) {
-            //                        $scope.UIDFileName = $scope.UIDshow[i]['name'];
-            //                        $scope.FileType = $scope.UIDshow[i]['type'];
-            //                        fd3.append('file1', $scope.UIDshow[i]);
-            //                    }
-            //                    $http.post(baseUrl + '/api/User/Attach_UserDocuments/?UserId=' + userid + '&Type=UID',
-            //                        fd3,
-            //                        {
-            //                            transformRequest: angular.identity,
-            //                            headers: {
-            //                                'Content-Type': undefined
-            //                            }
-            //                        }
-            //                    ).success(function (response) {
-            //                        $scope.UIDshow = [];
-            //                        $scope.UIDFileName = [];
-            //                    })
-            //                }
-            //            }
-            //    }
-            //}
-
             if ($scope.PhotoValue2 == 1 && photoview2 == false && $scope.Id == 0) {
                 if ($scope.InsurancePhotoFullpath != undefined && $scope.InsurancePhotoFullpath != "" && $scope.InsurancePhotoFullpath != null) {
                     if ($('#InsuranceLogo')[0].files[0] != undefined) {
@@ -5978,14 +5920,14 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         InsuranceitemIndexLogo = 0;
                     }
                     if (InsuranceitemIndexLogo != -1) {
-                        fd2.append('file', InsuranceimgBlob);
+                        fd4.append('file', InsuranceimgBlob);
 
                         /*	
                         calling the api method for read the file path 	
                         and saving the image uploaded in the local server. 	
                         */
                         $http.post(baseUrl + '/api/User/AttachInsurancePhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue2 + '&CREATED_BY=' + $window.localStorage['UserId'],
-                            fd2,
+                            fd4,
                             {
                                 transformRequest: angular.identity,
                                 headers: {
@@ -6049,57 +5991,6 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 }
             }
 
-         //  // if ($scope.PhotoValue1 == 1 && photoview1 == true && $scope.Id > 0) {
-         //     //  if ($scope.Nationalityresumedoc != undefined && Nationalityresumedoc != "" && Nationalityresumedoc != null) {
-         //           if ($scope.Nationalityresumedoc.length > 0) {
-         //               $scope.PhotoValue = 1;
-         //               for (var i = 0; i < $scope.Nationalityresumedoc.length; i++) {
-         //                   $scope.NationalFileName = $scope.Nationalityresumedoc[i]['name'];
-         //                   $scope.FileType = $scope.Nationalityresumedoc[i]['type'];
-         //                   fd1.append('file1', $scope.Nationalityresumedoc[i]);
-         //               }
-         //               $http.post(baseUrl + '/api/User/Attach_UserDocuments/?UserId=' + userid + '&Type=Emirates_Id ',
-         //                   fd1,
-         //                   {
-         //                       transformRequest: angular.identity,
-         //                       headers: {
-         //                           'Content-Type': undefined
-         //                       }
-         //                   }
-         //               ).success(function (response) {
-         //                   $scope.Nationalityresumedoc = [];
-         //                   $scope.NationalFileName = [];
-         //               })
-         //           }
-         //      // }
-         //       //  }
-         //       else {
-         ////       if ($scope.PhotoValue1 == 1 && photoview3 == true && $scope.Id > 0) {
-         //         //  if ($scope.UIDshow != undefined && $scope.UIDshow != "" && $scope.UIDshow != null) {
-         //               if ($scope.UIDshow.length > 0) {
-         //                   $scope.PhotoValue = 1;
-         //                   for (var i = 0; i < $scope.UIDshow.length; i++) {
-         //                       $scope.UIDFileName = $scope.UIDshow[i]['name'];
-         //                       $scope.FileType = $scope.UIDshow[i]['type'];
-         //                       fd3.append('file1', $scope.UIDshow[i]);
-         //                   }
-         //                   $http.post(baseUrl + '/api/User/Attach_UserDocuments/?UserId=' + userid + '&Type=UID',
-         //                       fd3,
-         //                       {
-         //                           transformRequest: angular.identity,
-         //                           headers: {
-         //                               'Content-Type': undefined
-         //                           }
-         //                       }
-         //                   ).success(function (response) {
-         //                       $scope.UIDshow = [];
-         //                       $scope.UIDFileName = [];
-         //                   })
-         //               }
-         //         // }
-         //      // }
-         //   }
-
             if ($scope.PhotoValue2 == 1 && photoview2 == true && $scope.Id > 0) {
                 if ($scope.InsurancePhotoFullpath != undefined && $scope.InsurancePhotoFullpath != "" && $scope.InsurancePhotoFullpath != null) {
                     if ($('#InsuranceLogo')[0].files[0] != undefined) {
@@ -6112,14 +6003,14 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         // }
                     }
                     if (InsuranceitemIndexLogo != -1) {
-                        fd2.append('file', InsuranceimgBlob);
+                        fd4.append('file', InsuranceimgBlob);
                         /*
                         calling the api method for read the file path 
                         and saving the image uploaded in the local server. 
                         */
 
                         $http.post(baseUrl + '/api/User/AttachInsurancePhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue2 + '&CREATED_BY=' + $window.localStorage['UserId'],
-                            fd2,
+                            fd4,
                             {
                                 transformRequest: angular.identity,
                                 headers: {

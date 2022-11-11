@@ -2340,7 +2340,7 @@ namespace MyCortex.User.Controller
         /// <param name=""></param>
         /// <returns></returns>
         [HttpPost]
-        public List<string> AttachInsurancePhoto(int Id, int Photo, int CREATED_BY, string Type)
+        public List<string> AttachInsurancePhoto(int Id, int Photo, int CREATED_BY)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
