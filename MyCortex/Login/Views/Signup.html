@@ -108,185 +108,9 @@
             </select>
         </h1>
     </div>
-    <form class="form-horizontal" role="form" ng-class="{'submitted': submitted}" ng-submit="SignupLogin_AddEdit();">
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="inputGroups">
-                    <label for="email">{{firstname}}<sup><font class='mandatory-field'>*</font></sup></label>
-                    <input type="text" class="form-control" id="Text5" name="FirstName" ng-model="FirstName"
-                           ng-required="true" onkeypress="ParticularSpec(event)" placeholder="" ng-maxlength="100"
-                           maxlength="100" />
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="inputGroups">
-                    <label for="email">{{middlename}}</label>
-                    <input type="text" class="form-control" id="Text19" name="MiddleName" ng-model="MiddleName"
-                           onkeypress="ParticularSpec(event)" placeholder="" ng-maxlength="100"
-                           maxlength="100" />
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="inputGroups">
-                    <label for="LastName">{{lastname}}<sup><font class='mandatory-field'>*</font></sup></label>
-                    <input type="text" class="form-control" id="LastName" name="LastName" ng-model="LastName"
-                           ng-required="true" onkeypress="ParticularSpec(event)" placeholder="" ng-maxlength="100"
-                           maxlength="100" />
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="inputGroups">
-                    <label for="email">{{mobilenumber}}<sup><font class='mandatory-field'>*</font></sup></label>
-                    <input type="text" class="form-control" id="txtMobile1" name="tel"
-                           ng-model="MobileNo" ng-required="true" onblur="txtPhoneChange()" />
-                </div>
-            </div>
-            <div class="col-sm-6" style="margin-left: 1px;">
-                <div class="inputGroups">
-                    <label for="email">
-                        Emirates ID<sup><font class='mandatory-field'>*</font></sup>
-                        <span class="uploadIconContainer">
-                            <label for="Nationalityresumedoc" class="uploadIconBtn" style="display:initial;" ng-click="CertificateUplaodSelected()" title="Click to Upload File">
-                                <i class="fa fa-upload" aria-hidden="true"></i>
-                                <!--<a href="javascript:" ng-click="CertificateView(Id,FileName)"><i class="fa fa-eye" aria-hidden="true"></i></a>-->
-                                <!--<a href="javascript:"><sub class="textwrap">{{CertificateFileName}}</sub></a>-->
-                            </label>
-                        </span>
-                        <input type="file" id="Nationalityresumedoc" multiple="multiple" class="dropzone" fileread="Nationalityresumedoc" onchange="angular.element(this).scope().EditdocfileChange(this)"
-                               name="Resume" title="Click to Upload File" style="height: 0px !important" accept="image/x-png,image/gif,image/jpeg">
-                    </label>
-                    <input type="text" class="form-control" id="Text9" name="NationalId" ng-model="NationalId"
-                           ng-init="NationalId=''" placeholder="" ng-maxlength="50" maxlength="50" onkeypress="" ng-change="fnUUIDClear()">
-                    <ul><li ng-repeat="file in showNationalityFiles"><label for="filename">{{file.name}} &nbsp;&nbsp;<a href="" ng-click="nationalFileDelete($index)"><i class="fa fa-times" aria-hidden="true"></i></a></label></li></ul>
-                </div>
-            </div>
-            <div class="col-sm-6" style="margin-left: -1px;">
-                <div class="inputGroups">
-                    <label>
-                        UID<span class="uploadIconContainer">
-                            <label for="UidDocument" class="uploadIconBtn" style="display:initial;" ng-click="CertificateUplaodSelected()" title="Click to Upload File">
-                                <i class="fa fa-upload" aria-hidden="true"></i>
-                                <!--<a href="javascript:"><sub class="textwrap">{{UIdFileName}}</sub></a>-->
-                                <!--<a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="imageclearPatientUID();"title="Clear" ng-hide="Pat_UserTypeId==2">Clear</a>-->
-                            </label>
-                        </span>
-                        <input type="file" id="UidDocument" fileread="UidDocument" multiple="multiple" onchange="angular.element(this).scope().UIDfileChange(this)"
-                               name="Resume" title="Click to Upload File"
-                               style="height: 0px !important" accept="image/x-png,image/gif,image/jpeg">
-                    </label>
-                    <input type="text" class="form-control" id="Text19" name="UserID" ng-model="UID" placeholder="" ng-maxlength="100"
-                           maxlength="100" ng-change="fnNationalityClear()" />
-                    <ul><li ng-repeat="files in showUUIDFiles"><label for="filename">{{files.name}} &nbsp;&nbsp;<a href="" ng-click="UUIDFileDelete($index)"><i class="fa fa-times" aria-hidden="true"></i></a></label></li></ul>
-                </div>
-            </div>
-            <!--<div class="col-sm-6">
-                <div class="inputGroups">
-                    <label for="email">{{insuranceid}}-->
-            <!--<sup><font class='mandatory-field'>*</font></sup>-->
-            <!--</label>
-                    <input type="text" class="form-control" id="Text3" name="InsuranceId" ng-model="InsuranceId" ng-required="true"
-                           ng-init="InsuranceId=''" placeholder="" ng-maxlength="50" maxlength="50" onkeypress="NoSpecChar(event)" />
-                </div>
-            </div>-->
-            <div class="col-sm-6">
-                <div class="inputGroups">
-                    <label for="email">{{gender}}<sup><font class='mandatory-field'>*</font></sup></label>
-                    <select class="form-control" ng-model="GenderId" id="Select3">
-                        <option value="0">Select</option>
-                        <option ng-repeat="sel in GenderList" ng-selected="GenderId==sel.Id" value="{{sel.Id}}">
-                            {{sel.Gender_Name}}
-                        </option>
-                    </select>
-                </div>
-            </div>
-            <!--<div class="col-sm-6">
-                <div class="inputGroups">
-                    <label for="email">{{nationality}}-->
-            <!--<sup><font class='mandatory-field'>*</font></sup>-->
-            <!--</label>
-                    <select class="form-control" placeholder="Nationality" ng-model="NationalityId" id="Select5">
-                        <option value="0">Select</option>
-                        <option ng-repeat="sel in NationalityList" ng-selected="NationalityId==sel.Id" value="{{sel.Id}}">
-                            {{sel.Name}}
-                        </option>
-                    </select>
-                </div>
-            </div>-->
-            <!--<div class="col-sm-6">
-                <div class="inputGroups">
-                    <label for="email">
-                        {{MaritalStatus}}<sup><font class='mandatory-field'>*</font></sup>
-                    </label>
-                    <select class="form-control" data-style="form-control" ng-model="MaritalStatusId" id="MaritalStatusId">
-                        <option value="0">Select</option>
-                        <option ng-repeat="sel in MaritalStatusList" ng-selected="MaritalStatusId==sel.Id" value="{{sel.Id}}">
-                            {{sel.Name}}
-                        </option>
-                    </select>
-                </div>
-            </div>-->
-            <!--<div class="col-sm-6">
-                <div class="inputGroups">
-                    <label for="email">{{EthnicGroup}}<sup> <font class='mandatory-field'>*</font></sup></label>
-                    <select class="form-control" data-style="form-control" ng-model="EthnicGroupId" id="EthnicGroupId">
-                        <option value="0">Select</option>
-                        <option ng-repeat="sel in EthnicGroupList" ng-selected="EthnicGroupId==sel.Id" value="{{sel.Id}}">
-                            {{sel.Name}}
-                        </option>
-                    </select>
-                </div>
-            </div>-->
-            <div class="col-sm-6">
-                <div class="inputGroups">
-                    <label for="email">{{dob}}<sup><font class='mandatory-field'>*</font></sup></label>
-                    <div class="date">
-                        <input type="date" max="2099-12-31" id="DOB" placeholder="" class="form-control" ng-model="DOB" ng-init="DOB=''">
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="inputGroups">
-                    <label for="email">{{email}}<sup><font class='mandatory-field'>*</font></sup></label>
-                    <input type="text" class="form-control" id="Text4" name="" ng-model="EmailId" ng-init="EmailId=''"
-                           ng-required="true" placeholder="" ng-maxlength="50" maxlength="50" style="text-transform: lowercase;" />
-                </div>
-            </div>
-            <!--<div class="col-sm-6">
-                <div class="inputGroups">
-                    <label for="email">{{BloodGroup}}<sup><font class='mandatory-field'>*</font></sup></label>
-                    <select class="form-control" data-style="form-control" ng-model="BloodGroupId" id="BloodGroupId">
-                        <option value="0">Select</option>
-                        <option ng-repeat="sel in BloodGroupList" ng-selected="BloodGroupId==sel.Id" value="{{sel.Id}}">
-                            {{sel.BloodGroup_Name}}
-                        </option>
-                    </select>
-                </div>
-            </div>-->
-        </div>
-        <!--<div>
-            <p style="text-align:left;">
-                {{defaultsignupacknowledgement}}
-            </p>
-            <p style="text-align:right;">
-                {{signupacknowledgement}}
-            </p>
-        </div>
-        <div class="alert alert-danger def" ng-if="errorlist!=null">
-            <div ng-if="errorlist!=null">
-                {{errorlist}}
-            </div>
-        </div>-->
-        <div style="text-align: center; margin-top: 10px;">
-            <input type="checkbox">
-            <label>I'm agreeing to this and signing up</label>
-        </div>
-        <button type="submit" style="width: 443px; height: 56px; margin-left: 67px; margin-top: 15px; color: #fff; background: #100146; border-radius: 12px; " title="Click to Submit Signup Details" id="submit" ng-disabled="faslse"
-                ng-click="submitted= true;">
-            Signup
-        </button>
-    </form>
+   
     <!--<p>New to MyCortex?<a href="#" data-toggle="modal" data-target="#signupModal" class="prl-8">Sign Up</a></p>-->
-    <!--<form class="form-horizontal" role="form" ng-class="{'submitted': submitted}" ng-submit="SignupLogin_AddEdit();">
+    <form class="form-horizontal" role="form" ng-class="{'submitted': submitted}" ng-submit="SignupLogin_AddEdit();">
         <div class="row">
             <div class="col-sm-6">
                 <div class="inputGroups">
@@ -403,15 +227,15 @@
                         </option>
                     </select>
                 </div>
-            </div>-->
-    <!--<div class="col-sm-6">
+            </div>
+    <div class="col-sm-6">
         <div class="inputGroups">
             <label for="email">{{mobilenumber}}<sup><font class='mandatory-field'>*</font></sup></label>
             <input type="text" class="form-control" id="Text6" name="" ng-model="MobileNo" ng-maxlength="20"
                    maxlength="20" onkeypress="OnlySpecCharNum(event)" ng-required="true" placeholder="" />
         </div>
-    </div>-->
-    <!--</div>
+    </div>
+    </div>
     <div>
         <p style="text-align:left;">
             {{defaultsignupacknowledgement}}
@@ -428,8 +252,8 @@
     <button type="submit" class="theme-btn-1 mt-10" title="Click to Submit Signup Details" id="submit" ng-disabled="faslse"
             ng-click="submitted= true;">
         Submit
-    </button>-->
-    <!--<div class="row">
+    </button>
+    <div class="row">
         <div class="col-xs-6">
             <input id="rem" ng-model="remember" name="remember" type="checkbox" ng-keyup="$event.keyCode == 13 && rememberMe()">
             <label for="rem" class="pr-8">Remember Me</label>
@@ -452,11 +276,11 @@
                 <span>Google</span>
             </a>
         </div>
-    </div>-->
-    <!--<div class="version">
+    </div>
+    <div class="version">
         V1.3
-    </div>-->
-    <!--</form>-->
+    </div>
+    </form>
 </div>
 
 <div ng-show="ProductName == 'Hive'" class="containerhiv" style="top:20px"><img style="width: 150px;" src="{{PrdImg}}"> </div>
