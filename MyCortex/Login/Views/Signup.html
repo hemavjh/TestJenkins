@@ -467,62 +467,79 @@
                 </div>
             </div>
             <!--<div class="col-sm-6">
-                <div class="inputGroups">
-                    <label for="email">{{insuranceid}}-->
+        <div class="inputGroups">
+            <label for="email">{{insuranceid}}-->
             <!--<sup><font class='mandatory-field'>*</font></sup>-->
             <!--</label>
-                    <input type="text" class="form-control" id="Text3" name="InsuranceId" ng-model="InsuranceId" ng-required="true"
-                           ng-init="InsuranceId=''" placeholder="" ng-maxlength="50" maxlength="50" onkeypress="NoSpecChar(event)" />
-                </div>
-            </div>-->
+            <input type="text" class="form-control" id="Text3" name="InsuranceId" ng-model="InsuranceId" ng-required="true"
+                   ng-init="InsuranceId=''" placeholder="" ng-maxlength="50" maxlength="50" onkeypress="NoSpecChar(event)" />
+        </div>
+    </div>-->
             <div class="col-sm-6">
                 <div class="inputGroups">
                     <label for="email">{{gender}}<sup><font class='mandatory-field'>*</font></sup></label>
-                    <select class="form-control" ng-model="GenderId" id="Select3">
+                    <select class="form-control" ng-model="GenderId" id="GenderId" ng-change="PatientgetBase64Image();">
                         <option value="0">Select</option>
-                        <option ng-repeat="sel in GenderList" ng-selected="GenderId==sel.Id" value="{{sel.Id}}">
+                        <option ng-repeat="sel in GenderList" ng-selected="GenderId==sel.Id" value="{{sel.Id}}" >
                             {{sel.Gender_Name}}
                         </option>
                     </select>
                 </div>
             </div>
-            <!--<div class="col-sm-6">
+            <div class="col-sm-6" style="margin-left: -1px;">
                 <div class="inputGroups">
-                    <label for="email">{{nationality}}-->
+                    <label>
+                        Patient Profile Image
+                        <span class="uploadIconContainer">
+                            <label for="UserLogo" class="theme-btn-1" style="display:initial;" ng-click="CertificateUplaodSelected()" title="Click to Upload File">
+                                <i class="fa fa-upload" aria-hidden="true"></i>
+                                <span>Upload Profile Photo</span>
+                            </label>
+                        </span>
+                    </label>
+                    <input type="file" id="UserLogo" fileread="UserLogo" onchange="angular.element(this).scope().photoChange(this)"
+                           name="Resume" title="Click to Upload File"
+                           style="height: 0px !important" accept="image/x-png,image/gif,image/jpeg">
+                    <ul><li ng-hide="UserProfieName == undefined || UserProfieName ==''"><label for="UserLogo">{{UserProfieName}} &nbsp;&nbsp;<a href="" ng-click="imageclearPatient()"><i class="fa fa-times" aria-hidden="true"></i></a></label></li></ul>
+                </div>
+            </div>
+            <!--<div class="col-sm-6">
+        <div class="inputGroups">
+            <label for="email">{{nationality}}-->
             <!--<sup><font class='mandatory-field'>*</font></sup>-->
             <!--</label>
-                    <select class="form-control" placeholder="Nationality" ng-model="NationalityId" id="Select5">
-                        <option value="0">Select</option>
-                        <option ng-repeat="sel in NationalityList" ng-selected="NationalityId==sel.Id" value="{{sel.Id}}">
-                            {{sel.Name}}
-                        </option>
-                    </select>
-                </div>
-            </div>-->
+            <select class="form-control" placeholder="Nationality" ng-model="NationalityId" id="Select5">
+                <option value="0">Select</option>
+                <option ng-repeat="sel in NationalityList" ng-selected="NationalityId==sel.Id" value="{{sel.Id}}">
+                    {{sel.Name}}
+                </option>
+            </select>
+        </div>
+    </div>-->
             <!--<div class="col-sm-6">
-                <div class="inputGroups">
-                    <label for="email">
-                        {{MaritalStatus}}<sup><font class='mandatory-field'>*</font></sup>
-                    </label>
-                    <select class="form-control" data-style="form-control" ng-model="MaritalStatusId" id="MaritalStatusId">
-                        <option value="0">Select</option>
-                        <option ng-repeat="sel in MaritalStatusList" ng-selected="MaritalStatusId==sel.Id" value="{{sel.Id}}">
-                            {{sel.Name}}
-                        </option>
-                    </select>
-                </div>
-            </div>-->
+        <div class="inputGroups">
+            <label for="email">
+                {{MaritalStatus}}<sup><font class='mandatory-field'>*</font></sup>
+            </label>
+            <select class="form-control" data-style="form-control" ng-model="MaritalStatusId" id="MaritalStatusId">
+                <option value="0">Select</option>
+                <option ng-repeat="sel in MaritalStatusList" ng-selected="MaritalStatusId==sel.Id" value="{{sel.Id}}">
+                    {{sel.Name}}
+                </option>
+            </select>
+        </div>
+    </div>-->
             <!--<div class="col-sm-6">
-                <div class="inputGroups">
-                    <label for="email">{{EthnicGroup}}<sup> <font class='mandatory-field'>*</font></sup></label>
-                    <select class="form-control" data-style="form-control" ng-model="EthnicGroupId" id="EthnicGroupId">
-                        <option value="0">Select</option>
-                        <option ng-repeat="sel in EthnicGroupList" ng-selected="EthnicGroupId==sel.Id" value="{{sel.Id}}">
-                            {{sel.Name}}
-                        </option>
-                    </select>
-                </div>
-            </div>-->
+        <div class="inputGroups">
+            <label for="email">{{EthnicGroup}}<sup> <font class='mandatory-field'>*</font></sup></label>
+            <select class="form-control" data-style="form-control" ng-model="EthnicGroupId" id="EthnicGroupId">
+                <option value="0">Select</option>
+                <option ng-repeat="sel in EthnicGroupList" ng-selected="EthnicGroupId==sel.Id" value="{{sel.Id}}">
+                    {{sel.Name}}
+                </option>
+            </select>
+        </div>
+    </div>-->
             <div class="col-sm-6">
                 <div class="inputGroups">
                     <label for="email">{{dob}}<sup><font class='mandatory-field'>*</font></sup></label>
@@ -539,16 +556,16 @@
                 </div>
             </div>
             <!--<div class="col-sm-6">
-                <div class="inputGroups">
-                    <label for="email">{{BloodGroup}}<sup><font class='mandatory-field'>*</font></sup></label>
-                    <select class="form-control" data-style="form-control" ng-model="BloodGroupId" id="BloodGroupId">
-                        <option value="0">Select</option>
-                        <option ng-repeat="sel in BloodGroupList" ng-selected="BloodGroupId==sel.Id" value="{{sel.Id}}">
-                            {{sel.BloodGroup_Name}}
-                        </option>
-                    </select>
-                </div>
-            </div>-->
+        <div class="inputGroups">
+            <label for="email">{{BloodGroup}}<sup><font class='mandatory-field'>*</font></sup></label>
+            <select class="form-control" data-style="form-control" ng-model="BloodGroupId" id="BloodGroupId">
+                <option value="0">Select</option>
+                <option ng-repeat="sel in BloodGroupList" ng-selected="BloodGroupId==sel.Id" value="{{sel.Id}}">
+                    {{sel.BloodGroup_Name}}
+                </option>
+            </select>
+        </div>
+    </div>-->
         </div>
         <!--<div>
             <p style="text-align:left;">

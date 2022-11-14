@@ -1471,10 +1471,69 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             // delete the file
             $scope.showNationalityFiles.splice(index, 1);
         }
+        $scope.imageclearPatient = function () {
+            $scope.Photo = "";
+            $scope.FileName = "";
+            $scope.UserProfieName = "";
+            $('#UserLogo').val('');
+            $scope.UserPhotoValue = 0;
+        };
         $scope.UUIDFileDelete = function (index) {
             // delete the file
             $scope.showUUIDFiles.splice(index, 1);
         }
+        $scope.photoChange = function (e) {
+            if ($('#UserLogo')[0].files[0] != undefined) {
+                $scope.ProfieName = $('#UserLogo')[0].files[0]['name'];
+                $scope.ProfieName = e.files[0]['name'];
+                $scope.UserProfieName = $scope.ProfieName;
+            }
+        }
+        $scope.UserPhotoValue = 0;
+        $scope.PatientgetBase64Image = function () {
+            //$scope.LoadGenderList();
+            //$scope.Editclearimage();
+            if ($scope.UserPhotoValue == 0) {
+                var maleId = 0;
+                var feMaleId = 0;
+                angular.forEach($scope.GenderList, function (value, index) {
+                    $scope.Gender_Name = value.Gender_Name;
+                    if ($scope.Gender_Name.toLowerCase() == "male") {
+                        maleId = value.Id.toString();
+                    }
+                    else if ($scope.Gender_Name.toLowerCase() == 'female') {
+                        feMaleId = value.Id.toString();
+                    }
+                });
+
+
+
+                var picPath = "others.png";
+                if (typeof ($scope.Gender_Name) != "undefined")
+                    if ($scope.GenderId == feMaleId) {
+                        picPath = "Patient_Female.png";
+                    }
+                    else if ($scope.GenderId == maleId) {
+                        picPath = "Patient_Male.png";
+                    }
+
+                $scope.UserProfieName = picPath;
+                //document.getElementById('UserLogo').innerHTML = $scope.UserProfieName;
+                //var request = new XMLHttpRequest();
+                //request.open('GET', picPath, true);
+                //request.responseType = 'blob';
+                //request.onload = function () {
+                //    var reader = new FileReader();
+                //    reader.readAsDataURL(request.response);
+                //    reader.onload = function (e) {
+                //        $scope.uploadmes = e.target.result;
+                //        $scope.ProfieName = $scope.uploadmes;
+                //        $scope.$apply();
+                //    };
+                //};
+                //request.send();
+            }
+        };
         
         $scope.UIDfileChange = function (e) {
             //if ($('#UidDocument')[0].files[0] != undefined) {
@@ -1637,12 +1696,14 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             var photoview = false;
             var userid = userid;
             var FileName = "";
+            $scope.Profile = "";
             var CertificateFileName = "";
             var FileType = "";
             var fd = new FormData();
             var imgBlobfile;
             var itemIndexLogo = -1;
             var itemIndexfile = -1;
+            $scope.CertificateValue = '0';
             var fd1 = new FormData();
 
             //if ($scope.CertificateFileName !="") {
@@ -1672,7 +1733,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                     $scope.FileType = $scope.showUUIDFiles[i]['type'];
                     fd.append('file1', $scope.showUUIDFiles[i]);
                 }
-                $http.post(baseUrl + '/api/User/Attach_UserDocuments/?UserId=' + userid + '&Type=UID ', fd,
+                $http.post(baseUrl + '/api/User/Attach_UserDocuments/?UserId=' + userid + '&Type=UID', fd,
                     {
                         transformRequest: angular.identity,
                         headers: {
@@ -1681,38 +1742,31 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                     }
                 ).success(function (response) {
                     $scope.showUUIDFiles = [];
-                }) 
-                //if ($scope.showNationalityFiles.length > 0) {
-                //    $scope.PhotoValue = 1;
-                //    if ($('#UidDocument')[0].files[0] != undefined) {
-                //        $scope.UIdFileName = $('#UidDocument')[0].files[0]['name'];
-                //        $scope.FileType = $('#UidDocument')[0].files[0]['type'];
-                //        imgBlobfile = $scope.dataURItoBlob($scope.UidDocument);
-                //        if (itemIndexLogo == -1) {
-                //            itemIndexfile = 0;
-                //        }
-                //        else {
-                //            itemIndexfile = 1;
-                //        }
-                //    }
-                //    if (itemIndexfile != -1) {
-                //        fd.append('file1', imgBlobfile);
-                //    }
-                //    $http.post(baseUrl + '/api/User/Attach_UserDocs/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&CREATED_BY=' + userid + '&Type=UID',
-                //        fd,
-                //        {
-                //            transformRequest: angular.identity,
-                //            headers: {
-                //                'Content-Type': undefined
-                //            }
-                //        }
-                //    )
-                //        .success(function (response) {
-                //            if ($scope.Resume == "") {
-                //                $scope.UidDocument = "";
-                //            }
-                //        })
-                //}
+                })
+            }
+
+            if ($scope.ProfieName != undefined) {
+                imgBlob = $scope.dataURItoBlob($scope.UserLogo);
+                itemIndexLogo = 0;
+
+                if (itemIndexLogo != -1) {
+                    fd1.append('file', imgBlob);
+                }
+                //imgBlob = $scope.UserLogo;
+                //fd1.append('file1', imgBlob);
+                $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=1' + '&Certificate=' + $scope.CertificateValue + '&CREATED_BY=' + userid,
+                    fd1,
+                    {
+                        transformRequest: angular.identity,
+                        headers: {
+                            'Content-Type': undefined
+                        }
+                    }
+                ).success(function (response) {
+                    $scope.UserProfieName = "";
+                    $scope.ProfieName = "";
+                    $('#UserLogo').val('');
+                })
             }
         }
         //This is for Clear the values

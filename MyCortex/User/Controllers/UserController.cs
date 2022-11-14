@@ -2426,9 +2426,6 @@ namespace MyCortex.User.Controller
             UploadDataReturnModel model = new UploadDataReturnModel();
             model.Status = "False";
             model.Message = "Invalid data";
-            string filePath = "";
-            string returnPath = "";
-            var docfiles = new List<string>();
             try
             {
                 //if (fileName != null)
