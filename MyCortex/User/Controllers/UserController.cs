@@ -2414,18 +2414,14 @@ namespace MyCortex.User.Controller
         /// <param name="Photo"></param>
         /// <param name="Certificate"></param>
         /// <returns></returns>
-        [AllowAnonymous]
         [HttpPost]
-        public HttpResponseMessage AttachPhoto(int Id, int Photo, int Certificate, int CREATED_BY)
+        public List<string> AttachPhoto(int Id, int Photo, int Certificate, int CREATED_BY)
         {
-             _AppLogger = this.GetType().FullName;
+            _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             var UserId = Id;
             var Created_By = CREATED_BY;
             HttpResponseMessage result = null;
-            UploadDataReturnModel model = new UploadDataReturnModel();
-            model.Status = "False";
-            model.Message = "Invalid data";
             string filePath = "";
             string returnPath = "";
             var docfiles = new List<string>();
@@ -2445,7 +2441,14 @@ namespace MyCortex.User.Controller
                             {
                                 fileData = binaryReader.ReadBytes(postedFile.ContentLength);
                             }
-                           
+                            //Image x = (Bitmap)((new ImageConverter()).ConvertFrom(fileData));
+                            //Image img = ToImage(fileData);
+                            //Size thumbnailSize = GetThumbnailSize(img);
+                            //Image ThumImage = ResizeImage(img, thumbnailSize.Width, thumbnailSize.Height);
+                            //Image Cimage = ResizeImage(img, 40, 40);
+                            ////ImageConverter Class convert Image object to Byte array.
+                            //byte[] compressimage = (byte[])(new ImageConverter()).ConvertTo(Cimage, typeof(byte[]));
+                            //byte[] compressimage1 = (byte[])(new ImageConverter()).ConvertTo(ThumImage, typeof(byte[]));
                             if (Photo == 1)
                             {
                                 Image img = ToImage(fileData);
@@ -2464,25 +2467,23 @@ namespace MyCortex.User.Controller
                                 repository.UserDetails_CertificateUpload(fileData, UserId);
                             }
 
+                            docfiles.Add(postedFile.ToString());
                         }
-                        model.Message = "Uploaded Successfully!";
-                        model.Status = "True";
-                        result = Request.CreateResponse(HttpStatusCode.OK, model);
+                        result = Request.CreateResponse(HttpStatusCode.OK, docfiles);
                     }
                     else
                     {
-                        model.Message = "Uploaded Failure!";
-                        model.Status = "False";
-                        result = Request.CreateResponse(HttpStatusCode.OK, model);
+                        repository.UserDetails_PhotoUpload(null, UserId);
+                        result = Request.CreateResponse(HttpStatusCode.OK);
                     }
                 }
 
             }
             catch (Exception ex)
             {
-              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
-            return result;
+            return docfiles;
         }
 
         /// <summary>
