@@ -375,19 +375,19 @@
 </div>
 
 
-<div class="hivesignupcontainer" style="width:636px;" ng-show="ProductName == 'Hive'">
+<div class="hives_signup_container1" style="width:636px;" ng-show="ProductName == 'Hive'">
     <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
     <div>
         <!--<p class="SignUpContainer">
             <img src="{{PrdImg}}" alt="" width="70" height="50">
         </p>-->
-        <label style=" position: absolute; width: 107px; height: 40px; left: 251px; top: 0px; /* font-family: 'Red Hat Display'; */ font-style: normal; font-weight: 800; font-size: 32px; line-height: 40px;">Signup</label>
-        <label style="position: absolute; /* width: 218px; */ height: 24px; left: 200px; top: 40px; font-style: normal; font-weight: 400; font-size: 16px; line-height: 24px; font-feature-settings: 'salt' on, 'liga' off; color: #242424; ">Please Signup to your account</label>
+        <label style=" position: absolute; width: 107px; height: 40px; left: 268px; top: 5px; /* font-family: 'Red Hat Display'; */ font-style: normal; font-weight: 800; font-size: 32px; line-height: 40px;">Signup</label>
+        <label style="position: absolute; /* width: 218px; */ height: 24px; left: 200px; font-style: normal; font-weight: 400; font-size: 16px; line-height: 24px; font-feature-settings: 'salt' on, 'liga' off; color: #242424; ">Please Signup to your account</label>
         <h1>
             <!--<img src="{{PrdImg}}" width="70" height="50">-->
             <!--MyCortex--><!--{{ProductName}} Sign Up-->
             <i class="fa fa-language" aria-hidden="true"></i>
-            <select style="text-align: right !important; margin-bottom: 16px;float:right; width:30%; font-size: 15px" ng-model="selectedLanguage" ng-change="FilterLanguageSettingsList()">
+            <select style="margin-bottom: 16px;float:right; width:30%; font-size: 15px" ng-model="selectedLanguage" ng-change="FilterLanguageSettingsList()">
                 <option ng-repeat="item1 in InstitutionLanguageList" value="{{item1.Id}}">
                     {{item1.LanguageName}}
                 </option>

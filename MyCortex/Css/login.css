@@ -105,6 +105,24 @@ body {
     border-radius: 24px;
 }
 
+.hives_signup_container1 {
+    /*display: flex;*/
+    /*flex-direction: row;*/
+    align-items: flex-start;
+    padding: 40px;
+    gap: 8px;
+    position: relative;
+    width: 636px;
+    height: 570px;
+    margin: 22px 15px;
+    /* left: 602px; */
+    /*top: 70px;*/
+    background: #FFFFFF;
+    border: 1px solid #E8EAF6;
+    box-shadow: 16px 16px 32px -32px rgba(0, 0, 0, 0.05);
+    border-radius: 24px;
+}
+
 .loginContainer {
     margin: 15px 15px;
     width: 450px;
