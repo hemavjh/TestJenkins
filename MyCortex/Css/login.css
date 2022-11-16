@@ -85,23 +85,18 @@ body {
 }
 
 .hivesignupcontainer {
-    /*display: flex;*/
     flex-direction: row;
     align-items: flex-start;
     padding: 30px;
     gap: 8px;
     position: absolute;
     width: 990px;
-    height: 665px;
-    left: 455px;
-    top: 100px;
-    /* Whitey */
-
-    background: #FFFFFF;
-    /* Grayie */
-
-    border: 1px solid #E8EAF6;
-    box-shadow: 16px 16px 32px -32px rgba(0, 0, 0, 0.05);
+    height: 550px;
+    left: 360px;
+    top: 75px;
+    background: #fff;
+    border: 1px solid #e8eaf6;
+    box-shadow: 16px 16px 32px -32px rgb(0 0 0 / 5%);
     border-radius: 24px;
 }
 
