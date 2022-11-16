@@ -2441,14 +2441,7 @@ namespace MyCortex.User.Controller
                             {
                                 fileData = binaryReader.ReadBytes(postedFile.ContentLength);
                             }
-                            //Image x = (Bitmap)((new ImageConverter()).ConvertFrom(fileData));
-                            //Image img = ToImage(fileData);
-                            //Size thumbnailSize = GetThumbnailSize(img);
-                            //Image ThumImage = ResizeImage(img, thumbnailSize.Width, thumbnailSize.Height);
-                            //Image Cimage = ResizeImage(img, 40, 40);
-                            ////ImageConverter Class convert Image object to Byte array.
-                            //byte[] compressimage = (byte[])(new ImageConverter()).ConvertTo(Cimage, typeof(byte[]));
-                            //byte[] compressimage1 = (byte[])(new ImageConverter()).ConvertTo(ThumImage, typeof(byte[]));
+
                             if (Photo == 1)
                             {
                                 Image img = ToImage(fileData);
@@ -2467,14 +2460,16 @@ namespace MyCortex.User.Controller
                                 repository.UserDetails_CertificateUpload(fileData, UserId);
                             }
 
-                            docfiles.Add(postedFile.ToString());
                         }
-                        result = Request.CreateResponse(HttpStatusCode.OK, docfiles);
+                        model.Message = "Uploaded Successfully!";
+                        model.Status = "True";
+                        result = Request.CreateResponse(HttpStatusCode.OK, model);
                     }
                     else
                     {
-                        repository.UserDetails_PhotoUpload(null, UserId);
-                        result = Request.CreateResponse(HttpStatusCode.OK);
+                        model.Message = "Uploaded Failure!";
+                        model.Status = "False";
+                        result = Request.CreateResponse(HttpStatusCode.OK, model);
                     }
                 }
 
@@ -2483,7 +2478,7 @@ namespace MyCortex.User.Controller
             {
                 _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
             }
-            return docfiles;
+            return result;
         }
 
         /// <summary>
