@@ -2422,9 +2422,9 @@ namespace MyCortex.User.Controller
             var UserId = Id;
             var Created_By = CREATED_BY;
             HttpResponseMessage result = null;
-            string filePath = "";
-            string returnPath = "";
-            var docfiles = new List<string>();
+            UploadDataReturnModel model = new UploadDataReturnModel();
+            model.Status = "False";
+            model.Message = "Invalid data";
             try
             {
                 //if (fileName != null)
