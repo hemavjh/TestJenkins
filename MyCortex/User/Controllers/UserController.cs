@@ -2405,8 +2405,6 @@ namespace MyCortex.User.Controller
             return docfiles;
         }
 
-
-
         /// <summary>
         /// to attach photo or certificate of user
         /// </summary>
@@ -2414,8 +2412,9 @@ namespace MyCortex.User.Controller
         /// <param name="Photo"></param>
         /// <param name="Certificate"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpPost]
-        public List<string> AttachPhoto(int Id, int Photo, int Certificate, int CREATED_BY)
+        public HttpResponseMessage AttachPhoto(int Id, int Photo, int Certificate, int CREATED_BY)
         {
             _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
