@@ -22,6 +22,7 @@ namespace MyCortex.Admin.Models
         public long GatewayId { get; set; }
         public string GatewayKey { get; set; }
         public string GatewayValue { get; set; }
+        //public string GatewayUrl{ get; set; }
     }
 
     public class GatewaySettingsReturnModels

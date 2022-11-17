@@ -640,9 +640,9 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             }
             var isMYH = false;
             //$scope.ProductName1 = 'MyHealth';
-            if ($scope.ProductName1 == 'MyHealth') {
-                isMYH = true;
-            }
+            //if ($scope.ProductName1 == 'MyHealth') {
+            //    isMYH = true;
+            //}
             if ($scope.ProductName1 == 'Hive') {
                 $("#chatLoaderPV1").show();
             } else {
@@ -1477,12 +1477,16 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             $scope.UserProfieName = "";
             $('#UserLogo').val('');
             $scope.UserPhotoValue = 0;
+            $scope.UserLogo = '';
         };
         $scope.UUIDFileDelete = function (index) {
             // delete the file
             $scope.showUUIDFiles.splice(index, 1);
         }
         $scope.photoChange = function (e) {
+            //$scope.UserLogo = '';
+            $scope.UserProfieName = "";
+            //$('#UserLogo').val('');
             if ($('#UserLogo')[0].files[0] != undefined) {
                 $scope.ProfieName = $('#UserLogo')[0].files[0]['name'];
                 $scope.ProfieName = e.files[0]['name'];
@@ -1491,48 +1495,33 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
         }
         $scope.UserPhotoValue = 0;
         $scope.PatientgetBase64Image = function () {
-            //$scope.LoadGenderList();
-            //$scope.Editclearimage();
-            if ($scope.UserPhotoValue == 0) {
-                var maleId = 0;
-                var feMaleId = 0;
-                angular.forEach($scope.GenderList, function (value, index) {
-                    $scope.Gender_Name = value.Gender_Name;
-                    if ($scope.Gender_Name.toLowerCase() == "male") {
-                        maleId = value.Id.toString();
-                    }
-                    else if ($scope.Gender_Name.toLowerCase() == 'female') {
-                        feMaleId = value.Id.toString();
-                    }
-                });
+           
+            //if ($scope.UserPhotoValue == 0) {
+            //    var maleId = 0;
+            //    var feMaleId = 0;
+            //    angular.forEach($scope.GenderList, function (value, index) {
+            //        $scope.Gender_Name = value.Gender_Name;
+            //        if ($scope.Gender_Name.toLowerCase() == "male") {
+            //            maleId = value.Id.toString();
+            //        }
+            //        else if ($scope.Gender_Name.toLowerCase() == 'female') {
+            //            feMaleId = value.Id.toString();
+            //        }
+            //    });
 
 
 
-                var picPath = "others.png";
-                if (typeof ($scope.Gender_Name) != "undefined")
-                    if ($scope.GenderId == feMaleId) {
-                        picPath = "Patient_Female.png";
-                    }
-                    else if ($scope.GenderId == maleId) {
-                        picPath = "Patient_Male.png";
-                    }
+            //    var picPath = "others.png";
+            //    if (typeof ($scope.Gender_Name) != "undefined")
+            //        if ($scope.GenderId == feMaleId) {
+            //            picPath = "Patient_Female.png";
+            //        }
+            //        else if ($scope.GenderId == maleId) {
+            //            picPath = "Patient_Male.png";
+            //        }
 
-                $scope.UserProfieName = picPath;
-                //document.getElementById('UserLogo').innerHTML = $scope.UserProfieName;
-                //var request = new XMLHttpRequest();
-                //request.open('GET', picPath, true);
-                //request.responseType = 'blob';
-                //request.onload = function () {
-                //    var reader = new FileReader();
-                //    reader.readAsDataURL(request.response);
-                //    reader.onload = function (e) {
-                //        $scope.uploadmes = e.target.result;
-                //        $scope.ProfieName = $scope.uploadmes;
-                //        $scope.$apply();
-                //    };
-                //};
-                //request.send();
-            }
+            //    $scope.UserProfieName = picPath;                
+            //}
         };
         
         $scope.UIDfileChange = function (e) {
@@ -1765,6 +1754,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                 ).success(function (response) {
                     $scope.UserProfieName = "";
                     $scope.ProfieName = "";
+                    $scope.UserLogo = '';
                     $('#UserLogo').val('');
                 })
             }

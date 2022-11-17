@@ -69,6 +69,7 @@ namespace MyCortex.Admin.Controllers
             string privateKey = string.Empty;
             string publicKey = string.Empty;
             string partnetId = string.Empty;
+            string PaybyUrl = string.Empty;
             double amount2 = Convert.ToDouble(gatewayrepository.PatientAmount(Institution_Id, Department_Id, Appointment_Id));
             gatewayModel = gatewayrepository.GatewaySettings_Details(Institution_Id, 2, "RSAPrivateKey");
             if (gatewayModel.Count > 0)
@@ -84,6 +85,11 @@ namespace MyCortex.Admin.Controllers
             if (gatewayModel.Count > 0)
             {
                 partnetId = gatewayModel[0].GatewayValue;
+            }
+            gatewayModel = gatewayrepository.GatewaySettings_Details(Institution_Id, 2, "Gateway Url");
+            if (gatewayModel.Count > 0)
+            {
+                PaybyUrl = gatewayModel[0].GatewayValue;
             }
             privateKey = privateKey.Replace("-----BEGIN RSA PRIVATE KEY-----", "")
                 .Replace("-----END RSA PRIVATE KEY-----", "");
@@ -110,7 +116,8 @@ namespace MyCortex.Admin.Controllers
             payByCreateReq.bizContent = bizContent;
             try
             {
-                string url = "https://uat.test2pay.com/sgs/api/acquire2/placeOrder";
+                string url = PaybyUrl;
+                    //"https://uat.test2pay.com/sgs/api/acquire2/placeOrder";
                 HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
                 req.Method = "POST";
                 req.ContentType = "application/json";
@@ -233,6 +240,7 @@ namespace MyCortex.Admin.Controllers
             string privateKey = string.Empty;
             string publicKey = string.Empty;
             string partnetId = string.Empty;
+            string PaybyUrl = string.Empty;
             //string baseUrl = HttpContext.Request.Url.Authority;
             try
             {
@@ -261,6 +269,11 @@ namespace MyCortex.Admin.Controllers
                 {
                     partnetId = gatewayModel[0].GatewayValue;
                 }
+                gatewayModel = gatewayrepository.GatewaySettings_Details(refundInstitutionId, 2, "Gateway Url");
+                if (gatewayModel.Count > 0)
+                {
+                    PaybyUrl = gatewayModel[0].GatewayValue;
+                }
                 privateKey = privateKey.Replace("-----BEGIN RSA PRIVATE KEY-----", "")
                     .Replace("-----END RSA PRIVATE KEY-----", "");
 
@@ -284,7 +297,8 @@ namespace MyCortex.Admin.Controllers
                 payByCreateReq.bizContent = bizContent;
                 try
                 {
-                    string url = "https://uat.test2pay.com/sgs/api/acquire2/refund/placeOrder";
+                    string url = PaybyUrl;
+                        //"https://uat.test2pay.com/sgs/api/acquire2/refund/placeOrder";
                     HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
                     req.Method = "POST";
                     req.ContentType = "application/json";
@@ -361,6 +375,8 @@ namespace MyCortex.Admin.Controllers
                 string privateKey = string.Empty;
                 string publicKey = string.Empty;
                 string partnetId = string.Empty;
+                string PaybyUrl = string.Empty;
+
                 //string baseUrl = HttpContext.Request.Url.Authority;
                 long appointmentId = Convert.ToInt64(form["paymentAppointmentId"]);
                 long departmentId = Convert.ToInt64(form["paymentdepartmentId"]);
@@ -384,6 +400,11 @@ namespace MyCortex.Admin.Controllers
                 if (gatewayModel.Count > 0)
                 {
                     partnetId = gatewayModel[0].GatewayValue;
+                }
+                gatewayModel = gatewayrepository.GatewaySettings_Details(PInstitutionId, 2, "Gateway Url");
+                if (gatewayModel.Count > 0)
+                {
+                    PaybyUrl = gatewayModel[0].GatewayValue;
                 }
                 privateKey = privateKey.Replace("-----BEGIN RSA PRIVATE KEY-----", "")
                     .Replace("-----END RSA PRIVATE KEY-----", "");
@@ -452,7 +473,8 @@ namespace MyCortex.Admin.Controllers
                 payByCreateReq.requestTime = (DateTime.UtcNow.Ticks - unixRef.Ticks) / 10000;
                 payByCreateReq.bizContent = bizContent;
 
-                string url = "https://uat.test2pay.com/sgs/api/acquire2/placeOrder";
+                string url = PaybyUrl; 
+                 //"https://uat.test2pay.com/sgs/api/acquire2/placeOrder";
                 HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
                 req.Method = "POST";
                 req.ContentType = "application/json";

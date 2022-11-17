@@ -488,7 +488,7 @@ namespace MyCortex.Repositories.Template
             {
                 param.Add(new DataParameter("@UserId", UserId));
 
-                ClsDataBase.Update("[MYCORTEX].[GET_RECORDING_URL]", param);
+                ClsDataBase.Update("[MYCORTEX].[LIVEBOX_USERDETAILS_DELETE]", param);
             }
             catch (Exception ex)
             {
