@@ -176,8 +176,9 @@
 
         var ProductName = jQuery.parseJSON('@Html.Action("GetProduct_Details", "Home")');
         $(document).ready(function () {
+            //alert(ProductName[5]);
             const favicon = document.getElementById("ProductImg");
-            favicon.setAttribute("href", ProductName[1]);
+            favicon.setAttribute("href", ProductName[3]);
 
             var ProductNameId = document.getElementById('ProductName');
             console.log(ProductName[0]);

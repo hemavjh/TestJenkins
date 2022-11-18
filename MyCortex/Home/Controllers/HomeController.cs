@@ -411,6 +411,7 @@ namespace MyCortex.Home.Controllers
                 t.Add(lst[0].ProductName);
                 t.Add(lst[0].ProductImg);
                 t.Add(lst[0].PoweredBy);
+                t.Add(lst[0].ProductFavIcon);
                 var json = jsonSerialiser.Serialize(t);
                 return Content(json);
             }
