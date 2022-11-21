@@ -83,79 +83,79 @@ namespace MyCortexService
                     var dateAndTime = DateTime.Now;
                     executedTime = dateAndTime.ToString("dd/MM/yyyy");
 
-                    //if (executedTime == "" || executedTime != lastexecutedTime)
-                    //{
-                    //    try
-                    //    {
-                    //        // archiving mail and notification > 365 days
-                    //        emailrepository.SendArchivedetails();
-                    //        lastexecutedTime = executedTime;
+                    if (executedTime == "" || executedTime != lastexecutedTime)
+                    {
+                        try
+                        {
+                            // archiving mail and notification > 365 days
+                            emailrepository.SendArchivedetails();
+                            lastexecutedTime = executedTime;
 
-                    //        IList<PasswordExpiry_AlertEventModel> PwdEmailList;
+                            IList<PasswordExpiry_AlertEventModel> PwdEmailList;
 
-                    //        // pwd expiry notification to user ex. before 90 days, 60 days,...
-                    //        Event_Code = "PASSWORD_EXPIRY";
-                    //        PwdEmailList = alertrepository.AlertEvent_Get_PasswordExpiry_List();
+                            // pwd expiry notification to user ex. before 90 days, 60 days,...
+                            Event_Code = "PASSWORD_EXPIRY";
+                            PwdEmailList = alertrepository.AlertEvent_Get_PasswordExpiry_List();
 
-                    //        foreach (PasswordExpiry_AlertEventModel modobj in PwdEmailList)
-                    //        {
-                    //            EmailList = alertrepository.UserSpecificEmailList((long)modobj.Institution_Id, modobj.UserId);
-                    //            // send email & notification
-                    //            AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, modobj.UserId, (long)modobj.Institution_Id, EmailList);
-                    //        }
+                            foreach (PasswordExpiry_AlertEventModel modobj in PwdEmailList)
+                            {
+                                EmailList = alertrepository.UserSpecificEmailList((long)modobj.Institution_Id, modobj.UserId);
+                                // send email & notification
+                                AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, modobj.UserId, (long)modobj.Institution_Id, EmailList);
+                            }
 
-                    //        IList<TargetAchived_AlertEventModel> targetweekly;
-                    //        // target achived weekly alerts
-                    //        // execute once a day
-                    //        Event_Code = "TARGET_WEEKLY";
-                    //        targetweekly = alertrepository.AlertEvent_TargetAchievedWeekly_List();
+                            IList<TargetAchived_AlertEventModel> targetweekly;
+                            // target achived weekly alerts
+                            // execute once a day
+                            Event_Code = "TARGET_WEEKLY";
+                            targetweekly = alertrepository.AlertEvent_TargetAchievedWeekly_List();
 
-                    //        foreach (TargetAchived_AlertEventModel modobj in targetweekly)
-                    //        {
-                    //            EmailList = alertrepository.UserSpecificEmailList((long)modobj.Institution_Id, modobj.UserId);
-                    //            // send email & notification
-                    //            AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, modobj.UserId, (long)modobj.Institution_Id, EmailList);
-                    //        }
+                            foreach (TargetAchived_AlertEventModel modobj in targetweekly)
+                            {
+                                EmailList = alertrepository.UserSpecificEmailList((long)modobj.Institution_Id, modobj.UserId);
+                                // send email & notification
+                                AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, modobj.UserId, (long)modobj.Institution_Id, EmailList);
+                            }
 
-                    //        IList<LicenceExpiry_AlertEventModel> LincenseExpiry;
-                    //        // license expiry reminder
-                    //        Event_Code = "LICENCE_EXPIRY";
-                    //        LincenseExpiry = alertrepository.AlertEvent_Get_LicenceExpiry_List();
+                            IList<LicenceExpiry_AlertEventModel> LincenseExpiry;
+                            // license expiry reminder
+                            Event_Code = "LICENCE_EXPIRY";
+                            LincenseExpiry = alertrepository.AlertEvent_Get_LicenceExpiry_List();
 
-                    //        foreach (LicenceExpiry_AlertEventModel modobj in LincenseExpiry)
-                    //        {
-                    //            EmailList = alertrepository.InstitutionCreateEvent((long)modobj.Institution_Id, modobj.HosAdmin_Id);
-                    //            // send email & notification
-                    //            AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, modobj.HosAdmin_Id, (long)modobj.Institution_Id, EmailList);
-                    //        }
+                            foreach (LicenceExpiry_AlertEventModel modobj in LincenseExpiry)
+                            {
+                                EmailList = alertrepository.InstitutionCreateEvent((long)modobj.Institution_Id, modobj.HosAdmin_Id);
+                                // send email & notification
+                                AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, modobj.HosAdmin_Id, (long)modobj.Institution_Id, EmailList);
+                            }
 
-                    //        IList<PatientHealthDataModel> complist;
-                    //        // target achived weekly alerts
-                    //        // execute once a day
-                    //        Event_Code = "";
-                    //        complist = alertrepository.PatientHealthData_Compliance_List();
+                            IList<PatientHealthDataModel> complist;
+                            // target achived weekly alerts
+                            // execute once a day
+                            Event_Code = "";
+                            complist = alertrepository.PatientHealthData_Compliance_List();
 
-                    //        foreach (PatientHealthDataModel modobj in complist)
-                    //        {
-                    //            if (modobj.HighCount > 0)
-                    //                Event_Code = "COMP_HIGH";
-                    //            else if (modobj.MediumCount > 0)
-                    //                Event_Code = "COMP_MEDIUM";
-                    //            else if (modobj.LowCount > 0)
-                    //                Event_Code = "COMP_LOW";
-                    //            if (Event_Code != "")
-                    //            {
-                    //                EmailList = alertrepository.UserSpecificEmailList((long)modobj.Institution_Id, modobj.Patient_Id);
-                    //                // send email & notification
-                    //                AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, modobj.Patient_Id, (long)modobj.Institution_Id, EmailList);
-                    //            }
-                    //        }
-                    //    }
-                    //    catch (Exception ex)
-                    //    {
-                    //        TraceException(ex);
-                    //    }
-                    //}
+                            foreach (PatientHealthDataModel modobj in complist)
+                            {
+                                if (modobj.HighCount > 0)
+                                    Event_Code = "COMP_HIGH";
+                                else if (modobj.MediumCount > 0)
+                                    Event_Code = "COMP_MEDIUM";
+                                else if (modobj.LowCount > 0)
+                                    Event_Code = "COMP_LOW";
+                                if (Event_Code != "")
+                                {
+                                    EmailList = alertrepository.UserSpecificEmailList((long)modobj.Institution_Id, modobj.Patient_Id);
+                                    // send email & notification
+                                    AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, modobj.Patient_Id, (long)modobj.Institution_Id, EmailList);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            TraceException(ex);
+                        }
+                    }
 
                     DataTable dttbl = ClsDataBase.GetDataTable("[MYCORTEX].[LIVEBOX_USERDETAILS]");
                     if (dttbl.Rows.Count > 0)

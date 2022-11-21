@@ -160,7 +160,7 @@ namespace MyCortex.Notification.Firebase
                 {
 
                 }
-            }
+            }            
         }
         private async static Task<IRestResponse> SendPushLiveboxNotification(PushNotificationMessage message, string Url, long User_Id)
         {
@@ -228,7 +228,9 @@ namespace MyCortex.Notification.Firebase
             }
             finally
             {
-                repository.LiveBox_UserDetails_Delete(User_Id); //returnObj.results
+                if(deliveryStatus == 1) { 
+                    repository.LiveBox_UserDetails_Delete(User_Id); //returnObj.results
+                }
             }
 
             return null;
