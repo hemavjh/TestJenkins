@@ -3621,14 +3621,16 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 }
                 else if ($scope.NationalId == "" && $scope.UID == "") {
                     //alert("Please select Date of Birth");
-                    toastr.warning("Please Enter Emirates ID or UID", "warning");
+                    toastr.warning("Please Enter Emirates ID or UID", "warning");                   
                     $("#chatLoaderPV").hide();
+                    $scope.currentTab = 7;
                     return false;
                 }
                 else if ($scope.Nationalityresumedoc.length == 0 && $scope.UIDshow.length == 0) {
                     //alert("Please select Date of Birth");
                     toastr.warning("Please Select Emirates ID or UID Images ", "warning");
                     $("#chatLoaderPV").hide();
+                    $scope.currentTab = 7;
                     return false;
                 }
                 else if (typeof ($scope.MaritalStatusId) == "undefined" || $scope.MaritalStatusId == "0") {
