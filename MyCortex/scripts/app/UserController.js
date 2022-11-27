@@ -3619,20 +3619,6 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.currentTab = 1;
                     return false;
                 }
-                else if ($scope.NationalId == "" && $scope.UID == "") {
-                    //alert("Please select Date of Birth");
-                    toastr.warning("Please Enter Emirates ID or UID", "warning");                   
-                    $("#chatLoaderPV").hide();
-                    $scope.currentTab = 7;
-                    return false;
-                }
-                else if ($scope.Nationalityresumedoc.length == 0 && $scope.UIDshow.length == 0) {
-                    //alert("Please select Date of Birth");
-                    toastr.warning("Please Select Emirates ID or UID Images ", "warning");
-                    $("#chatLoaderPV").hide();
-                    $scope.currentTab = 7;
-                    return false;
-                }
                 else if (typeof ($scope.MaritalStatusId) == "undefined" || $scope.MaritalStatusId == "0") {
                     //alert("Please select Marital Status under Additional Info");
                     toastr.warning("Please select Marital Status under Additional Info", "warning");
@@ -3694,7 +3680,21 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $("#chatLoaderPV").hide();
                     $scope.currentTab = 3;
                     return false;
+                } else if ($scope.NationalId == "" && $scope.UID == "") {
+                    //alert("Please select Date of Birth");
+                    toastr.warning("Please Enter Emirates ID or UID", "warning");
+                    $("#chatLoaderPV").hide();
+                    $scope.currentTab = 7;
+                    return false;
                 }
+                else if ($scope.Nationalityresumedoc.length == 0 && $scope.UIDshow.length == 0) {
+                    //alert("Please select Date of Birth");
+                    toastr.warning("Please Select Emirates or UID Images ", "warning");
+                    $("#chatLoaderPV").hide();
+                    $scope.currentTab = 7;
+                    return false;
+                }
+                
                 if ($scope.CURRENTLY_TAKEMEDICINE == 1) {
                     if (($ff($scope.AddMedicines, { Status: 1 }).length == 0)) {
                         //alert("Please add atleast one row for Currrently Take Medicine under Medical Info");
