@@ -232,10 +232,20 @@
                                                 <tr>
                                                     <td>
                                                         <div class="row">
-                                                            <div class="col-md-4" ng-repeat="sel in TelephoneList">
-                                                            <input type="radio" id="telephone_Id{{sel.Id}}" ng-selected="{{TelePhone_User == sel.Id}}" ng-model="TelePhone_User" ng-click="TelePhoneChange('telephone_Id'+sel.Id,sel);"
-                                                                   value={{sel.Id}} name="TelePhone" />
-                                                            {{sel.Name}}
+                                                            <div class="col-md-3" ng-repeat="sel in TelephoneList">
+                                                                <input type="radio" id="telephone_Id{{sel.Id}}" ng-selected="{{TelePhone_User == sel.Id}}" ng-model="TelePhone_User" ng-click="TelePhoneChange('telephone_Id'+sel.Id,sel);"
+                                                                       value={{sel.Id}} name="TelePhone" />
+                                                                {{sel.Name}}
+                                                            </div>   
+                                                            
+                                                            <div class="col-sm-3">
+                                                                <label>Hive Meet Recording<sup><font class='mandatory-field'>*</font></sup></label>
+                                                            </div>
+                                                            <div class="col-sm-2">                                                               
+                                                                <input type="radio" value="1" ng-model="Recording_Type" ng-checked="checked='true'"> Active
+                                                            </div>
+                                                            <div class="col-sm-2">
+                                                                <input type="radio" value="2" ng-model="Recording_Type"> Deactive                                                                
                                                             </div>
                                                         </div>
                                                     </td>
@@ -376,23 +386,7 @@
                                                         </table>
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label>Recording<sup><font class='mandatory-field'>*</font></sup></label>
-                                                    </td>
-                                                    <td class="nopadding">
-                                                        <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
-                                                            <tr>
-                                                                <td>
-                                                                    <!--<div id="divInssType" class="ng-valid ddlValidationBorder" ng-required="true">-->
-                                                                    <input type="radio" value="1" ng-model="Recording_Type" ng-checked="checked='true'"> Active
-                                                                    <input type="radio" value="2" ng-model="Recording_Type"> Deactive
-                                                                    <!--</div>-->
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                    </td>
-                                                </tr>
+                                                
                                                 <!--<tr>
     <td>
         <label>Chronic Edit<sup><font class='mandatory-field'>*</font></sup></label>
