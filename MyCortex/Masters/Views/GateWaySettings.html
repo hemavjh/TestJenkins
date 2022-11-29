@@ -133,10 +133,14 @@
                 <td style="text-align: left">
                     {{row.GatewayKey}}
                 </td>
-                <td style="text-align: left">
+                <td style="text-align: left" ng-if="row.GatewayKey!='Environment'">
                     <input type="text" class="form-control" style="max-width:100% !important"
                            ng-model="GatewayText[row.Id]" placeholder="" ng-if="IsEdit==true">
                     <span ng-if="IsEdit==false">{{row.GatewayValue}}</span>
+                </td>
+                <td ng-if="row.GatewayKey=='Environment'">
+                    <input type="radio" value="UAT" ng-model="GatewayText[row.Id]" ng-checked="checked='true'"> UAT
+                    <input type="radio" value="PRODUCTION" ng-model="GatewayText[row.Id]"> PRODUCTION
                 </td>
             </tr>
         </tbody>

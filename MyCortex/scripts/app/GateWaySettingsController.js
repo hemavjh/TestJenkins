@@ -16,6 +16,7 @@ GateWaySettingscontroller.controller("GateWaySettingsController", ['$scope', '$h
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
         $scope.UserTypeId = parseInt($window.localStorage["UserTypeId"]);
         $scope.status = 0;
+        $scope.Environment = "UAT";
 
         $http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).success(function (data) {
             $scope.InstitutiondetailsListTemp = [];
