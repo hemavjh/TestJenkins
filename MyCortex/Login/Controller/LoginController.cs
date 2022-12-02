@@ -187,7 +187,7 @@ namespace MyCortex.Login.Controller
                     {
                         model.ReturnFlag = 1;
                         messagestr = model.Messagetype;
-                        model.Status = "False";
+                        model.Status = "True";
                     }
                     else if ((model.data == 9) == true)
                     {
