@@ -883,6 +883,8 @@ namespace MyCortex.Home.Controllers
             try
             {
                 int retid = 0;
+                string userID = "";
+
                 Stream req = Request.InputStream;
                 req.Seek(0, System.IO.SeekOrigin.Begin);
                 string json = new StreamReader(req).ReadToEnd();
@@ -930,7 +932,7 @@ namespace MyCortex.Home.Controllers
                 {
                     retid = liveBoxRepository.LiveBox_Recording_url(conferencename, recording_url);
                 }
-                retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename, InstitutionId);
+                retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename, InstitutionId,userID);
 
                 //PushNotificationMessage message = new PushNotificationMessage();
                 //message.Title = "Notification For Call";

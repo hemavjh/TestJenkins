@@ -157,28 +157,7 @@ namespace MyCortexService
                         }
                     }
 
-                    DataTable dttbl = ClsDataBase.GetDataTable("[MYCORTEX].[LIVEBOX_USERDETAILS]");
-                    if (dttbl.Rows.Count > 0)
-                    {
-                        try
-                        {
-                            foreach (DataRow dr in dttbl.Rows)
-                            {
-                                //Id = long.Parse(dr["Id"].ToString());
-                                Institution_Id = long.Parse(dr["INSTITUTION_ID"].ToString());
-                                User_Id = long.Parse(dr["Doctor_Id"].ToString());
-                                //  Patient_Id = dr["Patient_Id"].ToString();
-                                PushNotificationMessage message = new PushNotificationMessage();
-                                message.Title = "Notificaion For Call";
-                                message.Message = "Waiting for meet";
-                                PushNotificationApiManager.SendLiveboxNotification(message, User_Id, Institution_Id);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            TraceException(ex);
-                        }
-                    }
+                    
 
                     // TBLPATIENT_LIFESTYLEDATA_FOR_EMAIL_NOTIFICATION
                     // Start

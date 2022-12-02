@@ -41,6 +41,9 @@ using MyCortex.User.Models;
 using MyCortex.Notification.Models;
 using MyCortex.Repositories.EmailAlert;
 using MyCortex.Notification;
+using MyCortexDB;
+using static MyCortex.Notification.Firebase.PushNotificationApiManager;
+using System.Data;
 
 namespace MyCortex.Livebox.Controllers
 {
@@ -84,6 +87,7 @@ namespace MyCortex.Livebox.Controllers
             try
             {
                 int retid = 0;
+                string userID = "";
                 Stream req = Request.InputStream;
                 req.Seek(0, System.IO.SeekOrigin.Begin);
                 string json = new StreamReader(req).ReadToEnd();
@@ -95,7 +99,7 @@ namespace MyCortex.Livebox.Controllers
                 {
                     retid = liveBoxRepository.LiveBox_Recording_url(conferencename, recording_url);
                 }
-                retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename, InstitutionId);
+                retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename, InstitutionId,userID);
                 //PushNotificationMessage message = new PushNotificationMessage();
                 //message.Title = "Notification For Call";
                 //message.Message = "call end";
@@ -227,6 +231,14 @@ namespace MyCortex.Livebox.Controllers
                 req.Seek(0, System.IO.SeekOrigin.Begin);
                 string json = new StreamReader(req).ReadToEnd();
                 retid = liveBoxRepository.LiveBox_Notify_Log(json);
+                string ConferenceId = JObject.Parse(json)["conferencename"].ToString();
+                string userID = "";
+
+                if (json.Contains("WaitingUserStatus"))
+                {
+                    userID = JObject.Parse(json)["userid"].ToString();
+                    retid = liveBoxRepository.LiveBox_Notify_UPDATE(ConferenceId, InstitutionId, userID);                   
+                }
                 return Content("SUCCESS");
             }
             catch (Exception e)

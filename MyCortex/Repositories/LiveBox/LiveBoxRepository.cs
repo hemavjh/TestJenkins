@@ -8,6 +8,8 @@ using MyCortexDB;
 using MyCortex.Utilities;
 using MyCortex.User.Models;
 using System.Runtime.Remoting.Contexts;
+using MyCortex.Notification.Firebase;
+using static MyCortex.Notification.Firebase.PushNotificationApiManager;
 
 namespace MyCortex.Repositories.LiveBox
 {
@@ -34,15 +36,36 @@ namespace MyCortex.Repositories.LiveBox
             retFlag = ClsDataBase.Insert("[MYCORTEX].[LIVEBOX_REMAININGTIME_LOG]", param, true);
             return retFlag;
         }
-        public int LiveBox_Notify_UPDATE(string conferencename,long Institution_Id)
+        public int LiveBox_Notify_UPDATE(string conferencename,long Institution_Id, string userID)
         {
             int retid = 0;
+            long User_Id;
+
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@conferencename", conferencename));
             param.Add(new DataParameter("@Institution_Id", Institution_Id));
+            param.Add(new DataParameter("@UserId", userID));
             retid = ClsDataBase.Insert("[MYCORTEX].[LIVEBOX_NOTIFY_LOG_GET_SP]", param, true);
-            return retid;
 
+           
+
+            DataTable dttbl = ClsDataBase.GetDataTable("[MYCORTEX].[LIVEBOX_USERDETAILS]");
+            if (dttbl.Rows.Count > 0)
+            {               
+                foreach (DataRow dr in dttbl.Rows)
+                {
+                    //Id = long.Parse(dr["Id"].ToString());
+                    Institution_Id = long.Parse(dr["INSTITUTION_ID"].ToString());
+                    User_Id = long.Parse(dr["Doctor_Id"].ToString());
+                    //  Patient_Id = dr["Patient_Id"].ToString();
+                    PushNotificationMessage message = new PushNotificationMessage();
+                    message.Title = "Notificaion For Call";
+                    message.Message = "Waiting for meet";
+                    PushNotificationApiManager.SendLiveboxNotification(message, User_Id, Institution_Id);
+                }
+            }
+
+            return retid;
         }
         public int LiveBox_Recording_url(string conferencename, string recording_url) 
             {
