@@ -91,7 +91,7 @@ namespace MyCortex.Livebox.Controllers
                 Stream req = Request.InputStream;
                 req.Seek(0, System.IO.SeekOrigin.Begin);
                 string json = new StreamReader(req).ReadToEnd();
-                //retid = liveBoxRepository.LiveBox_Notify_Log(json);
+                retid = liveBoxRepository.LiveBox_Notify_Log(json);
                 dynamic data = JsonConvert.DeserializeObject(json);
                 string conferencename = data.conferencename;
                 string recording_url = data.recordedvideoURL;
