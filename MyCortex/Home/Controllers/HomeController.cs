@@ -934,11 +934,11 @@ namespace MyCortex.Home.Controllers
                 }
                 retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename, InstitutionId,userID);
 
-                //if (json.Contains("WaitingUserStatus"))
-                //{
-                //    userID = JObject.Parse(json)["userid"].ToString();
-                //    retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename, InstitutionId, userID);
-                //}
+                if (json.Contains("WaitingUserStatus"))
+                {
+                    userID = JObject.Parse(json)["userid"].ToString();
+                    retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename, InstitutionId, userID);
+                }
 
                 //PushNotificationMessage message = new PushNotificationMessage();
                 //message.Title = "Notification For Call";
