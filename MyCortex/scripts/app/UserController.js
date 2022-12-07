@@ -304,6 +304,29 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     angular.element('#Date_Birth').attr('max', $scope.maxdateDOB);
                 }
             });
+
+
+        $http.get(baseUrl + '/api/Login/GetProduct_Details/').success(function (data) {           
+
+            $scope.ProductName = data[0].ProductName;
+            if ($scope.ProductName == 'MyCortex') {               
+                $scope.Id1 = 'Identification Number 1';
+                $scope.Id2 = 'Identification Number 2';
+                $scope.Id3 = 'Identification Number 3';
+                $scope.mandatory = '';
+            } else if ($scope.ProductName == 'MyHealth') {               
+                $scope.Id1 = 'Emirates Id';
+                $scope.Id2 = 'UID';
+                $scope.Id3 = 'Insurance ID';
+                $scope.mandatory = '<sup><font class="mandatory-field">*</font></sup>';
+            } else {                
+                $scope.Id1 = 'Identification Number 1';
+                $scope.Id2 = 'Identification Number 2';
+                $scope.Id3 = 'Identification Number 3';
+                $scope.mandatory = '';
+            }
+        });
+
        //if ($window.localStorage['UserTypeId'] == 3 || $window.localStorage['UserTypeId'] == 2) {
         $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionDetailList/?Id=' + $scope.SelectedInstitutionId).success(function (data) {
 
@@ -3680,14 +3703,14 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $("#chatLoaderPV").hide();
                     $scope.currentTab = 3;
                     return false;
-                } else if ($scope.NationalId == "" && $scope.UID == "") {
+                } else if ($scope.NationalId == "" && $scope.UID == "" && $scope.ProductName == "MyHealth") {
                     //alert("Please select Date of Birth");
                     toastr.warning("Please Enter Emirates ID or UID", "warning");
                     $("#chatLoaderPV").hide();
                     $scope.currentTab = 7;
                     return false;
                 }
-                else if ($scope.Nationalityresumedoc.length == 0 && $scope.UIDshow.length == 0) {
+                else if ($scope.Nationalityresumedoc.length == 0 && $scope.UIDshow.length == 0 && $scope.ProductName == "MyHealth") {
                     //alert("Please select Date of Birth");
                     toastr.warning("Please Select Emirates or UID Images ", "warning");
                     $("#chatLoaderPV").hide();

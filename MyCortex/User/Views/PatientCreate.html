@@ -400,7 +400,7 @@
                                 </div>-->
                                 <div class="inputGroups">
                                     <label>
-                                        Insurance ID<sup>
+                                        {{Id3}}<sup>
                                             <!--<font class='mandatory-field'>*</font>-->
                                         </sup>
                                     </label>
@@ -1420,13 +1420,13 @@
 
                                 <div class="col-sm-4">
                                     <div class="inputGroups" style="font-size: 16px;">
-                                        <label style=" margin-left: 0px; margin-top: 29px;">Insurance Card Image</label>
+                                        <label style=" margin-left: 0px; margin-top: 29px;">{{Id3}} Image</label>
                                     </div>
                                     <div class="inputGroups">
                                         <div class="imgAdd2">
                                             <input type="file" id="InsuranceLogo" fileread="uploadme2"
                                                    onchange="angular.element(this).scope().InsurancephotoChange(this)"
-                                                   name="InsurancePhotoFilename" title="Click to Upload Insurance Photo "
+                                                   name="InsurancePhotoFilename" title="Click to Upload {{Id3}} Photo "
                                                    style="height: 0px !important" accept="image/x-png,image/gif,image/jpeg"
                                                    ng-click="InsurancePhotoUplaodSelected()" />
 
@@ -1440,9 +1440,9 @@
                                                     Clear
                                                 </a>
                                                 <div style="max-width: 250px;" class="theme-btn-1" ng-hide="Pat_UserTypeId==2">
-                                                    <label for="InsuranceLogo" class="mb-0" title="Click to Upload Insurance Logo">
+                                                    <label for="InsuranceLogo" class="mb-0" title="Click to Upload {{Id3}} Logo">
                                                         <i class="fa fa-upload" ng-disabled="Pat_UserTypeId==2"></i>
-                                                        <span>Upload Insurance Photo</span>
+                                                        <span>Upload {{Id3}}</span>
                                                     </label>
                                                 </div>
                                             </div>
@@ -1482,14 +1482,14 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="inputGroups">
-                                        <label>Emirates ID<sup><font class='mandatory-field'>*</font></sup></label>
+                                        <label>{{Id1}}<sup ng-show="mandatory!=''"><font class="mandatory-field">*</font></sup></label>
                                         <input type="text" class="form-control" id="Text9" name="NationalId" 
                                                ng-model="NationalId" ng-init="NationalId=''" placeholder="" ng-maxlength="50"
                                                maxlength="50"  />
                                     </div>
                                     <div class="inputGroups">
                                         <div class="inputGroups" style="font-size: 16px;">
-                                            <label style=" margin-left: 0px; margin-top: 29px;">Emirates ID image</label>
+                                            <label style=" margin-left: 0px; margin-top: 29px;">{{Id1}} Image</label>
                                         </div>
                                         <div class="inputGroups">
                                             <div class="imgAdd2">
@@ -1516,7 +1516,7 @@
                                                     <div style="max-width: 250px;" class="theme-btn-1">
                                                         <label for="Nationalityresumedoc" class="mb-0" title="Click to Upload Logo">
                                                             <i class="fa fa-upload"></i>
-                                                            <span>Upload Emirates ID Photo</span>
+                                                            <span>Upload {{Id1}}</span>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -1529,13 +1529,13 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="inputGroups">
-                                        <label>UID</label>
+                                        <label>{{Id2}}</label>
                                         <input type="text" class="form-control" id="Text19" name="UserID" ng-model="UID" placeholder="" ng-maxlength="100"
                                                maxlength="100" />
                                     </div>
                                     <div class="inputGroups">
                                         <div class="inputGroups" style="font-size: 16px;">
-                                            <label style=" margin-left: 0px; margin-top: 29px;">UID image</label>
+                                            <label style=" margin-left: 0px; margin-top: 29px;">{{Id2}} Image</label>
                                         </div>
                                         <div class="inputGroups">
                                             <div class="imgAdd2">
@@ -1560,7 +1560,7 @@
                                                     <div style="max-width: 250px;" class="theme-btn-1">
                                                         <label for="UIDshow" class="mb-0" title="Click to Upload Logo">
                                                             <i class="fa fa-upload"></i>
-                                                            <span>Upload UID Photo</span>
+                                                            <span>Upload {{Id2}}</span>
                                                         </label>
                                                     </div>
                                                 </div>

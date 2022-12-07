@@ -52,7 +52,7 @@
                             <option value="2">National ID</option>
                             <option value="3">First Name</option>
                             <option value="4">Last Name</option>
-                            <option value="5">Insurance ID</option>
+                            <option value="5">{{Id3}}</option>
                             <option value="6">Email</option>
                             <option value="7">Mobile No</option>
                             <option value="8">MRN</option>
@@ -177,7 +177,7 @@
                            ng-maxlength="100">
                 </div>
                 <div class="inputGroups">
-                    <label>Insurance ID</label>
+                    <label>{{Id3}}</label>
                     <td width="20%">
                         <input type="text" class="form-control" ng-model="filter_InsuranceId" maxlength="50"
                                ng-maxlength="100">
@@ -194,10 +194,10 @@
                     </select>
                 </div>-->
                 <div class="inputGroups">
-                    Email
-                    <input type="text" class="form-control" ng-model="filter_Email" maxlength="100"
-                           ng-maxlength="100" />
-                </div>
+                    <label>Email</label>
+                        <input type="text" class="form-control" ng-model="filter_Email" maxlength="100"
+                               ng-maxlength="100" />
+</div>
                 <!--<div class="inputGroups">
                     <label>State</label>
                     <select class="form-control" data-style="form-control" id="stateselectpicker"

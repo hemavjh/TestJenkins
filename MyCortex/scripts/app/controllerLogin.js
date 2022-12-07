@@ -376,10 +376,16 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             }
             if ($scope.ProductName1 == 'MyCortex') {
                 $scope.Productlogin = 0;
+                //$scope.Id1 = 'Emirates ID';
+                //$scope.Id2 = 'UID';
             } else if ($scope.ProductName1 == 'MyHealth') {
                 $scope.Productlogin = 1;
+                //$scope.Id1 = 'Emirates ID';
+                //$scope.Id2 = 'UID';
             } else {
                 $scope.Productlogin = 2;
+                //$scope.Id1 = 'Identification Number 1';
+                //$scope.Id2 = 'Identification Number 2';
             }
 
             if ($scope.Productlogin == '1') {
@@ -1036,6 +1042,8 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
         $scope.InstitutionLanguageList = [];
         $scope.emptydataLanguageSettings = [];
         $scope.rowCollectionLanguageSettings = [];
+        $scope.showUUIDFiles = [];
+        $scope.showNationalityFiles = [];
 
         $scope.firstname = "First Name";
         $scope.middlename = "Middle Name";
@@ -1289,12 +1297,12 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                 toastr.warning("Please select Date of Birth", "warning");
                 return false;
             }
-            else if ($scope.NationalId == "" && $scope.UID == "" ) {
+            else if ($scope.NationalId == "" && $scope.UID == "" && $scope.ProductName =="MyHealth") {
                 //alert("Please select Date of Birth");
                 toastr.warning("Please Enter Emirates ID or UID", "warning");
                 return false;
             }
-            else if ($scope.showNationalityFiles.length == 0 && $scope.showUUIDFiles.length == 0) {
+            else if ($scope.showNationalityFiles.length == 0 && $scope.showUUIDFiles.length == 0 && $scope.ProductName == "MyHealth") {
                 //alert("Please select Date of Birth");
                 toastr.warning("Please Select Emirates ID or UID Images ", "warning");
                 return false;
@@ -1402,10 +1410,19 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             $scope.ProductName = data[0].ProductName;
             if ($scope.ProductName == 'MyCortex') {
                 $scope.Productlogin = 0;
+                $scope.Id1 = 'Identification Number 1';
+                $scope.Id2 = 'Identification Number 2';
+                $scope.mandatory = '';
             } else if ($scope.ProductName == 'MyHealth') {
                 $scope.Productlogin = 1;
+                $scope.Id1 = 'Emirates Id';
+                $scope.Id2 = 'UID';
+                $scope.mandatory = "<sup><font class='mandatory-field'>*</font></sup>";
             } else {
                 $scope.Productlogin = 2;
+                $scope.Id1 = 'Identification Number 1';
+                $scope.Id2 = 'Identification Number 2';
+                $scope.mandatory = '';
             }
 
             if ($scope.Productlogin == '1') {
