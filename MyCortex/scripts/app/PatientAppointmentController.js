@@ -266,6 +266,7 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
         $scope.calendarListView = function () {
             //-------------------This is list view area--------------------------
             var calendarEl5 = document.getElementById('calendar5');
+            initialView = 'listYear'
             var calendar5 = new FullCalendar.Calendar(calendarEl5, {
                 scrollTime: scrollTime,
                 slotDuration: '00:15:00',
@@ -276,21 +277,21 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                 eventLimit: true,
                 displayEventTime: false,
                 headerToolbar: {
-                    left: 'prev,next today',
+                    left: 'prev,next',
                     center: 'title',
-                    right: 'listDay,listWeek,listMonth,listYear'
+                    right: 'listYear'
                 },
 
                 // customize the button names,
                 // otherwise they'd all just say "list"
                 views: {
-                    listDay: { buttonText: ' day ' },
-                    listWeek: { buttonText: ' week ' },
-                    listMonth: { buttonText: ' month ' },
+                    //listDay: { buttonText: ' day ' },
+                    //listWeek: { buttonText: ' week ' },
+                    //listMonth: { buttonText: ' month ' },
                     listYear: { buttonText: ' Scheduler ' }
                 },
 
-                initialView: 'listWeek',
+                initialView: initialView,
                 initialDate: output,
                 navLinks: true, // can click day/week names to navigate views
                 editable: true,
@@ -481,7 +482,6 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                 events: ''
             });
             //$scope.LoadEvents();
-
             $scope.calendar5 = [];
             $http.get(baseUrl + '/api/PatientAppointments/DoctorAppointmentList/?Doctor_Id=' + $scope.Doctor_Id + '&flag=' + 2 + '&ViewDate=' + moment() + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (patientdata) {
                 angular.forEach(patientdata, function (value, index) {
