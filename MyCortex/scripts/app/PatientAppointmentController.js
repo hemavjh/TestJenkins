@@ -277,8 +277,8 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                 eventLimit: true,
                 displayEventTime: false,
                 headerToolbar: {
-                    left: 'prev,next',
-                    center: 'title',
+                    left: '', //prev,next
+                    center: 'title', 
                     right: 'listYear'
                 },
 
