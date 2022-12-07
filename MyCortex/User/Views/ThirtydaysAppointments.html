@@ -287,6 +287,28 @@
         text-align: center;
         font: 12px Arial, sans-serif;
     }
+    .theme-sch {
+        padding: 5px 15px;
+        display: inline-block !important;
+        text-decoration: none !important;
+        color: #fff !important;
+        color: var(--fc-button-text-color, #fff) !important;
+        background-color: #2C3E50 !important;
+        background-color: var(--fc-button-bg-color, #2C3E50) !important;
+        border-color: #2C3E50 !important;
+        border-color: var(--fc-button-border-color, #2C3E50) !important;
+        border: 2px solid var(--positiveBtnBorder) !important;
+        border-radius: 5px;
+    }
+    .right_text {
+        text-align: right;
+    }
+    .no-padding-left {
+        padding-left:0px;
+    }
+    .no-padding-right {
+        padding-right: 0px;
+    }
 </style>
 
 
@@ -299,7 +321,12 @@
            title="Click here to go Next 30 Days Appointment Page" data-menu="Appointment">Next 30 Days Appointments</a>
     </li>
 </ul>
-<h1 class="title1">Next 30 Days Appointments</h1>
+<div class="col-md-10 no-padding-left">
+    <h1 class="title1">Next 30 Days Appointments</h1>
+</div>
+<div class="col-md-2 right_text no-padding-right">
+    <a href="Home/Index#/TodaysAppoint_ments" class="theme-sch mtb-15">Scheduler</a>
+</div>
 <div class="lds-ripple" id="chatLoaderPV1" style="display: none;z-index:10000"><div></div><div></div></div>
 <div class="row" ng-init="DailyCalendarView();getMonthlyAppointment();">
     <div class="col-md-6">

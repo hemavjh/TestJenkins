@@ -192,6 +192,31 @@
         max-width: 1100px;
         margin: 0 auto;
     }
+    .theme-sch {
+        padding: 5px 15px;
+        display: inline-block !important;
+        text-decoration: none !important;
+        color: #fff !important;
+        color: var(--fc-button-text-color, #fff) !important;
+        background-color: #2C3E50 !important;
+        background-color: var(--fc-button-bg-color, #2C3E50) !important;
+        border-color: #2C3E50 !important;
+        border-color: var(--fc-button-border-color, #2C3E50) !important;
+        border: 2px solid var(--positiveBtnBorder) !important;
+        border-radius: 5px;
+    }
+
+    .right_text {
+        text-align: right;
+    }
+
+    .no-padding-left {
+        padding-left: 0px;
+    }
+
+    .no-padding-right {
+        padding-right: 0px;
+    }
 </style>
 <script>
     $(document).ready(function () {
@@ -213,13 +238,21 @@
 <div class="row">
     <div class="lds-ripple" id="chatLoaderPV1" style="display: none;z-index:10000"><div></div><div></div></div>
     <div class="col-md-12">
-        <h1 class="secondaryMenuActive" data-menu="Appointment" style="color:#032b5c !important;">Appointment</h1>
-        <div ng-init="calendarListView();">
-            <div id='calendar5'></div>
-            <!--<div id="calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="myCalendar"></div>-->
+        <div class="col-md-11 no-padding-left">
+            <h1 class="secondaryMenuActive" data-menu="Appointment" style="color:#032b5c !important;">Appointment</h1>
+        </div>
+        <div class="right_text no-padding-right">
+            <a href="Home/Index#/Thirtydays_appointments" class="theme-sch mtb-15">Back</a>
         </div>
     </div>
-</div>
+    <div class="col-md-12">
+            <!--<h1 class="secondaryMenuActive" data-menu="Appointment" style="color:#032b5c !important;">Appointment</h1>-->
+            <div ng-init="calendarListView();">
+                <div id='calendar5'></div>
+                <!--<div id="calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="myCalendar"></div>-->
+            </div>
+        </div>
+    </div>
 <div id="PatientAppointmentModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" style="width: 40%">
         <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
