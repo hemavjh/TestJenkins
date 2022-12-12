@@ -99,7 +99,7 @@ namespace MyCortex.Livebox.Controllers
                 {
                     retid = liveBoxRepository.LiveBox_Recording_url(conferencename, recording_url);
                 }
-                retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename, InstitutionId,userID);
+                //retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename, InstitutionId,userID);
                 //PushNotificationMessage message = new PushNotificationMessage();
                 //message.Title = "Notification For Call";
                 //message.Message = "call end";
@@ -233,10 +233,9 @@ namespace MyCortex.Livebox.Controllers
                 retid = liveBoxRepository.LiveBox_Notify_Log(json);
                 string ConferenceId = JObject.Parse(json)["conferencename"].ToString();
                 string userID = "";
-                Console.WriteLine("0");
+               
                 if (json.Contains("WaitingUserStatus"))
-                {
-                    Console.WriteLine("00");
+                {                   
                     userID = JObject.Parse(json)["userid"].ToString();
                     retid = liveBoxRepository.LiveBox_Notify_UPDATE(ConferenceId, InstitutionId, userID);                   
                 }
