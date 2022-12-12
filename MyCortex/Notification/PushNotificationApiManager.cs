@@ -146,7 +146,6 @@ namespace MyCortex.Notification.Firebase
         }
         public async static void SendLiveboxNotification(PushNotificationMessage message, long User_Id, long Institution_Id)
         {
-            Console.WriteLine("4");
             List<NotifictaionUserFCM> model = new List<NotifictaionUserFCM>();
             model = repository.UserFCMToken_Get_List(User_Id);
             // string url = HttpContext.Current.Request.Url.Authority;
@@ -155,7 +154,6 @@ namespace MyCortex.Notification.Firebase
                 message.FCMToken = itemData.FCMToken;
                 try
                 {
-                    Console.WriteLine("5");
                     await SendPushLiveboxNotification(message, itemData.SiteUrl,User_Id);
                 }
                 catch

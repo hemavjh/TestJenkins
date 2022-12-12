@@ -46,14 +46,12 @@ namespace MyCortex.Repositories.LiveBox
             param.Add(new DataParameter("@Institution_Id", Institution_Id));
             param.Add(new DataParameter("@UserId", userID));
             retid = ClsDataBase.Insert("[MYCORTEX].[LIVEBOX_NOTIFY_LOG_GET_SP]", param, true);
-            System.Console.WriteLine("1");
+            
             DataTable dttbl = ClsDataBase.GetDataTable("[MYCORTEX].[LIVEBOX_USERDETAILS]");
             if (dttbl.Rows.Count > 0)
-            {
-                System.Console.WriteLine("2");
+            {                
                 foreach (DataRow dr in dttbl.Rows)
-                {
-                    System.Console.WriteLine("3");
+                {                    
                     //Id = long.Parse(dr["Id"].ToString());
                     Institution_Id = long.Parse(dr["INSTITUTION_ID"].ToString());
                     User_Id = long.Parse(dr["Doctor_Id"].ToString());
