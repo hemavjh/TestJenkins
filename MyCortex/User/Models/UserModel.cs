@@ -191,6 +191,7 @@ namespace MyCortex.User.Model
         public string Message { get; set; }
         public string Error_Code { get; set; }
         public int ReturnFlag { get; set; }
+        public string LanguageKey { get; set; }
     }
     public class UserReturnModel
     {
@@ -198,7 +199,8 @@ namespace MyCortex.User.Model
         public string Message { get; set; }
         public string Error_Code { get; set; }
         public int ReturnFlag { get; set; }        
-        public UserModel UserDetails { get; set; }        
+        public UserModel UserDetails { get; set; }
+        public string LanguageKey { get; set; }
     }
 
     public class UserGroupDetails_List

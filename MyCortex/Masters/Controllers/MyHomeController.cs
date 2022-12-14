@@ -422,6 +422,7 @@ namespace MyCortex.User.Controllers
               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in Listing Users";
+                model.LanguageKey = "errorinlistingusers";
                 model.ParameterList = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
@@ -523,6 +524,7 @@ namespace MyCortex.User.Controllers
             TabUserDashBordDetails ModelData = new TabUserDashBordDetails();
             TabUserListReturnModels model = new TabUserListReturnModels();
             string messagestr = "";
+            string languagekey = "";
             try
             {
                 ModelData = repository.GetDashBoardListDetails(InstitutionId, UserId, TabId, Login_Session_Id,Language_Id);
@@ -530,16 +532,19 @@ namespace MyCortex.User.Controllers
                 {
 
                     messagestr = "Get From DashBoardList Information";
+                    languagekey = "getdashboardlistinformation";
                     model.ReturnFlag = 1;
                 }
                 else if (ModelData.Flag == 2)
                 {
                     messagestr = "DashBoardList Information are empty";
+                    languagekey = "dashboardlistinformationempty";
                     model.ReturnFlag = 0;
                 }
 
                 model.TabDashBoardList = ModelData;
                 model.Message = messagestr;
+                model.LanguageKey= languagekey;
                 model.Status = "True";
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
                 return response;
@@ -549,6 +554,7 @@ namespace MyCortex.User.Controllers
               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in DashBoard Tab Users";
+                model.LanguageKey = "errordashboardtabusers";
                 model.TabDashBoardList = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
@@ -578,6 +584,7 @@ namespace MyCortex.User.Controllers
               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in DashBoard Alerts";
+                model.LanguageKey = "errorindashboardalerts";
                 model.TabDashBoardAlertDetails = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
@@ -660,6 +667,7 @@ namespace MyCortex.User.Controllers
                 model.TabDeviceList = null;
                 model.Message = messagestr;
                 model.Status = "True";
+                model.LanguageKey = "deviceupdatesuccess";
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
                 return response;
             }
@@ -669,6 +677,7 @@ namespace MyCortex.User.Controllers
                 model.Status = "False";
                 model.Message = "Error in update device id";
                 model.TabDeviceList = null;
+                model.LanguageKey = "errorinupdatedeviceid";
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }

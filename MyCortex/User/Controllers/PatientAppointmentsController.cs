@@ -147,11 +147,13 @@ namespace MyCortex.User.Controller
             {
                 model.Status = "False";
                 model.Message = "Invalid data";
+                model.LanguageKey = "invaliddata";
                 model.PatientAppointmentList = ModelData;
                 model.ReturnFlag = 0;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
             string messagestr = "";
+            string LanguageKey = "";
             try
             {
                 ModelData = repository.PatientAppointment_InsertUpdate(Login_Session_Id,insobj);
@@ -160,39 +162,46 @@ namespace MyCortex.User.Controller
                     model.Status = "False";
                     model.ReturnFlag = 0;
                     messagestr = "Reason for Visit should not be empty.";
+                    LanguageKey = "reasonforvisitnotempty";
                 }
                 else if (ModelData.Any(item => item.flag == 1) == true)
                 {
                     model.Status = "True";
                     model.ReturnFlag = 1;
                     messagestr = "Patient Appointment created Successfully";
+                    LanguageKey = "patientappointmentcreatesuccess";
                 }
                 else if (ModelData.Any(item => item.flag == 2) == true)
                 {
                     model.Status = "True";
                     model.ReturnFlag = 1;
                     messagestr = "Patient Appointment updated Successfully";
+                    LanguageKey = "patientappointmentupdatesuccess";
                 }
                 else if (ModelData.Any(item => item.flag == 3) == true)
                 {
                     model.Status = "False";
                     model.ReturnFlag = 0;
                     messagestr = "Patient Appointment already created by CareGiver, cannot be created";
+                    LanguageKey = "paappcreatedcaregiver";
                 }
                 else if (ModelData.Any(item => item.flag == 4) == true)
                 {
                     model.Status = "False";
                     model.ReturnFlag = 0;
                     messagestr = "Patient Appointment Can't Added, Subscription Timezone Missing!";
+                    LanguageKey = "subscriptiontimezonemissing";
                 }
                 else if (ModelData.Any(item => item.flag == 5) == true)
                 {
                     model.Status = "False";
                     model.ReturnFlag = 0;
                     messagestr = "Patient already have Appointment with another doctor!";
+                    LanguageKey = "appointmentwithanotherdoctor";
                 }
                 model.PatientAppointmentList = ModelData;
                 model.Message = messagestr;// "User created successfully";
+                model.LanguageKey = LanguageKey;
 
                 if (ModelData.Any(item => item.flag == 1) == true)
                 {
@@ -218,6 +227,7 @@ namespace MyCortex.User.Controller
                 model.Message = "Error in creating Subscription";
                 model.PatientAppointmentList = ModelData;
                 model.ReturnFlag = 0;
+                model.LanguageKey = "errorcreatesubscription";
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }

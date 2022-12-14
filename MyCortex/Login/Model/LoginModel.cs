@@ -144,6 +144,7 @@ namespace MyCortex.Login.Model
         public string Status { get; set; }
         public string Message { get; set; }
         public int ReturnFlag { get; set; }
+        public string LanguageKey { get; set; }
         public LoginModel ResetPassword { get; set; }
 
     }

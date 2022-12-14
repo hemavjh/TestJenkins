@@ -127,6 +127,7 @@ namespace MyCortex.Masters.Models
         public int ReturnFlag { get; set; }
         public string Status { get; set; }
         public string Message { get; set; }
+        public string LanguageKey { get; set; }
         public IList<ParameterModels> ParameterList { get; set; }
     }
 
@@ -152,6 +153,7 @@ namespace MyCortex.Masters.Models
         public int ReturnFlag { get; set; }
         public string Status { get; set; }
         public string Message { get; set; }
+        public string LanguageKey { get; set; }
         public IList<TabDevicesModel> TabDeviceList { get; set; }
 
     }
@@ -161,6 +163,7 @@ namespace MyCortex.Masters.Models
         public int ReturnFlag { get; set; }
         public string Status { get; set; }
         public string Message { get; set; }
+        public string LanguageKey { get; set; }
         public IList<TabUserModel> TabUserList { get; set; }
         public TabUserDashBordDetails  TabDashBoardList { get; set; }
     }
@@ -170,6 +173,7 @@ namespace MyCortex.Masters.Models
         public int ReturnFlag { get; set; }
         public string Status { get; set; }
         public string Message { get; set; }
+        public string LanguageKey { get; set; }
         public IList<TabDashBoardAlertDetails> TabDashBoardAlertDetails { get; set; }
     }
 

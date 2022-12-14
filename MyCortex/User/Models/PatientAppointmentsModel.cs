@@ -70,7 +70,7 @@ namespace MyCortex.User.Model
         public string Error_Code { get; set; }
 
         public int ReturnFlag { get; set; }
-
+        public string LanguageKey { get; set; }
         public PatientAppointmentsModel AppointmentDetails { get; set; }
         public IList<PatientAppointmentsModel> PatientAppointmentList { get; set; }
     }

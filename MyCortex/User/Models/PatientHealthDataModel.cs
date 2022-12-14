@@ -79,6 +79,7 @@ namespace MyCortex.User.Model
         public string Error_Code { get; set; }
         public int ReturnFlag { get; set; }
         public decimal Average_Value { get; set; }
+        public string LanguageKey { get; set; }
         public PatientHealthDataModel PatientHealthDataDetails { get; set; }
         public PatientHealthDataPagination _metadata { get; set; }
         public IList<PatientHealthDataModel> PatientHealthDataList { get; set; }

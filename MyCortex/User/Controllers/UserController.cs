@@ -574,6 +574,8 @@ namespace MyCortex.User.Controller
                 {
                     userObj.Patient_Type = 1;
                 }
+                string languagekey = "";
+
                 /*_MyLogger.Exceptions("INFO", _AppLogger, "before Admin_InsertUpdate", null, _AppMethod);*/
                 ModelData = repository.Admin_InsertUpdate(Login_Session_Id, userObj);
                 if ((ModelData.flag == 1) == true)
@@ -581,16 +583,19 @@ namespace MyCortex.User.Controller
                     messagestr = "Email already exists, cannot be Duplicated";
                     model.ReturnFlag = 0;
                     model.Status = "False";
+                    languagekey = "emailalreadyexists";
                 }
                 else if ((ModelData.flag == 8) == true)
                 {
                     if (userObj.GOOGLE_EMAILID != "")
                     {
                         messagestr = "The Gmail added is linked with another user. Please contact your hospital administrator";
+                        languagekey = "gmaillinkedwithanotheruser";
                     }
                     else if (userObj.FB_EMAILID != "")
                     {
                         messagestr = "The facebook added is linked with another user. Please contact your hospital administrator";
+                        languagekey = "facebooklinkedwithanotheruser";
                     }
                     model.ReturnFlag = 0;
                     model.Status = "False";
@@ -599,11 +604,13 @@ namespace MyCortex.User.Controller
                 {
                     if (userObj.GOOGLE_EMAILID != "")
                     {
-                        messagestr = "the Gmail added is linked with " + Replaced_FullName + " ";
+                        messagestr = string.Format("the Gmail added is linked with {0}", Replaced_FullName); //"the Gmail added is linked with " + Replaced_FullName + " ";
+                        languagekey = "gmaillinkedwith";
                     }
                     else if (userObj.FB_EMAILID != "")
                     {
-                        messagestr = "the facebook added is linked with " + Replaced_FullName + " ";
+                        messagestr = string.Format("the facebook added is linked with {0}", Replaced_FullName); //"the facebook added is linked with " + Replaced_FullName + " ";
+                        languagekey = "facebooklinkedwith";                       
                     }
                     model.ReturnFlag = 0;
                     model.Status = "False";
@@ -613,6 +620,7 @@ namespace MyCortex.User.Controller
                     messagestr = "Employment Number already exists, cannot be Duplicated";
                     model.ReturnFlag = 0;
                     model.Status = "False";
+                    languagekey = "empnoalreadyexists";
                 }
 
                 else if ((ModelData.flag == 12) == true)
@@ -620,6 +628,7 @@ namespace MyCortex.User.Controller
                     messagestr = "Patient ID already exists, cannot be Duplicated";
                     model.ReturnFlag = 0;
                     model.Status = "False";
+                    languagekey = "patientidalreadyexists";
                 }
 
                 else if ((ModelData.flag == 2) == true)
@@ -627,33 +636,39 @@ namespace MyCortex.User.Controller
                     messagestr = "User created successfully";
                     model.ReturnFlag = 1;
                     model.Status = "True";
+                    languagekey = "usercreatesuccess";
                 }
                 else if ((ModelData.flag == 3) == true)
                 {
                     messagestr = "User updated successfully";
                     model.ReturnFlag = 1;
                     model.Status = "True";
+                    languagekey = "userupdatesuccess";
                 }
                 else if ((ModelData.flag == 4) == true)
                 {
                     messagestr = "Master Admin already exist for this Institution, cannot be created";
                     model.ReturnFlag = 0;
                     model.Status = "False";
+                    languagekey = "masteradminalreadyexists";
                 }
                 else if ((ModelData.flag == 5) == true)
                 {
                     messagestr = "Maximum Number of Patient License reached already, cannot be created";
                     model.ReturnFlag = 0;
                     model.Status = "False";
+                    languagekey = "maxnopatientlicense";
                 }
                 else if ((ModelData.flag == 6) == true)
                 {
                     messagestr = "Maximum Number of Business Users License reached already, cannot be created";
                     model.ReturnFlag = 0;
                     model.Status = "False";
+                    languagekey = "maxnouserslicense";
                 }
                 model.Error_Code = "";
                 model.UserDetails = ModelData;
+                model.LanguageKey = languagekey;
                 model.Message = messagestr;// "User created successfully";
 
                 mail.UserId = (long)ModelData.Id;
@@ -776,6 +791,7 @@ namespace MyCortex.User.Controller
                 model.Error_Code = ex.Message;
                 model.ReturnFlag = 0;
                 model.UserDetails = ModelData;
+                model.LanguageKey = "errorcreatinguser";
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
@@ -1307,6 +1323,7 @@ namespace MyCortex.User.Controller
                 modelReturn.Message = "List of Patient Health Data";
                 modelReturn.Error_Code = "";
                 modelReturn.ReturnFlag = 0;
+                modelReturn.LanguageKey = "listpatienthealthdata";
                 if (Page != 0 & model.Count > 0)
                 {
                     modelReturn._metadata = _metadata;
@@ -1323,6 +1340,7 @@ namespace MyCortex.User.Controller
                 modelReturn.Message = "Error in getting Patient Health Data";
                 modelReturn.Error_Code = ex.Message;
                 modelReturn.ReturnFlag = 0;
+                modelReturn.LanguageKey = "errorgetpatienthealthdata";
                 modelReturn.PatientHealthDataList = model;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, modelReturn);
             }
@@ -1523,11 +1541,13 @@ namespace MyCortex.User.Controller
                 model.Status = "False";
                 model.Message = "Invalid data";
                 model.Error_Code = "";
+                model.LanguageKey = "invaliddata";
                 model.ReturnFlag = 0;
                 model.PatientHealthDataDetails = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
             string messagestr = "";
+            string languagekey = "";
             try
             {
                 if (patientDataObj.ParameterId <= 0)
@@ -1541,28 +1561,33 @@ namespace MyCortex.User.Controller
                     messagestr = "Patient data not created, Please check the data";
                     model.ReturnFlag = 0;
                     model.Status = "False";
+                    languagekey = "patientnotcreate";
                 }
                 else if ((ModelData.flag == 1) == true)
                 {
                     messagestr = "Patient Data created Successfully";
                     model.ReturnFlag = 1;
                     model.Status = "True";
+                    languagekey = "patientdatacreatesuccess";
                 }
                 else if ((ModelData.flag == 2) == true)
                 {
                     messagestr = "Patient Data updated Successfully";
                     model.ReturnFlag = 1;
                     model.Status = "True";
+                    languagekey = "patientdataupdatesuccess";
                 }
                 else if ((ModelData.flag == 3) == true)
                 {
                     messagestr = "Patient Data Already Exits";
                     model.ReturnFlag = 0;
                     model.Status = "False";
+                    languagekey = "patientdataalreadyexists";
                 }
                 model.Error_Code = "";
                 model.PatientHealthDataDetails = ModelData;
                 model.Message = messagestr;
+                model.LanguageKey = languagekey;
                 //if ((ModelData.flag == 1) == true || (ModelData.flag == 2) == true)
                 //{
                 //    PatientHealthDataModel phm = new PatientHealthDataModel();
@@ -1610,6 +1635,7 @@ namespace MyCortex.User.Controller
                 model.Message = "Error in creating Patient Health Data";
                 model.Error_Code = ex.Message;
                 model.ReturnFlag = 0;
+                model.LanguageKey = "errorcreatepatienthealthdata";
                 model.PatientHealthDataDetails = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
@@ -1625,12 +1651,14 @@ namespace MyCortex.User.Controller
             {
                 model.Status = "False";
                 model.Message = "Invalid data";
+                model.LanguageKey = "invaliddata";
                 model.Error_Code = "";
                 model.ReturnFlag = 0;
                 model.PatientHealthDataDetails = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
             string messagestr = "";
+            string languagekey = "";
             try
             {
                 if (patientDataObj.ParameterId <= 0)
@@ -1644,39 +1672,46 @@ namespace MyCortex.User.Controller
                     messagestr = "Patient data not created, Please check the data";
                     model.ReturnFlag = 0;
                     model.Status = "False";
+                    languagekey = "patientnotcreate";
                 }
                 else if ((ModelData.flag == 1) == true)
                 {
                     messagestr = "Patient Data created Successfully";
                     model.ReturnFlag = 1;
                     model.Status = "True";
+                    languagekey = "patientdatacreatesuccess";
                 }
                 else if ((ModelData.flag == 2) == true)
                 {
                     messagestr = "Patient Data updated Successfully";
                     model.ReturnFlag = 1;
                     model.Status = "True";
+                    languagekey = "patientdataupdatesuccess";
                 }
                 else if ((ModelData.flag == 3) == true)
                 {
                     messagestr = "Patient Data Already Exits";
                     model.ReturnFlag = 0;
                     model.Status = "False";
+                    languagekey = "patientdataalreadyexists";
                 }
                 else if ((ModelData.flag == 4) == true)
                 {
                     messagestr = "Patient Data Cumulate value has less than 1";
                     model.ReturnFlag = 1;
                     model.Status = "True";
+                    languagekey = "patientdatacumulatelessthan1";
                 }
                 else if ((ModelData.flag == 5) == true)
                 {
                     messagestr = "Sync app data mismatching";
                     model.ReturnFlag = 5;
                     model.Status = "True";
+                    languagekey = "syncappdatamismatch";
                 }
                 model.Error_Code = "";
                 model.PatientHealthDataDetails = ModelData;
+                model.LanguageKey= languagekey;
                 model.Message = messagestr;
                 if ((ModelData.flag == 1) == true || (ModelData.flag == 2) == true)
                 {
@@ -1725,6 +1760,7 @@ namespace MyCortex.User.Controller
                 model.Message = "Error in creating Patient Health Data";
                 model.Error_Code = ex.Message;
                 model.ReturnFlag = 0;
+                model.LanguageKey = "errorcreatepatienthealthdata";
                 model.PatientHealthDataDetails = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
@@ -2152,6 +2188,7 @@ namespace MyCortex.User.Controller
             UploadDataReturnModel model = new UploadDataReturnModel();
             model.Status = "False";
             model.Message = "Invalid data";
+            model.LanguageKey = "invaliddata";
             try
             {
                 var httpRequest = HttpContext.Current.Request;
@@ -2172,12 +2209,14 @@ namespace MyCortex.User.Controller
 
                     model.Message = "Uploaded Successfully!";
                     model.Status = "True";
+                    model.LanguageKey = "uploadsuccess";
                     result = Request.CreateResponse(HttpStatusCode.OK, model);
                 }
                 else
                 {
                     model.Message = "Uploaded Failure!";
                     model.Status = "False";
+                    model.LanguageKey = "uploadfail";
                     result = Request.CreateResponse(HttpStatusCode.OK, model);
                 }
             }
@@ -2424,6 +2463,7 @@ namespace MyCortex.User.Controller
             UploadDataReturnModel model = new UploadDataReturnModel();
             model.Status = "False";
             model.Message = "Invalid data";
+            model.LanguageKey = "invaliddata";
             try
             {
                 //if (fileName != null)
@@ -2462,12 +2502,14 @@ namespace MyCortex.User.Controller
                         }
                         model.Message = "Uploaded Successfully!";
                         model.Status = "True";
+                        model.LanguageKey = "uploadsuccess";
                         result = Request.CreateResponse(HttpStatusCode.OK, model);
                     }
                     else
                     {
                         model.Message = "Uploaded Failure!";
                         model.Status = "False";
+                        model.LanguageKey = "uploadfail";
                         result = Request.CreateResponse(HttpStatusCode.OK, model);
                     }
                 }
@@ -4531,6 +4573,7 @@ namespace MyCortex.User.Controller
             {
                 model.Status = "False";
                 model.Message = "Invalid data";
+                model.LanguageKey = "invaliddata";
                 model.Error_Code = "1";
                 model.ReturnFlag = 0;
                 model.UserDetails = ModelData;
@@ -4554,6 +4597,7 @@ namespace MyCortex.User.Controller
                     model.Error_Code = "1";
                     model.UserDetails = ModelData;
                     model.Message = "Email address already exists, cannot be duplicated";
+                    model.LanguageKey = "emailalreadyexists";
                 }
                 else
                 {
@@ -4562,6 +4606,7 @@ namespace MyCortex.User.Controller
                     model.Error_Code = "";
                     model.UserDetails = ModelData;
                     model.Message = "User Updated successfully";
+                    model.LanguageKey = "userupdatesuccess";
                 }
 
                 return Request.CreateResponse(HttpStatusCode.OK, model);
@@ -4571,6 +4616,7 @@ namespace MyCortex.User.Controller
               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in Updating User";
+                model.LanguageKey = "errorinupdateuser";
                 model.Error_Code = "1";
                 model.ReturnFlag = 0;
                 model.UserDetails = ModelData;

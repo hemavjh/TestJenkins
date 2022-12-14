@@ -171,6 +171,7 @@ namespace MyCortex.Repositories.Login
                                   UserTypeId = p.Field<long>("UserTypeId"),
                                   InstitutionId = p.IsNull("INSTITUTION_ID") ? 0 : p.Field<long>("INSTITUTION_ID"),
                                   Messagetype = p.Field<string>("Messagetype"),
+                                  LanguageKey = p.Field<string>("LanguageKey"),
                                   TabID = p.Field<long>("TABID"),
                                   TabName = p.Field<string>("TabName"),
                                   Login_Session_Id = p.Field<Guid?>("Session_Id"),

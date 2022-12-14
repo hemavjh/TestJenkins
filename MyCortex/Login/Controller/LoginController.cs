@@ -122,6 +122,7 @@ namespace MyCortex.Login.Controller
                         model.Error_Code = "";
                         model.UserDetails = ModelData;
                         model.ReturnFlag = 0;
+                        model.LanguageKey = "invaliddata";
                         return Request.CreateResponse(HttpStatusCode.BadRequest, model);
                     }
                 }
@@ -133,6 +134,7 @@ namespace MyCortex.Login.Controller
                     model.Error_Code = "";
                     model.UserDetails = ModelData;
                     model.ReturnFlag = 0;
+                    model.LanguageKey = "versionoutdated";
                     return Request.CreateResponse(HttpStatusCode.BadRequest, model);
                 }
 
@@ -159,18 +161,21 @@ namespace MyCortex.Login.Controller
                         model.ReturnFlag = 0;
                         model.Status = "False";
                         messagestr = "Contract Period expired";
+                        languagekey = "contractperiodexpired";
                     }
                     else if ((model.data == 3) == true)
                     {
                         model.ReturnFlag = 1;
                         model.Status = "True";
                         messagestr = "Contract time exceeded, but allow to access";
+                        languagekey = "contractexceedallowaccess";
                     }
                     else if ((model.data == 4) == true || (model.data == 5) == true)
                     {
                         model.ReturnFlag = 1;
                         messagestr = "Login  Successfully";
                         model.Status = "True";
+                        languagekey = "loginsuccess";                        
                         //if (loginObj.isTab && !String.IsNullOrEmpty(loginObj.Tab_Ref_ID))
                         //{
                         //    model.TabDevices = repository.Get_TabDevices(model.InstitutionId, loginObj.Tab_Ref_ID);
@@ -182,73 +187,84 @@ namespace MyCortex.Login.Controller
                         model.ReturnFlag = 1;
                         messagestr = "User Name or Password Mismatch";
                         model.Status = "False";
+                        languagekey = "usernamepasswordmismatch";
                     }
                     else if ((model.data == 6) == true || (model.data == 7) == true || (model.data == 8) == true || (model.data == 10) == true)
                     {
                         model.ReturnFlag = 1;
                         messagestr = model.Messagetype;
                         model.Status = "True";
+                        languagekey = model.LanguageKey;
                     }
                     else if ((model.data == 9) == true)
                     {
                         model.ReturnFlag = 1;
                         messagestr = "Inactive User Cannot Login";
                         model.Status = "False";
+                        languagekey = "inactiveusernotlogin";
                     }
                     else if ((model.data == 18) == true)
                     {
                         model.ReturnFlag = 1;
                         messagestr = "UserName Not Found";
                         model.Status = "False";
+                        languagekey = "usernotfound";
                     }
                     else if ((model.data == 11) == true)
                     {
                         model.ReturnFlag = 1;
                         messagestr = "Given Reference Id is not Available.";
                         model.Status = "False";
+                        languagekey = "refidnotavailable";
                     }
                     else if ((model.data == 12) == true)
                     {
                         model.ReturnFlag = 1;
                         messagestr = "Selected Language not in your subscription.";
                         languagekey = "selectedlanguagenotinyoursubscription";
-                        model.Status = "False";
+                        model.Status = "False";                        
                     }
                     else if ((model.data == 13) == true)
                     {
                         model.ReturnFlag = 1;
                         messagestr = "Waiting for approval";
                         model.Status = "False";
+                        languagekey = "waitingforapproval";
                     }
                     else if ((model.data == 14) == true)
                     {
                         model.ReturnFlag = 1;
                         messagestr = "This Clinical User is not available for given Ref ID.";
                         model.Status = "False";
+                        languagekey = "clinicalusernotavblgivenrefid";
                     }
                     else if ((model.data == 15) == true)
                     {
                         model.ReturnFlag = 1;
                         messagestr = "This User is not available for given Ref ID.";
                         model.Status = "False";
+                        languagekey = "usernotavblgivenrefid";
                     }
                     else if ((model.data == 16) == true)
                     {
                         model.ReturnFlag = 1;
                         messagestr = "UserName and Password does not exists. Please Verify";
                         model.Status = "False";
+                        languagekey = "usernamepasswordnotexists";
                     }
                     else if ((model.data == 19) == true)
                     {
                         model.ReturnFlag = 1;
                         messagestr = "Invalid ShortCode";
                         model.Status = "False";
+                        languagekey = "invalidshortcode";
                     }
                     else if ((model.data == 20) == true)
                     {
                         model.ReturnFlag = 1;
                         messagestr = "User not valid for this institution";
                         model.Status = "False";
+                        languagekey = "usernotvalidforthisinstitution";
                     }
                     //model.UserDetails = ModelData;
                     model.Message = messagestr;// "User created successfully";
@@ -264,8 +280,10 @@ namespace MyCortex.Login.Controller
                     model.Status = "False";
                     model.Message = "Error in Login";
                     model.Status = "False";
+                    model.LanguageKey = "errorinlogin";
                     model.UserDetails = ModelData;
                     model.ReturnFlag = 0;
+
                     model.Error_Code = ex.Message;
                     return Request.CreateResponse(HttpStatusCode.BadRequest, model);
                 }
@@ -432,6 +450,7 @@ namespace MyCortex.Login.Controller
                 user.Status = "True";
                 user.Message = "Used logged out successfully";
                 user.ReturnFlag = 1;
+                user.LanguageKey = "userloggedsuccess";
 
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, user);
                 return response;
@@ -558,24 +577,28 @@ namespace MyCortex.Login.Controller
                         model.Status = "True";
                         model.ReturnFlag = 1;
                         model.Message = "Password Changed successfully";
+                        model.LanguageKey = "passwordchangedsuccess";
                     }
                     else if (flag == -1)
                     {
                         model.Status = "false";
                         model.ReturnFlag = 0;
                         model.Message = "The Old Password Not Matching With The Existing Password. Please Check!";
+                        model.LanguageKey = "oldpwdnotmatchednewpwd";
                     }
                     else if (flag == -11)
                     {
                         model.Status = "false";
                         model.ReturnFlag = 0;
                         model.Message = "The New Password Same Existing Password. Please Check!";
+                        model.LanguageKey = "newpwdsamesasoldpwd";
                     }
                     else
                     {
                         model.Status = "False";
                         model.ReturnFlag = 0;
                         model.Message = "Invalid password";
+                        model.LanguageKey = "invalidpassword";
                     }
 
                     if (flag > 0)
@@ -610,6 +633,7 @@ namespace MyCortex.Login.Controller
                 model.Status = "False";
                 model.ReturnFlag = 0;
                 model.Message = "Invalid password";
+                model.LanguageKey = "invalidpassword";
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
