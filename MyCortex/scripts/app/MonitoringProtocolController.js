@@ -1141,32 +1141,36 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
         
         $scope.ProtocolParameter_AddEdit = function () {
             $scope.MonitoringDetails = [];
-            var dp = 0, dnh = 0, dnl = 0, r = 0, rm = 0, rx = 0;
+
             var zy = $scope.Diagostic_ParameterSettingslist;
-            for (var i = 0; i < zy.length; i++) {
-                if (zy[i].Parameter_Id == 0) {
-                    dp = 1;
-                    break;
-                }
-                if (zy[i].NormalRange_High == '') {
-                    dnh = 1;
-                    break;
-                }
-                if (zy[i].NormalRange_Low == '') {
-                    dnl = 1;
-                    break;
-                }
-                if (zy[i].Diag_Range == 0) {
-                    r = 1;
-                    break;
-                }
-                if (zy[i].Diag_Range_Min == '') {
-                    rm = 1;
-                    break;
-                }
-                if (zy[i].Diag_Range_Max == '') {
-                    rx = 1;
-                    break;
+            var com = $scope.ParameterSettingslist[0].Comp_ParameterSettingslist;
+            var dp = 0, dnh = 0, dnl = 0, r = 0, rm = 0, rx = 0;
+            if ((zy.length == 1 && com.length == 0) || (zy.length > 1 || com.length == 0) ) {
+                for (var i = 0; i < zy.length; i++) {
+                    if (zy[i].Parameter_Id == 0) {
+                        dp = 1;
+                        break;
+                    }
+                    if (zy[i].NormalRange_High == '') {
+                        dnh = 1;
+                        break;
+                    }
+                    if (zy[i].NormalRange_Low == '') {
+                        dnl = 1;
+                        break;
+                    }
+                    if (zy[i].Diag_Range == 0) {
+                        r = 1;
+                        break;
+                    }
+                    if (zy[i].Diag_Range_Min == '') {
+                        rm = 1;
+                        break;
+                    }
+                    if (zy[i].Diag_Range_Max == '') {
+                        rx = 1;
+                        break;
+                    }
                 }
             }
             if (dp == 1) {
@@ -1193,36 +1197,38 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                 toastr.warning("Please enter diagonastic range low value", "Warning");
                 return;
             }
-            var com = $scope.ParameterSettingslist[0].Comp_ParameterSettingslist;
+
             var z = 0, p = 0, d = 0;
-            for (var i = 0; i < com.length; i++) {
-                if (com[i].Parameter_Id == 0 || com[i].Parameter_Id == null || com[i].Parameter_Id == undefined) {
-                    p = 1;
-                    break;
-                }
-                if (com[i].Com_DurationType == 0 || com[i].Com_DurationType == null || com[i].Com_DurationType == undefined) {
-                    d = 1;
-                    break;
-                }
-                if (com[i].occur_inter_val <= 0) {
-                    z = 1;
-                    break;
-                }
-                if (Date.parse(com[i].starttime).toString() == 'NaN') {
-                    z = 1; break;
-                }
-                if (Date.parse(com[i].endtime).toString() == 'NaN') {
-                    z = 1; break;
-                }
-                var y = 0;
-                for (var j = 0; j < com[i].duration_list.length; j++) {
-                    if (Date.parse(com[i].duration_list[j].time).toString() == 'NaN') {
-                        y = 1;
+            if (com.length > 0 && zy.length >= 1) {
+                for (var i = 0; i < com.length; i++) {
+                    if (com[i].Parameter_Id == 0 || com[i].Parameter_Id == null || com[i].Parameter_Id == undefined) {
+                        p = 1;
+                        break;
+                    }
+                    if (com[i].Com_DurationType == 0 || com[i].Com_DurationType == null || com[i].Com_DurationType == undefined) {
+                        d = 1;
+                        break;
+                    }
+                    if (com[i].occur_inter_val <= 0) {
+                        z = 1;
+                        break;
+                    }
+                    if (Date.parse(com[i].starttime).toString() == 'NaN') {
                         z = 1; break;
                     }
-                }
-                if (y == 1) {
-                    z = 1; break;
+                    if (Date.parse(com[i].endtime).toString() == 'NaN') {
+                        z = 1; break;
+                    }
+                    var y = 0;
+                    for (var j = 0; j < com[i].duration_list.length; j++) {
+                        if (Date.parse(com[i].duration_list[j].time).toString() == 'NaN') {
+                            y = 1;
+                            z = 1; break;
+                        }
+                    }
+                    if (y == 1) {
+                        z = 1; break;
+                    }
                 }
             }
             if (p == 1) {

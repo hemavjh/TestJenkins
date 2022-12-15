@@ -449,7 +449,7 @@ namespace MyCortex.Repositories.Admin
                             foreach(MonitorDateTime mor in item.duration_list)
                             {
                                 i = i + 1;
-                                dur.Rows.Add(i, mor.localtime);
+                                dur.Rows.Add(i, mor.time);
                             }
 
                             List<DataParameter> param1 = new List<DataParameter>();
@@ -472,35 +472,37 @@ namespace MyCortex.Repositories.Admin
 
                         foreach (Diag_ProtocolModel item in item2.Diag_ParameterSettingslist)
                         {
-                            List<DataParameter> param1 = new List<DataParameter>();
-
-                            param1.Add(new DataParameter("@Id", item.Id));
-                            param1.Add(new DataParameter("@PROTOCOL_ID", InsertId));
-                            param1.Add(new DataParameter("@INSTITUTION_ID", item.Institution_Id));
-                            param1.Add(new DataParameter("@PARAMETER_ID", item.Parameter_Id));
-                            param1.Add(new DataParameter("@UNITS_ID", item.Units_Id));
-                            param1.Add(new DataParameter("@DIAG_HIGHMAX_ONE", item.Diag_HighMax_One));
-                            param1.Add(new DataParameter("@DIAG_HIGHMIN_ONE", item.Diag_HighMin_One));
-                            param1.Add(new DataParameter("@DIAG_MEDIUMMAX_ONE", item.Diag_MediumMax_One));
-                            param1.Add(new DataParameter("@DIAG_MEDIUMMIN_ONE", item.Diag_MediumMin_One));
-                            param1.Add(new DataParameter("@DIAG_LOWMAX_ONE", item.Diag_LowMax_One));
-                            param1.Add(new DataParameter("@DIAG_LOWMIN_ONE", item.Diag_LowMin_One));
-                            param1.Add(new DataParameter("@DIAG_HIGHMAX_TWO", item.Diag_HighMax_Two));
-                            param1.Add(new DataParameter("@DIAG_HIGHMIN_TWO", item.Diag_HighMin_Two));
-                            param1.Add(new DataParameter("@DIAG_MEDIUMMAX_TWO", item.Diag_MediumMax_Two));
-                            param1.Add(new DataParameter("@DIAG_MEDIUMMIN_TWO", item.Diag_MediumMin_Two));
-                            param1.Add(new DataParameter("@DIAG_LOWMAX_TWO", item.Diag_LowMax_Two));
-                            param1.Add(new DataParameter("@DIAG_LOWMIN_TWO", item.Diag_LowMin_Two));
-                            //param1.Add(new DataParameter("@COMP_DURATIONTYPE", item.Com_DurationType));
-                            //param1.Add(new DataParameter("@COMP_DURATION", item.Comp_Duration));
-                            //param1.Add(new DataParameter("@COMP_HIGH", item.Comp_High));
-                            //param1.Add(new DataParameter("@COMP_MEDIUM", item.Comp_Medium));
-                            //param1.Add(new DataParameter("@COMP_LOW", item.Comp_Low));
-                            //  param1.Add(new DataParameter("@ISACTIVE", item.ISACTIVE));
-                            param1.Add(new DataParameter("@CREATED_BY", item.Created_By));
-                            param1.Add(new DataParameter("@NORMALRANGE_HIGH", item.NormalRange_High));
-                            param1.Add(new DataParameter("@NORMALRANGE_LOW", item.NormalRange_Low));
-                            InsSubModId = ClsDataBase.Insert("[MYCORTEX].PROTOCOL_MONITORING_SETTINGS_SP_INSERTUPDATE", param1, true);
+                            if (item.Parameter_Id > 0)
+                            {
+                                List<DataParameter> param1 = new List<DataParameter>();
+                                param1.Add(new DataParameter("@Id", item.Id));
+                                param1.Add(new DataParameter("@PROTOCOL_ID", InsertId));
+                                param1.Add(new DataParameter("@INSTITUTION_ID", item.Institution_Id));
+                                param1.Add(new DataParameter("@PARAMETER_ID", item.Parameter_Id));
+                                param1.Add(new DataParameter("@UNITS_ID", item.Units_Id));
+                                param1.Add(new DataParameter("@DIAG_HIGHMAX_ONE", item.Diag_HighMax_One));
+                                param1.Add(new DataParameter("@DIAG_HIGHMIN_ONE", item.Diag_HighMin_One));
+                                param1.Add(new DataParameter("@DIAG_MEDIUMMAX_ONE", item.Diag_MediumMax_One));
+                                param1.Add(new DataParameter("@DIAG_MEDIUMMIN_ONE", item.Diag_MediumMin_One));
+                                param1.Add(new DataParameter("@DIAG_LOWMAX_ONE", item.Diag_LowMax_One));
+                                param1.Add(new DataParameter("@DIAG_LOWMIN_ONE", item.Diag_LowMin_One));
+                                param1.Add(new DataParameter("@DIAG_HIGHMAX_TWO", item.Diag_HighMax_Two));
+                                param1.Add(new DataParameter("@DIAG_HIGHMIN_TWO", item.Diag_HighMin_Two));
+                                param1.Add(new DataParameter("@DIAG_MEDIUMMAX_TWO", item.Diag_MediumMax_Two));
+                                param1.Add(new DataParameter("@DIAG_MEDIUMMIN_TWO", item.Diag_MediumMin_Two));
+                                param1.Add(new DataParameter("@DIAG_LOWMAX_TWO", item.Diag_LowMax_Two));
+                                param1.Add(new DataParameter("@DIAG_LOWMIN_TWO", item.Diag_LowMin_Two));
+                                //param1.Add(new DataParameter("@COMP_DURATIONTYPE", item.Com_DurationType));
+                                //param1.Add(new DataParameter("@COMP_DURATION", item.Comp_Duration));
+                                //param1.Add(new DataParameter("@COMP_HIGH", item.Comp_High));
+                                //param1.Add(new DataParameter("@COMP_MEDIUM", item.Comp_Medium));
+                                //param1.Add(new DataParameter("@COMP_LOW", item.Comp_Low));
+                                //  param1.Add(new DataParameter("@ISACTIVE", item.ISACTIVE));
+                                param1.Add(new DataParameter("@CREATED_BY", item.Created_By));
+                                param1.Add(new DataParameter("@NORMALRANGE_HIGH", item.NormalRange_High));
+                                param1.Add(new DataParameter("@NORMALRANGE_LOW", item.NormalRange_Low));
+                                InsSubModId = ClsDataBase.Insert("[MYCORTEX].PROTOCOL_MONITORING_SETTINGS_SP_INSERTUPDATE", param1, true);
+                            }
                         }
                     }
 
