@@ -36,7 +36,7 @@ namespace MyCortex.Repositories.LiveBox
             retFlag = ClsDataBase.Insert("[MYCORTEX].[LIVEBOX_REMAININGTIME_LOG]", param, true);
             return retFlag;
         }
-        public int LiveBox_Notify_UPDATE(string conferencename,long Institution_Id, string userID)
+        public int LiveBox_Notify_UPDATE(string conferencename,long Institution_Id, string userID,string messageBody)
         {
             int retid = 0;
             long User_Id;
@@ -57,8 +57,8 @@ namespace MyCortex.Repositories.LiveBox
                     User_Id = long.Parse(dr["Doctor_Id"].ToString());
                     //  Patient_Id = dr["Patient_Id"].ToString();
                     PushNotificationMessage message = new PushNotificationMessage();
-                    message.Title = "Notificaion For Call";
-                    message.Message = "Waiting for meet";
+                    message.Title = "HiveMeet Notification";
+                    message.Message = messageBody; // "Waiting for meet";
                     PushNotificationApiManager.SendLiveboxNotification(message, User_Id, Institution_Id);
                 }
             }
