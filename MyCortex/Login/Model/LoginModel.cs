@@ -87,6 +87,7 @@ namespace MyCortex.Login.Model
         public string zipcode { get; set; }
         public bool isMYH { get; set; }
         public string ShortCode { get; set; }
+        public string Offset { get; set; }
     }
 
     public class GmailToken

@@ -12,6 +12,11 @@ using Newtonsoft.Json.Linq;
 using MyCortex.Masters.Models;
 using MyCortex.Repositories.Masters;
 using MyCortex.Repositories.LiveBox;
+using MyCortex.Notification.Models;
+using MyCortex.Repositories.EmailAlert;
+using MyCortex.Admin.Models;
+using MyCortex.Repositories.Admin;
+using MyCortex.Email.SendGrid;
 
 namespace MyCortex.Notification.Firebase
 {
@@ -20,9 +25,14 @@ namespace MyCortex.Notification.Firebase
         static readonly ILiveBoxRepository LBrepository=new LiveBoxRepository();
         static readonly ISendEmailRepository repository = new SendEmailRepository();
         static readonly ICommonRepository commonrepository = new CommonRepository();
+        static readonly AlertEventRepository alertrepository = new AlertEventRepository();
+        static readonly IEmailConfigurationRepository emailrepository = new EmailConfigurationRepository();
+
         private readonly static MyCortexLogger _MyLogger = new MyCortexLogger();
         string
             _AppLogger = string.Empty, _AppMethod = string.Empty;
+
+       
         /// <summary>
         /// sends Firebase Push Notification
         /// </summary>
@@ -130,22 +140,26 @@ namespace MyCortex.Notification.Firebase
 
         //}
 
-        public static async void SendConfiguraionSettingNotification()
-        {
-            List<FCMUserDetails> model = new List<FCMUserDetails>();
-            model = repository.FCMUsersBasedonInstitution(Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]));
+        //public static async void SendConfiguraionSettingNotification()
+        //{
+        //    List<FCMUserDetails> model = new List<FCMUserDetails>();
+        //    model = repository.FCMUsersBasedonInstitution(Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]));
 
-            foreach (FCMUserDetails itemData in model)
-            {
-                PushNotificationMessage message = new PushNotificationMessage();
-                message.Title = "Configuration Settings";
-                message.Message = "configuration changed";
-                message.FCMToken = itemData.FCMToken;
-                await SendConfiguraionPushNotification(message, itemData.SiteUrl, itemData.Settings, itemData.Institution_Id);
-            }
-        }
+        //    foreach (FCMUserDetails itemData in model)
+        //    {
+        //        PushNotificationMessage message = new PushNotificationMessage();
+        //        message.Title = "Configuration Settings";
+        //        message.Message = "configuration changed";
+        //        message.FCMToken = itemData.FCMToken;
+        //        await SendConfiguraionPushNotification(message, itemData.SiteUrl, itemData.Settings, itemData.Institution_Id);
+        //    }
+        //}
         public async static void SendLiveboxNotification(PushNotificationMessage message, long User_Id, long Institution_Id)
         {
+            Int64 Id = 0;
+            AlertEvents AlertEventReturn = new AlertEvents();
+            IList<EmailListModel> EmailList;
+            //AlertEventModel EmailList =new AlertEventModel();
             List<NotifictaionUserFCM> model = new List<NotifictaionUserFCM>();
             model = repository.UserFCMToken_Get_List(User_Id);
             // string url = HttpContext.Current.Request.Url.Authority;
@@ -160,7 +174,32 @@ namespace MyCortex.Notification.Firebase
                 {
 
                 }
-            }            
+            }
+            if (model.Count == 0)
+            {
+                Id = 0;
+                //without Event Code send email.
+                EmailList = alertrepository.UserSpecificEmailList(Institution_Id, User_Id);
+                EmailConfigurationModel emailModel = new EmailConfigurationModel();
+                emailModel = emailrepository.EmailConfiguration_View(Institution_Id);
+                if (emailModel != null)
+                {
+                    AlertEventModel alert = new AlertEventModel();
+                    alert.Template_Id = 0;
+                    alert.TempBody = message.Message;
+                    alert.TempSubject = message.Title;
+
+                    List<EmailListModel> elList = new List<EmailListModel>();
+                    EmailListModel el = new EmailListModel();
+                    el.UserName = EmailList[0].UserName;
+                    el.EmailId = EmailList[0].EmailId;
+                    el.EmailType_Flag = EmailList[0].EmailType_Flag;
+                    elList.Add(el);
+
+                    SendGridApiManager mail = new SendGridApiManager();
+                    var res = mail.SendComposedSMTPEmail(emailModel, alert, elList, 0, "", User_Id);
+                }
+            }
         }
         private async static Task<IRestResponse> SendPushLiveboxNotification(PushNotificationMessage message, string Url, long User_Id)
         {
@@ -235,71 +274,71 @@ namespace MyCortex.Notification.Firebase
 
             return null;
         }
-        private async static Task SendConfiguraionPushNotification(PushNotificationMessage message, string Url, string Setting, long Institution_Id)
-        {
-            string
-            _AppLogger = string.Empty, _AppMethod = string.Empty;
-            _AppLogger = "MyCortex.Notification.Firebase.PushNotificationApiManager";
-            _AppMethod = "MoveNext";
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
-            IList<AppConfigurationModel> model;
-            model = commonrepository.AppConfigurationDetails("FIREBASE_APITOKEN", Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]));
+        //private async static Task SendConfiguraionPushNotification(PushNotificationMessage message, string Url, string Setting, long Institution_Id)
+        //{
+        //    string
+        //    _AppLogger = string.Empty, _AppMethod = string.Empty;
+        //    _AppLogger = "MyCortex.Notification.Firebase.PushNotificationApiManager";
+        //    _AppMethod = "MoveNext";
+        //    _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+        //    IList<AppConfigurationModel> model;
+        //    model = commonrepository.AppConfigurationDetails("FIREBASE_APITOKEN", Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]));
 
-            var client = new RestClient("https://fcm.googleapis.com/fcm/send");
-            client.Timeout = -1;
-            var request = new RestRequest(Method.POST);
-            request.AddHeader("Content-Type", "application/json");
-            request.AddHeader("Authorization", "key=" + model[0].ConfigValue);
+        //    var client = new RestClient("https://fcm.googleapis.com/fcm/send");
+        //    client.Timeout = -1;
+        //    var request = new RestRequest(Method.POST);
+        //    request.AddHeader("Content-Type", "application/json");
+        //    request.AddHeader("Authorization", "key=" + model[0].ConfigValue);
 
-            message.Message = message.Message.Replace("\n\n", Environment.NewLine);
+        //    message.Message = message.Message.Replace("\n\n", Environment.NewLine);
 
-            var my_jsondata = new
-            {
-                notification = new
-                {
-                    title = message.Title,
-                    body = message.Message,
-                    click_action = Url
-                },
-                to = message.FCMToken
-            };
+        //    var my_jsondata = new
+        //    {
+        //        notification = new
+        //        {
+        //            title = message.Title,
+        //            body = message.Message,
+        //            click_action = Url
+        //        },
+        //        to = message.FCMToken
+        //    };
 
-            //Tranform it to Json object
-            string json_data = JsonConvert.SerializeObject(my_jsondata);
+        //    //Tranform it to Json object
+        //    string json_data = JsonConvert.SerializeObject(my_jsondata);
 
-            _MyLogger.Exceptions("INFO", _AppLogger, json_data, null, _AppMethod);
-            request.AddParameter("application/json", json_data, ParameterType.RequestBody);
+        //    _MyLogger.Exceptions("INFO", _AppLogger, json_data, null, _AppMethod);
+        //    request.AddParameter("application/json", json_data, ParameterType.RequestBody);
 
-            int IS_NOTIFY = 0;
-            string messageId = "";
-            string errormsg = "";
+        //    int IS_NOTIFY = 0;
+        //    string messageId = "";
+        //    string errormsg = "";
 
-            try
-            {
+        //    try
+        //    {
 
-                IRestResponse response = await client.ExecuteAsync(request);
+        //        IRestResponse response = await client.ExecuteAsync(request);
 
-                var result = JsonConvert.DeserializeObject<PushNotificationResponse>(response.Content);
-                if (result != null)
-                {
-                    if (result.success == "1")
-                        IS_NOTIFY = 1;
-                    if (result.results[0].message_id != null)
-                        messageId = result.results[0].message_id;
+        //        var result = JsonConvert.DeserializeObject<PushNotificationResponse>(response.Content);
+        //        if (result != null)
+        //        {
+        //            if (result.success == "1")
+        //                IS_NOTIFY = 1;
+        //            if (result.results[0].message_id != null)
+        //                messageId = result.results[0].message_id;
 
-                    if (result.results[0].error != null)
-                        errormsg = result.results[0].error;
-                }
-            }
-            catch (Exception ex)
-            {
-                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
-            }
-            finally
-            {
-                repository.Configuration_Update(Setting, IS_NOTIFY, Institution_Id); //returnObj.results
-            }
-        }
+        //            if (result.results[0].error != null)
+        //                errormsg = result.results[0].error;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+        //    }
+        //    finally
+        //    {
+        //        repository.Configuration_Update(Setting, IS_NOTIFY, Institution_Id); //returnObj.results
+        //    }
+        //}
         public class PushNotificationMessage
         {
             public string FCMToken { get; set; }

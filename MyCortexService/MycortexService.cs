@@ -585,7 +585,7 @@ namespace MyCortexService
             {
                 isJob3running = true;
                 WriteToFile("Service3 started at " + DateTime.Now);
-                PushNotificationApiManager.SendConfiguraionSettingNotification();
+               // PushNotificationApiManager.SendConfiguraionSettingNotification();
                 isJob3running = false;
             }
         }
