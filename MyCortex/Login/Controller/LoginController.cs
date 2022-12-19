@@ -296,8 +296,8 @@ namespace MyCortex.Login.Controller
         }
 
         [AllowAnonymous]
-        [HttpGet]
-        public HttpResponseMessage AutoLogout_NetworkChange(string Login_Session_Id,string Offset,string DeviceType, Boolean isMyH=false,string ShortCode="")
+        [HttpPost]
+        public HttpResponseMessage AutoLogout_NetworkChange(LoginModel loginObj)
         {
             _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -311,7 +311,9 @@ namespace MyCortex.Login.Controller
                 string messagestr = "";
                 string languagekey = "";
 
-                model = repository.AutoLogout_NetworkChange(Login_Session_Id, Offset, isMyH, ShortCode, DeviceType);
+                string LoginSessionId= loginObj.Login_Session_Id.ToString(); // convert GUid? to String
+
+                model = repository.AutoLogout_NetworkChange(LoginSessionId, loginObj.Offset, loginObj.isMYH, loginObj.ShortCode, loginObj.DeviceType);
                 HttpContext.Current.Session["UserId"] = model.UserId.ToString();
                 HttpContext.Current.Session["UserTypeId"] = model.UserTypeId.ToString();
                 HttpContext.Current.Session["InstitutionId"] = model.InstitutionId.ToString();
@@ -436,187 +438,10 @@ namespace MyCortex.Login.Controller
                 model.LanguageKey = languagekey;
                 model.Error_Code = "";
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
-                return response;
-
-
-                //if (loginObj.LoginType == 1)
-                //{
-                //    if (!ModelState.IsValid)
-                //    {
-                //        model.Status = "False";
-                //        model.Message = "Invalid data";
-                //        model.Error_Code = "";
-                //        model.UserDetails = ModelData;
-                //        model.ReturnFlag = 0;
-                //        model.LanguageKey = "invaliddata";
-                //        return Request.CreateResponse(HttpStatusCode.BadRequest, model);
-                //    }
-                //}
-
-                //if (repository.CheckExpiryDate())
-                //{
-                //    model.Status = "False";
-                //    model.Message = "Your MyCortex version is outdated. Please contact Administrator for upgrade or email us on admin@mycortex.health";
-                //    model.Error_Code = "";
-                //    model.UserDetails = ModelData;
-                //    model.ReturnFlag = 0;
-                //    model.LanguageKey = "versionoutdated";
-                //    return Request.CreateResponse(HttpStatusCode.BadRequest, model);
-                //}
-
-                //string messagestr = "";
-                //string languagekey = "";
-                //// string VisitorsIPAddr =''
-                //try
-                //{
-                //    // encrypt the password
-                //    var username = loginObj.Username.ToLower();
-                //    //DataEncryption EncryptPassword = new DataEncryption();
-                //    //loginObj.Password = EncryptPassword.Encrypt(loginObj.Password);
-                //    //loginObj.Username = EncryptPassword.Encrypt(username);
-                //    model = repository.Userlogin_AddEdit(loginObj);
-
-                //    HttpContext.Current.Session["UserId"] = model.UserId.ToString();
-                //    HttpContext.Current.Session["UserTypeId"] = model.UserTypeId.ToString();
-                //    HttpContext.Current.Session["InstitutionId"] = model.InstitutionId.ToString();
-                //    HttpContext.Current.Session["Login_Session_Id"] = model.Login_Session_Id.ToString();
-                //    HttpContext.Current.Session["TelePhone_User"] = model.TelePhone_User.ToString();
-                //    HttpContext.Current.Session["Recording_Type"] = model.Recording_Type.ToString();
-                //    if ((model.data == 2) == true)
-                //    {
-                //        model.ReturnFlag = 0;
-                //        model.Status = "False";
-                //        messagestr = "Contract Period expired";
-                //        languagekey = "contractperiodexpired";
-                //    }
-                //    else if ((model.data == 3) == true)
-                //    {
-                //        model.ReturnFlag = 1;
-                //        model.Status = "True";
-                //        messagestr = "Contract time exceeded, but allow to access";
-                //        languagekey = "contractexceedallowaccess";
-                //    }
-                //    else if ((model.data == 4) == true || (model.data == 5) == true)
-                //    {
-                //        model.ReturnFlag = 1;
-                //        messagestr = "Login  Successfully";
-                //        model.Status = "True";
-                //        languagekey = "loginsuccess";
-                //        //if (loginObj.isTab && !String.IsNullOrEmpty(loginObj.Tab_Ref_ID))
-                //        //{
-                //        //    model.TabDevices = repository.Get_TabDevices(model.InstitutionId, loginObj.Tab_Ref_ID);
-                //        //    model.TabUsers = repository.Get_TabUsers(model.InstitutionId, loginObj.Tab_Ref_ID);
-                //        //}
-                //    }
-                //    else if ((model.data == 1) == true)
-                //    {
-                //        model.ReturnFlag = 1;
-                //        messagestr = "User Name or Password Mismatch";
-                //        model.Status = "False";
-                //        languagekey = "usernamepasswordmismatch";
-                //    }
-                //    else if ((model.data == 6) == true || (model.data == 7) == true || (model.data == 8) == true || (model.data == 10) == true)
-                //    {
-                //        model.ReturnFlag = 1;
-                //        messagestr = model.Messagetype;
-                //        model.Status = "True";
-                //        languagekey = model.LanguageKey;
-                //    }
-                //    else if ((model.data == 9) == true)
-                //    {
-                //        model.ReturnFlag = 1;
-                //        messagestr = "Inactive User Cannot Login";
-                //        model.Status = "False";
-                //        languagekey = "inactiveusernotlogin";
-                //    }
-                //    else if ((model.data == 18) == true)
-                //    {
-                //        model.ReturnFlag = 1;
-                //        messagestr = "UserName Not Found";
-                //        model.Status = "False";
-                //        languagekey = "usernotfound";
-                //    }
-                //    else if ((model.data == 11) == true)
-                //    {
-                //        model.ReturnFlag = 1;
-                //        messagestr = "Given Reference Id is not Available.";
-                //        model.Status = "False";
-                //        languagekey = "refidnotavailable";
-                //    }
-                //    else if ((model.data == 12) == true)
-                //    {
-                //        model.ReturnFlag = 1;
-                //        messagestr = "Selected Language not in your subscription.";
-                //        languagekey = "selectedlanguagenotinyoursubscription";
-                //        model.Status = "False";
-                //    }
-                //    else if ((model.data == 13) == true)
-                //    {
-                //        model.ReturnFlag = 1;
-                //        messagestr = "Waiting for approval";
-                //        model.Status = "False";
-                //        languagekey = "waitingforapproval";
-                //    }
-                //    else if ((model.data == 14) == true)
-                //    {
-                //        model.ReturnFlag = 1;
-                //        messagestr = "This Clinical User is not available for given Ref ID.";
-                //        model.Status = "False";
-                //        languagekey = "clinicalusernotavblgivenrefid";
-                //    }
-                //    else if ((model.data == 15) == true)
-                //    {
-                //        model.ReturnFlag = 1;
-                //        messagestr = "This User is not available for given Ref ID.";
-                //        model.Status = "False";
-                //        languagekey = "usernotavblgivenrefid";
-                //    }
-                //    else if ((model.data == 16) == true)
-                //    {
-                //        model.ReturnFlag = 1;
-                //        messagestr = "UserName and Password does not exists. Please Verify";
-                //        model.Status = "False";
-                //        languagekey = "usernamepasswordnotexists";
-                //    }
-                //    else if ((model.data == 19) == true)
-                //    {
-                //        model.ReturnFlag = 1;
-                //        messagestr = "Invalid ShortCode";
-                //        model.Status = "False";
-                //        languagekey = "invalidshortcode";
-                //    }
-                //    else if ((model.data == 20) == true)
-                //    {
-                //        model.ReturnFlag = 1;
-                //        messagestr = "User not valid for this institution";
-                //        model.Status = "False";
-                //        languagekey = "usernotvalidforthisinstitution";
-                //    }
-                //    //model.UserDetails = ModelData;
-                //    model.Message = messagestr;// "User created successfully";
-                //    model.LanguageKey = languagekey;
-                //    model.Error_Code = "";
-                //    HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
-                //    return response;
-                //}
-                //catch (Exception ex)
-                //{
-
-                //    _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
-                //    model.Status = "False";
-                //    model.Message = "Error in Login";
-                //    model.Status = "False";
-                //    model.LanguageKey = "errorinlogin";
-                //    model.UserDetails = ModelData;
-                //    model.ReturnFlag = 0;
-
-                //    model.Error_Code = ex.Message;
-                //    return Request.CreateResponse(HttpStatusCode.BadRequest, model);
-                //}
+                return response;          
             }
             catch (Exception ex)
             {
-
                 _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
