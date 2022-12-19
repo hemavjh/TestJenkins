@@ -101,7 +101,7 @@ namespace MyCortex.Repositories.Login
         /// </summary>
         /// <param name="loginObj">Login Credentials</param>
         /// <returns>Login validity details and User Information</returns>
-        public LoginModel AutoLogout_NetworkChange(string Login_Session_Id, string Offset, Boolean isMYH, string ShortCode,string DeviceType)
+        public LoginModel AutoLogout_NetworkChange(Guid Login_Session_Id, string Offset, Boolean isMYH, string ShortCode,string DeviceType)
         {
              int flag = 0;
             string Username = "", Password = "", Device_Type = "", Time_Difference = "", Browser_Version = "", Login_Country = "", Login_City = "";

@@ -297,7 +297,7 @@ namespace MyCortex.Login.Controller
 
         [AllowAnonymous]
         [HttpPost]
-        public HttpResponseMessage AutoLogout_NetworkChange(LoginModel loginObj)
+        public HttpResponseMessage AutoLogout_NetworkChange(Guid Login_Session_Id, [FromBody] LoginModel loginObj)
         {
             _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -311,9 +311,12 @@ namespace MyCortex.Login.Controller
                 string messagestr = "";
                 string languagekey = "";
 
-                string LoginSessionId= loginObj.Login_Session_Id.ToString(); // convert GUid? to String
+                if (Login_Session_Id == null)
+                {
+                    Login_Session_Id = new Guid();
+                }
 
-                model = repository.AutoLogout_NetworkChange(LoginSessionId, loginObj.Offset, loginObj.isMYH, loginObj.ShortCode, loginObj.DeviceType);
+                model = repository.AutoLogout_NetworkChange(Login_Session_Id, loginObj.Offset, loginObj.isMYH, loginObj.ShortCode, loginObj.DeviceType);
                 HttpContext.Current.Session["UserId"] = model.UserId.ToString();
                 HttpContext.Current.Session["UserTypeId"] = model.UserTypeId.ToString();
                 HttpContext.Current.Session["InstitutionId"] = model.InstitutionId.ToString();
