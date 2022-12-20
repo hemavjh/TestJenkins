@@ -316,7 +316,7 @@ namespace MyCortex.Login.Controller
                     Login_Session_Id = new Guid();
                 }
 
-                model = repository.AutoLogout_NetworkChange(Login_Session_Id, loginObj.Offset, loginObj.isMYH, loginObj.ShortCode, loginObj.DeviceType);
+                model = repository.AutoLogout_NetworkChange(Login_Session_Id, loginObj.Sys_TimeDifference, loginObj.isMYH, loginObj.ShortCode, loginObj.DeviceType);
                 HttpContext.Current.Session["UserId"] = model.UserId.ToString();
                 HttpContext.Current.Session["UserTypeId"] = model.UserTypeId.ToString();
                 HttpContext.Current.Session["InstitutionId"] = model.InstitutionId.ToString();

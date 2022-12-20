@@ -101,7 +101,7 @@ namespace MyCortex.Repositories.Login
         /// </summary>
         /// <param name="loginObj">Login Credentials</param>
         /// <returns>Login validity details and User Information</returns>
-        public LoginModel AutoLogout_NetworkChange(Guid Login_Session_Id, string Offset, Boolean isMYH, string ShortCode,string DeviceType)
+        public LoginModel AutoLogout_NetworkChange(Guid Login_Session_Id, int Sys_TimeDifference, Boolean isMYH, string ShortCode,string DeviceType)
         {
              int flag = 0;
             string Username = "", Password = "", Device_Type = "", Time_Difference = "", Browser_Version = "", Login_Country = "", Login_City = "";
@@ -109,7 +109,7 @@ namespace MyCortex.Repositories.Login
             string  Login_Latitude = "", Login_Longitude = "", Login_RegionName = "", Login_zipCode = "", Login_DeviceOS = "", Login_DeviceName = "", Login_TimeZone = "";
             List<DataParameter> user_param = new List<DataParameter>();
             user_param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
-            user_param.Add(new DataParameter("@OFFSET", Offset));
+            user_param.Add(new DataParameter("@OFFSET", Sys_TimeDifference));
             user_param.Add(new DataParameter("@isMYH", isMYH));
             user_param.Add(new DataParameter("@ShortCode", ShortCode));
             user_param.Add(new DataParameter("@DeviceType", DeviceType));
