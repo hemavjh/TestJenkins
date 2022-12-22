@@ -46,8 +46,11 @@ namespace MyCortex.Repositories.LiveBox
             param.Add(new DataParameter("@Institution_Id", Institution_Id));
             param.Add(new DataParameter("@UserId", userID));
             retid = ClsDataBase.Insert("[MYCORTEX].[LIVEBOX_NOTIFY_LOG_GET_SP]", param, true);
-            
-            DataTable dttbl = ClsDataBase.GetDataTable("[MYCORTEX].[LIVEBOX_USERDETAILS]");
+
+            List<DataParameter> param1 = new List<DataParameter>();
+            param1.Add(new DataParameter("@conferencename", conferencename));
+
+            DataTable dttbl = ClsDataBase.GetDataTable("[MYCORTEX].[LIVEBOX_USERDETAILS]", param1);
             if (dttbl.Rows.Count > 0)
             {                
                 foreach (DataRow dr in dttbl.Rows)

@@ -2573,7 +2573,8 @@ namespace MyCortex.Repositories.Uesr
                                                           Payment_Status = (p.IsNull("PAYMENT_STATUS") ? "" : p.Field<string>("PAYMENT_STATUS")),
                                                           ConferenceId = p.Field<string>("CONFERENCE_ID"),
                                                           Status = p.Field<int>("STATUS"),
-                                                          Amount=p.Field<string>("AMOUNT")
+                                                          Amount=p.Field<string>("AMOUNT"),
+                                                          ReasonForVisit=p.Field<string>("REASONFORVISIT")
                                                       }).ToList();
                 return lst;
             }
@@ -2716,6 +2717,7 @@ namespace MyCortex.Repositories.Uesr
                                                           DisplayViewGenderName = p.Field<string>("DISPLAYGENDERNAME"),
                                                           ViewGenderName = p.Field<string>("GENDER_NAME"),
                                                           Payment_Status = (p.IsNull("PAYMENT_STATUS") ? "" : p.Field<string>("PAYMENT_STATUS")),
+                                                          ReasonForVisit= p.Field<string>("REASONFORVISIT"),
                                                       }).ToList();
                 return lst;
             }

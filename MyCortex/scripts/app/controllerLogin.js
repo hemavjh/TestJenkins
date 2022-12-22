@@ -1468,8 +1468,8 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                     for (var i = 0; i < e.files.length; i++) {
                         $scope.showNationalityFiles.push(e.files[i])               
                     }
-                    $scope.showUUIDFiles = [];
-                    $scope.UID = '';
+                    //$scope.showUUIDFiles = [];
+                    //$scope.UID = '';
                 } else {
                     toastr.warning($scope.fileexceed, "File Size");
                 }
@@ -1564,8 +1564,8 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                     for (var i = 0; i < e.files.length; i++) {
                         $scope.showUUIDFiles.push(e.files[i])
                     }
-                    $scope.showNationalityFiles = [];
-                    $scope.NationalId = '';
+                    //$scope.showNationalityFiles = [];
+                    //$scope.NationalId = '';
 
                 } else {
                     toastr.warning($scope.fileexceed, "File Size");
@@ -1591,16 +1591,16 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
         }
         $scope.fnNationalityClear=function()
         {
-            if ($scope.UID != '') {
-                $scope.NationalId = '';
-                $scope.showNationalityFiles = [];
-            }             
+            //if ($scope.UID != '') {
+            //    $scope.NationalId = '';
+            //    $scope.showNationalityFiles = [];
+            //}             
         }
         $scope.fnUUIDClear = function () {
-            if ($scope.NationalId != '') {
-                $scope.UID = '';
-                $scope.showUUIDFiles = [];
-            }
+            //if ($scope.NationalId != '') {
+            //    $scope.UID = '';
+            //    $scope.showUUIDFiles = [];
+            //}
         }
         /*This is Insert Function for SignUp */
         $scope.SignupLogin_AddEdit = function () {

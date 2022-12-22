@@ -3307,8 +3307,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     for (var i = 0; i < e.files.length; i++) {
                         $scope.Nationalityresumedoc.push(e.files[i])
                     }
-                    $scope.UIDshow = [];
-                    $scope.UIDshow = '';
+                    //$scope.UIDshow = [];
+                    //$scope.UIDshow = '';
                 } else {
                     toastr.warning($scope.fileexceed, "File Size");
                 }
@@ -3338,8 +3338,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     for (var i = 0; i < e.files.length; i++) {
                         $scope.UIDshow.push(e.files[i])
                     }
-                    $scope.Nationalityresumedoc = [];
-                    $scope.Nationalityresumedoc = '';
+                    //$scope.Nationalityresumedoc = [];
+                    //$scope.Nationalityresumedoc = '';
                 } else {
                     toastr.warning($scope.fileexceed, "File Size");
                 }
