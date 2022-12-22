@@ -101,7 +101,7 @@ namespace MyCortex.Repositories.Login
         /// </summary>
         /// <param name="loginObj">Login Credentials</param>
         /// <returns>Login validity details and User Information</returns>
-        public LoginModel AutoLogout_NetworkChange(Guid Login_Session_Id, int Sys_TimeDifference, Boolean isMYH, string ShortCode,string DeviceType)
+        public LoginModel_auto AutoLogout_NetworkChange(Guid Login_Session_Id, int Sys_TimeDifference, Boolean isMYH, string ShortCode,string DeviceType)
         {
              int flag = 0;
             string Username = "", Password = "", Device_Type = "", Time_Difference = "", Browser_Version = "", Login_Country = "", Login_City = "";
@@ -206,9 +206,9 @@ namespace MyCortex.Repositories.Login
                 {
                     dt = ClsDataBase.GetDataTable("[MYCORTEX].[LOGIN_SP_VALIDATIONSCHECK_INSERT]", param);
                 }
-                LoginModel lst = (from p in dt.AsEnumerable()
+                LoginModel_auto lst = (from p in dt.AsEnumerable()
                                   select
-                                  new LoginModel()
+                                  new LoginModel_auto()
                                   {
                                       UserId = p.Field<long>("UserId"),
                                       data = p.Field<int>("data"),
@@ -364,7 +364,7 @@ namespace MyCortex.Repositories.Login
             }
             else 
             {
-                LoginModel lst = new LoginModel();
+                LoginModel_auto lst = new LoginModel_auto();
                 lst.flag = 1;
                 lst.Status = "False";
                 return lst; 

@@ -105,9 +105,8 @@ namespace MyCortex.Login.Controller
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
-            {
-                
-                   _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
+            {                
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 UserModel ModelData = new UserModel();
                 LoginModel model = new LoginModel();
                 //IList<TabDevicesModel> tabDevices;
@@ -297,16 +296,15 @@ namespace MyCortex.Login.Controller
 
         [AllowAnonymous]
         [HttpPost]
-        public HttpResponseMessage AutoLogout_NetworkChange(Guid Login_Session_Id, [FromBody] LoginModel loginObj)
+        public HttpResponseMessage AutoLogout_NetworkChange(Guid Login_Session_Id, [FromBody] LoginModel_auto loginObj)
         {
             _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
-
                 _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 UserModel ModelData = new UserModel();
-                LoginModel model = new LoginModel();
+                LoginModel_auto model = new LoginModel_auto();
 
                 string messagestr = "";
                 string languagekey = "";
@@ -316,6 +314,18 @@ namespace MyCortex.Login.Controller
                     Login_Session_Id = new Guid();
                 }
 
+                
+                if (!ModelState.IsValid)
+                {
+                    model.Status = "False";
+                    model.Message = "Invalid data";
+                    model.Error_Code = "";
+                    model.UserDetails = ModelData;
+                    model.ReturnFlag = 0;
+                    model.LanguageKey = "invaliddata";
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+                }
+                
                 model = repository.AutoLogout_NetworkChange(Login_Session_Id, loginObj.Sys_TimeDifference, loginObj.isMYH, loginObj.ShortCode, loginObj.DeviceType);
                 HttpContext.Current.Session["UserId"] = model.UserId.ToString();
                 HttpContext.Current.Session["UserTypeId"] = model.UserTypeId.ToString();
