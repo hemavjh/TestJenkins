@@ -482,6 +482,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@ExpiryDate", insobj.ExpiryDate));
             param.Add(new DataParameter("@PayorId", insobj.PayorId));
             param.Add(new DataParameter("@PlanId", insobj.PlanId));
+            param.Add(new DataParameter("@Clinician_Bio", insobj.Clinician_Bio));
 
             if(insobj.Id == 0)
             {
@@ -876,6 +877,7 @@ namespace MyCortex.Repositories.Uesr
                                     ExpiryDate = p.Field<string>("EXPIRYDATE"),
                                     PayorId = p.Field<string>("PAYORID"),
                                     PlanId = p.Field<string>("PLANID"),
+                                    Clinician_Bio = p.Field<string>("PLANID"),
                                 }).FirstOrDefault();
             if (insert.DOB_Encrypt != "" && insert.DOB_Encrypt != null)
             {
@@ -1330,7 +1332,8 @@ namespace MyCortex.Repositories.Uesr
                                   NationalPhotoFullpath = p.Field<string>("NATIONAL_PHOTO_FULLPATH"),
                                   NationalPhotoFilename = p.Field<string>("NATIONAL_PHOTO_FILENAME"),
                                   InsurancePhotoFullpath = p.Field<string>("INSURANCE_PHOTO_FULLPATH"),
-                                  InsurancePhotoFilename = p.Field<string>("INSURANCE_PHOTO_FILENAME")
+                                  InsurancePhotoFilename = p.Field<string>("INSURANCE_PHOTO_FILENAME"),
+                                  Clinician_Bio = p.Field<string>("Clinician_Bio")
                                 }).FirstOrDefault();
             
 
