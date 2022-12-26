@@ -5556,6 +5556,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         var userid = data.UserDetails.Id;
 
                         $scope.UserImageAttach(userid);
+                        $scope.UserImageAttach1(userid);
+                        $scope.UserImageAttach2(userid);
                         if (data.ReturnFlag == "1") {
                             if ($scope.AdminDefaultConfiguration == 1) {
                                 $scope.InstitueDefaultConfiguration();
@@ -5823,6 +5825,26 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         });
                 }
             }
+        }
+        $scope.UserImageAttach1 = function (userid) {
+            var userid = userid;
+            var FileName = "";
+            var CertificateFileName = "";
+            var FileType = "";
+            var Licensefilename = "";
+            var fd = new FormData();
+            var imgBlob;
+            var NationalimgBlob = [];
+            var InsuranceimgBlob;
+            var imgBlobfile;
+            var itemIndexLogo = -1;
+            var NationalitemIndexLogo = -1;
+            var InsuranceitemIndexLogo = -1;
+            var itemIndexfile = -1;
+            var fd1 = new FormData();
+            var fd2 = new FormData();
+            var fd3 = new FormData();
+            var fd4 = new FormData();
 
             if ($scope.Nationalityresumedoc.length > 0) {
                 $scope.PhotoValue = 1;
@@ -5843,7 +5865,29 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.Nationalityresumedoc = [];
                     $scope.NationalFileName = [];
                 })
-            } else {
+            }
+        }
+        $scope.UserImageAttach2 = function (userid) {
+            var userid = userid;
+            var FileName = "";
+            var CertificateFileName = "";
+            var FileType = "";
+            var Licensefilename = "";
+            var fd = new FormData();
+            var imgBlob;
+            var NationalimgBlob = [];
+            var InsuranceimgBlob;
+            var imgBlobfile;
+            var itemIndexLogo = -1;
+            var NationalitemIndexLogo = -1;
+            var InsuranceitemIndexLogo = -1;
+            var itemIndexfile = -1;
+            var fd1 = new FormData();
+            var fd2 = new FormData();
+            var fd3 = new FormData();
+            var fd4 = new FormData();
+
+            if ($scope.UIDshow.length > 0) {
                 if ($scope.UIDshow.length > 0) {
                     $scope.PhotoValue = 1;
                     for (var i = 0; i < $scope.UIDshow.length; i++) {
