@@ -584,6 +584,11 @@
                                         <i class="fa fa-graduation-cap"></i>Qualification Info
                                     </a>
                                 </li>
+                                <li>
+                                    <a ng-class="{'themeTabActive':currentTab=='5'}" ng-click="currentTab='5'">
+                                        <i class="fa fa-graduation-cap"></i>Biography
+                                    </a>
+                                </li>
                             </ul>
                         </div>
 
@@ -646,9 +651,9 @@
                                                                     ng-change="getBase64Image();">
                                                                 <option value="0">Select</option>
                                                                 <!--<option ng-repeat="sel in GenderList"
-                                                                        ng-selected="GenderId==sel.Id" value="{{sel.Id}}">
-                                                                    {{sel.Gender_Name}}
-                                                                </option>-->
+                                        ng-selected="GenderId==sel.Id" value="{{sel.Id}}">
+                                    {{sel.Gender_Name}}
+                                </option>-->
                                                             </select>
                                                             <!--</div>-->
                                                         </div>
@@ -667,9 +672,9 @@
                                                                     data-live-search="true" data-collection-name="DepartmentList">
                                                                 <option value="0">Select</option>
                                                                 <!--<option ng-repeat="sel in DepartmentList"
-                                                                        value="{{sel.Id}}" ng-selected="DepartmentId==sel.Id">
-                                                                    {{sel.Department_Name}}
-                                                                </option>-->
+                                        value="{{sel.Id}}" ng-selected="DepartmentId==sel.Id">
+                                    {{sel.Department_Name}}
+                                </option>-->
                                                             </select>
                                                             <!--</div>-->
                                                         </div>
@@ -698,12 +703,12 @@
                                                                 </sup>
                                                             </label>
                                                             <!--<input type="text" class="form-control" id="Text6" name="MobileNo"
-                                                ng-model="MobileNo" ng-init="MobileNo=''" ng-required="true"
-                                                placeholder="" ng-maxlength="20" maxlength="20"
-                                                onkeypress="OnlySpecCharNum(event)" />-->
+                            ng-model="MobileNo" ng-init="MobileNo=''" ng-required="true"
+                            placeholder="" ng-maxlength="20" maxlength="20"
+                            onkeypress="OnlySpecCharNum(event)" />-->
                                                             <input type="text" class="form-control" id="txtMobile" name="tel"
                                                                    ng-model="MobileNo" ng-required="true" onblur="txtPhoneChange()" />
-                                                            
+
                                                         </div>
                                                         <div class="inputGroups">
                                                             <label>
@@ -712,23 +717,23 @@
                                                                 </sup>
                                                             </label>
                                                             <!--<div id="divUserType" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                                            <select class="form-control" data-style="form-control" ng-model="UserTypeId" id="UserTypeId" data-live-search="true"  data-collection-name="UserTypeList"
+                                                            <select class="form-control" data-style="form-control" ng-model="UserTypeId" id="UserTypeId" data-live-search="true" data-collection-name="UserTypeList"
                                                                     ng-change="getBase64Image();ClearGroup();">
                                                                 <option value="0">Select</option>
                                                                 <!--<option ng-repeat="sel in UserTypeList"
-                                                                        ng-selected="UserTypeId==sel.Id" value="{{sel.Id}}">
-                                                                    {{sel.UserName}}
-                                                                </option>-->
+                                        ng-selected="UserTypeId==sel.Id" value="{{sel.Id}}">
+                                    {{sel.UserName}}
+                                </option>-->
                                                             </select>
                                                             <!--</div>-->
                                                         </div>
                                                         <div class="inputGroups" ng-hide="UserTypeId==7">
                                                             <label>Group</label>
                                                             <!--<select ng-model="SelectedGroup" multiple="multiple"
-                                                                    ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList"
-                                                                    multiselect-dropdown style="width: 230px;">
-                                                                <option value="0">Select</option>
-                                                            </select>-->
+                                    ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList"
+                                    multiselect-dropdown style="width: 230px;">
+                                <option value="0">Select</option>
+                            </select>-->
                                                             <select class="form-control" data-style="form-control" ng-model="SelectedGroup" multiple="multiple" id="SelectedGroup">
                                                                 <option value="0">Select</option>
                                                             </select>
@@ -743,19 +748,19 @@
                                                                    ng-click="PhotoUplaodSelected();" />
 
                                                             <!--<div ng-if="(ViewGender| lowercase)=='male' && (uploadme==null||uploadme=='')"
-                                                    valign="top" rowspan="6">
-                                                    <img class="responsiveProfileImage"
-                                                        src="../../Images/male.png" />
-                                                </div>
-                                                <div ng-if="(ViewGender| lowercase)=='female' && (uploadme==null||uploadme=='')"
-                                                     valign="top" rowspan="6">
-                                                    <img class="responsiveProfileImage"
-                                                    src="../../Images/female.png" />
-                                                </div>
-                                                <div ng-if="(ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male' && (uploadme==null||uploadme=='')"
-                                                    valign="top" rowspan="6">
-                                                    <img class="responsiveProfileImage" src="../../Images/Others.png" />
-                                                </div>-->
+                                valign="top" rowspan="6">
+                                <img class="responsiveProfileImage"
+                                    src="../../Images/male.png" />
+                            </div>
+                            <div ng-if="(ViewGender| lowercase)=='female' && (uploadme==null||uploadme=='')"
+                                 valign="top" rowspan="6">
+                                <img class="responsiveProfileImage"
+                                src="../../Images/female.png" />
+                            </div>
+                            <div ng-if="(ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male' && (uploadme==null||uploadme=='')"
+                                valign="top" rowspan="6">
+                                <img class="responsiveProfileImage" src="../../Images/Others.png" />
+                            </div>-->
                                                             <div ng-if="(uploadme!=null||uploadme!='')" valign="top"
                                                                  rowspan="6">
                                                                 <img id="item-img-output" class="responsiveProfileImage mb-10" ng-src="{{uploadme}}" />
@@ -807,12 +812,12 @@
                                     </div>
                                     <div class="panel panel-default bs-0 b-0" ng-show="currentTab=='2'">
                                         <!--<div class="panel-heading containeralign">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion"
-                                        href="#collapse2">
-                                        Additional Info</a>
-                                </h4>
-                            </div>-->
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion"
+                    href="#collapse2">
+                    Additional Info</a>
+            </h4>
+        </div>-->
                                         <div id="collapse2" class="panel-collapse">
                                             <div class="panel-body">
                                                 <div class="row">
@@ -835,14 +840,16 @@
                                                             </label>
                                                             <!--<div id="divNationality" class="ng-invalid ddlValidationBorder" ng-required="true">-->
                                                             <select class="form-control" data-style="form-control" ng-model="NationalityId" id="NationalityId" data-live-search="true"
-                                                                     data-collection-name="NationalityList">
+                                                                    data-collection-name="NationalityList">
                                                                 <option value="0">Select</option>
                                                                 <!--<option ng-repeat="sel in NationalityList"
-                                                                        ng-selected="NationalityId==sel.Id" value="{{sel.Id}}">
-                                                                    {{sel.Name}}
-                                                                </option>-->
+                                        ng-selected="NationalityId==sel.Id" value="{{sel.Id}}">
+                                    {{sel.Name}}
+                                </option>-->
                                                             </select>
                                                             <!--</div>-->
+                                                            
+
                                                         </div>
                                                         <div class="inputGroups">
                                                             <label>Home Phone Number</label>
@@ -890,12 +897,12 @@
                                     </div>
                                     <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='3'">
                                         <!--<div class="panel-heading containeralign">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion"
-                                        href="#collapse3">
-                                        Address Info</a>
-                                </h4>
-                            </div>-->
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion"
+                    href="#collapse3">
+                    Address Info</a>
+            </h4>
+        </div>-->
                                         <div id="collapse3" class="panel-collapse">
                                             <div class="panel-body">
                                                 <div class="row">
@@ -920,15 +927,15 @@
                                                             </label>
                                                             <!--<div id="divCountry" class="ng-invalid ddlValidationBorder" ng-required="true">-->
                                                             <!--<select class="form-control" data-style="form-control" data-live-search="true"
-                                                                    id="countryselectpicker" data-selectpicker
-                                                                    data-collection-name="CountryNameList" ng-model="CountryId"
-                                                                    ng-change="CountryBased_StateFunction();">
-                                                                <option value="0">Select</option>
-                                                                <option ng-repeat="sel in CountryNameList"
-                                                                        value="{{sel.Id}}">
-                                                                    {{sel.CountryName}}
-                                                                </option>
-                                                            </select>-->
+                                    id="countryselectpicker" data-selectpicker
+                                    data-collection-name="CountryNameList" ng-model="CountryId"
+                                    ng-change="CountryBased_StateFunction();">
+                                <option value="0">Select</option>
+                                <option ng-repeat="sel in CountryNameList"
+                                        value="{{sel.Id}}">
+                                    {{sel.CountryName}}
+                                </option>
+                            </select>-->
                                                             <select class="form-control" data-style="form-control" ng-model="CountryId" id="CountryId"
                                                                     data-live-search="true" data-collection-name="CountryNameList"
                                                                     ng-change="CountryBasedStateFunction();">
@@ -945,13 +952,13 @@
                                                             </label>
                                                             <!--<div id="divCity" class="ng-invalid ddlValidationBorder" ng-required="true">-->
                                                             <!--<select class="form-control" data-style="form-control" id="SelectCity" data-live-search="true"
-                                                                    data-selectpicker data-collection-name="LocationName_List" ng-model="CityId">
-                                                                <option value="0">Select</option>
-                                                                <option ng-repeat="sel in LocationName_List"
-                                                                        value="{{sel.Id}}">
-                                                                    {{sel.LocationName}}
-                                                                </option>
-                                                            </select>-->
+                                    data-selectpicker data-collection-name="LocationName_List" ng-model="CityId">
+                                <option value="0">Select</option>
+                                <option ng-repeat="sel in LocationName_List"
+                                        value="{{sel.Id}}">
+                                    {{sel.LocationName}}
+                                </option>
+                            </select>-->
                                                             <select class="form-control" data-style="form-control" ng-model="CityId" id="CityId"
                                                                     data-live-search="true" data-collection-name="LocationName_List">
                                                                 <option value="0">Select</option>
@@ -959,107 +966,119 @@
                                                             </select>
                                                             <!--</div>-->
                                                         </div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="inputGroups">
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="inputGroups">
 
-                                                        <label>Street Address</label>
-                                                        <input type="text" class="form-control" id="Text15"
-                                                               ng-model="Address2" ng-init="Address2=''" maxlength="50"
-                                                               ng-maxlength="50" placeholder="">
-                                                    </div>
-                                                    <div class="inputGroups">
-                                                        <label>Postel/Zip Code</label>
-                                                        <input type="text" class="form-control" id="PostalZipCode"
-                                                               ng-model="PostalZipCode" ng-init="PostalZipCode=''"
-                                                               maxlength="50" ng-maxlength="50" placeholder=""
-                                                               onkeypress="SomeSpec(event)">
-                                                    </div>
-                                                    <div class="inputGroups">
-                                                        <label>
-                                                            State<sup>
-                                                                <font class='mandatory-field'>*</font>
-                                                            </sup>
-                                                        </label>
-                                                        <div id="divState" class="ng-invalid ddlValidationBorder" ng-required="true">
-                                                            <!--<select class="form-control" data-style="form-control" id="stateselectpicker"
-                                                                    data-live-search="true" data-selectpicker
-                                                                    data-collection-name="StateName_List" ng-model="StateId"
-                                                                    ng-change="StateBased_CityFunction();">
-                                                                <option value="0">Select</option>
-                                                                <option ng-repeat="sel in StateName_List"
-                                                                        value="{{sel.Id}}">
-                                                                    {{sel.StateName}}
-                                                                </option>
-                                                            </select>-->
-                                                            <select class="form-control" data-style="form-control" id="StateId"
-                                                                    data-live-search="true" data-collection-name="StateName_List" ng-model="StateId"
-                                                                    ng-change="StateBasedCityFunction();">
-                                                                <option value="0">Select</option>
-                                                               
-                                                            </select>
+                                                            <label>Street Address</label>
+                                                            <input type="text" class="form-control" id="Text15"
+                                                                   ng-model="Address2" ng-init="Address2=''" maxlength="50"
+                                                                   ng-maxlength="50" placeholder="">
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='4'">
-                                    <!--<div class="panel-heading containeralign">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion"
-                                    href="#collapse4">
-                                    Qualification Info</a>
-                            </h4>
-                        </div>-->
-                                    <div id="collapse4" class="panel-collapse">
-                                        <div class="panel-body">
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <div class="inputGroups">
-                                                        <label>EMR Availability</label>
-                                                        <input type="checkbox" ng-model="EMR_Avalability"
-                                                               ng-click="PFClear()">
-                                                    </div>
-                                                    <div class="inputGroups">
-                                                        <label>Certificates Upload</label>
-                                                        <input type="file" id="EditDocument" fileread="Editresumedoc"
-                                                               onchange="angular.element(this).scope().EditdocfileChange(this)"
-                                                               name="Resume" title="Click to Upload File"  
-                                                               style="height: 0px !important" accept="application/pdf,application/excel,application/excel" />
-                                                        <!--<a href="home/GetPatient_UserDocument?Id={{Id}}" target="_blank">{{CertificateFileName}}</a>-->
-                                                    <a href="javascript:" ng-click="CertificateView(Id,FileName)"><div class="textwrap">{{CertificateFileName}}</div></a>
-                                                        <div class="uploadIconContainer theme-btn-1 mr-10" style="align-items:left!important; justify-content: flex-start;">
-                                                            <label for="EditDocument" class="uploadIconBtn" style="display:initial;" ng-click="CertificateUplaodSelected()" title="Click to Upload File">
-                                                                <i class="fa fa-upload" aria-hidden="true"></i>
-                                                                <span style="text-align: left;">Upload File</span>
+                                                        <div class="inputGroups">
+                                                            <label>Postel/Zip Code</label>
+                                                            <input type="text" class="form-control" id="PostalZipCode"
+                                                                   ng-model="PostalZipCode" ng-init="PostalZipCode=''"
+                                                                   maxlength="50" ng-maxlength="50" placeholder=""
+                                                                   onkeypress="SomeSpec(event)">
+                                                        </div>
+                                                        <div class="inputGroups">
+                                                            <label>
+                                                                State<sup>
+                                                                    <font class='mandatory-field'>*</font>
+                                                                </sup>
                                                             </label>
+                                                            <div id="divState" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                                                <!--<select class="form-control" data-style="form-control" id="stateselectpicker"
+                                        data-live-search="true" data-selectpicker
+                                        data-collection-name="StateName_List" ng-model="StateId"
+                                        ng-change="StateBased_CityFunction();">
+                                    <option value="0">Select</option>
+                                    <option ng-repeat="sel in StateName_List"
+                                            value="{{sel.Id}}">
+                                        {{sel.StateName}}
+                                    </option>
+                                </select>-->
+                                                                <select class="form-control" data-style="form-control" id="StateId"
+                                                                        data-live-search="true" data-collection-name="StateName_List" ng-model="StateId"
+                                                                        ng-change="StateBasedCityFunction();">
+                                                                    <option value="0">Select</option>
+
+                                                                </select>
+                                                            </div>
                                                         </div>
-                                                        <a href="javascript:" class="theme-btn-2" ng-click="fileclear()">
-                                                            Clear
-                                                        </a>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-6">
-                                                    <div class="inputGroups">
-                                                        <label>Languages Known</label>
-                                                        <select ng-model="SelectedLanguage" multiple="multiple"
-                                                                ng-options="item1.Id as item1.Name for item1 in LanguageList"
-                                                                multiselect-dropdown style="width: 230px;"></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='4'">
+                                        <!--<div class="panel-heading containeralign">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion"
+                    href="#collapse4">
+                    Qualification Info</a>
+            </h4>
+        </div>-->
+                                        <div id="collapse4" class="panel-collapse">
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="inputGroups">
+                                                            <label>EMR Availability</label>
+                                                            <input type="checkbox" ng-model="EMR_Avalability"
+                                                                   ng-click="PFClear()">
+                                                        </div>
+                                                        <div class="inputGroups">
+                                                            <label>Certificates Upload</label>
+                                                            <input type="file" id="EditDocument" fileread="Editresumedoc"
+                                                                   onchange="angular.element(this).scope().EditdocfileChange(this)"
+                                                                   name="Resume" title="Click to Upload File"
+                                                                   style="height: 0px !important" accept="application/pdf,application/excel,application/excel" />
+                                                            <!--<a href="home/GetPatient_UserDocument?Id={{Id}}" target="_blank">{{CertificateFileName}}</a>-->
+                                                            <a href="javascript:" ng-click="CertificateView(Id,FileName)"><div class="textwrap">{{CertificateFileName}}</div></a>
+                                                            <div class="uploadIconContainer theme-btn-1 mr-10" style="align-items:left!important; justify-content: flex-start;">
+                                                                <label for="EditDocument" class="uploadIconBtn" style="display:initial;" ng-click="CertificateUplaodSelected()" title="Click to Upload File">
+                                                                    <i class="fa fa-upload" aria-hidden="true"></i>
+                                                                    <span style="text-align: left;">Upload File</span>
+                                                                </label>
+                                                            </div>
+                                                            <a href="javascript:" class="theme-btn-2" ng-click="fileclear()">
+                                                                Clear
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="inputGroups">
+                                                            <label>Languages Known</label>
+                                                            <select ng-model="SelectedLanguage" multiple="multiple"
+                                                                    ng-options="item1.Id as item1.Name for item1 in LanguageList"
+                                                                    multiselect-dropdown style="width: 230px;"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='5'">
+                                        <div id="collapse5" class="panel-collapse">
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="inputGroups">
+                                                            <label>Biography</label>
+                                                            <textarea cols="100" rows="5" maxlength="400" ng-model="Biography" class="form-control"></textarea>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
                 </div>
-                    </div>
 
                 <div class="modal-footer" style="text-align: center;">
                     <!--<button type="button" class="theme-btn-1 mr-10 btn-save" id="btnsave" ng-disabled="false" ng-click="User_InsertUpdate()" title="Click to Save">
@@ -1111,6 +1130,11 @@
                     <li>
                         <a ng-class="{'themeTabActive':currentTab=='4'}" ng-click="currentTab='4'">
                             <i class="fa fa-graduation-cap"></i>Qualification Info
+                        </a>
+                    </li>
+                    <li>
+                        <a ng-class="{'themeTabActive':currentTab=='5'}" ng-click="currentTab='5'">
+                            <i class="fa fa-graduation-cap"></i>Biography
                         </a>
                     </li>
                 </ul>
@@ -1211,11 +1235,11 @@
                                 </div>
                                 <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='2'">
                                     <!--                                                <div class="panel-heading containeralign">
-                                                    <h4 class="panel-title">
-                                                        <a data-toggle="collapse" data-parent="#accordion"
-                                                            href="#collapse7">Additional Info</a>
-                                                    </h4>
-                                                </div>-->
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                                href="#collapse7">Additional Info</a>
+                        </h4>
+                    </div>-->
                                     <div id="collapse7" class="panel-collapse">
                                         <div class="panel-body">
                                             <div class="row">
@@ -1261,11 +1285,11 @@
                                 </div>
                                 <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='3'">
                                     <!--                                                <div class="panel-heading containeralign">
-                                                    <h4 class="panel-title">
-                                                        <a data-toggle="collapse" data-parent="#accordion"
-                                                            href="#collapse8">Address Info</a>
-                                                    </h4>
-                                                </div>-->
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                                href="#collapse8">Address Info</a>
+                        </h4>
+                    </div>-->
                                     <div id="collapse8" class="panel-collapse">
                                         <div class="panel-body">
                                             <div class="col-sm-6">
@@ -1306,11 +1330,11 @@
                                 </div>
                                 <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='4'">
                                     <!--<div class="panel-heading containeralign">
-                                                    <h4 class="panel-title">
-                                                        <a data-toggle="collapse" data-parent="#accordion"
-                                                            href="#collapse9">Qualification Info</a>
-                                                    </h4>
-                                                </div>-->
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion"
+                                href="#collapse9">Qualification Info</a>
+                        </h4>
+                    </div>-->
                                     <div id="collapse9" class="panel-collapse">
                                         <div class="panel-body">
                                             <div class="row">
@@ -1328,10 +1352,24 @@
                                                 <div class="col-sm-6">
                                                     <div class="inputGroups">
                                                         <label>Certificates Upload</label>
-                                                         <a href="home/GetPatient_UserDocument?Id={{Id}}" target="_blank">{{CertificateFileName}}</a>
+                                                        <a href="home/GetPatient_UserDocument?Id={{Id}}" target="_blank">{{CertificateFileName}}</a>
                                                         <!--<a href="javascript:;" ng-click="CertificateView(Id,FileName)">
-                                                            <div class="textwrap">{{CertificateFileName}}</div>
-                                                        </a>-->
+                                <div class="textwrap">{{CertificateFileName}}</div>
+                            </a>-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='5'">
+                                    <div id="collapse5" class="panel-collapse">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="inputGroups">
+                                                        <label>Biography</label>
+                                                        <textarea cols="100" rows="5" maxlength="400" ng-model="Biography" class="form-control" ng-disabled="true"></textarea>
                                                     </div>
                                                 </div>
                                             </div>

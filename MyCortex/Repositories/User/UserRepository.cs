@@ -1559,6 +1559,7 @@ namespace MyCortex.Repositories.Uesr
                                         InsurancePhotoFullpath = p.Field<string>("INSURANCE_PHOTO_FULLPATH"),
                                         InsurancePhotoFilename = p.Field<string>("INSURANCE_PHOTO_FILENAME"),
                                         Type = p.Field<string>("TYPE"),
+                                        Clinician_Bio=p.Field<string>("Clinician_Bio"),
                                     }).FirstOrDefault();
 
                 if (!Convert.IsDBNull(dt.Rows[0]["USER_PHOTO"]))

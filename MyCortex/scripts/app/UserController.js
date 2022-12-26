@@ -1412,6 +1412,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.uploadme1 = null;
             $scope.uploadme2 = null;
             $scope.uploadme3 = null;
+            $scope.Biography = '';
             $scope.Id = CatId;
             photoview = true;
             photoview1 = false;
@@ -4182,6 +4183,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.LastName = data.LastName;
                         $scope.Employee_No = data.EMPLOYEMENTNO;
                         $scope.EmailId = data.EMAILID;
+                        $scope.Biography = data.Clinician_Bio;
 
                         $scope.MobileNo = data.MOBILE_NO;
                         var splitmobno = data.MOBILE_NO.includes('~');
@@ -5359,6 +5361,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             Payment_preference: "0",
                             Insurance_Preference: "0",
                             Modified_By: "0",
+                            Clinician_Bio: $scope.Biography,
                             //FullNameFormula: $scope.FullNameFormula,
                             //InstitutionList: [{ "InstitutionName": "" }],
                             //LanguageList: [{ "Name": "" }]
@@ -5524,6 +5527,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             Payment_preference: "0",
                             Insurance_Preference: "0",
                             Modified_By: "0",
+                            Clinician_Bio: $scope.Biography,
                             //FullNameFormula: $scope.FullNameFormula,
                             //InstitutionList: [{ "InstitutionName": "" }],
                             //LanguageList: [{ "Name": "" }]
