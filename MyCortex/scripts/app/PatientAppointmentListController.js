@@ -448,8 +448,8 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                 $('#Patient_AppointmentPanel').addClass('show');
                 $('#Patient_VideoCall').addClass('hidden');
                 var attime = moment(startdate1).subtract($scope.PAT_APPOINTMENT_START, 'minutes').format('hh.mm A');
-                var thistime = $scope.TextIconB - $scope.PAT_APPOINTMENT_START;
-                if (thistime > $scope.PAT_APPOINTMENT_START) {
+                
+                if (Row.TimeDifference!=0) {
                     Swal.fire('You can join the call only ' + $scope.PAT_APPOINTMENT_START + " Minute(s) before at " + attime, '', 'info')
                 }
             }
