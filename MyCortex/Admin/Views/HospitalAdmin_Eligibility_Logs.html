@@ -103,11 +103,11 @@
             border-radius: 20px;
         }
 </style>
-<!--<script>
+<script>
     $(function () {
         $('#toggle-one').bootstrapToggle();
     })
-</script>-->
+</script>
 <ul class="secondaryMenu">
     <li><a href="Home/Index#/InstitutionHospitalAdmin_view">Institution</a></li>
     <li>
@@ -122,49 +122,72 @@
     <li><a href="Home/Index#/PatientList/3">All Patients</a></li>
     <li><a href="Home/Index#/PatientApproval">Patient Approval</a></li>
     <li><a href="Home/Index#/Admin_UserList/3">Hospital Admin</a></li>
-    <li><a class="secondaryMenuActive" href="Home/Index#/Admin_Userslog_List" data-menu="Home">Users Log</a></li>
-    <li><a href="Home/Index#/Admin_Eligibility_Logs_List">Eligibility Logs</a></li>
+    <li><a href="Home/Index#/Admin_Userslog_List">Users Log</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/Admin_Eligibility_Logs_List" data-menu="Home">Eligibility Logs</a></li>
     <!--<li><a href="Home/Index#/PatientList">Patient</a></li>-->
 </ul>
 
-<h1 class="page-title">Users Log</h1>
-<div ng-init="User_Log_List();">
+<h1 class="page-title">Eligibility Logs</h1>
+<div ng-init="Eligibility_Logs_List();All_Patient_List();">
     <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
     <div class="panel panel-default" id="Div1">
         <form class="form-horizontal" role="form">
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <div class="inputGroups">
-                            <label>User Name</label>
-                            <div class="modernSearch">
-                                <!--Userdetailsdatalist-->
-                                <!--<select id="CCCG" ng-model="SelectedCCCG" data-style="form-control" data-live-search="true"
-                                                ng-options="item3.Id as item3.FullName for item3 in CCCG_DetailsList"
-                                                style="width: 220px;"></select>-->
-                                <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="CCCG_DetailsList" id="CCCG" ng-model="SelectedCCCG"
-                                        ng-options="item3.Id as item3.FullName for item3 in CCCG_DetailsList" ng-change="SearchByUserID();">
+                            <label>Patient Name</label>
+                            <div class="modernSearch" style="margin-top:3.75%">
+                                <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="PatientList" id="CCCG" ng-model="SelectedPatient"
+                                        ng-options="item3.Id as item3.FullName for item3 in PatientList">
                                     <option value="">Select</option>
                                 </select>
-                                <!--<select class="" data-style="form-control" ng-model="searchUserId" id="Select3" data-live-search="true" data-selectpicker data-collection-name="Userlist"
-            ng-required="true" ng-change="SearchByUserID()">
-        <option value="0">Select</option>
-        <option ng-repeat="sel in Userlist"
-                ng-selected="searchUserId==sel.Id" value="{{sel.Id}}">
-            {{sel.FullName}}
-        </option>
-    </select>-->
                             </div>
                         </div>
+
+                    </div>
+                    <div class="col-sm-2">
                         <div class="inputGroups">
-                            <label>Search</label>
-                            <div class="modernSearch">
-                                <input type="text" ng-model="searchquery"
-                                       placeholder="" />
-                                <i class="fa fa-search" ng-click="filterListUserLog()"></i>
-                            </div>
+                            <label class="sub-title">
+                                Start Date<sup>
+                                    <font class='mandatory-field'>*</font>
+                                </sup>
+                            </label>
+                            <input id="SearchDate" class="form-control" type="date" ng-model="SearchDate" />
                         </div>
-                    </div>                                        
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="inputGroups">
+                            <label class="sub-title">
+                                End Date<sup>
+                                    <font class='mandatory-field'>*</font>
+                                </sup>
+                            </label>
+                            <input id="SearchEndDate" class="form-control" type="date" ng-model="SearchEndDate" />
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="inputGroups">
+                            <label class="sub-title">Eligibility Status Filter </label>
+                            <select class="form-control" ng-model="Paymentsearch" id="ddlsearchfield" ng-required="true">
+                                <option value="">Select</option>
+                                <option value="1">PENDING</option>
+                                <option value="2">ERROR</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-1" style="margin-top: 0.5%; width:6%">
+                        <div class="inputGroups">
+                            <label>&nbsp;</label>
+                            <a href="javascript:" title="Filter" class="theme-btn-1" ng-click="Eligibility_Logs_Filters();">Filter</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-1" style="margin-top: 0.5%; width: 6%">
+                        <div class="inputGroups">
+                            <label>&nbsp;</label>
+                            <a href="javascript:" title="Filter" class="theme-btn-1" ng-click="Eligibility_Logs_List();">Reset</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>
@@ -176,16 +199,16 @@
     <thead>
         <tr style="text-align: center">
             <th st-ratio="3">#</th>
-            <th st-ratio="14" st-sort="FULLNAME">User</th>
-            <th st-ratio="15" st-sort="LOGINTIME">Login Time</th>
-            <th st-ratio="10" st-sort="LOGOUTTIME">Logout Time</th>
-            <th st-ratio="4" st-sort="LOGIN_COUNTRY">Country</th>
-            <th st-ratio="5" st-sort="REGIONNAME">State</th>
-            <th st-ratio="6" st-sort="LOGIN_CITY">City</th>
-            <th st-ratio="7" st-sort="LONGITUDE">Longitude</th>
-            <th st-ratio="7" st-sort="LATITUDE">Latitude</th>
-            <th st-ratio="8" st-sort="STATUS">Status</th>
-            <th st-ratio="9" st-sort="FAILURE_REASON">Failure Reason</th>
+            <th st-ratio="5" st-sort="LONGITUDE">Appointment ID</th>
+            <th st-ratio="5" st-sort="FULLNAME">Eligibility ID</th>
+            <th st-ratio="6" st-sort="REGIONNAME">Patient Name</th>
+            <th st-ratio="7" st-sort="LOGINTIME">Clinician Name</th>
+            <th st-ratio="8" st-sort="LOGOUTTIME">Clinician Speciality</th>
+            <th st-ratio="11" st-sort="LOGIN_COUNTRY">ID Payer</th>
+            <th st-ratio="11" st-sort="LOGIN_CITY">Denial Reason</th>
+            <th st-ratio="3" st-sort="LATITUDE">Eligibility Status</th>
+            <th st-ratio="5" st-sort="STATUS">Payer Name</th>
+            <th st-ratio="13" st-sort="FAILURE_REASON">Rquested By</th>
         </tr>
     </thead>
     <tbody>
@@ -196,35 +219,35 @@
         </tr>
         <tr ng-repeat="row in emptydata">
             <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
-            <td style="text-align: left">
-                {{row.FULLNAME}}
-            </td>
-            <td style="text-align: left">
-                {{row.LOGINTIME| date :'dd-MMM-yyyy hh:mm a'}}
-            </td>
-            <td style="text-align: left;word-break: break-all;">
-                <div class="textwrap">{{row.LOGOUTTIME| date :'dd-MMM-yyyy hh:mm a'}}</div>
+            <td>
+                {{row.Appointment_ID}}
             </td>
             <td>
-                {{row.LOGIN_COUNTRY}}
+                {{row.Eligibility_ID}}
             </td>
             <td>
-                {{row.REGIONNAME}}
+                {{row.Patient_Name}}
             </td>
             <td>
-                {{row.LOGIN_CITY}}
+                {{row.Clinician_Name}}
             </td>
             <td>
-                {{row.LONGITUDE}}
+                {{row.Clinician_Speciality}}
             </td>
             <td>
-                {{row.LATITUDE}}
+                {{row.ID_Payer}}
             </td>
             <td>
-                {{row.STATUS}}
+                {{row.Denial_Reason}}
             </td>
             <td>
-                {{row.FAILURE_REASON}}
+                {{row.Eligibility_Status}}
+            </td>
+            <td>
+                {{row.Payer_Name}}
+            </td>
+            <td>
+                {{row.Patient_Name}}
             </td>
         </tr>
     </tbody>
@@ -240,9 +263,6 @@
 <br />
 <br />
 <br />
-
-
-
 <script>
     $(document).ready(function () {
         $("#Text2").bind('paste', function () {

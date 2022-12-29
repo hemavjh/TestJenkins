@@ -5586,6 +5586,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@PATIENT_ID", patient_id));
             param.Add(new DataParameter("@ELIGIBILITY_ID", eligibility_id));
 
+            param.Add(new DataParameter("@INSTITUTION_ID", Obj.INSTITUTION_ID));
             param.Add(new DataParameter("@CLINICIAN_ID", Obj.Clinician_ID));
             param.Add(new DataParameter("@CLINICIAN_LICENSE", Obj.Clinician_License));
             param.Add(new DataParameter("@CLINICIAN_NAME", Obj.Clinician_Name));

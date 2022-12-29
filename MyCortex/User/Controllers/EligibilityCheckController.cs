@@ -18,6 +18,8 @@ using MyCortex.Repositories.Masters;
 using MyCortex.Repositories.Uesr;
 using MyCortex.Home.Models;
 using System.Web.Script.Serialization;
+using System.Web.Http.Results;
+using System.Web.Services.Description;
 
 namespace MyCortex.User.Controllers
 {
@@ -46,8 +48,8 @@ namespace MyCortex.User.Controllers
                 int payerId = Convert.ToInt32(form["PayorId"]);
                 int serviceCategoryId = Convert.ToInt32(form["ServiceCategory"]);
                 string countryCode = Convert.ToString(form["countrycode"]);
-                RequestEligibility re = new RequestEligibility();
 
+                RequestEligibility re = new RequestEligibility();
                 re.emiratesId = emiratesId;
                 re.consultationCategoryId = consultationCategoryId;
                 re.clinicianLicense = clinicianLicense;
@@ -75,8 +77,8 @@ namespace MyCortex.User.Controllers
                 req.Method = "POST";
                 req.ContentType = "application/json";
                 req.Accept = "*/*";
-                //req.Headers["Connection"] = "keep-alive";
-                req.Headers["Accept-Encoding"] = "gzip, deflate, br";
+                // req.Headers["Connection"] = "keep-alive";
+                // req.Headers["Accept-Encoding"] = "gzip, deflate, br";
                 req.Headers["Content-Language"] = "en";
                 req.Headers["Authorization"] = "c2d0928a-7463-428d-bd12-72fda8757089";
                 string strJPostData = JsonConvert.SerializeObject(re, Newtonsoft.Json.Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
@@ -87,21 +89,18 @@ namespace MyCortex.User.Controllers
                 {
                     writer.Write(post, 0, post.Length);
                 }
-
                 using (HttpWebResponse res = (HttpWebResponse)req.GetResponse())
                 {
                     DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(RequestEligibilityResponse));
                     objResponse = jsonSerializer.ReadObject(res.GetResponseStream());
                 }
             }
-
             catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, ex);
                // return Request.CreateResponse(HttpStatusCode.NotAcceptable);
             }
             return Request.CreateResponse(HttpStatusCode.OK, objResponse);
-
         }
 
     }
