@@ -232,6 +232,7 @@ namespace MyCortex.User.Model
     }
     public class responseAppointmentModel
     {
+        public long INSTITUTION_ID { get; set; }
         public string eligibility_response { get; set; }
         public string eligibility_request { get; set; }
 
