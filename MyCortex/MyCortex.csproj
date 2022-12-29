@@ -564,6 +564,7 @@
     <Content Include="scripts\app\DoctorProfileController.js" />
     <Content Include="scripts\app\DoctorShiftController.js" />
     <Content Include="scripts\app\DrugDBController.js" />
+    <Content Include="scripts\app\EligibilityLogsController.js" />
     <Content Include="scripts\app\EmailAlertlistController.js" />
     <Content Include="scripts\app\EmailConfigurationController.js" />
     <Content Include="scripts\app\EmailHistoryController.js" />
