@@ -57,6 +57,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
         $scope.rowCollection = [];
         $scope.rowCollectionFilter = [];
 
+        $scope.EditMode = 0;
+
         $scope.Id = 0;
         $scope.CC_Id = 3;
         $('#SundayCheck').hide();
@@ -1583,7 +1585,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 toastr.warning("Please select Start Date", "warning");
                 return false;
             }
-            else if (today > fromDt) {
+            else if (today > fromDt && $scope.Id == 0) {
                 toastr.warning("Please avoid past date as Start Date", "warning");
                 return false;
             }
@@ -1867,7 +1869,9 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 $("#ThursdayId").attr("disabled", true);
                 $("#FridayId").attr("disabled", true);
                 $("#SaturdayId").attr("disabled", true);
-                $scope.TimeslotClear();
+                if ($scope.EditMode == 0) {
+                    $scope.TimeslotClear();                    
+                }
                 $scope.OrganisationSettingsSelectedDays();
                 $("#chatLoaderPV").hide();
             }
@@ -1921,6 +1925,17 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                         $scope.Id = DId;
                         $scope.DoctorShift_View(DId, DoctorId, Institution_Id);
                         $scope.EditShiftDoctor();
+                    } else if (data == -1) {
+                        angular.element('#DoctorShiftModal').modal('show');
+                        $('#saveDoctorShift1').attr("disabled", false);
+                        $('#saveDoctorShift2').attr("disabled", false);
+                        $('#saveDoctorShift3').attr("disabled", false);
+                        $scope.DoctorShiftClear();
+                        $scope.Id = DId;
+                        $scope.EditMode = -1;
+                        $scope.DoctorShift_View(DId, DoctorId, Institution_Id);
+                        $scope.EditShiftDoctor_Past();
+                       
                     } else {
                         toastr.info("Particular Doctor Shift cannot be Editable. Please cancel all the upcoming appointments to edit the Doctor Shift", "info");
                         //Swal.fire("Please cancel all the upcoming appointments to edit the Doctor Shift","Info")
@@ -2272,6 +2287,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             $scope.Minutes = "0";
             $scope.MakeMeLookBusy = "0";
             $scope.MinimumSlots = "0";
+            $scope.EditMode = 0;
             $('#SundayCheck').hide();
             $('#MondayCheck').hide();
             $('#TuesdayCheck').hide();
@@ -2279,6 +2295,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             $('#ThursdayCheck').hide();
             $('#FridayCheck').hide();
             $('#SaturdayCheck').hide();
+            $("#doctorlist").attr("disabled", false);
             $("#SundayId").attr("disabled", true);
             $("#MondayId").attr("disabled", true);
             $("#TuesdayId").attr("disabled", true);
@@ -2390,6 +2407,102 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             $('#timepicker56').prop('disabled', true);
             $("#chatLoaderPV").hide();
         }
+        $scope.EditShiftDoctor_Past = function () {
+            $("#chatLoaderPV").show();
+            $scope.currentTab = "1";
+            $scope.DoctorSave = true;
+            //var $sel1 = $('#department');
+            //$sel1.multiselect('enable');
+            //var $sel2 = $('#Specialist');
+            //$sel2.multiselect('enable');
+            //var $sel3 = $('#CCCG');
+            //$sel3.multiselect('enable');
+            var $sel1 = $('#department');
+            $sel1.multiselect('disable');
+            var $sel2 = $('#Specialist');
+            $sel2.multiselect('disable');
+            var $sel3 = $('#CCCG');
+            $sel3.multiselect('disable');
+            document.getElementById("FromDate").disabled = true;
+            document.getElementById("ToDate").disabled = false;
+            $("#doctorlist").attr("disabled", true);
+            //$("#CCCG").attr("disabled", true);
+            $("#MondayId").attr("disabled", true);            
+            $("#TuesdayId").attr("disabled", true); 
+            $("#WednesdayId").attr("disabled", true); 
+            $("#ThursdayId").attr("disabled", true); 
+            $("#FridayId").attr("disabled", true); 
+            $("#SaturdayId").attr("disabled", true); 
+            $("#SundayId").attr("disabled", true); 
+            $("#OrgDefaultId").attr("disabled", true);
+            $("#OrgBookInfoId").attr("disabled", true);
+            $("#OrgBookBusyInfoId").attr("disabled", true);            
+            $('#NewAppointment').prop('disabled', true);
+            $('#NewAppointmentPrice').prop('disabled', true);
+            $('#followup').prop('disabled', true);
+            $('#followupPrice').prop('disabled', true);
+            $('#IntervalBt').prop('disabled', true);
+            $('#CustomSlot').prop('disabled', true);
+            $('#Days').prop('disabled', true);
+            $('#Minutes').prop('disabled', true);
+            $('#timepicker1').prop('disabled', true);
+            $('#timepicker2').prop('disabled', true);
+            $('#timepicker3').prop('disabled', true);
+            $('#timepicker4').prop('disabled', true);
+            $('#timepicker5').prop('disabled', true);
+            $('#timepicker6').prop('disabled', true);
+            $('#timepicker7').prop('disabled', true);
+            $('#timepicker8').prop('disabled', true);
+            $('#timepicker9').prop('disabled', true);
+            $('#timepicker10').prop('disabled', true);
+            $('#timepicker11').prop('disabled', true);
+            $('#timepicker12').prop('disabled', true);
+            $('#timepicker13').prop('disabled', true);
+            $('#timepicker14').prop('disabled', true);
+            $('#timepicker15').prop('disabled', true);
+            $('#timepicker16').prop('disabled', true);
+            $('#timepicker17').prop('disabled', true);
+            $('#timepicker18').prop('disabled', true);
+            $('#timepicker19').prop('disabled', true);
+            $('#timepicker20').prop('disabled', true);
+            $('#timepicker21').prop('disabled', true);
+            $('#timepicker22').prop('disabled', true);
+            $('#timepicker23').prop('disabled', true);
+            $('#timepicker24').prop('disabled', true);
+            $('#timepicker25').prop('disabled', true);
+            $('#timepicker26').prop('disabled', true);
+            $('#timepicker27').prop('disabled', true);
+            $('#timepicker28').prop('disabled', true);
+            $('#timepicker29').prop('disabled', true);
+            $('#timepicker30').prop('disabled', true);
+            $('#timepicker31').prop('disabled', true);
+            $('#timepicker32').prop('disabled', true);
+            $('#timepicker33').prop('disabled', true);
+            $('#timepicker34').prop('disabled', true);
+            $('#timepicker35').prop('disabled', true);
+            $('#timepicker36').prop('disabled', true);
+            $('#timepicker37').prop('disabled', true);
+            $('#timepicker38').prop('disabled', true);
+            $('#timepicker39').prop('disabled', true);
+            $('#timepicker40').prop('disabled', true);
+            $('#timepicker41').prop('disabled', true);
+            $('#timepicker42').prop('disabled', true);
+            $('#timepicker43').prop('disabled', true);
+            $('#timepicker44').prop('disabled', true);
+            $('#timepicker45').prop('disabled', true);
+            $('#timepicker46').prop('disabled', true);
+            $('#timepicker47').prop('disabled', true);
+            $('#timepicker48').prop('disabled', true);
+            $('#timepicker49').prop('disabled', true);
+            $('#timepicker50').prop('disabled', true);
+            $('#timepicker51').prop('disabled', true);
+            $('#timepicker52').prop('disabled', true);
+            $('#timepicker53').prop('disabled', true);
+            $('#timepicker54').prop('disabled', true);
+            $('#timepicker55').prop('disabled', true);
+            $('#timepicker56').prop('disabled', true);
+            $("#chatLoaderPV").hide();
+        }
 
         $scope.EditShiftDoctor = function () {
             $("#chatLoaderPV").show();
@@ -2403,6 +2516,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             //$sel3.multiselect('enable');
             document.getElementById("FromDate").disabled = false;
             document.getElementById("ToDate").disabled = false;
+            $("#doctorlist").attr("disabled", false);
             $("#OrgDefaultId").attr("disabled", false);
             $("#OrgBookInfoId").attr("disabled", false);
             $('#NewAppointment').prop('disabled', false);

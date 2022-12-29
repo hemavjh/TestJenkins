@@ -331,6 +331,7 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
 
         $scope.openvideocall = function (patientName, ConferenceId, Row) {
             var startdate1 = moment(new Date(Row.Appointment_FromTime + 'Z'));
+            var Todate1 = moment(new Date(Row.Appointment_ToTime + 'Z'));
             var enddate1 = moment(new Date());
             var diffTime = Math.abs(enddate1 - startdate1);
             var TextIcon = Math.floor(diffTime / (60 * 1000));
@@ -343,7 +344,19 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
             }
             var fullname = $window.localStorage['FullName'];
             patientName = fullname;
-            if ($scope.TextIconB < $scope.PAT_APPOINTMENT_START) {
+
+            // get the slot minutes
+            dtime = Math.abs(startdate1 - Todate1);
+            var TIcon = Math.floor(dtime / (60 * 1000));
+            $scope.TIcon = TIcon;
+
+            // get the value from appointment end time - current time
+            dtime1 = Math.abs(Todate1 - enddate1);
+            var TIcona = Math.floor(dtime1 / (60 * 1000));
+            $scope.TIcona = TIcona;
+
+            if ($scope.TextIconB < $scope.PAT_APPOINTMENT_START || TIcon > TIcona) {
+           // if (Row.TimeDifference == 0) {
                 // var emp = JSON.parse(JSON.parse(window.localStorage["18792f60bb2dbf1:common_store/user"]));
                 $('#Patient_AppointmentPanel').removeClass('show');
                 $('#Patient_AppointmentPanel').addClass('hidden');
