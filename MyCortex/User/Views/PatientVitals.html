@@ -5950,6 +5950,10 @@
                                             <label class="col-sm-6 doc-label">Certification</label>
                                             <p class="col-sm-6 doc-p"></p>
                                         </div>
+                                        <div class="flex">
+                                            <label class="col-sm-6 doc-label">Biography</label>
+                                            <p class="col-sm-6 doc-p" style=" overflow-wrap: break-word; word-wrap: break-word; word-break: break-all; word-break: break-word; hyphens: auto;">{{DoctorDetailList.Clinician_Bio}}</p>
+                                        </div> <!--style="white-space: nowrap; word-break: break-word; width: 300px; overflow: hidden; text-overflow: ellipsis;float: left; "-->
                                     </div>
                                 </div>
                             </div>
@@ -6194,12 +6198,12 @@
                             <div class="flex doc-details p-4">
                                 <div class="col-sm-12 p-8" id="DocDetails">
                                     <div class="flex">
-                                        <div class="" style="width:50%">
+                                        <div class="" style="width:15%">
                                             <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6">
                                                 <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" ng-src="{{'data:image/png;base64,'+ PhotoBlob}}" />
                                             </div>
                                         </div>
-                                        <div class="" style="width:50%; text-align: center;">
+                                        <div class="" style="width:50%;">
                                             <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr.{{DoctorDetailList.FullName}}</p>
                                             <p class="m-bottom-0 secondary-text1">{{DoctorDetailList.Department_Name}}</p>
                                         </div>
@@ -6238,6 +6242,10 @@
                                                 <label class="col-sm-6">Address</label>
                                                 <p class="col-sm-6 doc-p">{{DoctorDetailList.ADDRESS1}} <br />{{DoctorDetailList.ADDRESS2}}<br /> {{DoctorDetailList.ADDRESS3}}</p>
                                             </div>
+                                            <div class="flex">
+                                                <label class="col-sm-6">Biography</label>
+                                                <p class="col-sm-6 doc-p" style=" overflow-wrap: break-word; word-wrap: break-word; word-break: break-all; word-break: break-word; hyphens: auto;">{{DoctorDetailList.Clinician_Bio}}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -6257,21 +6265,22 @@
                             <h4 class="modal-title">View Uploaded Records</h4>
                         </div>
                         <div id="main-box">
-                            <div class="flex doc-details p-4">
-                                <div class="col-sm-12 p-8" id="DocDetails" ng-show="PatientAppointmentDocumentList.length != 0">
-                                    <!-- <div class="flex"> -->
-                                    <!-- <div class="" style="width:50%"> -->
-                                    <!-- <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6"> -->
-                                    <!-- <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" /> -->
-                                    <!-- </div> -->
-                                    <!-- </div> -->
-                                    <!-- <div class="" style="width:50%; text-align: center;"> -->
-                                    <!-- <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr.{{DoctorDetailList.FullName}}</p> -->
-                                    <!-- <p class="m-bottom-0 secondary-text1">{{DoctorDetailList.Department_Name}}</p> -->
-                                    <!-- </div> -->
-                                    <!-- </div> -->
-                                    <div class="centerallign">
-                                        <div class="col-sm-10">
+                            <div class="model-body">
+                                <div>&nbsp;</div>
+                                <div class="centerallign">
+                                    <div class="col-sm-10">
+                                        <div class="flex">
+                                            <label class="col-sm-3">Reason For Visit:</label>
+                                            <p class="col-sm-6 doc-p">{{AppReasonForVisit}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div class="flex doc-details p-4">-->
+                                    <!--<div class="col-sm-12 p-8" >-->
+                                <div class="centerallign">
+                                    <div class="col-sm-10">
+                                        <div class="flex" id="DocDetails" ng-hide="PatientAppointmentDocumentList.length == 0 || PatientAppointmentDocumentList == null">
+                                            <label class="col-sm-3">Uploaded Records:</label>
                                             <div class="col-sm-4" ng-repeat="row in PatientAppointmentDocumentList">
                                                 <div class="alert alert-success nibp">
                                                     <a href="javascript:" ng-click="Patient_OtherData_Image_View(row.Id)" title="View">
@@ -6284,10 +6293,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div ng-show="PatientAppointmentDocumentList.length == 0 || PatientAppointmentDocumentList == null" style=" margin-left: -47rem;">
-                                    No Document Available...
-                                </div>
+                                    <div class="col-sm-10" ng-show="PatientAppointmentDocumentList.length == 0 || PatientAppointmentDocumentList == null">                                       
+                                        <p class="doc-p">No Record(s) Available</p>                                        
+                                    </div>
+                                </div>                                 
+                            </div>
+                            <div class="modal-footer">
                             </div>
                         </div>
                     </div>

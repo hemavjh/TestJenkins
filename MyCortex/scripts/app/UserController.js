@@ -1412,6 +1412,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.uploadme1 = null;
             $scope.uploadme2 = null;
             $scope.uploadme3 = null;
+            $scope.Biography = '';
             $scope.Id = CatId;
             photoview = true;
             photoview1 = false;
@@ -3381,8 +3382,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     for (var i = 0; i < e.files.length; i++) {
                         $scope.Nationalityresumedoc.push(e.files[i])
                     }
-                    $scope.UIDshow = [];
-                    $scope.UIDshow = '';
+                    //$scope.UIDshow = [];
+                    //$scope.UIDshow = '';
                 } else {
                     toastr.warning($scope.fileexceed, "File Size");
                 }
@@ -3412,8 +3413,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     for (var i = 0; i < e.files.length; i++) {
                         $scope.UIDshow.push(e.files[i])
                     }
-                    $scope.Nationalityresumedoc = [];
-                    $scope.Nationalityresumedoc = '';
+                    //$scope.Nationalityresumedoc = [];
+                    //$scope.Nationalityresumedoc = '';
                 } else {
                     toastr.warning($scope.fileexceed, "File Size");
                 }
@@ -4256,6 +4257,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.LastName = data.LastName;
                         $scope.Employee_No = data.EMPLOYEMENTNO;
                         $scope.EmailId = data.EMAILID;
+                        $scope.Biography = data.Clinician_Bio;
 
                         $scope.MobileNo = data.MOBILE_NO;
                         var splitmobno = data.MOBILE_NO.includes('~');
@@ -5433,6 +5435,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             Payment_preference: "0",
                             Insurance_Preference: "0",
                             Modified_By: "0",
+                            Clinician_Bio: $scope.Biography,
                             //FullNameFormula: $scope.FullNameFormula,
                             //InstitutionList: [{ "InstitutionName": "" }],
                             //LanguageList: [{ "Name": "" }]
@@ -5598,6 +5601,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             Payment_preference: "0",
                             Insurance_Preference: "0",
                             Modified_By: "0",
+                            Clinician_Bio: $scope.Biography,
                             //FullNameFormula: $scope.FullNameFormula,
                             //InstitutionList: [{ "InstitutionName": "" }],
                             //LanguageList: [{ "Name": "" }]
@@ -5630,6 +5634,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         var userid = data.UserDetails.Id;
 
                         $scope.UserImageAttach(userid);
+                        $scope.UserImageAttach1(userid);
+                        $scope.UserImageAttach2(userid);
                         if (data.ReturnFlag == "1") {
                             if ($scope.AdminDefaultConfiguration == 1) {
                                 $scope.InstitueDefaultConfiguration();
@@ -5897,6 +5903,26 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         });
                 }
             }
+        }
+        $scope.UserImageAttach1 = function (userid) {
+            var userid = userid;
+            var FileName = "";
+            var CertificateFileName = "";
+            var FileType = "";
+            var Licensefilename = "";
+            var fd = new FormData();
+            var imgBlob;
+            var NationalimgBlob = [];
+            var InsuranceimgBlob;
+            var imgBlobfile;
+            var itemIndexLogo = -1;
+            var NationalitemIndexLogo = -1;
+            var InsuranceitemIndexLogo = -1;
+            var itemIndexfile = -1;
+            var fd1 = new FormData();
+            var fd2 = new FormData();
+            var fd3 = new FormData();
+            var fd4 = new FormData();
 
             if ($scope.Nationalityresumedoc.length > 0) {
                 $scope.PhotoValue = 1;
@@ -5917,7 +5943,29 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.Nationalityresumedoc = [];
                     $scope.NationalFileName = [];
                 })
-            } else {
+            }
+        }
+        $scope.UserImageAttach2 = function (userid) {
+            var userid = userid;
+            var FileName = "";
+            var CertificateFileName = "";
+            var FileType = "";
+            var Licensefilename = "";
+            var fd = new FormData();
+            var imgBlob;
+            var NationalimgBlob = [];
+            var InsuranceimgBlob;
+            var imgBlobfile;
+            var itemIndexLogo = -1;
+            var NationalitemIndexLogo = -1;
+            var InsuranceitemIndexLogo = -1;
+            var itemIndexfile = -1;
+            var fd1 = new FormData();
+            var fd2 = new FormData();
+            var fd3 = new FormData();
+            var fd4 = new FormData();
+
+            if ($scope.UIDshow.length > 0) {
                 if ($scope.UIDshow.length > 0) {
                     $scope.PhotoValue = 1;
                     for (var i = 0; i < $scope.UIDshow.length; i++) {

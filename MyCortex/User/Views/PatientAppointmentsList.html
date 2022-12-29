@@ -45,19 +45,24 @@
                                 <p class="m-bottom-0 secondary-text" style="font-size:13px;">{{Row.Doctor_DepartmentName}}</p>
                             </div>
                         </div>
-                        <!--<div class="flex">
-                            <a class="homepadamicon chats" onclick="openChatWindow()"><img class="kutticon" src="images/chats-icon.png"> </a>
-                            <button id="AudioDisable" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon phones" onclick="openChatWindow ();audioCallUser()"><img style="margin-left: -3px;" src="images/phones-icon.png"> </button>
-                            <button id="videoDisable" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon Video" onclick="openChatWindow();videoCallUser()">
-                            <img style="padding-right:30px;" src="images/Video-icon1.png">
-                            </button>
-                            <a class="homepadamicon Video" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" onclick="openChatWindow();videoCallUser()">
-                                <img style="margin-top: -4px; padding-left: 0px; padding-top: 0px; padding-bottom: 0px; padding-right: 4px; width: 41px; margin-left: -2px;" src="images/Video-Icon.png">
-                            </a>
-                            <a class="homepadamicon trashs" ng-click="CancelAppointmentModal(Appointment_Id)"><img class="kutticon" src="images/trashs-icon.png"> </a>
-                        </div>-->
+                       
+                            <div class="flex">          
+                                <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px" ng-click="ViewDoctorBio(Row.Doctor_Id)"> View Doctor Bio |</a>
+                                <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px" ng-click="ViewUploadRecords(Row.Id,Row)">View Uploaded Records </a>                                
+                            </div>
+                            <!--<div class="flex">
+            <a class="homepadamicon chats" onclick="openChatWindow()"><img class="kutticon" src="images/chats-icon.png"> </a>
+            <button id="AudioDisable" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon phones" onclick="openChatWindow ();audioCallUser()"><img style="margin-left: -3px;" src="images/phones-icon.png"> </button>
+            <button id="videoDisable" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon Video" onclick="openChatWindow();videoCallUser()">
+            <img style="padding-right:30px;" src="images/Video-icon1.png">
+            </button>
+            <a class="homepadamicon Video" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" onclick="openChatWindow();videoCallUser()">
+                <img style="margin-top: -4px; padding-left: 0px; padding-top: 0px; padding-bottom: 0px; padding-right: 4px; width: 41px; margin-left: -2px;" src="images/Video-Icon.png">
+            </a>
+            <a class="homepadamicon trashs" ng-click="CancelAppointmentModal(Appointment_Id)"><img class="kutticon" src="images/trashs-icon.png"> </a>
+        </div>-->
+                        </div>
                     </div>
-                </div>
 
                 <div class="myAppoinments" ng-hide="PreviousAppointmentCount !== 0">
                     No Past Appointment...
@@ -110,13 +115,13 @@
                         <div ng-hide="(Row.Status)==5">
                         <div class="flex">
                             <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px" ng-click="ViewDoctorBio(Row.Doctor_Id)"> View Doctor Bio |</a>
-                            <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px" ng-click="ViewUploadRecords(Row.Id)">View Uploaded Records |</a>
+                            <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px" ng-click="ViewUploadRecords(Row.Id,Row)">View Uploaded Records |</a>
                             <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px" ng-click="RescheduleDocAppointment(Row)">Reschedule |</a>
                             <a href="" class="font-semibold m-bottom-0" style="font-size: 9px; margin-right: 2px" ng-click="CancelAppointmentModal(Row,Appointment_Id)"> Cancel |</a>
                             <a href="" class="font-semibold m-bottom-0" style="font-size:9px" ng-show="Row.Payment_Status === 'UNPAID'" ng-click="AppointmentPayment(Row)" ng-hide="Row.Amount == 0 ||Row.Payment_Status =='PAID' ">  Pay</a>
                         </div>
                         <div class="flex">
-                            <a class="homepadamicon chats" style="cursor: pointer" ng-click="openchaticon(Row);" onclick="openChatWindow()"><img class="kutticon" src="images/chats-icon.png"> </a>
+                            <a class="homepadamicon chats" ng-hide="isvideo==true" style="cursor: pointer" ng-click="openchaticon(Row);" onclick="openChatWindow()"><img class="kutticon" src="images/chats-icon.png"> </a>
                             <button id="AudioDisable" style="cursor: pointer" ng-if="isAudio==true" disabled="disabled" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon phones"  value="{{Row.Appointment_FromTime}}" onclick="openChatWindow(); audioCallUser(this.value)"><img style="margin-left: -3px;" src="images/phones-icon.png"> </button>
                             <button id="videoDisable" style="cursor: pointer" ng-if="isVideoC==true" disabled="disabled" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon Video"  value="{{Row.Appointment_FromTime}}" onclick="openChatWindow();videoCallUser(this.value)">
                                 <img style=" margin-top: -7px; padding-left: 0px; padding-top: 0px; padding-bottom: 0px; padding-right: 4px; width: 41px; margin-left: -9px;" src="images/Video-Icon.png">

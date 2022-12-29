@@ -1468,8 +1468,8 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                     for (var i = 0; i < e.files.length; i++) {
                         $scope.showNationalityFiles.push(e.files[i])               
                     }
-                    $scope.showUUIDFiles = [];
-                    $scope.UID = '';
+                    //$scope.showUUIDFiles = [];
+                    //$scope.UID = '';
                 } else {
                     toastr.warning($scope.fileexceed, "File Size");
                 }
@@ -1564,8 +1564,8 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                     for (var i = 0; i < e.files.length; i++) {
                         $scope.showUUIDFiles.push(e.files[i])
                     }
-                    $scope.showNationalityFiles = [];
-                    $scope.NationalId = '';
+                    //$scope.showNationalityFiles = [];
+                    //$scope.NationalId = '';
 
                 } else {
                     toastr.warning($scope.fileexceed, "File Size");
@@ -1591,16 +1591,16 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
         }
         $scope.fnNationalityClear=function()
         {
-            if ($scope.UID != '') {
-                $scope.NationalId = '';
-                $scope.showNationalityFiles = [];
-            }             
+            //if ($scope.UID != '') {
+            //    $scope.NationalId = '';
+            //    $scope.showNationalityFiles = [];
+            //}             
         }
         $scope.fnUUIDClear = function () {
-            if ($scope.NationalId != '') {
-                $scope.UID = '';
-                $scope.showUUIDFiles = [];
-            }
+            //if ($scope.NationalId != '') {
+            //    $scope.UID = '';
+            //    $scope.showUUIDFiles = [];
+            //}
         }
         /*This is Insert Function for SignUp */
         $scope.SignupLogin_AddEdit = function () {
@@ -1666,6 +1666,8 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                                 $('#submit').attr("disabled", false);
                                 var userid = data.UserDetails.Id;
                                 $scope.UserImageAttach(userid);
+                                $scope.UserImageAttach1(userid);
+                                $scope.UserImageAttach2(userid);
                                 $scope.CancelSignUpPopup();
                             } else {
                                 //alert(data.Message);
@@ -1713,16 +1715,15 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             var fd1 = new FormData();
 
             //if ($scope.CertificateFileName !="") {
-            if ($scope.showNationalityFiles.length > 0)
-            {
+            if ($scope.showNationalityFiles.length > 0) {
                 $scope.PhotoValue = 1;
-              
+
                 for (var i = 0; i < $scope.showNationalityFiles.length; i++) {
                     $scope.CertificateFileName = $scope.showNationalityFiles[i]['name'];
-                    $scope.FileType = $scope.showNationalityFiles[i]['type'];                   
+                    $scope.FileType = $scope.showNationalityFiles[i]['type'];
                     fd.append('file1', $scope.showNationalityFiles[i]);
                 }
-                $http.post(baseUrl + '/api/User/Attach_UserDocuments/?UserId=' + userid + '&Type=Emirates_Id ',fd,
+                $http.post(baseUrl + '/api/User/Attach_UserDocuments/?UserId=' + userid + '&Type=Emirates_Id ', fd,
                     {
                         transformRequest: angular.identity,
                         headers: {
@@ -1730,10 +1731,25 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                         }
                     }
                 ).success(function (response) {
-                    $scope.showNationalityFiles = [];                    
-                })                                          
+                    $scope.showNationalityFiles = [];
+                })
             }
-            else {
+        }
+        $scope.UserImageAttach1 = function (userid) {
+            $scope.PhotoValue = 1;
+            var photoview = false;
+            var userid = userid;
+            var FileName = "";
+            $scope.Profile = "";
+            var CertificateFileName = "";
+            var FileType = "";
+            var fd = new FormData();
+            var imgBlobfile;
+            var itemIndexLogo = -1;
+            var itemIndexfile = -1;
+            $scope.CertificateValue = '0';
+            var fd1 = new FormData();
+            if ($scope.showUUIDFiles.length > 0) {
                 for (var i = 0; i < $scope.showUUIDFiles.length; i++) {
                     $scope.CertificateFileName = $scope.showUUIDFiles[i]['name'];
                     $scope.FileType = $scope.showUUIDFiles[i]['type'];
@@ -1750,7 +1766,21 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                     $scope.showUUIDFiles = [];
                 })
             }
-
+        }
+        $scope.UserImageAttach2 = function (userid) {
+            $scope.PhotoValue = 1;
+            var photoview = false;
+            var userid = userid;
+            var FileName = "";
+            $scope.Profile = "";
+            var CertificateFileName = "";
+            var FileType = "";
+            var fd = new FormData();
+            var imgBlobfile;
+            var itemIndexLogo = -1;
+            var itemIndexfile = -1;
+            $scope.CertificateValue = '0';
+            var fd1 = new FormData();
             if ($scope.ProfieName != undefined) {
                 imgBlob = $scope.dataURItoBlob($scope.UserLogo);
                 itemIndexLogo = 0;

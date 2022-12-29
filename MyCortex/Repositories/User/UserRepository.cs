@@ -482,6 +482,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@ExpiryDate", insobj.ExpiryDate));
             param.Add(new DataParameter("@PayorId", insobj.PayorId));
             param.Add(new DataParameter("@PlanId", insobj.PlanId));
+            param.Add(new DataParameter("@Clinician_Bio", insobj.Clinician_Bio));
 
             if(insobj.Id == 0)
             {
@@ -876,6 +877,7 @@ namespace MyCortex.Repositories.Uesr
                                     ExpiryDate = p.Field<string>("EXPIRYDATE"),
                                     PayorId = p.Field<string>("PAYORID"),
                                     PlanId = p.Field<string>("PLANID"),
+                                    Clinician_Bio = p.Field<string>("PLANID"),
                                 }).FirstOrDefault();
             if (insert.DOB_Encrypt != "" && insert.DOB_Encrypt != null)
             {
@@ -1330,7 +1332,8 @@ namespace MyCortex.Repositories.Uesr
                                   NationalPhotoFullpath = p.Field<string>("NATIONAL_PHOTO_FULLPATH"),
                                   NationalPhotoFilename = p.Field<string>("NATIONAL_PHOTO_FILENAME"),
                                   InsurancePhotoFullpath = p.Field<string>("INSURANCE_PHOTO_FULLPATH"),
-                                  InsurancePhotoFilename = p.Field<string>("INSURANCE_PHOTO_FILENAME")
+                                  InsurancePhotoFilename = p.Field<string>("INSURANCE_PHOTO_FILENAME"),
+                                  Clinician_Bio = p.Field<string>("Clinician_Bio")
                                 }).FirstOrDefault();
             
 
@@ -1556,6 +1559,7 @@ namespace MyCortex.Repositories.Uesr
                                         InsurancePhotoFullpath = p.Field<string>("INSURANCE_PHOTO_FULLPATH"),
                                         InsurancePhotoFilename = p.Field<string>("INSURANCE_PHOTO_FILENAME"),
                                         Type = p.Field<string>("TYPE"),
+                                        Clinician_Bio=p.Field<string>("Clinician_Bio"),
                                     }).FirstOrDefault();
 
                 if (!Convert.IsDBNull(dt.Rows[0]["USER_PHOTO"]))
@@ -2573,7 +2577,8 @@ namespace MyCortex.Repositories.Uesr
                                                           Payment_Status = (p.IsNull("PAYMENT_STATUS") ? "" : p.Field<string>("PAYMENT_STATUS")),
                                                           ConferenceId = p.Field<string>("CONFERENCE_ID"),
                                                           Status = p.Field<int>("STATUS"),
-                                                          Amount=p.Field<string>("AMOUNT")
+                                                          Amount=p.Field<string>("AMOUNT"),
+                                                          ReasonForVisit=p.Field<string>("REASONFORVISIT")
                                                       }).ToList();
                 return lst;
             }
@@ -2716,6 +2721,7 @@ namespace MyCortex.Repositories.Uesr
                                                           DisplayViewGenderName = p.Field<string>("DISPLAYGENDERNAME"),
                                                           ViewGenderName = p.Field<string>("GENDER_NAME"),
                                                           Payment_Status = (p.IsNull("PAYMENT_STATUS") ? "" : p.Field<string>("PAYMENT_STATUS")),
+                                                          ReasonForVisit= p.Field<string>("REASONFORVISIT"),
                                                       }).ToList();
                 return lst;
             }

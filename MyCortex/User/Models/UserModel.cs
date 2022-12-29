@@ -183,6 +183,7 @@ namespace MyCortex.User.Model
         public Byte[] CertificateBlob { get; set; }
         public string Certificate_FileName { get; set; }
         public string FileType { get; set; }
+        public string Clinician_Bio { get; set; }
 
     }
     public class UploadDataReturnModel

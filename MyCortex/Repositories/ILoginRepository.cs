@@ -11,6 +11,8 @@ namespace MyCortex.Repositories
     interface ILoginRepository
     {
         LoginModel Userlogin_AddEdit(LoginModel obj);
+        LoginModel_auto AutoLogout_NetworkChange(Guid Login_Session_Id, int Sys_TimeDifference, Boolean isMyH, string ShortCode,string DeviceType);
+
         //LoginModel Userlogin_AddEdit(int Id, string UserName, string Password);
         long User_LogOut(long UserId, string SessionId);
         long Get_UserInstitution(string EmailId);

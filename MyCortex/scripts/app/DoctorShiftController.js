@@ -1922,7 +1922,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                         $scope.DoctorShift_View(DId, DoctorId, Institution_Id);
                         $scope.EditShiftDoctor();
                     } else {
-                        toastr.info("Particular Doctor Shift cannot be Editable", "info");
+                        toastr.info("Particular Doctor Shift cannot be Editable. Please cancel all the upcoming appointments to edit the Doctor Shift", "info");
+                        //Swal.fire("Please cancel all the upcoming appointments to edit the Doctor Shift","Info")
                     }
                 });
             }

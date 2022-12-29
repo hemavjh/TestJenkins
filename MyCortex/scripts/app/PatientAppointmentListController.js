@@ -5,8 +5,8 @@ if (baseUrl == "/") {
     baseUrl = "";
 }
 
-PatientAppointmentList.controller("PatientAppointmentListController", ['$scope', '$sce', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$interval',
-    function ($scope, $sce, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $interval) {
+PatientAppointmentList.controller("PatientAppointmentListController", ['$scope', '$sce', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$interval', 'toastr',
+    function ($scope, $sce, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $interval, toastr) {
         $scope.UpComingAppointmentDetails = [];
         $scope.PreviousAppointmentDetails = [];
         $scope.UpComingWaitingAppointmentDetails = [];
@@ -39,7 +39,7 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                         else if ($scope.Name == 'Hive Meet') {
                             $('#MyvideoDisable').attr("disabled", true);
                             $('#AudioDisable').attr("disabled", false);
-                            $('#videoDisable').attr("disabled", false);
+                            $('#videoDisable').attr("disabled", false);                            
                             $scope.isvideo = true;
                         }
                     })
@@ -266,6 +266,9 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                     if (seconds != 0) {
                         timeDiffString1 = timeDiffString1 + seconds + ' sec';
                     }
+                    if (timeDiffString1.includes("-")) {
+                        timeDiffString1 = 0;
+                    }
                     AppoinList[i].TimeDifference = timeDiffString1;
                     AppoinList[i]['RemainingTimeInMinutes'] = CallRemain1;
                 }
@@ -444,6 +447,11 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
             else {
                 $('#Patient_AppointmentPanel').addClass('show');
                 $('#Patient_VideoCall').addClass('hidden');
+                var attime = moment(startdate1).subtract($scope.PAT_APPOINTMENT_START, 'minutes').format('hh.mm A');
+                
+                if (Row.TimeDifference!=0) {
+                    Swal.fire('You can join the call only ' + $scope.PAT_APPOINTMENT_START + " Minute(s) before at " + attime, '', 'info')
+                }
             }
         }
 

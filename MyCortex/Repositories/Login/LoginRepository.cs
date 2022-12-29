@@ -14,6 +14,10 @@ using Newtonsoft.Json;
 using System.Dynamic;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Security.Cryptography.Xml;
+using System.Security.Cryptography;
+using System.Reflection;
+using MyCortex.User.Models;
 
 namespace MyCortex.Repositories.Login
 {
@@ -92,13 +96,287 @@ namespace MyCortex.Repositories.Login
             //string jsonStr = JsonConvert.SerializeObject(q, Formatting.None);
         }
 
-
         /// <summary>
         /// check login user authentication, stores Login History
         /// </summary>
         /// <param name="loginObj">Login Credentials</param>
         /// <returns>Login validity details and User Information</returns>
-        public LoginModel Userlogin_AddEdit( LoginModel obj)
+        public LoginModel_auto AutoLogout_NetworkChange(Guid Login_Session_Id, int Sys_TimeDifference, Boolean isMYH, string ShortCode,string DeviceType)
+        {
+             int flag = 0;
+            string Username = "", Password = "", Device_Type = "", Time_Difference = "", Browser_Version = "", Login_Country = "", Login_City = "";
+            string Login_IpAddress = "", Is_Tab = "", Is_ClinicalUser = "", Ref_Id = "", Language_Id = "", Login_countryCode = "";
+            string  Login_Latitude = "", Login_Longitude = "", Login_RegionName = "", Login_zipCode = "", Login_DeviceOS = "", Login_DeviceName = "", Login_TimeZone = "";
+            List<DataParameter> user_param = new List<DataParameter>();
+            user_param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            user_param.Add(new DataParameter("@OFFSET", Sys_TimeDifference));
+            user_param.Add(new DataParameter("@isMYH", isMYH));
+            user_param.Add(new DataParameter("@ShortCode", ShortCode));
+            user_param.Add(new DataParameter("@DeviceType", DeviceType));
+            DataTable user_data = ClsDataBase.GetDataTable("[MYCORTEX].[AUTOLOGOUT_SP_ONNETWORKCHANGE]", user_param);
+            if (user_data.Rows.Count > 0)
+            {
+                //@FLAG Flag,@UserName Username, @Password Password,@Device_Type Device_Type,'1',@OFFSET Time_Difference, @Browser_Version Browser_Version,@Login_Country Login_Country, @Login_City Login_City,@Login_IpAddress Login_IpAddress, @Is_Tab Is_Tab,@Is_ClinicalUser Is_ClinicalUser, @Ref_Id Ref_Id,@Language_Id Language_Id, @Login_countryCode Login_countryCode,@Login_Latitude Login_Latitude, @Login_Longitude Login_Longitude,@Login_RegionName Login_RegionName, @Login_zipCode Login_zipCode,@Login_DeviceOS Login_DeviceOS, @Login_DeviceName Login_DeviceName,@Login_TimeZone Login_TimeZone, @isMYH isMYH,@ShortCode ShortCode
+                flag = Convert.ToInt16(user_data.Rows[0]["Flag"]);
+                Username= user_data.Rows[0]["Username"].ToString();
+                Password= user_data.Rows[0]["Password"].ToString();
+                Device_Type= user_data.Rows[0]["Device_Type"].ToString();
+                Time_Difference= user_data.Rows[0]["Time_Difference"].ToString();
+                Browser_Version= user_data.Rows[0]["Browser_Version"].ToString();
+                Login_Country= user_data.Rows[0]["Login_Country"].ToString();
+                Login_City= user_data.Rows[0]["Login_City"].ToString();
+                Login_IpAddress= user_data.Rows[0]["Login_IpAddress"].ToString();
+                Is_Tab= user_data.Rows[0]["Is_Tab"].ToString();
+                Is_ClinicalUser = user_data.Rows[0]["Is_ClinicalUser"].ToString();
+                Ref_Id = user_data.Rows[0]["Ref_Id"].ToString();
+                Language_Id = user_data.Rows[0]["Language_Id"].ToString();
+                Login_countryCode = user_data.Rows[0]["Login_countryCode"].ToString();
+                Login_Latitude = user_data.Rows[0]["Login_Latitude"].ToString();
+                Login_Longitude = user_data.Rows[0]["Login_Longitude"].ToString();
+                Login_RegionName = user_data.Rows[0]["Login_RegionName"].ToString();
+                Login_zipCode = user_data.Rows[0]["Login_zipCode"].ToString();
+                Login_DeviceOS = user_data.Rows[0]["Login_DeviceOS"].ToString();
+                Login_DeviceName = user_data.Rows[0]["Login_DeviceName"].ToString();
+                Login_TimeZone = user_data.Rows[0]["Login_TimeZone"].ToString();
+            }
+
+            if(flag==2)
+            {
+                DataEncryption EncryptPassword = new DataEncryption();
+                string Password1 = EncryptPassword.Encrypt(Password);
+                string Username1 = EncryptPassword.Encrypt(Username);
+                string uid = "0";
+                string encrypted_data = "No";
+                List<DataParameter> user_param1 = new List<DataParameter>();
+                user_param1.Add(new DataParameter("@NORMAL_USERNAME", Username));
+                user_param1.Add(new DataParameter("@NORMAL_PWD", Password));
+                user_param1.Add(new DataParameter("@ENCRYPT_USERNAME", Username1));
+                user_param1.Add(new DataParameter("@ENCRYPT_PWD", Password1));
+                DataTable user_dt = ClsDataBase.GetDataTable("[MYCORTEX].GET_USER_LOGIN_ID", user_param1);
+                if (user_dt.Rows.Count > 0)
+                {
+                    uid = user_dt.Rows[0]["USERID"].ToString();
+                    encrypted_data = user_dt.Rows[0]["ENCRYPTED_DATA"].ToString();
+                }
+
+                //getSystemInformation(obj);
+                List<DataParameter> param = new List<DataParameter>();
+                //param.Add(new DataParameter("@Id", Id));
+                if (uid == "1" && encrypted_data == "Yes")  // super admin user only
+                {
+                    param.Add(new DataParameter("@UserName", Username1));
+                    param.Add(new DataParameter("@Password", Password1));
+                }
+                else
+                {
+                    param.Add(new DataParameter("@UserName", Username));
+                    param.Add(new DataParameter("@Password", Password));
+                }
+
+                //param.Add(new DataParameter("@UserName", Username));
+                //param.Add(new DataParameter("@Password", Password));
+                param.Add(new DataParameter("@DeviceType", Device_Type));
+                param.Add(new DataParameter("@LoginType", '1'));
+                param.Add(new DataParameter("@TimeDifference", Time_Difference));
+                param.Add(new DataParameter("@Browser_Version", Browser_Version));
+                param.Add(new DataParameter("@Login_Country", Login_Country));
+                param.Add(new DataParameter("@Login_City", Login_City));
+                param.Add(new DataParameter("@Login_IpAddress", Login_IpAddress));
+                param.Add(new DataParameter("@Is_Tab", Is_Tab));
+                param.Add(new DataParameter("@Is_ClinicalUser", Is_ClinicalUser));
+                param.Add(new DataParameter("@Ref_Id", Ref_Id));
+                param.Add(new DataParameter("@Language_Id", Language_Id));
+                param.Add(new DataParameter("@Login_countryCode", Login_countryCode));
+                param.Add(new DataParameter("@Login_Latitude", Login_Latitude));
+                param.Add(new DataParameter("@Login_Longitude", Login_Longitude));
+                param.Add(new DataParameter("@Login_RegionName", Login_RegionName));
+                param.Add(new DataParameter("@Login_zipCode", Login_zipCode));
+                param.Add(new DataParameter("@Login_DeviceOS", Login_DeviceOS));
+                param.Add(new DataParameter("@Login_DeviceName", Login_DeviceName));
+                param.Add(new DataParameter("@Login_TimeZone", Login_TimeZone));
+                param.Add(new DataParameter("@isMYH", isMYH));
+                param.Add(new DataParameter("@ShortCode", ShortCode));
+
+                DataTable dt = new DataTable();
+                if (uid == "1" && encrypted_data == "Yes")  // super admin user only
+                {
+                    dt = ClsDataBase.GetDataTable("[MYCORTEX].[SUPERADMIN_LOGIN_SP_VALIDATIONSCHECK_INSERT]", param);
+                }
+                else
+                {
+                    dt = ClsDataBase.GetDataTable("[MYCORTEX].[LOGIN_SP_VALIDATIONSCHECK_INSERT]", param);
+                }
+                LoginModel_auto lst = (from p in dt.AsEnumerable()
+                                  select
+                                  new LoginModel_auto()
+                                  {
+                                      UserId = p.Field<long>("UserId"),
+                                      data = p.Field<int>("data"),
+                                      UserTypeId = p.Field<long>("UserTypeId"),
+                                      InstitutionId = p.IsNull("INSTITUTION_ID") ? 0 : p.Field<long>("INSTITUTION_ID"),
+                                      Messagetype = p.Field<string>("Messagetype"),
+                                      LanguageKey = p.Field<string>("LanguageKey"),
+                                      TabID = p.Field<long>("TABID"),
+                                      TabName = p.Field<string>("TabName"),
+                                      Login_Session_Id = p.Field<Guid?>("Session_Id"),
+                                      TelePhone_User = p.Field<int>("TelePhone_User"),
+                                      Recording_Type = p.IsNull("RECORDING_TYPE") ? 0 : p.Field<int>("RECORDING_TYPE"),
+
+                                      UserDetails = new UserModel()
+                                      {
+                                          Id = p.IsNull("Id") ? 0 : p.Field<long>("Id"),
+                                          INSTITUTION_ID = p.IsNull("INSTITUTION_ID") ? 0 : p.Field<long>("INSTITUTION_ID"),
+                                          FirstName = p.Field<string>("FirstName"),
+                                          MiddleName = p.Field<string>("MiddleName"),
+                                          LastName = p.Field<string>("LastName"),
+                                          FullName = p.Field<string>("FullName"),
+                                          EMPLOYEMENTNO = p.Field<string>("EMPLOYEMENTNO") ?? "",
+                                          EMAILID = p.Field<string>("EMAILID") ?? "",
+                                          // EMAILID = p.Field<string>("EMAILID") ?? "",
+                                          DEPARTMENT_ID = p.IsNull("DEPARTMENT_ID") ? 0 : p.Field<long>("DEPARTMENT_ID"),
+                                          MOBILE_NO = p.Field<string>("MOBILE_NO") ?? "",
+                                          //DOB = p.Field<DateTime?>("DOB"),
+                                          DOB_Encrypt = p.Field<string>("DOB_Encrypt"),
+                                          Department_Name = p.Field<string>("Department_Name") ?? "",
+                                          InstitutionName = p.Field<string>("InstitutionName") ?? "",
+                                          IsActive = p.Field<int?>("IsActive"),
+                                          Photo = p.Field<string>("PHOTO_NAME") ?? "",
+                                          Photo_Fullpath = p.Field<string>("PHOTO_FULLPATH") ?? "",
+                                          FileName = p.Field<string>("PHOTO_FILENAME") ?? "",
+                                          UserType_Id = p.Field<long?>("UserType_Id"),
+                                          HEALTH_LICENSE = p.Field<string>("HEALTH_LICENSE") ?? "",
+                                          GENDER_ID = p.IsNull("GENDER_ID") ? 0 : p.Field<long>("GENDER_ID"),
+                                          NATIONALITY_ID = p.IsNull("NATIONALITY_ID") ? 0 : p.Field<long>("NATIONALITY_ID"),
+                                          ETHINICGROUP_ID = p.IsNull("ETHINICGROUP_ID") ? 0 : p.Field<long>("ETHINICGROUP_ID"),
+                                          EMR_AVAILABILITY = p.Field<bool?>("EMR_AVAILABILITY"),
+                                          ADDRESS1 = p.Field<string>("ADDRESS1") ?? "",
+                                          ADDRESS2 = p.Field<string>("ADDRESS2") ?? "",
+                                          ADDRESS3 = p.Field<string>("ADDRESS3") ?? "",
+                                          HOME_AREACODE = p.Field<string>("HOME_AREACODE") ?? "",
+                                          HOME_PHONENO = p.Field<string>("HOME_PHONENO") ?? "",
+                                          MOBIL_AREACODE = p.Field<string>("MOBILE_AREACODE") ?? "",
+                                          POSTEL_ZIPCODE = p.Field<string>("POSTEL_ZIPCODE") ?? "",
+                                          COUNTRY_ID = p.IsNull("COUNTRY_ID") ? 0 : p.Field<long>("COUNTRY_ID"),
+                                          STATE_ID = p.IsNull("STATE_ID") ? 0 : p.Field<long>("STATE_ID"),
+                                          CITY_ID = p.IsNull("CITY_ID") ? 0 : p.Field<long>("CITY_ID"),
+                                          BLOODGROUP_ID = p.IsNull("BLOODGROUP_ID") ? 0 : p.Field<long>("BLOODGROUP_ID"),
+                                          MARITALSTATUS_ID = p.IsNull("MARITALSTATUS_ID") ? 0 : p.Field<long>("MARITALSTATUS_ID"),
+                                          PATIENTNO = p.Field<string>("PATIENTNO") ?? "",
+                                          MNR_NO = p.Field<string>("MNR_NO") ?? "",
+                                          INSURANCEID = p.Field<string>("INSURANCEID") ?? "",
+                                          NATIONALID = p.Field<string>("NATIONALID") ?? "",
+                                          EthnicGroup = p.Field<string>("EthnicGroup") ?? "",
+                                          UserName = p.Field<string>("UserName") ?? "",
+                                          GENDER_NAME = p.Field<string>("GENDER_NAME") ?? "",
+                                          Nationality = p.Field<string>("Nationality") ?? "",
+                                          MaritalStatus = p.Field<string>("MaritalStatus") ?? "",
+                                          BLOODGROUP_NAME = p.Field<string>("BLOODGROUP_NAME") ?? "",
+                                          RelationShipName = p.Field<string>("RelationShipName") ?? "",
+                                          DietDescribe = p.Field<string>("DietDescribe") ?? "",
+                                          AlergySubstance = p.Field<string>("AlergySubstance") ?? "",
+                                          EXCERCISE_SCHEDULE = p.Field<string>("EXCERCISE_SCHEDULE") ?? "",
+                                          SMOKESUBSTANCE = p.Field<string>("SMOKESUBSTANCE") ?? "",
+                                          ALCOHALSUBSTANCE = p.Field<string>("ALCOHALSUBSTANCE") ?? "",
+                                          CAFFEINATED_BEVERAGES = p.Field<string>("CAFFEINATED_BEVERAGES") ?? "",
+                                          CURRENTLY_TAKEMEDICINE = p.Field<int?>("CURRENTLY_TAKEMEDICINE") ?? 0,
+                                          PAST_MEDICALHISTORY = p.Field<int?>("PAST_MEDICALHISTORY") ?? 0,
+                                          FAMILYHEALTH_PROBLEMHISTORY = p.Field<int?>("FAMILYHEALTH_PROBLEMHISTORY") ?? 0,
+                                          VACCINATIONS = p.Field<int?>("VACCINATIONS") ?? 0,
+                                          DIETDESCRIBE_ID = p.IsNull("DIETTYPE_ID") ? 0 : p.Field<long?>("DIETTYPE_ID"),
+                                          EXCERCISE_SCHEDULEID = p.IsNull("EXCERCISE_SCHEDULEID") ? 0 : p.Field<long?>("EXCERCISE_SCHEDULEID"),
+                                          EXCERCISE_TEXT = p.Field<string>("EXCERCISE_TEXT") ?? "",
+                                          ALERGYSUBSTANCE_ID = p.IsNull("ALERGYSUBSTANCE_ID") ? 0 : p.Field<long>("ALERGYSUBSTANCE_ID"),
+                                          ALERGYSUBSTANCE_TEXT = p.Field<string>("ALERGYSUBSTANCE_TEXT") ?? "",
+                                          SMOKESUBSTANCE_ID = p.IsNull("SMOKESUBSTANCE_ID") ? 0 : p.Field<long>("SMOKESUBSTANCE_ID"),
+                                          SMOKESUBSTANCE_TEXT = p.Field<string>("SMOKESUBSTANCE_TEXT") ?? "",
+                                          ALCOHALSUBSTANCE_ID = p.IsNull("ALCOHALSUBSTANCE_ID") ? 0 : p.Field<long>("ALCOHALSUBSTANCE_ID"),
+                                          ALCOHALSUBSTANCE_TEXT = p.Field<string>("ALCOHALSUBSTANCE_TEXT") ?? "",
+                                          CAFFEINATED_BEVERAGESID = p.IsNull("CAFFEINATED_BEVERAGESID") ? 0 : p.Field<long>("CAFFEINATED_BEVERAGESID"),
+                                          CAFFEINATEDBEVERAGES_TEXT = p.Field<string>("CAFFEINATEDBEVERAGES_TEXT") ?? "",
+                                          EMERG_CONT_FIRSTNAME = p.Field<string>("EMERG_CONT_FIRSTNAME") ?? "",
+                                          EMERG_CONT_MIDDLENAME = p.Field<string>("EMERG_CONT_MIDDLENAME") ?? "",
+                                          EMERG_CONT_LASTNAME = p.Field<string>("EMERG_CONT_LASTNAME") ?? "",
+                                          Emergency_MobileNo = p.Field<string>("EMRG_CONT_PHONENO") ?? "",
+                                          EMERG_CONT_RELATIONSHIP_ID = p.IsNull("EMERG_CONT_RELATIONSHIP_ID") ? 0 : p.Field<long>("EMERG_CONT_RELATIONSHIP_ID"),
+                                          Patient_Type = p.IsNull("PATIENT_TYPE") ? 0 : p.Field<int>("PATIENT_TYPE"),
+                                          Unitgroup_preference = p.Field<int?>("UNITGROUP_PREFERENCE") ?? 0,
+                                          Language_preference = p.Field<int?>("LANGUAGE_PREFERENCE") ?? 0,
+                                          Payment_preference = p.Field<long?>("PAYMENT_PREFERENCE") ?? 0,
+                                          Insurance_Preference = p.Field<long?>("INSURANCE_PREFERENCE") ?? 0,
+                                          Approval_flag = p.Field<int?>("APPROVAL_FLAG"),
+                                          HiveType = p.Field<int>("HiveType"),
+                                          UserLanguage_Preference = p.Field<long?>("USERLANGUAGE_PREFERENCE") ?? 0
+                                      },
+                                  }).FirstOrDefault();
+                if (lst.UserDetails.DOB_Encrypt != "" && lst.UserDetails.DOB_Encrypt != null)
+                {
+                    var time = lst.UserDetails.DOB_Encrypt.Split(' ');
+
+                    var time4 = time[0].Split('/');
+                    try
+                    {
+                        var time1 = time4[0];
+                        var time2 = time4[1];
+                        var time3 = time4[2];
+
+                        DateTime dt1 = new DateTime();
+                        try
+                        {
+                            var dateime = time2 + '/' + time1 + '/' + time3;
+                            dt1 = Convert.ToDateTime(dateime);
+                        }
+                        catch (Exception ex)
+                        {
+                            var dateime = time1 + '/' + time2 + '/' + time3;
+                            dt1 = Convert.ToDateTime(dateime);
+                        }
+                        lst.UserDetails.DOB = dt1;
+                    }
+                    catch (Exception ex1)
+                    {
+                        time4 = time[0].Split('-');
+                        var time1 = time4[0];
+                        var time2 = time4[1];
+                        var time3 = time4[2];
+
+
+                        DateTime dt1 = new DateTime();
+                        try
+                        {
+                            var dateime = time2 + '-' + time1 + '-' + time3;
+                            dt1 = Convert.ToDateTime(dateime);
+                        }
+                        catch (Exception ex2)
+                        {
+                            var dateime = time1 + '-' + time2 + '-' + time3;
+                            dt1 = Convert.ToDateTime(dateime);
+                        }
+                        lst.UserDetails.DOB = dt1;
+                    }
+                    //lst.UserDetails.DOB = Convert.ToDateTime(lst.UserDetails.DOB_Encrypt);
+                    /*_MyLogger.Exceptions("INFO", _AppLogger, lst.UserDetails.DOB_Encrypt, null, _AppMethod);
+                    string[] tokens = lst.UserDetails.DOB_Encrypt.Split('/');
+
+                    //lst.UserDetails.DOB = new DateTime(int.Parse(tokens[2].Substring(0, 4)), int.Parse(tokens[0]), int.Parse(tokens[1]));
+                    lst.UserDetails.DOB = new DateTime(int.Parse(tokens[2].Substring(0, 4)), int.Parse(tokens[0]), int.Parse(tokens[1]));*/
+                }
+                return lst;
+            }
+            else 
+            {
+                LoginModel_auto lst = new LoginModel_auto();
+                lst.flag = 1;
+                lst.Status = "False";
+                return lst; 
+            }
+        }
+
+            /// <summary>
+            /// check login user authentication, stores Login History
+            /// </summary>
+            /// <param name="loginObj">Login Credentials</param>
+            /// <returns>Login validity details and User Information</returns>
+            public LoginModel Userlogin_AddEdit( LoginModel obj)
         {
             DataEncryption EncryptPassword = new DataEncryption();
             string Password = EncryptPassword.Encrypt(obj.Password);

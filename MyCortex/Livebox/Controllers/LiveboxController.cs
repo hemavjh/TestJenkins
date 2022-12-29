@@ -233,11 +233,13 @@ namespace MyCortex.Livebox.Controllers
                 retid = liveBoxRepository.LiveBox_Notify_Log(json);
                 string ConferenceId = JObject.Parse(json)["conferencename"].ToString();
                 string userID = "";
-               
+                string messageBody = "";                
+
                 if (json.Contains("WaitingUserStatus"))
                 {                   
                     userID = JObject.Parse(json)["userid"].ToString();
-                    retid = liveBoxRepository.LiveBox_Notify_UPDATE(ConferenceId, InstitutionId, userID);                   
+                    messageBody = JObject.Parse(json)["WaitingUserStatus"].ToString();
+                    retid = liveBoxRepository.LiveBox_Notify_UPDATE(ConferenceId, InstitutionId, userID, messageBody);                   
                 }
                 return Content("SUCCESS");
             }

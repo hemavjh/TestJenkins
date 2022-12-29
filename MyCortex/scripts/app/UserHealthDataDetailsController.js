@@ -16,6 +16,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.isMedicalClinicalVitals = "";
         $scope.isOtherMedicalData = "";
         $scope.isMedicalLiveData = "";
+        $scope.AppReasonForVisit = "";
+
         $http.get(baseUrl + "/api/CommonMenu/CommonModule_List?InsId=" + $window.localStorage['InstitutionId']).success(function (response) {
             if (response != null) {
                 if (response.length > 0) {
@@ -1055,7 +1057,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             $scope.DoctorDetailList = data;
                         })
                     }
-                    $scope.ViewUploadRecords = function (Appointment_Id) {
+                    $scope.ViewUploadRecords = function (Appointment_Id, Row) {
+                        $scope.AppReasonForVisit = Row.ReasonForVisit;
                         $scope.PatientAppointmentDocumentList = [];
                         angular.element('#PatientDocumentViewModal').modal('show');
                         $http.get(baseUrl + '/api/User/Patient_Appointment_GetDocument?Id=' + Appointment_Id).success(function (data) {
