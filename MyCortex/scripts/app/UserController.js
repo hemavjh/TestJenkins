@@ -3126,6 +3126,80 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
         //getallpatientlist();
 
+        $scope.Eligibility_Logs_List = function () {
+            var DatetimepickerdtToday = new Date();
+            var Datetimepickermonth = DatetimepickerdtToday.getMonth() + 1;
+            var Datetimepickerday = DatetimepickerdtToday.getDate();
+            var Datetimepickeryear = DatetimepickerdtToday.getFullYear();
+            if (Datetimepickermonth < 10)
+                Datetimepickermonth = '0' + Datetimepickermonth.toString();
+            if (Datetimepickerday < 10)
+                Datetimepickerday = '0' + Datetimepickerday.toString();
+            var DatetimepickermaxDate = Datetimepickeryear + '-' + Datetimepickermonth + '-' + Datetimepickerday;
+            $scope.SearchDate = new Date(DatetimepickermaxDate);
+            $scope.SearchEndDate = new Date(DatetimepickermaxDate);
+            $('#ddlsearchfield').val('');
+            $("#chatLoaderPV").show();
+            $scope.CCCG_DetailsList = [];
+            $http.get(baseUrl + 'api/EligibilityLogs/Eligibility_Logs_List_With_Patient/?InstitutionId=' + $scope.InstituteId + "&Patient_Id=" + $scope.Id).success(function (data) {
+                $("#chatLoaderPV").hide();
+                $scope.rowCollectionFilter = data;
+                $scope.CCCG_DetailsList = data;
+            });
+            if ($scope.rowCollectionFilter.length > 0) {
+                $scope.flag = 1;
+            }
+            else {
+                $scope.flag = 0;
+                $scope.SearchMsg = "No Data Available";
+            }
+            // $("#chatLoaderPV").hide();
+        }
+
+        $scope.Eligibility_Logs_Filters = function () {
+            var sDate = new Date($scope.SearchDate).getFullYear().toString() + '-' + (((new Date($scope.SearchDate).getMonth() + 1).toString().length > 1) ? (new Date($scope.SearchDate).getMonth() + 1).toString() : ('0' + (new Date($scope.SearchDate).getMonth() + 1).toString())) + '-' + ((new Date($scope.SearchDate).getDate().toString().length > 1) ? new Date($scope.SearchDate).getDate().toString() : ('0' + new Date($scope.SearchDate).getDate().toString()))
+            var eDate = new Date($scope.SearchEndDate).getFullYear().toString() + '-' + (((new Date($scope.SearchEndDate).getMonth() + 1).toString().length > 1) ? (new Date($scope.SearchEndDate).getMonth() + 1).toString() : ('0' + (new Date($scope.SearchEndDate).getMonth() + 1).toString())) + '-' + ((new Date($scope.SearchEndDate).getDate().toString().length > 1) ? new Date($scope.SearchEndDate).getDate().toString() : ('0' + new Date($scope.SearchEndDate).getDate().toString()))
+            $scope.Eligibility_Status = $('#ddlsearchfield').val();
+            if ($scope.Eligibility_Status == 0) {
+                toastr.warning("Please Select Eligibility Status", "warning");
+                return;
+            }
+            $("#chatLoaderPV").show();
+            $scope.CCCG_DetailsList = [];
+            $http.get(baseUrl + 'api/EligibilityLogs/Eligibility_Logs_With_Patient_Filters/?InstitutionId=' + $scope.InstituteId + "&Patient_Id=" + $scope.Id + "&sDate=" + sDate + "&eDate=" + eDate + "&EligibilityStatus=" + $scope.Eligibility_Status + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $("#chatLoaderPV").hide();
+                $scope.rowCollectionFilter = data;
+                $scope.CCCG_DetailsList = data;
+            });
+            if ($scope.rowCollectionFilter.length > 0) {
+                $scope.flag = 1;
+            }
+            else {
+                $scope.flag = 0;
+                $scope.SearchMsg = "No Data Available";
+            }
+            // $("#chatLoaderPV").hide();
+        }
+
+        //select on Change load -userslist
+        $scope.SearchByUserID = function () {
+            $("#chatLoaderPV").show();
+            $http.get(baseUrl + '/api/UsersLog/Admin_Userslog_List/?Institution_Id=' + $scope.InstituteId + "&login_session_id=" + $scope.LoginSessionId + "&User_Id=" + $scope.SelectedCCCG).success(function (data) {
+                $scope.emptydata = [];
+                $scope.UserDetailsList = [];
+                $scope.UserDetailsList = data;
+                $scope.rowCollectionFilter = angular.copy($scope.UserDetailsList);
+                if ($scope.rowCollectionFilter.length > 0) {
+                    $scope.flag = 1;
+                }
+                else {
+                    $scope.flag = 0;
+                    $scope.SearchMsg = "No Data Available";
+                }
+                $("#chatLoaderPV").hide();
+            });
+        }
+
 
         /* Filter the master list function.*/
         $scope.PatientFilterChange = function () {

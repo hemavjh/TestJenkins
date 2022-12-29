@@ -60,7 +60,8 @@ var EmpApp = angular.module('EmpApp', [
     'SlotTimingController',
     'DoctorAppointmentDetailsForOthersController',
     'RecordController',
-    "AppointmentApprovalController"
+    "AppointmentApprovalController",
+    'EligibilityLogsController'
 ]);
 
 
@@ -450,8 +451,11 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             templateUrl: baseUrl + 'Admin/Views/HospitalAdmin_Userslog.html',
             controller: 'UsersLogController'
         }).
+        when('/Admin_Eligibility_Logs_List', {
+            templateUrl: baseUrl + 'Admin/Views/HospitalAdmin_Eligibility_Logs.html',
+            controller: 'EligibilityLogsController'
+        }).
         when('/DoctorAppointmentDetails', {
-            templateUrl: baseUrl + 'Masters/Views/DoctorAppointmentDetails_For_Others.html',
             controller: 'DoctorAppointmentDetailsForOthersController'
         }).
         when('/AppointmentApproval', {

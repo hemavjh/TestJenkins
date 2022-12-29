@@ -127,7 +127,12 @@
                 </li>
                 <li>
                     <a ng-class="{'themeTabActive':currentTab=='7'}" ng-click="currentTab='7';TabClickLoad(currentTab)">
-                        <i class="fas fa-notes-medical"></i>Profile Documents
+                        <i class="fa fa-user"></i>Profile Documents
+                    </a>
+                </li>
+                <li>
+                    <a ng-class="{'themeTabActive':currentTab=='8'}" ng-click="currentTab='8';TabClickLoad(currentTab)">
+                        <i class="fas fa-history"></i>Eligibility Logs
                     </a>
                 </li>
             </ul>
@@ -169,9 +174,9 @@
                                                     <span>{{Createdby_ShortName}}</span>
                                                 </div>
                                                 <!--<div class="inputGroups" style="max-width: 150px; word-wrap: break-word;">
-                                                    <label> National ID</label>
-                                                    <span> {{NationalId}}</span>
-                                                </div>-->
+                                                <label> National ID</label>
+                                                <span> {{NationalId}}</span>
+                                            </div>-->
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="inputGroups" style="word-break: break-word" ;>
@@ -266,34 +271,34 @@
                                                 </div>
                                             </div>
                                             <!--<div class="col-sm-4">
-                                                <div class="inputGroups">
-                                                    <label>National ID image</label>-->
-                                                    <!--<div ng-if="Patient_Type==2" valign="top" rowspan="6">
-                                 <img class="responsiveProfileImage" src="../../Images/mycortexlogo4.jpg" />
-                            </div>-->
-                                                    <!--<div ng-if="(ViewGender| lowercase)=='male' && (uploadme1 == null||uploadme1=='')&&Nationaluploadview ==true"
-                                                         valign="top" rowspan="6">
-                                                        <img width="200" height="180" class="responsiveProfileImage" src="../../Images/National_Male.png" />
-                                                    </div>
-                                                    <div ng-if="(ViewGender| lowercase)=='female' && (uploadme1 == null||uploadme1=='') && Nationaluploadview ==true">
+                    <div class="inputGroups">
+                        <label>National ID image</label>-->
+                                            <!--<div ng-if="Patient_Type==2" valign="top" rowspan="6">
+                     <img class="responsiveProfileImage" src="../../Images/mycortexlogo4.jpg" />
+                </div>-->
+                                            <!--<div ng-if="(ViewGender| lowercase)=='male' && (uploadme1 == null||uploadme1=='')&&Nationaluploadview ==true"
+                     valign="top" rowspan="6">
+                    <img width="200" height="180" class="responsiveProfileImage" src="../../Images/National_Male.png" />
+                </div>
+                <div ng-if="(ViewGender| lowercase)=='female' && (uploadme1 == null||uploadme1=='') && Nationaluploadview ==true">
 
-                                                        <img width="280" height="180" class="responsiveProfileImage" src="../../Images/National_Female.png" />
-                                                    </div>
-                                                    <div ng-if="((ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male') && (uploadme1 == null || uploadme1=='' || uploadme1 == 'null') && Nationaluploadview ==true"
-                                                         valign="top" rowspan="6">-->
-                                                        <!--((ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male')-->
-                                                        <!--<img width="280" height="180" class="responsiveProfileImage" src="../../Images/National_Male.png" />
-                                                    </div>
-                                                    <div ng-if="(uploadme1!=null)&&Nationaluploadview ==true" valign="top" rowspan="6">
-                                                        <img width="280" height="180" class="responsiveProfileImage" ng-src="{{uploadme1}}" />
-                                                    </div>-->
-                                                    <!--<a href="javascript:" ng-show="PageParameter==0" ng-click="Active_PatientApproval()"
-                           class="btn btn-autosize" title="Click to Approve the Patient">Approve</a>
+                    <img width="280" height="180" class="responsiveProfileImage" src="../../Images/National_Female.png" />
+                </div>
+                <div ng-if="((ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male') && (uploadme1 == null || uploadme1=='' || uploadme1 == 'null') && Nationaluploadview ==true"
+                     valign="top" rowspan="6">-->
+                                            <!--((ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male')-->
+                                            <!--<img width="280" height="180" class="responsiveProfileImage" src="../../Images/National_Male.png" />
+                </div>
+                <div ng-if="(uploadme1!=null)&&Nationaluploadview ==true" valign="top" rowspan="6">
+                    <img width="280" height="180" class="responsiveProfileImage" ng-src="{{uploadme1}}" />
+                </div>-->
+                                            <!--<a href="javascript:" ng-show="PageParameter==0" ng-click="Active_PatientApproval()"
+                   class="btn btn-autosize" title="Click to Approve the Patient">Approve</a>
 
-                        <a href="javascript:" ng-show="PageParameter==0" ng-click="MoreInfoPopup()"
-                           class="btn btn-autosize" title="Click to enter the More Informations">More Information Required</a>-->
-                                                <!--</div>
-                                            </div>-->
+                <a href="javascript:" ng-show="PageParameter==0" ng-click="MoreInfoPopup()"
+                   class="btn btn-autosize" title="Click to enter the More Informations">More Information Required</a>-->
+                                            <!--</div>
+                </div>-->
                                         </div>
                                     </div>
                                 </div>
@@ -329,11 +334,11 @@
                                                         </span>
                                                     </div>
                                                     <!--<div class="inputGroups">
-                                                        <label>UID</label>
-                                                        <span>
-                                                            {{UID}}
-                                                        </span>
-                                                    </div>-->
+                            <label>UID</label>
+                            <span>
+                                {{UID}}
+                            </span>
+                        </div>-->
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="inputGroups">
@@ -379,31 +384,30 @@
                                                         </button>
                                                     </div>
                                                     <!--<div class="inputGroups">
-                                                        <div class="inputGroups">
-                                                            <label>UID image</label>
-                                                            <div ng-if="(ViewGender| lowercase)=='male' && (uploadme3 == null||uploadme3=='')&&UIDuploadview ==true"
-                                                                 valign="top" rowspan="6">
-                                                                <img width="200" height="180" class="responsiveProfileImage" src="../../Images/National_Male.png" />
-                                                            </div>
-                                                            <div ng-if="(ViewGender| lowercase)=='female' && (uploadme3 == null||uploadme3=='') && UIDuploadview ==true">
-                                                                <img width="280" height="180" class="responsiveProfileImage" src="../../Images/National_Female.png" />
-                                                            </div>
-                                                            <div ng-if="((ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male') && (uploadme3 == null || uploadme3=='' || uploadme3 == 'null') && UIDuploadview ==true"
-                                                                 valign="top" rowspan="6">
-                                                                <img width="280" height="180" class="responsiveProfileImage" src="../../Images/National_Male.png" />
-                                                            </div>
-                                                            <div ng-if="(uploadme3!=null)&&UIDuploadview ==true" valign="top" rowspan="6">
-                                                                <img width="280" height="180" class="responsiveProfileImage" ng-src="{{uploadme3}}" />
-                                                            </div>
-                                                        </div>
-                                                    </div>-->
+                            <div class="inputGroups">
+                                <label>UID image</label>
+                                <div ng-if="(ViewGender| lowercase)=='male' && (uploadme3 == null||uploadme3=='')&&UIDuploadview ==true"
+                                     valign="top" rowspan="6">
+                                    <img width="200" height="180" class="responsiveProfileImage" src="../../Images/National_Male.png" />
+                                </div>
+                                <div ng-if="(ViewGender| lowercase)=='female' && (uploadme3 == null||uploadme3=='') && UIDuploadview ==true">
+                                    <img width="280" height="180" class="responsiveProfileImage" src="../../Images/National_Female.png" />
+                                </div>
+                                <div ng-if="((ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male') && (uploadme3 == null || uploadme3=='' || uploadme3 == 'null') && UIDuploadview ==true"
+                                     valign="top" rowspan="6">
+                                    <img width="280" height="180" class="responsiveProfileImage" src="../../Images/National_Male.png" />
+                                </div>
+                                <div ng-if="(uploadme3!=null)&&UIDuploadview ==true" valign="top" rowspan="6">
+                                    <img width="280" height="180" class="responsiveProfileImage" ng-src="{{uploadme3}}" />
+                                </div>
+                            </div>
+                        </div>-->
                                                 </div>
                                             </div>
 
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="panel panel-default bt-0 m-0 b-0 bs-0" ng-show="currentTab=='3'">
                                     <!--<div class="panel-heading containeralign" style="text-align: left;">
             <h4 class="panel-title">
@@ -455,8 +459,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                                 <div class="panel panel-default bt-0 m-0 b-0 bs-0" ng-show="currentTab=='4'">
                                     <!--<div class="panel-heading containeralign" style="text-align: left;">
             <h4 class="panel-title">
@@ -737,7 +739,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="panel panel-default bt-0 m-0 b-0 bs-0" ng-show="currentTab=='6'">
                                     <div id="collapse11" class="panel-collapse">
                                         <div class="panel-body">
@@ -769,19 +770,19 @@
                                                         <label>Plan Name</label>
                                                         <span>{{PlanName}}</span>
                                                     </div>
-                                                    <div class="inputGroups">
+                                                    <!--<div class="inputGroups">
                                                         <button type="button" class="theme-btn-1" title="Click to Eligibility"
                                                                 ng-click="EligibilityPopup();">
                                                             Eligibility
                                                         </button>
-                                                    </div>
+                                                    </div>-->
                                                 </div>
                                                 <div class="col-sm-4" style="margin-left: -15px;">
                                                     <div class="inputGroups">
                                                         <label>{{Id3}} Image</label>
                                                         <!--<div ng-if="Patient_Type==2" valign="top" rowspan="6">
-                                 <img class="responsiveProfileImage" src="../../Images/mycortexlogo4.jpg" />
-                            </div>-->
+                                                             <img class="responsiveProfileImage" src="../../Images/mycortexlogo4.jpg" />
+                                                        </div>-->
                                                         <div ng-if="(ViewGender| lowercase)=='male' && (uploadme2 == null||uploadme2=='')&&Insuranceuploadview ==true"
                                                              valign="top" rowspan="6">
                                                             <img width="280" height="180" class="responsiveProfileImage" src="../../Images/National_Male.png" />
@@ -798,10 +799,10 @@
                                                             <img width="280" height="180" class="responsiveProfileImage" ng-src="{{uploadme2}}" />
                                                         </div>
                                                         <!--<a href="javascript:" ng-show="PageParameter==0" ng-click="Active_PatientApproval()"
-                               class="btn btn-autosize" title="Click to Approve the Patient">Approve</a>
+                                                            class="btn btn-autosize" title="Click to Approve the Patient">Approve</a>
 
-                            <a href="javascript:" ng-show="PageParameter==0" ng-click="MoreInfoPopup()"
-                               class="btn btn-autosize" title="Click to enter the More Informations">More Information Required</a>-->
+                                                        <a href="javascript:" ng-show="PageParameter==0" ng-click="MoreInfoPopup()"
+                                                            class="btn btn-autosize" title="Click to enter the More Informations">More Information Required</a>-->
                                                     </div>
                                                 </div>
                                             </div>
@@ -874,6 +875,128 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default bt-0 m-0 b-0 bs-0" ng-show="currentTab=='8'">
+                                    <div id="collapse11" class="panel-collapse" ng-init="Eligibility_Logs_List();">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="row">
+                                                        <div class="col-sm-2">
+                                                            <div class="inputGroups">
+                                                                <label class="sub-title">
+                                                                    Start Date<sup>
+                                                                        <font class='mandatory-field'>*</font>
+                                                                    </sup>
+                                                                </label>
+                                                                <input id="SearchDate" class="form-control" type="date" ng-model="SearchDate" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <div class="inputGroups">
+                                                                <label class="sub-title">
+                                                                    End Date<sup>
+                                                                        <font class='mandatory-field'>*</font>
+                                                                    </sup>
+                                                                </label>
+                                                                <input id="SearchEndDate" class="form-control" type="date" ng-model="SearchEndDate" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <div class="inputGroups">
+                                                                <label class="sub-title">Eligibility Status Filter </label>
+                                                                <select class="form-control" ng-model="Paymentsearch" id="ddlsearchfield" ng-required="true">
+                                                                    <option value="">Select</option>
+                                                                    <option value="1">PENDING</option>
+                                                                    <option value="2">ERROR</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-1" style="margin-top: 0.5%; width: 6%">
+                                                            <div class="inputGroups">
+                                                                <label>&nbsp;</label>
+                                                                <a href="javascript:" title="Filter" class="theme-btn-1" ng-click="Eligibility_Logs_Filters();">Filter</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-1" style="margin-top: 0.5%; width: 5%">
+                                                            <div class="inputGroups">
+                                                                <label>&nbsp;</label>
+                                                                <a href="javascript:" title="Filter" class="theme-btn-1" ng-click="Eligibility_Logs_List();">Reset</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <table st-table="emptydata" style="width: 100%; margin-top: 0.5%; " st-safe-src="rowCollectionFilter"
+                                                               class="table themeTable">
+                                                            <thead>
+                                                                <tr style="text-align: center">
+                                                                    <th st-ratio="3">#</th>
+                                                                    <th st-ratio="5" st-sort="LONGITUDE">Appointment ID</th>
+                                                                    <th st-ratio="5" st-sort="FULLNAME">Eligibility ID</th>
+                                                                    <th st-ratio="6" st-sort="REGIONNAME">Patient Name</th>
+                                                                    <th st-ratio="7" st-sort="LOGINTIME">Clinician Name</th>
+                                                                    <th st-ratio="8" st-sort="LOGOUTTIME">Clinician Speciality</th>
+                                                                    <th st-ratio="11" st-sort="LOGIN_COUNTRY">ID Payer</th>
+                                                                    <th st-ratio="11" st-sort="LOGIN_CITY">Denial Reason</th>
+                                                                    <th st-ratio="3" st-sort="LATITUDE">Eligibility Status</th>
+                                                                    <th st-ratio="5" st-sort="STATUS">Payer Name</th>
+                                                                    <!--<th st-ratio="13" st-sort="FAILURE_REASON">Rquested By</th>-->
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-if="flag==0 && rowCollectionFilter.length==0">
+                                                                    <td colspan="11" style="text-align: center">
+                                                                        {{SearchMsg}}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr ng-repeat="row in emptydata">
+                                                                    <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+                                                                    <td>
+                                                                        {{row.Appointment_ID}}
+                                                                    </td>
+                                                                    <td >
+                                                                        {{row.Eligibility_ID}}
+                                                                    </td>
+                                                                    <td>
+                                                                        {{row.Patient_Name}}
+                                                                    </td>
+                                                                    <td >
+                                                                        {{row.Clinician_Name}}
+                                                                    </td>
+                                                                    <td >
+                                                                        {{row.Clinician_Speciality}}
+                                                                    </td>
+                                                                    <td>
+                                                                        {{row.ID_Payer}}
+                                                                    </td>
+                                                                    <td>
+                                                                        {{row.Denial_Reason}}
+                                                                    </td>
+                                                                    <td>
+                                                                        {{row.Eligibility_Status}}
+                                                                    </td>
+                                                                    <td>
+                                                                        {{row.Payer_Name}}
+                                                                    </td>
+                                                                    <!--<td>
+                                                                        {{row.Patient_Name}}
+                                                                    </td>-->
+                                                                </tr>
+                                                            </tbody>
+                                                            <tfoot ng-show="UserDetailsList.length >10">
+                                                                <tr>
+                                                                    <td colspan="11" class="text-center">
+                                                                        <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                                                                             st-template="Masters/Views/pagination.custom.html"></div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tfoot>
+                                                        </table>
                                                     </div>
                                                 </div>
                                             </div>

@@ -1815,15 +1815,13 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                                 if (response_data.data != null) {
                                                     result = response_data.data.eligibilityCheck.result;
                                                     $scope.eligibility_response = response_data.data;
-                                                    if (result === true) {
-                                                        $('#shown').attr("disabled", false);
-                                                    } else {
-                                                        toastr.warning("Request for eligibility failed, appointment could not be created...", "warning");
-                                                    }
+                                                    $('#shown').attr("disabled", false);
+                                                } else {
+                                                    toastr.warning("Request for eligibility failed, appointment could not be created...", "warning");
                                                 }
                                             }
                                         });
-                                    }, 8000);
+                                    }, 10000);
                                 } else if (data.status == -3 || data.status == -1) {
                                     toastr.warning(data.errors[0], "warning");
                                 }
@@ -1869,6 +1867,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             "Payer_ID": eligibility_response.eligibilityCheck.payer.payerId,
                             "Payer_Name": eligibility_response.eligibilityCheck.payer.payerName,
                             "Requested_By": user_id,
+                            "Institution_Id": $window.localStorage['InstitutionId']
                         }
                         $http.post(baseUrl + '/api/User/Save_User_Appointment_Eligibility/?appointment_id=' + appointment_id + '&patient_id=' + user_id + '&eligibility_id=' + eligibilityId, Obj).success(function (data) {
                             $("#chatLoaderPV").hide();

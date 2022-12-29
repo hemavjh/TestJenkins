@@ -578,7 +578,7 @@ namespace MyCortex.Admin.Controllers
                 req.ContentType = "application/json";
                 req.Accept = "*/*";
                 //req.Headers["Connection"] = "keep-alive";
-                req.Headers["Accept-Encoding"] = "gzip, deflate, br";
+                //req.Headers["Accept-Encoding"] = "gzip, deflate, br";
                 req.Headers["Content-Language"] = "en";
                 req.Headers["Authorization"] = "c2d0928a-7463-428d-bd12-72fda8757089";
                 string strJPostData = JsonConvert.SerializeObject(re, Newtonsoft.Json.Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
@@ -614,7 +614,7 @@ namespace MyCortex.Admin.Controllers
             req.ContentType = "application/json";
             req.Accept = "*/*";
             //req.Headers["Connection"] = "keep-alive";
-            req.Headers["Accept-Encoding"] = "gzip, deflate, br";
+            //req.Headers["Accept-Encoding"] = "gzip, deflate, br";
             req.Headers["Content-Language"] = "en";
             req.Headers["Authorization"] = "c2d0928a-7463-428d-bd12-72fda8757089";
 
