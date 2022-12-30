@@ -2423,8 +2423,13 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             $sel2.multiselect('disable');
             var $sel3 = $('#CCCG');
             $sel3.multiselect('disable');
+            var today = moment(new Date()).format('YYYY-MM-DD');
             document.getElementById("FromDate").disabled = true;
-            document.getElementById("ToDate").disabled = false;
+            if (document.getElementById("ToDate").value < today) {
+                document.getElementById("ToDate").disabled = true;
+            } else {
+                document.getElementById("ToDate").disabled = false;
+            }
             $("#doctorlist").attr("disabled", true);
             //$("#CCCG").attr("disabled", true);
             $("#MondayId").attr("disabled", true);            
