@@ -785,7 +785,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.PatientType = data.Patient_Type;
                     $scope.showUserType = data.UserType;
                     $scope.PhotoBlobs = data.PhotoBlobs;
-                    $scope.countrycode = data.MOBILE_NO.split('~')[0];
+                    $scope.countrycode = '+971';
+                    if (data.MOBILE_NO.split('~')[0] != "")
+                        $scope.countrycode = data.MOBILE_NO.split('~')[0];
                     methodcnt = methodcnt - 1;
 
                     $scope.bookcc = 0;
