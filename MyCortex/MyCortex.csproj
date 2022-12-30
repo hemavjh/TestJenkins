@@ -243,6 +243,7 @@
     <Content Include="Admin\Views\DoctorProfile.html" />
     <Content Include="Admin\Views\EncryptDecrypt.html" />
     <Content Include="Admin\Views\ForgotPassword.html" />
+    <Content Include="Admin\Views\HospitalAdmin_Eligibility_Logs.html" />
     <Content Include="Admin\Views\HospitalAdmin_Userslog.html" />
     <Content Include="Admin\Views\ICD10Master.html" />
     <Content Include="Admin\Views\InstitutionDetails.html" />
@@ -564,6 +565,7 @@
     <Content Include="scripts\app\DoctorProfileController.js" />
     <Content Include="scripts\app\DoctorShiftController.js" />
     <Content Include="scripts\app\DrugDBController.js" />
+    <Content Include="scripts\app\EligibilityLogsController.js" />
     <Content Include="scripts\app\EmailAlertlistController.js" />
     <Content Include="scripts\app\EmailConfigurationController.js" />
     <Content Include="scripts\app\EmailHistoryController.js" />
@@ -1349,6 +1351,7 @@
     <Content Include="scripts\Service.js" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin\Controllers\EligibilityLogsController.cs" />
     <Compile Include="Admin\Controllers\InstitutionController.cs" />
     <Compile Include="Admin\Controllers\InstitutionSubscriptionController.cs" />
     <Compile Include="Admin\Controllers\PayByController.cs" />

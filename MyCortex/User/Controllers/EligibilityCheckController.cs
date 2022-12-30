@@ -97,7 +97,8 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.NotAcceptable);
+                return Request.CreateResponse(HttpStatusCode.OK, ex);
+               // return Request.CreateResponse(HttpStatusCode.NotAcceptable);
             }
             return Request.CreateResponse(HttpStatusCode.OK, objResponse);
         }
