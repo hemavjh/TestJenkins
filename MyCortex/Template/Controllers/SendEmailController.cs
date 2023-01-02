@@ -170,7 +170,7 @@ namespace MyCortex.Template.Controllers
                     itemData.Email_Body = model1.Email_Body;
                     itemData.Email_Body = model1.Email_Body.Replace("<p>", "").Replace("</p>", "")
                      .Replace("<br>", "").Replace("<br /> ", "").Replace("</p> ", "\n<p ").Replace("&nbsp;", " ").Replace("\n", " ");
-                    if (model1.Email_Body1!="")
+                    if (model1.Email_Body1!="") // password with * changed text will be stored in DB.
                     { 
                         itemData.Email_Body1 = model1.Email_Body1;
                         itemData.Email_Body1 = model1.Email_Body1.Replace("<p>", "").Replace("</p>", "")

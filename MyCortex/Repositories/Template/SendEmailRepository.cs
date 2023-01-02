@@ -355,7 +355,7 @@ namespace MyCortex.Repositories.Template
                             TagsReplaceData = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
                                  TagsReplaceData1 = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
                         }
-                        else if (TagName== "{ Password }")
+                        else if (TagName== "{ Password }" || TagName == "{Password}")
                         {
                             string convertedString = new string('*', dtRow[FieldName].ToString().Length);
                             TagsReplaceData1 = convertedString;
