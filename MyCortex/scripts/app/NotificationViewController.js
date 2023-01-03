@@ -300,8 +300,9 @@ NotificationView.controller("NotificationViewController", ['$scope', '$http', '$
                 });
             };
             $scope.PatientNotification = function () {
-                $scope.SelectedPatientId = $window.localStorage['UserId'];
-                if ($window.localStorage['UserTypeId'] == 2 || $window.localStorage['UserTypeId'] == 4 || $window.localStorage['UserTypeId'] == 5 || $window.localStorage['UserTypeId'] == 6 || $window.localStorage['UserTypeId'] == 7) {
+                $scope.SelectedPatientId = $window.localStorage['UserId']; 
+                //|| $window.localStorage['UserTypeId'] == 4
+                if ($window.localStorage['UserTypeId'] == 2  || $window.localStorage['UserTypeId'] == 5 || $window.localStorage['UserTypeId'] == 6 || $window.localStorage['UserTypeId'] == 7) {
                     $("#chatLoaderPV").show();
                     $scope.ProtocolDetails_View();
                     $scope.PatientGroupNameList();
