@@ -3160,6 +3160,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.Eligibility_Logs_Filters = function () {
             var sDate = new Date($scope.SearchDate).getFullYear().toString() + '-' + (((new Date($scope.SearchDate).getMonth() + 1).toString().length > 1) ? (new Date($scope.SearchDate).getMonth() + 1).toString() : ('0' + (new Date($scope.SearchDate).getMonth() + 1).toString())) + '-' + ((new Date($scope.SearchDate).getDate().toString().length > 1) ? new Date($scope.SearchDate).getDate().toString() : ('0' + new Date($scope.SearchDate).getDate().toString()))
             var eDate = new Date($scope.SearchEndDate).getFullYear().toString() + '-' + (((new Date($scope.SearchEndDate).getMonth() + 1).toString().length > 1) ? (new Date($scope.SearchEndDate).getMonth() + 1).toString() : ('0' + (new Date($scope.SearchEndDate).getMonth() + 1).toString())) + '-' + ((new Date($scope.SearchEndDate).getDate().toString().length > 1) ? new Date($scope.SearchEndDate).getDate().toString() : ('0' + new Date($scope.SearchEndDate).getDate().toString()))
+            if (sDate > eDate) {
+                toastr.warning("Start Date should be Lesser than End date", "warning");
+                return false;
+            }
             $scope.Eligibility_Status = $('#ddlsearchfield').val();
             if ($scope.Eligibility_Status == 0) {
                 toastr.warning("Please Select Eligibility Status", "warning");
