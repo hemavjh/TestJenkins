@@ -29,12 +29,12 @@ EmailConfigurationcontroller.controller("EmailConfigurationController", ['$scope
                 toastr.warning("Please enter Sender Email ID", "warning");
                 return false;
             }
-            else if (typeof ($scope.UserName) == "undefined" || $scope.UserName == "") {
+            else if (typeof ($scope.U_Name) == "undefined" || $scope.U_Name == "") {
                 //alert("Please enter User Name");
                 toastr.warning("Please enter User Name", "warning");
                 return false;
             }
-            else if (typeof ($scope.Password) == "undefined" || $scope.Password == "") {
+            else if (typeof ($scope.P_word) == "undefined" || $scope.P_word == "") {
                 //alert("Please enter Password");
                 toastr.warning("Please enter Password", "warning");
                 return false;
@@ -92,8 +92,8 @@ EmailConfigurationcontroller.controller("EmailConfigurationController", ['$scope
 
         $scope.Id = 0;
         $scope.Sender_Email_Id = "";
-        $scope.UserName = "";
-        $scope.Password = "";
+        $scope.U_Name = "";
+        $scope.P_word = "";
         $scope.ServerName = "";
         $scope.PortNo = "";
         $scope.DisplayName = "";
@@ -123,8 +123,8 @@ EmailConfigurationcontroller.controller("EmailConfigurationController", ['$scope
                     Id: $scope.Id,
                     Institution_Id: $window.localStorage['InstitutionId'],
                     Sender_Email_Id: $scope.Sender_Email_Id,
-                    UserName: $scope.UserName,
-                    Password: $scope.Password,
+                    UserName: $scope.User_Name,
+                    Password: $scope.P_word,
                     ServerName: $scope.ServerName,
                     PortNo: $scope.PortNo,
                     DisplayName: $scope.DisplayName,
@@ -155,8 +155,8 @@ EmailConfigurationcontroller.controller("EmailConfigurationController", ['$scope
                         $scope.Id = data.Id;
                         $scope.Insitution_Name = data.Institution_Name;
                         $scope.Sender_Email_Id = data.Sender_Email_Id;
-                        $scope.UserName = data.UserName;
-                        $scope.Password = data.Password;
+                        $scope.U_Name = data.UserName;
+                        $scope.P_word = data.Password;
                         $scope.ServerName = data.ServerName;
                         $scope.PortNo = data.PortNo;
                         $scope.DisplayName = data.DisplayName;
@@ -176,8 +176,8 @@ EmailConfigurationcontroller.controller("EmailConfigurationController", ['$scope
         $scope.ClearFields = function () {
             $scope.Id = 0;
             $scope.Sender_Email_Id = "";
-            $scope.UserName = "";
-            $scope.Password = "";
+            $scope.U_Name = "";
+            $scope.P_word = "";
             $scope.ServerName = "";
             $scope.PortNo = "";
             $scope.DisplayName = "";
@@ -208,8 +208,8 @@ EmailConfigurationcontroller.controller("EmailConfigurationController", ['$scope
                     Id: $scope.Id,
                     Institution_Id: $window.localStorage['InstitutionId'],
                     Sender_Email_Id: $scope.Sender_Email_Id,
-                    UserName: $scope.UserName,
-                    Password: $scope.Password,
+                    UserName: $scope.U_Name,
+                    Password: $scope.P_word,
                     ServerName: $scope.ServerName,
                     PortNo: $scope.PortNo,
                     DisplayName: $scope.DisplayName,

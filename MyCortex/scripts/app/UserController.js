@@ -4642,6 +4642,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $('#patientrowid').prop('disabled', true);
                         $("#chatLoaderPV").hide();
                         inputPhoneNo.setNumber(mNumberCC);
+                        //$scope.inputPhoneNo1 = inputPhoneNo;
+                        document.getElementById("txthdCountryCode").value = countrycode;
                         document.getElementById('txthdFullNumber').value = mNumberCC;
                     }
                 });
