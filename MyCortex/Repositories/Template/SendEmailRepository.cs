@@ -383,6 +383,10 @@ namespace MyCortex.Repositories.Template
                             //Template = Template.Replace("<p>", "");
                             //Template = Template.Replace("</p>", "");
                             //}
+                            if(Template1=="")
+                            {
+                                Template1 = Template;
+                            }
                     }
                 }
               }
