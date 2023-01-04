@@ -4026,6 +4026,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.EditPatientChronicCondition = 0;
             $scope.EditPatientChronic = function () {
                 $scope.EditPatientChronicCondition = 1;
+                $http.get(baseUrl + '/api/Common/ChronicConditionList/').success(function (resp_cc_data) {
+                    $scope.ChronicConditionList = resp_cc_data;
+                });
             }
             $scope.EditPatientGroupId = 0;
             $scope.GroupTypeList = [];
