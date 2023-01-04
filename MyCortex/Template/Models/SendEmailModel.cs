@@ -13,6 +13,7 @@ namespace MyCortex.Template.Models
         public long TemplateType_Id { get; set; }
         public long UserId { get; set; }
         public string Email_Body { get; set; }
+        public string Email_Body1 { get; set; } // this is for password tag convert to *       
         public string Email_Subject { get; set; }
         public int EMAIL_STATUS { get; set; }
         public string EMAIL_ERROR_REASON { get; set; }

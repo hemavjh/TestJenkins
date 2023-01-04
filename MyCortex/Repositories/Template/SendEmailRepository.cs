@@ -181,7 +181,8 @@ namespace MyCortex.Repositories.Template
                 param.Add(new DataParameter("@INSTITUTION_ID", obj.Institution_Id));
                 param.Add(new DataParameter("@TEMPLATE_ID", obj.Template_Id));
                 param.Add(new DataParameter("@USER_ID", obj.UserId));
-                param.Add(new DataParameter("@EMAIL_BODY", obj.Email_Body));
+                param.Add(new DataParameter("@EMAIL_BODY", obj.Email_Body1));
+                param.Add(new DataParameter("@EMAIL_BODY_CLONE", obj.Email_Body));
                 param.Add(new DataParameter("@EMAIL_SUBJECT", obj.Email_Subject));
                 param.Add(new DataParameter("@API_RETURN_ID", obj.ResponseId));
                 param.Add(new DataParameter("@CREATED_BY", obj.Created_By));
@@ -259,10 +260,13 @@ namespace MyCortex.Repositories.Template
         public SendEmailModel GenerateTemplate(long Id, long Template_Id, long Institution_Id, long TemplateType_Id)
         {
             string Template = "";
+            string Template1 = "";
             string TagName = "";
             string FieldName = "";
             string TagsReplaceData = "";
+            string TagsReplaceData1 = "";
             string FinalResult = "";
+            string FinalResult1= "";
             string EmailSubject = "";
             string GeneralTemplate = "";
             int EncryptFlag;
@@ -284,6 +288,7 @@ namespace MyCortex.Repositories.Template
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TEMPLATE_BASED_EMAILBODY]", param);
             DataRow dr = dt.Rows[0];
             Template = dr["EMAILTEMPLATE"].ToString();
+            Template1 = dr["EMAILTEMPLATE"].ToString();
             EmailSubject = dr["EMAILSUBJECT"].ToString();
 
             //Get the Section Group Details
@@ -317,49 +322,67 @@ namespace MyCortex.Repositories.Template
                     foreach (DataRow dtRow1 in dt2.Rows)
                     {
                         FinalResult = Template;
-                        TagName = dtRow1["TagsName"].ToString();
+                            FinalResult1 = Template1;
+                            TagName = dtRow1["TagsName"].ToString();
                         FieldName = dtRow1["FieldName"].ToString();
                         EncryptFlag = int.Parse(dtRow1["ENCRYPT_FLAG"].ToString());
                         //TagsReplaceData = dtRow[FieldName].ToString();
                         if (TagName == "{Time}")
                         {
                             TagsReplaceData = Time;
-                        }
+                                TagsReplaceData1 = Time;
+                            }
                         else if(TagName == "{date and time}")
                         {
                              TagsReplaceData = dateandtime;
-                        }
+                                TagsReplaceData1 = dateandtime;
+                            }
                         else if (TagName == "{Login Url}")
                         {
                             URLConvert = dtRow[FieldName].ToString();
                             TagsReplaceData = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
-                            //< a href =\" + URLConvert + " + "#/login </a>"
-                        }
+                                TagsReplaceData1 = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
+                                //< a href =\" + URLConvert + " + "#/login </a>"
+                            }
                         else if (TagName == "{Reset}")
                         {
                             URLConvert = dtRow[FieldName].ToString();
                             TagsReplaceData = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
-                        }
+                                TagsReplaceData1 = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
+                            }
                         else if (TagName == "{Link}")
                         {
                             URLConvert = dtRow[FieldName].ToString();
                             TagsReplaceData = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
+                                 TagsReplaceData1 = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
+                        }
+                        else if (TagName== "{ Password }" || TagName == "{Password}")
+                        {
+                            string convertedString = new string('*', dtRow[FieldName].ToString().Length);
+                            TagsReplaceData1 = convertedString;
+                            TagsReplaceData = dtRow[FieldName].ToString();
                         }
                         else
                         {
                             TagsReplaceData = dtRow[FieldName].ToString();
-                        }
+                                TagsReplaceData1 = dtRow[FieldName].ToString();
+                            }
                         //if (EncryptFlag == 1)
                         //{
                         //    TagsReplaceData = DecryptFields.Decrypt(TagsReplaceData);
                         //}
                         Template = FinalResult.Replace(TagName, TagsReplaceData);
                         Template = Template.Replace(@"<p>", @"").Replace(@"</p>", @"");
-                        //if (TemplateType_Id == 3)
+                        //if (TagsReplaceData1 != "")
                         //{
-                        //Template = Template.Replace("<p>", "");
-                        //Template = Template.Replace("</p>", "");
+                            Template1 = FinalResult1.Replace(TagName, TagsReplaceData1);                           
                         //}
+                        Template1 = Template1.Replace(@"<p>", @"").Replace(@"</p>", @"");
+                            //if (TemplateType_Id == 3)
+                            //{
+                            //Template = Template.Replace("<p>", "");
+                            //Template = Template.Replace("</p>", "");
+                            //}
                     }
                 }
               }
@@ -368,7 +391,8 @@ namespace MyCortex.Repositories.Template
             {
                 Id = Id,
                 Email_Body = Template,
-                Email_Subject = EmailSubject
+                Email_Subject = EmailSubject,
+                Email_Body1=Template1
             };
         }
         /// <summary>
