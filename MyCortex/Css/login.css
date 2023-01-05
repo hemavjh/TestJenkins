@@ -73,7 +73,7 @@ body {
     min-height: calc(115vh - 125px);
     padding-bottom: 30px;
     /* margin-top: 75px; */
-    background-image: url(../images/MyHealthLoginBg.jpg);
+    background-image: url(../images/MyHealthLoginBg.png);
     background-size: cover;
 }
 .loginBgHiv {
