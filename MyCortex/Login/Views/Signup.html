@@ -25,10 +25,11 @@
 </script>
 <script>
     var input = document.querySelector("#txtMobile");
-    var inputPhoneNo = window.intlTelInput(input, {
+    var inputPhoneNo1 = window.intlTelInput(input, {
         formatOnDisplay: true,
         separateDialCode: true,
-        onlyCountries: ['AE'],
+        initialCountry: "AE",
+        // onlyCountries: ['AE'],
         geoIpLookup: function (callback) {
             $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
                 var countryCode = (resp && resp.country) ? resp.country : "";
@@ -38,45 +39,22 @@
         //preferredCountries: ["in"],
         utilsScript: "scripts/utils.js",
     });
-    inputPhoneNo.setCountry('AE');
-    inputPhoneNo.setNumber("50 123 4567");
+    //inputPhoneNo.setCountry('AE');
+    //inputPhoneNo.setNumber("50 123 4567");
 
     function txtPhoneChange() {
-        //alert("event fired");
-        //var phoneNo = document.getElementById("txtPhone");
-
-        //var txtiso2 = document.getElementById("txthdCountryiso2").value;
-        //alert(txtiso2);
-
-
-        const PhoneNumber = inputPhoneNo.getNumber();
-        //alert(PhoneNumber);
-
-        var countryData = inputPhoneNo.getSelectedCountryData();
+        const PhoneNumber = inputPhoneNo1.getNumber();
+        var countryData = inputPhoneNo1.getSelectedCountryData();
         var countryCode = countryData.dialCode; // using updated doc, code has been replaced with dialCode
         var iso2 = countryData.iso2;
         countryCode = "+" + countryCode;
-        //alert(countryCode);
-        //alert(iso2);
-
         var number = document.getElementById("txtMobile").value;
-        //alert(number);
-        //alert(countryCode +"-" + number);
-
         document.getElementById("txthdCountryiso2").value = iso2;
         document.getElementById("txthdCountryCode").value = countryCode;
-        //document.getElementById("txthdFullNumber").value = PhoneNumber;
         document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
-
-        //var txtiso2 = document.getElementById("txthdCountryiso2").value;
-        //alert(txt);
-
         if (PhoneNumber != "") {
-            var isValidNum = inputPhoneNo.isValidNumber();
-            //alert(isValidNum);
+            var isValidNum = inputPhoneNo1.isValidNumber();            
             if (!isValidNum) {
-                //toastr.error("Phone Number Invalid", "warning");
-                //alert("Phone number invalid");
                 swal.fire("Phone number invalid");
                 document.getElementById("txthdFullNumber").value = "";
             }
@@ -84,16 +62,16 @@
                 document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
             }
         }
-
-        //inputPhoneNo.setCountry(txtiso2);
     }
+    
 </script>
 <script>
     var input = document.querySelector("#txtMobile1");
     var inputPhoneNo = window.intlTelInput(input, {
         formatOnDisplay: true,
         separateDialCode: true,
-        onlyCountries: ['AE'],
+        initialCountry: "AE",
+       // onlyCountries: ['AE'],
         geoIpLookup: function (callback) {
             $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
                 var countryCode = (resp && resp.country) ? resp.country : "";
@@ -103,10 +81,10 @@
         //preferredCountries: ["in"],
         utilsScript: "scripts/utils.js",
     });
-    inputPhoneNo.setCountry('AE');
-    inputPhoneNo.setNumber("50 123 4567");
+    //inputPhoneNo.setCountry('AE');
+    //inputPhoneNo.setNumber("50 123 4567");
 
-    function txtPhoneChange() {
+    function txtPhoneChange1() {
         //alert("event fired");
         //var phoneNo = document.getElementById("txtPhone");
 
@@ -118,13 +96,14 @@
         //alert(PhoneNumber);
 
         var countryData = inputPhoneNo.getSelectedCountryData();
+        
         var countryCode = countryData.dialCode; // using updated doc, code has been replaced with dialCode
         var iso2 = countryData.iso2;
         countryCode = "+" + countryCode;
         //alert(countryCode);
         //alert(iso2);
 
-        var number = document.getElementById("txtMobile").value;
+        var number = document.getElementById("txtMobile1").value;
         //alert(number);
         //alert(countryCode +"-" + number);
 
@@ -348,7 +327,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6">   
                 <div class="inputGroups">
                     <label for="email">{{email}}<sup><font class='mandatory-field'>*</font></sup></label>
                     <input type="text" class="form-control" id="Text4" name="" ng-model="EmailId" ng-init="EmailId=''"
@@ -442,7 +421,7 @@
                 <div class="inputGroups">
                     <label for="email">{{mobilenumber}}<sup><font class='mandatory-field'>*</font></sup></label>
                     <input type="text" class="form-control" id="txtMobile1" name="tel"
-                           ng-model="MobileNo" ng-required="true" onblur="txtPhoneChange()" />
+                           ng-model="MobileNo" ng-required="true" onblur="txtPhoneChange1()" />
                 </div>
             </div>
             <div class="col-sm-6" style="margin-left: 1px;">
