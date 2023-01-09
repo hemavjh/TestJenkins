@@ -177,6 +177,10 @@ namespace MyCortex.Repositories.Template
             _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
+                if(obj.Email_Body1==null || obj.Email_Body1 == "")
+                {
+                    obj.Email_Body1 = obj.Email_Body;
+                }
                 param.Add(new DataParameter("@ID", obj.Id));
                 param.Add(new DataParameter("@INSTITUTION_ID", obj.Institution_Id));
                 param.Add(new DataParameter("@TEMPLATE_ID", obj.Template_Id));

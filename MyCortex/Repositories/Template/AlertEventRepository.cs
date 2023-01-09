@@ -10,6 +10,7 @@ using MyCortex.Notification.Models;
 using MyCortex.Repositories;
 using MyCortex.Utilities;
 using MyCortex.User.Model;
+using System.Web.UI;
 
 namespace MyCortex.Repositories.EmailAlert
 {
@@ -26,10 +27,13 @@ namespace MyCortex.Repositories.EmailAlert
         {
             IList<AlertEventModel> AlertEventTemplateModel = new List<AlertEventModel>();
             string Template = "";
+            string Template1 = "";
             string TagName = "";
             string FieldName = "";
             string TagsReplaceData = "";
+            string TagsReplaceData1 = "";
             string FinalResult = "";
+            string FinalResult1 = "";
             string EmailSubject = "";
             int EncryptFlag;
             string Section = "";
@@ -56,6 +60,8 @@ namespace MyCortex.Repositories.EmailAlert
             foreach (DataRow dr in dt.Rows)
             {
                 Template = dr["EMAILTEMPLATE"].ToString();
+                Template1 = dr["EMAILTEMPLATE"].ToString();
+
                 EmailSubject = dr["EMAILSUBJECT"].ToString();
                 TemplateType_Id = long.Parse(dr["TEMPLATETYPE_ID"].ToString());
                 Template_Id = long.Parse(dr["Template_Id"].ToString());
@@ -92,6 +98,8 @@ namespace MyCortex.Repositories.EmailAlert
                         foreach (DataRow dtRow1 in dt2.Rows)
                         {
                             FinalResult = Template;
+                            FinalResult1 = Template1;
+
                             TagName = dtRow1["TagsName"].ToString();
                             FieldName = dtRow1["FieldName"].ToString();
                             EncryptFlag = int.Parse(dtRow1["ENCRYPT_FLAG"].ToString());
@@ -100,12 +108,14 @@ namespace MyCortex.Repositories.EmailAlert
                                 if(TagName == "{Time}")
                                 {
                                     TagsReplaceData = Time;
+                                    TagsReplaceData1 = Time;
                                 }
                                 else if(TagName == "{Login Url}")
                                 {
                                     var URLConvert = "";
                                     URLConvert = dtRow[FieldName].ToString();
                                     TagsReplaceData = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
+                                    TagsReplaceData1 = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
                                     //< a href =\" + URLConvert + " + "#/login </a>"
                                 }
                                 else if (TagName == "{Reset}")
@@ -113,59 +123,42 @@ namespace MyCortex.Repositories.EmailAlert
                                     var URLConvert = "";
                                     URLConvert = dtRow[FieldName].ToString();
                                     TagsReplaceData = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
+                                    TagsReplaceData1 = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
                                 }
                                 else if (TagName == "{Link}")
                                 {
                                     var URLConvert = "";
                                     URLConvert = dtRow[FieldName].ToString();
                                     TagsReplaceData = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
+                                    TagsReplaceData1 = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
+                                }
+                                else if (TagName == "{ Password }" || TagName == "{Password}")
+                                {
+                                    string convertedString = new string('*', dtRow[FieldName].ToString().Length);
+                                    TagsReplaceData1 = convertedString;
+                                    TagsReplaceData = dtRow[FieldName].ToString();
                                 }
                                 else
                                 {
                                     TagsReplaceData = dtRow[FieldName].ToString();
+                                    TagsReplaceData1 = dtRow[FieldName].ToString();
                                 }
                             }
                             else
                             {
 
                             }
-
-                            //if (EncryptFlag == 1)
-                            //{
-                            //    if (TagsReplaceData.Contains(","))
-                            //    {
-                            //        string[] cgList = TagsReplaceData.Split(',');
-                            //        TagsReplaceData = "";
-                            //        foreach ( string cg in cgList)
-                            //        {
-                            //            string cgs = DecryptFields.Decrypt(cg);
-                            //            if (TagsReplaceData == "")
-                            //            {
-                            //                TagsReplaceData = cgs;
-                            //            }
-                            //            else
-                            //            {
-                            //                TagsReplaceData = TagsReplaceData + "," + cgs;
-                            //            }
-                                        
-                            //        }
-                            //    }
-                            //    else
-                            //    {
-                            //        TagsReplaceData = DecryptFields.Decrypt(TagsReplaceData);
-                            //    }
-                            //}
                             Template = FinalResult.Replace(TagName, TagsReplaceData);
-                            //if (TemplateType_Id == 3)
-                            //{
-                                //Template = Template.Replace(@"<p>", @"").Replace(@"</p>", @"");
-                            //}
+                            Template1 = FinalResult1.Replace(TagName, TagsReplaceData1);                           
+                        
                         }
                     }
                     Template = Template.Replace(@"<p>", @"").Replace(@"</p>", @"");
+                    Template1 = Template1.Replace(@"<p>", @"").Replace(@"</p>", @"");
                 }
                 var AlertModel = new AlertEventModel();
                 AlertModel.TempBody = Template;
+                AlertModel.TempBody1 = Template1;
                 AlertModel.TempSubject = EmailSubject;
                 AlertModel.TemplateType_Id = TemplateType_Id;
                 AlertModel.Template_Id = Template_Id;
