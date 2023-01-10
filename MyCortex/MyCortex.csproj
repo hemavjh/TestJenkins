@@ -410,6 +410,7 @@
     <Content Include="Images\MyCortexlogotheme.jpg" />
     <Content Include="Images\MyCortexTransHW.png" />
     <Content Include="Images\MyHealthLoginBg.jpg" />
+    <Content Include="Images\MyHealthLoginBg.png" />
     <Content Include="Images\NatId.png" />
     <Content Include="Images\National_Female.png" />
     <Content Include="Images\National_Male.png" />
