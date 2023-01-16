@@ -97,12 +97,51 @@ namespace MyCortex.User.Controllers
             }
             catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, ex);
-               // return Request.CreateResponse(HttpStatusCode.NotAcceptable);
+               return Request.CreateResponse(HttpStatusCode.NotAcceptable);
             }
             return Request.CreateResponse(HttpStatusCode.OK, objResponse);
         }
 
+        [HttpPost]
+        [Authorize]
+        public HttpResponseMessage CancelEligibilityEequest([FromBody] Newtonsoft.Json.Linq.JObject form)
+        {
+            object objResponse;
+            try
+            {
+                string eligibilityId = Convert.ToString(form["eligibilityId"]);
+                RequestCancelEligibility re = new RequestCancelEligibility();
+                re.eligibilityId = eligibilityId;
+
+                string url = "https://integration.inhealth.ae/api/eligibilitycheck/CancelEligibilityCheckRequest?eligibilityID=" + eligibilityId;
+                HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
+                req.Method = "POST";
+                req.ContentType = "application/json";
+                req.Accept = "*/*";
+                // req.Headers["Connection"] = "keep-alive";
+                // req.Headers["Accept-Encoding"] = "gzip, deflate, br";
+                req.Headers["Content-Language"] = "en";
+                req.Headers["Authorization"] = "c2d0928a-7463-428d-bd12-72fda8757089";
+                string strJPostData = JsonConvert.SerializeObject(re, Newtonsoft.Json.Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                UTF8Encoding encoding = new UTF8Encoding();
+                byte[] post = encoding.GetBytes(strJPostData);
+                req.ContentLength = post.Length;
+                using (Stream writer = req.GetRequestStream())
+                {
+                    writer.Write(post, 0, post.Length);
+                }
+                using (HttpWebResponse res = (HttpWebResponse)req.GetResponse())
+                {
+                    DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(RequestCancelEligibilityResponse));
+                    objResponse = jsonSerializer.ReadObject(res.GetResponseStream());
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotAcceptable);
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, objResponse);
+        }
     }
     
 }

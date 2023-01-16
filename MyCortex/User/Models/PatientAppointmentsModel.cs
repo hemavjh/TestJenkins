@@ -90,6 +90,23 @@ namespace MyCortex.User.Model
         public string PAYMENT_TIME { get; set; }
     }
 
+    public class AppointmentPaymentStatus
+    {
+        public long Appointment_Id { get; set; }
+        public int Status { get; set; }
+        public int PaymentStatus_Id { get; set; }
+        public int Flag { get; set; }
+    }
+
+    public class PatientAppointmentsStatusReturnModel
+    {
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public string Error_Code { get; set; }
+        public int ReturnFlag { get; set; }
+        public string LanguageKey { get; set; }
+    }
+
     public class ScheduledDaysListModel
     {
         public DateTime Date { get; set; }

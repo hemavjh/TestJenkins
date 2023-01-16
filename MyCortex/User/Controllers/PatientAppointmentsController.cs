@@ -232,6 +232,59 @@ namespace MyCortex.User.Controller
             }
         }
 
+        /// <summary>
+        /// to update a patient appointment
+        /// </summary>
+        /// <param name="Obj"></param>
+        /// <returns>update patient appointment</returns>
+        public HttpResponseMessage Patient_Appointment_Status_Update(AppointmentPaymentStatus Obj)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            AppointmentPaymentStatus ModelData = new AppointmentPaymentStatus();
+            PatientAppointmentsStatusReturnModel model = new PatientAppointmentsStatusReturnModel();
+
+            if (!ModelState.IsValid)
+            {
+                model.Status = "False";
+                model.Message = "Invalid data";
+                model.Error_Code = "";
+                model.ReturnFlag = 0;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.PatientAppointment_Status_Update(Obj);
+                if (ModelData.Appointment_Id != 0)
+                {
+                    messagestr = "Appointment Update Successfully";
+                    model.ReturnFlag = 1;
+                    model.Status = "True";
+                }
+                else
+                {
+                    messagestr = "Error in updating the Appointment";
+                    model.ReturnFlag = 0;
+                    model.Status = "False";
+                }
+                model.Error_Code = "";
+                model.Message = messagestr;
+
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                model.Status = "False";
+                model.Message = "Error in update Appointment";
+                model.Error_Code = ex.Message;
+                model.ReturnFlag = 0;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
         [HttpPost]
         public HttpResponseMessage AppointmentReSchedule_InsertUpdate(Guid Login_Session_Id, [FromBody] PatientAppointmentsModel insobj)
         {
