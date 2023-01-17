@@ -131,6 +131,8 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                     $scope.SectionType = "BASIC,CG_ASSIGN";
                 else if (EmailSectionType == "Change Password")
                     $scope.SectionType = "BASIC";
+                else if (EmailSectionType == "Forgot Password")
+                    $scope.SectionType = "BASIC";
                 else if (EmailSectionType == "Clinicians Note")
                     $scope.SectionType = "BASIC,CLINICIAN_NOTE";
                 else if (EmailSectionType == "Compliance Alert High")
