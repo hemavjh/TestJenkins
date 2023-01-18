@@ -115,11 +115,19 @@ namespace MyCortex.Repositories.Admin
                                                    Password = p.Field<string>("EPASSWORD"),
                                                    ServerName = p.Field<string>("SERVERNAME"),
                                                    PortNo = p.Field<int>("PORTNO"),
-                                                   DisplayName = p.Field<string>("DISPLAYNAME"),
-                                                   EConfigSSL_Enable = p.Field<int>("SSL_ENABLE"),
+                                                   DisplayName = p.Field<string>("DISPLAYNAME"), 
+                                                   EConfigSSL_Enable = p.Field<int>("SSL_ENABLE"),                                                   
                                                    Remarks = p.Field<string>("REMARKS"),
-
                                                }).FirstOrDefault();
+                if(obj.EConfigSSL_Enable==1)
+                {
+                    obj.SSL_Enable = true;
+                }
+                else
+                {
+                    obj.SSL_Enable = false;
+                }
+           
                 return obj;
 
             }

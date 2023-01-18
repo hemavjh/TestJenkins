@@ -162,10 +162,22 @@
     var BuildList = jQuery.parseJSON('@Html.Action("BuildDetails", "Home")');
     $(document).ready(function () {
         var Buildnamespan = document.getElementById('Buildnamespan');
-
+        
         if ('textContent' in Buildnamespan) {
             Buildnamespan.textContent = BuildList[0];
         } else {
+            Buildnamespan.innerText = BuildList[0];
+        }
+        
+        if (BuildList[1] == 'https://hive.clinic/') {
+            Buildnamespan.innerText = BuildList[0];
+        } else if (BuildList[1] == 'https://uat.hive.clinic/') {
+            Buildnamespan.innerText = 'UAT- '+BuildList[0];
+        } else if (BuildList[1] == 'https://qa.myhealthae.com/') {
+            Buildnamespan.innerText = BuildList[0];
+        } else if (BuildList[1] == 'https://telemedicine.myhealthae.com/') {
+            Buildnamespan.innerText = 'QA- '+ BuildList[0];
+        } else if (BuildList[1] == 'https://uat.mycortex.health/') {
             Buildnamespan.innerText = BuildList[0];
         }
     });

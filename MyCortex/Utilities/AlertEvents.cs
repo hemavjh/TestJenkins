@@ -70,6 +70,7 @@ namespace MyCortex.Notification
                         model.Template_Id = alert.Template_Id;
                         model.UserId = alertList.AlertEventEmailList[i].UserId;
                         model.Email_Body = alert.TempBody;
+                        model.Email_Body1 = alert.TempBody1;
                         model.Email_Subject = alert.TempSubject;
                         model.Created_By = alertList.AlertEventEmailList[i].UserId;
                         sendEmailModel = sendemailrepository.SendEmail_AddEdit(model);

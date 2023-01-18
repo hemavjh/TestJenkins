@@ -456,6 +456,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             controller: 'EligibilityLogsController'
         }).
         when('/DoctorAppointmentDetails', {
+            templateUrl: baseUrl + 'Masters/Views/DoctorAppointmentDetails_For_Others.html',
             controller: 'DoctorAppointmentDetailsForOthersController'
         }).
         when('/AppointmentApproval', {

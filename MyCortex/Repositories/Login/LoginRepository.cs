@@ -1077,7 +1077,7 @@ namespace MyCortex.Repositories.Login
                                                     BuildNo = p.Field<string>("BUILD_VERSION"),
                                                     SystemName = p.Field<string>("SYSTEM_NAME"),
                                                     LoginUser = p.Field<string>("BUILD_USER"),
-
+                                                    SiteURL = p.Field<string>("SITEURL"),
                                                 }).ToList();
                 return LPH;
             }
@@ -1465,6 +1465,7 @@ namespace MyCortex.Repositories.Login
                                                      ProductCopyRight = p.Field<string>("COPYRIGHT"),
                                                      PoweredBy = p.Field<string>("POWEREDBY"),
                                                      ProductFavIcon = p.Field<string>("PRODUCT_FAV_ICON"),
+                                                     SiteURL= p.Field<string>("SITEURL"),
                                                  }).ToList();
                 return lst;
             }

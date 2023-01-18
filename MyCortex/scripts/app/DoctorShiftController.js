@@ -1453,14 +1453,20 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                         //alert(data.Message);
                         if (data.ReturnFlag == 1) {
                             toastr.success(data.Message, "success");
+                            $('#saveDoctorShift1').attr("disabled", false);
+                            $('#saveDoctorShift2').attr("disabled", false);
+                            $('#saveDoctorShift3').attr("disabled", false);
                         }
                         else if (data.ReturnFlag == 0) {
+                            $('#saveDoctorShift1').attr("disabled", true);
+                            $('#saveDoctorShift2').attr("disabled", true);
+                            $('#saveDoctorShift3').attr("disabled", true);
                             toastr.info(data.Message, "info");
+                            $scope.CancelDoctorShift();
+                            $("#chatLoaderPV").hide();
                             return false;
                         }
-                        $('#saveDoctorShift1').attr("disabled", false);
-                        $('#saveDoctorShift2').attr("disabled", false);
-                        $('#saveDoctorShift3').attr("disabled", false);
+                     
                         $("#chatLoaderPV").hide();
                         //if (data.ReturnFlag == 1) {
                             $scope.DoctorShiftClear();
