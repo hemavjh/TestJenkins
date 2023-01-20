@@ -83,10 +83,10 @@ namespace MyCortexService
             OnStart(null);
         }
         
-        public async static void EligibilityCheck(string baseUrl)
+        public async static void EligibilityCheck()
         {
             Int64 Id = 0, Institution_Id;
-            string Emirates_Id, Clinician_Licence;
+            string Emirates_Id, Clinician_Licence,BaseUrl;
             // every appointment check the eligiblity before 3 hours 
             // Start                  
             int consultationCategoryId, payerId, serviceCategoryId;
@@ -98,6 +98,7 @@ namespace MyCortexService
                 {
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
+                        
                         Id = Convert.ToInt64(dt.Rows[i]["ID"].ToString());
                         Institution_Id = Convert.ToInt64(dt.Rows[i]["INSTITUTION_ID"].ToString());
                         Emirates_Id = dt.Rows[i]["NATIONALID"].ToString();
@@ -105,6 +106,7 @@ namespace MyCortexService
                         consultationCategoryId = 1;
                         payerId = 102;
                         serviceCategoryId = 1;
+                        BaseUrl = dt.Rows[i]["BASEURL"].ToString(); 
 
                         MobNumber = dt.Rows[i]["MOBILE_NO"].ToString();
                         CountryCode = MobNumber.Split('~')[0];
@@ -178,7 +180,7 @@ namespace MyCortexService
                         HttpClient client = new HttpClient();
                         var content = new StringContent(loadobj.ToString());
                         content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                        client.BaseAddress = new Uri("https://mycortexdev1.vjhsoftware.in/"); //("http://localhost:49000/");
+                        client.BaseAddress = new Uri(BaseUrl); //("http://localhost:49000/"); // if we check in local, please change the base url
                         var response1 = await client.PostAsync("/api/EligibilityCheck/AddEligibilityEequest/", content);
                         var responseContent = await response1.Content.ReadAsStringAsync();
                         if (responseContent != null)
@@ -589,8 +591,6 @@ namespace MyCortexService
                         }
                     }
 
-                    EligibilityCheck(baseUrl);
-
                     // End
 
                     //APPointments RESET by System
@@ -605,7 +605,7 @@ namespace MyCortexService
                         TraceException(ex);
                     }
 
-                    END
+                    //END
 
                     // Deactivate Past Doctor Shift Details
                     // Start
@@ -743,6 +743,8 @@ namespace MyCortexService
                             TraceException(ex);
                         }
                     }
+
+                    EligibilityCheck(); 
 
                     // End
 
