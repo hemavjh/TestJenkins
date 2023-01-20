@@ -83,7 +83,7 @@ namespace MyCortexService
             OnStart(null);
         }
         
-        public async static void EligibilityCheck(string baseUrl)
+        public async static void EligibilityCheck()
         {
             Int64 Id = 0, Institution_Id;
             string Emirates_Id, Clinician_Licence;
@@ -589,7 +589,7 @@ namespace MyCortexService
                         }
                     }
 
-                    EligibilityCheck(baseUrl);
+                    EligibilityCheck();
 
                     // End
 
@@ -605,7 +605,7 @@ namespace MyCortexService
                         TraceException(ex);
                     }
 
-                    END
+                   // END
 
                     // Deactivate Past Doctor Shift Details
                     // Start
