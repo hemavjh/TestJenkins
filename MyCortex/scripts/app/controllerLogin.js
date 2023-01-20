@@ -7,7 +7,6 @@
 
 EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     var baseUrl = $("base").first().attr("href");
-
     $routeProvider.
         when('/login', {
             templateUrl: baseUrl + 'Login/Views/Login.html',
@@ -738,11 +737,13 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                     var LoginType = $scope.LoginType;
                     var tokendata = "UserName=" + UserName + "&Password=" + Password + "&grant_type=password"
                     $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
-                        $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
+                        $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;                           
                     }).error(function (err) {
                         $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
                         console.log(err);
                     });
+
+                    //$window.sessionStorage['dFhNCjOpdzPNNHxx54e+0w=='] = $window.localStorage['dFhNCjOpdzPNNHxx54e+0w==']
                     $scope.ConfigCode = "WEBIDLETIME";
                     var IdleDays = 0;
                     $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId'])
