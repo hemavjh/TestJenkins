@@ -19,6 +19,7 @@ using MyCortex.Repositories.Masters;
 using MyCortex.Repositories.Uesr;
 using MyCortex.Home.Models;
 using System.Web.Script.Serialization;
+using System.Web.Http.Results;
 
 namespace MyCortex.Admin.Controllers
 {
@@ -604,7 +605,7 @@ namespace MyCortex.Admin.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public HttpResponseMessage EligibilityRequestDetail(long eligibilityID, string facilityLicense)
         {
             object objResponse;
@@ -626,5 +627,47 @@ namespace MyCortex.Admin.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, objResponse);
 
         }
+        //[HttpGet]
+        //[Authorize]
+        //public HttpResponseMessage EligibilityRequestDetail_ByService(long eligibilityID, string facilityLicense)
+        //{
+        //    object objResponse;
+        //    string url = "https://integration.inhealth.ae/api/eligibilitycheck/GetEligibilityRequestDetailsByEligibilityId?eligibilityID=" + eligibilityID + "&facilityLicense=" + facilityLicense;
+        //    HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
+        //    req.Method = "GET";
+        //    req.ContentType = "application/json";
+        //    req.Accept = "*/*";
+        //    //req.Headers["Connection"] = "keep-alive";
+        //    //req.Headers["Accept-Encoding"] = "gzip, deflate, br";
+        //    req.Headers["Content-Language"] = "en";
+        //    req.Headers["Authorization"] = "c2d0928a-7463-428d-bd12-72fda8757089";
+
+        //    using (HttpWebResponse res = (HttpWebResponse)req.GetResponse())
+        //    {
+        //        DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(RequestEligibilityDetailResponse));
+        //        objResponse = jsonSerializer.ReadObject(res.GetResponseStream());
+
+        //        var DataVal = ((MyCortex.Home.Models.RequestEligibilityResponse)objResponse).data;
+        //        //var EligibilityId = ((MyCortex.Home.Models.RequestEligibilityResponse)objResponse).data.eligibilityCheck.result;
+        //        if (objResponse != null)
+        //        {
+
+        //            if (DataVal != null)
+        //            {
+        //                //    result = DataVal.eligibilityCheck.result;
+        //                //    $scope.result = response_data.data.eligibilityCheck.result;
+        //                //    $scope.eligibility_response = response_data.data;
+        //                //    $scope.save_user_appointment_eligibility_logs($scope.Appointment_Id, $scope.user_id, $scope.eligibility_Id, $scope.eligibility_response, $scope.eligibility_response);
+        //            }
+        //            else
+        //               {
+        //                //    toastr.warning("Request for eligibility failed, appointment could not be created...", "warning");
+        //                //    $scope.cancel_eligibility($scope.eligibility_Id);
+        //            }
+        //        }
+        //    }
+        //    return null; //Request.CreateResponse(HttpStatusCode.OK, objResponse);
+
+        //}
     }
 }

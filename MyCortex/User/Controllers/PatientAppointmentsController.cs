@@ -20,8 +20,7 @@ using System.Text.RegularExpressions;
 
 namespace MyCortex.User.Controller
 {
-    [Authorize]
-    [CheckSessionOutFilter]
+    
     public class PatientAppointmentsController : ApiController
     {
         static readonly IPatientAppointmentsRepository repository = new PatientAppointmentRepository();
@@ -39,6 +38,7 @@ namespace MyCortex.User.Controller
         /// <returns>Patient Appointment list for a date and doctor</returns>
         [CheckSessionOutFilter]
         [HttpGet]
+        [Authorize]
         public IList<PatientAppointmentsModel> DoctorAppointmentList(long Doctor_Id, int flag, DateTime? ViewDate, Guid Login_Session_Id)
         {
              _AppLogger = this.GetType().FullName;
@@ -56,6 +56,8 @@ namespace MyCortex.User.Controller
             }
         }
 
+        [Authorize]
+        [CheckSessionOutFilter]
         /// <summary>
         /// to cancel a patient appointment
         /// </summary>
@@ -137,6 +139,8 @@ namespace MyCortex.User.Controller
         /// <returns>inserted patient appointment</returns>
         [CheckSessionOutFilter]
         [HttpPost]
+        [Authorize]
+     
         public HttpResponseMessage PatientAppointment_InsertUpdate(Guid Login_Session_Id,[FromBody] PatientAppointmentsModel insobj)
         {
              _AppLogger = this.GetType().FullName;
@@ -237,6 +241,7 @@ namespace MyCortex.User.Controller
         /// </summary>
         /// <param name="Obj"></param>
         /// <returns>update patient appointment</returns>
+       
         public HttpResponseMessage Patient_Appointment_Status_Update(AppointmentPaymentStatus Obj)
         {
             _AppLogger = this.GetType().FullName;
@@ -258,7 +263,7 @@ namespace MyCortex.User.Controller
                 ModelData = repository.PatientAppointment_Status_Update(Obj);
                 if (ModelData.Appointment_Id != 0)
                 {
-                    messagestr = "Appointment Update Successfully";
+                    messagestr = "Appointment Updated Successfully";
                     model.ReturnFlag = 1;
                     model.Status = "True";
                 }
@@ -286,6 +291,8 @@ namespace MyCortex.User.Controller
         }
 
         [HttpPost]
+        [Authorize]
+        [CheckSessionOutFilter]
         public HttpResponseMessage AppointmentReSchedule_InsertUpdate(Guid Login_Session_Id, [FromBody] PatientAppointmentsModel insobj)
         {
              _AppLogger = this.GetType().FullName;
@@ -355,6 +362,8 @@ namespace MyCortex.User.Controller
         /// <param name="Patient_Id"></param>
         /// <returns></returns>
         [HttpGet]
+        [Authorize]
+        [CheckSessionOutFilter]
         public IList<PatientAppointmentsModel> PatientBasedGroupBasedClinicianList(long Patient_Id)
         {
              _AppLogger = this.GetType().FullName;
@@ -373,6 +382,7 @@ namespace MyCortex.User.Controller
         }
         [CheckSessionOutFilter]
         [HttpGet]
+        [Authorize]
         public IList<AppointmentPaymentHistory> AppointmentPaymentHistory(long appointmentId, Guid Login_Session_Id, long Institution_Id)
         {
              _AppLogger = this.GetType().FullName;
@@ -391,6 +401,8 @@ namespace MyCortex.User.Controller
         }
 
         [HttpGet]
+        [Authorize]
+        [CheckSessionOutFilter]
         public IList<PatientAppointmentsModel> DepartmentwiseDoctorList(string DepartmentIds,long InstitutionId,DateTime Date,Int32 IsShift = 0, Int32 Language_Id =1)
         {
              _AppLogger = this.GetType().FullName;
@@ -414,6 +426,8 @@ namespace MyCortex.User.Controller
         /// <param name="Institution_Id">Institution Id</param>
         /// <returns>Appointment Reason type name list</returns>
         [HttpGet]
+        [Authorize]
+        [CheckSessionOutFilter]
         public IList<AppointmentReasonType> AppointmentReasonType_List(long Institution_Id, Int32 Language_Id=1)
         {
              _AppLogger = this.GetType().FullName;
@@ -432,6 +446,7 @@ namespace MyCortex.User.Controller
         }
         [CheckSessionOutFilter]
         [HttpGet]
+        [Authorize]
         public HttpResponseMessage GetScheduledDates(Guid Login_Session_Id,long InstitutionId)
         {
              _AppLogger = this.GetType().FullName;
@@ -463,6 +478,8 @@ namespace MyCortex.User.Controller
         }
 
         [HttpGet]
+        [Authorize]
+        [CheckSessionOutFilter]
         public HttpResponseMessage GetDoctorAppointmentTimeSlot(long DoctorId,DateTime Date, int IsNew, Guid Login_Session_Id, long TimeZoneId, long Institution_Id)
         {
              _AppLogger = this.GetType().FullName;
@@ -497,6 +514,8 @@ namespace MyCortex.User.Controller
         }
 
         [HttpGet]
+        [Authorize]
+        [CheckSessionOutFilter]
         public HttpResponseMessage GetDoctorAppointmentDetails(long DoctorId, DateTime Date, DateTime EndDate,Guid Login_Session_Id, long TimeZoneId, long Institution_Id)
         {
              _AppLogger = this.GetType().FullName;
@@ -528,6 +547,8 @@ namespace MyCortex.User.Controller
         }
 
         [HttpGet]
+        [Authorize]
+        [CheckSessionOutFilter]
         public HttpResponseMessage GetAppointmentDoctorDetails(string DoctorIds, DateTime Date, DateTime EndDate, Guid Login_Session_Id, long TimeZoneId, long Institution_Id)
         {
             _AppLogger = this.GetType().FullName;
@@ -560,6 +581,8 @@ namespace MyCortex.User.Controller
 
         [CheckSessionOutFilter]
         [HttpPost]
+        [Authorize]
+        
         public HttpResponseMessage AddDoctorShiftInsertUpdate([FromBody] DoctorShiftModel obj, Guid Login_Session_Id)
         {
              _AppLogger = this.GetType().FullName;
@@ -624,6 +647,8 @@ namespace MyCortex.User.Controller
         }
 
         [HttpGet]
+        [Authorize]
+        [CheckSessionOutFilter]
         public int DoctorShift_Editable(long Id)
         {
              _AppLogger = this.GetType().FullName;
@@ -641,6 +666,8 @@ namespace MyCortex.User.Controller
         }
 
         [HttpGet]
+        [Authorize]
+        [CheckSessionOutFilter]
         public HttpResponseMessage RedirectToPatientVitals(string redirectUrl)
         {
             try
