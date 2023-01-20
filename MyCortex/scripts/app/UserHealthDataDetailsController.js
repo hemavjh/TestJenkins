@@ -1484,7 +1484,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                     //alert(data.Message);
                                     if (data.ReturnFlag == 1) {
                                         toastr.success(data.Message, "success");
-                                        $scope.checkEligibility();
+                                        if ($scope.AppointmoduleID1 == 3) {
+                                            $scope.checkEligibility();
+                                        }
                                     }
                                     else if (data.ReturnFlag == 0) {
                                         toastr.info(data.Message, "info");
@@ -1835,6 +1837,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             }
                         });
                     }
+                    
                     $scope.save_user_appointment_eligibility_logs = function (appointment_id, user_id, eligibilityId, eligibility_request, eligibility_response) {
                         Obj = {
                             "eligibility_response": JSON.stringify(eligibility_response),

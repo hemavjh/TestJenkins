@@ -1386,6 +1386,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Home\Models\OpenjetModel.cs" />
+    <Compile Include="Home\Models\OpenjetServiceModel.cs" />
     <Compile Include="Livebox\Controllers\LiveboxController.cs" />
     <Compile Include="Login\Controller\LoginController.cs" />
     <Compile Include="Login\Model\AccountTypeModel.cs" />

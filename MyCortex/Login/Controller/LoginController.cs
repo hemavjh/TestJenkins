@@ -883,7 +883,7 @@ namespace MyCortex.Login.Controller
                         //if (UserTypeId != 3)
                         //{
                             string Event_Code = "";
-                            Event_Code = "RESET_PWD";
+                        Event_Code = "FORGOT_PWD";//"RESET_PWD";
                             AlertEvents AlertEventReturn = new AlertEvents();
                             IList<EmailListModel> EmailList;
                             EmailList = AlertEventReturn.UserCreateEvent((long)model.ResetPassword.UserId, InstitutionId);

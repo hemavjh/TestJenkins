@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,6 +16,19 @@ namespace MyCortex.Home.Models
         public int payerId { get; set; }
         public string referralLetterRefNo { get; set; }
         public int serviceCategoryId { get; set; }
+        public string facilityLicense { get; set; }
+
+    }
+    public class RequestEligibilityParam
+    {
+        public string NATIONALITY_ID { get; set; }
+        public string Clinicianlist { get; set; }
+        public int ConsultationCategory { get; set; }
+        public string countrycode { get; set; }
+        public string MOBILE_NO { get; set; }
+        public int PayorId { get; set; }
+        public string referralLetterRefNo { get; set; }
+        public int ServiceCategory { get; set; }
         public string facilityLicense { get; set; }
 
     }
@@ -61,6 +75,12 @@ namespace MyCortex.Home.Models
         public EligibilityResponseData data { get; set; }
         public Array errors { get; set; }
     }
+    public class RequestEligibilityResponse_useList
+    {
+        public int status { get; set; }
+        public EligibilityResponseData data { get; set; }
+        public string errors { get; set; }
+    }
 
     public class RequestCancelEligibilityResponse
     {
@@ -82,6 +102,12 @@ namespace MyCortex.Home.Models
         public EligibilityDetailResponseData data { get; set; }
         public Array errors { get; set; }
     }
+    //public class RequestEligibilityDetailResponse_bylist
+    //{
+    //    public int status { get; set; }
+    //    public EligibilityDetailResponseData data { get; set; }
+    //    public string errors { get; set; }
+    //}
 
     public class eligibilityCheck
     {
@@ -242,4 +268,6 @@ namespace MyCortex.Home.Models
         public string code { get; set; }
         public string benefitValue { get; set; }
     }
+
+    
 }
