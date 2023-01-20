@@ -19,6 +19,12 @@ namespace MyCortex.Home.Models
 
     }
 
+    public class RequestCancelEligibility
+    {
+        public string eligibilityId { get; set; }
+
+    }
+
     public class EligibilityResponseData
     {
         public int ruleId { get; set; }
@@ -53,6 +59,13 @@ namespace MyCortex.Home.Models
     {
         public int status { get; set; }
         public EligibilityResponseData data { get; set; }
+        public Array errors { get; set; }
+    }
+
+    public class RequestCancelEligibilityResponse
+    {
+        public int status { get; set; }
+        public Array data { get; set; }
         public Array errors { get; set; }
     }
 
