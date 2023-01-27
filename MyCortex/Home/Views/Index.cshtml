@@ -802,6 +802,22 @@
                                     <h1>Secondary</h1>
                                     <input type="color" id="secondary" name="secondary" />
                                 </div>
+                                <div class="colorGroup">
+                                    <h1>Menu Color</h1>
+                                    <input type="color" id="Menu_Header" name="Menu_Header" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Menu Active Color</h1>
+                                    <input type="color" id="Menu_Underline" name="Menu_Underline" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Sub Menu Color</h1>
+                                    <input type="color" id="Sub_Menu_Header" name="Sub_Menu_Header" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Sub Menu Active Color</h1>
+                                    <input type="color" id="Sub_Menu_Underline" name="Sub_Menu_Underline" />
+                                </div>
                             </div>
 
                         </div>
@@ -931,6 +947,22 @@
                                 <h1>Secondary</h1>
                                 <input type="color" id="secondary" name="secondary" />
                             </div>
+                            <div class="colorGroup">
+                                <h1>Menu Color</h1>
+                                <input type="color" id="Menu_Header" name="Menu_Header" />
+                            </div>
+                            <div class="colorGroup">
+                                <h1>Menu Active Color</h1>
+                                <input type="color" id="Menu_Underline" name="Menu_Underline" />
+                            </div>
+                            <div class="colorGroup">
+                                <h1>Sub Menu Color</h1>
+                                <input type="color" id="Sub_Menu_Header" name="Sub_Menu_Header" />
+                            </div>
+                            <div class="colorGroup">
+                                <h1>Sub Menu Active Color</h1>
+                                <input type="color" id="Sub_Menu_Underline" name="Sub_Menu_Underline" />
+                            </div>
                         </div>
                         <div class="col-sm-9">
                             <div class="frameController">
@@ -997,7 +1029,11 @@
         negativeHoverBtnBorder: "#35a9e4",
         negativeHoverBtnText: "#000",
         title: "#032b5c",
-        subTitle: "#032b5c"
+        subTitle: "#032b5c",
+        Menu_Header: "#fff",
+        Menu_Underline: "#fff",
+        Sub_Menu_Header: "#333",
+        Sub_Menu_Underline: "#f26722"
 
     };
 
@@ -1026,7 +1062,11 @@
         negativeHoverBtnBorder: "#35a9e4",
         negativeHoverBtnText: "#000",
         title: "#032b5c",
-        subTitle: "#032b5c"
+        subTitle: "#032b5c",
+        Menu_Header: "#fff",
+        Menu_Underline: "#fff",
+        Sub_Menu_Header: "#333",
+        Sub_Menu_Underline: "#f26722"
     };
 
     let applyStyle = () => {
@@ -1059,6 +1099,10 @@
                 getAPIObj["negativeHoverBtnText"] = data["ColorPreferences"]["NegativeHoverBtnText"];
                 getAPIObj["title"] = data["ColorPreferences"]["Title"];
                 getAPIObj["subTitle"] = data["ColorPreferences"]["SubTitle"];
+                getAPIObj["Menu_Header"] = data["ColorPreferences"]["Menu_Header"];
+                getAPIObj["Menu_Underline"] = data["ColorPreferences"]["Menu_Underline"];
+                getAPIObj["Sub_Menu_Header"] = data["ColorPreferences"]["Sub_Menu_Header"];
+                getAPIObj["Sub_Menu_Underline"] = data["ColorPreferences"]["Sub_Menu_Underline"];
             } else {
                 getAPIObj["primary"] = defaultValueObj["primary"];
                 getAPIObj["secondary"] = defaultValueObj["secondary"];
@@ -1085,6 +1129,10 @@
                 getAPIObj["negativeHoverBtnText"] = defaultValueObj["negativeHoverBtnText"];
                 getAPIObj["title"] = defaultValueObj["title"];
                 getAPIObj["subTitle"] = defaultValueObj["subTitle"];
+                getAPIObj["Menu_Header"] = defaultValueObj["Menu_Header"];
+                getAPIObj["Menu_Underline"] = defaultValueObj["Menu_Underline"];
+                getAPIObj["Sub_Menu_Header"] = defaultValueObj["Sub_Menu_Header"];
+                getAPIObj["Sub_Menu_Underline"] = defaultValueObj["Sub_Menu_Underline"];
 
             }
             console.log("applyStyle:" + getAPIObj)
@@ -1130,7 +1178,11 @@
             negativeHoverBtnBorder: $('#negativeHoverBtnBorder').val() == '#000000' ? "#35a9e4" : $('#negativeHoverBtnBorder').val(),
             negativeHoverBtnText: $('#negativeHoverBtnText').val() == '#000000' ? "#000" : $('#negativeHoverBtnText').val(),
             title: $('#title').val() == '#000000' ? "#032b5c" : $('#title').val(),
-            subTitle: $('#subTitle').val() == '#000000' ? "#032b5c" : $('#subTitle').val()
+            subTitle: $('#subTitle').val() == '#000000' ? "#032b5c" : $('#subTitle').val(),
+            Menu_Header: $('#Menu_Header').val() == '#000000' ? "#fff" : $('#Menu_Header').val(),
+            Menu_Underline: $('#Menu_Underline').val() == '#000000' ? "#fff" : $('#Menu_Underline').val(),
+            Sub_Menu_Header: $('#Sub_Menu_Header').val() == '#000000' ? "#333" : $('#Sub_Menu_Header').val(),
+            Sub_Menu_Underline: $('#Sub_Menu_Underline').val() == '#000000' ? "#f26722" : $('#Sub_Menu_Underline').val(),
         }
         console.log("saveStyle:" + saveAPIObj);
         $.post(baseUrl + "api/ColorPreference/Save", saveAPIObj, function (data, status) {
@@ -1184,7 +1236,11 @@
                     negativeHoverBtnBorder: defaultValueObj["negativeHoverBtnBorder"],
                     negativeHoverBtnText: defaultValueObj["negativeHoverBtnText"],
                     title: defaultValueObj["title"],
-                    subTitle: defaultValueObj["subTitle"]
+                    subTitle: defaultValueObj["subTitle"],
+                    Menu_Header: defaultValueObj["Menu_Header"],
+                    Menu_Underline: defaultValueObj["Menu_Underline"],
+                    Sub_Menu_Header: defaultValueObj["Sub_Menu_Header"],
+                    Sub_Menu_Underline: defaultValueObj["Sub_Menu_Underline"]
                 }
                 console.log("restoreStyle:" + restoreAPIObj);
                 $.post(baseUrl + "api/ColorPreference/Save", restoreAPIObj, function (data, status) {

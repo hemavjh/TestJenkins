@@ -40,6 +40,10 @@ namespace MyCortex.User.Models
         public long CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime ModifiedAt { get; set; }
+        public string Menu_Header { get; set; }
+        public string Menu_Underline { get; set; }
+        public string Sub_Menu_Header { get; set; }
+        public string Sub_Menu_Underline { get; set; }
     }
 
     public class ColorPreferenceReturnModel

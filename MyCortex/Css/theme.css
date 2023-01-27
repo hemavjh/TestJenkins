@@ -32,6 +32,10 @@
     --negativeHoverBtnBg: #fff;
     --negativeHoverBtnBorder: #35a9e4;
     --negativeHoverBtnText: #35a9e4;
+    --Menu_Header: #fff;
+    --Menu_Underline: #fff;
+    --Sub_Menu_Header: #333;
+    --Sub_Menu_Underline: #f26722;
 }
 
 .swal2-popup{
@@ -627,12 +631,16 @@ ul.periods {
         right: 0px;
         bottom: -9px;
         height: 5px;
-        background: #fff;
+        background: var(--Menu_Underline) !important;
         position: absolute;
         width: 0px;
         margin: 0 auto;
         transition: 0.2s ease-in-out;
     }
+
+.activeButton {
+    color: var(--Menu_Underline) !important;
+}
 
 button.activeButton::after {
     width: 100%;
@@ -1578,6 +1586,7 @@ li.customDropdownlast-child:hover {
     display: flex;
     padding: 0;
     border-bottom: 1px solid #efefef;
+    color: var(--Sub_Menu_Header) !important;
 }
 
     .secondaryMenu li {
@@ -1593,8 +1602,8 @@ li.customDropdownlast-child:hover {
         }
 
 .secondaryMenuActive {
-    border-bottom-color: #f26722 !important;
-    color: #f26722 !important;
+    border-bottom-color: var(--Sub_Menu_Underline) !important;
+    color: var(--Sub_Menu_Underline) !important;
 }
 
 .secondaryMenu li a:hover {
@@ -2610,6 +2619,7 @@ a.disabled {
     display: flex;
     flex-basis: 100%;
     margin: 40px 0 0 18px;
+    color: var(--Menu_Header) !important;
 }
 
 /*<!------Tiny icon code start-------! >*/

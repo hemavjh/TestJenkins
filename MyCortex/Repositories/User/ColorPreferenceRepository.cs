@@ -70,6 +70,10 @@ namespace MyCortex.Repositories.User
                             CreatedBy = (p.Field<long>("CREATED_BY")),
                             CreatedAt = (p.Field<DateTime>("CREATED_AT")),
                             ModifiedAt = (p.Field<DateTime>("MODIFIED_AT")),
+                            Menu_Header = (p.Field<string>("MENU_HEADER")),
+                            Menu_Underline = (p.Field<string>("MENU_UNDERLINE")),
+                            Sub_Menu_Header = (p.Field<string>("SUB_MENU_HEADER")),
+                            Sub_Menu_Underline = (p.Field<string>("SUB_MENU_UNDERLINE")),
                         }).FirstOrDefault();
                 return list;
             }
@@ -105,11 +109,11 @@ namespace MyCortex.Repositories.User
                 param.Add(new DataParameter("@TABLEROWHOVERTEXT", insobj.TableRowHoverText));
                 param.Add(new DataParameter("@LINKTEXT", insobj.LinkText));
                 param.Add(new DataParameter("@POSITIVEBTNBG", insobj.PositiveBtnBg));
-                param.Add(new DataParameter("@POSITIVEBTNBORDER", insobj.PositiveHoverBtnBorder));
+                param.Add(new DataParameter("@POSITIVEBTNBORDER", insobj.PositiveBtnBorder));
                 param.Add(new DataParameter("@POSITIVEBTNTEXT", insobj.PositiveBtnText));
                 param.Add(new DataParameter("@POSITIVEHOVERBTNBG", insobj.PositiveHoverBtnBg));
                 param.Add(new DataParameter("@POSITIVEHOVERBTNBORDER", insobj.PositiveHoverBtnBorder));
-                param.Add(new DataParameter("@POSITIVEHOVERBTNTEXT", insobj.PositiveHoverBtnBorder));
+                param.Add(new DataParameter("@POSITIVEHOVERBTNTEXT", insobj.PositiveHoverBtnText));
                 param.Add(new DataParameter("@NEGATIVEBTNBG", insobj.NegativeBtnBg));
                 param.Add(new DataParameter("@NEGATIVEBTNBORDER", insobj.NegativeBtnBorder));
                 param.Add(new DataParameter("@NEGATIVEBTNTEXT", insobj.NegativeBtnText));
@@ -118,6 +122,10 @@ namespace MyCortex.Repositories.User
                 param.Add(new DataParameter("@NEGATIVEHOVERBTNTEXT", insobj.NegativeHoverBtnText));
                 param.Add(new DataParameter("@TITLE", insobj.Title));
                 param.Add(new DataParameter("@SUBTITLE", insobj.SubTitle));
+                param.Add(new DataParameter("@MENU_HEADER", insobj.Menu_Header));
+                param.Add(new DataParameter("@MENU_UNDERLINE", insobj.Menu_Underline));
+                param.Add(new DataParameter("@SUB_MENU_HEADER", insobj.Sub_Menu_Header));
+                param.Add(new DataParameter("@SUB_MENU_UNDERLINE", insobj.Sub_Menu_Underline));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].TBLCOLOR_PREFERENCE_SP_INSERTUPDATE", param);
 
                 insert = (from p in dt.AsEnumerable()
@@ -160,6 +168,10 @@ namespace MyCortex.Repositories.User
                                     CreatedBy = (p.Field<long>("CREATED_BY")),
                                     CreatedAt = (p.Field<DateTime>("CREATED_AT")),
                                     ModifiedAt = (p.Field<DateTime>("MODIFIED_AT")),
+                                    Menu_Header = (p.Field<string>("MENU_HEADER")),
+                                    Menu_Underline = (p.Field<string>("MENU_UNDERLINE")),
+                                    Sub_Menu_Header = (p.Field<string>("SUB_MENU_HEADER")),
+                                    Sub_Menu_Underline = (p.Field<string>("SUB_MENU_UNDERLINE")),
 
                                 }
                             }).FirstOrDefault();
