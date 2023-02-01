@@ -204,9 +204,9 @@ namespace MyCortex.Masters.Models
         public int MinimumSlots { get; set; }
         public int Flag { get; set; }
         public IList<ReminderUserLists> ReminderTimeInterval { get; set; }
+
         //public IList<DefaultWorkingDays> DefaultWorkingDays { get; set; }
-
-
+        public int CancelAppointmentUnPaidMinutes { get; set; }
     }
 
     public class OrgAppointmentModuleSettings
