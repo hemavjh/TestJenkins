@@ -32,9 +32,9 @@
     --negativeHoverBtnBg: #fff;
     --negativeHoverBtnBorder: #35a9e4;
     --negativeHoverBtnText: #35a9e4;
-    --Menu_Header: #fff;
-    --Menu_Underline: #fff;
-    --Sub_Menu_Header: #333;
+    --Menu_Header: #efefef;
+    --Menu_Underline: #efefef;
+    --Sub_Menu_Header: #1b1414;
     --Sub_Menu_Underline: #f26722;
 }
 
