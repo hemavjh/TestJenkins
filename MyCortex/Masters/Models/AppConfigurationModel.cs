@@ -52,4 +52,12 @@ namespace MyCortex.Masters.Models
         public string GatewayKey { get; set; }
         public string GatewayValue { get; set; }
     }
+
+    public class AppConfigurationsModel
+    {
+        public int flag { get; set; }
+        public string Status { get; set; }
+        public IList<AppConfigurationModel> AppConfigurations { get; set; }
+        public MyAppointmentSettingsModel AppointmentSettings { get; set; }
+    }
 }

@@ -1510,5 +1510,32 @@ namespace MyCortex.Masters.Controllers
             }
         }
 
+        [HttpGet]
+        [Authorize]
+        [CheckSessionOutFilter]
+        public AppConfigurationsModel getAppConfigurations(long Institution_Id, string ConfigCode = "")
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            AppConfigurationsModel ModelData = new AppConfigurationsModel();
+            MyAppointmentSettingsModel AppointmentSettingsModel = new MyAppointmentSettingsModel();
+            IList<AppConfigurationModel> AppConfigurationModel;
+            try
+            {
+                AppointmentSettingsModel = repository.getMyAppointmentSettings(Institution_Id);
+                AppConfigurationModel= repository.AppConfigurationDetails(ConfigCode, Institution_Id);
+
+                ModelData.AppointmentSettings = AppointmentSettingsModel;
+                ModelData.AppConfigurations = AppConfigurationModel;
+                ModelData.flag = 1;
+                ModelData.Status = "True";
+                return ModelData;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return ModelData;
+            }
+        }
     }
 }
