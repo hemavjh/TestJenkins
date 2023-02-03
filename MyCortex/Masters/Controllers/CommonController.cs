@@ -1512,7 +1512,6 @@ namespace MyCortex.Masters.Controllers
 
         [HttpGet]
         [Authorize]
-        [CheckSessionOutFilter]
         public AppConfigurationsModel getAppConfigurations(long Institution_Id, string ConfigCode = "")
         {
             _AppLogger = this.GetType().FullName;
