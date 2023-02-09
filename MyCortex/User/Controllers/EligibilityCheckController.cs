@@ -51,6 +51,7 @@ namespace MyCortex.User.Controllers
                 int payerId = Convert.ToInt32(form["PayorId"]);
                 int serviceCategoryId = Convert.ToInt32(form["ServiceCategory"]);
                 string countryCode = Convert.ToString(form["countrycode"]);
+                string facilityLicense = Convert.ToString(form["facilityLicense"]);
 
                 RequestEligibility re = new RequestEligibility();
                 re.emiratesId = emiratesId;
@@ -60,7 +61,7 @@ namespace MyCortex.User.Controllers
                 re.payerId = payerId;
                 re.serviceCategoryId = serviceCategoryId;
                 re.countryCode = countryCode;
-                re.facilityLicense = "MF2007";
+                re.facilityLicense = facilityLicense;
 
                 //RequestEligibility re = new RequestEligibility
                 //{

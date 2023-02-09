@@ -18,6 +18,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.isMedicalLiveData = "";
         $scope.AppReasonForVisit = "";
         $scope.result = "";
+        $scope.facilityLicense = "";
 
         $http.get(baseUrl + "/api/CommonMenu/CommonModule_List?InsId=" + $window.localStorage['InstitutionId']).success(function (response) {
             if (response != null) {
@@ -73,6 +74,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
             $scope.DateFormat = data1[0].ConfigValue;
             $scope.DOB1 = moment($scope.DOB).format(angular.uppercase($scope.DateFormat))
+        });
+
+        $scope.ConfigCode = "FACILITY_LICENSE";
+        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+            $scope.facilityLicense = data1[0].ConfigValue;
         });
 
         //list the Notes type
@@ -152,6 +158,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         //$scope.PreviousAppointmentDetails = [];
         $scope.flag = 0;
         $scope.MNR_No = "";
+        $scope.PayorId = "";
+        $scope.ShortCode = '';
+        $scope.Health_License = '';
         $scope.StartDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
         $scope.EndDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
         $scope.OnSetDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
@@ -787,6 +796,12 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.showUserType = data.UserType;
                     $scope.PhotoBlobs = data.PhotoBlobs;
                     $scope.countrycode = '+971';
+                    $scope.PayorId = data.PayorId;
+                    $http.get(baseUrl + '/api/PayorMaster/PayorMasterView/?Id=' + parseInt($scope.PayorId)).success(function (data) {
+                        $("#chatLoaderPV").hide();
+                        $scope.PayorName = data.PayorName;
+                        $scope.ShortCode = data.ShortCode;
+                    });
                     if (data.MOBILE_NO.split('~')[0] != "")
                         $scope.countrycode = data.MOBILE_NO.split('~')[0];
                     methodcnt = methodcnt - 1;
@@ -1091,6 +1106,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             $scope.paymentdepartmentId = data.DEPARTMENT_ID;
                             $scope.paymentInstitutionId = data.INSTITUTION_ID;
                             $scope.TimeZoneID = data.TimeZone_Id.toString();
+                            $scope.Health_License = data.HEALTH_LICENSE;
                             document.getElementById("backToDocDiv").className = "col-sm-6 flex";
                             document.getElementById("SaveBtnDiv").className = "col-sm-6 flex justify-end mt-3";
                             if (data.Appointment_Module_Id == 2) {
@@ -1632,11 +1648,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                             $scope.appdocfilename = "";
                                             if ($scope.AppointmoduleID == 3) {
                                                 $scope.Appointment_Id = data.PatientAppointmentList[0].Id;
-                                                var eligibility_url = baseUrl + '/api/PayBy/EligibilityRequestDetail?eligibilityID=' + $scope.eligibility_Id + '&facilityLicense=MF2007'
+                                                var eligibility_url = baseUrl + '/api/PayBy/EligibilityRequestDetail?eligibilityID=' + $scope.eligibility_Id + '&facilityLicense=' + $scope.facilityLicense
                                                 var eligibility_request = {
                                                     "url": eligibility_url,
                                                     "eligibilityID": $scope.eligibility_Id,
-                                                    "facilityLicense": 'MF2007'
+                                                    "facilityLicense": $scope.facilityLicense
                                                 };
                                                 eligibility_response = $scope.eligibility_response;
                                                 $scope.user_id = $window.localStorage['UserId'];
@@ -1802,13 +1818,14 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
                     $scope.checkEligibility = function () {
                         var obj = {
-                            Clinicianlist: 'GN30148',
+                            Clinicianlist: $scope.Health_License,
                             ServiceCategory: 1,
                             ConsultationCategory: 1,
-                            PayorId: 102,
+                            PayorId: $scope.ShortCode,
                             MOBILE_NO: $scope.PMobileNo,
                             NATIONALITY_ID: $scope.NationalId,
-                            countrycode: $scope.countrycode
+                            countrycode: $scope.countrycode,
+                            facilityLicense: $scope.facilityLicense
                         }
                         $http.post(baseUrl + '/api/EligibilityCheck/AddEligibilityEequest/', obj).success(function (data) {
                             if (data != null) {
@@ -1817,7 +1834,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                 } else if (data.status == 1) {
                                     setTimeout(function () {
                                         $scope.eligibility_Id = data.data.eligibilityId;
-                                        $http.get(baseUrl + '/api/PayBy/EligibilityRequestDetail?eligibilityID=' + $scope.eligibility_Id + '&facilityLicense=MF2007').success(function (response_data) {
+                                        $http.get(baseUrl + '/api/PayBy/EligibilityRequestDetail?eligibilityID=' + $scope.eligibility_Id + '&facilityLicense=' + $scope.facilityLicense).success(function (response_data) {
                                             if (response_data != null) {
                                                 if (response_data.data != null) {
                                                     result = response_data.data.eligibilityCheck.result;
@@ -1825,7 +1842,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                                     $scope.eligibility_response = response_data.data;
                                                     $scope.save_user_appointment_eligibility_logs($scope.Appointment_Id, $scope.user_id, $scope.eligibility_Id, $scope.eligibility_response, $scope.eligibility_response);
                                                 } else {
-                                                    toastr.warning("Request for eligibility failed, appointment could not be created...", "warning");
+                                                    toastr.warning("Request for eligibility failed...", "warning");
                                                     $scope.cancel_eligibility($scope.eligibility_Id);
                                                 }
                                             }

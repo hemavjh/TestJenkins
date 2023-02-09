@@ -1938,7 +1938,8 @@ namespace MyCortex.Repositories.Uesr
                                   ProtocolName = p.Field<string>("NAME"),
                                   Patient_Type = p.Field<int?>("PATIENT_TYPE"),
                                   UserType = p.Field<string>("USERTYPE"),
-                                  PhotoBlob = p.IsNull("PHOTOBLOB") ? null : DecryptFields.DecryptFile(p.Field<byte[]>("PHOTOBLOB"))
+                                  PhotoBlob = p.IsNull("PHOTOBLOB") ? null : DecryptFields.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
+                                  PayorId = p.Field<string>("PAYORID")
                               }).FirstOrDefault();
             if (list.DOB_Encrypt != "")
             {

@@ -55,6 +55,7 @@ namespace MyCortex.User.Model
         public string INSURANCEID { get; set; }
         public long? NATIONALITY_ID { get; set; }
         public string HEALTH_LICENSE { get; set; }
+        public string PayorId { get; set; }
     }
     public class UserCountDetails
     {
