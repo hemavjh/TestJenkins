@@ -45,7 +45,7 @@ namespace MyCortex.User.Controllers
             try
             {
                 string emiratesId = Convert.ToString(form["NATIONALITY_ID"]);
-                int consultationCategoryId = Convert.ToInt32(form["ConsultationCategory"]);
+                // int consultationCategoryId = Convert.ToInt32(form["ConsultationCategory"]);
                 string clinicianLicense = Convert.ToString(form["Clinicianlist"]);
                 string mobileNumber = Convert.ToString(form["MOBILE_NO"]);
                 int payerId = Convert.ToInt32(form["PayorId"]);
@@ -55,7 +55,7 @@ namespace MyCortex.User.Controllers
 
                 RequestEligibility re = new RequestEligibility();
                 re.emiratesId = emiratesId;
-                re.consultationCategoryId = consultationCategoryId;
+                // re.consultationCategoryId = consultationCategoryId;
                 re.clinicianLicense = clinicianLicense;
                 re.mobileNumber = mobileNumber;
                 re.payerId = payerId;
