@@ -2164,7 +2164,6 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $('#divInstitution').removeClass("ng-valid");
                         $('#divInstitution').addClass("ng-invalid");
                     }
-
                 });
 
                 //$scope.txtPhoneChange = function () {
