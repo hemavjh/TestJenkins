@@ -65,6 +65,17 @@
             } else {
                 Buildnamespan.innerText = BuildList[0];
             }
+            if (BuildList[1] == 'https://hive.clinic/') {
+                Buildnamespan.innerText = BuildList[0];
+            } else if (BuildList[1] == 'https://uat.hive.clinic/') {
+                Buildnamespan.innerText = 'UAT- ' + BuildList[0];
+            } else if (BuildList[1] == 'https://qa.myhealthae.com/') {
+                Buildnamespan.innerText = BuildList[0];
+            } else if (BuildList[1] == 'https://telemedicine.myhealthae.com/') {
+                Buildnamespan.innerText = 'QA- ' + BuildList[0];
+            } else if (BuildList[1] == 'https://uat.mycortex.health/') {
+                Buildnamespan.innerText = BuildList[0];
+            }
         });
         var PhotoList = jQuery.parseJSON('@Html.Action("LoginPageLogoDetails", "Home")');
         $(document).ready(function () {

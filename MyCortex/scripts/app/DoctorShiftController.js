@@ -1453,14 +1453,20 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                         //alert(data.Message);
                         if (data.ReturnFlag == 1) {
                             toastr.success(data.Message, "success");
+                            $('#saveDoctorShift1').attr("disabled", false);
+                            $('#saveDoctorShift2').attr("disabled", false);
+                            $('#saveDoctorShift3').attr("disabled", false);
                         }
                         else if (data.ReturnFlag == 0) {
+                            $('#saveDoctorShift1').attr("disabled", true);
+                            $('#saveDoctorShift2').attr("disabled", true);
+                            $('#saveDoctorShift3').attr("disabled", true);
                             toastr.info(data.Message, "info");
+                            $scope.CancelDoctorShift();
+                            $("#chatLoaderPV").hide();
                             return false;
                         }
-                        $('#saveDoctorShift1').attr("disabled", false);
-                        $('#saveDoctorShift2').attr("disabled", false);
-                        $('#saveDoctorShift3').attr("disabled", false);
+                     
                         $("#chatLoaderPV").hide();
                         //if (data.ReturnFlag == 1) {
                             $scope.DoctorShiftClear();
@@ -3227,6 +3233,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
         $scope.Days = "0";
         $scope.AppointmentDay = "";
         $scope.Minutes = "0";
+        $scope.CancelAppointmentUnPaidMinutes = "0";
         $scope.TimeZoneList = [];
         $scope.SelectedTimeZone = "";
         $scope.sunday = true;
@@ -3443,6 +3450,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     $scope.IntervalBt = data.AppointmentInterval;
                     $scope.AppointmentDay = data.MaxScheduleDays;
                     $scope.Minutest = data.MinRescheduleMinutes;
+                    $scope.CancelAppointmentUnPaidMinutes = data.CancelAppointmentUnPaidMinutes;
                     //$scope.SelectedTimeZone = data.DefautTimeZone;
                     $scope.DefaultworkingDays = data.DefaultWorkingDays;
                     $scope.SelectedDefaultholiday = data.DefaultHoliDays;
@@ -3533,7 +3541,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             $scope.AutoEnable = "1";
             $scope.ReduceNumberofavailableAppointmentes = "";
             $("#chatLoaderPV").hide();
-
+            $scope.CancelAppointmentUnPaidMinutes = "";
 
         }
 
@@ -3575,6 +3583,11 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             else if (typeof ($scope.Minutest) == "undefined" || $scope.Minutest == "0") {
                 //alert("Please Enter Minutes");
                 toastr.warning("Please Enter Minutes", "warning");
+                return false;
+            }
+            else if (typeof ($scope.CancelAppointmentUnPaidMinutes) == "undefined" || $scope.CancelAppointmentUnPaidMinutes == "0") {
+                //alert("Please Enter Minutes");
+                toastr.warning("Please Enter Cancel Appointment UnPaid Minutes", "warning");
                 return false;
             }
             if ($scope.ReduceNumberofavailableAppointmentes > 50) {
@@ -3725,7 +3738,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     ReminderTimeInterval: $scope.AddReminderParameters,
                     IsAutoReschedule: $scope.AutoEnable,
                     MaxScheduleDays: $scope.AppointmentDay,
-                    MinimumSlots: $scope.Minimumslots
+                    MinimumSlots: $scope.Minimumslots,
+                    CancelAppointmentUnPaidMinutes: $scope.CancelAppointmentUnPaidMinutes
                 };
                 $('#save').attr("disabled", true);
                 console.log(obj)

@@ -361,6 +361,8 @@
     <Content Include="Images\groups.png" />
     <Content Include="Images\HiveIcon.png" />
     <Content Include="Images\HiveloginBg.jpg" />
+    <Content Include="Images\Hive_FavIcon.png" />
+    <Content Include="Images\Hive_Fav_Icon.png" />
     <Content Include="Images\home1.png" />
     <Content Include="Images\home2.png" />
     <Content Include="Images\image.png" />
@@ -408,6 +410,7 @@
     <Content Include="Images\MyCortexlogotheme.jpg" />
     <Content Include="Images\MyCortexTransHW.png" />
     <Content Include="Images\MyHealthLoginBg.jpg" />
+    <Content Include="Images\MyHealthLoginBg.png" />
     <Content Include="Images\NatId.png" />
     <Content Include="Images\National_Female.png" />
     <Content Include="Images\National_Male.png" />
@@ -1383,6 +1386,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Home\Models\OpenjetModel.cs" />
+    <Compile Include="Home\Models\OpenjetServiceModel.cs" />
     <Compile Include="Livebox\Controllers\LiveboxController.cs" />
     <Compile Include="Login\Controller\LoginController.cs" />
     <Compile Include="Login\Model\AccountTypeModel.cs" />

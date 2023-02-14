@@ -68,8 +68,8 @@
                                     <font class='mandatory-field'>*</font>
                                 </sup>
                             </label>
-                            <input type="password" class="form-control" id="Text10" ng-model="Password" ng-required="true"
-                                   ng-maxlength="30" maxlength="30">
+                            <input type="password" class="form-control" id="Text10" ng-model="P_word" ng-required="true"
+                                   ng-maxlength="30" maxlength="30"  autocomplete="off"  onfocus="this.removeAttribute('readonly');" readonly>
                         </div>
                         <div class="inputGroups">
                             <label>
@@ -97,8 +97,8 @@
                                     <font class='mandatory-field'>*</font>
                                 </sup>
                             </label>
-                            <input type="text" class="form-control" id="Text2" ng-model="UserName" ng-maxlength="50" ng-required="true"
-                                   maxlength="50">
+                            <input type="text" class="form-control" id="Text2" ng-model="U_Name" ng-maxlength="50" ng-required="true"
+                                   maxlength="50"  autocomplete="off">
                         </div>
                         <div class="inputGroups">
                             <label>

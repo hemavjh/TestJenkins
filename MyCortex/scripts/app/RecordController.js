@@ -128,17 +128,25 @@ Record.controller("RecordController", ['$scope', '$http', '$routeParams', '$loca
             else if ($scope.Paymentsearch == "PAID") {
                 $scope.rowCollectionFilter = [];
                 $scope.rowCollectionFilter = $ff($scope.rowCollectionFilter1, function (value) {
-                    if (value.status != null && value.status != "FAILURE") {
+                    if (value.status != null && value.status != "FAILURE" && value.status != "UNPAID") {
                         return angular.lowercase(value.status.toString()).match(searchstring1);
                     }
                     });
             } else if ($scope.Paymentsearch == "FAILURE") {
                 $scope.rowCollectionFilter = [];
                 $scope.rowCollectionFilter = $ff($scope.rowCollectionFilter1, function (value) {
-                    if (value.status != null) {
+                    if (value.status != null && value.status != "UNPAID") {
                         return angular.lowercase(value.status.toString()).match(searchstring1);
                     }
                     });
+            }
+            else if ($scope.Paymentsearch == "UNPAID") {
+                $scope.rowCollectionFilter = [];
+                $scope.rowCollectionFilter = $ff($scope.rowCollectionFilter1, function (value) {
+                    if (value.status == "UNPAID") {
+                        return angular.lowercase(value.status.toString()).match(searchstring1);
+                    }
+                });
             }
         }
         //$scope.recordedvideoURL = [];
@@ -215,6 +223,7 @@ Record.controller("RecordController", ['$scope', '$http', '$routeParams', '$loca
                 angular.forEach($scope.rowCollectionFilter1, function (value, index) {
                     value.status = value.status.replace("PAID_SUCCESS", "PAID");
                 });
+               
                 if ($scope.rowCollectionFilter > 0) {
                     $scope.flag = 1;
                 } else {

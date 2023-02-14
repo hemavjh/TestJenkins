@@ -51,6 +51,7 @@ namespace MyCortex.Login.Model
         public string ProductFavIcon { get; set; }
         public string ProductCopyRight { get; set; }
         public string PoweredBy { get; set; }
+        public string SiteURL { get; set; }
     }
 
     public class UsertypeModal

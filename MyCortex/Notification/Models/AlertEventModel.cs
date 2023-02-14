@@ -21,6 +21,7 @@ namespace MyCortex.Notification.Models
         //public IList<EmailListModel> EmailListModel { get; set; }
         public string TempSubject { get; set; }
         public string TempBody { get; set; }
+        public string TempBody1 { get; set; }
     }
 
     public class EmailListModel

@@ -689,6 +689,7 @@ namespace MyCortex.Home.Controllers
                 foreach (var i in lst)
                 {
                     t.Add(i.BuildNo.ToString());
+                    t.Add(i.SiteURL.ToString());
                 }
                 var json = jsonSerialiser.Serialize(t);
                 return Content(json);

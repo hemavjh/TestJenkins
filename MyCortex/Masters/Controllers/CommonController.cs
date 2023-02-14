@@ -503,7 +503,7 @@ namespace MyCortex.Masters.Controllers
         /// gender name list
         /// </summary>
         /// <returns>gender name list</returns>
-        [Authorize]
+        [AllowAnonymous]
         [HttpGet]
         public IList<GenderMasterModel> CloneGenderList()
         {
