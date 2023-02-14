@@ -1687,6 +1687,14 @@
 
     makeResizableDiv('.resizable')
 
+    window.onbeforeunload = function (event) {
+        event = window.event;
+        if (event) {
+            alert("windowclose");
+            window.location.href = 'Home/BrowserClose';
+        }
+    }
+
     function logout() {
         clearFirebaseToken();
         setTimeout(function () {
