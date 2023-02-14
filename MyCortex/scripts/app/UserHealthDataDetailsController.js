@@ -1819,8 +1819,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.checkEligibility = function () {
                         var obj = {
                             Clinicianlist: $scope.Health_License,
-                            ServiceCategory: 1,
-                            ConsultationCategory: 1,
+                            ServiceCategory: 12,
                             PayorId: $scope.ShortCode,
                             MOBILE_NO: $scope.PMobileNo,
                             NATIONALITY_ID: $scope.NationalId,
@@ -1847,7 +1846,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                                 }
                                             }
                                         });
-                                    }, 10000);
+                                    }, 15000);
                                 } else if (data.status == -3 || data.status == -1) {
                                     toastr.warning(data.errors[0], "warning");
                                 }

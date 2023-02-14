@@ -2098,7 +2098,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             var inputPhoneNo = window.intlTelInput(input, {
                                 formatOnDisplay: true,
                                 separateDialCode: true,
-                                onlyCountries: [iso2],
+                                //onlyCountries: [iso2],
                                 geoIpLookup: function (callback) {
                                     $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
                                         var countryCode = (resp && resp.country) ? resp.country : "";
@@ -2143,7 +2143,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                 var inputPhoneNo = window.intlTelInput(input, {
                                     formatOnDisplay: true,
                                     separateDialCode: true,
-                                    onlyCountries: [iso2],
+                                   // onlyCountries: [iso2],
                                     geoIpLookup: function (callback) {
                                         $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
                                             var countryCode = (resp && resp.country) ? resp.country : "";
@@ -2164,7 +2164,6 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $('#divInstitution').removeClass("ng-valid");
                         $('#divInstitution').addClass("ng-invalid");
                     }
-
                 });
 
                 //$scope.txtPhoneChange = function () {
