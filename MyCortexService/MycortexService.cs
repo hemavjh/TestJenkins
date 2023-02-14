@@ -47,15 +47,14 @@ namespace MyCortexService
         Timer timer = new Timer();
         Timer timer2 = new Timer();
         Timer timer3 = new Timer();
-        Timer timer4 = new Timer();
+        
         private string executedTime = "";
         private string lastexecutedTime = "";
         private string executedTimeNow = "";
         private Boolean isJob1running = false;
         private Boolean isJob2running = false;
         private Boolean isJob3running = false;
-        private Boolean isJob4running = false;
-
+        
         static readonly SendEmailRepository emailrepository = new SendEmailRepository();
         static readonly AlertEventRepository alertrepository = new AlertEventRepository();
         static readonly UserRepository userrepository = new UserRepository();
@@ -82,10 +81,6 @@ namespace MyCortexService
             timer3.Elapsed += new ElapsedEventHandler(OnElapsedTime3);
             timer3.Interval = 60000; //number in milisecinds     // 60000 = one minute
             timer3.Enabled = true;
-
-            timer4.Elapsed += new ElapsedEventHandler(OnElapsedTime4);
-            timer4.Interval = 60000; //number in milisecinds     // 60000 = one minute
-            timer4.Enabled = true;
         }
 
         public void onDebug()
@@ -851,32 +846,20 @@ namespace MyCortexService
             {
                 isJob3running = true;
                 WriteToFile("Service3 started at " + DateTime.Now);
-                // PushNotificationApiManager.SendConfiguraionSettingNotification();
-                isJob3running = false;
-            }
-        }
 
-        private void OnElapsedTime4(object source, ElapsedEventArgs e)
-        {
-            if (!isJob4running)
-            {
-                isJob4running = true;
-                //APPointments RESET by System
-                // Start
                 try
                 {
                     ClsDataBase.GetDataTable("[MYCORTEX].RESET_APPOINTMENTS_BY_SYSTEM");
                 }
                 catch (Exception ex)
                 {
-                    TraceException(ex);
+                    WriteToFile(new String('-', 50));
+                    WriteToFile(ex.StackTrace);
+                    WriteToFile(new String('-', 50));
                 }
-
-                // END
-                
-                isJob4running = false;
+                isJob3running = false;
             }
-        }
+        }      
 
         public void TraceException(Exception ex)
         {
