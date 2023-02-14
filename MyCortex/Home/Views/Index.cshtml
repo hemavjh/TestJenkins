@@ -1320,7 +1320,7 @@
                 $('#call-page').hide();
                 chatService.getaddressbookDetails($('#contactSearch').val());
             }
-        })        
+        })
         $(window).on("load", function () {
 
             $('#chatBox').attr("style", "display:none");
@@ -1686,6 +1686,15 @@
     }
 
     makeResizableDiv('.resizable')
+
+
+    window.onbeforeunload = function (event) {
+        event = window.event;
+        if (event) {
+           //alert("windowclose");
+           $window.location.href = 'Home/BrowserClose';
+        }
+    }
 
     function logout() {
         clearFirebaseToken();
