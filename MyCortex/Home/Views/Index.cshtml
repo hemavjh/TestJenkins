@@ -1687,12 +1687,18 @@
 
     makeResizableDiv('.resizable')
 
-    window.onbeforeunload = function (event) {
-        event = window.event;
-        if (event) {
-            alert("windowclose");
-            window.location.href = 'Home/BrowserClose';
+    window.onbeforeunload = WindowCloseHanlder;
+    var isClose = false;
+    function WindowCloseHanlder() {
+        if (!isClose) {
+            $.ajax({
+                type: "post",
+                url: "/Home/BrowserClose" // the URL of the controller action method
+            });
         }
+    }
+    function BodyClicked() {
+        isClose = true;
     }
 
     function logout() {

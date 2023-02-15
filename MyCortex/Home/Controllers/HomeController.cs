@@ -156,7 +156,7 @@ namespace MyCortex.Home.Controllers
             return View((object)returnError);
         }
 
-        [CheckSessionOutFilter]
+        [HttpPost]
         public ActionResult BrowserClose()
         {
             _AppLogger = this.GetType().FullName;
@@ -178,7 +178,6 @@ namespace MyCortex.Home.Controllers
                 Session.Abandon();
                 Session.Clear();
                 returnError = "";
-                /*_MyLogger.Exceptions("Warn", _AppLogger, "LoginOut button clicked", null, _AppMethod);*/
                 return JavaScript("window.close();");
 
             }
