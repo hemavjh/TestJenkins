@@ -13,16 +13,17 @@ Homecontroller.controller("homeController", ['$scope', '$http', '$routeParams', 
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
         $scope.page_size = 0;
         $scope.ConfigCode = "PAGINATION";
-        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
-            if (data[0] != undefined) {
-                $scope.page_size = parseInt(data[0].ConfigValue);
+        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).then(function (response) {
+            if (response.data[0] != undefined) {
+                $scope.page_size = parseInt(response.data[0].ConfigValue);
                 $window.localStorage['Pagesize'] = $scope.page_size;
             }
+        }, function errorCallback(response) {
         });
 
         if ($scope.UserTypeId != 1) {
-            $http.get(baseUrl + '/api/Login/GetPasswordHistory_Count/?UserId=' + $scope.UserId).success(function (data) {
-                $scope.PasswordCount = data.PasswordCount;
+            $http.get(baseUrl + '/api/Login/GetPasswordHistory_Count/?UserId=' + $scope.UserId).then(function (response) {
+                $scope.PasswordCount = response.data.PasswordCount;
                 if ($scope.PasswordCount == "0") {
                     window.location.href = baseUrl + "/Home/Index#/ChangePassword/1";
                 }
@@ -42,6 +43,7 @@ Homecontroller.controller("homeController", ['$scope', '$http', '$routeParams', 
                     else if ($window.localStorage['UserTypeId'] == "7")
                         window.location.href = baseUrl + "/Home/Index#/TodaysAppoint_ments";
                 }
+            }, function errorCallback(response) {
             });
         }
         else {

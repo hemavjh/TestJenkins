@@ -8,6 +8,10 @@
 EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     var baseUrl = $("base").first().attr("href");
     $routeProvider.
+        //when('/', {
+        //    templateUrl: baseUrl + 'Login/Views/Login.html',
+        //    controller: 'LoginController'
+        //}).
         when('/login', {
             templateUrl: baseUrl + 'Login/Views/Login.html',
             controller: 'LoginController'
@@ -97,10 +101,11 @@ EmpApp.service('fileUpload', ['$http', function ($http) {
             transformRequest: angular.identity,
             headers: { 'Content-Type': undefined }
         })
-            .success(function () {
-            })
-            .error(function () {
+            .then(function () {
+            }, function errorCallback() {
             });
+            //.error(function () {
+            //});
     }
 }]);
 
@@ -282,28 +287,33 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                 toastr.info("Invalid Email format", "info");
                 return false;
             }
-            $http.get(baseUrl + '/api/Login/ForgotPassword/?EmailId=' + $scope.forgotPasswordEmail).success(function (data) {
-                if (data != null) {
+            $http.get(baseUrl + '/api/Login/ForgotPassword/?EmailId=' + $scope.forgotPasswordEmail).then(function (response) {
+                if (response != null) {
                     //alert(data.Message)
-                    if (data.ReturnFlag == "1") {
-                        toastr.success(data.Message, "success");
+                    if (response.data.ReturnFlag == "1") {
+                        toastr.success(response.data.Message, "success");
                         $("#chatLoaderPV").hide();
                         angular.element('#forgotPasswordModal').modal('hide');
                         $scope.forgotPasswordEmail = "";
                     }
-                    else if (data.ReturnFlag == "0") {
-                        toastr.info(data.Message, "info");
+                    else if (response.data.ReturnFlag == "0") {
+                        toastr.info(response.data.Message, "info");
                     }
                 }
                 else {
                     //alert("This Email is not registered, Invalid Email")
                     toastr.info("This Email is not registered, Invalid Email", "info");
                 }
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("This Email is not registered, Invalid Email")
                 toastr.info("This Email is not registered, Invalid Email", "info");
-                $scope.error = "An error has occurred while deleting reset password details" + data;
+                $scope.error = "An error has occurred while deleting reset password details" + response.data;
             });
+            //    .error(function (response) {
+            //    //alert("This Email is not registered, Invalid Email")
+            //    toastr.info("This Email is not registered, Invalid Email", "info");
+            //    $scope.error = "An error has occurred while deleting reset password details" + response;
+            //});
         }
 
 
@@ -366,8 +376,8 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             }
             return true;
         };
-        $http.get(baseUrl + '/api/Login/GetProduct_Details/').success(function (data) {
-            $scope.ProductName1 = data[0].ProductName;
+        $http.get(baseUrl + '/api/Login/GetProduct_Details/').then(function (response) {
+            $scope.ProductName1 = response.data[0].ProductName;
             var chk = $window.localStorage['inactivity_logout'];
             if (chk === '1') {
                 $scope.errorlist = 'Your session has expired, please provide your credentials to login again.';
@@ -395,15 +405,17 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             } else {
                 document.getElementById('LoginSection').className = "loginBgHiv";
             }
+        }, function errorCallback(response) { 
         });
-        $http.get(baseUrl + '/api/Login/GetProduct_Details/').success(function (data) {
-            $scope.PrdImg = data[0].ProductImg;
-            $scope.PrdDefaultLogo = data[0].ProductDefaultlogo;
-            $scope.prdtname = data[0].ProductName;
+        $http.get(baseUrl + '/api/Login/GetProduct_Details/').then(function (response) {
+            $scope.PrdImg = response.data[0].ProductImg;
+            $scope.PrdDefaultLogo = response.data[0].ProductDefaultlogo;
+            $scope.prdtname = response.data[0].ProductName;
+        }, function errorCallback(response) { 
         });
-        $http.get(baseUrl + '/api/Login/getProductName/').success(function (data) {
-            var ProductName = data;
-            $('#productname').val(ProductName["instanceId"]);
+        $http.get(baseUrl + '/api/Login/getProductName/').then(function (response) {
+            var ProductName = response.data["instanceId"];
+            $('#productname').val(ProductName);
             if ($('#productname').val() == "0") {
                 $scope.prdName = "MyHealth";
                 $scope.prductName = " MyHealth?";
@@ -414,6 +426,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                 $scope.prdName = "MyCortex  ";
                 $scope.prductName = " MyCortex?";
             }
+        }, function errorCallback(response) { 
         });
 
 
@@ -424,8 +437,8 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                 // window.location.href = baseUrl + "/Home/Index#;
                 $("#chatLoaderPV").show();
                 var tokendata = "UserName=admin&Password=admin&grant_type=password"
-                $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
-                    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
+                $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(function (response) {
+                    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.data.access_token;
 
                     var data = {
                         Id: $scope.Id,
@@ -459,22 +472,30 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                     //    headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': 'Bearer ' + $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] },
                     //    data: data
                     //}).success(function (data) {
-                    $http.post(baseUrl + 'api/User/User_InsertUpdate?Login_Session_Id={00000000-0000-0000-0000-000000000000}', data, config).success(function (data) {
+                    $http.post(baseUrl + 'api/User/User_InsertUpdate?Login_Session_Id={00000000-0000-0000-0000-000000000000}', data, config).then(function (response) {
                         //alert(data.Message);
-                        toastr.info(data.Message, "info");
+                        toastr.info(response.data.Message, "info");
                         $scope.CancelSignUpPopup();
                         if ($scope.MenuTypeId == 3) {
                             $scope.ListRedirect();
                         }
+                    }, function errorCallback(response) {
                     });
                     $("#chatLoaderPV").hide();
-                }).error(function (err) {
+                }, function errorCallback(err) {
                     //console.log(err);
                     toastr.warning(err, "warning");
                     $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
                     //alert('error');
                     toastr.info("error", "info");
                 });
+                //    .error(function (err) {
+                //    //console.log(err);
+                //    toastr.warning(err, "warning");
+                //    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
+                //    //alert('error');
+                //    toastr.info("error", "info");
+                //});
             }
         };
         //This is for Clear the values
@@ -500,29 +521,34 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
         $('#signupModal').on('show.bs.modal', function () {
             if ($scope.NationalityList.length == 0) {
                 // This is for to get Nationality List 
-                $http.get(baseUrl + 'api/Common/NationalityList/').success(function (data) {
-                    $scope.NationalityList = data;
+                $http.get(baseUrl + 'api/Common/NationalityList/').then(function (response) {
+                    $scope.NationalityList = response;
+                }, function errorCallback(response) { 
                 });
             }
             if ($scope.MaritalStatusList.length == 0) {
-                $http.get(baseUrl + 'api/Common/MaritalStatusList/').success(function (data) {
-                    $scope.MaritalStatusList = data;
+                $http.get(baseUrl + 'api/Common/MaritalStatusList/').then(function (response) {
+                    $scope.MaritalStatusList = response;
+                }, function errorCallback(response) { 
                 });
             }
             if ($scope.EthnicGroupList == 0) {
-                $http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (data) {
-                    $scope.EthnicGroupList = data;
+                $http.get(baseUrl + '/api/Common/EthnicGroupList/').then(function (response) {
+                    $scope.EthnicGroupList = response;
+                }, function errorCallback(response) { 
                 });
             }
             if ($scope.BloodGroupList == 0) {
-                $http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (data) {
-                    $scope.BloodGroupList = data;
+                $http.get(baseUrl + '/api/Common/BloodGroupList/').then(function (response) {
+                    $scope.BloodGroupList = response;
+                }, function errorCallback(response) { 
                 });
             }
             if ($scope.GenderList.length == 0) {
                 // This is for to get Gender List
-                $http.get(baseUrl + 'api/Common/GenderList/').success(function (data) {
-                    $scope.GenderList = data;
+                $http.get(baseUrl + 'api/Common/GenderList/').then(function (response) {
+                    $scope.GenderList = response;
+                }, function errorCallback(response) { 
                 });
             }
         });
@@ -656,11 +682,12 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             var offsetTime = new Date().getTimezoneOffset();
 
             $scope.errorlist = "";
-            $http.get(baseUrl + '/api/Login/CheckDBConnection/').success(function (data) {
-                if (data == false) {
+            $http.get(baseUrl + '/api/Login/CheckDBConnection/').then(function (response) {
+                if (response.data == false) {
                     $scope.errorlist = "Invalid DB Connection";
                     return;
                 }
+            }, function errorCallback(response) { 
             });
 
             if ($scope.Validationcontrols() == true) {
@@ -686,100 +713,114 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                 };
 
                 //$http.get(baseUrl + '/api/Login/Userlogin_AddEdit/?Id=' + $scope.Id + '&UserName=' + $scope.Username + '&Password=' + $scope.Password).success(function (data) {
-                $http.post(baseUrl + '/api/Login/Userlogin_CheckValidity/', obj).success(function (data) {
-                    if (data.Status == 'False') {
+                $http.post(baseUrl + '/api/Login/Userlogin_CheckValidity/', obj).then(function (response) {
+                    if (response.data.Status == 'False') {
                         $("#chatLoaderPV").hide();
                         $("#chatLoaderPV1").hide();
-                        $scope.errorlist = data.Message;
+                        $scope.errorlist = response.data.Message;
                     } else {
-                    $scope.UserId = data.UserId;
-                    $scope.UserTypeId = data.UserTypeId;
-                    $scope.InstitutionId = data.InstitutionId;
-                    $window.localStorage['User_Mobile_No'] = data.UserDetails.MOBILE_NO;
-                    $window.localStorage['UserId'] = $scope.UserId;
-                    $window.sessionStorage['UserId'] = $scope.UserId;
-                    $window.localStorage['Auth_Session_Id'] = 1;
-                    $window.localStorage['inactivity_logout'] = 0;
-                    $window.localStorage['UserTypeId'] = $scope.UserTypeId;
-                    $window.localStorage['Login_Session_Id'] = data.Login_Session_Id;
-                    $window.localStorage['FullName'] = data.UserDetails.FullName;
-                    if ($scope.UserTypeId == 1) {
-                        $window.localStorage['InstitutionId'] = -1;
-                    }
-                    else {
-                        $window.localStorage['InstitutionId'] = $scope.InstitutionId;
-                    }
-                    var Message = data.Messagetype;
+                        $scope.UserId = response.data.UserId;
+                        $scope.UserTypeId = response.data.UserTypeId;
+                        $scope.InstitutionId = response.data.InstitutionId;
+                        $window.localStorage['User_Mobile_No'] = response.data.UserDetails.MOBILE_NO;
+                        $window.localStorage['UserId'] = $scope.UserId;
+                        $window.sessionStorage['UserId'] = $scope.UserId;
+                        $window.localStorage['Auth_Session_Id'] = 1;
+                        $window.localStorage['inactivity_logout'] = 0;
+                        $window.localStorage['UserTypeId'] = $scope.UserTypeId;
+                        $window.localStorage['Login_Session_Id'] = response.data.Login_Session_Id;
+                        $window.localStorage['FullName'] = response.data.UserDetails.FullName;
+                        if ($scope.UserTypeId == 1) {
+                            $window.localStorage['InstitutionId'] = -1;
+                        }
+                        else {
+                            $window.localStorage['InstitutionId'] = $scope.InstitutionId;
+                        }
+                        var Message = response.data.Messagetype;
 
-                    if ($scope.remember == true) {
-                        $rememberMeService('dXNlcm5hbWVocm1z', ($scope.Username));
-                        $rememberMeService('cGFzc3dvcmRocm1z', ($scope.Password));
-                        $rememberMeService('cmVtZW1iZXJocm1z', ($scope.remember));
+                        if ($scope.remember == true) {
+                            $rememberMeService('dXNlcm5hbWVocm1z', ($scope.Username));
+                            $rememberMeService('cGFzc3dvcmRocm1z', ($scope.Password));
+                            $rememberMeService('cmVtZW1iZXJocm1z', ($scope.remember));
 
-                    } else {
-                        $rememberMeService('dXNlcm5hbWVocm1z', '');
-                        $rememberMeService('cGFzc3dvcmRocm1z', '');
-                        $rememberMeService('cmVtZW1iZXJocm1z', '');
-                    }
+                        } else {
+                            $rememberMeService('dXNlcm5hbWVocm1z', '');
+                            $rememberMeService('cGFzc3dvcmRocm1z', '');
+                            $rememberMeService('cmVtZW1iZXJocm1z', '');
+                        }
 
-                    var data = data.data;
-                    //var tokendata = "UserName=admin&Password=admin&grant_type=password&LoginType=1"
-                    //$http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
-                    //    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
-                    //}).error(function (err) {
-                    //    console.log(err);
-                    //    alert('error');
-                    //});
+                        var data = response.data.data;
+                        //var tokendata = "UserName=admin&Password=admin&grant_type=password&LoginType=1"
+                        //$http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
+                        //    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
+                        //}).error(function (err) {
+                        //    console.log(err);
+                        //    alert('error');
+                        //});
 
-                    var UserName = $scope.Username.toLowerCase();
-                    var Password1 = $scope.Password;
-                    var Password = Password1.replace(/(#|&)/g, "amp");
-                    var LoginType = $scope.LoginType;
-                    var tokendata = "UserName=" + UserName + "&Password=" + Password + "&grant_type=password"
-                    $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
-                        $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;                           
-                    }).error(function (err) {
-                        $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
-                        console.log(err);
-                    });
-
-                    //$window.sessionStorage['dFhNCjOpdzPNNHxx54e+0w=='] = $window.localStorage['dFhNCjOpdzPNNHxx54e+0w==']
-                    $scope.ConfigCode = "WEBIDLETIME";
-                    var IdleDays = 0;
-                    $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId'])
-                        .success(function (data1) {
-                            if (data1[0] != undefined) {
-                                if ($scope.UserTypeId === 1) {
-                                    IdleDays = 86400;
-                                    $window.localStorage['IdleDays'] = IdleDays;
-                                    $scope.UserLogin(data, Message);
-                                } else {
-                                    IdleDays = parseInt(data1[0].ConfigValue);
-                                    $window.localStorage['IdleDays'] = IdleDays;
-                                    $scope.UserLogin(data, Message);
-                                }
-                            } else {
-                                if ($scope.UserTypeId === 1) {
-                                    IdleDays = 86400;
-                                    $window.localStorage['IdleDays'] = IdleDays;
-                                    $scope.UserLogin(data, Message);
-                                } else {
-                                    IdleDays = 600;
-                                    $window.localStorage['IdleDays'] = IdleDays;
-                                    $scope.UserLogin(data, Message);
-                                }
-                            }
-                        }).error(function (err) {
-                            IdleDays = 600;
-                            $window.localStorage['IdleDays'] = 600;
-                            $scope.UserLogin(data, Message);
+                        var UserName = $scope.Username.toLowerCase();
+                        var Password1 = $scope.Password;
+                        var Password = Password1.replace(/(#|&)/g, "amp");
+                        var LoginType = $scope.LoginType;
+                        var tokendata = "UserName=" + UserName + "&Password=" + Password + "&grant_type=password"
+                        $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(function (response) {
+                            $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.data.access_token;
+                        }, function errorCallback(err) {
+                            $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
+                            console.log(err);
                         });
+                        //    .error(function (err) {
+                        //    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
+                        //    console.log(err);
+                        //});
+
+                        //$window.sessionStorage['dFhNCjOpdzPNNHxx54e+0w=='] = $window.localStorage['dFhNCjOpdzPNNHxx54e+0w==']
+                        $scope.ConfigCode = "WEBIDLETIME";
+                        var IdleDays = 0;
+                        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId'])
+                            .then(function (data1) {
+                                if (data1.data[0] != undefined) {
+                                    if ($scope.UserTypeId === 1) {
+                                        IdleDays = 86400;
+                                        $window.localStorage['IdleDays'] = IdleDays;
+                                        $scope.UserLogin(data, Message);
+                                    } else {
+                                        IdleDays = parseInt(data1.data[0].ConfigValue);
+                                        $window.localStorage['IdleDays'] = IdleDays;
+                                        $scope.UserLogin(data, Message);
+                                    }
+                                } else {
+                                    if ($scope.UserTypeId === 1) {
+                                        IdleDays = 86400;
+                                        $window.localStorage['IdleDays'] = IdleDays;
+                                        $scope.UserLogin(data, Message);
+                                    } else {
+                                        IdleDays = 600;
+                                        $window.localStorage['IdleDays'] = IdleDays;
+                                        $scope.UserLogin(data, Message);
+                                    }
+                                }
+                            }, function errorCallback(err) {
+                                IdleDays = 600;
+                                $window.localStorage['IdleDays'] = 600;
+                                $scope.UserLogin(data, Message);
+                            });
+                        //.error(function (err) {
+                        //    IdleDays = 600;
+                        //    $window.localStorage['IdleDays'] = 600;
+                        //    $scope.UserLogin(data, Message);
+                        //});
                     }
-                }).error(function (data) {
+                }, function errorCallback(err) {
                     $("#chatLoaderPV").hide();
                     $("#chatLoaderPV1").hide();
                     $scope.errorlist = "Login Failed! \n Invalid Username or Password ";
                 });
+                //.error(function (data) {
+                //    $("#chatLoaderPV").hide();
+                //    $("#chatLoaderPV1").hide();
+                //    $scope.errorlist = "Login Failed! \n Invalid Username or Password ";
+                //});
             }
 
             //$scope.ConfigCode = "WEBIDLETIME";
@@ -884,13 +925,13 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                             };
 
                             //$http.get(baseUrl + '/api/Login/Userlogin_AddEdit/?Id=' + $scope.Id + '&UserName=' + $scope.Username + '&Password=' + $scope.Password).success(function (data) {
-                            $http.post(baseUrl + '/api/Login/Userlogin_CheckValidity/', obj).success(function (data) {
-                                $scope.UserId = data.UserId;
-                                $scope.UserTypeId = data.UserTypeId;
-                                $scope.InstitutionId = data.InstitutionId;
+                            $http.post(baseUrl + '/api/Login/Userlogin_CheckValidity/', obj).then(function (response) {
+                                $scope.UserId = response.data.UserId;
+                                $scope.UserTypeId = response.data.UserTypeId;
+                                $scope.InstitutionId = response.data.InstitutionId;
                                 $window.localStorage['UserId'] = $scope.UserId;
                                 $window.localStorage['UserTypeId'] = $scope.UserTypeId;
-                                $window.localStorage['Login_Session_Id'] = data.Login_Session_Id;
+                                $window.localStorage['Login_Session_Id'] = response.data.Login_Session_Id;
 
                                 if ($scope.UserTypeId == 1) {
                                     $window.localStorage['InstitutionId'] = -1;
@@ -898,7 +939,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                                 else {
                                     $window.localStorage['InstitutionId'] = $scope.InstitutionId;
                                 }
-                                var Message = data.Messagetype;
+                                var Message = response.data.Messagetype;
 
                                 if ($scope.remember == true) {
                                     $rememberMeService('dXNlcm5hbWVocm1z', ($scope.Username));
@@ -911,7 +952,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                                     $rememberMeService('cmVtZW1iZXJocm1z', '');
                                 }
 
-                                var data = data.data;
+                                var data = response.data.data;
                                 //var tokendata = "UserName=admin&Password=admin&grant_type=password&LoginType=1"
                                 //$http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
                                 //    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
@@ -935,18 +976,22 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                                 var Password = $scope.Password;
                                 var LoginType = $scope.LoginType;
                                 var tokendata = "UserName=" + UserName + "&Password=" + Password + "&grant_type=password"
-                                $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
-                                    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
-                                }).error(function (err) {
+                                $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(function (response) {
+                                    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.data.access_token;
+                                }, function errorCallback(err) {
                                     $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
                                     console.log(err);
                                 });
+                                //.error(function (err) {
+                                //    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
+                                //    console.log(err);
+                                //});
                                 $scope.ConfigCode = "WEBIDLETIME";
                                 var IdleDays = 0;
                                 $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId'])
-                                    .success(function (data1) {
-                                        if (data1[0] != undefined) {
-                                            IdleDays = parseInt(data1[0].ConfigValue);
+                                    .then(function (data1) {
+                                        if (data1.data[0] != undefined) {
+                                            IdleDays = parseInt(data1.data[0].ConfigValue);
                                             $window.localStorage['IdleDays'] = IdleDays;
                                             $scope.UserLogin(data, Message);
                                         } else {
@@ -954,11 +999,16 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                                             $window.localStorage['IdleDays'] = IdleDays;
                                             $scope.UserLogin(data, Message);
                                         }
-                                    }).error(function (err) {
+                                    }, function errorCallback(err) {
                                         IdleDays = 600;
                                         $window.localStorage['IdleDays'] = 600;
-                                        $scope.UserLogin(data,);
+                                        $scope.UserLogin(data, Message);
                                     });
+                                //.error(function (err) {
+                                //        IdleDays = 600;
+                                //        $window.localStorage['IdleDays'] = 600;
+                                //        $scope.UserLogin(data, Message);
+                                //    });
                             });
 
                         });
@@ -992,11 +1042,12 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             window.location.href = redirect;
         }
 
-        $http.get(baseUrl + '/api/Login/CheckExpiryDate/').success(function (data) {
-            if (data == true) {
+        $http.get(baseUrl + '/api/Login/CheckExpiryDate/').then(function (response) {
+            if (response.data == true) {
                 $scope.errorlist = "Your MyCortex version is outdated. Please contact Administrator for upgrade or email us on admin@mycortex.health";
                 $scope.isExpired = true;
             }
+        }, function errorCallback(response) { 
         });
     }
 ]);
@@ -1067,43 +1118,43 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
         if ($scope.InstitutionCode == "") {
             $scope.institutionName = "MyCortex";
         } else {
-            $http.get(baseUrl + 'api/User/GetInstitutionName/?Code=' + $scope.InstitutionCode).success(function (indata) {
-                if (indata != "") {
-                    $scope.institutionName = indata;
+            $http.get(baseUrl + 'api/User/GetInstitutionName/?Code=' + $scope.InstitutionCode).then(function (indata) {
+                if (indata.data != "") {
+                    $scope.institutionName = indata.data;
                 } else {
                     $scope.institutionName = "MyCortex";
                 }
-
+            }, function errorCallback(response) { 
             });
         }
 
 
-        $http.get(baseUrl + 'api/User/GetInstitutionFromCode/?Code=' + $scope.InstitutionCode).success(function (data) {
-            if (data[0].PatSignUpFlag == 0) {
-                $scope.PatSignUpFlag = data[0].PatSignUpFlag;
-                toastr.warning("You Haven't Subscribed For This Module. Please Contact Your Administrator", "warning" );
+        $http.get(baseUrl + 'api/User/GetInstitutionFromCode/?Code=' + $scope.InstitutionCode).then(function (response) {
+            if (response.data[0].PatSignUpFlag == 0) {
+                $scope.PatSignUpFlag = response.data[0].PatSignUpFlag;
+                toastr.warning("You Haven't Subscribed For This Module. Please Contact Your Administrator", "warning");
             }
-            if (data[0].INSTITUTION_ID !== 0) {
-                $scope.InstitutionId = data[0].INSTITUTION_ID;
-                $scope.SelectedInstitutionId = data[0].INSTITUTION_ID;
+            if (response.data[0].INSTITUTION_ID !== 0) {
+                $scope.InstitutionId = response.data[0].INSTITUTION_ID;
+                $scope.SelectedInstitutionId = response.data[0].INSTITUTION_ID;
                 //if ($scope.SelectedInstitutionId != "") {
                 $scope.ConfigCode = "MRN_PREFIX";
-                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data2) {
-                    $scope.PrefixMRN = data2[0].ConfigValue;
+                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).then(function (data2) {
+                    $scope.PrefixMRN = data2.data[0].ConfigValue;
                 });
                 //}
                 $http.get(baseUrl + '/api/Common/getInstitutionLanguages/?Institution_Id=' + $scope.InstitutionId
-                ).success(function (data) {
+                ).then(function (response) {
                     $scope.InstitutionLanguageList = [];
-                    $scope.InstitutionLanguageList = data;
-                    $scope.selectedLanguage = data[0].DefaultLanguageId.toString();
+                    $scope.InstitutionLanguageList = response.data;
+                    $scope.selectedLanguage = response.data[0].DefaultLanguageId.toString();
                     sessionid = $scope.uuid4();
                     $http.get(baseUrl + '/api/LanguageSettings/LanguageSettings_List/?Institution_Id=' + $scope.InstitutionId + '&Login_Session_Id=' + sessionid
-                    ).success(function (data) {
+                    ).then(function (response) {
                         $scope.emptydataLanguageSettings = [];
                         $scope.rowCollectionLanguageSettings = [];
-                        $scope.rowCollectionLanguageSettingsFilter = angular.copy(data);
-                        $scope.rowCollectionLanguageSettings = data.filter(item => item.LANGUAGE_ID === parseInt($scope.selectedLanguage));
+                        $scope.rowCollectionLanguageSettingsFilter = angular.copy(response.data);
+                        $scope.rowCollectionLanguageSettings = response.data.filter(item => item.LANGUAGE_ID === parseInt($scope.selectedLanguage));
                         angular.forEach($scope.rowCollectionLanguageSettings, function (masterVal, masterInd) {
                             if (masterVal.LANGUAGE_KEY === "firstname") {
                                 $scope.firstname = masterVal.LANGUAGE_TEXT;
@@ -1153,21 +1204,30 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                                 $scope.defaultsignupacknowledgement = $scope.defaultsignupacknowledgement.replace(/MyCortex/g, $scope.institutionName);
                             }
                         });
-                    }).error(function (data) {
-                        $scope.error = "AN error has occured while Listing the records!" + data;
-                        //$("#chatLoaderPV").hide();
-                    })
-                }).error(function (data) {
-                    $scope.error = "AN error has occured while Listing the records!" + data;
+                    }, function errorCallback(response) {
+                        $scope.error = "AN error has occured while Listing the records!" + response.data;
+                    });
+                    //.error(function (response) {
+                    //    $scope.error = "AN error has occured while Listing the records!" + response;
+                    //    //$("#chatLoaderPV").hide();
+                    //})
+                }, function errorCallback(response) {
+                    $scope.error = "AN error has occured while Listing the records!" + response.data;
                 });
+                //.error(function (response) {
+                //    $scope.error = "AN error has occured while Listing the records!" + response;
+                //});
             }
             else {
                 //alert("There is no Institution for this code!!!");
                 toastr.info("There is no Institution for this code!!!", "info");
             }
-        }).error(function (data) {
-            $scope.error = "AN error has occured while Listing the records!" + data;
+        }, function errorCallback(response) {
+            $scope.error = "AN error has occured while Listing the records!" + response.data;
         });
+        //.error(function (response) {
+        //    $scope.error = "AN error has occured while Listing the records!" + response;
+        //});
 
         $scope.uuid4 = function () {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -1406,9 +1466,9 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             return true;
         };
 
-        $http.get(baseUrl + '/api/Login/GetProduct_Details/').success(function (data) {
-            $scope.PrdImg = data[0].ProductImg;
-            $scope.ProductName = data[0].ProductName;
+        $http.get(baseUrl + '/api/Login/GetProduct_Details/').then(function (response) {
+            $scope.PrdImg = response.data[0].ProductImg;
+            $scope.ProductName =response.data[0].ProductName;
             if ($scope.ProductName == 'MyCortex') {
                 $scope.Productlogin = 0;
                 $scope.Id1 = 'Identification Number 1';
@@ -1434,10 +1494,11 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             } else {
                 document.getElementById('LoginSection').className = "loginBgHiv";
             }
+        }, function errorCallback(response) { 
         });
 
-        $http.get(baseUrl + '/api/Login/getProductName/').success(function (data) {
-            var ProductName = data;
+        $http.get(baseUrl + '/api/Login/getProductName/').then(function (response) {
+            var ProductName = response.data;
             $('#productname').val(ProductName["instanceId"]);
             if ($('#productname').val() == "0") {
                 $scope.prdName = "MyHealth";
@@ -1449,6 +1510,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                 $scope.prdName = "MyCortex  ";
                 $scope.prductName = " MyCortex?";
             }
+        }, function errorCallback(response) { 
         });
         $scope.EditdocfileChange = function (e) {
             if ($('#Nationalityresumedoc')[0].files.length <= 4) {
@@ -1618,8 +1680,8 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                     $('#submit').attr("disabled", true);
                     $scope.MobileNo_CC = document.getElementById("txthdFullNumber").value;
                     var tokendata = "UserName=admin&Password=admin&grant_type=password"
-                    $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
-                        $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
+                    $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(function (response) {
+                        $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.data.access_token;
 
                         var data = {
                             Id: $scope.Id,
@@ -1658,41 +1720,53 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                         //    headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': 'Bearer ' + $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] },
                         //    data: data
                         //}).success(function (data) {
-                        $http.post(baseUrl + 'api/User/User_InsertUpdate?Login_Session_Id={00000000-0000-0000-0000-000000000000}', data, config).success(function (data) {
+                        $http.post(baseUrl + 'api/User/User_InsertUpdate?Login_Session_Id={00000000-0000-0000-0000-000000000000}', data, config).then(function (res) {
                             $("#chatLoaderPV").hide();
-                            if (data.ReturnFlag == 1) {
+                            if (res.data.ReturnFlag == 1) {
                                 //alert("You have been signed up successfully");
                                 toastr.success("You have been signed up successfully", "success");
                                 $scope.submitted = false;
                                 $('#submit').attr("disabled", false);
-                                var userid = data.UserDetails.Id;
+                                var userid = res.data.UserDetails.Id;
                                 $scope.UserImageAttach(userid);
                                 $scope.UserImageAttach1(userid);
                                 $scope.UserImageAttach2(userid);
                                 $scope.CancelSignUpPopup();
                             } else {
                                 //alert(data.Message);
-                                toastr.info(data.Message, "info");
+                                toastr.info(res.data.Message, "info");
                                 $scope.submitted = false;
                                 $('#submit').attr("disabled", false);
                             }
                             //if ($scope.MenuTypeId == 3) {
                             //    $scope.ListRedirect();
                             //}
-                        }).error(function (err) {
+                        }, function errorCallback(err) {
                             $("#chatLoaderPV").hide();
                             console.log(err);
                             //alert(err);
                             toastr.info("err", "info");
-                        }
-                        );
+                        });
+                        //    .error(function (err) {
+                        //    $("#chatLoaderPV").hide();
+                        //    console.log(err);
+                        //    //alert(err);
+                        //    toastr.info("err", "info");
+                        //}
+                        //);
                         //$("#chatLoaderPV").hide();
-                    }).error(function (err) {
+                    }, function errorCallback(err) {
                         console.log(err);
                         $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
                         //alert('error');
                         toastr.info("error", "info");
                     });
+                    //    .error(function (err) {
+                    //    console.log(err);
+                    //    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
+                    //    //alert('error');
+                    //    toastr.info("error", "info");
+                    //});
                 }
             }
             else {
@@ -1731,9 +1805,10 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                             'Content-Type': undefined
                         }
                     }
-                ).success(function (response) {
+                ).then(function (response) {
                     $scope.showNationalityFiles = [];
-                })
+                }, function errorCallback(response) {
+                });
             }
         }
         $scope.UserImageAttach1 = function (userid) {
@@ -1763,8 +1838,9 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                             'Content-Type': undefined
                         }
                     }
-                ).success(function (response) {
+                ).then(function (response) {
                     $scope.showUUIDFiles = [];
+                }, function errorCallback(response) { 
                 })
             }
         }
@@ -1799,11 +1875,12 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                             'Content-Type': undefined
                         }
                     }
-                ).success(function (response) {
+                ).then(function (response) {
                     $scope.UserProfieName = "";
                     $scope.ProfieName = "";
                     $scope.UserLogo = '';
                     $('#UserLogo').val('');
+                }, function errorCallback(response) { 
                 })
             }
         }
@@ -1837,26 +1914,30 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
         }
 
         // This is for to get Nationality List 
-        $http.get(baseUrl + 'api/Common/NationalityList/').success(function (data) {
-            $scope.NationalityList = data;
+        $http.get(baseUrl + 'api/Common/NationalityList/').then(function (response) {
+            $scope.NationalityList = response.data;
+        }, function errorCallback(response) { 
         });
 
-        $http.get(baseUrl + 'api/Common/MaritalStatusList/').success(function (data) {
-            $scope.MaritalStatusList = data;
-
+        $http.get(baseUrl + 'api/Common/MaritalStatusList/').then(function (response) {
+            $scope.MaritalStatusList = response.data;
+        }, function errorCallback(response) { 
         });
 
-        $http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (data) {
-            $scope.EthnicGroupList = data;
+        $http.get(baseUrl + '/api/Common/EthnicGroupList/').then(function (response) {
+            $scope.EthnicGroupList = response.data;
+        }, function errorCallback(response) { 
         });
 
-        $http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (data) {
-            $scope.BloodGroupList = data;
+        $http.get(baseUrl + '/api/Common/BloodGroupList/').then(function (response) {
+            $scope.BloodGroupList = response.data;
+        }, function errorCallback(response) { 
         });
 
         // This is for to get Gender List
-        $http.get(baseUrl + 'api/Common/GenderList/').success(function (data) {
-            $scope.GenderList = data;
+        $http.get(baseUrl + 'api/Common/GenderList/').then(function (response) {
+            $scope.GenderList = response.data;
+        }, function errorCallback(response) { 
         });
 
         var Login_Country = "";
@@ -1926,25 +2007,26 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
         $scope.policyExist = false;
         $scope.PasswordPolicyDetails = function () {
             $("#chatLoaderPV").show();
-            $http.get(baseUrl + '/api/Common/PasswordPolicyDetails_View/?Institution_Id=' + $scope.InstituteId).success(function (data) {
-                if (data != null) {
-                    $scope.Insitution_Id = data.Insitution_Id;
-                    $scope.Insitution_Name = data.Insitution_Name;
-                    $scope.Minimum_Length = data.Minimum_Length;
-                    $scope.Maximum_Length = data.Maximum_Length;
-                    $scope.UpperCase_Required = data.UpperCase_Required;
-                    $scope.LowerCase_Required = data.LowerCase_Required;
-                    $scope.Numeric_Required = data.Numeric_Required;
-                    $scope.SpecialChar_Required = data.SpecialChar_Required;
-                    $scope.Without_Char = data.Without_Char;
-                    $scope.Expiry_Period = data.Expiry_Period;
-                    $scope.Allow_UserName = data.Allow_UserName;
-                    $scope.Restrict_LastPassword = data.Restrict_LastPassword;
-                    $scope.MaxLoginMins = data.MaxLoginMins;
+            $http.get(baseUrl + '/api/Common/PasswordPolicyDetails_View/?Institution_Id=' + $scope.InstituteId).then(function (response) {
+                if (response.data != null) {
+                    $scope.Insitution_Id = response.data.Insitution_Id;
+                    $scope.Insitution_Name = response.data.Insitution_Name;
+                    $scope.Minimum_Length = response.data.Minimum_Length;
+                    $scope.Maximum_Length = response.data.Maximum_Length;
+                    $scope.UpperCase_Required = response.data.UpperCase_Required;
+                    $scope.LowerCase_Required = response.data.LowerCase_Required;
+                    $scope.Numeric_Required = response.data.Numeric_Required;
+                    $scope.SpecialChar_Required = response.data.SpecialChar_Required;
+                    $scope.Without_Char = response.data.Without_Char;
+                    $scope.Expiry_Period = response.data.Expiry_Period;
+                    $scope.Allow_UserName = response.data.Allow_UserName;
+                    $scope.Restrict_LastPassword = response.data.Restrict_LastPassword;
+                    $scope.MaxLoginMins = response.data.MaxLoginMins;
                 }
                 //$scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
                 //$scope.NewPassword = "";
                 $("#chatLoaderPV").hide();
+            }, function errorCallback(response) { 
             });
             //$scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
             //$scope.NewPassword = "";
@@ -2339,20 +2421,22 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                     + '&ModifiedUser_Id=' + $scope.ModifiedUser_Id
                     + '&InstitutionId=' + $scope.InstituteId
                     + '&PageTypeId=' + $scope.PageParameter*/
-                    .success(function (data) {
+                    .then(function (res) {
                         //alert(data.Message);
                         if (data.ReturnFlag == "1") {
-                            toastr.success(data.Message, "success");
+                            toastr.success(res.data.Message, "success");
                             $scope.ClearPassword();
                             angular.element('#ChangepasswordpopupModal').modal('hide');
                             window.location.href = baseUrl + "/#/login";
                         }
                         else if (data.ReturnFlag == "0") {
-                            toastr.info(data.Message, "info");
+                            toastr.info(res.data.Message, "info");
                         }
-                    }).error(function (data) {
-                        $scope.error = "Problem in changing the password duplicate!" + data.ExceptionMessage;
-                    });
+                    }, function errorCallback(res) { 
+                        $scope.error = "Problem in changing the password duplicate!" + res.data.ExceptionMessage;
+                    });//.error(function (res) {
+                    //    $scope.error = "Problem in changing the password duplicate!" + data.ExceptionMessage;
+                    //});
                 $("#chatLoaderPV").hide();
             }
         };
@@ -2401,25 +2485,27 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
         }
 
         /* User type details list*/
-        $http.get(baseUrl + '/api/Login/Usertypedetailslist/').success(function (data) {
+        $http.get(baseUrl + '/api/Login/Usertypedetailslist/').then(function (response) {
             //$scope.Usertypelist = data;
             $scope.Usertypelist = [];
             $("#chatLoaderPV").show();
             //$scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
             //$scope.NewPassword = "";
-            angular.forEach(data, function (row, value) {
+            angular.forEach(response.data, function (row, value) {
                 if (row.Id != 1)
                     $scope.Usertypelist.push(row)
             });
             $("#chatLoaderPV").hide();
+        }, function errorCallback(response) { 
         });
 
         /* User basic details list*/
         $scope.Userdetailsdatalist = function () {
             $("#chatLoaderPV").show();
-            $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + $scope.UserTypeName + '&InstitutionId=' + $scope.InstituteId + '&IS_MASTER=' + $scope.IsMaster).success(function (data) {
-                $scope.Userlist = data;
+            $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + $scope.UserTypeName + '&InstitutionId=' + $scope.InstituteId + '&IS_MASTER=' + $scope.IsMaster).then(function (response) {
+                $scope.Userlist = response.data;
                 $("#chatLoaderPV").hide();
+            }, function errorCallback(response) { 
             });
         };
 
@@ -2453,20 +2539,23 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                             + '&ReenterPassword=' + $scope.ReenterPassword
                             + '&created_By=' + $window.localStorage['UserId']
                             + '&EmailId=""'
-                            + '&InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
+                            + '&InstitutionId=' + $window.localStorage['InstitutionId']).then(function (response) {
                                 //alert(data.Message);
-                                if (data.ReturnFlag == "1") {
-                                    toastr.success(data.Message, "success");
+                                if (response.data.ReturnFlag == "1") {
+                                    toastr.success(response.data.Message, "success");
                                 }
-                                else if (data.ReturnFlag == "0") {
-                                    toastr.info(data.Message, "info");
+                                else if (response.data.ReturnFlag == "0") {
+                                    toastr.info(response.data.Message, "info");
                                 }
                                 $('#btn-signup').attr("disabled", false);
                                 $scope.ClearPassword();
-                                $("#chatLoaderPV").hide();
-                            }).error(function (data) {
-                                $scope.error = "An error has occurred while deleting reset password details" + data;
+                                $("#chatLoaderPV").hide();                            
+                            }, function errorCallback(response) {
+                                $scope.error = "An error has occurred while deleting reset password details" + response;
                             });
+                            //.error(function (response) {
+                            //    $scope.error = "An error has occurred while deleting reset password details" + response;
+                            //});
                     }
                 }
             }
@@ -2523,21 +2612,24 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                 $('#btnsave').attr("disabled", true);
                 $scope.loading = true;
 
-                $http.post(baseUrl + '/api/Common/PasswordPolicy_InsertUpdate/', obj).success(function (data) {
-                    alert(data.Message);
+                $http.post(baseUrl + '/api/Common/PasswordPolicy_InsertUpdate/', obj).then(function (res) {
+                    alert(res.data.Message);
                     $('#btnsave').attr("disabled", false);
                     $scope.PasswordPolicyView();
                     $scope.ClearFields();
 
-                    if (data.ReturnFlag == "1") {
+                    if (res.data.ReturnFlag == "1") {
                         $location.path("/EditPasswordPolicy/");
                         $scope.loading = false;
                         $rootScope.$broadcast('hide');
                     }
                     $("#chatLoaderPV").hide();
-                }).error(function (data) {
-                    $scope.error = "An error has occurred while adding Password Policy Details!" + data.ExceptionMessage;
+                }, function errorCallback(res) { 
+                    $scope.error = "An error has occurred while adding Password Policy Details!" + res.data.ExceptionMessage;
                 });
+                //    .error(function (data) {
+                //    $scope.error = "An error has occurred while adding Password Policy Details!" + data.ExceptionMessage;
+                //});
 
             };
         }
@@ -2548,32 +2640,33 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
             $("#chatLoaderPV").show();
             //$scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
             //  $scope.NewPassword = "";
-            $http.get(baseUrl + '/api/Common/PasswordPolicy_View/?Institution_Id=' + $scope.InstituteId).success(function (data) {
-                if (data != null) {
+            $http.get(baseUrl + '/api/Common/PasswordPolicy_View/?Institution_Id=' + $scope.InstituteId).then(function (response) {
+                if (response.data != null) {
                     $scope.policyExist = true;
-                    $scope.Institution_Id = data.Institution_Id;
-                    $scope.Insitution_Name = data.Insitution_Name;
-                    $scope.Minimum_Length = data.Minimum_Length;
-                    $scope.Maximum_Length = data.Maximum_Length;
-                    $scope.UpperCase_Required = data.UpperCase_Required;
-                    $scope.LowerCase_Required = data.LowerCase_Required;
-                    $scope.Numeric_Required = data.Numeric_Required;
-                    $scope.SpecialChar_Required = data.SpecialChar_Required;
-                    $scope.Without_Char = data.Without_Char;
-                    $scope.AllowExpiryDays = data.AllowExpiryDays;
-                    $scope.Expiry_Period = data.Expiry_Period;
-                    $scope.Allow_UserName = data.Allow_UserName;
-                    $scope.Restrict_LastPassword = data.Restrict_LastPassword;
-                    $scope.MaxLoginTime = data.MaxLoginTime;
-                    $scope.MaxLoginHours = data.MaxLoginHours;
-                    $scope.MaxLoginMins = data.MaxLoginMins;
-                    $scope.Created_By = data.Created_By;
-                    $scope.Remember_Password = data.Remember_Password;
-                    $scope.Created_Dt = data.Created_Dt;
+                    $scope.Institution_Id = response.data.Institution_Id;
+                    $scope.Insitution_Name = response.data.Insitution_Name;
+                    $scope.Minimum_Length = response.data.Minimum_Length;
+                    $scope.Maximum_Length = response.data.Maximum_Length;
+                    $scope.UpperCase_Required = response.data.UpperCase_Required;
+                    $scope.LowerCase_Required = response.data.LowerCase_Required;
+                    $scope.Numeric_Required = response.data.Numeric_Required;
+                    $scope.SpecialChar_Required = response.data.SpecialChar_Required;
+                    $scope.Without_Char = response.data.Without_Char;
+                    $scope.AllowExpiryDays = response.data.AllowExpiryDays;
+                    $scope.Expiry_Period = response.data.Expiry_Period;
+                    $scope.Allow_UserName = response.data.Allow_UserName;
+                    $scope.Restrict_LastPassword = response.data.Restrict_LastPassword;
+                    $scope.MaxLoginTime = response.data.MaxLoginTime;
+                    $scope.MaxLoginHours = response.data.MaxLoginHours;
+                    $scope.MaxLoginMins = response.data.MaxLoginMins;
+                    $scope.Created_By = response.data.Created_By;
+                    $scope.Remember_Password = response.data.Remember_Password;
+                    $scope.Created_Dt = response.data.Created_Dt;
                 }
                 $("#chatLoaderPV").hide();
                 //$scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
                 //$scope.NewPassword = "";
+            }, function errorCallback(response) { 
             });
 
         };
@@ -2582,28 +2675,29 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
         $scope.PasswordPolicyDetails = function () {
             //$scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
             //$scope.NewPassword = "";
-            $http.get(baseUrl + '/api/Common/PasswordPolicyDetails_View/?Institution_Id=' + $scope.InstituteId).success(function (data) {
-                if (data != null) {
-                    $scope.Institution_Id = data.Institution_Id;
-                    $scope.Insitution_Name = data.Insitution_Name;
-                    $scope.Minimum_Length = data.Minimum_Length;
-                    $scope.Maximum_Length = data.Maximum_Length;
-                    $scope.UpperCase_Required = data.UpperCase_Required;
-                    $scope.LowerCase_Required = data.LowerCase_Required;
-                    $scope.Numeric_Required = data.Numeric_Required;
-                    $scope.SpecialChar_Required = data.SpecialChar_Required;
-                    $scope.Without_Char = data.Without_Char;
-                    $scope.AllowExpiryDays = data.AllowExpiryDays;
-                    $scope.Expiry_Period = data.Expiry_Period;
-                    $scope.Allow_UserName = data.Allow_UserName;
-                    $scope.Restrict_LastPassword = data.Restrict_LastPassword;
-                    $scope.MaxLoginTime = data.MaxLoginTime;
-                    $scope.MaxLoginHours = data.MaxLoginHours;
-                    $scope.MaxLoginMins = data.MaxLoginMins;
-                    $scope.Created_By = data.Created_By;
-                    $scope.Remember_Password = data.Remember_Password;
-                    $scope.Created_Dt = data.Created_Dt;
+            $http.get(baseUrl + '/api/Common/PasswordPolicyDetails_View/?Institution_Id=' + $scope.InstituteId).then(function (response) {
+                if (response.data != null) {
+                    $scope.Institution_Id = response.data.Institution_Id;
+                    $scope.Insitution_Name = response.data.Insitution_Name;
+                    $scope.Minimum_Length = response.data.Minimum_Length;
+                    $scope.Maximum_Length = response.data.Maximum_Length;
+                    $scope.UpperCase_Required = response.data.UpperCase_Required;
+                    $scope.LowerCase_Required = response.data.LowerCase_Required;
+                    $scope.Numeric_Required = response.data.Numeric_Required;
+                    $scope.SpecialChar_Required = response.data.SpecialChar_Required;
+                    $scope.Without_Char = response.data.Without_Char;
+                    $scope.AllowExpiryDays = response.data.AllowExpiryDays;
+                    $scope.Expiry_Period = response.data.Expiry_Period;
+                    $scope.Allow_UserName = response.data.Allow_UserName;
+                    $scope.Restrict_LastPassword = response.data.Restrict_LastPassword;
+                    $scope.MaxLoginTime = response.data.MaxLoginTime;
+                    $scope.MaxLoginHours = response.data.MaxLoginHours;
+                    $scope.MaxLoginMins = response.data.MaxLoginMins;
+                    $scope.Created_By = response.data.Created_By;
+                    $scope.Remember_Password = response.data.Remember_Password;
+                    $scope.Created_Dt = response.data.Created_Dt;
                 }
+            }, function errorCallback(response) {
             });
         };
         //clear function for expiry period

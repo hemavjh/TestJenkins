@@ -464,7 +464,8 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             controller: 'AppointmentApprovalController'
         }).
     otherwise({
-        redirectTo: '/Googlehome'
+        //redirectTo: '/Googlehome'
+        redirectTo: '/'
     });
 
 }])

@@ -56,24 +56,26 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
         $scope.UserCount = 0;
         $scope.TotalUserCount = 0;
         $scope.startno = 0;
-        $http.get(baseUrl + '/api/User/GetUserCount/').success(function (data) {
-            $scope.UserCount = data;
-            $scope.TotalUserCount = data;
+        $http.get(baseUrl + '/api/User/GetUserCount/').then(function (response) {
+            $scope.UserCount = response.data;
+            $scope.TotalUserCount = response.data;
+        }, function errorCallback(response) { 
         });
 
-        $http.get(baseUrl + '/api/User/Get_Exist_AnyUnEncryptedUser/').success(function (data) {
-            if (data == 0) {
+        $http.get(baseUrl + '/api/User/Get_Exist_AnyUnEncryptedUser/').then(function (response) {
+            if (response.data == 0) {
                 $("#newEncry").css('display', 'inline-block');
-            } else if (data == 1) {
+            } else if (response.data == 1) {
                 $("#newEncry").css('display', 'none');
             }
+        }, function errorCallback(response) { 
         });
 
         $scope.Apply_New_Encryption_to_UserDetails = function () {
             if ($scope.UserCount != 0) {
                 $("#newEncry").text('Processing...');
-                $http.get(baseUrl + '/api/User/EncryptedUserList/?startno=' + $scope.startno).success(function (data) {
-                    console.log(data);
+                $http.get(baseUrl + '/api/User/EncryptedUserList/?startno=' + $scope.startno).then(function (response) {
+                    console.log(response.data);
                     if ($scope.UserCount > 0) {
                         $scope.startno = $scope.startno + 1;
                         $scope.UserCount = $scope.UserCount - 10;
@@ -88,6 +90,7 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
                         $("#newEncry").css('display', 'none');
                         $("#processtext").text('');
                     }
+                }, function errorCallback(response) { 
                 });
             }
         }
@@ -156,26 +159,29 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
           $scope.StateNameList = [];
           $scope.CityNameList = [];*/
 
-        $http.get(baseUrl + '/api/Common/CountryList/').success(function (data) {
-            $scope.CountryNameList = data;
+        $http.get(baseUrl + '/api/Common/CountryList/').then(function (response) {
+            $scope.CountryNameList = response.data;
+        }, function errorCallback(response) { 
         });
 
         $scope.CountryBased_StateFunction = function () {
             if ($scope.loadCount == 0) {
-                $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + $scope.CountryId).success(function (data) {
-                    $scope.StateName_List = data;
+                $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + $scope.CountryId).then(function (response) {
+                    $scope.StateName_List = response.data;
                     $scope.LocationName_List = [];
                     $scope.LocationNameId = "0";
                     if ($scope.StateFlag == true) {
                         $scope.StateNameId = $scope.StateDuplicateId
                     }
+                }, function errorCallback(response) { 
                 });
             }
         }
         $scope.StateBased_CityFunction = function () {
             if ($scope.loadCount == 0) {
-                $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + $scope.CountryId + '&StateId=' + $scope.StateNameId).success(function (data) {
-                    $scope.LocationName_List = data;
+                $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + $scope.CountryId + '&StateId=' + $scope.StateNameId).then(function (response) {
+                    $scope.LocationName_List = response.data;
+                }, function errorCallback(response) { 
                 });
                 if ($scope.CityFlag == true) {
                     $scope.LocationNameId = $scope.LocationDuplicateId
@@ -187,18 +193,18 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
         /* Filter the master list function.*/
         $scope.filterInstitutionList = function () {
             $scope.ResultListFiltered = [];
-            var searchstring = angular.lowercase($scope.searchquery);
+            var searchstring = $scope.searchquery.toLowerCase();
             if ($scope.searchquery == "") {
                 $scope.rowCollectionFilter = [];
                 $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
             }
             else {
                 $scope.rowCollectionFilter = $ff($scope.rowCollection, function (value) {
-                    return angular.lowercase(value.Institution_Name).match(searchstring) ||
-                        angular.lowercase(value.INSTITUTION_SHORTNAME).match(searchstring) ||
-                        angular.lowercase(value.CountryName).match(searchstring) ||
-                        angular.lowercase(value.StateName).match(searchstring) ||
-                        angular.lowercase(value.CityName).match(searchstring);
+                    return (value.Institution_Name.toLowerCase()).match(searchstring) ||
+                        (value.INSTITUTION_SHORTNAME.toLowerCase()).match(searchstring) ||
+                        (value.CountryName.toLowerCase()).match(searchstring) ||
+                        (value.StateName.toLowerCase()).match(searchstring) ||
+                        (value.CityName.toLowerCase()).match(searchstring);
                 });
             }
         }
@@ -400,14 +406,14 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
                 };
                 $('#btnsave1').attr("disabled", true);
                 $('#btnsave2').attr("disabled", true);
-                $http.post(baseUrl + '/api/Institution/Institution_AddEdit/', obj).success(function (data) {
-                    var insId = data.Institute[0].Id;
+                $http.post(baseUrl + '/api/Institution/Institution_AddEdit/', obj).then(function (res) {
+                    var insId = res.data.Institute[0].Id;
                     //alert(data.Message);
-                    if (data.ReturnFlag == "1") {
-                        toastr.success(data.Message, "success");
+                    if (res.data.ReturnFlag == "1") {
+                        toastr.success(res.data.Message, "success");
                     }
-                    else if (data.ReturnFlag == "0") {
-                        toastr.info(data.Message, "info");
+                    else if (res.data.ReturnFlag == "0") {
+                        toastr.info(res.data.Message, "info");
                     }
                     $('#btnsave1').attr("disabled", false);
                     $('#btnsave2').attr("disabled", false);
@@ -433,17 +439,17 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
                                 }
                             }
                         )
-                            .success(function (response) {
+                            .then(function (response) {
                                 if ($scope.FileName == "") {
                                     $scope.InstitutionLogo = "";
                                 }
                                 else if (itemIndexLogo > -1) {
-                                    if ($scope.FileName != "" && response[itemIndexLogo] != "") {
-                                        $scope.InstitutionLogo = response[itemIndexLogo];
+                                    if ($scope.FileName != "" && response.data[itemIndexLogo] != "") {
+                                        $scope.InstitutionLogo = response.data[itemIndexLogo];
                                     }
                                 }
                                 $("#InstitutionLogo").val('');
-                                if (data.ReturnFlag == 1) {
+                                if (res.data.ReturnFlag == 1) {
                                     $scope.CancelInstitution();
                                     if ($scope.InstitutionAndSubscription == 0) {
                                         InstSub.setInstiID(0);
@@ -454,11 +460,12 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
                                         window.location.href = baseUrl + "/Home/Index#/Institution_Subscription";
                                     }
                                 }
-                            })
+                            }, function errorCallback(response) {
+                            });
                     }
                     else {
                         $("#InstitutionLogo").val('');
-                        if (data.ReturnFlag == 1) {
+                        if (res.data.ReturnFlag == 1) {
                             $scope.CancelInstitution();
                             if ($scope.InstitutionAndSubscription == 0) {
                                 InstSub.setInstiID(0);
@@ -471,13 +478,16 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
                         }
                     }
                     $("#chatLoaderPV").hide();
-
-                })
-                    .error(function (response) {
-                        $scope.Photo = "";
-                        $scope.CancelInstitution();
-                        $scope.InstitutionDetailsListGo();
-                    });
+                }, function errorCallback(res) { 
+                    $scope.Photo = "";
+                    $scope.CancelInstitution();
+                    $scope.InstitutionDetailsListGo();
+                });
+                    //.error(function (response) {
+                    //    $scope.Photo = "";
+                    //    $scope.CancelInstitution();
+                    //    $scope.InstitutionDetailsListGo();
+                    //});
 
                 //})
             }
@@ -497,15 +507,21 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
                 if (result.isConfirmed) {
                     $("#runConfig").text('Processing(0%)....');
                     $("#runConfig").addClass('disabled');
-                    $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=1', $scope.InstituteId).success(function (data) {
+                    $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=1', $scope.InstituteId).then(function (res) {
                         $("#runConfig").text('Processing(5%)....');
                         $scope.InstitueConfigurationStep2();
-                    }).error(function (data) {
+                    }, function errorCallback(res) { 
                         //alert("Error In Step 1");
                         toastr.info("Error In Step 1", "info");
                         $("#runConfig").text('Processing(5%)....');
                         $scope.InstitueConfigurationStep2();
                     });
+                    //.error(function (res) {
+                    //    //alert("Error In Step 1");
+                    //    toastr.info("Error In Step 1", "info");
+                    //    $("#runConfig").text('Processing(5%)....');
+                    //    $scope.InstitueConfigurationStep2();
+                    //});
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
                 }
@@ -525,94 +541,100 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
         };
 
         $scope.InstitueConfigurationStep2 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=2', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=2', $scope.InstituteId).then(function (res) {
                 $("#runConfig").text('Processing(10%)....');
                 $scope.InstitueConfigurationStep3();
-            }).error(function (data) {
+            }, function errorCallback(res) { 
                 //alert("Error In Step 2");
                 toastr.info("Error In Step 2", "info");
                 $("#runConfig").text('Processing(10%)....');
                 $scope.InstitueConfigurationStep3();
             });
+            //.error(function (res) {
+            //    //alert("Error In Step 2");
+            //    toastr.info("Error In Step 2", "info");
+            //    $("#runConfig").text('Processing(10%)....');
+            //    $scope.InstitueConfigurationStep3();
+            //});
         };
 
         $scope.InstitueConfigurationStep3 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=3', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=3', $scope.InstituteId).then(function (res) {
                 $("#runConfig").text('Processing(15%)....');
                 $scope.InstitueConfigurationStep4();
-            }).error(function (data) {
+            }, function errorCallback(res) {
                 //alert("Error In Step 3");
                 toastr.info("Error In Step 3", "info");
                 $("#runConfig").text('Processing(15%)....');
                 $scope.InstitueConfigurationStep4();
-            });
+            });            
         };
 
         $scope.InstitueConfigurationStep4 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=4', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=4', $scope.InstituteId).then(function (res) {
                 $("#runConfig").text('Processing(20%)....');
                 $scope.InstitueConfigurationStep5();
-            }).error(function (data) {
+            }, function errorCallback(res) {
                 //alert("Error In Step 4");
                 toastr.info("Error In Step 4", "info");
                 $("#runConfig").text('Processing(20%)....');
                 $scope.InstitueConfigurationStep5();
-            });
+            });            
         };
 
         $scope.InstitueConfigurationStep5 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=5', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=5', $scope.InstituteId).then(function (res) {
                 $("#runConfig").text('Processing(25%)....');
                 $scope.InstitueConfigurationStep6();
-            }).error(function (data) {
+            }, function errorCallback(res) {
                 //alert("Error In Step 5");
                 toastr.info("Error In Step 5", "info");
                 $("#runConfig").text('Processing(25%)....');
                 $scope.InstitueConfigurationStep6();
-            });
+            });           
         };
 
         $scope.InstitueConfigurationStep6 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=6', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=6', $scope.InstituteId).then(function (res) {
                 $("#runConfig").text('Processing(30%)....');
                 $scope.InstitueConfigurationStep7();
-            }).error(function (data) {
+            }, function errorCallback(res) {
                 //alert("Error In Step 6");
                 toastr.info("Error In Step 6", "info");
                 $("#runConfig").text('Processing(30%)....');
                 $scope.InstitueConfigurationStep7();
-            });
+            });            
         };
 
         $scope.InstitueConfigurationStep7 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=7', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=7', $scope.InstituteId).then(function (res) {
                 $("#runConfig").text('Processing(35%)....');
                 $scope.InstitueConfigurationStep8();
-            }).error(function (data) {
+            }, function errorCallback(res) {
                 //alert("Error In Step 7");
                 toastr.info("Error In Step 7", "info");
                 $("#runConfig").text('Processing(35%)....');
                 $scope.InstitueConfigurationStep8();
-            });
+            });       
         };
 
         $scope.InstitueConfigurationStep8 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=8', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=8', $scope.InstituteId).then(function (res) {
                 $("#runConfig").text('Processing(40%)....');
                 $scope.InstitueConfigurationStep9();
-            }).error(function (data) {
+            }, function errorCallback(res) {
                 //alert("Error In Step 8");
                 toastr.info("Error In Step 8", "info");
                 $("#runConfig").text('Processing(40%)....');
                 $scope.InstitueConfigurationStep9();
-            });
+            });          
         };
 
         $scope.InstitueConfigurationStep9 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=9', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=9', $scope.InstituteId).then(function (res) {
                 $("#runConfig").text('Processing(50%)....');
                 $scope.InstitueConfigurationStep10();
-            }).error(function (data) {
+            }, function errorCallback(res) {
                 //alert("Error In Step 9");
                 toastr.info("Error In Step 9", "info");
                 $("#runConfig").text('Processing(50%)....');
@@ -621,10 +643,10 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
         };
 
         $scope.InstitueConfigurationStep10 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=10', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=10', $scope.InstituteId).then(function (res) {
                 $("#runConfig").text('Processing(55%)....');
                 $scope.InstitueConfigurationStep11();
-            }).error(function (data) {
+            }, function errorCallback(res) {
                 //alert("Error In Step 10");
                 toastr.info("Error In Step 10", "info");
                 $("#runConfig").text('Processing(55%)....');
@@ -633,10 +655,10 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
         };
 
         $scope.InstitueConfigurationStep11 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=11', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=11', $scope.InstituteId).then(function (res) {
                 $("#runConfig").text('Processing(60%)....');
                 $scope.InstitueConfigurationStep12();
-            }).error(function (data) {
+            }, function errorCallback(res) {
                 //alert("Error In Step 11");
                 toastr.info("Error In Step 11", "info");
                 $("#runConfig").text('Processing(60%)....');
@@ -645,10 +667,10 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
         };
 
         $scope.InstitueConfigurationStep12 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=12', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=12', $scope.InstituteId).then(function (res) {
                 $("#runConfig").text('Processing(70%)....');
                 $scope.InstitueConfigurationStep13();
-            }).error(function (data) {
+            }, function errorCallback(res) {
                 //alert("Error In Step 12");
                 toastr.info("Error In Step 12", "info");
                 $("#runConfig").text('Processing(70%)....');
@@ -657,10 +679,10 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
         };
 
         $scope.InstitueConfigurationStep13 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=13', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=13', $scope.InstituteId).then(function (res) {
                 $("#runConfig").text('Processing(80%)....');
                 $scope.InstitueConfigurationStep14();
-            }).error(function (data) {
+            }, function errorCallback(res) {
                 //alert("Error In Step 13");
                 toastr.info("Error In Step 13", "info");
                 $("#runConfig").text('Processing(80%)....');
@@ -669,10 +691,10 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
         };
 
         $scope.InstitueConfigurationStep14 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=14', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=14', $scope.InstituteId).then(function (res) {
                 $("#runConfig").text('Processing(90%)....');
                 $scope.InstitueConfigurationStep15();
-            }).error(function (data) {
+            }, function errorCallback(res) {
                 //alert("Error In Step 14");
                 toastr.info("Error In Step 14", "info");
                 $("#runConfig").text('Processing(90%)....');
@@ -681,10 +703,10 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
         };
 
         $scope.InstitueConfigurationStep15 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=15', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=15', $scope.InstituteId).then(function (res) {
                 $("#runConfig").text('Processing(95%)....');
                 $scope.InstitueConfigurationStep16();
-            }).error(function (data) {
+            }, function errorCallback(res) {
                 //alert("Error In Step 15");
                 toastr.info("Error In Step 15", "info");
                 $("#runConfig").text('Processing(95%)....');
@@ -694,7 +716,7 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
 
         $scope.InstitueConfigurationStep16 = function () {
             /*$("#runConfig").text('Processing(98%)....');*/
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=16', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=16', $scope.InstituteId).then(function (res) {
                 $("#runConfig").text('Processing(98%)....');
                 $scope.InstitueConfigurationStep17();
                 //setTimeout(function () {
@@ -703,7 +725,7 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
                 //}, 5000);
                 //$("#runConfig").text('Re-run configuration');
                 //$("#runConfig").removeClass('disabled');
-            }).error(function (data) {
+            }, function errorCallback(res) {
                 //$("#runConfig").text('Processing(98%)....');
                 //alert("Error In Step 16");
                 toastr.info("Error In Step 16", "info");
@@ -716,7 +738,7 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
 
         $scope.InstitueConfigurationStep17 = function () {
             $("#runConfig").text('Processing(100%)....');
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=17', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=17', $scope.InstituteId).then(function (res) {
                 $("#runConfig").text('Processing(100%)....');
                 setTimeout(function () {
                     //alert("Configuration Steps Completed!");
@@ -725,7 +747,7 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
 
                 $("#runConfig").text('Re-run configuration');
                 $("#runConfig").removeClass('disabled');
-            }).error(function (data) {
+            }, function errorCallback(res) {
                 $("#runConfig").text('Processing(100%)....');
                 //alert("Error In Step 16");
                 toastr.info("Error In Step 17", "info");
@@ -790,10 +812,10 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
                     $scope.ISact = -1 //all
                 }
 
-                $http.get(baseUrl + '/api/Institution/InstitutionDetails_List/Id?=' + $scope.Institution_Id + '&IsActive=' + $scope.ISact).success(function (data) {
+                $http.get(baseUrl + '/api/Institution/InstitutionDetails_List/Id?=' + $scope.Institution_Id + '&IsActive=' + $scope.ISact).then(function (res) {
                     $scope.emptydata = [];
                     $scope.rowCollection = [];
-                    $scope.rowCollection = data;
+                    $scope.rowCollection = res.data;
                     $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
                     if ($scope.rowCollectionFilter.length > 0) {
                         $scope.flag = 1;
@@ -802,8 +824,8 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
                         $scope.flag = 0;
                     }
                     $("#chatLoaderPV").hide();
-                }).error(function (data) {
-                    $scope.error = "AN error has occured while Listing the records!" + data;
+                }, function errorCallback(res) {
+                    $scope.error = "AN error has occured while Listing the records!" + res.data;
                 })
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
@@ -818,28 +840,29 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
                 $scope.Id = $routeParams.Id;
                 $scope.DuplicatesId = $routeParams.Id;
             }
-            $http.get(baseUrl + '/api/Institution/Institution_GetPhoto/?Id=' + $scope.Id).success(function (data) {
-                if (data.PhotoBlob != null) {
-                    $scope.uploadme = 'data:image/png;base64,' + data.PhotoBlob;
+            $http.get(baseUrl + '/api/Institution/Institution_GetPhoto/?Id=' + $scope.Id).then(function (res) {
+                if (res.data.PhotoBlob != null) {
+                    $scope.uploadme = 'data:image/png;base64,' + res.data.PhotoBlob;
                 }
                 else {
                     $scope.uploadme = null;
                 }
+            }, function errorCallback(res) {
             })
-            $http.get(baseUrl + '/api/Institution/InstitutionDetails_View/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                $scope.DuplicatesId = data.Id;
-                $scope.InstituteId = data.Id;
-                $scope.Institution_Name = data.Institution_Name;
-                $scope.INSTITUTION_SHORTNAME = data.INSTITUTION_SHORTNAME;
-                $scope.Address1 = data.Institution_Address1;
-                $scope.Address2 = data.Institution_Address2;
-                $scope.Address3 = data.Institution_Address3;
-                $scope.ZipCode = data.ZipCode;
-                if (data.Email == null)
+            $http.get(baseUrl + '/api/Institution/InstitutionDetails_View/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (res) {
+                $scope.DuplicatesId = res.data.Id;
+                $scope.InstituteId = res.data.Id;
+                $scope.Institution_Name = res.data.Institution_Name;
+                $scope.INSTITUTION_SHORTNAME = res.data.INSTITUTION_SHORTNAME;
+                $scope.Address1 = res.data.Institution_Address1;
+                $scope.Address2 = res.data.Institution_Address2;
+                $scope.Address3 = res.data.Institution_Address3;
+                $scope.ZipCode = res.data.ZipCode;
+                if (res.data.Email == null)
                     $scope.Email = "";
                 else
-                    $scope.Email = data.Email;
-                $scope.CountryId = data.CountryId.toString();
+                    $scope.Email = res.data.Email;
+                $scope.CountryId = res.data.CountryId.toString();
                 $scope.CountryDuplicateId = $scope.CountryId;
                 $scope.CountryFlag = true;
                 //$scope.Country_onChange();
@@ -854,8 +877,8 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
                 }
 
                 // $scope.CountryBased_StateFunction();
-                $scope.ViewCountryName = data.CountryName;
-                $scope.StateNameId = data.StateId.toString();
+                $scope.ViewCountryName = res.data.CountryName;
+                $scope.StateNameId = res.data.StateId.toString();
                 $scope.StateDuplicateId = $scope.StateNameId;
                 $scope.StateFlag = true;
 
@@ -870,8 +893,8 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
 
                 //  $scope.StateBased_CityFunction();
                 // $scope.State_onChange();
-                $scope.ViewStateName = data.StateName;
-                $scope.LocationNameId = data.CityId.toString();
+                $scope.ViewStateName = res.data.StateName;
+                $scope.LocationNameId = res.data.CityId.toString();
                 $scope.LocationDuplicateId = $scope.LocationNameId;
                 $scope.CityFlag = true;
 
@@ -885,8 +908,8 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
                 }
 
                 if ($scope.DropDownListValue == 1) {
-                    $http.get(baseUrl + '/api/Common/CountryList/').success(function (data) {
-                        $scope.CountryNameList = data;
+                    $http.get(baseUrl + '/api/Common/CountryList/').then(function (resp) {
+                        $scope.CountryNameList = resp.data;
                         if ($scope.CountryFlag == true) {
                             $scope.CountryId = $scope.CountryDuplicateId;
                             $scope.CountryFlag = false;
@@ -900,9 +923,10 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
                                 $('#divInsCountry').addClass("ng-invalid");
                             }
                         }
+                    }, function errorCallback(resp) {
                     });
-                    $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + data.CountryId.toString()).success(function (data) {
-                        $scope.StateName_List = data;
+                    $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + res.data.CountryId.toString()).then(function (resp) {
+                        $scope.StateName_List = resp.data;
                         if ($scope.StateFlag == true) {
                             $scope.StateNameId = $scope.StateDuplicateId;
                             $scope.StateFlag = false;
@@ -916,10 +940,11 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
                                 $('#divInsState').addClass("ng-invalid");
                             }
                         }
+                    }, function errorCallback(resp) {
                     });
-                    $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + data.CountryId.toString() + '&StateId=' + data.StateId.toString()).success(function (data) {
+                    $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + res.data.CountryId.toString() + '&StateId=' + res.data.StateId.toString()).then(function (resp) {
                         //$scope.LocationName_List =data ;    
-                        $scope.LocationName_List = data;
+                        $scope.LocationName_List = resp.data;
                         if ($scope.CityFlag == true) {
                             $scope.LocationNameId = $scope.LocationDuplicateId;
                             $scope.CityFlag = false;
@@ -933,15 +958,17 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
                                 $('#divInsCity').addClass("ng-invalid");
                             }
                         }
+                    }, function errorCallback(resp) {
                     });
                 }
-                $scope.ViewCityName = data.CityName;
-                $scope.Photo = data.Photo;
-                $scope.InstitutionLogo = data.Photo;
+                $scope.ViewCityName = res.data.CityName;
+                $scope.Photo = res.data.Photo;
+                $scope.InstitutionLogo = res.data.Photo;
                 //$scope.uploadme = data.Photo;
-                $scope.FileName = data.FileName;
-                $scope.PhotoFullpath = data.Photo_Fullpath;
+                $scope.FileName = res.data.FileName;
+                $scope.PhotoFullpath = res.data.Photo_Fullpath;
                 $("#chatLoaderPV").hide();
+            }, function errorCallback(res) {
             });
         }
 
@@ -972,12 +999,12 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    $http.get(baseUrl + '/api/Institution/InstitutionDetails_Delete/?Id=' + $scope.Id).success(function (data) {
+                    $http.get(baseUrl + '/api/Institution/InstitutionDetails_Delete/?Id=' + $scope.Id).then(function (res) {
                         //alert("Selected Institution has been deactivated Successfully");
                         toastr.success("Selected Institution has been deactivated Successfully", "success");
                         $scope.InstitutionDetailsListGo();
-                    }).error(function (data) {
-                        $scope.error = "AN error has occured while deleting Institution!" + data;
+                    }, function errorCallback(res) {
+                        $scope.error = "AN error has occured while deleting Institution!" + res.data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
@@ -1020,12 +1047,12 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    $http.get(baseUrl + '/api/Institution/InstitutionDetails_Active/?Id=' + $scope.Id).success(function (data) {
+                    $http.get(baseUrl + '/api/Institution/InstitutionDetails_Active/?Id=' + $scope.Id).then(function (res) {
                         //alert("Selected Institution has been activated successfully");
                         toastr.success("Selected Institution has been activated successfully", "success");
                         $scope.InstitutionDetailsListGo();
-                    }).error(function (data) {
-                        $scope.error = "An error has occurred while ReInsertInstitutionDetails" + data;
+                    }, function errorCallback(res) {
+                        $scope.error = "An error has occurred while ReInsertInstitutionDetails" + res.data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
@@ -1049,12 +1076,12 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
         and redirected to the list page.
         */
         $scope.InsertDefaultData = function () {
-            $http.get(baseUrl + '/api/Institution/InstitutionDefaultData_Insert/?Id=' + $scope.Id).success(function (data) {
+            $http.get(baseUrl + '/api/Institution/InstitutionDefaultData_Insert/?Id=' + $scope.Id).then(function (res) {
                 //alert("Institution Default Data Inserted successfully");
                 toastr.success("Institution Default Data Inserted successfully", "success");
                 // $scope.InstitutionDetailsListGo();
-            }).error(function (data) {
-                $scope.error = "An error has occurred while InsertInstitution Default Records" + data;
+            }, function errorCallback(res) {
+                $scope.error = "An error has occurred while InsertInstitution Default Records" + res.data;
             });
 
         };
