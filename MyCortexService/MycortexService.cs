@@ -47,14 +47,17 @@ namespace MyCortexService
         Timer timer = new Timer();
         Timer timer2 = new Timer();
         Timer timer3 = new Timer();
-        
+        Timer timer4 = new Timer();
+
+
         private string executedTime = "";
         private string lastexecutedTime = "";
         private string executedTimeNow = "";
         private Boolean isJob1running = false;
         private Boolean isJob2running = false;
         private Boolean isJob3running = false;
-        
+        private Boolean isJob4running = false;
+
         static readonly SendEmailRepository emailrepository = new SendEmailRepository();
         static readonly AlertEventRepository alertrepository = new AlertEventRepository();
         static readonly UserRepository userrepository = new UserRepository();
@@ -81,6 +84,10 @@ namespace MyCortexService
             timer3.Elapsed += new ElapsedEventHandler(OnElapsedTime3);
             timer3.Interval = 60000; //number in milisecinds     // 60000 = one minute
             timer3.Enabled = true;
+
+            timer4.Elapsed += new ElapsedEventHandler(OnElapsedTime4);
+            timer4.Interval = 300000; //number in milisecinds     // 1800000 = 30 minutes	
+            timer4.Enabled = true;
         }
 
         public void onDebug()
@@ -91,27 +98,27 @@ namespace MyCortexService
         public async static void EligibilityCheck()
         {
             Int64 Id = 0, Institution_Id;
-            string Emirates_Id, Clinician_Licence,BaseUrl;
+            string Emirates_Id, Clinician_Licence, BaseUrl, Appconfig_Value;
             // every appointment check the eligiblity before 3 hours 
             // Start                  
-            int consultationCategoryId, payerId, serviceCategoryId;
+            int payerId, serviceCategoryId;
             string MobileNumber, CountryCode, MobNumber;
-            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ELIGIBILITY_CHECK_SP_BEFOREHOURS]");
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ELIGIBILITY_CHECK_BEFOREHOURS]");
             if (dt.Rows.Count > 0)
             {
                 try
                 {
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
-                        
+                        serviceCategoryId = 12;
                         Id = Convert.ToInt64(dt.Rows[i]["ID"].ToString());
                         Institution_Id = Convert.ToInt64(dt.Rows[i]["INSTITUTION_ID"].ToString());
                         Emirates_Id = dt.Rows[i]["NATIONALID"].ToString();
                         Clinician_Licence = dt.Rows[i]["HEALTH_LICENSE"].ToString();
-                        consultationCategoryId = 1;
-                        payerId = 102;
-                        serviceCategoryId = 1;
-                        BaseUrl = dt.Rows[i]["BASEURL"].ToString(); 
+
+                        payerId = Convert.ToInt16(dt.Rows[i]["PAYORID"]);
+                        BaseUrl = dt.Rows[i]["BASEURL"].ToString();
+                        Appconfig_Value = dt.Rows[i]["APPCONFIG_VALUE"].ToString();
 
                         MobNumber = dt.Rows[i]["MOBILE_NO"].ToString();
                         CountryCode = MobNumber.Split('~')[0];
@@ -123,13 +130,12 @@ namespace MyCortexService
 
                         RequestEligibilityParam re = new RequestEligibilityParam();
                         re.NATIONALITY_ID = Emirates_Id;
-                        re.ConsultationCategory = consultationCategoryId;
                         re.Clinicianlist = Clinician_Licence;
                         re.MOBILE_NO = MobileNumber;
                         re.PayorId = payerId;
                         re.ServiceCategory = serviceCategoryId;
                         re.countrycode = CountryCode;
-                        re.facilityLicense = "MF2007";
+                        re.facilityLicense = Appconfig_Value;
 
                         //var results = new SortedList<string, string>();
                         //results.Add("emiratesId", Emirates_Id);
@@ -208,7 +214,7 @@ namespace MyCortexService
                                 content1.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                                 System.Threading.Thread.Sleep(1000);
                                 //Thread.Sleep(20000); // milliseconds to 20 seconds.
-                                var responsedet =  await client.GetAsync("/api/PayBy/EligibilityRequestDetail?eligibilityID=" + eligibility_Id + "&facilityLicense=MF2007");
+                                var responsedet =  await client.GetAsync("/api/PayBy/EligibilityRequestDetail?eligibilityID=" + eligibility_Id + "&facilityLicense=" + Appconfig_Value);
                                 var responseDetContent = responsedet.Content.ReadAsStringAsync(); // get the 
                                 if (responseDetContent != null)
                                 {
@@ -859,7 +865,25 @@ namespace MyCortexService
                 }
                 isJob3running = false;
             }
-        }      
+        }
+
+        private void OnElapsedTime4(object source, ElapsedEventArgs e)
+        {
+            if (!isJob4running)
+            {
+                isJob4running = true;
+                WriteToFile("Eligibility Service started at " + DateTime.Now);
+                try
+                {
+                    EligibilityCheck();
+                }
+                catch (Exception ex)
+                {
+                    TraceException(ex);
+                }
+                isJob4running = false;
+            }
+        }
 
         public void TraceException(Exception ex)
         {
