@@ -178,7 +178,6 @@ namespace MyCortex.Home.Controllers
                 Session.Abandon();
                 Session.Clear();
                 returnError = "";
-                /*_MyLogger.Exceptions("Warn", _AppLogger, "LoginOut button clicked", null, _AppMethod);*/
                 return JavaScript("window.close();");
 
             }

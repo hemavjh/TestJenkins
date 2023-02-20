@@ -2098,6 +2098,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             var inputPhoneNo = window.intlTelInput(input, {
                                 formatOnDisplay: true,
                                 separateDialCode: true,
+                                initialCountry: iso2,
                                 //onlyCountries: [iso2],
                                 geoIpLookup: function (callback) {
                                     $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
@@ -2112,7 +2113,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             const PhoneNumber = inputPhoneNo.getNumber();
                             var countryData = inputPhoneNo.getSelectedCountryData();
                             var countryCode = countryData.dialCode; // using updated doc, code has been replaced with dialCode
-                            var iso2 = countryData.iso2;
+                            var iso2 = iso2;//countryData.iso2;
                             var number = document.getElementById("txtMobile").value;
                             document.getElementById("txthdCountryiso2").value = iso2;
                             document.getElementById("txthdCountryCode").value = countryCode;
