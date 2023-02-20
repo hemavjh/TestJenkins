@@ -2742,7 +2742,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId + '&UserType_Id=' + $scope.UserTypeId).then(function (response) {
                     $scope.BusineessUseremptydata = [];
                     $scope.BusinessUserList = [];
-                    $scope.BusinessUserList = data;
+                    $scope.BusinessUserList = response.data;
                     $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
                         $scope.Remaining_No_Of_HealthCareProf = response.data.Remaining_No_Of_HealthCareProf;
                         $scope.Health_Care_Professionals = response.data.Health_Care_Professionals;

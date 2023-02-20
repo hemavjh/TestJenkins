@@ -34,16 +34,19 @@ InstitutionSubscriptionHAcontroller.controller("InstitutionSubscriptionHospitalA
             alert("test");
             $location.path("/InstitutionHospitalAdmin_view/" + $scope.InstituteId);
         };
-        $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-            $scope.TimeZoneListID = data;
+        $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
+            $scope.TimeZoneListID = response.data;
+        }, function errorCallback(response) {
         });
-        $http.get(baseUrl + '/api/DoctorShift/AppointmentModuleList/').success(function (data) {
+        $http.get(baseUrl + '/api/DoctorShift/AppointmentModuleList/').then(function (response) {
             // only active Language    
-            $scope.AppointmentModuleListID = data;
+            $scope.AppointmentModuleListID = response.data;
+        }, function errorCallback(response) {
         });
-        $http.get(baseUrl + '/api/InstitutionSubscription/TelephoningNameList/').success(function (data) {
+        $http.get(baseUrl + '/api/InstitutionSubscription/TelephoningNameList/').then(function (response) {
             // only active Telephone    
-            $scope.TelephoneList = data;
+            $scope.TelephoneList = response.data;
+        }, function errorCallback(response) {
         });
         // This is for to get Institution Modiule List 
         //$http.get(baseUrl + '/api/InstitutionSubscription/ModuleNameList/').success(function (data) {
@@ -73,85 +76,87 @@ InstitutionSubscriptionHAcontroller.controller("InstitutionSubscriptionHospitalA
             if ($window.localStorage['UserTypeId'] == 3) {
 
                 $("#chatLoaderPV").show();
-                $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
                     $("#chatLoaderPV").hide();
-                    $scope.DuplicatesId = data.Id;
-                    $scope.InstitutiontypeList = data.Module_List;
-                    $scope.InstitutionChildList = data.ChildModuleList;
-                    $scope.LanguageList = data.Language_List;
-                    $scope.InstitutionLanguageList = data.ChildLanguageList;
-                    $scope.InstitutionLanguageName = data.ChildLanguageList;
-                    $scope.PaymentList = data.Payment_List;
-                    $scope.AllDeviceNameList = data.Device_list;
-                    $scope.InstitutionDeviceList = data.ChildDeviceList;
-                    $scope.InstitutionDeviceName = data.ChildDeviceList;
-                    $scope.InstitutionInsurnceList = data.ChildInsuranceList;
-                    $scope.InstitutionPaymentList = data.ChildPaymentList;
-                    $scope.InstitutionLanguageList = data.ChildLanguageList;
-                    $scope.Institution_Id = data.Institution_Id.toString();
-                    $scope.ViewInstitution_Name = data.Institution.Institution_Name;
-                    $scope.Email = data.Institution.Email;
-                    $scope.Address1 = data.Institution.Institution_Address1;
-                    $scope.Address2 = data.Institution.Institution_Address2;
-                    $scope.Address3 = data.Institution.Institution_Address3;
-                    $scope.ZipCode = data.Institution.ZipCode;
-                    $scope.Country = data.Institution.CountryName;
-                    $scope.State = data.Institution.StateName;
-                    $scope.City = data.Institution.CityName;
-                    $scope.Contract_Period_From = $filter('date')(data.Contract_PeriodFrom, "dd-MMM-yyyy");
-                    $scope.Health_Care_Professionals = data.Health_Care_Professionals;
-                    $scope.Patients = data.No_Of_Patients;
-                    $scope.No_Of_Hive = data.No_Of_Hive;
-                    $scope.No_Of_HiveChart = data.No_Of_HiveChart;
-                    $scope.No_Of_Hive_Users = data.No_Of_HiveUsers;
-                    $scope.No_Of_HiveChart_Users = data.No_Of_HiveChartUsers;
+                    $scope.DuplicatesId = response.data.Id;
+                    $scope.InstitutiontypeList = response.data.Module_List;
+                    $scope.InstitutionChildList = response.data.ChildModuleList;
+                    $scope.LanguageList = response.data.Language_List;
+                    $scope.InstitutionLanguageList = response.data.ChildLanguageList;
+                    $scope.InstitutionLanguageName = response.data.ChildLanguageList;
+                    $scope.PaymentList = response.data.Payment_List;
+                    $scope.AllDeviceNameList = response.data.Device_list;
+                    $scope.InstitutionDeviceList = response.data.ChildDeviceList;
+                    $scope.InstitutionDeviceName = response.data.ChildDeviceList;
+                    $scope.InstitutionInsurnceList = response.data.ChildInsuranceList;
+                    $scope.InstitutionPaymentList = response.data.ChildPaymentList;
+                    $scope.InstitutionLanguageList = response.data.ChildLanguageList;
+                    $scope.Institution_Id = response.data.Institution_Id.toString();
+                    $scope.ViewInstitution_Name = response.data.Institution.Institution_Name;
+                    $scope.Email = response.data.Institution.Email;
+                    $scope.Address1 = response.data.Institution.Institution_Address1;
+                    $scope.Address2 = response.data.Institution.Institution_Address2;
+                    $scope.Address3 = response.data.Institution.Institution_Address3;
+                    $scope.ZipCode = response.data.Institution.ZipCode;
+                    $scope.Country = response.data.Institution.CountryName;
+                    $scope.State = response.data.Institution.StateName;
+                    $scope.City = response.data.Institution.CityName;
+                    $scope.Contract_Period_From = $filter('date')(response.data.Contract_PeriodFrom, "dd-MMM-yyyy");
+                    $scope.Health_Care_Professionals = response.data.Health_Care_Professionals;
+                    $scope.Patients = response.data.No_Of_Patients;
+                    $scope.No_Of_Hive = response.data.No_Of_Hive;
+                    $scope.No_Of_HiveChart = response.data.No_Of_HiveChart;
+                    $scope.No_Of_Hive_Users = response.data.No_Of_HiveUsers;
+                    $scope.No_Of_HiveChart_Users = response.data.No_Of_HiveChartUsers;
                     /*$scope.No_Of_Hive_Devices = data.No_Of_HiveDevices;
                     $scope.No_Of_HiveChart_Devices = data.No_Of_HiveChartDevices;*/
-                    $scope.Contract_Period_To = $filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy");
-                    $scope.Subscription_Type = data.Subscription_Type;
-                    $scope.Recording_Type = data.Recording_Type;
-                    $scope.TelePhone_User = data.TelePhone_User;
-                    $scope.InsSub_Id = data.SubscriptionId;
-                    $scope.TimeZoneId = data.TimeZone_ID;
-                    $scope.AppointmentModuleId = data.Appointment_Module_Id;
+                    $scope.Contract_Period_To = $filter('date')(response.data.Contract_PeriodTo, "dd-MMM-yyyy");
+                    $scope.Subscription_Type = response.data.Subscription_Type;
+                    $scope.Recording_Type = response.data.Recording_Type;
+                    $scope.TelePhone_User = response.data.TelePhone_User;
+                    $scope.InsSub_Id = response.data.SubscriptionId;
+                    $scope.TimeZoneId = response.data.TimeZone_ID;
+                    $scope.AppointmentModuleId = response.data.Appointment_Module_Id;
                     $scope.TimeZoneIDName = "";
-                    $scope.Chroniccc = data.ChronicCc;
-                    $scope.Chroniccg = data.ChronicCg;
-                    $scope.Chroniccl = data.ChronicCl;
-                    $scope.Chronicsc = data.ChronicSc;
-                    $scope.Created_No_Of_Patient = data.Created_No_Of_Patient;
-                    $scope.Created_No_Of_HealthCareProf = data.Created_No_Of_HealthCareProf;
-                    $scope.Remaining_No_Of_Patient = data.Remaining_No_Of_Patient;
-                    $scope.Remaining_No_Of_HealthCareProf = data.Remaining_No_Of_HealthCareProf;
-                    $scope.Created_No_Of_Hive = data.Created_No_Of_Hive;
-                    $scope.Created_No_Of_Hivechart = data.Created_No_Of_Hivechart;
-                    $scope.Remaining_No_Of_Hive = data.Remaining_No_Of_Hive;
-                    $scope.Remaining_No_Of_Hivechart = data.Remaining_No_Of_Hivechart;
-                    $scope.Created_No_Of_Hive_Users = data.Created_No_Of_Hive_Users;
-                    $scope.Created_No_Of_Hivechart_Users = data.Created_No_Of_Hivechart_Users;
-                    $scope.Remaining_No_Of_Hive_Users = data.Remaining_No_Of_Hive_Users;
-                    $scope.Remaining_No_Of_Hivechart_Users = data.Remaining_No_Of_Hivechart_Users;
+                    $scope.Chroniccc = response.data.ChronicCc;
+                    $scope.Chroniccg = response.data.ChronicCg;
+                    $scope.Chroniccl = response.data.ChronicCl;
+                    $scope.Chronicsc = response.data.ChronicSc;
+                    $scope.Created_No_Of_Patient = response.data.Created_No_Of_Patient;
+                    $scope.Created_No_Of_HealthCareProf = response.data.Created_No_Of_HealthCareProf;
+                    $scope.Remaining_No_Of_Patient = response.data.Remaining_No_Of_Patient;
+                    $scope.Remaining_No_Of_HealthCareProf = response.data.Remaining_No_Of_HealthCareProf;
+                    $scope.Created_No_Of_Hive = response.data.Created_No_Of_Hive;
+                    $scope.Created_No_Of_Hivechart = response.data.Created_No_Of_Hivechart;
+                    $scope.Remaining_No_Of_Hive = response.data.Remaining_No_Of_Hive;
+                    $scope.Remaining_No_Of_Hivechart = response.data.Remaining_No_Of_Hivechart;
+                    $scope.Created_No_Of_Hive_Users = response.data.Created_No_Of_Hive_Users;
+                    $scope.Created_No_Of_Hivechart_Users = response.data.Created_No_Of_Hivechart_Users;
+                    $scope.Remaining_No_Of_Hive_Users = response.data.Remaining_No_Of_Hive_Users;
+                    $scope.Remaining_No_Of_Hivechart_Users = response.data.Remaining_No_Of_Hivechart_Users;
                     //$scope.Created_No_Of_Hive_Devices = data.Created_No_Of_Hive_Devices;
                     //$scope.Created_No_Of_Hivechart_Devices = data.Created_No_Of_Hivechart_Devices;
                     //$scope.Remaining_No_Of_Hive_Devices = data.Remaining_No_Of_Hive_Devices;
                     //$scope.Remaining_No_Of_Hivechart_Devices = data.Remaining_No_Of_Hivechart_Devices;
 
-                    $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data2) {
-                        $scope.TimeZoneList = data2;
-                        for (i in data2) {
+                    $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).then(function (data2) {
+                        $scope.TimeZoneList = data2.data;
+                        for (i in data2.data) {
                             if ($scope.TimeZoneList[i].TimeZoneId == $scope.TimeZoneId) {
                                 var TimeZoneRevealID = i;
-                                $scope.TimeZoneIDName = data2[TimeZoneRevealID].TimeZoneDisplayName;
+                                $scope.TimeZoneIDName = data2.data[TimeZoneRevealID].TimeZoneDisplayName;
                                 break;
                             }
                         }
+                    }, function errorCallback(response) {
                     });
-                    $http.get(baseUrl + '/api/DoctorShift/AppointmentModuleList/').success(function (data) {
+                    $http.get(baseUrl + '/api/DoctorShift/AppointmentModuleList/').then(function (response) {
                         // only active Language    
-                        $scope.AppointmentModuleName = data[$scope.AppointmentModuleId - 1];
+                        $scope.AppointmentModuleName = response.data[$scope.AppointmentModuleId - 1];
+                    }, function errorCallback(response) {
                     });
-                    $http.get(baseUrl + '/api/Common/InstitutionInsurance/').success(function (data) {
-                        $scope.InstitutionInsuranceName = data;
+                    $http.get(baseUrl + '/api/Common/InstitutionInsurance/').then(function (response) {
+                        $scope.InstitutionInsuranceName = response.data;
                         angular.forEach($scope.InstitutionInsuranceName, function (item, modIndex) {
 
                             if ($ff($scope.InstitutionInsurnceList, function (value) {
@@ -163,10 +168,11 @@ InstitutionSubscriptionHAcontroller.controller("InstitutionSubscriptionHospitalA
                                 $scope.InstitutionAddInsuranceList[modIndex] = false;
                             }
                         })
+                    }, function errorCallback(response) {
                     });
 
-                    $http.get(baseUrl + '/api/Common/InstitutionPayment/').success(function (data) {
-                        $scope.InstitutionPaymentMethod = data;
+                    $http.get(baseUrl + '/api/Common/InstitutionPayment/').then(function (response) {
+                        $scope.InstitutionPaymentMethod = response.data;
 
                         angular.forEach($scope.InstitutionPaymentMethod, function (item, modIndex) {
 
@@ -178,7 +184,8 @@ InstitutionSubscriptionHAcontroller.controller("InstitutionSubscriptionHospitalA
                             else {
                                 $scope.InstitutionAddPaymentList[modIndex] = false;
                             }
-                        })
+                        });
+                        }, function errorCallback(response) {
                     });
                     angular.forEach($scope.InstitutiontypeList, function (item, modIndex) {
                         if ($ff($scope.InstitutionChildList, function (value) {
@@ -212,11 +219,11 @@ InstitutionSubscriptionHAcontroller.controller("InstitutionSubscriptionHospitalA
                             $scope.InstitutionAddLanguageList[modIndex] = false;
                         }
                     })
+                }, function errorCallback(response) {
                 });
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
             }
         };
-
     }
 ]);
