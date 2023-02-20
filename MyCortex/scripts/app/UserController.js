@@ -358,7 +358,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 //    utilsScript: "scripts/utils.js",
                 //});
 
-        }).error(function (response) {
+        }, function errorCallback(response) {
             $scope.error = "AN error has occured while Listing the records!" + response.data;
             });
         //} else {
@@ -1231,12 +1231,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             }
             $scope.status = 2;
             $('[data-id="selectpicker"]').prop('disabled', false);
-            $scope.SuperAdminDropdownsList();
+            
             $scope.LoadGenderList();
             $scope.LoadGroupTypeList();
             $scope.LoadDepartmentList();
             $scope.LoadNationalityList();
             $scope.LoadBusinessUser_UserTypeList();
+            $scope.SuperAdminDropdownsList();
             //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
             angular.element('#UserModal').modal('show');
         }
@@ -1429,7 +1430,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $scope.BusinessUserDropdownList();
             }
             $scope.AppConfigurationProfileImageList();
-            $scope.Admin_View($scope.MenuTypeId);
+            $scope.Admin_View($scope.MenuTypeId);           
             $scope.currentTab = "1";
             angular.element('#UserModal').modal('show');
             $('#spradminrowid').prop('disabled', true);
@@ -1905,7 +1906,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     //alert(data.Message);
                     toastr.warning(data.Message, "warning");
                 }
-            }).error(function (response) {
+            }, function errorCallback(response) {
                 $scope.error = "An error has occurred InstitutionSubscriptionLicensecheck" + response.data;
             });
 
@@ -2065,9 +2066,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.ConfigCode = "PROFILE_PICTURE";
             $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
             $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).
-                success(function (data) {
-                    if (data[0] != undefined) {
-                        $scope.ProfileImageSize = parseInt(data[0].ConfigValue);
+                then(function (response) {
+                    if (response.data[0] != undefined) {
+                        $scope.ProfileImageSize = parseInt(response.data[0].ConfigValue);
                     }
                 });
         }
@@ -2079,6 +2080,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         }
         $http.get(baseUrl + '/api/Common/InstitutionNameList/').then(function (response) {
             $scope.InstitutionList = response.data;
+        }, function errorCallback(response) {
         });
         $scope.SuperAdminDropdownsList = function () {
             if ($scope.LoginType == 1 || $scope.LoginType == 3) {
@@ -2138,13 +2140,19 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $scope.InstitutiondetailsListTemp1 = $scope.InstitutionList;
                                 $scope.InsListId = $scope.InsListId1;
                                 var Inslist = $scope.InstitutiondetailsListTemp1.filter(x => x.Id === parseInt($scope.InsListId));
-                                var iso2 = Inslist[0].Country_ISO2;
+                            var iso2 = Inslist[0].Country_ISO2;
+                            if (iso2 != null) {
+                                iso2 = iso2;
+                            } else { 
+                                iso2 = 'AF';
+                            }
                                 //$scope.InstitutionId = $scope.AdminFlowdata.toString();
                                 var input = document.querySelector("#txtMobile");
                                 var inputPhoneNo = window.intlTelInput(input, {
                                     formatOnDisplay: true,
                                     separateDialCode: true,
-                                   // onlyCountries: [iso2],
+                                    initialCountry: iso2,
+                                    // onlyCountries: [iso2],
                                     geoIpLookup: function (callback) {
                                         $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
                                             var countryCode = (resp && resp.country) ? resp.country : "";
@@ -2154,6 +2162,15 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                     //preferredCountries: ["in"],
                                     utilsScript: "scripts/utils.js",
                                 });
+                            $scope.InputPhoneNo1 = inputPhoneNo;
+                            const PhoneNumber = inputPhoneNo.getNumber();
+                            var countryData = inputPhoneNo.getSelectedCountryData();
+                            var countryCode = countryData.dialCode; // using updated doc, code has been replaced with dialCode
+                            var iso2 = iso2;//countryData.iso2;
+                            var number = document.getElementById("txtMobile").value;
+                            document.getElementById("txthdCountryiso2").value = iso2;
+                            document.getElementById("txthdCountryCode").value = countryCode;
+                            document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
                            // });
                     }
 
@@ -2165,6 +2182,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $('#divInstitution').removeClass("ng-valid");
                         $('#divInstitution').addClass("ng-invalid");
                     }
+                }, function errorCallback(response) {
                 });
 
                 //$scope.txtPhoneChange = function () {
@@ -2849,7 +2867,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         /* Filter the master list function.*/
         $scope.filterInstitutionList = function () {
             $scope.ResultListFiltered = [];
-            var searchstring = angular.lowercase($scope.searchquery);
+            var searchstring = ($scope.searchquery.toLowerCase());
             if ($scope.searchquery == "") {
                 $scope.rowCollectionFilter = angular.copy($scope.UserDetailsList);
             }
@@ -2866,31 +2884,31 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 } else {
                     if ($scope.filter_SASearchFieldId == "1") {
                         var NotNull_User = $scope.UserDetailsList.filter(x => x.PATIENT_ID != null);
-                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.PATIENT_ID).match(searchstring));
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => (x.PATIENT_ID.toLowerCase()).match(searchstring));
                     } else if ($scope.filter_SASearchFieldId == "2") {
                         var NotNull_User = $scope.UserDetailsList.filter(x => x.NATIONALID != null);
-                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.NATIONALID).match(searchstring));
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => (x.NATIONALID.toLowerCase()).match(searchstring));
                     } else if ($scope.filter_SASearchFieldId == "3") {
                         var NotNull_User = $scope.UserDetailsList.filter(x => x.FirstName != null);
-                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.FirstName).match(searchstring));
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => (x.FirstName.toLowerCase()).match(searchstring));
                     } else if ($scope.filter_SASearchFieldId == "4") {
                         var NotNull_User = $scope.UserDetailsList.filter(x => x.LastName != null);
-                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.LastName).match(searchstring));
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => (x.LastName.toLowerCase()).match(searchstring));
                     } else if ($scope.filter_SASearchFieldId == "5") {
                         var NotNull_User = $scope.UserDetailsList.filter(x => x.INSURANCEID != null);
-                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.INSURANCEID).match(searchstring));
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => (x.INSURANCEID.toLowerCase()).match(searchstring));
                     } else if ($scope.filter_SASearchFieldId == "6") {
                         var NotNull_User = $scope.UserDetailsList.filter(x => x.EMAILID != null);
-                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.EMAILID).match(searchstring));
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => (x.EMAILID.toLowerCase()).match(searchstring));
                     } else if ($scope.filter_SASearchFieldId == "7") {
                         var NotNull_User = $scope.UserDetailsList.filter(x => x.MOBILE_NO != null);
-                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.MOBILE_NO).match(searchstring));
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => (x.MOBILE_NO.toLowerCase()).match(searchstring));
                     } else if ($scope.filter_SASearchFieldId == "8") {
                         var NotNull_User = $scope.UserDetailsList.filter(x => x.MNR_NO != null);
-                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.MNR_NO).match(searchstring));
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => (x.MNR_NO.toLowerCase()).match(searchstring));
                     } else if ($scope.filter_SASearchFieldId == "9") {
                         var NotNull_User = $scope.UserDetailsList.filter(x => x.EMPLOYEMENTNO != null);
-                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.EMPLOYEMENTNO).match(searchstring));
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => (x.EMPLOYEMENTNO.toLowerCase()).match(searchstring));
                     }
                     if ($scope.rowCollectionFilter.length > 0) {
                         $scope.flag = 1;
@@ -2904,7 +2922,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
         $scope.filterBusinessList = function () {
             $scope.ResultListFiltered = [];
-            var searchstring = angular.lowercase($scope.Business_Usersearchquery);
+            var searchstring = ($scope.Business_Usersearchquery.toLowerCase());
             if ($scope.Business_Usersearchquery == "") {
                 $scope.BusinessUserFilter = angular.copy($scope.BusinessUserList);
             }
@@ -2921,25 +2939,25 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     //});
                 } else if ($scope.filter_CL_SearchFieldId == "1") {
                     var NotNull_User = $scope.BusinessUserList.filter(x => x.EMPLOYEMENTNO != null);
-                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.EMPLOYEMENTNO).match(searchstring));
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => (x.EMPLOYEMENTNO.toLowerCase()).match(searchstring));
                 } else if ($scope.filter_CL_SearchFieldId == "2") {
                     var NotNull_User = $scope.BusinessUserList.filter(x => x.Department_Name != null);
-                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.Department_Name).match(searchstring));
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => (x.Department_Name.toLowerCase()).match(searchstring));
                 } else if ($scope.filter_CL_SearchFieldId == "3") {
                     var NotNull_User = $scope.BusinessUserList.filter(x => x.FirstName != null);
-                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.FirstName).match(searchstring));
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => (x.FirstName.toLowerCase()).match(searchstring));
                 } else if ($scope.filter_CL_SearchFieldId == "4") {
                     var NotNull_User = $scope.BusinessUserList.filter(x => x.LastName != null);
-                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.LastName).match(searchstring));
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => (x.LastName.toLowerCase()).match(searchstring));
                 } else if ($scope.filter_CL_SearchFieldId == "5") {
                     var NotNull_User = $scope.BusinessUserList.filter(x => x.HEALTH_LICENSE != null);
-                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.HEALTH_LICENSE).match(searchstring));
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => (x.HEALTH_LICENSE.toLowerCase()).match(searchstring));
                 } else if ($scope.filter_CL_SearchFieldId == "6") {
                     var NotNull_User = $scope.BusinessUserList.filter(x => x.EMAILID != null);
-                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.EMAILID).match(searchstring));
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => (x.EMAILID.toLowerCase()).match(searchstring));
                 } else if ($scope.filter_CL_SearchFieldId == "7") {
                     var NotNull_User = $scope.BusinessUserList.filter(x => x.MOBILE_NO != null);
-                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.MOBILE_NO).match(searchstring));
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => (x.MOBILE_NO.toLowerCase()).match(searchstring));
                 }
                 if ($scope.BusinessUserFilter.length > 0) {
                     $scope.BusinessUserflag = 1;
@@ -4351,13 +4369,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                 });
                             });
                             $("#CountryId").select2("trigger", "select", {
-                                data: { id: response.data.COUNTRY_ID.toString(), text: data.COUNTRY_NAME }
+                                data: { id: response.data.COUNTRY_ID.toString(), text: response.data.COUNTRY_NAME }
                             });
                             $("#StateId").select2("trigger", "select", {
-                                data: { id: response.data.STATE_ID.toString(), text: data.StateName }
+                                data: { id: response.data.STATE_ID.toString(), text: response.data.StateName }
                             });
                             $("#CityId").select2("trigger", "select", {
-                                data: { id: response.data.CITY_ID.toString(), text: data.LocationName }
+                                data: { id: response.data.CITY_ID.toString(), text: response.data.LocationName }
                             });
                          });
 
@@ -4743,7 +4761,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             //alert(data.Message);
                             toastr.info(response.data.Message, "info");
                         }
-                    }).error(function (response) {
+                    }, function errorCallback(response) {
                         $scope.error = "An error has occurred while deleting User Details" + response.data;
                     });
                 } else if (result.isDenied) {
@@ -4802,7 +4820,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             //alert(data.Message);
                             toastr.info(response.data.Message, "info");
                         }
-                    }).error(function (response) {
+                    }, function errorCallback(response) {
                         $scope.error = "An error has occurred while deleting User Details" + response.data;
                     });
                 } else if (result.isDenied) {
@@ -5617,7 +5635,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $http.post(baseUrl + '/api/User/User_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).then(function (response) {
                         /*alert(data.Message);*/
                         if (response.data.ReturnFlag == 0) {
-                            toastr.info(data.Message, "info");
+                            toastr.info(response.data.Message, "info");
                         }
                         else if (response.data.ReturnFlag == 1) {
                             InstSub.setSubID(0);
@@ -5676,6 +5694,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         }
 
                         $("#chatLoaderPV").hide();
+                    }, function errorCallback(response) {
+                        toastr.error(response.data.Message, "warning");
                     });
                 }
                 else {
@@ -5689,7 +5709,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.InstitueDefaultConfiguration = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=1', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration2();
-            }).error(function (response) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 1");
                 toastr.error("Error In Step 1", "warning");
                 $scope.InstitueDefaultConfiguration2();
@@ -5699,7 +5719,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.InstitueDefaultConfiguration2 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=2', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration3();
-            }).error(function (response) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 2");
                 toastr.error("Error In Step 2", "warning");
                 $scope.InstitueDefaultConfiguration3();
@@ -5709,7 +5729,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.InstitueDefaultConfiguration3 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=3', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration4();
-            }).error(function (response) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 3");
                 toastr.error("Error In Step 3", "warning");
                 $scope.InstitueDefaultConfiguration4();
@@ -5719,7 +5739,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.InstitueDefaultConfiguration4 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=4', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration5();
-            }).error(function (response) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 4");
                 toastr.error("Error In Step 4", "warning");
                 $scope.InstitueDefaultConfiguration5();
@@ -5729,7 +5749,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.InstitueDefaultConfiguration5 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=5', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration6();
-            }).error(function (response) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 5");
                 toastr.error("Error In Step 5", "warning");
                 $scope.InstitueDefaultConfiguration6();
@@ -5739,7 +5759,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.InstitueDefaultConfiguration6 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=6', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration7();
-            }).error(function (response) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 6");
                 toastr.error("Error In Step 6", "warning");
                 $scope.InstitueDefaultConfiguration7();
@@ -5749,7 +5769,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.InstitueDefaultConfiguration7 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=7', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration8();
-            }).error(function (response) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 7");
                 toastr.error("Error In Step 7", "warning");
                 $scope.InstitueDefaultConfiguration8();
@@ -5759,7 +5779,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.InstitueDefaultConfiguration8 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=8', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration9();
-            }).error(function (response) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 8");
                 toastr.error("Error In Step 8", "warning");
                 $scope.InstitueDefaultConfiguration9();
@@ -5769,7 +5789,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.InstitueDefaultConfiguration9 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=9', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration10();
-            }).error(function (response) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 9");
                 toastr.error("Error In Step 9", "warning");
                 $scope.InstitueDefaultConfiguration10();
@@ -5779,7 +5799,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.InstitueDefaultConfiguration10 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=10', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration11();
-            }).error(function (response) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 10");
                 toastr.error("Error In Step 10", "warning");
                 $scope.InstitueDefaultConfiguration11();
@@ -5789,7 +5809,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.InstitueDefaultConfiguration11 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=11', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration12();
-            }).error(function (response) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 11");
                 toastr.error("Error In Step 11", "warning");
                 $scope.InstitueDefaultConfiguration12();
@@ -5799,7 +5819,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.InstitueDefaultConfiguration12 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=12', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration13();
-            }).error(function (response) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 12");
                 toastr.error("Error In Step 12", "warning");
                 $scope.InstitueDefaultConfiguration13();
@@ -5809,7 +5829,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.InstitueDefaultConfiguration13 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=13', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration14();
-            }).error(function (response) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 13");
                 toastr.error("Error In Step 13", "warning");
                 $scope.InstitueDefaultConfiguration14();
@@ -5819,7 +5839,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.InstitueDefaultConfiguration14 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=14', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration15();
-            }).error(function (response) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 14");
                 toastr.error("Error In Step 14", "warning");
                 $scope.InstitueDefaultConfiguration15();
@@ -5829,7 +5849,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.InstitueDefaultConfiguration15 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=15', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration16();
-            }).error(function (response) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 15");
                 toastr.error("Error In Step 15", "warning");
                 $scope.InstitueDefaultConfiguration16();
@@ -5839,7 +5859,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.InstitueDefaultConfiguration16 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=16', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration17();
-            }).error(function (response) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 16");
                 toastr.error("Error In Step 16", "warning");
                 $scope.InstitueDefaultConfiguration17();
@@ -5847,7 +5867,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         };
         $scope.InstitueDefaultConfiguration17 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=17', $scope.InstitutionCreatedID).then(function (response) {
-            }).error(function (response) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 17");
                 toastr.error("Error In Step 17", "warning");
             });
@@ -6902,7 +6922,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     if (response.data.ReturnFlag == 1) {
                         $location.path("/PatientApproval");
                     }
-                }).error(function (response) {
+                }, function errorCallback(response) {
                     $scope.error = "AN error has occured while deleting patient approval records" + response.data;
                 });
             }

@@ -28,25 +28,26 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
         $scope.policyExist = false;
         $scope.PasswordPolicyDetails = function () {
             $("#chatLoaderPV").show();
-            $http.get(baseUrl + '/api/Common/PasswordPolicyDetails_View/?Institution_Id=' + $scope.InstituteId).success(function (data) {
-                if (data != null) {
-                    $scope.Insitution_Id = data.Insitution_Id;
-                    $scope.Insitution_Name = data.Insitution_Name;
-                    $scope.Minimum_Length = data.Minimum_Length;
-                    $scope.Maximum_Length = data.Maximum_Length;
-                    $scope.UpperCase_Required = data.UpperCase_Required;
-                    $scope.LowerCase_Required = data.LowerCase_Required;
-                    $scope.Numeric_Required = data.Numeric_Required;
-                    $scope.SpecialChar_Required = data.SpecialChar_Required;
-                    $scope.Without_Char = data.Without_Char;
-                    $scope.Expiry_Period = data.Expiry_Period;
-                    $scope.Allow_UserName = data.Allow_UserName;
-                    $scope.Restrict_LastPassword = data.Restrict_LastPassword;
-                    $scope.MaxLoginMins = data.MaxLoginMins;
+            $http.get(baseUrl + '/api/Common/PasswordPolicyDetails_View/?Institution_Id=' + $scope.InstituteId).then(function (response) {
+                if (response.data != null) {
+                    $scope.Insitution_Id = response.data.Insitution_Id;
+                    $scope.Insitution_Name = response.data.Insitution_Name;
+                    $scope.Minimum_Length = response.data.Minimum_Length;
+                    $scope.Maximum_Length = response.data.Maximum_Length;
+                    $scope.UpperCase_Required = response.data.UpperCase_Required;
+                    $scope.LowerCase_Required = response.data.LowerCase_Required;
+                    $scope.Numeric_Required = response.data.Numeric_Required;
+                    $scope.SpecialChar_Required = response.data.SpecialChar_Required;
+                    $scope.Without_Char = response.data.Without_Char;
+                    $scope.Expiry_Period = response.data.Expiry_Period;
+                    $scope.Allow_UserName = response.data.Allow_UserName;
+                    $scope.Restrict_LastPassword = response.data.Restrict_LastPassword;
+                    $scope.MaxLoginMins = response.data.MaxLoginMins;
                 }
                 //$scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
                 //$scope.NewPassword = "";
                 $("#chatLoaderPV").hide();
+            }, function errorCallback(response) {
             });
             //$scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
             //$scope.NewPassword = "";
@@ -449,18 +450,18 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
                     + '&ModifiedUser_Id=' + $scope.ModifiedUser_Id
                     + '&InstitutionId=' + $scope.InstituteId
                     + '&PageTypeId=' + $scope.PageParameter*/
-                    .success(function (data) {
+                    .then(function (response) {
                         //alert(data.Message);
-                        if (data.ReturnFlag == "1") {
-                            toastr.success(data.Message, "success");
+                        if (response.data.ReturnFlag == "1") {
+                            toastr.success(response.data.Message, "success");
                             $scope.ClearPassword();
                             angular.element('#ChangepasswordpopupModal').modal('hide');
                         }
-                        else if (data.ReturnFlag == "0") {
-                            toastr.info(data.Message, "info");
+                        else if (response.data.ReturnFlag == "0") {
+                            toastr.info(response.data.Message, "info");
                         }
-                    }).error(function (data) {
-                        $scope.error = "Problem in changing the password duplicate!" + data.ExceptionMessage;
+                    }, function errorCallback(response) {
+                        $scope.error = "Problem in changing the password duplicate!" + response.data.ExceptionMessage;
                     });
                 $("#chatLoaderPV").hide();
             }
@@ -510,17 +511,18 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
         }
 
         /* User type details list*/
-        $http.get(baseUrl + '/api/Login/Usertypedetailslist/').success(function (data) {
+        $http.get(baseUrl + '/api/Login/Usertypedetailslist/').then(function (response) {
             //$scope.Usertypelist = data;
             $scope.Usertypelist = [];
             $("#chatLoaderPV").show();
             //$scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
             //$scope.NewPassword = "";
-            angular.forEach(data, function (row, value) {
+            angular.forEach(response.data, function (row, value) {
                 if (row.Id != 1)
                     $scope.Usertypelist.push(row)
             });
             $("#chatLoaderPV").hide();
+        }, function errorCallback(response) {
         });
 
         /* User basic details list*/
@@ -533,9 +535,10 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
             } else if ($scope.UserTypeId == 3) {
                 $scope.IsMaster = 0;
             }
-            $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + $scope.UserTypeName + '&InstitutionId=' + $scope.InstituteId + '&IS_MASTER=' + $scope.IsMaster).success(function (data) {
-                $scope.Userlist = data;
+            $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + $scope.UserTypeName + '&InstitutionId=' + $scope.InstituteId + '&IS_MASTER=' + $scope.IsMaster).then(function (response) {
+                $scope.Userlist = response.data;
                 $("#chatLoaderPV").hide();
+            }, function errorCallback(response) {
             });
         };
 
@@ -587,14 +590,14 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
                             + '&ReenterPassword=' + $scope.ReenterPassword
                             + '&created_By=' + $window.localStorage['UserId']
                             + '&EmailId=""'
-                            + '&InstitutionId=' + $scope.InstituteId).success(function (data) {
+                            + '&InstitutionId=' + $scope.InstituteId).then(function (response) {
                                 //alert(data.Message);
-                                toastr.success(data.Message, "success");
+                                toastr.success(response.data.Message, "success");
                                 $('#btn-signup').attr("disabled", false);
                                 $scope.ClearPassword();
                                 $("#chatLoaderPV").hide();
-                            }).error(function (data) {
-                                $scope.error = "An error has occurred while deleting reset password details" + data;
+                            }, function errorCallback(response) {
+                                $scope.error = "An error has occurred while deleting reset password details" + response.data;
                             });
                     }
                 }
@@ -661,26 +664,26 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
                 $('#btnsave').attr("disabled", true);
                 $scope.loading = true;
 
-                $http.post(baseUrl + '/api/Common/PasswordPolicy_InsertUpdate/', obj).success(function (data) {
+                $http.post(baseUrl + '/api/Common/PasswordPolicy_InsertUpdate/', obj).then(function (response) {
                     //alert(data.Message);
-                    if (data.ReturnFlag == 1) {
-                        toastr.success(data.Message, "success");
+                    if (response.data.ReturnFlag == 1) {
+                        toastr.success(response.data.Message, "success");
                     }
-                    else if (data.ReturnFlag == 2) {
-                        toastr.success(data.Message, "success");
+                    else if (response.data.ReturnFlag == 2) {
+                        toastr.success(response.data.Message, "success");
                     }
                     $('#btnsave').attr("disabled", false);
                     $scope.PasswordPolicyView();
                     $scope.ClearFields();
 
-                    if (data.ReturnFlag == "1") {
+                    if (response.data.ReturnFlag == "1") {
                         $location.path("/EditPasswordPolicy/");
                         $scope.loading = false;
                         $rootScope.$broadcast('hide');
                     }
                     $("#chatLoaderPV").hide();
-                }).error(function (data) {
-                    $scope.error = "An error has occurred while adding Password Policy Details!" + data.ExceptionMessage;
+                }, function errorCallback(response) {
+                    $scope.error = "An error has occurred while adding Password Policy Details!" + response.data.ExceptionMessage;
                 });
 
             };
@@ -692,28 +695,28 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
             $("#chatLoaderPV").show();
             //$scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
             //  $scope.NewPassword = "";
-            $http.get(baseUrl + '/api/Common/PasswordPolicy_View/?Institution_Id=' + $scope.InstituteId).success(function (data) {
-                if (data != null) {
+            $http.get(baseUrl + '/api/Common/PasswordPolicy_View/?Institution_Id=' + $scope.InstituteId).then(function (response) {
+                if (response.data != null) {
                     $scope.policyExist = true;
-                    $scope.Institution_Id = data.Institution_Id;
-                    $scope.Insitution_Name = data.Insitution_Name;
-                    $scope.Minimum_Length = data.Minimum_Length;
-                    $scope.Maximum_Length = data.Maximum_Length;
-                    $scope.UpperCase_Required = data.UpperCase_Required;
-                    $scope.LowerCase_Required = data.LowerCase_Required;
-                    $scope.Numeric_Required = data.Numeric_Required;
-                    $scope.SpecialChar_Required = data.SpecialChar_Required;
-                    $scope.Without_Char = data.Without_Char;
-                    $scope.AllowExpiryDays = data.AllowExpiryDays;
-                    $scope.Expiry_Period = data.Expiry_Period;
-                    $scope.Allow_UserName = data.Allow_UserName;
-                    $scope.Restrict_LastPassword = data.Restrict_LastPassword;
-                    $scope.MaxLoginTime = data.MaxLoginTime;
-                    $scope.MaxLoginHours = data.MaxLoginHours;
-                    $scope.MaxLoginMins = data.MaxLoginMins;
-                    $scope.Created_By = data.Created_By;
-                    $scope.Remember_Password = data.Remember_Password;
-                    $scope.Created_Dt = data.Created_Dt;
+                    $scope.Institution_Id = response.data.Institution_Id;
+                    $scope.Insitution_Name = response.data.Insitution_Name;
+                    $scope.Minimum_Length = response.data.Minimum_Length;
+                    $scope.Maximum_Length = response.data.Maximum_Length;
+                    $scope.UpperCase_Required = response.data.UpperCase_Required;
+                    $scope.LowerCase_Required = response.data.LowerCase_Required;
+                    $scope.Numeric_Required = response.data.Numeric_Required;
+                    $scope.SpecialChar_Required = response.data.SpecialChar_Required;
+                    $scope.Without_Char = response.data.Without_Char;
+                    $scope.AllowExpiryDays = response.data.AllowExpiryDays;
+                    $scope.Expiry_Period = response.data.Expiry_Period;
+                    $scope.Allow_UserName = response.data.Allow_UserName;
+                    $scope.Restrict_LastPassword = response.data.Restrict_LastPassword;
+                    $scope.MaxLoginTime = response.data.MaxLoginTime;
+                    $scope.MaxLoginHours = response.data.MaxLoginHours;
+                    $scope.MaxLoginMins = response.data.MaxLoginMins;
+                    $scope.Created_By = response.data.Created_By;
+                    $scope.Remember_Password = response.data.Remember_Password;
+                    $scope.Created_Dt = response.data.Created_Dt;
                     if ($scope.AllowExpiryDays == true) {
                         $("Text4").removeClass("ng-invalid");
                         $("Text4").addClass("ng-valid");
@@ -726,6 +729,7 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
                 $("#chatLoaderPV").hide();
                 //$scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
                 //$scope.NewPassword = "";
+            }, function errorCallback(response) {
             });
 
         };
@@ -734,28 +738,29 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
         $scope.PasswordPolicyDetails = function () {
             //$scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
             //$scope.NewPassword = "";
-            $http.get(baseUrl + '/api/Common/PasswordPolicyDetails_View/?Institution_Id=' + $scope.InstituteId).success(function (data) {
-                if (data != null) {
-                    $scope.Institution_Id = data.Institution_Id;
-                    $scope.Insitution_Name = data.Insitution_Name;
-                    $scope.Minimum_Length = data.Minimum_Length;
-                    $scope.Maximum_Length = data.Maximum_Length;
-                    $scope.UpperCase_Required = data.UpperCase_Required;
-                    $scope.LowerCase_Required = data.LowerCase_Required;
-                    $scope.Numeric_Required = data.Numeric_Required;
-                    $scope.SpecialChar_Required = data.SpecialChar_Required;
-                    $scope.Without_Char = data.Without_Char;
-                    $scope.AllowExpiryDays = data.AllowExpiryDays;
-                    $scope.Expiry_Period = data.Expiry_Period;
-                    $scope.Allow_UserName = data.Allow_UserName;
-                    $scope.Restrict_LastPassword = data.Restrict_LastPassword;
-                    $scope.MaxLoginTime = data.MaxLoginTime;
-                    $scope.MaxLoginHours = data.MaxLoginHours;
-                    $scope.MaxLoginMins = data.MaxLoginMins;
-                    $scope.Created_By = data.Created_By;
-                    $scope.Remember_Password = data.Remember_Password;
-                    $scope.Created_Dt = data.Created_Dt;
+            $http.get(baseUrl + '/api/Common/PasswordPolicyDetails_View/?Institution_Id=' + $scope.InstituteId).then(function (response) {
+                if (response.data != null) {
+                    $scope.Institution_Id = response.data.Institution_Id;
+                    $scope.Insitution_Name = response.data.Insitution_Name;
+                    $scope.Minimum_Length = response.data.Minimum_Length;
+                    $scope.Maximum_Length = response.data.Maximum_Length;
+                    $scope.UpperCase_Required = response.data.UpperCase_Required;
+                    $scope.LowerCase_Required = response.data.LowerCase_Required;
+                    $scope.Numeric_Required = response.data.Numeric_Required;
+                    $scope.SpecialChar_Required = response.data.SpecialChar_Required;
+                    $scope.Without_Char = response.data.Without_Char;
+                    $scope.AllowExpiryDays = response.data.AllowExpiryDays;
+                    $scope.Expiry_Period = response.data.Expiry_Period;
+                    $scope.Allow_UserName = response.data.Allow_UserName;
+                    $scope.Restrict_LastPassword = response.data.Restrict_LastPassword;
+                    $scope.MaxLoginTime = response.data.MaxLoginTime;
+                    $scope.MaxLoginHours = response.data.MaxLoginHours;
+                    $scope.MaxLoginMins = response.data.MaxLoginMins;
+                    $scope.Created_By = response.data.Created_By;
+                    $scope.Remember_Password = response.data.Remember_Password;
+                    $scope.Created_Dt = response.data.Created_Dt;
                 }
+            }, function errorCallback(response) {
             });
         };
         //clear function for expiry period

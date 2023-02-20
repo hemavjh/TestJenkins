@@ -106,10 +106,20 @@ EmpApp.config(['IdleProvider', function (IdleProvider) {
     // start watching when the app runs. also starts the Keepalive service by default.
     Idle.watch();
 });
+//EmpApp.controller('homeController', function ($scope, $route) {
+//});
+//EmpApp.controller('UserController', function ($scope, $route) {
+//    var p = $route.current.params;
+//    $scope.path = decodeURIComponent(p.p1);
+//});
 EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     var baseUrl = $("base").first().attr("href");
 
     $routeProvider.
+        //when('/', {
+        //    templateUrl: baseUrl + 'Home/Views/HomePage.html',
+        //    controller: 'homeController'
+        //}).
     when('/login', {
         templateUrl: baseUrl + 'Login/Views/Login.html',
         controller: 'LoginController'
@@ -138,7 +148,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         templateUrl: baseUrl + 'Admin/Views/DeviceNameAdminList.html',
         controller: 'MyHomeController'
     }).
-    when('/SuperAdmin_UserList/:LoginUserType', {
+    when('/SuperAdmin_UserList/:LoginUserType*', {
         templateUrl: baseUrl + 'User/Views/SuperAdmin_Userlist.html',
         controller: 'UserController'
     }).
