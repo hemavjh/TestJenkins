@@ -46,23 +46,24 @@ allergyMasterList.controller("AllergyMasterList", ['$scope', '$http', '$filter',
                     Created_By: $scope.Patient_Id
                 }
                 $("#btnsave").attr("disabled", true);
-                $http.post(baseUrl + '/api/MasterAllergy/MasterAllergy_AddEdit/', obj).success(function (data) {
+                $http.post(baseUrl + '/api/MasterAllergy/MasterAllergy_AddEdit/', obj).then(function (reponse) {
                     $("#chatLoaderPV").hide();
                     //alert(data.Message);
-                    if (data.ReturnFlag == 1) {
-                        toastr.success(data.Message, "success");
+                    if (reponse.data.ReturnFlag == 1) {
+                        toastr.success(reponse.data.Message, "success");
                     }
-                    else if (data.ReturnFlag == 0) {
-                        toastr.info(data.Message, "info");
+                    else if (reponse.data.ReturnFlag == 0) {
+                        toastr.info(reponse.data.Message, "info");
                     }
                     $("#btnsave").attr("disabled", false);
-                    if (data.ReturnFlag == 1) {
+                    if (reponse.data.ReturnFlag == 1) {
                         $scope.ClearPopup();
                         $scope.AllergyMasterList_Details();
                     }
                     //$scope.AddId = data;
                     angular.element('#AllergyModal').modal('hide');
-                })
+                }, function errorCallback(response) {
+                });
             }
 
         }
@@ -107,21 +108,21 @@ allergyMasterList.controller("AllergyMasterList", ['$scope', '$http', '$filter',
 
                 $scope.ConfigCode = "PATIENTPAGE_COUNT";
                 $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-                    $scope.page_size = data1[0].ConfigValue;
+                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).then(function (data1) {
+                    $scope.page_size = data1.data[0].ConfigValue;
                     $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
                     $scope.PageEnd = $scope.current_page * $scope.page_size;
                     $http.get(baseUrl + '/api/User/AllergtMaster_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + $scope.Institution_Id + '&StartRowNumber=' + $scope.PageStart +
-                        '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                        '&EndRowNumber=' + $scope.PageEnd).then(function (reponse) {
                             $("#chatLoaderPV").hide();
-                            if (data.length != 0 && data != null && data !== undefined) {
+                            if (reponse.data.length != 0 && reponse.data != null && reponse.data !== undefined) {
                                 $scope.AllergyMasteremptydata = [];
                                 $scope.AllergyMasterListData = [];
-                                $scope.AllergyMasterListData = data;
+                                $scope.AllergyMasterListData = reponse.data;
                                 if ($scope.AllergyMasterListData.length > 0) {
                                     $scope.AllergyCount = $scope.AllergyMasterListData[0].TotalRecord;
                                 }
-                                $scope.AllergyMasterListFilterData = data;
+                                $scope.AllergyMasterListFilterData = reponse.data;
                                 $scope.AllergyMasterList = angular.copy($scope.AllergyMasterListData);
                                 if ($scope.AllergyMasterList.length > 0) {
                                     $scope.flag = 1;
@@ -136,14 +137,15 @@ allergyMasterList.controller("AllergyMasterList", ['$scope', '$http', '$filter',
 
                             if ($scope.AllergyMasterListData.length > 0) {
                                 $scope.AllergyTypeList = [];
-                                $http.get(baseUrl + 'api/MasterAllergy/MasterAllergyTypeList/?institution_id=' + $scope.Institution_Id).success(function (data) {
+                                $http.get(baseUrl + 'api/MasterAllergy/MasterAllergyTypeList/?institution_id=' + $scope.Institution_Id).then(function (response) {
                                     $("#chatloaderpv").hide();
                                     $scope.AllergyTypeListTemp = [];
-                                    $scope.AllergyTypeListTemp = data;
+                                    $scope.AllergyTypeListTemp = response.data;
                                     var obj = { "Id": 0, "AllergyTypeName": "Select", "IsActive": 1 };
                                     $scope.AllergyTypeListTemp.splice(0, 0, obj);
                                     $scope.AllergyTypeList = angular.copy($scope.AllergyTypeListTemp);
-                                })
+                                }, function errorCallback(response) {
+                                });
                                 //$scope.AllergenListfilter = [];
                                 //$scope.AllegenBasedType = function (AllergyTypeId) {
                                 //    var id = "0"
@@ -165,8 +167,8 @@ allergyMasterList.controller("AllergyMasterList", ['$scope', '$http', '$filter',
                             }
 
                         })
-                }).error(function (data) {
-                    $scope.error = "AN error has occured while Listing the records!" + data;
+                }, function errorCallback(reponse) {
+                    $scope.error = "AN error has occured while Listing the records!" + reponse.data;
                 });
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
@@ -176,7 +178,7 @@ allergyMasterList.controller("AllergyMasterList", ['$scope', '$http', '$filter',
         /*  This is for Allergy searchquery*/
         $scope.filterAllergyMasterList = function () {
             $scope.ResultListFiltered = [];
-            var searchstring = angular.lowercase($scope.AllergyMastersearchquery);
+            var searchstring = $scope.AllergyMastersearchquery.toLowerCase();
             if ($scope.AllergyMastersearchquery == "") {
                 $scope.AllergyMasterList = angular.copy($scope.AllergyMasterListFilterData);
                 $scope.AllergySearch();
@@ -184,8 +186,8 @@ allergyMasterList.controller("AllergyMasterList", ['$scope', '$http', '$filter',
             else {
                 var val;
                 $scope.AllergyMasterList = $ff($scope.AllergyMasterListFilterData, function (value) {
-                    return angular.lowercase(value.AllergyTypeName).match(searchstring) ||
-                        angular.lowercase(value.AllergenName).match(searchstring);
+                    return (value.AllergyTypeName.toLowerCase()).match(searchstring) ||
+                        (value.AllergenName.toLowerCase()).match(searchstring);
                 });
                 if ($scope.AllergyMasterList.length > 0) {
                     $scope.AllergyMasterflag = 1;
@@ -207,13 +209,13 @@ allergyMasterList.controller("AllergyMasterList", ['$scope', '$http', '$filter',
                 $("#chatLoaderPV").show();
                 $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
                 $http.get(baseUrl + '/api/MasterAllergy/Search_Allergy_List/?IsActive=' + $scope.ActiveStatus + '&InstitutionId=' + $window.localStorage['InstitutionId'] + '&SearchQuery=' + $scope.AllergyMastersearchquery +
-                    '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                    '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).then(function (response) {
                         $("#chatLoaderPV").hide();
                         $scope.AllergyMasteremptydata = [];
                         $scope.AllergyMasterListData = [];
-                        $scope.AllergyMasterListData = data;
+                        $scope.AllergyMasterListData = response.data;
                         
-                        $scope.AllergyMasterListFilterData = data;
+                        $scope.AllergyMasterListFilterData = response.data;
                         $scope.AllergyMasterList = angular.copy($scope.AllergyMasterListData);
                         if ($scope.AllergyMasterList.length > 0) {
                             $scope.flag = 1;
@@ -227,6 +229,7 @@ allergyMasterList.controller("AllergyMasterList", ['$scope', '$http', '$filter',
                         } else {
                             $scope.Allergt_pages =1
                         }
+                    }, function errorCallback(response) {
                     });
             }
         }
@@ -236,19 +239,19 @@ allergyMasterList.controller("AllergyMasterList", ['$scope', '$http', '$filter',
         $scope.AllergenDuplicateId = "0";
         $scope.ViewICD10 = function () {
             $("#chatLoaderPV").show();
-            $http.get(baseUrl + 'api/MasterAllergy/MasterAllergyView/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            $http.get(baseUrl + 'api/MasterAllergy/MasterAllergyView/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
                 $("#chatLoaderPV").hide();
-                $scope.AllergyTypeId = data.AllergyTypeId.toString();
+                $scope.AllergyTypeId = response.data.AllergyTypeId.toString();
                 $scope.AllergyTypeDuplicateId = $scope.AllergyTypeId;
-                $scope.AllergenId = data.AllergenId.toString();
+                $scope.AllergenId = response.data.AllergenId.toString();
                 $scope.AllergenDuplicateId = $scope.AllergenId;
                 /* if ($scope.AllergyDropDown == 2) {
                      $scope.AllegenBasedType($scope.AllergyTypeId);
                  }*/
-                $scope.ViewAllergyType = data.AllergyTypeName;
-                $scope.AllergenName = data.AllergenName;
-                $scope.ViewAllegenName = data.AllergenName;
-            }).error(function (data) {
+                $scope.ViewAllergyType = response.data.AllergyTypeName;
+                $scope.AllergenName = response.data.AllergenName;
+                $scope.ViewAllegenName = response.data.AllergenName;
+            }, function errorCallback(response) {
                 //alert('Error Occurred');
                 toastr.error("Error Occurred", "warning");
 
@@ -306,12 +309,12 @@ allergyMasterList.controller("AllergyMasterList", ['$scope', '$http', '$filter',
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    $http.get(baseUrl + '/api/MasterAllergy/AllergyMaster_Delete/?Id=' + $scope.Id).success(function (data) {
+                    $http.get(baseUrl + '/api/MasterAllergy/AllergyMaster_Delete/?Id=' + $scope.Id).then(function (response) {
                         //alert(" Allergy detail has been deactivated Successfully");
                         toastr.success(" Allergy detail has been deactivated Successfully", "success");
                         $scope.AllergyMasterList_Details();
-                    }).error(function (data) {
-                        $scope.error = "An error has occurred while deleting Allergy details" + data;
+                    }, function errorCallback(response) {
+                        $scope.error = "An error has occurred while deleting Allergy details" + response.data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
@@ -360,14 +363,14 @@ allergyMasterList.controller("AllergyMasterList", ['$scope', '$http', '$filter',
                         Modified_By: $window.localStorage['UserId']
                     }
 
-                    $http.post(baseUrl + '/api/MasterAllergy/AllergyMaster_Active/', obj).success(function (data) {
+                    $http.post(baseUrl + '/api/MasterAllergy/AllergyMaster_Active/', obj).then(function (response) {
                         //alert(data.Message);
-                        if (data.ReturnFlag == 2) {
-                            toastr.success(data.Message, "success");
+                        if (response.data.ReturnFlag == 2) {
+                            toastr.success(response.data.Message, "success");
                         }
                         $scope.AllergyMasterList_Details();
-                    }).error(function (data) {
-                        $scope.error = "An error has occurred while deleting Allergies" + data;
+                    }, function errorCallback(response) {
+                        $scope.error = "An error has occurred while deleting Allergies" + response.data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
@@ -392,7 +395,5 @@ allergyMasterList.controller("AllergyMasterList", ['$scope', '$http', '$filter',
                 });
             };*/
         }
-
-
     }
 ]);

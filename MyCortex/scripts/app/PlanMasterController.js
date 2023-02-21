@@ -41,15 +41,16 @@ PlanMastercontroller.controller("PlanMasterController", ['$scope', '$http', '$fi
 
         $scope.ConfigCode = "PATIENTPAGE_COUNT";
         $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-            $scope.page_size = data1[0].ConfigValue;
+        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).then(function (data1) {
+            $scope.page_size = data1.data[0].ConfigValue;
             $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
             $scope.PageEnd = $scope.current_page * $scope.page_size;
-            $http.get(baseUrl + '/api/PayorMaster/PayorList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.InstituteId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
-                $scope.PayorMasterList = data;
+            $http.get(baseUrl + '/api/PayorMaster/PayorList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.InstituteId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).then(function (response) {
+                $scope.PayorMasterList = response.data;
+            }, function errorCallback(response) {
             });
-        }).error(function (data) {
-            $scope.error = "AN error has occured while Listing the records!" + data;
+        }, function errorCallback(data1) {
+            $scope.error = "AN error has occured while Listing the records!" + data1.data;
         })
 
         /* THIS IS FOR VALIDATION CONTROL */
@@ -136,16 +137,16 @@ PlanMastercontroller.controller("PlanMasterController", ['$scope', '$http', '$fi
 
                 $scope.ConfigCode = "PATIENTPAGE_COUNT";
                 $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-                    $scope.page_size = data1[0].ConfigValue;
+                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).then(function (data1) {
+                    $scope.page_size = data1.data[0].ConfigValue;
                     $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
                     $scope.PageEnd = $scope.current_page * $scope.page_size;
                     $http.get(baseUrl + '/api/PlanMaster/PlanList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.InstituteId + '&StartRowNumber=' + $scope.PageStart +
-                        '&EndRowNumber=' + $scope.PageEnd + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                        '&EndRowNumber=' + $scope.PageEnd + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
                             $("#chatLoaderPV").hide();
                             $scope.emptydata = [];
                             $scope.rowCollection = [];
-                            $scope.rowCollection = data;
+                            $scope.rowCollection = response.data;
                             if ($scope.rowCollection.length > 0) {
                                 $scope.PatientCount = $scope.rowCollection[0].TotalRecord;
                             } else {
@@ -161,10 +162,11 @@ PlanMastercontroller.controller("PlanMasterController", ['$scope', '$http', '$fi
                                 $scope.flag = 0;
                             }
                             $scope.total_page = Math.ceil(($scope.PatientCount) / ($scope.page_size));
-                        })
-                }).error(function (data) {
+                        }, function errorCallback(response) {
+                        });
+                }, function errorCallback(data1) {
                     $("#chatLoaderPV").hide();
-                    $scope.error = "AN error has occured while Listing the records!" + data;
+                    $scope.error = "AN error has occured while Listing the records!" + data1.data;
                 })
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
@@ -191,22 +193,23 @@ PlanMastercontroller.controller("PlanMasterController", ['$scope', '$http', '$fi
                     InstitutionId: $scope.InstituteId
                 }
                 $('#btnsave').attr("disabled", true);
-                $http.post(baseUrl + '/api/PlanMaster/PlanMasterAddEdit/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
+                $http.post(baseUrl + '/api/PlanMaster/PlanMasterAddEdit/?Login_Session_Id=' + $scope.LoginSessionId, obj).then(function (response) {
                     $("#chatLoaderPV").hide();
                     //alert(data.Message);
-                    if (data.ReturnFlag == 1) {
-                        toastr.success(data.Message, "success");
+                    if (response.data.ReturnFlag == 1) {
+                        toastr.success(response.data.Message, "success");
                     }
-                    else if (data.ReturnFlag == 0) {
-                        toastr.info(data.Message, "info");
+                    else if (response.data.ReturnFlag == 0) {
+                        toastr.info(response.data.Message, "info");
                     }
                     $('#btnsave').attr("disabled", false);
 
-                    if (data.ReturnFlag == 1) {
+                    if (response.data.ReturnFlag == 1) {
                         $scope.ClearPopup();
                         $scope.Planlist();
                         angular.element('#PlanMasterModal').modal('hide');
                     }
+                }, function errorCallback(response) {
                     //$scope.AddId = data;
                     //angular.element('#ICD10Modal').modal('hide');
                 });
@@ -233,16 +236,16 @@ PlanMastercontroller.controller("PlanMasterController", ['$scope', '$http', '$fi
         /* FILTER THE MASTER LIST FUNCTION.*/
         $scope.fliterPayorList = function () {
             $scope.ResultListFiltered = [];
-            var searchstring = angular.lowercase($scope.searchquery);
+            var searchstring = $scope.searchquery.toLowerCase();
             if ($scope.searchquery == "") {
                 $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
             }
             else {
                 $scope.rowCollectionFilter = $ff($scope.rowCollection, function (value) {
-                    return angular.lowercase(value.PayorName).match(searchstring) ||
-                        angular.lowercase(value.ShortCode).match(searchstring) ||
-                        angular.lowercase(value.ReferCode).match(searchstring) ||
-                        angular.lowercase(value.Description).match(searchstring);
+                    return (value.PayorName.toLowerCase()).match(searchstring) ||
+                        (value.ShortCode.toLowerCase()).match(searchstring) ||
+                        (value.ReferCode.toLowerCase()).match(searchstring) ||
+                        (value.Description.toLowerCase()).match(searchstring);
                 });
             }
         }
@@ -257,21 +260,21 @@ PlanMastercontroller.controller("PlanMasterController", ['$scope', '$http', '$fi
             }
             $scope.EditSelectedPayor = [];
             //$scope.SelectedPayor = [];
-            $http.get(baseUrl + '/api/PlanMaster/PlanMasterView/Id?=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            $http.get(baseUrl + '/api/PlanMaster/PlanMasterView/Id?=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
                 $("#chatLoaderPV").hide();
                 $scope.SelectedPayor = [];
-                $scope.EditSelectedPayor = data.SelectPayor.toString();
+                $scope.EditSelectedPayor = response.data.SelectPayor.toString();
                 $scope.SelectedPayor.push($scope.EditSelectedPayor);
-                $scope.PlanName = data.PlanName;
-                $scope.ShortCode = data.ShortCode;
-                $scope.Description = data.Description;
-                $scope.PackageName = data.PackageName;
-                $scope.FinancialClass = data.FinancialClass;
-                $scope.PriceCode = data.PriceCode;
-                $scope.ReferCode = data.ReferCode;
-                $scope.ValidFromDate = DateFormatEdit($filter('date')(data.ValidFromDate, "dd-MMM-yyyy"));
-                $scope.ValidToDate = DateFormatEdit($filter('date')(data.ValidToDate, "dd-MMM-yyyy"));
-
+                $scope.PlanName = response.data.PlanName;
+                $scope.ShortCode = response.data.ShortCode;
+                $scope.Description = response.data.Description;
+                $scope.PackageName = response.data.PackageName;
+                $scope.FinancialClass = response.data.FinancialClass;
+                $scope.PriceCode = response.data.PriceCode;
+                $scope.ReferCode = response.data.ReferCode;
+                $scope.ValidFromDate = DateFormatEdit($filter('date')(response.data.ValidFromDate, "dd-MMM-yyyy"));
+                $scope.ValidToDate = DateFormatEdit($filter('date')(response.data.ValidToDate, "dd-MMM-yyyy"));
+            }, function errorCallback(response) {
             });
             $("#chatLoaderPV").hide();
         }
@@ -295,14 +298,14 @@ PlanMastercontroller.controller("PlanMasterController", ['$scope', '$http', '$fi
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
                     $("#chatLoaderPV").show();
-                    $http.get(baseUrl + '/api/PlanMaster/PlanMaster_Delete/?Id=' + $scope.Id).success(function (data) {
+                    $http.get(baseUrl + '/api/PlanMaster/PlanMaster_Delete/?Id=' + $scope.Id).then(function (response) {
                         //alert("Plan details has been deactivated Successfully");
                         toastr.success("Plan details has been deactivated Successfully", "success");
                         $("#chatLoaderPV").hide();
                         $scope.Planlist();
-                    }).error(function (data) {
+                    }, function errorCallback(response) {
                         $("#chatLoaderPV").hide();
-                        $scope.error = "An error has occurred while deleting  Plan Master details" + data;
+                        $scope.error = "An error has occurred while deleting  Plan Master details" + response.data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
@@ -342,14 +345,14 @@ PlanMastercontroller.controller("PlanMasterController", ['$scope', '$http', '$fi
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
                     $("#chatLoaderPV").show();
-                    $http.get(baseUrl + '/api/PlanMaster/PlanMaster_Active/?Id=' + $scope.Id).success(function (data) {
+                    $http.get(baseUrl + '/api/PlanMaster/PlanMaster_Active/?Id=' + $scope.Id).then(function (response) {
                         //alert("Selected Plan details has been activated successfully");
                         toastr.success("Selected Plan details has been activated successfully", "success");
                         $("#chatLoaderPV").hide();
                         $scope.Planlist();
-                    }).error(function (data) {
+                    }, function errorCallback(response) {
                         $("#chatLoaderPV").hide();
-                        $scope.error = "An error has occured while deleting Payor records" + data;
+                        $scope.error = "An error has occured while deleting Payor records" + response.data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
@@ -511,7 +514,6 @@ PlanMastercontroller.controller("PlanMasterController", ['$scope', '$http', '$fi
                 $scope.rowCollection = [];
             }
             $scope.Id = CatId;
-
         }
     }
 ]);

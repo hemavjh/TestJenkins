@@ -57,23 +57,24 @@ ICD10controller.controller("ICD10Controller", ['$scope', '$http', '$filter', '$r
                     Created_By: $scope.Patient_Id
                 }
                 $("#btnsave").attr("disabled", true);
-                $http.post(baseUrl + '/api/MasterICD/MasterICD_AddEdit/', obj).success(function (data) {
+                $http.post(baseUrl + '/api/MasterICD/MasterICD_AddEdit/', obj).then(function (response) {
                     $("#chatLoaderPV").hide();
                     //alert(data.Message);
-                    if (data.ReturnFlag == 1) {
-                        toastr.success(data.Message, "success");
+                    if (response.data.ReturnFlag == 1) {
+                        toastr.success(response.data.Message, "success");
                     }
-                    else if (data.ReturnFlag == 0) {
-                        toastr.info(data.Message, "info");
+                    else if (response.data.ReturnFlag == 0) {
+                        toastr.info(response.data.Message, "info");
                     }
                     $("#btnsave").attr("disabled", false);
-                    if (data.ReturnFlag == 1) {
+                    if (response.data.ReturnFlag == 1) {
                         $scope.ClearPopup();
                         $scope.ICD10list();
                     }
                     //$scope.AddId = data;
                     angular.element('#ICD10Modal').modal('hide');
-                })
+                }, function errorCallback(response) {
+                });
             }
         }
 
@@ -128,16 +129,16 @@ ICD10controller.controller("ICD10Controller", ['$scope', '$http', '$filter', '$r
 
                 $scope.ConfigCode = "PATIENTPAGE_COUNT";
                 $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-                    $scope.page_size = data1[0].ConfigValue;
+                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).then(function (data1) {
+                    $scope.page_size = data1.data[0].ConfigValue;
                     $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
                     $scope.PageEnd = $scope.current_page * $scope.page_size;
                     $http.get(baseUrl + '/api/MasterICD/ICDMasterList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.InstituteId + '&StartRowNumber=' + $scope.PageStart +
-                        '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                        '&EndRowNumber=' + $scope.PageEnd).then(function (response) {
                             $("#chatLoaderPV").hide();
                             $scope.emptydata = [];
                             $scope.rowCollection = [];
-                            $scope.rowCollection = data;
+                            $scope.rowCollection = response.data;
                             $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
                             if ($scope.rowCollectionFilter.length > 0) {
                                 $scope.flag = 1;
@@ -146,23 +147,25 @@ ICD10controller.controller("ICD10Controller", ['$scope', '$http', '$filter', '$r
                                 $scope.flag = 0;
                             }
                             if ($scope.rowCollection.length > 0) {
-                                $scope.PatientCount = $scope.rowCollection[0].TotalRecord;   
-                                $http.get(baseUrl + '/api/MasterICD/CategoryMasterList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
+                                $scope.PatientCount = $scope.rowCollection[0].TotalRecord;
+                                $http.get(baseUrl + '/api/MasterICD/CategoryMasterList/?Institution_Id=' + $scope.InstituteId).then(function (response) {
                                     $("#chatLoaderPV").hide();
                                     $scope.CategoryIDListTemp = [];
-                                    $scope.CategoryIDListTemp = data;
+                                    $scope.CategoryIDListTemp = response.data;
                                     var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
                                     $scope.CategoryIDListTemp.splice(0, 0, obj);
                                     $scope.CategoryIDList = angular.copy($scope.CategoryIDListTemp);
+                                }, function errorCallback(response) {
                                 });
                                 $scope.total_page = Math.ceil(($scope.PatientCount) / ($scope.page_size));
                             } else {
                                 $scope.total_page = 1;
                             }
-                        })
-                }).error(function (data) {
+                        }, function errorCallback(response) {
+                        });
+                }, function errorCallback(response) {
                     $("#chatLoaderPV").hide();
-                    $scope.error = "AN error has occured while Listing the records!" + data;
+                    $scope.error = "AN error has occured while Listing the records!" + response.data;
                 })
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
@@ -173,15 +176,15 @@ ICD10controller.controller("ICD10Controller", ['$scope', '$http', '$filter', '$r
         /* FILTER THE MASTER LIST FUNCTION.*/
         $scope.fliterICD10List = function () {
             $scope.ResultListFiltered = [];
-            var searchstring = angular.lowercase($scope.searchquery);
+            var searchstring = $scope.searchquery.toLowerCase();
             if ($scope.searchquery == "") {
                 $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
             }
             else {
                 $scope.rowCollectionFilter = $ff($scope.rowCollection, function (value) {
-                    return angular.lowercase(value.ICD_Code).match(searchstring) ||
-                        angular.lowercase(value.Description).match(searchstring) ||
-                        angular.lowercase(value.CategoryName).match(searchstring);
+                    return (value.ICD_Code.toLowerCase()).match(searchstring) ||
+                        (value.Description.toLowerCase()).match(searchstring) ||
+                        (value.CategoryName.toLowerCase()).match(searchstring);
                 });
             }
         }
@@ -194,11 +197,11 @@ ICD10controller.controller("ICD10Controller", ['$scope', '$http', '$filter', '$r
                 $("#chatLoaderPV").show();
                 $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
                 $http.get(baseUrl + '/api/MasterICD/Search_ICD10_List/?IsActive=' + $scope.ActiveStatus + '&InstitutionId=' + $window.localStorage['InstitutionId'] + '&SearchQuery=' + $scope.searchquery +
-                    '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                    '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).then(function (response) {
                         $("#chatLoaderPV").hide();
                         $scope.emptydata = [];
                         $scope.rowCollection = [];
-                        $scope.rowCollection = data;
+                        $scope.rowCollection = response.data;
                         $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
                         if ($scope.rowCollectionFilter.length > 0) {
                             $scope.flag = 1;
@@ -212,6 +215,7 @@ ICD10controller.controller("ICD10Controller", ['$scope', '$http', '$filter', '$r
                         } else {
                             $scope.total_page = 1;                          
                         }
+                    }, function errorCallback(response) {
                     });
             }
         }
@@ -225,13 +229,14 @@ ICD10controller.controller("ICD10Controller", ['$scope', '$http', '$filter', '$r
                 $scope.DuplicatesId = $routeParams.Id;
             }
 
-            $http.get(baseUrl + '/api/MasterICD/ICDMasterView/?Id=' + $scope.Id).success(function (data) {
+            $http.get(baseUrl + '/api/MasterICD/ICDMasterView/?Id=' + $scope.Id).then(function (response) {
                 $("#chatLoaderPV").hide();
-                $scope.DuplicatesId = data.Id;
-                $scope.ICD_Code = data.ICD_Code;
-                $scope.Description = data.Description;
-                $scope.Category_ID = data.Category_ID.toString();
-                $scope.ViewCategoryName = data.CategoryName;
+                $scope.DuplicatesId = response.data.Id;
+                $scope.ICD_Code = response.data.ICD_Code;
+                $scope.Description = response.data.Description;
+                $scope.Category_ID = response.data.Category_ID.toString();
+                $scope.ViewCategoryName = response.data.CategoryName;
+            }, function errorCallback(response) {
             });
         }
 
@@ -254,12 +259,12 @@ ICD10controller.controller("ICD10Controller", ['$scope', '$http', '$filter', '$r
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    $http.get(baseUrl + '/api/MasterICD/ICDMaster_Delete/?Id=' + $scope.Id).success(function (data) {
+                    $http.get(baseUrl + '/api/MasterICD/ICDMaster_Delete/?Id=' + $scope.Id).then(function (response) {
                         //alert(" ICD 10 details has been deactivated Successfully");
                         toastr.success(" ICD 10 details has been deactivated Successfully", "success");
                         $scope.ICD10list();
-                    }).error(function (data) {
-                        $scope.error = "An error has occurred while deleting  ICD 10 details" + data;
+                    }, function errorCallback(response) {
+                        $scope.error = "An error has occurred while deleting  ICD 10 details" + response.data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
@@ -301,12 +306,12 @@ ICD10controller.controller("ICD10Controller", ['$scope', '$http', '$filter', '$r
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    $http.get(baseUrl + '/api/MasterICD/ICDMaster_Active/?Id=' + $scope.Id).success(function (data) {
+                    $http.get(baseUrl + '/api/MasterICD/ICDMaster_Active/?Id=' + $scope.Id).then(function (response) {
                         //alert("Selected ICD 10 details has been activated successfully");
                         toastr.success("Selected ICD 10 details has been activated successfully", "success");
                         $scope.ICD10list();
-                    }).error(function (data) {
-                        $scope.error = "An error has occured while deleting ICD 1O records" + data;
+                    }, function errorCallback(response) {
+                        $scope.error = "An error has occured while deleting ICD 1O records" + response.data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')

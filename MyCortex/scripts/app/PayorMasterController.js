@@ -80,16 +80,16 @@ PayorMastercontroller.controller("PayorMasterController", ['$scope', '$http', '$
 
                 $scope.ConfigCode = "PATIENTPAGE_COUNT";
                 $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-                    $scope.page_size = data1[0].ConfigValue;
+                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).then(function (data1) {
+                    $scope.page_size = data1.data[0].ConfigValue;
                     $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
                     $scope.PageEnd = $scope.current_page * $scope.page_size;
                     $http.get(baseUrl + '/api/PayorMaster/PayorList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.InstituteId + '&StartRowNumber=' + $scope.PageStart +
-                        '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                        '&EndRowNumber=' + $scope.PageEnd).then(function (response) {
                             $("#chatLoaderPV").hide();
                             $scope.emptydata = [];
                             $scope.rowCollection = [];
-                            $scope.rowCollection = data;
+                            $scope.rowCollection = response.data;
                             if ($scope.rowCollection.length > 0) {
                                 $scope.PatientCount = $scope.rowCollection[0].TotalRecord;
                             } else {
@@ -105,10 +105,11 @@ PayorMastercontroller.controller("PayorMasterController", ['$scope', '$http', '$
                                 $scope.flag = 0;
                             }
                             $scope.total_page = Math.ceil(($scope.PatientCount) / ($scope.page_size));
-                        })
-                }).error(function (data) {
+                        }, function errorCallback(response) {
+                        });
+                }, function errorCallback(data1) {
                     $("#chatLoaderPV").hide();
-                    $scope.error = "AN error has occured while Listing the records!" + data;
+                    $scope.error = "AN error has occured while Listing the records!" + data1.data;
                 })
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
@@ -129,20 +130,21 @@ PayorMastercontroller.controller("PayorMasterController", ['$scope', '$http', '$
                     Created_By: $scope.User_Id
                 }
                 $('#btnsave').attr("disabled", true);
-                $http.post(baseUrl + '/api/PayorMaster/PayorMaster_AddEdit/', obj).success(function (data) {
+                $http.post(baseUrl + '/api/PayorMaster/PayorMaster_AddEdit/', obj).then(function (response) {
                     //alert(data.Message);
-                    if (data.ReturnFlag == 1) {
-                        toastr.success(data.Message, "success");
+                    if (response.data.ReturnFlag == 1) {
+                        toastr.success(response.data.Message, "success");
                     }
-                    else if (data.ReturnFlag == 0) {
-                        toastr.info(data.Message, "info");
+                    else if (response.data.ReturnFlag == 0) {
+                        toastr.info(response.data.Message, "info");
                     }
                     $('#btnsave').attr("disabled", false);
-                    if (data.ReturnFlag == 1) {
+                    if (response.data.ReturnFlag == 1) {
                         $scope.ClearPopup();
                         $scope.Payorlist();
                         angular.element('#PayorModal').modal('hide');
                     }
+                }, function errorCallback(response) {
                     //$scope.AddId = data;
                     //angular.element('#ICD10Modal').modal('hide');
                 });
@@ -169,16 +171,16 @@ PayorMastercontroller.controller("PayorMasterController", ['$scope', '$http', '$
         /* FILTER THE MASTER LIST FUNCTION.*/
         $scope.fliterPayorList = function () {
             $scope.ResultListFiltered = [];
-            var searchstring = angular.lowercase($scope.searchquery);
+            var searchstring = $scope.searchquery.toLowerCase();
             if ($scope.searchquery == "") {
                 $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
             }
             else {
                 $scope.rowCollectionFilter = $ff($scope.rowCollection, function (value) {
-                    return angular.lowercase(value.PayorName).match(searchstring) ||
-                        angular.lowercase(value.ShortCode).match(searchstring) ||
-                        angular.lowercase(value.ReferCode).match(searchstring) ||
-                        angular.lowercase(value.Description).match(searchstring);
+                    return (value.PayorName.toLowerCase()).match(searchstring) ||
+                        (value.ShortCode.toLowerCase()).match(searchstring) ||
+                        (value.ReferCode.toLowerCase()).match(searchstring) ||
+                        (value.Description.toLowerCase()).match(searchstring);
                 });
             }
         }
@@ -192,12 +194,13 @@ PayorMastercontroller.controller("PayorMasterController", ['$scope', '$http', '$
                 $scope.DuplicatesId = $routeParams.Id;
             }
 
-            $http.get(baseUrl + '/api/PayorMaster/PayorMasterView/?Id=' + $scope.Id).success(function (data) {
+            $http.get(baseUrl + '/api/PayorMaster/PayorMasterView/?Id=' + $scope.Id).then(function (response) {
                 $("#chatLoaderPV").hide();
-                $scope.PayorName = data.PayorName;
-                $scope.ShortCode = data.ShortCode;
-                $scope.Description = data.Description;
-                $scope.ReferCode = data.ReferCode;
+                $scope.PayorName = response.data.PayorName;
+                $scope.ShortCode = response.data.ShortCode;
+                $scope.Description = response.data.Description;
+                $scope.ReferCode = response.data.ReferCode;
+            }, function errorCallback(response) {
             });
         }
 
@@ -220,19 +223,19 @@ PayorMastercontroller.controller("PayorMasterController", ['$scope', '$http', '$
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
                     $("#chatLoaderPV").show();
-                    $http.get(baseUrl + '/api/PayorMaster/PayorMaster_Delete/?Id=' + $scope.Id).success(function (data) {
+                    $http.get(baseUrl + '/api/PayorMaster/PayorMaster_Delete/?Id=' + $scope.Id).then(function (response) {
                         //alert("Payor details has been deactivated Successfully");
                         toastr.success("Payor details has been deactivated Successfully", "success");
                         $("#chatLoaderPV").hide();
                         $scope.Payorlist();
-                    }).error(function (data) {
+                    }, function errorCallback(response) {
                         $("#chatLoaderPV").hide();
-                        $scope.error = "An error has occurred while deleting  Payor Master details" + data;
+                        $scope.error = "An error has occurred while deleting  Payor Master details" + response.data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
                 }
-            })
+            });
             /*var del = confirm("Do you like to deactivate the selected Payor Master details?");
             if (del == true) {
                 $("#chatLoaderPV").show();
@@ -267,14 +270,14 @@ PayorMastercontroller.controller("PayorMasterController", ['$scope', '$http', '$
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
                     $("#chatLoaderPV").show();
-                    $http.get(baseUrl + '/api/PayorMaster/PayorMaster_Active/?Id=' + $scope.Id).success(function (data) {
+                    $http.get(baseUrl + '/api/PayorMaster/PayorMaster_Active/?Id=' + $scope.Id).then(function (response) {
                         //alert("Selected Payor details has been activated successfully");
                         toastr.success("Selected Payor details has been activated successfully", "success");
                         $("#chatLoaderPV").hide();
                         $scope.Payorlist();
-                    }).error(function (data) {
+                    }, function errorCallback(response) {
                         $("#chatLoaderPV").hide();
-                        $scope.error = "An error has occured while deleting Payor records" + data;
+                        $scope.error = "An error has occured while deleting Payor records" + response.data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
@@ -368,7 +371,6 @@ PayorMastercontroller.controller("PayorMasterController", ['$scope', '$http', '$
             }
             $scope.Id = CatId;
             $scope.PayorCodeList();
-
         }
     }
 ]);

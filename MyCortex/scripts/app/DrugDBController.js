@@ -89,25 +89,25 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
                 };
                 $("#btnsave").attr("disabled", true);
 
-                $http.post(baseUrl + '/api/DrugDBMaster/DrugDBMaster_AddEdit/', obj).success(function (data) {
+                $http.post(baseUrl + '/api/DrugDBMaster/DrugDBMaster_AddEdit/', obj).then(function (response) {
                     //alert(data.Message);
-                    if (data.ReturnFlag == 1) {
-                        toastr.success(data.Message, "success");
+                    if (response.data.ReturnFlag == 1) {
+                        toastr.success(response.data.Message, "success");
                     }
-                    else if (data.ReturnFlag == 0) {
-                        toastr.info(data.Message, "info");
+                    else if (response.data.ReturnFlag == 0) {
+                        toastr.info(response.data.Message, "info");
                     }
                     $("#btnsave").attr("disabled", false);
-                    if (data.ReturnFlag == 1) {
+                    if (response.data.ReturnFlag == 1) {
                         $scope.CancelPopup();
                         $scope.DrugDB_List();
                         $("#chatLoaderPV").hide();
                     }
                     //angular.element('#DrugDBModal').modal('hide');
                     // $scope.ClearPopup();
-                }).error(function (data) {
+                }, function errorCallback(response) {
                     $("#chatLoaderPV").hide();
-                    $scope.error = "An error has occurred while adding DrugDBMaster details" + data.ExceptionMessage;
+                    $scope.error = "An error has occurred while adding DrugDBMaster details" + response.data.ExceptionMessage;
                 });
             };
         }
@@ -154,17 +154,17 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
                 }
                 $scope.ConfigCode = "PATIENTPAGE_COUNT";
                 $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-                    $scope.page_size = data1[0].ConfigValue;
+                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).then(function (data1) {
+                    $scope.page_size = data1.data[0].ConfigValue;
                     $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
                     $scope.PageEnd = $scope.current_page * $scope.page_size;
                     /*$http.get(baseUrl + '/api/DrugDBMaster/DrugDBMasterList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.InstituteId + '&StartRowNumber=' + $scope.PageStart +
                         '&EndRowNumber=' + $scope.PageEnd).success(function (data) {*/
                     $http.get(baseUrl + '/api/DrugDBMaster/DrugDBMasterList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.InstituteId + '&StartRowNumber=' + $scope.PageStart +
-                        '&EndRowNumber=' + $scope.page_size).success(function (data) {
+                        '&EndRowNumber=' + $scope.page_size).then(function (response) {
                             $scope.emptydata = [];
                             $scope.rowCollection = [];
-                            $scope.rowCollection = data;
+                            $scope.rowCollection = response.data;
                             if ($scope.rowCollection.length > 0) {
                                 $scope.DrugCount = $scope.rowCollection[0].TotalRecord;
                             }
@@ -178,33 +178,36 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
 
                             $("#chatLoaderPV").hide();
 
-                            $http.get(baseUrl + '/api/DrugDBMaster/DrugStrengthList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
+                            $http.get(baseUrl + '/api/DrugDBMaster/DrugStrengthList/?Institution_Id=' + $scope.InstituteId).then(function (response) {
                                 $scope.StrengthIDListTemp = [];
-                                $scope.StrengthIDListTemp = data;
+                                $scope.StrengthIDListTemp = response.data;
 
                                 var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
                                 $scope.StrengthIDListTemp.splice(0, 0, obj);
 
                                 $scope.StrengthIDList = angular.copy($scope.StrengthIDListTemp);
-                            })
-                            $http.get(baseUrl + '/api/DrugDBMaster/DosageFormList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
+                            }, function errorCallback(response) {
+                            });
+                            $http.get(baseUrl + '/api/DrugDBMaster/DosageFormList/?Institution_Id=' + $scope.InstituteId).then(function (response) {
                                 $scope.DosageFromIDListTemp = [];
-                                $scope.DosageFromIDListTemp = data;
+                                $scope.DosageFromIDListTemp = response.data;
 
                                 var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
                                 $scope.DosageFromIDListTemp.splice(0, 0, obj);
 
                                 $scope.DosageFromIDList = angular.copy($scope.DosageFromIDListTemp);
-                            })
+                            }, function errorCallback(response) {
+                            });
                             if ($scope.rowCollection.length > 0) {
                                 $scope.total_pageDrug = Math.ceil(($scope.DrugCount) / ($scope.page_size));
                             } else {
                                 $scope.total_pageDrug = 1;
                             }
-                        })
-                }).error(function (data) {
+                        }, function errorCallback(response) {
+                        });
+                }, function errorCallback(response) {
                     $("#chatLoaderPV").hide();
-                    $scope.error = "AN error has occured while Listing the records!" + data;
+                    $scope.error = "AN error has occured while Listing the records!" + response.data;
                 })
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
@@ -237,17 +240,17 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
         /* FILTER THE MASTER LIST FUNCTION.*/
         $scope.filterInstitutionList = function () {
             $scope.ResultListFiltered = [];
-            var searchstring = angular.lowercase($scope.searchquery);
+            var searchstring = $scope.searchquery.toLowerCase();
             if ($scope.searchquery == "") {
                 $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
             }
             else {
                 $scope.rowCollectionFilter = $ff($scope.rowCollection, function (value) {
-                    return angular.lowercase(value.Generic_name).match(searchstring) ||
-                        angular.lowercase(value.StrengthName).match(searchstring) ||
-                        angular.lowercase(value.Dosage_FromName).match(searchstring) ||
-                        angular.lowercase(value.Item_Code).match(searchstring) ||
-                        angular.lowercase(value.Drug_Code).match(searchstring)
+                    return (value.Generic_name.toLowerCase()).match(searchstring) ||
+                    (value.StrengthName.toLowerCase()).match(searchstring) ||
+    (value.Dosage_FromName.toLowerCase()).match(searchstring) ||
+        (value.Item_Code.toLowerCase()).match(searchstring) ||
+            (value.Drug_Code.toLowerCase()).match(searchstring)
 
                 });
             }
@@ -262,11 +265,11 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
                 $("#chatLoaderPV").show();
                 $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
                 $http.get(baseUrl + '/api/DrugDBMaster/Search_DRUGDB_List/?IsActive=' + $scope.ActiveStatus + '&InstitutionId=' + $window.localStorage['InstitutionId'] + '&SearchQuery=' + $scope.searchquery +
-                    '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                    '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).then(function (response) {
                         $("#chatLoaderPV").hide();
                         $scope.emptydata = [];
                         $scope.rowCollection = [];
-                        $scope.rowCollection = data;
+                        $scope.rowCollection = response.data;
                         if ($scope.rowCollection.length > 0) {
                             $scope.DrugCount = $scope.rowCollection[0].TotalRecord;
                             $scope.total_pageDrug = Math.ceil(($scope.DrugCount) / ($scope.page_size));
@@ -280,7 +283,7 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
                         else {
                             $scope.flag = 0;
                         }
-                       
+                    }, function errorCallback(response) {
                     });
             }
         }
@@ -292,16 +295,17 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
                 $scope.Id = $routeParams.Id;
                 $scope.DuplicatesId = $routeParams.Id;
             }
-            $http.get(baseUrl + '/api/DrugDBMaster/DrugDBMasterView/?Id=' + $scope.Id).success(function (data) {
+            $http.get(baseUrl + '/api/DrugDBMaster/DrugDBMasterView/?Id=' + $scope.Id).then(function (response) {
                 $("#chatLoaderPV").hide();
-                $scope.DuplicatesId = data.Id;
-                $scope.Generic_Name = data.Generic_name;
-                $scope.Strength_ID = data.Strength_ID.toString();
-                $scope.ViewStrengthName = data.StrengthName;
-                $scope.Dosage_From_ID = data.Dosage_From_ID.toString();
-                $scope.ViewDosage_FromName = data.Dosage_FromName;
-                $scope.Item_Code = data.Item_Code;
-                $scope.Drug_Code = data.Drug_Code;
+                $scope.DuplicatesId = response.data.Id;
+                $scope.Generic_Name = response.data.Generic_name;
+                $scope.Strength_ID = response.data.Strength_ID.toString();
+                $scope.ViewStrengthName = response.data.StrengthName;
+                $scope.Dosage_From_ID = response.data.Dosage_From_ID.toString();
+                $scope.ViewDosage_FromName = response.data.Dosage_FromName;
+                $scope.Item_Code = response.data.Item_Code;
+                $scope.Drug_Code = response.data.Drug_Code;
+            }, function errorCallback(response) {
             });
         }
 
@@ -398,12 +402,12 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    $http.get(baseUrl + '/api/DrugDBMaster/DrugDBMaster_Delete/?Id=' + $scope.Id).success(function (data) {
+                    $http.get(baseUrl + '/api/DrugDBMaster/DrugDBMaster_Delete/?Id=' + $scope.Id).then(function (response) {
                         //alert(" Drug DB details has been deactivated Successfully");
                         toastr.success(" Drug DB details has been deactivated Successfully", "success");
                         $scope.DrugDB_List();
-                    }).error(function (data) {
-                        $scope.error = "An error has occurred while deleting  Drug DB details" + data;
+                    }, function errorCallback(response) {
+                        $scope.error = "An error has occurred while deleting  Drug DB details" + response.data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
@@ -443,12 +447,12 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    $http.get(baseUrl + '/api/DrugDBMaster/DrugDBMaster_Active/?Id=' + $scope.Id).success(function (data) {
+                    $http.get(baseUrl + '/api/DrugDBMaster/DrugDBMaster_Active/?Id=' + $scope.Id).then(function (response) {
                         //alert("Selected Drug DB details has been activated successfully");
                         toastr.success("Selected Drug DB details has been activated successfully", "success");
                         $scope.DrugDB_List();
-                    }).error(function (data) {
-                        $scope.error = "An error has occured while deleting Drug DB records" + data;
+                    }, function errorCallback(response) {
+                        $scope.error = "An error has occured while deleting Drug DB records" + response.data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')

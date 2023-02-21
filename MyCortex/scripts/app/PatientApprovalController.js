@@ -495,7 +495,7 @@ PatientApproval.controller("PatientApprovalController", ['$scope', '$http', '$ro
                         $scope.Approvalflag = 0;
                     }
                     $("#chatLoaderPV").hide();
-                }).error(function (response) {
+                }, function errorCallback(response) {
                     $scope.error = "AN error has occured while Listing the records!" + response.data;
                 })
             } else {
@@ -527,17 +527,17 @@ PatientApproval.controller("PatientApprovalController", ['$scope', '$http', '$ro
         $scope.filterPatientList = function () {
             $scope.ResultListFiltered = [];
             var searchstring = $scope.searchquery
-            searchstring = searchstring.tolowerCase();
+            searchstring = searchstring.toLowerCase();
             if ($scope.searchquery == "") {
                 $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
             }
             else {
                 $scope.rowCollectionFilter = $ff($scope.rowCollection, function (value) {
-                    return (value.FullName.tolowerCase()).match(searchstring) ||
+                    return (value.FullName.toLowerCase()).match(searchstring) ||
                         //angular.lowercase(value.MRN_NO).match(searchstring) ||
-                        (value.Mobile_No.tolowerCase()).match(searchstring) ||
-                        (value.EmailId.tolowerCase()).match(searchstring) ||
-                        (value.PendingSince.tolowerCase()).match(searchstring);
+                        (value.Mobile_No.toLowerCase()).match(searchstring) ||
+                        (value.EmailId.toLowerCase()).match(searchstring) ||
+                        (value.PendingSince.toLowerCase()).match(searchstring);
                 });
             }
             if ($scope.rowCollectionFilter.length > 0) {
@@ -602,6 +602,7 @@ PatientApproval.controller("PatientApprovalController", ['$scope', '$http', '$ro
                                         $scope.PatientApprovalList();
                                         $scope.SelectedAllPatient = false;
                                     }
+                                }, function errorCallback(response) {
                                 });
                                    
                             } else if (result.isDenied) {
@@ -638,6 +639,7 @@ PatientApproval.controller("PatientApprovalController", ['$scope', '$http', '$ro
                         $('#btnsave').attr("disabled", false);
                         return false;
                     }
+                }, function errorCallback(response) {
                 });
             }
         }
