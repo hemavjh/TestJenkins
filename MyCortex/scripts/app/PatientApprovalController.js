@@ -482,11 +482,11 @@ PatientApproval.controller("PatientApprovalController", ['$scope', '$http', '$ro
             if ($window.localStorage['UserTypeId'] == 3) {
                 $("#chatLoaderPV").show();
                 $http.get(baseUrl + '/api/PatientApproval/PatientApproval_List/?InstitutionId=' + $scope.InstitutionId + '&PATIENTNO=' + $scope.Filter_PatientNo + '&INSURANCEID=' + $scope.filter_InsuranceId + '&GENDER_ID=' + $scope.Filter_GenderId + '&NATIONALITY_ID=' + $scope.filter_NationalityId + '&ETHINICGROUP_ID=' + $scope.filter_EthinicGroupId + '&MOBILE_NO=' + $scope.filter_MOBILE_NO + '&HOME_PHONENO=' + $scope.filter_HomePhoneNo + '&EMAILID=' + $scope.filter_Email + '&MARITALSTATUS_ID=' + $scope.filter_MaritalStatus + '&COUNTRY_ID=' + $scope.filter_CountryId + '&STATE_ID=' + $scope.filter_StataId + '&CITY_ID=' + $scope.filter_CityId + '&BLOODGROUP_ID=' + $scope.filter_BloodGroupId + '&Group_Id=' + $scope.filter_GroupId
-                ).success(function (data) {
+                ).then(function (response) {
 
                     $scope.emptydata = [];
                     $scope.rowCollection = [];
-                    $scope.rowCollection = data;
+                    $scope.rowCollection = response.data;
                     $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
                     if ($scope.rowCollectionFilter.length > 0) {
                         $scope.Approvalflag = 1;
@@ -495,8 +495,8 @@ PatientApproval.controller("PatientApprovalController", ['$scope', '$http', '$ro
                         $scope.Approvalflag = 0;
                     }
                     $("#chatLoaderPV").hide();
-                }).error(function (data) {
-                    $scope.error = "AN error has occured while Listing the records!" + data;
+                }).error(function (response) {
+                    $scope.error = "AN error has occured while Listing the records!" + response.data;
                 })
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
@@ -526,17 +526,18 @@ PatientApproval.controller("PatientApprovalController", ['$scope', '$http', '$ro
         /* Filter the master list function.*/
         $scope.filterPatientList = function () {
             $scope.ResultListFiltered = [];
-            var searchstring = angular.lowercase($scope.searchquery);
+            var searchstring = $scope.searchquery
+            searchstring = searchstring.tolowerCase();
             if ($scope.searchquery == "") {
                 $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
             }
             else {
                 $scope.rowCollectionFilter = $ff($scope.rowCollection, function (value) {
-                    return angular.lowercase(value.FullName).match(searchstring) ||
+                    return (value.FullName.tolowerCase()).match(searchstring) ||
                         //angular.lowercase(value.MRN_NO).match(searchstring) ||
-                        angular.lowercase(value.Mobile_No).match(searchstring) ||
-                        angular.lowercase(value.EmailId).match(searchstring) ||
-                        angular.lowercase(value.PendingSince).match(searchstring);
+                        (value.Mobile_No.tolowerCase()).match(searchstring) ||
+                        (value.EmailId.tolowerCase()).match(searchstring) ||
+                        (value.PendingSince.tolowerCase()).match(searchstring);
                 });
             }
             if ($scope.rowCollectionFilter.length > 0) {
@@ -567,8 +568,8 @@ PatientApproval.controller("PatientApprovalController", ['$scope', '$http', '$ro
                 $('#btnsave').attr("disabled", false);
             }
             else {
-                $http.get(baseUrl + '/api/PatientApproval/Get_PatientCount/?InstitutionId=' + $scope.InstitutionId).success(function (data) {
-                    $scope.PatientCount = data[0].PatientCount;
+                $http.get(baseUrl + '/api/PatientApproval/Get_PatientCount/?InstitutionId=' + $scope.InstitutionId).then(function (response) {
+                    $scope.PatientCount = response.data[0].PatientCount;
                     if ($scope.PatientCount >= cnt) {
                         Swal.fire({
                             title: 'Do you like to Approve the Selected Patient?',
@@ -593,11 +594,11 @@ PatientApproval.controller("PatientApprovalController", ['$scope', '$http', '$ro
                                         }
                                     }
                                 });
-                                $http.post(baseUrl + '/api/PatientApproval/Multiple_PatientApproval_Active/', $scope.ApprovedPatientList).success(function (data) {
+                                $http.post(baseUrl + '/api/PatientApproval/Multiple_PatientApproval_Active/', $scope.ApprovedPatientList).then(function (response) {
                                     //alert(data.Message);
-                                    toastr.success(data.Message, "success");
+                                    toastr.success(response.data.Message, "success");
                                     $('#btnsave').attr("disabled", false);
-                                    if (data.ReturnFlag == 1) {
+                                    if (response.data.ReturnFlag == 1) {
                                         $scope.PatientApprovalList();
                                         $scope.SelectedAllPatient = false;
                                     }
@@ -641,5 +642,4 @@ PatientApproval.controller("PatientApprovalController", ['$scope', '$http', '$ro
             }
         }
     }
-
 ]);
