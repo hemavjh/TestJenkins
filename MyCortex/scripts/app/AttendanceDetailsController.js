@@ -16,11 +16,12 @@ AttendanceDetailscontroller.controller("AttendanceDetailsController", ['$scope',
 
         $scope.page_size = 0;
         $scope.ConfigCode = "PAGINATION";
-        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
-            if (data[0] != undefined) {
-                $scope.page_size = parseInt(data[0].ConfigValue);
+        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).then(function (response) {
+            if (response.data[0] != undefined) {
+                $scope.page_size = parseInt(response.data[0].ConfigValue);
                 $window.localStorage['Pagesize'] = $scope.page_size;
             }
+        }, function errorCallback(response) {
         });
         /*List Page Pagination*/
         $scope.listdata = [];
@@ -92,9 +93,10 @@ AttendanceDetailscontroller.controller("AttendanceDetailsController", ['$scope',
            
           });*/
         $scope.UserListType = [];
-        $http.get(baseUrl + '/api/Attendance/Clinician_UserList/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
-            $scope.UserTypeList = $ff(data, { IsActive: 1 });;
-            $scope.UserTypeList = data;
+        $http.get(baseUrl + '/api/Attendance/Clinician_UserList/?Institution_Id=' + $window.localStorage['InstitutionId']).then(function (response) {
+            $scope.UserTypeList = $ff(response.data, { IsActive: 1 });;
+            $scope.UserTypeList = response.data;
+        }, function errorCallback(response) {
         });
 
         //$scope.InstituteId=$window.localStorage['InstitutionId'];
@@ -244,14 +246,14 @@ AttendanceDetailscontroller.controller("AttendanceDetailsController", ['$scope',
                     $('#btnsave').attr("disabled", true);
                     $scope.DoctorAttendanceDetails.push(obj)
                 }
-                $http.post(baseUrl + '/api/Attendance/AttendanceDetails_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, $scope.DoctorAttendanceDetails).success(function (data) {
-                    if (data.ReturnFlag == 1) {
+                $http.post(baseUrl + '/api/Attendance/AttendanceDetails_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, $scope.DoctorAttendanceDetails).then(function (response) {
+                    if (response.data.ReturnFlag == 1) {
                         //alert(data.Message);
-                        if (data.ReturnFlag == 1) {
-                            toastr.success(data.Message, "success");
+                        if (response.data.ReturnFlag == 1) {
+                            toastr.success(response.data.Message, "success");
                         }
-                        else if (data.ReturnFlag == 0) {
-                            toastr.info(data.Message, "info");
+                        else if (response.data.ReturnFlag == 0) {
+                            toastr.info(response.data.Message, "info");
                         }
                         $('#btnsave').attr("disabled", false);
                         $scope.AttendanceList();
@@ -260,18 +262,18 @@ AttendanceDetailscontroller.controller("AttendanceDetailsController", ['$scope',
                     } else {
                         $("#chatLoaderPV").hide();
                         //alert(data.Message);
-                        if (data.ReturnFlag == 2) {
-                            toastr.info(data.Message, "info");
+                        if (response.data.ReturnFlag == 2) {
+                            toastr.info(response.data.Message, "info");
                         }
-                        else if (data.ReturnFlag == 0) {
-                            toastr.info(data.Message, "info");
+                        else if (response.data.ReturnFlag == 0) {
+                            toastr.info(response.data.Message, "info");
                         }
                         $('#btnsave').attr("disabled", false);
                         $scope.ClearAttendancePopUp();
                         return false;
                     }
-                }).error(function (data) {
-                    $scope.error = "An error has occurred while deleting Parameter" + data;
+                }, function errorCallback(response) {
+                    $scope.error = "An error has occurred while deleting Parameter" + response.data;
                 });
             }
         };
@@ -281,19 +283,18 @@ AttendanceDetailscontroller.controller("AttendanceDetailsController", ['$scope',
         $scope.FilterAttendanceList = function () {
 
             $scope.ResultListFiltered = [];
-            var searchstring = angular.lowercase($scope.searchqueryAttendance);
+            var searchstring = ($scope.searchqueryAttendance.toLowerCase());
             if (searchstring == "") {
                 $scope.rowCollectionAttendanceFilter = [];
                 $scope.rowCollectionAttendanceFilter = angular.copy($scope.rowCollectionAttendance);
             }
             else {
                 $scope.rowCollectionAttendanceFilter = $ff($scope.rowCollectionAttendance, function (value) {
-                    return angular.lowercase(value.DoctorName).match(searchstring) ||
-                        angular.lowercase($filter('date')(value.AttendanceFromDate, "dd-MMM-yyyy")).match(searchstring) ||
-                        angular.lowercase($filter('date')(value.AttendanceToDate, "dd-MMM-yyyy")).match(searchstring) ||
-                        angular.lowercase(value.CreatedByName).match(searchstring) ||
-                        angular.lowercase($filter('date')(value.Created_Dt, "dd-MMM-yyyy hh:mm:ss a")).match(searchstring);
-
+                    return (value.DoctorName.toLowerCase()).match(searchstring) ||
+                        ($filter('date')(value.AttendanceFromDate, "dd-MMM-yyyy")).match(searchstring) ||
+                        ($filter('date')(value.AttendanceToDate, "dd-MMM-yyyy")).match(searchstring) ||
+                        (value.CreatedByName.toLowerCase()).match(searchstring) ||
+                        ($filter('date')(value.Created_Dt, "dd-MMM-yyyy hh:mm:ss a")).match(searchstring);
                 });
             }
         }
@@ -314,10 +315,10 @@ AttendanceDetailscontroller.controller("AttendanceDetailsController", ['$scope',
                 }
 
                 $http.get(baseUrl + '/api/Attendance/Attendance_List/?Id=0' + '&IsActive=' + $scope.ISact + '&Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId
-                ).success(function (data) {
+                ).then(function (response) {
                     $scope.emptydataAttendance = [];
                     $scope.rowCollectionAttendance = [];
-                    $scope.rowCollectionAttendance = data;
+                    $scope.rowCollectionAttendance = response.data;
                     $scope.rowCollectionAttendanceFilter = angular.copy($scope.rowCollectionAttendance);
                     if ($scope.rowCollectionAttendanceFilter.length > 0) {
                         $scope.flag = 1;
@@ -326,8 +327,8 @@ AttendanceDetailscontroller.controller("AttendanceDetailsController", ['$scope',
                         $scope.flag = 0;
                     }
                     $("#chatLoaderPV").hide();
-                }).error(function (data) {
-                    $scope.error = "AN error has occured while Listing the records!" + data;
+                }, function errorCallback(response) {
+                    $scope.error = "AN error has occured while Listing the records!" + response.data;
                 })
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
@@ -343,20 +344,21 @@ AttendanceDetailscontroller.controller("AttendanceDetailsController", ['$scope',
                 $scope.Id = $routeParams.Id;
                 $scope.DuplicatesId = $routeParams.Id;
             }
-            $http.get(baseUrl + '/api/Attendance/Attendance_View/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&institution_id=' + $window.localStorage['InstitutionId']).success(function (data) {
-                $scope.DuplicatesId = data.Id;
-                $scope.Doctor_Id = data.Doctor_Id.toString();
-                $scope.DoctorName = data.DoctorName;
-                var ATT_FROM = moment(data.AttendanceFromDate).format('DD-MMM-YYYY hh:mm:ss');
+            $http.get(baseUrl + '/api/Attendance/Attendance_View/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&institution_id=' + $window.localStorage['InstitutionId']).then(function (response) {
+                $scope.DuplicatesId = response.data.Id;
+                $scope.Doctor_Id = response.data.Doctor_Id.toString();
+                $scope.DoctorName = response.data.DoctorName;
+                var ATT_FROM = moment(response.data.AttendanceFromDate).format('DD-MMM-YYYY hh:mm:ss');
                 //$scope.AttendanceFromDate = DateFormatEdit(ATT_FROM);
                 $scope.AttendanceFromDate = ATT_FROM;
-                var ATT_TO = moment(data.AttendanceToDate).format('DD-MMM-YYYY hh:mm:ss');
+                var ATT_TO = moment(response.data.AttendanceToDate).format('DD-MMM-YYYY hh:mm:ss');
                 $scope.AttendanceToDate = ATT_TO;
-                $scope.Edit_SelectedDoctor.push(data.Doctor_Id);
-                $scope.EditSelectedAttendance = data.Doctor_Id.toString();
+                $scope.Edit_SelectedDoctor.push(response.data.Doctor_Id);
+                $scope.EditSelectedAttendance = response.data.Doctor_Id.toString();
                 $scope.SelectedAttendance = $scope.Edit_SelectedDoctor;
-                $scope.Remarks = data.Remarks;
+                $scope.Remarks = response.data.Remarks;
                 $("#chatLoaderPV").hide();
+            }, function errorCallback(response) {
             });
         };
 
@@ -403,14 +405,14 @@ AttendanceDetailscontroller.controller("AttendanceDetailsController", ['$scope',
                         Modified_By: $window.localStorage['UserId']
                     }
 
-                    $http.post(baseUrl + '/api/Attendance/Attendance_InActive/', obj).success(function (data) {
+                    $http.post(baseUrl + '/api/Attendance/Attendance_InActive/', obj).then(function (response) {
                         //alert(data.Message);
-                        if (data.ReturnFlag == 2) {
-                            toastr.success(data.Message, "success");
+                        if (response.data.ReturnFlag == 2) {
+                            toastr.success(response.data.Message, "success");
                         }
                         $scope.AttendanceList();
-                    }).error(function (data) {
-                        $scope.error = "An error has occurred while deleting Holiday" + data;
+                    }, function errorCallback(response) {
+                        $scope.error = "An error has occurred while deleting Holiday" + response.data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
@@ -465,18 +467,18 @@ AttendanceDetailscontroller.controller("AttendanceDetailsController", ['$scope',
                         Modified_By: $window.localStorage['UserId']
                     }
 
-                    $http.post(baseUrl + '/api/Attendance/Attendance_Active/', obj).success(function (data) {
+                    $http.post(baseUrl + '/api/Attendance/Attendance_Active/', obj).then(function (response) {
                         //alert(data.Message);
-                        if (data.ReturnFlag == 1) {
-                            toastr.success(data.Message, "success");
-                        } else if (data.ReturnFlag == 2) {
-                            toastr.info(data.Message, "info");
+                        if (response.data.ReturnFlag == 1) {
+                            toastr.success(response.data.Message, "success");
+                        } else if (response.data.ReturnFlag == 2) {
+                            toastr.info(response.data.Message, "info");
                         }
-                        if (data.ReturnFlag == 1) {
+                        if (response.data.ReturnFlag == 1) {
                             $scope.AttendanceList();
                         }
-                    }).error(function (data) {
-                        $scope.error = "An error has occurred while deleting  Drug DB details" + data;
+                    }, function errorCallback(response) {
+                        $scope.error = "An error has occurred while deleting  Drug DB details" + response.data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')

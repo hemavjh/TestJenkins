@@ -40,6 +40,7 @@ using MyCortex.User.Controller;
 using MyCortex.User.Models;
 using MyCortex.Notification.Models;
 using MyCortex.Repositories.EmailAlert;
+using Microsoft.Owin.Logging;
 
 namespace MyCortex.Home.Controllers
 {
@@ -154,6 +155,37 @@ namespace MyCortex.Home.Controllers
             Session.Abandon();
 
             return View((object)returnError);
+        }
+        [HttpPost]
+        public ActionResult BrowserClose()
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            try
+            {
+                long UserID = Convert.ToInt32(Session["UserId"].ToString());
+                string login_session_id = Session["Login_Session_Id"] as string;
+                if (!string.IsNullOrEmpty(login_session_id))
+                {
+                    string SessionId = Convert.ToString(Session["Login_Session_Id"].ToString());
+                    login.User_LogOut(UserID, SessionId);
+                }
+                Session["UserId"] = "0";
+                Session["key"] = "";
+                Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
+                Response.Cache.SetNoStore();
+                Session.Abandon();
+                Session.Clear();
+                returnError = "";
+                return JavaScript("window.close();");
+
+            }
+            catch (Exception ex)
+            {
+                //MyLogger.Exceptions("ERROR", AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
         }
 
         /// <summary>

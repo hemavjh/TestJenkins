@@ -41,44 +41,48 @@ PatientReportList.controller("PatientReportListController", ['$scope', '$http', 
 
             $scope.InstituteId = $window.localStorage['InstitutionId'];
 
-            $http.get(baseUrl + '/api/ReportDetails/TableShortName_List/').success(function (data) {
-                $scope.TableShortName_listdata = data;
+            $http.get(baseUrl + '/api/ReportDetails/TableShortName_List/').then(function (response) {
+                $scope.TableShortName_listdata = response.data;
+            }, function errorCallback(response) {
             });
 
             /* User type details list*/
-            $http.get(baseUrl + '/api/Login/Usertypedetailslist/').success(function (data) {
+            $http.get(baseUrl + '/api/Login/Usertypedetailslist/').then(function (response) {
                 $scope.Usertype_listdataTemp = [];
-                $scope.Usertype_listdataTemp = data;
+                $scope.Usertype_listdataTemp = response.data;
                 var obj = { "Id": 0, "TypeName": "Select", "IsActive": 1 };
                 $scope.Usertype_listdataTemp.splice(0, 0, obj);
                 $scope.Usertype_listdata = angular.copy($scope.Usertype_listdataTemp);
                 $scope.UserTypeId = 0;
+            }, function errorCallback(response) {
             });
 
 
 
 
             $scope.UserTypeBaseduserName = function () {
-                $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + $scope.UserTypeId + '&InstitutionId=' + $scope.InstituteId + '&IS_MASTER=' + $scope.IsMaster).success(function (data) {
+                $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + $scope.UserTypeId + '&InstitutionId=' + $scope.InstituteId + '&IS_MASTER=' + $scope.IsMaster).then(function (response) {
                     $scope.UserName_listdataTemp = [];
-                    $scope.UserName_listdataTemp = data;
+                    $scope.UserName_listdataTemp = response.data;
                     var obj = { "Id": 0, "FullName": "Select", "IsActive": 1 };
                     $scope.UserName_listdataTemp.splice(0, 0, obj);
                     $scope.UserName_listdata = angular.copy($scope.UserName_listdataTemp);
                     $scope.UserNameId = 0;
+                }, function errorCallback(response) {
                 });
             }
 
             $scope.ConfigCode = "REPORT_DATE_LIMIT";
             $scope.ValidateDays = 90;
             $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.InstituteId)
-                .success(function (data) {
-                    if (data[0] != undefined) {
-                        $scope.ValidateDays = parseInt(data[0].ConfigValue);
+                .then(function (response) {
+                    if (response.data[0] != undefined) {
+                        $scope.ValidateDays = parseInt(response.data[0].ConfigValue);
                     }
                     else {
                         $scope.ValidateDays = 90;
                     }
+                }, function errorCallback(response) {
                 });
 
             $scope.patientReportValidation = function () {
@@ -151,7 +155,7 @@ PatientReportList.controller("PatientReportListController", ['$scope', '$http', 
             $scope.PatientReportListData = [];
             $scope.filterReportList = function () {
                 $scope.ResultListFiltered = [];
-                var searchstring = angular.lowercase($scope.searchreportquery);
+                var searchstring = $scope.searchreportquery.toLowerCase();
                 if ($scope.searchreportquery == "") {
                     $scope.PatientDetailsFilteredDataList = [];
                     $scope.PatientDetailsFilteredDataList = angular.copy($scope.ReportDetails_ListOrder);
@@ -159,16 +163,14 @@ PatientReportList.controller("PatientReportListController", ['$scope', '$http', 
                 }
                 else {
                     $scope.PatientDetailsFilteredDataList = $ff($scope.ReportDetails_ListOrder, function (value) {
-                        return angular.lowercase(value.ShortName).match(searchstring) ||
-                            angular.lowercase(value.TableDisplayName).match(searchstring) ||
-                            angular.lowercase(value.Details).match(searchstring) ||
-                            angular.lowercase(value.ColumnOrder).match(searchstring) ||
-                            angular.lowercase(value.Action).match(searchstring) ||
-                            angular.lowercase(value.NewValue).match(searchstring) ||
-                            angular.lowercase(value.OldValue == null ? "" : value.OldValue).match(searchstring) ||
-                            angular.lowercase(($filter('date')(value.ActionDateTime, "dd-MMM-yyyy hh:mm:ss a"))).match(searchstring);
-
-
+                        return (value.ShortName.toLowerCase()).match(searchstring) ||
+                            (value.TableDisplayName.toLowerCase()).match(searchstring) ||
+                            (value.Details.toLowerCase()).match(searchstring) ||
+                            (value.ColumnOrder.toLowerCase()).match(searchstring) ||
+                            (value.Action.toLowerCase()).match(searchstring) ||
+                            (value.NewValue.toLowerCase()).match(searchstring) ||
+                            (value.OldValue == null ? "" : value.OldValue.toLowerCase()).match(searchstring) ||
+                            (($filter('date')(value.ActionDateTime, "dd-MMM-yyyy hh:mm:ss a"))).match(searchstring);
                     });
                 }
             };
@@ -303,8 +305,8 @@ PatientReportList.controller("PatientReportListController", ['$scope', '$http', 
                     $scope.PeriodFromTime = DateFormatEdit($filter('date')($('#datetimepicker').val(), 'hh:mm'));
                     $scope.PeriodToTime = DateFormatEdit($filter('date')($('#datetimepicker_mask').val(), 'hh:mm'));
 
-                    $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-                        $scope.page_size = data1[0].ConfigValue;
+                    $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).then(function (data1) {
+                        $scope.page_size = data1.data[0].ConfigValue;
                         $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
                         $scope.PageEnd = $scope.current_page * $scope.page_size;
 
@@ -328,8 +330,8 @@ PatientReportList.controller("PatientReportListController", ['$scope', '$http', 
                             '&ShortNameId=' + $scope.ShortNameId +
                             '&UserNameId=' + $scope.UserNameId
                             + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber='
-                            + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
-                                if (data.length == 0 || data == null) {
+                            + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).then(function (response) {
+                                if (response.data.length == 0 || response.data == null) {
                                     $("#chatLoaderPV").hide();
                                     $scope.TotalPageAuditReport = 1;
                                     $scope.ReportDetailsemptydata = "";
@@ -340,9 +342,9 @@ PatientReportList.controller("PatientReportListController", ['$scope', '$http', 
                                     $scope.SearchMsg = "No Data Available";
                                 } else {
                                     $scope.ReportDetails_ListOrder = [];
-                                    $scope.ReportDetails_ListOrder = data;
+                                    $scope.ReportDetails_ListOrder = response.data;
                                     $scope.ReportDetailsCount = $scope.ReportDetails_ListOrder[0].TotalRecord;
-                                    $scope.ReportDetailsCountFilterData = data;
+                                    $scope.ReportDetailsCountFilterData = response.data;
                                     $scope.PatientDetailsFilteredDataList = angular.copy($scope.ReportDetails_ListOrder);
                                     if ($scope.PatientDetailsFilteredDataList.length > 0) {
                                         $scope.Reportflag = 1;
@@ -353,10 +355,11 @@ PatientReportList.controller("PatientReportListController", ['$scope', '$http', 
                                     $scope.TotalPageAuditReport = Math.ceil(($scope.ReportDetailsCount) / ($scope.page_size));
                                     $("#chatLoaderPV").hide();
                                 }
-                            })
-                    }).error(function (data) {
+                            }, function errorCallback(response) {
+                            });
+                    }, function errorCallback(data1) {
                         $("#chatLoaderPV").hide();
-                        $scope.error = "AN error has occured while Listing the records!" + data;
+                        $scope.error = "AN error has occured while Listing the records!" + data1.data;
                     })
                 }
             }

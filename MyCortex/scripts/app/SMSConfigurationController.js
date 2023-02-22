@@ -14,17 +14,19 @@ SMSConfigurationController.controller("SMSConfigurationController", ['$scope', '
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
         $scope.UserTypeId = parseInt($window.localStorage["UserTypeId"]);
 
-        $http.get(baseUrl + 'api/SMSConfiguration/SMSConfiguration_View/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
-            $scope.Source_Id = data.Source_Id;
-            $scope.UserName = data.UserName;
-            $scope.ApiId = data.ApiId;
+        $http.get(baseUrl + 'api/SMSConfiguration/SMSConfiguration_View/?Institution_Id=' + $window.localStorage['InstitutionId']).then(function (response) {
+            $scope.Source_Id = response.data.Source_Id;
+            $scope.UserName = response.data.UserName;
+            $scope.ApiId = response.data.ApiId;
+        }, function errorCallback(response) {
         });
     
         /* Institution Dropdown function  */
         $scope.InstitutionList = [];
         $scope.InstitutionFilterList = [];
-        $http.get(baseUrl + '/api/Institution/InstitutionDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-            $scope.Insitution_Name = data.Institution_Name;
+        $http.get(baseUrl + '/api/Institution/InstitutionDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
+            $scope.Insitution_Name = response.data.Institution_Name;
+        }, function errorCallback(response) {
         });
 
 
@@ -45,12 +47,12 @@ SMSConfigurationController.controller("SMSConfigurationController", ['$scope', '
                     Created_By: $window.localStorage['UserId']
                 };
                 $('#save').attr("disabled", true);
-                $http.post(baseUrl + '/api/SMSConfiguration/SMSConfiguration_AddEdit/', obj).success(function (data) {
+                $http.post(baseUrl + '/api/SMSConfiguration/SMSConfiguration_AddEdit/', obj).then(function (response) {
                     toastr.success("SMS setup saved successfully", "success");
                     $('#save').attr("disabled", false);
                     $("#chatLoaderPV").hide();
-                }).error(function (data) {
-                    $scope.error = "An error has occurred while adding SMS Configuration!" + data.ExceptionMessage;
+                }, function errorCallback(response) {
+                    $scope.error = "An error has occurred while adding SMS Configuration!" + response.data.ExceptionMessage;
                 });
             }
 
@@ -59,16 +61,17 @@ SMSConfigurationController.controller("SMSConfigurationController", ['$scope', '
         $scope.SMSConfiguration_ViewEdit = function () {
             if ($window.localStorage['UserTypeId'] == 3 || $window.localStorage['UserTypeId'] == 1) {
                 $("#chatLoaderPV").show();
-                $http.get(baseUrl + 'api/SMSConfiguration/SMSConfiguration_View/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
-                    if (data != null) {
-                        $scope.Id = data.Id;
-                        $scope.Insitution_Name = data.Institution_Name;
-                        $scope.Source_Id = data.Source_Id;
-                        $scope.UserName = data.UserName;
-                        $scope.ApiId = data.ApiId;
-                        $scope.Remarks = data.Remarks;
+                $http.get(baseUrl + 'api/SMSConfiguration/SMSConfiguration_View/?Institution_Id=' + $window.localStorage['InstitutionId']).then(function (response) {
+                    if (response.data != null) {
+                        $scope.Id = response.data.Id;
+                        $scope.Insitution_Name = response.data.Institution_Name;
+                        $scope.Source_Id = response.data.Source_Id;
+                        $scope.UserName = response.data.UserName;
+                        $scope.ApiId = response.data.ApiId;
+                        $scope.Remarks = response.data.Remarks;
                     }
                     $("#chatLoaderPV").hide();
+                }, function errorCallback(response) {
                 });
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
@@ -129,10 +132,10 @@ SMSConfigurationController.controller("SMSConfigurationController", ['$scope', '
                     SMSApiId : $scope.ApiId
                 };
                 $("#chatLoaderPV").show();
-                $http.post(baseUrl + 'api/SMSConfiguration/CheckSMSConfiguration/', obj).success(function (data) {
-                    if (data != null) {
+                $http.post(baseUrl + 'api/SMSConfiguration/CheckSMSConfiguration/', obj).then(function (response) {
+                    if (response.data != null) {
                         //console.log(data);
-                        if (data == true) {
+                        if (response.data == true) {
                             toastr.success("SMS Setup Working Properly", "Success");
                         } else {
                             toastr.warning("SMS Setup Not Working Properly", "Warning");
@@ -140,9 +143,10 @@ SMSConfigurationController.controller("SMSConfigurationController", ['$scope', '
                     }
                     $scope.clearfields();
                     $("#chatLoaderPV").hide();
-                }).error(function (data) { toastr.warning("SMS Setup Server Error", "Warning"); });
+                }, function errorCallback(response) {
+                    toastr.warning("SMS Setup Server Error", "Warning");
+                });
             }
         }
-
     }
 ]);

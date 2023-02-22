@@ -123,17 +123,19 @@ ParameterSettings.controller("ParameterSettingsController", ['$scope', '$http', 
 
         /*Set Unit Group Preference*/
         $scope.SetUnitGroupPreference = function () {
-            $http.get(baseUrl + '/api/ParameterSettings/UnitGroupPreferenceGet/?institutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
-                $scope.UnitGroupType = data.PreferenceType;
-            })
+            $http.get(baseUrl + '/api/ParameterSettings/UnitGroupPreferenceGet/?institutionId=' + $window.localStorage['InstitutionId']).then(function (response) {
+                $scope.UnitGroupType = response.data.PreferenceType;
+            }, function errorCallback(response) {
+            });
         }
 
         /*Store Chat Preference*/
         $scope.SaveUnitGroupPreference = function () {
             var type = $scope.UnitGroupType;
-            $http.get(baseUrl + '/api/ParameterSettings/UnitGroupPreferenceSave/?institutionId=' + $window.localStorage['InstitutionId'] + '&preferenceType=' + type).success(function (data) {
-                return data;
-            })
+            $http.get(baseUrl + '/api/ParameterSettings/UnitGroupPreferenceSave/?institutionId=' + $window.localStorage['InstitutionId'] + '&preferenceType=' + type).then(function (response) {
+                return response.data;
+            }, function errorCallback(response) {
+            });
         }
 
         //$http.get(baseUrl + '/api/ParameterSettings/ParameterMappingList/?Parameter_Id=0&Unitgroup_Type=1').success(function (data) {
@@ -143,7 +145,7 @@ ParameterSettings.controller("ParameterSettingsController", ['$scope', '$http', 
         $scope.query = "";
         /* Filter the master list function.*/
         $scope.StandardFilterlist = function () {
-            var searchstring = angular.lowercase($scope.query);
+            var searchstring = $scope.query.toLowerCase();
             if ($scope.query == "") {
                 $scope.ProtocolParametersList = angular.copy($scope.ResultListFiltered);
             }
@@ -158,8 +160,8 @@ ParameterSettings.controller("ParameterSettingsController", ['$scope', '$http', 
                             return unititem.Units_ID == $scope.Units_ID[value.Id];
                         })[0].Units_Name
                     }
-                    return angular.lowercase(value.Name).match(searchstring) ||
-                        angular.lowercase(UnitsList_Name).match(searchstring)
+                    return (value.Name.toLowerCase()).match(searchstring) ||
+                        (UnitsList_Name.toLowerCase()).match(searchstring)
                 });
             }
         };
@@ -170,13 +172,13 @@ ParameterSettings.controller("ParameterSettingsController", ['$scope', '$http', 
             if ($window.localStorage['UserTypeId'] == 3) {
                 $("#chatLoaderPV").show();
                 // $scope.UnitGroupType = UnitGroupType;
-                $http.get(baseUrl + '/api/ParameterSettings/ParameterMappingList/?Parameter_Id=0&Unitgroup_Type=' + $scope.UnitGroupType + '&Institution_Id=' + $scope.InstituteId).success(function (data) {
-                    $scope.UnitMasterList = data;
-                    $http.get(baseUrl + '/api/ParameterSettings/ProtocolParameterMasterList/').success(function (data1) {
-                        $scope.ProtocolParametersList = data1;
+                $http.get(baseUrl + '/api/ParameterSettings/ParameterMappingList/?Parameter_Id=0&Unitgroup_Type=' + $scope.UnitGroupType + '&Institution_Id=' + $scope.InstituteId).then(function (response) {
+                    $scope.UnitMasterList = response.data;
+                    $http.get(baseUrl + '/api/ParameterSettings/ProtocolParameterMasterList/').then(function (data1) {
+                        $scope.ProtocolParametersList = data1.data;
                         $scope.ResultListFiltered = $scope.ProtocolParametersList;
-                        $http.get(baseUrl + 'api/ParameterSettings/ViewEditProtocolParameters/?Id=' + $scope.InstituteId + '&Unitgroup_Type=' + $scope.UnitGroupType).success(function (data) {
-                            $scope.ViewParamList = data;
+                        $http.get(baseUrl + 'api/ParameterSettings/ViewEditProtocolParameters/?Id=' + $scope.InstituteId + '&Unitgroup_Type=' + $scope.UnitGroupType).then(function (response) {
+                            $scope.ViewParamList = response.data;
                             $("#chatLoaderPV").hide();
                             angular.forEach($scope.ProtocolParametersList, function (masterVal, masterInd) {
                                 $scope.ViewParamList1 = $ff($scope.ViewParamList, { Parameter_ID: masterVal.Id }, true)[0];
@@ -208,12 +210,14 @@ ParameterSettings.controller("ParameterSettingsController", ['$scope', '$http', 
                                 }
                             });
 
-                        }).error(function (data) {
+                        }, function errorCallback(response) {
                             $("#chatLoaderPV").hide();
-                            $scope.error = "An error has occcurred while viewing standard parameter Details!" + data;
+                            $scope.error = "An error has occcurred while viewing standard parameter Details!" + response.data;
                             alert($scope.error);
                         });
+                    }, function errorCallback(data1) {
                     });
+                }, function errorCallback(response) {
                 });
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
@@ -255,7 +259,7 @@ ParameterSettings.controller("ParameterSettingsController", ['$scope', '$http', 
                     }
                 })
 
-                $http.post(baseUrl + '/api/ParameterSettings/ParameterSettings_AddEdit/', $scope.UnitsParameterdata).success(function (data) {
+                $http.post(baseUrl + '/api/ParameterSettings/ParameterSettings_AddEdit/', $scope.UnitsParameterdata).then(function (response) {
                     $("#chatLoaderPV").hide();
                     //alert("Standard parameter saved successfully");
                     toastr.success("Standard parameter saved successfully", "success");
@@ -263,6 +267,7 @@ ParameterSettings.controller("ParameterSettingsController", ['$scope', '$http', 
                     $scope.ChatSettings_ViewEdit();
                     $scope.IsEdit = false;
                     //$location.path("/ParameterSettings");
+                }, function errorCallback(response) {
                 });
             }
         };

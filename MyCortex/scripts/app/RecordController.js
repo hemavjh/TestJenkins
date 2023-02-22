@@ -35,37 +35,41 @@ Record.controller("RecordController", ['$scope', '$http', '$routeParams', '$loca
         $scope.Cancelled_Remarks = "";
         $scope.Appointment_Id = 0;
         //$scope.TimeZone_ID = 0;
-        $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+        $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
             $("#chatLoaderPV").show();
-            if (data.TimeZone_ID != "") {
-                $scope.TimeZone_ID = data.TimeZone_ID;
+            if (response.data.TimeZone_ID != "") {
+                $scope.TimeZone_ID = response.data.TimeZone_ID;
             } else {
                 toastr.warning("Please Set Timezone for Institution", "warning");
             }
             $scope.getTimeZoneList();
+        }, function errorCallback(response) {
         });
 
-        $http.get(baseUrl + '/api/PatientAppointments/AppointmentReasonType_List/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
+        $http.get(baseUrl + '/api/PatientAppointments/AppointmentReasonType_List/?Institution_Id=' + $window.localStorage['InstitutionId']).then(function (response) {
             $scope.AppointmentReasonTypeListTemp = [];
-            $scope.AppointmentReasonTypeListTemp = data;
+            $scope.AppointmentReasonTypeListTemp = response.data;
             var obj = { "ReasonTypeId": 0, "ReasonType": "Select", "IsActive": 1 };
             $scope.AppointmentReasonTypeListTemp.splice(0, 0, obj);
             $scope.AppointmentReasonTypeList = angular.copy($scope.AppointmentReasonTypeListTemp);
+        }, function errorCallback(response) {
         });
-        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
-            if (data[0] != undefined) {
-                $scope.page_size = parseInt(data[0].ConfigValue);
+        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).then(function (response) {
+            if (response.data[0] != undefined) {
+                $scope.page_size = parseInt(response.data[0].ConfigValue);
                 $window.localStorage['Pagesize'] = $scope.page_size;
             }
+        }, function errorCallback(response) {
         });
         $scope.ConfigCode1 = "CURRENCY_FORMAT_TYPE";
-        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode1 + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
-            $scope.CurrencyValue = data[0].ConfigValue;
-
+        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode1 + '&Institution_Id=' + $window.localStorage['InstitutionId']).then(function (response) {
+            $scope.CurrencyValue = response.data[0].ConfigValue;
+        }, function errorCallback(response) {
         });
-        $http.get(baseUrl + '/api/Attendance/Clinician_UserList/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
-            $scope.DoctorList = $ff(data, { IsActive: 1, TypeName: "Clinician" });;
+        $http.get(baseUrl + '/api/Attendance/Clinician_UserList/?Institution_Id=' + $window.localStorage['InstitutionId']).then(function (response) {
+            $scope.DoctorList = $ff(response.data, { IsActive: 1, TypeName: "Clinician" });
             // $scope.DoctorList = data;
+        }, function errorCallback(response) {
         });
 
         //$scope.onChangeDoctor = function () {
@@ -116,7 +120,7 @@ Record.controller("RecordController", ['$scope', '$http', '$routeParams', '$loca
         }
 
         $scope.filterPaymentList = function () {
-            var searchstring1 = angular.lowercase($scope.Paymentsearch);
+            var searchstring1 = ($scope.Paymentsearch.toLowerCase());
             angular.forEach($scope.rowCollectionFilter1, function (value, index) {
                 value.status = value.status.replace("PAID_SUCCESS", "PAID");
             });
@@ -129,14 +133,14 @@ Record.controller("RecordController", ['$scope', '$http', '$routeParams', '$loca
                 $scope.rowCollectionFilter = [];
                 $scope.rowCollectionFilter = $ff($scope.rowCollectionFilter1, function (value) {
                     if (value.status != null && value.status != "FAILURE" && value.status != "UNPAID") {
-                        return angular.lowercase(value.status.toString()).match(searchstring1);
+                        return angular(value.status.toString().toLowerCase()).match(searchstring1);
                     }
                     });
             } else if ($scope.Paymentsearch == "FAILURE") {
                 $scope.rowCollectionFilter = [];
                 $scope.rowCollectionFilter = $ff($scope.rowCollectionFilter1, function (value) {
                     if (value.status != null && value.status != "UNPAID") {
-                        return angular.lowercase(value.status.toString()).match(searchstring1);
+                        return (value.status.toString().toLowerCase()).match(searchstring1);
                     }
                     });
             }
@@ -144,7 +148,7 @@ Record.controller("RecordController", ['$scope', '$http', '$routeParams', '$loca
                 $scope.rowCollectionFilter = [];
                 $scope.rowCollectionFilter = $ff($scope.rowCollectionFilter1, function (value) {
                     if (value.status == "UNPAID") {
-                        return angular.lowercase(value.status.toString()).match(searchstring1);
+                        return (value.status.toString().toLowerCase()).match(searchstring1);
                     }
                 });
             }
@@ -161,9 +165,9 @@ Record.controller("RecordController", ['$scope', '$http', '$routeParams', '$loca
 
         $scope.getTimeZoneList = function () {
             //$scope.TimeZoneList = [];
-            $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
                 $scope.TimeZoneCopy = [];
-                $scope.TimeZoneCopy = data;
+                $scope.TimeZoneCopy = response.data;
                 var obj = { "TimeZoneId": 0, "TimeZoneName": "", "UtcOffSet": "", "TimeZoneDisplayName": "Select", "IsActive": 1 };
                 $scope.TimeZoneCopy.splice(0, 0, obj);
                 angular.forEach($scope.TimeZoneCopy, function (value, index) {
@@ -184,6 +188,7 @@ Record.controller("RecordController", ['$scope', '$http', '$routeParams', '$loca
                     }
                 });
                 $("#chatLoaderPV").hide();
+            }, function errorCallback(response) {
             });
         }
         $scope.getTimeZoneList();
@@ -216,10 +221,10 @@ Record.controller("RecordController", ['$scope', '$http', '$routeParams', '$loca
             }
             var datee = new Date($scope.SearchDate).getFullYear().toString() + '-' + (((new Date($scope.SearchDate).getMonth() + 1).toString().length > 1) ? (new Date($scope.SearchDate).getMonth() + 1).toString() : ('0' + (new Date($scope.SearchDate).getMonth() + 1).toString())) + '-' + ((new Date($scope.SearchDate).getDate().toString().length > 1) ? new Date($scope.SearchDate).getDate().toString() : ('0' + new Date($scope.SearchDate).getDate().toString()))
             var datee1 = new Date($scope.SearchEndDate).getFullYear().toString() + '-' + (((new Date($scope.SearchEndDate).getMonth() + 1).toString().length > 1) ? (new Date($scope.SearchEndDate).getMonth() + 1).toString() : ('0' + (new Date($scope.SearchEndDate).getMonth() + 1).toString())) + '-' + ((new Date($scope.SearchEndDate).getDate().toString().length > 1) ? new Date($scope.SearchEndDate).getDate().toString() : ('0' + new Date($scope.SearchEndDate).getDate().toString()))
-            $http.get(baseUrl + '/api/PatientAppointments/GetAppointmentDoctorDetails/?DoctorIds=' + SelectedDoctorId + '&Date=' + datee + '&EndDate=' + datee1 + '&Login_Session_Id=' + $scope.LoginSessionId + '&TimeZoneId=' + $scope.TimeZoneID + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data1) {
+            $http.get(baseUrl + '/api/PatientAppointments/GetAppointmentDoctorDetails/?DoctorIds=' + SelectedDoctorId + '&Date=' + datee + '&EndDate=' + datee1 + '&Login_Session_Id=' + $scope.LoginSessionId + '&TimeZoneId=' + $scope.TimeZoneID + '&Institution_Id=' + $window.localStorage['InstitutionId']).then(function (data1) {
                 $("#chatLoaderPV").hide();
-                $scope.rowCollectionFilter1 = data1.DoctorAppointmentTimeSlotList;
-                $scope.rowCollectionFilter = data1.DoctorAppointmentTimeSlotList;
+                $scope.rowCollectionFilter1 = data1.data.DoctorAppointmentTimeSlotList;
+                $scope.rowCollectionFilter = data1.data.DoctorAppointmentTimeSlotList;
                 angular.forEach($scope.rowCollectionFilter1, function (value, index) {
                     value.status = value.status.replace("PAID_SUCCESS", "PAID");
                 });
@@ -229,7 +234,9 @@ Record.controller("RecordController", ['$scope', '$http', '$routeParams', '$loca
                 } else {
                     $scope.flag = 0;
                 }
-            }).error(function (data) { $("#chatLoaderPV").hide(); });
+            }, function errorCallback(data1) {
+                $("#chatLoaderPV").hide();
+            });
             //}
         }
 

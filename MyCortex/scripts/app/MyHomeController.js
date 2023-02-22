@@ -315,17 +315,17 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $scope.ResultListFiltered = [];
             var searchstring = $scope.searchquery;
             if (searchstring != '') {
-                searchstring = searchstring.toLocalelowerCase();
+                searchstring = searchstring.toLowerCase();
             }
             if ($scope.searchquery == "") {
                 $scope.rowCollectionTabFilter = angular.copy($scope.rowCollectionTab);
             }
             else {
                 $scope.rowCollectionTabFilter = $ff($scope.rowCollectionTab, function (value) {
-                    return (value.RefId.toLocalelowerCase()).match(searchstring) ||
-                        (value.TabName.toLocalelowerCase()).match(searchstring) ||
-                        (value.OS.toLocalelowerCase()).match(searchstring) ||
-                        (value.Model.toLocalelowerCase()).match(searchstring)
+                    return (value.RefId.toLowerCase()).match(searchstring) ||
+                        (value.TabName.toLowerCase()).match(searchstring) ||
+                        (value.OS.toLowerCase()).match(searchstring) ||
+                        (value.Model.toLowerCase()).match(searchstring)
                 });
                 $scope.total_MyHomepage = Math.ceil(($scope.rowCollectionTabFilter) / ($scope.page_size));
             }
@@ -1217,16 +1217,16 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         /* FILTER THE  MyHome  LIST FUNCTION.*/
         $scope.filterDeviceListed = function () {
             $scope.ResultListFiltered = [];
-            var searchstring = ($scope.searchquery.toLocalelowerCase());
+            var searchstring = ($scope.searchquery.toLowerCase());
             if ($scope.searchquery == "") {
                 $scope.rowCollectionDeviceFilter = angular.copy($scope.rowCollection);
             }
             else {
                 $scope.rowCollectionDeviceFilter = $ff($scope.rowCollection, function (value) {
-                    return (value.DeviceName.toLocalelowerCase()).match(searchstring) ||
-                        (value.DeviceType.toLocalelowerCase()).match(searchstring) ||
-                        (value.Make.toLocalelowerCase()).match(searchstring) ||
-                        (value.ModelNumber.toLocalelowerCase()).match(searchstring)                        
+                    return (value.DeviceName.toLowerCase()).match(searchstring) ||
+                        (value.DeviceType.toLowerCase()).match(searchstring) ||
+                        (value.Make.toLowerCase()).match(searchstring) ||
+                        (value.ModelNumber.toLowerCase()).match(searchstring)                        
                 });
             }
             $scope.emptydataDevice = $scope.rowCollectionTabFilter;
@@ -1817,17 +1817,16 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         /* FILTER THE  MyHome  LIST FUNCTION.*/
         $scope.filterDeviceNameList = function () {
             $scope.ResultListFiltered = [];
-            var searchstring = angular.lowercase($scope.searchquery);
+            var searchstring = $scope.searchquery.toLowerCase();
             if ($scope.searchquery == "") {
                 $scope.rowCollectionTabFilter = angular.copy($scope.rowCollection);
             }
             else {
                 $scope.rowCollectionTabFilter = $ff($scope.rowCollection, function (value) {
-                    return angular.lowercase(value.DeviceName).match(searchstring) ||
-                        angular.lowercase(value.DeviceType).match(searchstring) ||
-                        angular.lowercase(value.Make).match(searchstring) ||
-                        angular.lowercase(value.ModelNumber).match(searchstring);
-
+                    return (value.DeviceName.toLowerCase()).match(searchstring) ||
+                        (value.DeviceType.toLowerCase()).match(searchstring) ||
+                        (value.Make.toLowerCase()).match(searchstring) ||
+                        (value.ModelNumber.toLowerCase()).match(searchstring);
                 });
             }
             $scope.emptydataDevice = $scope.rowCollectionTabFilter;

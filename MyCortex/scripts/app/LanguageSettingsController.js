@@ -17,12 +17,12 @@ LanguageSettingscontroller.controller("LanguageSettingsController", ['$scope', '
 
         $scope.LanguageList = function () {
             $http.get(baseUrl + '/api/Common/getInstitutionLanguages/?Institution_Id=' + $window.localStorage['InstitutionId']
-            ).success(function (data) {
+            ).then(function (response) {
                 $scope.InstitutionLanguageList = [];
-                $scope.InstitutionLanguageList = data;
-                $scope.selectedLanguage = data[0].DefaultLanguageId.toString();
-            }).error(function (data) {
-                $scope.error = "AN error has occured while Listing the records!" + data;
+                $scope.InstitutionLanguageList = response.data;
+                $scope.selectedLanguage = response.data[0].DefaultLanguageId.toString();
+            }, function errorCallback(response) {
+                $scope.error = "AN error has occured while Listing the records!" + response.data;
             });
         };
 
@@ -41,13 +41,13 @@ LanguageSettingscontroller.controller("LanguageSettingsController", ['$scope', '
         $scope.FilterLanguageSettingsList = function () {
             var data = $scope.rowCollectionLanguageSettingsFilter.filter(item => item.LANGUAGE_ID === parseInt($scope.selectedLanguage));
 
-            var searchstring = angular.lowercase($scope.searchqueryLanguageSettings);
+            var searchstring = ($scope.searchqueryLanguageSettings.toLowerCase());
             if ($scope.searchqueryLanguageSettings == "") {
                 $scope.rowCollectionLanguageSettings = angular.copy(data);
             }
             else {
                 $scope.rowCollectionLanguageSettings = $ff(data, function (value, index) {
-                    return angular.lowercase(value.LANGUAGE_KEY).match(searchstring)
+                    return (value.LANGUAGE_KEY.toLowerCase()).match(searchstring)
                 });
             }
             angular.forEach($scope.rowCollectionLanguageSettings, function (masterVal, masterInd) {
@@ -75,12 +75,12 @@ LanguageSettingscontroller.controller("LanguageSettingsController", ['$scope', '
                 }
 
                 $http.get(baseUrl + '/api/LanguageSettings/LanguageSettings_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId
-                ).success(function (data) {
+                ).then(function (response) {
 
                     $scope.emptydataLanguageSettings = [];
                     $scope.rowCollectionLanguageSettings = [];
-                    $scope.rowCollectionLanguageSettingsFilter = angular.copy(data);
-                    $scope.rowCollectionLanguageSettings = data.filter(item => item.LANGUAGE_ID === parseInt($scope.selectedLanguage));
+                    $scope.rowCollectionLanguageSettingsFilter = angular.copy(response.data);
+                    $scope.rowCollectionLanguageSettings = response.data.filter(item => item.LANGUAGE_ID === parseInt($scope.selectedLanguage));
                     if ($scope.rowCollectionLanguageSettingsFilter.length > 0) {
                         $scope.flag = 1;
                     }
@@ -91,8 +91,8 @@ LanguageSettingscontroller.controller("LanguageSettingsController", ['$scope', '
                         $scope.LanguageText[masterVal.ID] = masterVal.LANGUAGE_TEXT;
                     });
                     $("#chatLoaderPV").hide();
-                }).error(function (data) {
-                    $scope.error = "AN error has occured while Listing the records!" + data;
+                }, function errorCallback(response) {
+                    $scope.error = "AN error has occured while Listing the records!" + response.data;
                     $("#chatLoaderPV").hide();
                 })
             } else {
@@ -116,7 +116,7 @@ LanguageSettingscontroller.controller("LanguageSettingsController", ['$scope', '
                 $scope.LanguageSettingsDetails.push(obj);
             });
 
-            $http.post(baseUrl + '/api/LanguageSettings/LanguageSettings_AddEdit/', $scope.LanguageSettingsDetails).success(function (data) {
+            $http.post(baseUrl + '/api/LanguageSettings/LanguageSettings_AddEdit/', $scope.LanguageSettingsDetails).then(function (response) {
                 $scope.LanguageSettingsDetails = [];
                 $scope.LanguageText = [];
                 $scope.searchqueryLanguageSettings = "";
@@ -126,6 +126,7 @@ LanguageSettingscontroller.controller("LanguageSettingsController", ['$scope', '
                 toastr.success("LanguageSettings Data saved successfully", "success");
                 $('#save').attr("disabled", false);
                 $scope.IsEdit = false;
+            }, function errorCallback(response) {
             });
 
         };
@@ -134,8 +135,8 @@ LanguageSettingscontroller.controller("LanguageSettingsController", ['$scope', '
             $("#chatLoaderPV").show();
             $('#btnsave').attr("disabled", true);
             $http.get(baseUrl + '/api/LanguageSettings/LanguageDefault_Save/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Language_Id=' + $scope.selectedLanguage
-            ).success(function (data) {
-                if (data == 1) {
+            ).then(function (response) {
+                if (response.data == 1) {
                     $scope.LanguageList();
                     $("#chatLoaderPV").hide();
                     //alert("Saved successfully.");
@@ -147,7 +148,8 @@ LanguageSettingscontroller.controller("LanguageSettingsController", ['$scope', '
                     //alert("Error occurred.");
                     toastr.error("Error occurred.", "warning");
                 }
-            })
+            }, function errorCallback(response) {
+            });
         }
 
         $scope.SampleLanguageExport = function () {
