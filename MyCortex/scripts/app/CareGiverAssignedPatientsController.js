@@ -60,23 +60,31 @@ CareGiverAssignedPatients.controller("CareGiverAssignedPatientsController", ['$s
         $scope.CaregiverPatientsDropdownList = function () {
             if ($scope.TabClick == false) {
                 $scope.TabClick = true;
-                $http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (data) {
-                    $scope.BloodGroupList = data;
+                $http.get(baseUrl + '/api/Common/BloodGroupList/').then(function (response) {
+                    $scope.BloodGroupList = response.data;
+                }, function errorCallback(response) {
+
                 });
-                $http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (data) {
-                    $scope.MaritalStatusList = data;
+                $http.get(baseUrl + '/api/Common/MaritalStatusList/').then(function (response) {
+                    $scope.MaritalStatusList = response.data;
+                }, function errorCallback(response) {
                 });
-                $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstitutionId).success(function (data) {
-                    $scope.GroupTypeList = data;
+                $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstitutionId).then(function (response) {
+                    $scope.GroupTypeList = response.data;
+                }, function errorCallback(response) {
                 });
-                $http.get(baseUrl + '/api/Common/GenderList/').success(function (data) {
-                    $scope.GenderList = data;
+                $http.get(baseUrl + '/api/Common/GenderList/').then(function (response) {
+                    $scope.GenderList = response.data;
+                }, function errorCallback(response) {
                 });
-                $http.get(baseUrl + '/api/Common/NationalityList/').success(function (data) {
-                    $scope.NationalityList = data;
+                $http.get(baseUrl + '/api/Common/NationalityList/').then(function (response) {
+                    $scope.NationalityList = response.data;
+                }, function errorCallback(response) {
                 });
-                $http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (data) {
-                    $scope.EthnicGroupList = data;
+                $http.get(baseUrl + '/api/Common/EthnicGroupList/').then(function (response) {
+                    $scope.EthnicGroupList = response.data;
+                }, function errorCallback(response) {
+
                 });
                 $scope.CountryStateList();
             }
@@ -89,24 +97,30 @@ CareGiverAssignedPatients.controller("CareGiverAssignedPatientsController", ['$s
         $scope.CityNameList = [];
 
         $scope.CountryStateList = function () {
-            $http.get(baseUrl + '/api/Common/CountryList/').success(function (data) {
-                $scope.CountryNameList = data;
+            $http.get(baseUrl + '/api/Common/CountryList/').then(function (response) {
+                $scope.CountryNameList = response.data;
+
+            }, function errorCallback(response) {
 
             });
         }
         $scope.CG_Country_onChange = function () {
             if ($scope.loadCount == 0) {
-                $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + $scope.filter_CountryId).success(function (data) {
-                    $scope.StateNameList = data;
+                $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + $scope.filter_CountryId).then(function (response) {
+                    $scope.StateNameList = response.data;
                     $scope.CityNameList = [];
                     $scope.filter_CityId = "0";
+                }, function errorCallback(response) {
+
                 });
             }
         };
         $scope.CG_State_onChange = function () {
             if ($scope.loadCount == 0) {
-                $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + $scope.filter_CountryId + '&StateId=' + $scope.filter_StataId).success(function (data) {
-                    $scope.CityNameList = data;
+                $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + $scope.filter_CountryId + '&StateId=' + $scope.filter_StataId).then(function (response) {
+                    $scope.CityNameList = response.data;
+                }, function errorCallback(response) {
+
                 });
             }
         };
@@ -120,15 +134,15 @@ CareGiverAssignedPatients.controller("CareGiverAssignedPatientsController", ['$s
                 $scope.PageNumber = PageNumber;
                 $scope.ConfigCode = "PATIENTPAGE_COUNT";
                 $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-                    $scope.Patient_PerPage = data1[0].ConfigValue;
+                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).then(function (data1){
+                    $scope.Patient_PerPage = data1.data[0].ConfigValue;
                     $http.get(baseUrl + '/api/CareGiver/CareGiver_AssignedPatientList/?CareGiver_Id=' + $scope.CareGiver_Id + '&PATIENTNO=' + $scope.CG_PatientNo + '&INSURANCEID=' + $scope.CG_InsuranceId + '&GENDER_ID=' + $scope.CG_GenderId + '&NATIONALITY_ID=' + $scope.CG_NationalityId + '&ETHINICGROUP_ID=' + $scope.CG_EthinicGroupId + '&MOBILE_NO=' + $scope.CG_MOBILE_NO + '&HOME_PHONENO=' + $scope.CG_HomePhoneNo + '&EMAILID=' + $scope.CG_Email + '&MARITALSTATUS_ID=' + $scope.CG_MaritalStatus + '&COUNTRY_ID=' + $scope.CG_CountryId + '&STATE_ID=' + $scope.CG_StataId + '&CITY_ID=' + $scope.CG_CityId + '&BLOODGROUP_ID=' + $scope.CG_BloodGroupId + '&Group_Id=' + $scope.CG_GroupId + '&PageNumber=' + $scope.PageNumber + '&Login_Session_Id=' + $scope.LoginSessionId
-                    ).success(function (data) {
+                    ).then(function (response){
                         $("#chatLoaderPV").hide();
                         $scope.emptydata = [];
                         $scope.CareGiver_PatientList = [];
-                        $scope.CareGiver_PatientList = data;
-                        $scope.CareGiver_PatientList2 = data;
+                        $scope.CareGiver_PatientList = response.data;
+                        $scope.CareGiver_PatientList2 = response.data;
                         $scope.PatientCount = $scope.CareGiver_PatientList.length;
                         total = Math.ceil(($scope.PatientCount) / ($scope.Patient_PerPage));
                         for (var i = 0; i < total; i++) {
@@ -151,7 +165,11 @@ CareGiverAssignedPatients.controller("CareGiverAssignedPatientsController", ['$s
                         else {
                             $scope.flag = 0;
                         }
+                    }, function errorCallback(response) {
+
                     });
+                }, function errorCallback(data1) {
+
                 });
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
@@ -224,7 +242,7 @@ CareGiverAssignedPatients.controller("CareGiverAssignedPatientsController", ['$s
         }
 
         $scope.CareGiver_ListFilter = function () {
-            var searchstring = angular.lowercase($scope.caregiver_searchquery);
+            var searchstring = ($scope.caregiver_searchquery.toLowerCase());
             if (searchstring == "") {
                 $scope.CareGiver_PatientListFunction(1);
             } else {
@@ -244,28 +262,28 @@ CareGiverAssignedPatients.controller("CareGiverAssignedPatientsController", ['$s
                         //});
                         if ($scope.filter_CG_Assig_SearchFieldId == "1") {
                             var NotNull_User = $scope.CareGiver_PatientList2.filter(x => x.Patient_No != null);
-                            $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.Patient_No).match(searchstring));
+                            $scope.rowCollectionFilter = NotNull_User.filter(x => (x.Patient_No.toLowerCase()).match(searchstring));
                         } else if ($scope.filter_CG_Assig_SearchFieldId == "2") {
                             var NotNull_User = $scope.CareGiver_PatientList2.filter(x => x.National_ID != null);
-                            $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.National_ID).match(searchstring));
+                            $scope.rowCollectionFilter = NotNull_User.filter(x => (x.National_ID.toLowerCase()).match(searchstring));
                         } else if ($scope.filter_CG_Assig_SearchFieldId == "3") {
                             var NotNull_User = $scope.CareGiver_PatientList2.filter(x => x.FirstName != null);
-                            $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.FirstName).match(searchstring));
+                            $scope.rowCollectionFilter = NotNull_User.filter(x =>(x.FirstName.toLowerCase()).match(searchstring));
                         } else if ($scope.filter_CG_Assig_SearchFieldId == "4") {
                             var NotNull_User = $scope.CareGiver_PatientList2.filter(x => x.LastName != null);
-                            $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.LastName).match(searchstring));
+                            $scope.rowCollectionFilter = NotNull_User.filter(x =>(x.LastName.toLowerCase()).match(searchstring));
                         } else if ($scope.filter_CG_Assig_SearchFieldId == "5") {
                             var NotNull_User = $scope.CareGiver_PatientList2.filter(x => x.Insurance_ID != null);
-                            $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.Insurance_ID).match(searchstring));
+                            $scope.rowCollectionFilter = NotNull_User.filter(x =>(x.Insurance_ID.toLowerCase()).match(searchstring));
                         } else if ($scope.filter_CG_Assig_SearchFieldId == "6") {
                             var NotNull_User = $scope.CareGiver_PatientList2.filter(x => x.Email != null);
-                            $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.Email).match(searchstring));
+                            $scope.rowCollectionFilter = NotNull_User.filter(x =>(x.Email.toLowerCase()).match(searchstring));
                         } else if ($scope.filter_CG_Assig_SearchFieldId == "7") {
                             var NotNull_User = $scope.CareGiver_PatientList2.filter(x => x.Mobile != null);
-                            $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.Mobile).match(searchstring));
+                            $scope.rowCollectionFilter = NotNull_User.filter(x =>(x.Mobile.toLowerCase()).match(searchstring));
                         } else if ($scope.filter_CG_Assig_SearchFieldId == "8") {
                             var NotNull_User = $scope.CareGiver_PatientList2.filter(x => x.MRN_NO != null);
-                            $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.MRN_NO).match(searchstring));
+                            $scope.rowCollectionFilter = NotNull_User.filter(x =>(x.MRN_NO.toLowerCase()).match(searchstring));
                         }
                     }
                     $scope.PatientCount = $scope.rowCollectionFilter.length;

@@ -425,14 +425,14 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
         $scope.query = "";
         /* Filter the master list function.*/
         $scope.filterProtocolList = function () {
-            var searchstring = angular.lowercase($scope.query);
+            var searchstring = ($scope.query.toLowerCase());
             if ($scope.searchquery == "") {
                 $scope.rowCollectionFilter = [];
                 $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
             }
             else {
                 $scope.rowCollectionFilter = $ff($scope.rowCollection, function (value) {
-                    return angular.lowercase(value.ProtocolName).match(searchstring)
+                    return (value.ProtocolName.toLowerCase()).match(searchstring)
                 });
             }
         }
