@@ -783,7 +783,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     methodcnt = methodcnt - 1;
                     if (methodcnt == 0)
                         $scope.uploadview = true;
-                    if (data.PhotoBlob != null) {
+                    if (response.data.PhotoBlob != null) {
                         $scope.uploadme = 'data:image/png;base64,' + response.data.PhotoBlob;
                     }
                     else {
@@ -7821,7 +7821,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         (value.AllergenName.toLowerCase()).match(searchstring) ||
                         (value.AllergySeverityName.toLowerCase()).match(searchstring) ||
                         (value.AllergyOnsetName.toLowerCase()).match(searchstring) ||
-                        (value.AllergyReactionName.toLowerCase()).match(searchstring) 
+                        (value.AllergyReactionName.toLowerCase()).match(searchstring) ||
                         (($filter('date')(value.OnSetDate, "dd-MMM-yyyy"))).match(searchstring)
                         
                 });
