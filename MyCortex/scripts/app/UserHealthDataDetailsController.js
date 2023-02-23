@@ -816,11 +816,13 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.PhotoBlobs = response.data.PhotoBlobs;
                     $scope.countrycode = '+971';
                     $scope.PayorId = response.data.PayorId;
-                    $http.get(baseUrl + '/api/PayorMaster/PayorMasterView/?Id=' + parseInt($scope.PayorId)).then(function (response) {
+                    $http.get(baseUrl + '/api/PayorMaster/PayorMasterView/?Id=' + parseInt($scope.PayorId)).then(function (response1) {
                         $("#chatLoaderPV").hide();
-                        $scope.PayorName = response.data.PayorName;
-                        $scope.ShortCode = response.data.ShortCode;
-                    }, function errorCallback(response) {
+                        if (response1.data != null) {
+                            $scope.PayorName = response1.data.PayorName;
+                            $scope.ShortCode = response1.data.ShortCode;
+                        }
+                    }, function errorCallback(response1) {
                     });
                     if (response.data.MOBILE_NO.split('~')[0] != "")
                         $scope.countrycode = response.data.MOBILE_NO.split('~')[0];
@@ -1130,18 +1132,18 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             $scope.DoctorDetailList = response.data;
 
                             $("#chatLoaderPV").hide();
-                            $scope.AppointmoduleID = data.Appointment_Module_Id;
-                            $scope.AppointmoduleID1 = data.Appointment_Module_Id;
-                            $scope.paymentdepartmentId = data.DEPARTMENT_ID;
-                            $scope.paymentInstitutionId = data.INSTITUTION_ID;
-                            $scope.TimeZoneID = data.TimeZone_Id.toString();
-                            $scope.Health_License = data.HEALTH_LICENSE;
+                            $scope.AppointmoduleID = response.data.Appointment_Module_Id;
+                            $scope.AppointmoduleID1 = response.data.Appointment_Module_Id;
+                            $scope.paymentdepartmentId = response.data.DEPARTMENT_ID;
+                            $scope.paymentInstitutionId = response.data.INSTITUTION_ID;
+                            $scope.TimeZoneID = response.data.TimeZone_Id.toString();
+                            $scope.Health_License = response.data.HEALTH_LICENSE;
                             document.getElementById("backToDocDiv").className = "col-sm-6 flex";
                             document.getElementById("SaveBtnDiv").className = "col-sm-6 flex justify-end mt-3";
-                            if (data.Appointment_Module_Id == 2) {
+                            if (response.data.Appointment_Module_Id == 2) {
                                 setTimeout(function () { document.getElementById('Radio1').click(); }, 5000);
                             }
-                            else if (data.Appointment_Module_Id == 3) {
+                            else if (response.data.Appointment_Module_Id == 3) {
                                 setTimeout(function () { document.getElementById('Radio2').click(); }, 5000);
                             }
                         }, function errorCallback(response) {
@@ -1191,7 +1193,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             //document.getElementById("box").style = "";
                             $scope.showMainBox = false;
                             TimeSlot();
-                            $http.get(baseUrl + '/api/PatientAppointments/GetScheduledDates/?&Login_Session_Id=' + $scope.LoginSessionId + '&InstitutionId=' + $window.localStorage['InstitutionId']).success(function (response) {
+                            $http.get(baseUrl + '/api/PatientAppointments/GetScheduledDates/?&Login_Session_Id=' + $scope.LoginSessionId + '&InstitutionId=' + $window.localStorage['InstitutionId']).then(function (response) {
                                 $scope.newScheduledDates = response.data;
                                 var dattas = response.data.ScheduledDaysList;
                                 var AppDate = $scope.AppoimDate;
@@ -1938,9 +1940,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             "Requested_By": user_id,
                             "Institution_Id": $window.localStorage['InstitutionId']
                         }
-                        $http.post(baseUrl + '/api/User/Save_User_Appointment_Eligibility/?appointment_id=' + appointment_id + '&patient_id=' + user_id + '&eligibility_id=' + eligibilityId, Obj).success(function (data) {
+                        $http.post(baseUrl + '/api/User/Save_User_Appointment_Eligibility/?appointment_id=' + appointment_id + '&patient_id=' + user_id + '&eligibility_id=' + eligibilityId, Obj).then(function (response) {
                             $("#chatLoaderPV").hide();
-                            if (data === 0) {
+                            if (response.data === 0) {
                                 console.log('saved appointment eligibility logs');
                                 if ($scope.result === true) {
                                     $scope.confirm_appointment(appointment_id, eligibilityId)
