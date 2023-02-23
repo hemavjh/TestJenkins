@@ -95,23 +95,23 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
         $scope.AllPatientsDropdownList = function () {
             if ($scope.TabClick == false) {
                 $scope.TabClick = true;
-                $http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (data) {
-                    $scope.BloodGroupList = data;
+                $http.get(baseUrl + '/api/Common/BloodGroupList/').then(function (response) {
+                    $scope.BloodGroupList = response.data;
                 });
-                $http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (data) {
-                    $scope.MaritalStatusList = data;
+                $http.get(baseUrl + '/api/Common/MaritalStatusList/').then(function (response) {
+                    $scope.MaritalStatusList = response.data;
                 });
-                $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstitutionId).success(function (data) {
-                    $scope.GroupTypeList = data;
+                $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstitutionId).then(function (response) {
+                    $scope.GroupTypeList = response.data;
                 });
-                $http.get(baseUrl + '/api/Common/GenderList/').success(function (data) {
-                    $scope.GenderList = data;
+                $http.get(baseUrl + '/api/Common/GenderList/').then(function (response) {
+                    $scope.GenderList = response.data;
                 });
-                $http.get(baseUrl + '/api/Common/NationalityList/').success(function (data) {
-                    $scope.NationalityList = data;
+                $http.get(baseUrl + '/api/Common/NationalityList/').then(function (response) {
+                    $scope.NationalityList = response.data;
                 });
-                $http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (data) {
-                    $scope.EthnicGroupList = data;
+                $http.get(baseUrl + '/api/Common/EthnicGroupList/').then(function (response) {
+                    $scope.EthnicGroupList = response.data;
                 });
                 $scope.CountryStateList();
             }
@@ -124,15 +124,15 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
         $scope.CityNameList = [];
 
         $scope.CountryStateList = function () {
-            $http.get(baseUrl + '/api/Common/CountryList/').success(function (data) {
-                $scope.CountryNameList = data;
+            $http.get(baseUrl + '/api/Common/CountryList/').then(function (response) {
+                $scope.CountryNameList = response.data;
 
             });
         }
         $scope.Filter_Country_onChange = function () {
             if ($scope.loadCount == 0) {
-                $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + $scope.filter_CountryId).success(function (data) {
-                    $scope.StateNameList = data;
+                $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + $scope.filter_CountryId).then(function (response) {
+                    $scope.StateNameList = response.data;
                     $scope.CityNameList = [];
                     $scope.filter_CityId = "0";
                 });
@@ -140,8 +140,8 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
         }
         $scope.Filter_State_onChange = function () {
             if ($scope.loadCount == 0) {
-                $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + $scope.filter_CountryId + '&StateId=' + $scope.filter_StataId).success(function (data) {
-                    $scope.CityNameList = data;
+                $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + $scope.filter_CountryId + '&StateId=' + $scope.filter_StataId).then(function (response) {
+                    $scope.CityNameList = response.data;
                 });
             }
         }
@@ -156,14 +156,14 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
                 $scope.PageCountArray = [];
                 //Get the Count of All Patient List
                 //  $http.get(baseUrl + '/api/AllPatientList/GetPatientList_Count/?Doctor_Id=' + $scope.Doctor_Id + '&PATIENTNO=' + $scope.Filter_PatientNo + '&INSURANCEID=' + $scope.filter_InsuranceId + '&GENDER_ID=' + $scope.Filter_GenderId + '&NATIONALITY_ID=' + $scope.filter_NationalityId + '&ETHINICGROUP_ID=' + $scope.filter_EthinicGroupId + '&MOBILE_NO=' + $scope.filter_MOBILE_NO + '&HOME_PHONENO=' + $scope.filter_HomePhoneNo + '&EMAILID=' + $scope.filter_Email + '&MARITALSTATUS_ID=' + $scope.filter_MaritalStatus + '&COUNTRY_ID=' + $scope.filter_CountryId + '&STATE_ID=' + $scope.filter_StataId + '&CITY_ID=' + $scope.filter_CityId + '&BLOODGROUP_ID=' + $scope.filter_BloodGroupId + '&Group_Id=' + $scope.filter_GroupId + '&UserTypeId=' + $scope.UserTypeId 
-                //).success(function (data) {
+                //).then(function (data) {
                 //    $scope.PatientCount = data[0].PatientCount;
                 //Get the Patient Per Page Count
                 $scope.ConfigCode = "PATIENTPAGE_COUNT";
                 $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
                 $scope.UserTypeId = $window.localStorage['UserTypeId'];
-                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-                    $scope.Patient_PerPage = data1[0].ConfigValue;
+                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).then(function (data1){
+                    $scope.Patient_PerPage = data1.data[0].ConfigValue;
                     $scope.PageStart = (($scope.PageNumber - 1) * ($scope.Patient_PerPage)) + 1;
                     $scope.PageEnd = $scope.PageNumber * $scope.Patient_PerPage;
                     $scope.Input_Type = 1;
@@ -172,12 +172,12 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
                         InputType: $scope.Input_Type,
                         DecryptInput: $scope.SearchEncryptedQuery
                     };
-                    $http.post(baseUrl + '/api/Common/EncryptDecrypt', obj).success(function (data) {
-                        $scope.SearchEncryptedQuery = data;
+                    $http.post(baseUrl + '/api/Common/EncryptDecrypt', obj).then(function (response){
+                        $scope.SearchEncryptedQuery = response.data;
 
                         //Get the Patient List
                         $http.get(baseUrl + '/api/AllPatientList/PatientList/?Doctor_Id=' + $scope.Doctor_Id + '&PATIENTNO=' + $scope.Filter_PatientNo + '&INSURANCEID=' + $scope.filter_InsuranceId + '&GENDER_ID=' + $scope.Filter_GenderId + '&NATIONALITY_ID=' + $scope.filter_NationalityId + '&ETHINICGROUP_ID=' + $scope.filter_EthinicGroupId + '&MOBILE_NO=' + $scope.filter_MOBILE_NO + '&HOME_PHONENO=' + $scope.filter_HomePhoneNo + '&EMAILID=' + $scope.filter_Email + '&MARITALSTATUS_ID=' + $scope.filter_MaritalStatus + '&COUNTRY_ID=' + $scope.filter_CountryId + '&STATE_ID=' + $scope.filter_StataId + '&CITY_ID=' + $scope.filter_CityId + '&BLOODGROUP_ID=' + $scope.filter_BloodGroupId + '&Group_Id=' + $scope.filter_GroupId + '&UserTypeId=' + $scope.UserTypeId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd + '&SearchQuery=' + $scope.searchquery + '&SearchEncryptedQuery=' + $scope.SearchEncryptedQuery
-                        ).success(function (Patientdata) {
+                        ).then(function (Patientdata){
                             /*$("#chatLoaderPV").hide();*/
                             $scope.SearchMsg = "No Data Available";
                             $scope.PageCountArray = [];
@@ -202,9 +202,9 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
                                 $scope.PageNumber = 1;
                                 $scope.PageParameter = 1;
                                 $http.post(baseUrl + '/api/CareCoordinnator/CareCoordinator_PatientList/?Coordinator_Id=' + $scope.Doctor_Id + '&PATIENTNO=' + $scope.CC_PatientNo + '&INSURANCEID=' + $scope.CC_InsuranceId + '&GENDER_ID=' + $scope.CC_GenderId + '&NATIONALITY_ID=' + $scope.CC_NationalityId + '&ETHINICGROUP_ID=' + $scope.CC_EthinicGroupId + '&MOBILE_NO=' + $scope.CC_MOBILE_NO + '&HOME_PHONENO=' + $scope.CC_HomePhoneNo + '&EMAILID=' + $scope.CC_Email + '&MARITALSTATUS_ID=' + $scope.CC_MaritalStatus + '&COUNTRY_ID=' + $scope.CC_CountryId + '&STATE_ID=' + $scope.CC_StataId + '&CITY_ID=' + $scope.CC_CityId + '&BLOODGROUP_ID=' + $scope.CC_BloodGroupId + '&Group_Id=' + $scope.CC_GroupId + '&TypeId=' + $scope.PageParameter + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId
-                                ).success(function (patient_data) {
-                                    $scope.rowCollectionFilter = $ff(patient_data, function (value) {
-                                        angular.forEach(Patientdata, function (item) {
+                                ).then(function (patient_data){
+                                    $scope.rowCollectionFilter = $ff(patient_data.data, function (value) {
+                                        angular.forEach(Patientdata.data, function (item) {
                                             if (item.Id === value.Id) {
 
                                                 item.HighCount = value.HighCount;
@@ -218,8 +218,8 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
                                             }
                                         });
                                     });
-                                    $scope.PatientList = Patientdata;
-                                    $scope.Patientemptydata = Patientdata;
+                                    $scope.PatientList = Patientdata.data;
+                                    $scope.Patientemptydata = Patientdata.data;
                                     //$scope.PatientCount = $scope.PatientList.length;
                                     if ($scope.PatientList.length > 0) {
                                         $scope.PatientCount = $scope.PatientList[0].TotalRecord;
@@ -240,6 +240,8 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
                                     $scope.PatientFilter = angular.copy($scope.PatientList);
                                     $scope.PatientFilterCopyList = angular.copy($scope.PatientList);
                                     $("#chatLoaderPV").hide();
+                                }, function errorCallback(patient_data) {
+
                                 });
                             } else if ($scope.UserTypeId === "5") {
                                 $scope.CG_PatientNo = "";
@@ -264,9 +266,9 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
                                 $scope.NoAlertSelected = false;
 
                                 $http.get(baseUrl + '/api/CareGiver/CareGiver_AssignedPatientList/?CareGiver_Id=' + $scope.Doctor_Id + '&PATIENTNO=' + $scope.CG_PatientNo + '&INSURANCEID=' + $scope.CG_InsuranceId + '&GENDER_ID=' + $scope.CG_GenderId + '&NATIONALITY_ID=' + $scope.CG_NationalityId + '&ETHINICGROUP_ID=' + $scope.CG_EthinicGroupId + '&MOBILE_NO=' + $scope.CG_MOBILE_NO + '&HOME_PHONENO=' + $scope.CG_HomePhoneNo + '&EMAILID=' + $scope.CG_Email + '&MARITALSTATUS_ID=' + $scope.CG_MaritalStatus + '&COUNTRY_ID=' + $scope.CG_CountryId + '&STATE_ID=' + $scope.CG_StataId + '&CITY_ID=' + $scope.CG_CityId + '&BLOODGROUP_ID=' + $scope.CG_BloodGroupId + '&Group_Id=' + $scope.CG_GroupId + '&PageNumber=' + $scope.PageNumber + '&Login_Session_Id=' + $scope.LoginSessionId
-                                ).success(function (patient_data) {
-                                    $scope.rowCollectionFilter = $ff(patient_data, function (value) {
-                                        angular.forEach(Patientdata, function (item) {
+                                ).then(function (patient_data){
+                                    $scope.rowCollectionFilter = $ff(patient_data.data, function (value) {
+                                        angular.forEach(Patientdata.data, function (item) {
                                             if (item.Id === value.Id) {
 
                                                 item.HighCount = value.HighCount;
@@ -280,8 +282,8 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
                                             }
                                         });
                                     });
-                                    $scope.PatientList = Patientdata;
-                                    $scope.Patientemptydata = Patientdata;
+                                    $scope.PatientList = Patientdata.data;
+                                    $scope.Patientemptydata = Patientdata.data;
                                     //$scope.PatientCount = $scope.PatientList.length;
                                     if ($scope.PatientList.length > 0) {
                                         $scope.PatientCount = $scope.PatientList[0].TotalRecord;
@@ -302,14 +304,17 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
                                     $scope.PatientFilter = angular.copy($scope.PatientList);
                                     $scope.PatientFilterCopyList = angular.copy($scope.PatientList);
                                     $("#chatLoaderPV").hide();
+                                }, function errorCallback(patient_data) {
+
                                 });
                             }
                             else if ($scope.UserTypeId === "4" || $scope.UserTypeId === "7") {
-                                angular.forEach(Patientdata, function (item) {
+                                angular.forEach(Patientdata.data, function (item) {
                                     var temp_HighCount = 0, temp_MediumCount = 0, temp_LowCount;
                                     $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + item.Id + '&UserTypeId=2&Login_Session_Id=' + $scope.LoginSessionId
-                                    ).success(function (patient_data) {
-                                        $scope.rowCollectionFilter = $ff(patient_data, function (value) {
+                                    ).then(function (patient_data)
+                                    {
+                                        $scope.rowCollectionFilter = $ff(patient_data.data, function (value) {
                                             temp_HighCount = temp_HighCount + value.HighCount;
                                             temp_MediumCount = temp_MediumCount + value.MediumCount;
                                             temp_LowCount = temp_LowCount + value.LowCount;
@@ -323,8 +328,8 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
                                         item.MediumCount = temp_MediumCount;
                                         item.LowCount = temp_LowCount;
 
-                                        $scope.PatientList = Patientdata;
-                                        $scope.Patientemptydata = Patientdata;
+                                        $scope.PatientList = Patientdata.data;
+                                        $scope.Patientemptydata = Patientdata.data;
                                         //$scope.PatientCount = $scope.PatientList.length;
                                         if ($scope.PatientList.length > 0) {
                                             $scope.PatientCount = $scope.PatientList[0].TotalRecord;
@@ -345,11 +350,13 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
                                         $scope.PatientFilter = angular.copy($scope.PatientList);
                                         $scope.PatientFilterCopyList = angular.copy($scope.PatientList);
                                         $("#chatLoaderPV").hide();
+                                    }, function errorCallback(patient_data) {
+
                                     });
                                 });
                             } else {
-                                $scope.PatientList = Patientdata;
-                                $scope.Patientemptydata = Patientdata;
+                                $scope.PatientList = Patientdata.data;
+                                $scope.Patientemptydata = Patientdata.data;
                                 //$scope.PatientCount = $scope.PatientList.length;
                                 if ($scope.PatientList.length > 0) {
                                     $scope.PatientCount = $scope.PatientList[0].TotalRecord;
@@ -371,8 +378,14 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
                                 $scope.PatientFilterCopyList = angular.copy($scope.PatientList);
                                 $("#chatLoaderPV").hide();
                             }
+                        }, function errorCallback(Patientdata) {
+
                         });
+                    }, function errorCallback(response) {
+
                     });
+                }, function errorCallback(data1) {
+
                 });
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
@@ -490,16 +503,16 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
         }
         $scope.CG_PatientSearch = function () {
             $http.get(baseUrl + '/api/AllPatientList/SearchPatientList/?Doctor_Id=' + $scope.Doctor_Id + '&PATIENTNO=' + $scope.Filter_PatientNo2 + '&INSURANCEID=' + $scope.filter_InsuranceId2 + '&NATIONALITY_ID=' + $scope.filter_NationalityId2 + '&MOBILE_NO=' + $scope.filter_MOBILE_NO2 + '&FIRSTNAME=' + $scope.Filter_FirstName2 + '&LASTNAME=' + $scope.Filter_LastName2 + '&MRN=' + $scope.Filter_MRN2 + '&EMAILID=' + $scope.filter_Email2 + '&UserTypeId=' + $scope.UserTypeId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd + '&AdvanceFilter=' + $scope.Patient_Search
-            ).success(function (Patientdata) {
+            ).then(function (Patientdata){
                 $("#chatLoaderPV").hide();
                 $scope.SearchMsg = "No Data Available";
                 $scope.PageCountArray = [];
                 $scope.Patientemptydata = [];
                 $scope.PatientList = [];
-                $scope.PatientList = Patientdata;
-                $scope.Patientemptydata = Patientdata;
+                $scope.PatientList = Patientdata.data;
+                $scope.Patientemptydata = Patientdata.data;
                 //$scope.PatientCount = $scope.PatientList.length;
-                $scope.PatientCount = Patientdata.length;
+                $scope.PatientCount = Patientdata.data.length;
                 if ($scope.searchquery == '') {
                     total = Math.ceil(($scope.PatientCount) / ($scope.PatientCount));
                     for (var i = 0; i < total; i++) {
@@ -511,6 +524,8 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
                 }
                 $scope.PatientFilter = angular.copy($scope.PatientList);
                 $scope.PatientFilterCopyList = angular.copy($scope.PatientList);
+
+            }, function errorCallback(Patientdata) {
 
             });
         }

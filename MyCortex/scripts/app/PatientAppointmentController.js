@@ -55,12 +55,14 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
             $scope.ReasonTypeId = 0;
         }
         $scope.ReasonTypeDropDownList = function () {
-            $http.get(baseUrl + '/api/PatientAppointments/AppointmentReasonType_List/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
+            $http.get(baseUrl + '/api/PatientAppointments/AppointmentReasonType_List/?Institution_Id=' + $window.localStorage['InstitutionId']).then(function (response) {
                 $scope.AppointmentReasonTypeListTemp = [];
-                $scope.AppointmentReasonTypeListTemp = data;
+                $scope.AppointmentReasonTypeListTemp = response.data;
                 var obj = { "ReasonTypeId": 0, "ReasonType": "Select", "IsActive": 1 };
                 $scope.AppointmentReasonTypeListTemp.splice(0, 0, obj);
                 $scope.AppointmentReasonTypeList = angular.copy($scope.AppointmentReasonTypeListTemp);
+            }, function errorCallback(response) {
+
             });
         };
         $scope.Update_CancelledAppointment = function () {
@@ -77,13 +79,13 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                     Cancelled_Remarks: $scope.Cancelled_Remarks,
                     ReasonTypeId: $scope.ReasonTypeId
                 }
-                $http.post(baseUrl + '/api/PatientAppointments/CancelPatient_Appointment/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
+                $http.post(baseUrl + '/api/PatientAppointments/CancelPatient_Appointment/?Login_Session_Id=' + $scope.LoginSessionId, obj).then(function (response) {
                     //alert(data.Message);
-                    if (data.ReturnFlag == 1) {
-                        toastr.success(data.Message, "success");
+                    if (response.data.ReturnFlag == 1) {
+                        toastr.success(response.data.Message, "success");
                     }
-                    else if (data.ReturnFlag == 0) {
-                        toastr.info(data.Message, "info");
+                    else if (response.data.ReturnFlag == 0) {
+                        toastr.info(response.data.Message, "info");
                     }
                     angular.element('#PatientAppointmentModal').modal('hide');
                     $scope.Cancelled_Remarks = "";
@@ -98,7 +100,7 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
 
                     $("#chatLoaderPV1").hide();
 
-                    //$http.get(baseUrl + '/api/PatientAppointments/DoctorAppointmentList/?Doctor_Id=' + $scope.Doctor_Id + '&flag=' + $scope.flag + '&ViewDate=' + moment() + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (patientdata) {
+                    //$http.get(baseUrl + '/api/PatientAppointments/DoctorAppointmentList/?Doctor_Id=' + $scope.Doctor_Id + '&flag=' + $scope.flag + '&ViewDate=' + moment() + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (patientdata) {
                     //    angular.forEach(patientdata, function (value, index) {
                     //        var obj = {
                     //            title: moment(value.Appointment_FromTime).format('hh:mm a') + '-' + moment(value.Appointment_ToTime).format('hh:mm a') + '-' + value.PatientName,
@@ -129,7 +131,7 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
 
                     // refresh daily calendar
                     //$scope.dataCalendar = [];
-                    //$http.get(baseUrl + '/api/PatientAppointments/DoctorAppointmentList/?Doctor_Id=' + $scope.Doctor_Id + '&flag=' + $scope.flag + '&ViewDate=' + $scope.AppointmentDate + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    //$http.get(baseUrl + '/api/PatientAppointments/DoctorAppointmentList/?Doctor_Id=' + $scope.Doctor_Id + '&flag=' + $scope.flag + '&ViewDate=' + $scope.AppointmentDate + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (data) {
                     //    angular.forEach(data, function (value, index) {
                     //        var obj = {
                     //            title: moment(value.Appointment_FromTime).format('hh:mm a') + '-' + moment(value.Appointment_ToTime).format('hh:mm a') + '-' + value.PatientName,
@@ -155,8 +157,8 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                     //}).error(function (data) {
                     //    $scope.error = "An error has occurred while Listing Today's appointment!" + data;
                     //});
-                }).error(function (data) {
-                    $scope.error = "An error has occurred while Updating Appointment Details" + data;
+                }).error(function (response) {
+                    $scope.error = "An error has occurred while Updating Appointment Details" + response.data;
                 });
                 //$('#calendar1').fullCalendar('gotoDate', $scope.AppointmentDate);
                 //$('#calendar').fullCalendar('gotoDate', $scope.AppointmentDate);
@@ -177,13 +179,13 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                     Cancelled_Remarks: $scope.Cancelled_Remarks,
                     ReasonTypeId: $scope.ReasonTypeId
                 }
-                $http.post(baseUrl + '/api/PatientAppointments/CancelPatient_Appointment/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
+                $http.post(baseUrl + '/api/PatientAppointments/CancelPatient_Appointment/?Login_Session_Id=' + $scope.LoginSessionId, obj).then(function (response) {
                     //alert(data.Message);
-                    if (data.ReturnFlag == 1) {
-                        toastr.success(data.Message, "success");
+                    if (response.data.ReturnFlag == 1) {
+                        toastr.success(response.data.Message, "success");
                     }
-                    else if (data.ReturnFlag == 0) {
-                        toastr.info(data.Message, "info");
+                    else if (response.data.ReturnFlag == 0) {
+                        toastr.info(response.data.Message, "info");
                     }
                     angular.element('#PatientAppointmentModal').modal('hide');
                     $scope.Cancelled_Remarks = "";
@@ -197,7 +199,7 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
 
                     $("#chatLoaderPV1").hide();
 
-                    //$http.get(baseUrl + '/api/PatientAppointments/DoctorAppointmentList/?Doctor_Id=' + $scope.Doctor_Id + '&flag=' + $scope.flag + '&ViewDate=' + moment() + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (patientdata) {
+                    //$http.get(baseUrl + '/api/PatientAppointments/DoctorAppointmentList/?Doctor_Id=' + $scope.Doctor_Id + '&flag=' + $scope.flag + '&ViewDate=' + moment() + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (patientdata) {
                     //    angular.forEach(patientdata, function (value, index) {
                     //        var obj = {
                     //            title: moment(value.Appointment_FromTime).format('hh:mm a') + '-' + moment(value.Appointment_ToTime).format('hh:mm a') + '-' + value.PatientName,
@@ -228,7 +230,7 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
 
                     // refresh daily calendar
                     //$scope.dataCalendar = [];
-                    //$http.get(baseUrl + '/api/PatientAppointments/DoctorAppointmentList/?Doctor_Id=' + $scope.Doctor_Id + '&flag=' + $scope.flag + '&ViewDate=' + $scope.AppointmentDate + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    //$http.get(baseUrl + '/api/PatientAppointments/DoctorAppointmentList/?Doctor_Id=' + $scope.Doctor_Id + '&flag=' + $scope.flag + '&ViewDate=' + $scope.AppointmentDate + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (data) {
                     //    angular.forEach(data, function (value, index) {
                     //        var obj = {
                     //            title: moment(value.Appointment_FromTime).format('hh:mm a') + '-' + moment(value.Appointment_ToTime).format('hh:mm a') + '-' + value.PatientName,
@@ -254,8 +256,8 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                     //}).error(function (data) {
                     //    $scope.error = "An error has occurred while Listing Today's appointment!" + data;
                     //});
-                }).error(function (data) {
-                    $scope.error = "An error has occurred while Updating Appointment Details" + data;
+                }).error(function (response) {
+                    $scope.error = "An error has occurred while Updating Appointment Details" + response.data;
                 });
                 //$('#calendar1').fullCalendar('gotoDate', $scope.AppointmentDate);
                 //$('#calendar').fullCalendar('gotoDate', $scope.AppointmentDate);
@@ -483,8 +485,8 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
             });
             //$scope.LoadEvents();
             $scope.calendar5 = [];
-            $http.get(baseUrl + '/api/PatientAppointments/DoctorAppointmentList/?Doctor_Id=' + $scope.Doctor_Id + '&flag=' + 2 + '&ViewDate=' + moment() + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (patientdata) {
-                angular.forEach(patientdata, function (value, index) {
+            $http.get(baseUrl + '/api/PatientAppointments/DoctorAppointmentList/?Doctor_Id=' + $scope.Doctor_Id + '&flag=' + 2 + '&ViewDate=' + moment() + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (patientdata) {
+                angular.forEach(patientdata.data, function (value, index) {
                     var obj = {
                         title: moment(value.Appointment_FromTime).format('hh:mm a') + '-' + moment(value.Appointment_ToTime).format('hh:mm a') + '-' + value.PatientName + (value.Status==5 ? '-(Waiting For Approval)' : ''),
                         start: value.Appointment_FromTime,
@@ -501,6 +503,8 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                     $scope.calendar5.push(obj);
                 })
                 calendar5.addEventSource($scope.calendar5);
+            }, function errorCallback(patientdata) {
+
             });
 
             calendar5.render();
@@ -644,8 +648,8 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                 events: ''
             });
             $scope.calendar = [];
-            $http.get(baseUrl + '/api/PatientAppointments/DoctorAppointmentList/?Doctor_Id=' + $scope.Doctor_Id + '&flag=' + 2 + '&ViewDate=' + moment() + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (patientdata) {
-                angular.forEach(patientdata, function (value, index) {
+            $http.get(baseUrl + '/api/PatientAppointments/DoctorAppointmentList/?Doctor_Id=' + $scope.Doctor_Id + '&flag=' + 2 + '&ViewDate=' + moment() + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (patientdata) {
+                angular.forEach(patientdata.data, function (value, index) {
                     var obj = {
                         title: moment(value.Appointment_FromTime).format('hh:mm a') + '-' + moment(value.Appointment_ToTime).format('hh:mm a') + '-' + value.PatientName,
                         start: value.Appointment_FromTime,
@@ -663,6 +667,8 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                 calendarE.addEventSource($scope.calendar);
 
                 $("#chatLoaderPV1").hide();
+            }, function errorCallback(patientdata) {
+
             });
 
             calendarE.render();
@@ -727,7 +733,7 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
         //        //            $scope.ToDate = view.intervalEnd._d;
         //        //            $scope.dataCalendar = [];
         //        //            $("#chatLoaderPV1").show();
-        //        //            $http.get(baseUrl + '/api/PatientAppointments/DoctorAppointmentList/?Doctor_Id=' + $scope.Doctor_Id + '&flag=' + $scope.flag + '&ViewDate=' + view.intervalStart.format("DD-MMM-YYYY") + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+        //        //            $http.get(baseUrl + '/api/PatientAppointments/DoctorAppointmentList/?Doctor_Id=' + $scope.Doctor_Id + '&flag=' + $scope.flag + '&ViewDate=' + view.intervalStart.format("DD-MMM-YYYY") + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (data) {
         //        //                angular.forEach(data, function (value, index) {
         //        //                    var obj = {
         //        //                        title: moment(value.Appointment_FromTime).format('hh:mm a') + '-' + moment(value.Appointment_ToTime).format('hh:mm a') + '-' + value.PatientName,
@@ -939,8 +945,8 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                     events: ''
                 });
                 $scope.calendar = [];
-                $http.get(baseUrl + '/api/PatientAppointments/DoctorAppointmentList/?Doctor_Id=' + $scope.Doctor_Id + '&flag=' + 2 + '&ViewDate=' + moment() + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (patientdata) {
-                    angular.forEach(patientdata, function (value, index) {
+                $http.get(baseUrl + '/api/PatientAppointments/DoctorAppointmentList/?Doctor_Id=' + $scope.Doctor_Id + '&flag=' + 2 + '&ViewDate=' + moment() + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (patientdata) {
+                    angular.forEach(patientdata.data, function (value, index) {
                         var obj = {
                             title: moment(value.Appointment_FromTime).format('hh:mm a') + '-' + moment(value.Appointment_ToTime).format('hh:mm a') + '-' + value.PatientName,
                             start: value.Appointment_FromTime,
@@ -958,7 +964,8 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                     calendarE.addEventSource($scope.calendar);
 
                     $("#chatLoaderPV1").hide();
-                });
+                }, function errorCallback(patientdata) {
+                  });
 
                 calendarE.render();
                
@@ -1070,7 +1077,7 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
             //            $scope.flag = 2;
             //            $scope.dataCalendar1 = [];
             //            $("#chatLoaderPV1").show();
-            //            $http.get(baseUrl + '/api/PatientAppointments/DoctorAppointmentList/?Doctor_Id=' + $scope.Doctor_Id + '&flag=' + $scope.flag + '&ViewDate=' + moment() + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (patientdata) {
+            //            $http.get(baseUrl + '/api/PatientAppointments/DoctorAppointmentList/?Doctor_Id=' + $scope.Doctor_Id + '&flag=' + $scope.flag + '&ViewDate=' + moment() + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (patientdata) {
             //                angular.forEach(patientdata, function (value, index) {
             //                    var obj = {
             //                        title: moment(value.Appointment_FromTime).format('hh:mm a') + '-' + moment(value.Appointment_ToTime).format('hh:mm a') + '-' + value.PatientName,
@@ -1265,9 +1272,9 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
             });
             
             $scope.calendar1 = [];
-            $http.get(baseUrl + '/api/PatientAppointments/DoctorAppointmentList/?Doctor_Id=' + $scope.Doctor_Id + '&flag=' + 2 + '&ViewDate=' + moment() + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (patientdata) {
+            $http.get(baseUrl + '/api/PatientAppointments/DoctorAppointmentList/?Doctor_Id=' + $scope.Doctor_Id + '&flag=' + 2 + '&ViewDate=' + moment() + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (patientdata) {
                 $("#chatLoaderPV1").show();
-                angular.forEach(patientdata, function (value, index) {
+                angular.forEach(patientdata.data, function (value, index) {
                     var obj = {
                         title: moment(value.Appointment_FromTime).format('hh:mm a') + '-' + moment(value.Appointment_ToTime).format('hh:mm a') + '-' + value.PatientName,
                         PatientName: value.PatientName,
@@ -1284,8 +1291,10 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                     $scope.calendar1.push(obj);
                 })
                 calendar.addEventSource($scope.calendar1);
-               
+
                 $("#chatLoaderPV1").hide();
+            }, function errorCallback(patientdata) {
+
             });
            
             calendar.render();
