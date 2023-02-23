@@ -89,24 +89,36 @@ CareCoordinator.controller("CareCoordinatorController", ['$scope', '$http', '$fi
         $scope.CarecoordinatorDropdownList = function () {
             if ($scope.TabClick == false) {
                 $scope.TabClick = true;
-                $http.get(baseUrl + '/api/Common/GenderList/').success(function (data) {
-                    $scope.GenderList = data;
+                $http.get(baseUrl + '/api/Common/GenderList/').then(function (response) {
+                    $scope.GenderList = response.data;
+                }, function errorCallback(response) {
+
                 });
-                $http.get(baseUrl + '/api/Common/NationalityList/').success(function (data) {
-                    $scope.NationalityList = data;
-                });
-                $http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (data) {
-                    $scope.EthnicGroupList = data;
-                });
-                $http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (data) {
-                    $scope.MaritalStatusList = data;
-                });
-                $http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (data) {
-                    $scope.BloodGroupList = data;
-                });
-                $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstitutionId).success(function (data) {
-                    $scope.GroupTypeList = data;
-                });
+                $http.get(baseUrl + '/api/Common/NationalityList/').then(function (response) {
+                    $scope.NationalityList = response.data;
+                }, function errorCallback(response) {
+
+                });              
+                $http.get(baseUrl + '/api/Common/EthnicGroupList/').then(function (response) {
+                    $scope.EthnicGroupList = response.data;
+                }, function errorCallback(response) {
+
+                }); 
+                $http.get(baseUrl + '/api/Common/MaritalStatusList/').then(function (response) {
+                    $scope.MaritalStatusList = response.data;
+                }, function errorCallback(response) {
+
+                }); 
+                $http.get(baseUrl + '/api/Common/BloodGroupList/').then(function (response) {
+                    $scope.BloodGroupList = response.data;
+                }, function errorCallback(response) {
+
+                }); 
+                $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstitutionId).then(function (response) {
+                    $scope.GroupTypeList = response.data;
+                }, function errorCallback(response) {
+
+                }); 
                 $scope.CountryStateList();
             }
         }
@@ -118,25 +130,31 @@ CareCoordinator.controller("CareCoordinatorController", ['$scope', '$http', '$fi
         $scope.CityNameList = [];
 
         $scope.CountryStateList = function () {
-            $http.get(baseUrl + '/api/Common/CountryList/').success(function (data) {
-                $scope.CountryNameList = data;
-            });
+            $http.get(baseUrl + '/api/Common/CountryList/').then(function (response) {
+                $scope.CountryNameList = response.data;
+            }, function errorCallback(response) {
+
+            }); 
         }
 
         $scope.CC_Country_onChange = function () {
             if ($scope.loadCount == 0) {
-                $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + $scope.CC_CountryId).success(function (data) {
-                    $scope.StateNameList = data;
+                $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + $scope.CC_CountryId).then(function (response) {
+                    $scope.StateNameList = response.data;
                     $scope.CityNameList = [];
                     $scope.CC_CityId = "0";
-                });
+                }, function errorCallback(response) {
+
+                }); 
             }
         }
         $scope.CC_State_onChange = function () {
             if ($scope.loadCount == 0) {
-                $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + $scope.CC_CountryId + '&StateId=' + $scope.CC_StataId).success(function (data) {
-                    $scope.CityNameList = data;
-                });
+                $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + $scope.CC_CountryId + '&StateId=' + $scope.CC_StataId).then(function (response) {
+                    $scope.CityNameList = response.data;
+                }, function errorCallback(response) {
+
+                }); 
             }
         }
         $scope.PatientFilterCopy = [];
@@ -150,15 +168,15 @@ CareCoordinator.controller("CareCoordinatorController", ['$scope', '$http', '$fi
                 $scope.PageNumber = PageNumber;
                 $scope.ConfigCode = "PATIENTPAGE_COUNT";
                 $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-                    $scope.Patient_PerPage = data1[0].ConfigValue;
+                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).then(function (data1) {
+                    $scope.Patient_PerPage = data1.data[0].ConfigValue;
                     $http.post(baseUrl + '/api/CareCoordinnator/CareCoordinator_PatientList/?Coordinator_Id=' + $scope.Coordinator_Id + '&PATIENTNO=' + $scope.CC_PatientNo + '&INSURANCEID=' + $scope.CC_InsuranceId + '&GENDER_ID=' + $scope.CC_GenderId + '&NATIONALITY_ID=' + $scope.CC_NationalityId + '&ETHINICGROUP_ID=' + $scope.CC_EthinicGroupId + '&MOBILE_NO=' + $scope.CC_MOBILE_NO + '&HOME_PHONENO=' + $scope.CC_HomePhoneNo + '&EMAILID=' + $scope.CC_Email + '&MARITALSTATUS_ID=' + $scope.CC_MaritalStatus + '&COUNTRY_ID=' + $scope.CC_CountryId + '&STATE_ID=' + $scope.CC_StataId + '&CITY_ID=' + $scope.CC_CityId + '&BLOODGROUP_ID=' + $scope.CC_BloodGroupId + '&Group_Id=' + $scope.CC_GroupId + '&TypeId=' + $scope.PageParameter + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId
-                    ).success(function (data) {
+                    ).then(function (response) {
                         $("#chatLoaderPV").hide();
                         $scope.emptydata = [];
                         $scope.CareCoordinator_PatientList = [];
                         $window.localStorage['CC_Date'] = new Date();
-                        $scope.CareCoordinator_PatientList = data;
+                        $scope.CareCoordinator_PatientList = response.data;
                         $scope.PatientCount = $scope.CareCoordinator_PatientList.length;
                         total = Math.ceil(($scope.PatientCount) / ($scope.Patient_PerPage));
                         for (var i = 0; i < total; i++) {
@@ -181,8 +199,12 @@ CareCoordinator.controller("CareCoordinatorController", ['$scope', '$http', '$fi
                         else {
                             $scope.flag = 0;
                         }
-                    });
-                });
+                    }, function errorCallback(response) {
+
+                    }); 
+                }, function errorCallback(response) {
+
+                }); 
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
             }
@@ -309,12 +331,12 @@ CareCoordinator.controller("CareCoordinatorController", ['$scope', '$http', '$fi
                 $scope.ConfigCode = "PATIENTPAGE_COUNT";
                 $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
                 $http.post(baseUrl + '/api/CareCoordinnator/CareCoordinator_FilterPatientList/?Coordinator_Id=' + $scope.Coordinator_Id + '&PATIENTNO=' + $scope.CC_PatientNo2 + '&FIRSTNAME=' + $scope.Filter_FirstName2 + '&LASTNAME=' + $scope.Filter_LastName2 + '&MRN=' + $scope.Filter_MRN2 + '&INSURANCEID=' + $scope.CC_InsuranceId2 + '&NATIONALITY_ID=' + $scope.CC_NationalityId2 + '&MOBILE_NO=' + $scope.CC_MOBILE_NO2 + '&EMAILID=' + $scope.CC_Email2 + '&UserTypeId=' + $scope.UserTypeId + '&TypeId=' + $scope.PageParameter + '&Login_Session_Id=' + $scope.LoginSessionId + '&AdvanceFilter=' + $scope.Patient_Search
-                ).success(function (data) {
+                ).then(function (response) {
                     $("#chatLoaderPV").hide();
                     $scope.emptydata = [];
                     $scope.CareCoordinator_PatientList = [];
                     $window.localStorage['CC_Date'] = new Date();
-                    $scope.CareCoordinator_PatientList = data;
+                    $scope.CareCoordinator_PatientList = response.data;
                     $scope.PatientCount = $scope.CareCoordinator_PatientList.length;
                     total = Math.ceil(($scope.PatientCount) / ($scope.Patient_PerPage));
                     for (var i = 0; i < total; i++) {
@@ -337,7 +359,9 @@ CareCoordinator.controller("CareCoordinatorController", ['$scope', '$http', '$fi
                     else {
                         $scope.flag = 0;
                     }
-                });
+                }, function errorCallback(response) {
+
+                }); 
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
             }
