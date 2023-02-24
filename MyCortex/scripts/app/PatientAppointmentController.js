@@ -256,7 +256,7 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
                     //}).error(function (data) {
                     //    $scope.error = "An error has occurred while Listing Today's appointment!" + data;
                     //});
-                }).error(function (response) {
+                }, function errorCallback(response) { 
                     $scope.error = "An error has occurred while Updating Appointment Details" + response.data;
                 });
                 //$('#calendar1').fullCalendar('gotoDate', $scope.AppointmentDate);

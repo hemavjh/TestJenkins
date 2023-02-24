@@ -33,36 +33,42 @@ DoctorAppointmentDetails.controller("DoctorAppointmentDetailsForOthersController
         $scope.Cancelled_Remarks = "";
         $scope.Appointment_Id = 0;
         //$scope.TimeZone_ID = 0;
-        $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+        $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
             $("#chatLoaderPV").show();
-            if (data.TimeZone_ID != "") {
-                $scope.TimeZone_ID = data.TimeZone_ID;
+            if (response.data.TimeZone_ID != "") {
+                $scope.TimeZone_ID = response.data.TimeZone_ID;
             } else {
                 toastr.warning("Please Set Timezone for Institution", "warning");
             }
             $scope.getTimeZoneList();
+        }, function errorCallback(response) {
+
         });
-        //$http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+        //$http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (data) {
         //    $scope.TimeZone_ID = data.DefautTimeZone;
         //    $scope.getTimeZoneList();
         //});
-        $http.get(baseUrl + '/api/PatientAppointments/AppointmentReasonType_List/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
+        $http.get(baseUrl + '/api/PatientAppointments/AppointmentReasonType_List/?Institution_Id=' + $window.localStorage['InstitutionId']).then(function (response) {
             $scope.AppointmentReasonTypeListTemp = [];
-            $scope.AppointmentReasonTypeListTemp = data;
+            $scope.AppointmentReasonTypeListTemp = response.data;
             var obj = { "ReasonTypeId": 0, "ReasonType": "Select", "IsActive": 1 };
             $scope.AppointmentReasonTypeListTemp.splice(0, 0, obj);
             $scope.AppointmentReasonTypeList = angular.copy($scope.AppointmentReasonTypeListTemp);
+        }, function errorCallback(response) {
+
         });
-        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
-            if (data[0] != undefined) {
-                $scope.page_size = parseInt(data[0].ConfigValue);
+        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).then(function (response) {
+            if (response.data[0] != undefined) {
+                $scope.page_size = parseInt(response.data[0].ConfigValue);
                 $window.localStorage['Pagesize'] = $scope.page_size;
             }
+        }, function errorCallback(response) {
+
         });
-        $http.get(baseUrl + '/api/AppoinmentSlot/CG_Doctors_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&CC_CG=' + $window.localStorage['UserId']).success(function (data) {
-            if (data[0] != undefined) {
+        $http.get(baseUrl + '/api/AppoinmentSlot/CG_Doctors_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&CC_CG=' + $window.localStorage['UserId']).then(function (response) {
+            if (response.data[0] != undefined) {
                 $scope.doctorlistTemp = [];
-                $scope.doctorlistTemp = data;
+                $scope.doctorlistTemp = response.data;
                 var obj = {
                     "Id": 0, "FullName": "Select"
                 };
@@ -72,12 +78,14 @@ DoctorAppointmentDetails.controller("DoctorAppointmentDetailsForOthersController
                     setdoc();
                 }, 1000);
             }
+        }, function errorCallback(response) {
+
         });
         $scope.getTimeZoneList = function () {
             //$scope.TimeZoneList = [];
-            $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
                 $scope.TimeZoneCopy = [];
-                $scope.TimeZoneCopy = data;
+                $scope.TimeZoneCopy = response.data;
                 var obj = { "TimeZoneId": 0, "TimeZoneName": "", "UtcOffSet": "", "TimeZoneDisplayName": "Select", "IsActive": 1 };
                 $scope.TimeZoneCopy.splice(0, 0, obj);
                 angular.forEach($scope.TimeZoneCopy, function (value, index) {
@@ -98,6 +106,8 @@ DoctorAppointmentDetails.controller("DoctorAppointmentDetailsForOthersController
                     }
                 });
                 $("#chatLoaderPV").hide();
+            }, function errorCallback(response) {
+
             });
         }
         $scope.getTimeZoneList();
@@ -117,15 +127,17 @@ DoctorAppointmentDetails.controller("DoctorAppointmentDetailsForOthersController
                 $("#chatLoaderPV").show();
                 var datee = new Date($scope.SearchDate).getFullYear().toString() + '-' + (((new Date($scope.SearchDate).getMonth() + 1).toString().length > 1) ? (new Date($scope.SearchDate).getMonth() + 1).toString() : ('0' + (new Date($scope.SearchDate).getMonth() + 1).toString())) + '-' + ((new Date($scope.SearchDate).getDate().toString().length > 1) ? new Date($scope.SearchDate).getDate().toString() : ('0' + new Date($scope.SearchDate).getDate().toString()))
                 var datee1 = new Date($scope.SearchEndDate).getFullYear().toString() + '-' + (((new Date($scope.SearchEndDate).getMonth() + 1).toString().length > 1) ? (new Date($scope.SearchEndDate).getMonth() + 1).toString() : ('0' + (new Date($scope.SearchEndDate).getMonth() + 1).toString())) + '-' + ((new Date($scope.SearchEndDate).getDate().toString().length > 1) ? new Date($scope.SearchEndDate).getDate().toString() : ('0' + new Date($scope.SearchEndDate).getDate().toString()))
-                $http.get(baseUrl + '/api/PatientAppointments/GetDoctorAppointmentDetails/?DoctorId=' + $scope.SelectedDoctor + '&Date=' + datee + '&EndDate=' + datee1 + '&Login_Session_Id=' + $scope.LoginSessionId + '&TimeZoneId=' + $scope.TimeZoneID + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data1) {
+                $http.get(baseUrl + '/api/PatientAppointments/GetDoctorAppointmentDetails/?DoctorId=' + $scope.SelectedDoctor + '&Date=' + datee + '&EndDate=' + datee1 + '&Login_Session_Id=' + $scope.LoginSessionId + '&TimeZoneId=' + $scope.TimeZoneID + '&Institution_Id=' + $window.localStorage['InstitutionId']).then(function (data1) {
                     $("#chatLoaderPV").hide();
-                    $scope.rowCollectionFilter = data1.DoctorAppointmentTimeSlotList;
-                    if (data1.DoctorAppointmentTimeSlotList.length == 0) {
+                    $scope.rowCollectionFilter = data1.data.DoctorAppointmentTimeSlotList;
+                    if (data1.data.DoctorAppointmentTimeSlotList.length == 0) {
                         $scope.flag = 0;
                     } else {
                         $scope.flag = 1;
                     }
-                }).error(function (data) { $("#chatLoaderPV").hide(); });
+                }, function errorCallback(data1) {
+                    $("#chatLoaderPV").hide();
+                })
             //}
         }
 
@@ -168,38 +180,42 @@ DoctorAppointmentDetails.controller("DoctorAppointmentDetailsForOthersController
                     ReasonTypeId: $scope.ReasonTypeId
                 }
                 $("#chatLoaderPV").show();
-                $http.post(baseUrl + '/api/PatientAppointments/CancelPatient_Appointment/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
+                $http.post(baseUrl + '/api/PatientAppointments/CancelPatient_Appointment/?Login_Session_Id=' + $scope.LoginSessionId, obj).then(function (response) {
                     $("#chatLoaderPV").hide();
-                    if (data.ReturnFlag == 1) {
-                        toastr.success(data.Message, "success");
+                    if (response.data.ReturnFlag == 1) {
+                        toastr.success(response.data.Message, "success");
                     }
-                    else if (data.ReturnFlag == 0) {
-                        toastr.info(data.Message, "info");
+                    else if (response.data.ReturnFlag == 0) {
+                        toastr.info(response.data.Message, "info");
                     }
-                    if (data.AppointmentDetails.PaymentStatusId == 3 && data.ReturnFlag == 1) {
-                        $scope.refundAppointmentId = data.AppointmentDetails.Id;
-                        $scope.refundMerchantOrderNo = data.AppointmentDetails.MerchantOrderNo;
-                        $scope.refundAmount = data.AppointmentDetails.Amount;
-                        $scope.refundOrderNo = data.AppointmentDetails.OrderNo;
-                        $scope.refundInstitutionId = data.AppointmentDetails.Institution_Id;
+                    if (response.data.AppointmentDetails.PaymentStatusId == 3 && response.data.ReturnFlag == 1) {
+                        $scope.refundAppointmentId = response.data.AppointmentDetails.Id;
+                        $scope.refundMerchantOrderNo = response.data.AppointmentDetails.MerchantOrderNo;
+                        $scope.refundAmount = response.data.AppointmentDetails.Amount;
+                        $scope.refundOrderNo = response.data.AppointmentDetails.OrderNo;
+                        $scope.refundInstitutionId = response.data.AppointmentDetails.Institution_Id;
 
                         var obj = {
-                            refundAppointmentId: data.AppointmentDetails.Id,
-                            refundMerchantOrderNo: data.AppointmentDetails.MerchantOrderNo,
-                            refundAmount: data.AppointmentDetails.Amount,
-                            refundOrderNo: data.AppointmentDetails.OrderNo,
-                            refundInstitutionId: data.AppointmentDetails.Institution_Id
+                            refundAppointmentId: response.data.AppointmentDetails.Id,
+                            refundMerchantOrderNo: response.data.AppointmentDetails.MerchantOrderNo,
+                            refundAmount: response.data.AppointmentDetails.Amount,
+                            refundOrderNo: response.data.AppointmentDetails.OrderNo,
+                            refundInstitutionId: response.data.AppointmentDetails.Institution_Id
                         };
 
-                        $http.post(baseUrl + '/api/PayBy/RefundPayByCheckoutSession/', obj).success(function (data) {
-                            console.log(data);
-                        }).error(function (data) { console.log(data); });
+                        $http.post(baseUrl + '/api/PayBy/RefundPayByCheckoutSession/', obj).then(function (response) {
+                            console.log(response);
+                        }, function errorCallback(response) { 
+                            console.log(response.data);
+                        });
 
                     }
                     $scope.Cancel_CancelledAppointment();
-                    if (data.ReturnFlag == 1) {
+                    if (response.data.ReturnFlag == 1) {
                         $scope.DoctorAppointmentlist();
                     }
+                }, function errorCallback(response) {
+
                 });
             }
         }
