@@ -7,7 +7,7 @@
 
 EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     var baseUrl = $("base").first().attr("href");
-    $locationProvider.hashPrefix(''); 
+    $locationProvider.hashPrefix('');
     $routeProvider.
         //when('/', {
         //    templateUrl: baseUrl + 'Login/Views/Login.html',
@@ -28,7 +28,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         otherwise({
             redirectTo: '/login'
         });
-
+   // $locationProvider.html5Mode(true);
 }]);
 
 EmpApp.config(function (toastrConfig) {
@@ -854,6 +854,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             }
             else if (data == "4" || data == "5") {
                 window.location.href = baseUrl + "/Home/Index#/home";
+                //$location.path(baseUrl + "Home/Index#/home");
             }
             else if (data == "6" || data == "10") {
                 $window.localStorage['UserTypeId'] = $scope.UserTypeId;

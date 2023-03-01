@@ -102,6 +102,7 @@ namespace MyCortex.Home.Controllers
         //   [CheckSessionOut]
         [CheckSessionOutFilter]
         //[NoDirectAccess]
+        //[Route("Index")]
         public ActionResult Index()
         {
              _AppLogger = this.GetType().FullName;
@@ -132,6 +133,10 @@ namespace MyCortex.Home.Controllers
                 return null;
             }
         }
+        public ActionResult Error(string aspxerrorpath)
+        {
+            return this.Redirect("~/#/" + aspxerrorpath);
+        }
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["UserId"] == null)
@@ -144,6 +149,7 @@ namespace MyCortex.Home.Controllers
         }
 
         // GET: Login Index
+        [Route("LoginIndex")]
         public ActionResult LoginIndex()
         {
 

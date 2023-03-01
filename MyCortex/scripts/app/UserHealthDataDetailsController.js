@@ -3631,7 +3631,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             }
             else {
                 toastr.warning("You Haven't Subscribed For This Module. Please Contact Your Administrator", "warning");
-            }
+            }            
         }
 
         $scope.smsResponse = [];
@@ -5701,7 +5701,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 $scope.MonitoringProtocolHistoryListData = [];
                 $scope.MonitoringProtocolHistoryListData = response.data;
                 $scope.PatientAssignedProtocolDataList = angular.copy($scope.MonitoringProtocolHistoryListData);
-                if ($scope.PatientAssignedProtocolDataList.length > 0) {
+                if ($scope.PatientAssignedProtocolDataList?.length > 0) {
                     $scope.flag = 1;
                 }
                 else {

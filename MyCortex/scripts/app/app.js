@@ -114,7 +114,13 @@ EmpApp.config(['IdleProvider', function (IdleProvider) {
 //});
 EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     var baseUrl = $("base").first().attr("href");
-    $locationProvider.hashPrefix('');    
+    $locationProvider.hashPrefix('');     
+   
+    //$locationProvider.html5Mode({
+    //    enabled: true,
+    //    equireBase: false        
+    //});
+
     $routeProvider.
         //when('/', {
         //    templateUrl: baseUrl + 'Home/Views/HomePage.html',
@@ -140,7 +146,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
 	    templateUrl: baseUrl + 'Admin/Views/Institutionlist.html',
 	    controller: 'InstitutionController'
     }).
-    when('/Institution_Subscription', {
+        when('Institution_Subscription', {
         templateUrl: baseUrl + 'Admin/Views/InstitutionSubscriptionlist.html',
         controller: 'InstitutionSubscriptionController'
     }).
@@ -476,8 +482,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
     otherwise({
         //redirectTo: '/Googlehome'
         redirectTo: '/'
-    });
-
+    });  
 }])
 .factory('authInterceptorService', ['$q', '$location', '$window', function ($q, $location, $window) {
 
