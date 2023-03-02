@@ -1487,6 +1487,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
                 var feMaleId = 0;
+                $scope.GenderId1 = $('#GenderId').val();
+                $scope.UserTypeId1 = $('#UserTypeId').val();
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
@@ -1499,31 +1501,31 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
                 var picPath = "";
                 //super clinician           
-                if ($scope.UserTypeId == 7 && $scope.GenderId == maleId) {
+                if ($scope.UserTypeId1 == 7 && $scope.GenderId1 == maleId) {
                     picPath = "../../Images/Clinician_Male.png";
                 }
-                else if ($scope.UserTypeId == 7 && $scope.GenderId == feMaleId) {
+                else if ($scope.UserTypeId1 == 7 && $scope.GenderId1 == feMaleId) {
                     picPath = "../../Images/Clinician_Female.png";
                 }
                 //care coordinator
-                else if ($scope.UserTypeId == 6 && $scope.GenderId == maleId) {
+                else if ($scope.UserTypeId1 == 6 && $scope.GenderId1 == maleId) {
                     picPath = "../../Images/CC_Male.png";
                 }
-                else if ($scope.UserTypeId == 6 && $scope.GenderId == feMaleId) {
+                else if ($scope.UserTypeId1 == 6 && $scope.GenderId1 == feMaleId) {
                     picPath = "../../Images/CC_Female.png";
                 }
                 //care giver
-                else if ($scope.UserTypeId == 5 && $scope.GenderId == maleId) {
+                else if ($scope.UserTypeId1 == 5 && $scope.GenderId1 == maleId) {
                     picPath = "../../Images/CG_Male.png";
                 }
-                else if ($scope.UserTypeId == 5 && $scope.GenderId == feMaleId) {
+                else if ($scope.UserTypeId1 == 5 && $scope.GenderId1 == feMaleId) {
                     picPath = "../../Images/CG_Female.png";
                 }
                 //clinician
-                else if ($scope.UserTypeId == 4 && $scope.GenderId == maleId) {
+                else if ($scope.UserTypeId1 == 4 && $scope.GenderId1 == maleId) {
                     picPath = "../../Images/Clinician_Male.png";
                 }
-                else if ($scope.UserTypeId == 4 && $scope.GenderId == feMaleId) {
+                else if ($scope.UserTypeId1 == 4 && $scope.GenderId1 == feMaleId) {
                     picPath = "../../Images/Clinician_Female.png";
                 }
                 else {
@@ -1557,6 +1559,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
                 var feMaleId = 0;
+                $scope.GenderId1 = $('#GenderId').val();
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
@@ -1569,19 +1572,19 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
                 var picPath1 = "../../Images/National_Male.png";
                 if (typeof ($scope.Gender_Name) != "undefined")
-                    if ($scope.GenderId == feMaleId) {
+                    if ($scope.GenderId1 == feMaleId) {
                         picPath1 = "../../Images/National_Female.png";
                     }
-                    else if ($scope.GenderId == maleId) {
+                    else if ($scope.GenderId1 == maleId) {
                         picPath1 = "../../Images/National_Male.png";
                     }
 
                 var picPath = "../../Images/others.png";
                 if (typeof ($scope.Gender_Name) != "undefined")
-                    if ($scope.GenderId == feMaleId) {
+                    if ($scope.GenderId1 == feMaleId) {
                         picPath = "../../Images/Patient_Female.png";
                     }
-                    else if ($scope.GenderId == maleId) {
+                    else if ($scope.GenderId1 == maleId) {
                         picPath = "../../Images/Patient_Male.png";
                     }
 
@@ -1622,6 +1625,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
                 var feMaleId = 0;
+                $scope.GenderId1 = $('#GenderId').val();
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
@@ -1634,10 +1638,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
                 var picPath = "../../Images/others.png";
                 if (typeof ($scope.Gender_Name) != "undefined")
-                    if ($scope.GenderId == feMaleId) {
+                    if ($scope.GenderId1 == feMaleId) {
                         picPath = "../../Images/Patient_Female.png";
                     }
-                    else if ($scope.GenderId == maleId) {
+                    else if ($scope.GenderId1 == maleId) {
                         picPath = "../../Images/Patient_Male.png";
                     }
 
@@ -1662,6 +1666,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
                 var feMaleId = 0;
+                $scope.GenderId1 = $('#GenderId').val();
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
@@ -1674,10 +1679,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
                 var picPath1 = "../../Images/National_Male.png";
                 if (typeof ($scope.Gender_Name) != "undefined")
-                    if ($scope.GenderId == feMaleId) {
+                    if ($scope.GenderId1 == feMaleId) {
                         picPath1 = "../../Images/National_Female.png";
                     }
-                    else if ($scope.GenderId == maleId) {
+                    else if ($scope.GenderId1 == maleId) {
                         picPath1 = "../../Images/National_Male.png";
                     }
 
@@ -1702,6 +1707,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
                 var feMaleId = 0;
+                $scope.GenderId1 = $('#GenderId').val();
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
@@ -1714,10 +1720,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
                 var picPath1 = "../../Images/National_Male.png";
                 if (typeof ($scope.Gender_Name) != "undefined")
-                    if ($scope.GenderId == feMaleId) {
+                    if ($scope.GenderId1 == feMaleId) {
                         picPath1 = "../../Images/National_Female.png";
                     }
-                    else if ($scope.GenderId == maleId) {
+                    else if ($scope.GenderId1 == maleId) {
                         picPath1 = "../../Images/National_Male.png";
                     }
                 if (photoview == false) {
@@ -1741,6 +1747,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
                 var feMaleId = 0;
+                $scope.GenderId1 = $('#GenderId').val();
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
@@ -1753,10 +1760,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
                 var picPath1 = "../../Images/National_Male.png";
                 if (typeof ($scope.Gender_Name) != "undefined")
-                    if ($scope.GenderId == feMaleId) {
+                    if ($scope.GenderId1 == feMaleId) {
                         picPath1 = "../../Images/National_Female.png";
                     }
-                    else if ($scope.GenderId == maleId) {
+                    else if ($scope.GenderId1 == maleId) {
                         picPath1 = "../../Images/National_Male.png";
                     }
                 if (photoview == false) {
@@ -1783,6 +1790,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
                 var feMaleId = 0;
+                $scope.GenderId1 = $('#GenderId').val();
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
@@ -1792,35 +1800,36 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         feMaleId = value.id.toString();
                     }
                 });
-
-                var picPath = "";
-                if ($scope.GenderId == feMaleId) {
-                    picPath = "../../Images/female.png";
-                }
-                else if ($scope.GenderId == maleId) {
-                    picPath = "../../Images/Patient_Male.png";
-                }
-                else {
-                    picPath = "../../Images/others.png";
-                }
-                if (photoview == false) {
-                    var request = new XMLHttpRequest();
-                    request.open('GET', picPath, true);
-                    request.responseType = 'blob';
-                    request.onload = function () {
-                        var reader = new FileReader();
-                        reader.readAsDataURL(request.response);
-                        reader.onload = function (e) {
-                            $scope.uploadmes = e.target.result;
-                            $scope.uploadme = $scope.uploadmes;
-                            $scope.uploadme1 = $scope.uploadmes;
-                            $scope.uploadme3 = $scope.uploadmes;
-                            $scope.uploadme2 = $scope.uploadmes;
-                            $scope.$apply();
+                //if ($scope.GenderList > 0) {
+                    var picPath = "";
+                    if ($scope.GenderId1 == feMaleId) {
+                        picPath = "../../Images/female.png";
+                    }
+                    else if ($scope.GenderId1 == maleId) {
+                        picPath = "../../Images/Patient_Male.png";
+                    }
+                    else {
+                        picPath = "../../Images/others.png";
+                    }
+                    if (photoview == false) {
+                        var request = new XMLHttpRequest();
+                        request.open('GET', picPath, true);
+                        request.responseType = 'blob';
+                        request.onload = function () {
+                            var reader = new FileReader();
+                            reader.readAsDataURL(request.response);
+                            reader.onload = function (e) {
+                                $scope.uploadmes = e.target.result;
+                                $scope.uploadme = $scope.uploadmes;
+                                $scope.uploadme1 = $scope.uploadmes;
+                                $scope.uploadme3 = $scope.uploadmes;
+                                $scope.uploadme2 = $scope.uploadmes;
+                                $scope.$apply();
+                            };
                         };
-                    };
-                    request.send();
-                } 
+                        request.send();
+                    } 
+                //}
             }
         };
         $scope.CancelPopup = function () {
@@ -1904,7 +1913,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $http.post(baseUrl + '/api/User/InstitutionSubscriptionLicensecheck/', obj).then(function (response) {
                 if (response.data.ReturnFlag == 0) {
                     //alert(data.Message);
-                    toastr.warning(data.Message, "warning");
+                    toastr.warning(response.data.Message, "warning");
                 }
             }, function errorCallback(response) {
                 $scope.error = "An error has occurred InstitutionSubscriptionLicensecheck" + response.data;
@@ -3503,7 +3512,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     }
                     return false;
                 }
-                else if ((typeof ($scope.GenderId) == "undefined" || $scope.GenderId == "0") && $scope.LoginType != "1" && $scope.LoginType != "3") {
+                else if ((typeof ($scope.GenderId1) == "undefined" || $scope.GenderId1 == "0") && $scope.LoginType != "1" && $scope.LoginType != "3") {
                     toastr.warning("Please select Gender", "Warning");
                     $("#chatLoaderPV").hide();
                     if ($scope.MenuTypeId == 2) {
@@ -3511,7 +3520,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     }
                     return false;
                 }
-                else if ((typeof ($scope.DepartmentId) == "undefined" || $scope.DepartmentId == "0") && $scope.LoginType != "1" && $scope.LoginType != "3") {
+                else if ((typeof ($scope.DepartmentId1) == "undefined" || $scope.DepartmentId1 == "0") && $scope.LoginType != "1" && $scope.LoginType != "3") {
                     toastr.warning("Please select Department", "Warning");
                     $("#chatLoaderPV").hide();
                     if ($scope.MenuTypeId == 2) {
@@ -3679,7 +3688,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.currentTab = 1;
                     return false;
                 }
-                else if (typeof ($scope.GenderId) == "undefined" || $scope.GenderId == "0") {
+                else if (typeof ($scope.GenderId1) == "undefined" || $scope.GenderId1 == "0") {
                     //alert("Please select Gender");
                     toastr.warning("Please select Gender", "warning");
                     $("#chatLoaderPV").hide();
@@ -3739,21 +3748,21 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.currentTab = 1;
                     return false;
                 }
-                else if (typeof ($scope.MaritalStatusId) == "undefined" || $scope.MaritalStatusId == "0") {
+                else if (typeof ($scope.MaritalStatusId1) == "undefined" || $scope.MaritalStatusId1 == "0") {
                     //alert("Please select Marital Status under Additional Info");
                     toastr.warning("Please select Marital Status under Additional Info", "warning");
                     $("#chatLoaderPV").hide();
                     $scope.currentTab = 2;
                     return false;
                 }
-                else if (typeof ($scope.BloodGroupId) == "undefined" || $scope.BloodGroupId == "0") {
+                else if (typeof ($scope.BloodGroupId1) == "undefined" || $scope.BloodGroupId1 == "0") {
                     //alert("Please select Blood Group under Additional Info");
                     toastr.warning("Please select Blood Group under Additional Info", "warning");
                     $("#chatLoaderPV").hide();
                     $scope.currentTab = 2;
                     return false;
                 }
-                else if (typeof ($scope.EthnicGroupId) == "undefined" || $scope.EthnicGroupId == "0") {
+                else if (typeof ($scope.EthnicGroupId1) == "undefined" || $scope.EthnicGroupId1 == "0") {
                     //alert("Please select Ethnic Group under Additional Info");
                     toastr.warning("Please select Ethnic Group under Additional Info", "warning");
                     $("#chatLoaderPV").hide();
@@ -5200,6 +5209,12 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.UIDLogo = [];
         $scope.User_InsertUpdate = function () {
             // Mobile Number Validation...
+            $scope.DepartmentId1 = $('#DepartmentId').val();
+            $scope.NationalityId1 = $('#NationalityId').val();
+            $scope.MaritalStatusId1 = $('#MaritalStatusId').val();
+            $scope.EthnicGroupId1 = $('#EthnicGroupId').val();
+            $scope.BloodGroupId1 = $('#BloodGroupId').val();
+            $scope.EMERG_CONT_RELATIONSHIP_ID1 = $('#EMERG_CONT_RELATIONSHIP_ID').val();
             if ($scope.InputPhoneNo1 == "" || $scope.InputPhoneNo1 == undefined || $scope.InputPhoneNo1 == null) {
             } else {
                 var countryData = $scope.InputPhoneNo1;
@@ -5330,9 +5345,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             FILE_FULLPATH: "",
                             UPLOAD_FILENAME: $scope.Resume,
 
-                            GENDER_ID: $scope.GenderId == 0 ? null : $scope.GenderId,
-                            NATIONALITY_ID: $scope.NationalityId == 0 ? null : $scope.NationalityId,
-                            ETHINICGROUP_ID: $scope.EthnicGroupId == 0 ? null : $scope.EthnicGroupId,
+                            GENDER_ID: $scope.GenderId1 == 0 ? null : $scope.GenderId1,
+                            NATIONALITY_ID: $scope.NationalityId1 == 0 ? null : $scope.NationalityId1,
+                            ETHINICGROUP_ID: $scope.EthnicGroupId1 == 0 ? null : $scope.EthnicGroupId1,
                             DOB: "",
                             HOME_AREACODE: $scope.HomeAreaCode,
                             HOME_PHONENO: $scope.Home_PhoneNo,
@@ -5345,8 +5360,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             COUNTRY_ID: $scope.CountryId == 0 ? null : $scope.CountryId,
                             STATE_ID: $scope.StateId == 0 ? null : $scope.StateId,
                             CITY_ID: $scope.CityId == 0 ? null : $scope.CityId,
-                            MARITALSTATUS_ID: $scope.MaritalStatusId == 0 ? null : $scope.MaritalStatusId,
-                            BLOODGROUP_ID: $scope.BloodGroupId == 0 ? null : $scope.BloodGroupId,
+                            MARITALSTATUS_ID: $scope.MaritalStatusId1 == 0 ? null : $scope.MaritalStatusId1,
+                            BLOODGROUP_ID: $scope.BloodGroupId1 == 0 ? null : $scope.BloodGroupId1,
                             PATIENTNO: $scope.PatientNo,
                             INSURANCEID: $scope.InsuranceId,
                             //MNR_NO: $scope.MNR_No,
@@ -5380,7 +5395,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             EMERG_CONT_FIRSTNAME: $scope.EMERG_CONT_FIRSTNAME,
                             EMERG_CONT_MIDDLENAME: $scope.EMERG_CONT_MIDDLENAME,
                             EMERG_CONT_LASTNAME: $scope.EMERG_CONT_LASTNAME,
-                            EMERG_CONT_RELATIONSHIP_ID: $scope.EMERG_CONT_RELATIONSHIP_ID == 0 ? null : $scope.EMERG_CONT_RELATIONSHIP_ID,
+                            EMERG_CONT_RELATIONSHIP_ID: $scope.EMERG_CONT_RELATIONSHIP_ID1 == 0 ? null : $scope.EMERG_CONT_RELATIONSHIP_ID1,
                             SelectedChronicConnditionList: $scope.PatientChronicCondition_List,
                             ChronicConditionList: $scope.ChronicConditionList,
                             AddMedicines: $scope.AddMedicines,
