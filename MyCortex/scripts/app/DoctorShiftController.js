@@ -3469,15 +3469,15 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     //$scope.SelectedTimeZone = data.DefautTimeZone;
                     $scope.DefaultworkingDays = response.data.DefaultWorkingDays;
                     $scope.SelectedDefaultholiday = response.data.DefaultHoliDays;
-                    $scope.BookEnable = response.data.IsAppointmentInHolidays;
+                   
                     $scope.cc = response.data.IsCc;
                     $scope.cg = response.data.IsCg;
                     $scope.cl = response.data.IsCl;
                     $scope.sc = response.data.IsSc;
                     $scope.userpatient = response.data.IsPatient;
-                    $scope.confirmBook = response.data.IsDirectAppointment;
+                   
                     $scope.AddReminderParameters = response.data.ReminderTimeInterval;
-                    $scope.AutoEnable = response.data.IsAutoReschedule;
+                   
                     $scope.ReduceNumberofavailableAppointmentes = response.data.MinRescheduleDays;
                     $scope.Minimumslots = response.data.MinimumSlots;
                     var weekly = response.data.DefaultWorkingDays.split(',');
@@ -3506,6 +3506,30 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                         }
 
                     });
+                    $scope.BookEnable = response.data.IsAppointmentInHolidays;
+                    setTimeout(() => {
+                        if ($scope.BookEnable == true) {
+                            angular.element($('#bookenable_yes')).prop('checked', true);
+                        } else {
+                            angular.element($('#bookenable_no')).prop('checked', true);
+                        }
+                    }, 500);
+                     $scope.confirmBook = response.data.IsDirectAppointment;
+                    setTimeout(() => {
+                        if ($scope.confirmBook == true) {
+                            angular.element($('#confirmbook_yes')).prop('checked', true);
+                        } else {
+                            angular.element($('#confirmbook_no')).prop('checked', true);
+                        }
+                    }, 500);
+                    $scope.AutoEnable = response.data.IsAutoReschedule;
+                    setTimeout(() => {
+                        if ($scope.AutoEnable == true) {
+                            angular.element($('#autoenable_yes')).prop('checked', true);
+                        } else {
+                            angular.element($('#autoenable_no')).prop('checked', true);
+                        }
+                    }, 500);
                 } else {
                     $scope.sunday = true;
                     $scope.monday = true;
