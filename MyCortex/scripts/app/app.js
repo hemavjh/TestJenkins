@@ -114,12 +114,8 @@ EmpApp.config(['IdleProvider', function (IdleProvider) {
 //});
 EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     var baseUrl = $("base").first().attr("href");
-    $locationProvider.hashPrefix('');     
-   
-    //$locationProvider.html5Mode({
-    //    enabled: true,
-    //    equireBase: false        
-    //});
+    //$locationProvider.html5Mode(true);
+    //$locationProvider.hashPrefix('!');
 
     $routeProvider.
         //when('/', {
@@ -146,7 +142,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
 	    templateUrl: baseUrl + 'Admin/Views/Institutionlist.html',
 	    controller: 'InstitutionController'
     }).
-        when('Institution_Subscription', {
+        when('/Institution_Subscription', {
         templateUrl: baseUrl + 'Admin/Views/InstitutionSubscriptionlist.html',
         controller: 'InstitutionSubscriptionController'
     }).
@@ -214,7 +210,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
           templateUrl: baseUrl + 'UnderConstruction.html',
           controller: 'UnderConstructionController'
       }).
-    when('/PatientAppointments', {
+        when('Home/Index#/PatientAppointments', {
         templateUrl: baseUrl + 'User/Views/AllPatientList.html',
         controller: 'AllPatientListController'
     }).

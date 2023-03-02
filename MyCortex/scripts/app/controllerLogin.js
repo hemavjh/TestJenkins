@@ -1,18 +1,22 @@
 ﻿var EmpApp = angular.module('AllyController', [
     'ngRoute',
     'AllyControllersLogin',
-    'toastr'
+    'toastr'    
 ]);
 
-
-EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider, $location) {
     var baseUrl = $("base").first().attr("href");
-    $locationProvider.hashPrefix('');
+    //$locationProvider.hashPrefix('');
+    //$locationProvider.html5Mode(true).hashPrefix('*');
+
+    $locationProvider.html5Mode(true);
+    $locationProvider.hashPrefix('!');
+    
     $routeProvider.
-        //when('/', {
-        //    templateUrl: baseUrl + 'Login/Views/Login.html',
-        //    controller: 'LoginController'
-        //}).
+        when('/', {
+            templateUrl: baseUrl + 'Login/Views/Login.html',
+            controller: 'LoginController'
+        }).
         when('/login', {
             templateUrl: baseUrl + 'Login/Views/Login.html',
             controller: 'LoginController'
@@ -27,8 +31,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         }).
         otherwise({
             redirectTo: '/login'
-        });
-   // $locationProvider.html5Mode(true);
+        });  
 }]);
 
 EmpApp.config(function (toastrConfig) {
@@ -112,6 +115,7 @@ EmpApp.service('fileUpload', ['$http', function ($http) {
 
 var MyCortexControllers = angular.module("AllyControllersLogin", []);
 var baseUrl = $("base").first().attr("href");
+console.log(baseUrl);
 if (baseUrl == "/") {
     baseUrl = "";
 }
@@ -854,7 +858,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             }
             else if (data == "4" || data == "5") {
                 window.location.href = baseUrl + "/Home/Index#/home";
-                //$location.path(baseUrl + "Home/Index#/home");
+                //$location.path("/Home/Index/home");
             }
             else if (data == "6" || data == "10") {
                 $window.localStorage['UserTypeId'] = $scope.UserTypeId;

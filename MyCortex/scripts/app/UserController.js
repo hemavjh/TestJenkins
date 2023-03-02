@@ -5635,12 +5635,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         }
                     }
                     $http.post(baseUrl + '/api/User/User_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj,
-                    {
-                        transformRequest: angular.identity,
-                        headers: {
-                            'Content-Type': 'application/json' 
-                        }
-                    }).then(function (response) {
+                    //{
+                    //    transformRequest: angular.identity,
+                    //    headers: {
+                    //        'Content-Type': 'application/json' 
+                    //    }
+                        //}
+                    ).then(function (response) {
                         /*alert(data.Message);*/
                         if (response.data.ReturnFlag == 0) {
                             toastr.info(response.data.Message, "info");

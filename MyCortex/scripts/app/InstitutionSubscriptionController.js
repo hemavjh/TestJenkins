@@ -109,7 +109,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                 $scope.Hcp_Pat = true;
                 $scope.status = 0;
                 $scope.InstitutionSubscriptionDetails_View();
-                $scope.Id = $scope.Institution_Id;
+                //$scope.Id = $scope.Institution_Id;
                 $scope.Institutestatus();
                 $('#btnsave').attr("disabled", false);
                 $("#insselectpicker").attr("disabled", true);
@@ -791,8 +791,13 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     $scope.HiveChart_Devices = response.data.No_Of_HiveChartDevices;
                     //$scope.Contract_Period_To = $filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy");
                     $scope.Contract_Period_To = DateFormatEdit($filter('date')(response.data.Contract_PeriodTo, "dd-MMM-yyyy"));
-                    $scope.Subscription_Type = response.data.Subscription_Type;
-                    $scope.Recording_Type = response.data.Recording_Type;
+                   
+                    //if (response.data.Subscription_Type == 1) {
+                    //    $('#Subscription_Type1').attr('ng-checked', checked:true);                        
+                    //} else {
+                    //    $('#Subscription_Type2').attr('ng-checked', true);                        
+                    //}
+                   
                     $scope.TelephoneList = [];
                     if (response.data.TelePhone_User == 0) {
                         $scope.TelePhone_User = 1;
@@ -876,8 +881,14 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                         }
                     })
                     $("#chatLoaderPV").hide();
+
                     $scope.TelephoneList = $scope.TelephoneDataList;
                     setTimeout(() => { angular.element($('#telephone_Id' + $scope.TelePhone_User)).prop('checked', true); }, 500);
+                    $scope.Subscription_Type = response.data.Subscription_Type;
+                    setTimeout(() => { angular.element($('#Subscription_Type' + $scope.Subscription_Type)).prop('checked', true); }, 500);
+                    $scope.Recording_Type = response.data.Recording_Type;
+                    setTimeout(() => { angular.element($('#Recording_Type' + $scope.Recording_Type)).prop('checked', true); }, 500);
+
                 }, function errorCallback(response) {
                 });
             } else {
