@@ -115,7 +115,7 @@ EmpApp.config(['IdleProvider', function (IdleProvider) {
 EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     var baseUrl = $("base").first().attr("href");
     //$locationProvider.html5Mode(true);
-    //$locationProvider.hashPrefix('!');
+    $locationProvider.hashPrefix('');
 
     $routeProvider.
         //when('/', {
