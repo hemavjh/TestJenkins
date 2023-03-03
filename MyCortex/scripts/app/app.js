@@ -210,7 +210,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
           templateUrl: baseUrl + 'UnderConstruction.html',
           controller: 'UnderConstructionController'
       }).
-        when('Home/Index#/PatientAppointments', {
+        when('/Home/Index#/PatientAppointments', {
         templateUrl: baseUrl + 'User/Views/AllPatientList.html',
         controller: 'AllPatientListController'
     }).

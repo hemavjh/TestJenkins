@@ -327,6 +327,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             }
         });
 
+        function changeGender() {
+            $scope.PatientgetBase64Image();
+        }
+
        //if ($window.localStorage['UserTypeId'] == 3 || $window.localStorage['UserTypeId'] == 2) {
         $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionDetailList/?Id=' + $scope.SelectedInstitutionId).then(function (response) {
 
@@ -1551,22 +1555,29 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 } 
             }
         };
+        //$scope.$watch('GenderId', function () {
+        //    $scope.PatientgetBase64Image();
+        //});
 
         // patient creation
         $scope.PatientgetBase64Image = function () {
-            $scope.LoadGenderList();
+           // $scope.LoadGenderList();
             $scope.Editclearimage();
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
                 var feMaleId = 0;
+                var OtherId = 0;
                 $scope.GenderId1 = $('#GenderId').val();
+                // $scope.$apply();$scope.$apply();
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
-                        maleId = value.id.toString();
+                        maleId = value.id.toString();                        
                     }
                     else if ($scope.Gender_Name.toLowerCase() == "female") {
-                        feMaleId = value.id.toString();
+                        feMaleId = value.id.toString();                       
+                    } else {
+                        OtherId = value.id.toString();                        
                     }
                 });
 
@@ -1601,6 +1612,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $scope.uploadme2 = $scope.uploadmes;
                             $scope.uploadme3 = $scope.uploadmes;
                             $scope.$apply();
+                            if ($scope.GenderId1 > 0) {
+                                $scope.GenderId = $scope.GenderId1;
+                                $("#GenderId").val($scope.GenderId1).select2();
+                                $scope.$digest();
+                            }                            
                         };
                     };
                     request1.send();
@@ -1615,10 +1631,35 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $scope.uploadmes = e.target.result;
                             $scope.uploadme = $scope.uploadmes;
                             $scope.$apply();
+                            if ($scope.GenderId1 > 0) {
+                                $scope.GenderId = $scope.GenderId1;
+                                $("#GenderId").val($scope.GenderId1).select2();
+                                $scope.$digest();
+                            }
+                            
                         };
                     };
                     request.send();
-                } 
+                }   
+               
+                //if (OtherId > 0) {
+                //    if ($scope.GenderId1 > 0) {
+                //        $("#GenderId").val(OtherId).trigger('change');
+                //       // $("#GenderId").select2("trigger", "select", { data: { id: OtherId, text: $scope.Gender_Name } });
+                //    }
+                //} else if(feMaleId > 0)
+                //{
+                //    if ($scope.GenderId1 > 0) {
+                //        $("#GenderId").val(feMaleId).trigger('change');
+                //       // $("#GenderId").select2("trigger", "select", { data: { id: feMaleId, text: $scope.Gender_Name } });
+                //    }
+                //} else if(maleId > 0)
+                //{
+                //    if ($scope.GenderId1 > 0) {
+                //        $("#GenderId").val(maleId).trigger('change');
+                //       // $("#GenderId").select2("trigger", "select", { data: { id: maleId, text: $scope.Gender_Name } });
+                //    }
+                //}
             }
         };
         $scope.PatientgetBase64Image_Profile = function () {
