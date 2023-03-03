@@ -102,13 +102,17 @@
                                 <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
                                 <p class="m-bottom-0 secondary-text1">{{Row.Doctor_DepartmentName}} / <a href="" ng-click="show_payment_history(Row)">{{Row.Payment_Status}}</a></p>
                             </div>
-                            <div class="" style="width:80%" ng-if="(AppointmoduleID==2 || AppointmoduleID==3) && (Row.Payment_Status==0 || Row.Payment_Status=='' || Row.Payment_Status==null)">
+                            <div class="" style="width:80%" ng-if="(AppointmoduleID==2) && (Row.Payment_Status==0 || Row.Payment_Status=='' || Row.Payment_Status==null)">
                                 <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
                                 <p class="m-bottom-0 secondary-text1">{{Row.Doctor_DepartmentName}} / <a href="" ng-click="show_payment_history(Row)">UNPAID</a></p>
                             </div>
+                            <div class="" style="width:80%" ng-if="(AppointmoduleID==3) && (Row.Payment_Status==0 || Row.Payment_Status=='' || Row.Payment_Status==null)">
+                            <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
+                            <p class="m-bottom-0 secondary-text1">{{Row.Doctor_DepartmentName}} / <a href="" ng-click="show_payment_history(Row)">{{Row.Payment_Status}}</a></p>
+                        </div>
                         </div>
                         <div class="flex">
-                            <div ng-if="(Row.Status)== 5"  rowspan="6">
+                            <div ng-if=" (AppointmoduleID != 3) && (Row.Status == 5)" rowspan="6">
                                 <label>Waiting for approval</label>
                             </div>
                         </div>
