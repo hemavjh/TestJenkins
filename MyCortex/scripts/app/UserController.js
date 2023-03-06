@@ -1577,55 +1577,91 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     }
                 });
 
-                var picPath1 = "../../Images/National_Male.png";
-                if (typeof ($scope.Gender_Name) != "undefined")
-                    if ($scope.GenderId1 == feMaleId) {
-                        picPath1 = "../../Images/National_Female.png";
-                    }
-                    else if ($scope.GenderId1 == maleId) {
-                        picPath1 = "../../Images/National_Male.png";
-                    }
+                
+                    var picPath1 = "../../Images/National_Male.png";
+                    if (typeof ($scope.Gender_Name) != "undefined")
+                        if ($scope.GenderId1 == feMaleId) {
+                            picPath1 = "../../Images/National_Female.png";
+                        }
+                        else if ($scope.GenderId1 == maleId) {
+                            picPath1 = "../../Images/National_Male.png";
+                        }
 
-                var picPath = "../../Images/others.png";
-                if (typeof ($scope.Gender_Name) != "undefined")
-                    if ($scope.GenderId1 == feMaleId) {
-                        picPath = "../../Images/Patient_Female.png";
-                    }
-                    else if ($scope.GenderId1 == maleId) {
-                        picPath = "../../Images/Patient_Male.png";
-                    }
-
-                if (photoview == false) {
-                    var request1 = new XMLHttpRequest();
-                    request1.open('GET', picPath1, true);
-                    request1.responseType = 'blob';
-                    request1.onload = function () {
-                        var reader1 = new FileReader();
-                        reader1.readAsDataURL(request1.response);
-                        reader1.onload = function (e) {
-                            $scope.uploadmes = e.target.result;
-                            $scope.uploadme1 = $scope.uploadmes;
-                            $scope.uploadme2 = $scope.uploadmes;
-                            $scope.uploadme3 = $scope.uploadmes;
-                            $scope.$apply();                                                    
+                    var picPath = "../../Images/others.png";
+                    if (typeof ($scope.Gender_Name) != "undefined")
+                        if ($scope.GenderId1 == feMaleId) {
+                            picPath = "../../Images/Patient_Female.png";
+                        }
+                        else if ($scope.GenderId1 == maleId) {
+                            picPath = "../../Images/Patient_Male.png";
+                        }
+                if ($scope.GenderList?.length == 0 && $scope.Id == 0) {
+               
+                    if (photoview == false) {
+                        var request1 = new XMLHttpRequest();
+                        request1.open('GET', picPath1, true);
+                        request1.responseType = 'blob';
+                        request1.onload = function () {
+                            var reader1 = new FileReader();
+                            reader1.readAsDataURL(request1.response);
+                            reader1.onload = function (e) {
+                                $scope.uploadmes = e.target.result;
+                                $scope.uploadme1 = $scope.uploadmes;
+                                $scope.uploadme2 = $scope.uploadmes;
+                                $scope.uploadme3 = $scope.uploadmes;
+                                $scope.$apply();                                                    
+                            };
                         };
-                    };
-                    request1.send();
+                        request1.send();
 
-                    var request = new XMLHttpRequest();
-                    request.open('GET', picPath, true);
-                    request.responseType = 'blob';
-                    request.onload = function () {
-                        var reader = new FileReader();
-                        reader.readAsDataURL(request.response);
-                        reader.onload = function (e) {
-                            $scope.uploadmes = e.target.result;
-                            $scope.uploadme = $scope.uploadmes;
-                            $scope.$apply();
+                        var request = new XMLHttpRequest();
+                        request.open('GET', picPath, true);
+                        request.responseType = 'blob';
+                        request.onload = function () {
+                            var reader = new FileReader();
+                            reader.readAsDataURL(request.response);
+                            reader.onload = function (e) {
+                                $scope.uploadmes = e.target.result;
+                                $scope.uploadme = $scope.uploadmes;
+                                $scope.$apply();
+                            };
                         };
-                    };
-                    request.send();
-                }               
+                        request.send();
+                    }   
+                } else if ($scope.GenderList?.length > 0 && $scope.Id > 0) {
+
+                    if (photoview == false) {
+                        var request1 = new XMLHttpRequest();
+                        request1.open('GET', picPath1, true);
+                        request1.responseType = 'blob';
+                        request1.onload = function () {
+                            var reader1 = new FileReader();
+                            reader1.readAsDataURL(request1.response);
+                            reader1.onload = function (e) {
+                                $scope.uploadmes = e.target.result;
+                                $scope.uploadme1 = $scope.uploadmes;
+                                $scope.uploadme2 = $scope.uploadmes;
+                                $scope.uploadme3 = $scope.uploadmes;
+                                $scope.$apply();
+                            };
+                        };
+                        request1.send();
+
+                        var request = new XMLHttpRequest();
+                        request.open('GET', picPath, true);
+                        request.responseType = 'blob';
+                        request.onload = function () {
+                            var reader = new FileReader();
+                            reader.readAsDataURL(request.response);
+                            reader.onload = function (e) {
+                                $scope.uploadmes = e.target.result;
+                                $scope.uploadme = $scope.uploadmes;
+                                $scope.$apply();
+                            };
+                        };
+                        request.send();
+                    }
+                }
                
             }          
         };
