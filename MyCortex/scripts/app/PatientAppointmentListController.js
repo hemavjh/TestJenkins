@@ -209,6 +209,10 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                         } else if (row.Appointment_Module_Id === 3 && row.Status === 5 && parseInt(row.Payment_Status_Id) === 4) {
                             row.Payment_Status = "Insurance Rejected";
                         }
+
+                        if (row.Appointment_Module_Id === 2 && (row.Payment_Status == 0 || row.Payment_Status == '' || row.Payment_Status == null)) {
+                            row.Payment_Status = "UNPAID";
+                        }
                     });
                     compareAppointmentDates();
                 });
