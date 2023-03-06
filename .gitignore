@@ -339,3 +339,5 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 /MyCortex/Masters/Views/DeviceList.html
+/MyCortex/scripts/angular-animate.js
+/MyCortex/scripts

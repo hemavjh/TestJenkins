@@ -6063,7 +6063,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     }
                     $('#buttonsave').attr("disabled", false);
                     $('#buttonsave1').attr("disabled", false);
-                    if (data.ReturnFlag == "2") {
+                    if (response.data.ReturnFlag == "2") {
                         $scope.CancelAddICD10Popup();
                         $scope.CancelEditICD10Popup();
                         $scope.PatientICD10List();
