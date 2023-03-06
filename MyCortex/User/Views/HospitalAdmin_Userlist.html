@@ -648,13 +648,14 @@
                                                                 </sup>
                                                             </label>
                                                             <!--<div id="divGender" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                                            <select class="form-control" data-style="form-control" ng-model="GenderId" id="GenderId" data-live-search="true" data-collection-name="GenderList"
-                                                                    ng-change="getBase64Image();">
+                                                            <!--ng-change="getBase64Image();"-->
+                                                            <select class="form-control" data-style="form-control" ng-model="GenderId" id="GenderId" data-live-search="true" 
+                                                                    data-collection-name="GenderList" onchange="angular.element(this).scope().getBase64Image()">
                                                                 <option value="0">Select</option>
                                                                 <!--<option ng-repeat="sel in GenderList"
-                                        ng-selected="GenderId==sel.Id" value="{{sel.Id}}">
-                                    {{sel.Gender_Name}}
-                                </option>-->
+                ng-selected="GenderId==sel.Id" value="{{sel.Id}}">
+            {{sel.Gender_Name}}
+        </option>-->
                                                             </select>
                                                             <!--</div>-->
                                                         </div>
@@ -718,13 +719,14 @@
                                                                 </sup>
                                                             </label>
                                                             <!--<div id="divUserType" class="ng-invalid ddlValidationBorder" ng-required="true">-->
+                                                            <!--ng-change="getBase64Image();ClearGroup();"-->
                                                             <select class="form-control" data-style="form-control" ng-model="UserTypeId" id="UserTypeId" data-live-search="true" data-collection-name="UserTypeList"
-                                                                    ng-change="getBase64Image();ClearGroup();">
+                                                                    onchange="angular.element(this).scope().getBase64Image();" ng-change="ClearGroup();">
                                                                 <option value="0">Select</option>
                                                                 <!--<option ng-repeat="sel in UserTypeList"
-                                        ng-selected="UserTypeId==sel.Id" value="{{sel.Id}}">
-                                    {{sel.UserName}}
-                                </option>-->
+                ng-selected="UserTypeId==sel.Id" value="{{sel.Id}}">
+            {{sel.UserName}}
+        </option>-->
                                                             </select>
                                                             <!--</div>-->
                                                         </div>

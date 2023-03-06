@@ -1491,6 +1491,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
                 var feMaleId = 0;
+                $scope.GenderId1 = $("#GenderId").val();
+                $scope.UserTypeId1 = $("#UserTypeId").val();
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
@@ -1503,31 +1505,31 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
                 var picPath = "";
                 //super clinician           
-                if ($scope.UserTypeId == 7 && $scope.GenderId == maleId) {
+                if ($scope.UserTypeId1 == 7 && $scope.GenderId1 == maleId) {
                     picPath = "../../Images/Clinician_Male.png";
                 }
-                else if ($scope.UserTypeId == 7 && $scope.GenderId == feMaleId) {
+                else if ($scope.UserTypeId1 == 7 && $scope.GenderId1 == feMaleId) {
                     picPath = "../../Images/Clinician_Female.png";
                 }
                 //care coordinator
-                else if ($scope.UserTypeId == 6 && $scope.GenderId == maleId) {
+                else if ($scope.UserTypeId1 == 6 && $scope.GenderId1 == maleId) {
                     picPath = "../../Images/CC_Male.png";
                 }
-                else if ($scope.UserTypeId == 6 && $scope.GenderId == feMaleId) {
+                else if ($scope.UserTypeId1 == 6 && $scope.GenderId1 == feMaleId) {
                     picPath = "../../Images/CC_Female.png";
                 }
                 //care giver
-                else if ($scope.UserTypeId == 5 && $scope.GenderId == maleId) {
+                else if ($scope.UserTypeId1 == 5 && $scope.GenderId1 == maleId) {
                     picPath = "../../Images/CG_Male.png";
                 }
-                else if ($scope.UserTypeId == 5 && $scope.GenderId == feMaleId) {
+                else if ($scope.UserTypeId1 == 5 && $scope.GenderId1 == feMaleId) {
                     picPath = "../../Images/CG_Female.png";
                 }
                 //clinician
-                else if ($scope.UserTypeId == 4 && $scope.GenderId == maleId) {
+                else if ($scope.UserTypeId1 == 4 && $scope.GenderId1 == maleId) {
                     picPath = "../../Images/Clinician_Male.png";
                 }
-                else if ($scope.UserTypeId == 4 && $scope.GenderId == feMaleId) {
+                else if ($scope.UserTypeId1 == 4 && $scope.GenderId1 == feMaleId) {
                     picPath = "../../Images/Clinician_Female.png";
                 }
                 else {
@@ -1559,14 +1561,12 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
         // patient creation
         $scope.PatientgetBase64Image = function () {
-           // $scope.LoadGenderList();
             $scope.Editclearimage();
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
                 var feMaleId = 0;
-                var OtherId = 0;
+                
                 $scope.GenderId1 = $('#GenderId').val();
-                // $scope.$apply();$scope.$apply();
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
@@ -1574,26 +1574,24 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     }
                     else if ($scope.Gender_Name.toLowerCase() == "female") {
                         feMaleId = value.id.toString();                       
-                    } else {
-                        OtherId = value.id.toString();                        
                     }
                 });
 
                 var picPath1 = "../../Images/National_Male.png";
                 if (typeof ($scope.Gender_Name) != "undefined")
-                    if ($scope.GenderId == feMaleId) {
+                    if ($scope.GenderId1 == feMaleId) {
                         picPath1 = "../../Images/National_Female.png";
                     }
-                    else if ($scope.GenderId == maleId) {
+                    else if ($scope.GenderId1 == maleId) {
                         picPath1 = "../../Images/National_Male.png";
                     }
 
                 var picPath = "../../Images/others.png";
                 if (typeof ($scope.Gender_Name) != "undefined")
-                    if ($scope.GenderId == feMaleId) {
+                    if ($scope.GenderId1 == feMaleId) {
                         picPath = "../../Images/Patient_Female.png";
                     }
-                    else if ($scope.GenderId == maleId) {
+                    else if ($scope.GenderId1 == maleId) {
                         picPath = "../../Images/Patient_Male.png";
                     }
 
@@ -1609,12 +1607,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $scope.uploadme1 = $scope.uploadmes;
                             $scope.uploadme2 = $scope.uploadmes;
                             $scope.uploadme3 = $scope.uploadmes;
-                            $scope.$apply();
-                            if ($scope.GenderId1 > 0) {
-                                $scope.GenderId = $scope.GenderId1;
-                                $("#GenderId").val($scope.GenderId1).select2();
-                                $scope.$digest();
-                            }                            
+                            $scope.$apply();                                                    
                         };
                     };
                     request1.send();
@@ -1629,37 +1622,14 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $scope.uploadmes = e.target.result;
                             $scope.uploadme = $scope.uploadmes;
                             $scope.$apply();
-                            if ($scope.GenderId1 > 0) {
-                                $scope.GenderId = $scope.GenderId1;
-                                $("#GenderId").val($scope.GenderId1).select2();
-                                $scope.$digest();
-                            }
-                            
                         };
                     };
                     request.send();
-                }   
+                }               
                
-                //if (OtherId > 0) {
-                //    if ($scope.GenderId1 > 0) {
-                //        $("#GenderId").val(OtherId).trigger('change');
-                //       // $("#GenderId").select2("trigger", "select", { data: { id: OtherId, text: $scope.Gender_Name } });
-                //    }
-                //} else if(feMaleId > 0)
-                //{
-                //    if ($scope.GenderId1 > 0) {
-                //        $("#GenderId").val(feMaleId).trigger('change');
-                //       // $("#GenderId").select2("trigger", "select", { data: { id: feMaleId, text: $scope.Gender_Name } });
-                //    }
-                //} else if(maleId > 0)
-                //{
-                //    if ($scope.GenderId1 > 0) {
-                //        $("#GenderId").val(maleId).trigger('change');
-                //       // $("#GenderId").select2("trigger", "select", { data: { id: maleId, text: $scope.Gender_Name } });
-                //    }
-                //}
-            }
+            }          
         };
+        
         $scope.PatientgetBase64Image_Profile = function () {
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
