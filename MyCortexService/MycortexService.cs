@@ -86,7 +86,7 @@ namespace MyCortexService
             timer3.Enabled = true;
 
             timer4.Elapsed += new ElapsedEventHandler(OnElapsedTime4);
-            timer4.Interval = 300000; //number in milisecinds     // 1800000 = 30 minutes	
+            timer4.Interval = 1800000; //number in milisecinds     // 1800000 = 30 minutes	
             timer4.Enabled = true;
         }
 
@@ -757,19 +757,6 @@ namespace MyCortexService
                             TraceException(ex);
                         }
                     }
-
-                    // this is for open jet eligibility checking 
-                    try
-                    {
-                        EligibilityCheck();
-                    }
-                    catch (Exception ex)
-                    {
-                        TraceException(ex);
-                    }
-
-                    // End
-
                 }
                 catch (Exception ex)
                 {

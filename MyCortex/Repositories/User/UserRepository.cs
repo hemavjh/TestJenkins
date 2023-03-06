@@ -2579,7 +2579,9 @@ namespace MyCortex.Repositories.Uesr
                                                           ConferenceId = p.Field<string>("CONFERENCE_ID"),
                                                           Status = p.Field<int>("STATUS"),
                                                           Amount=p.Field<string>("AMOUNT"),
-                                                          ReasonForVisit=p.Field<string>("REASONFORVISIT")
+                                                          ReasonForVisit=p.Field<string>("REASONFORVISIT"),
+                                                          Appointment_Module_Id=p.Field<long?>("APPOINTMENT_MODULE_ID"),
+                                                          PaymentStatusId=p.Field<long>("PAYMENT_STATUS_ID")
                                                       }).ToList();
                 return lst;
             }

@@ -151,6 +151,26 @@
             </div>
         </div>
     </div>
+    <div class="flex padding-1 border-b">
+        <div class="col-sm-6 p-0">
+            <p class="main">Eligibility Timeout (in Minutes)</p>
+            <p class="secondary">Check Eligibility Timeout for Request</p>
+        </div>
+        <div class="col-sm-6 flex justify-end p-0">
+            <div>
+                <div class="flex justify-end">
+                    <input type="text" class="input-size" ng-model="Eligibility_Timeout"
+                           ng-init="Eligibility_Timeout=''" id="Eligibility_Timeout"
+                           ng-required="true" onkeypress="OnlySpecCharNum(event)" name="Eligibility_Timeout" placeholder="" ng-maxlength="2" maxlength="2">
+                </div>
+                <p class="input-text text-right">
+                    Minutes<sup>
+                        <font class='mandatory-field'>*</font>
+                    </sup>
+                </p>
+            </div>
+        </div>
+    </div>
     <!--<div class="flex padding-1 border-b">
         <div class="col-sm-6 p-0">
             <p class="main">Default Time Zone</p>
