@@ -677,12 +677,12 @@ namespace MyCortex.Repositories.Template
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
-            List<DataParameter> param = new List<DataParameter>();
-            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
-            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            List<DataParameter> param = new List<DataParameter>();            
             try
             {
                 param.Add(new DataParameter("@USER_ID", User_Id));
+                var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+                _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
 
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].USERFCMTOKEN_SP_LIST", param);
 

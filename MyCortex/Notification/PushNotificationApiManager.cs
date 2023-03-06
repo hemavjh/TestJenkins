@@ -156,16 +156,23 @@ namespace MyCortex.Notification.Firebase
         //}
         public async static void SendLiveboxNotification(PushNotificationMessage message, long User_Id, long Institution_Id)
         {
+            string
+           _AppLogger = string.Empty, _AppMethod = string.Empty;
+            _AppLogger = "MyCortex.Notification.Firebase.PushNotificationApiManager";
+            _AppMethod = "MoveNext";
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             Int64 Id = 0;
             AlertEvents AlertEventReturn = new AlertEvents();
             IList<EmailListModel> EmailList;
             //AlertEventModel EmailList =new AlertEventModel();
             List<NotifictaionUserFCM> model = new List<NotifictaionUserFCM>();
             model = repository.UserFCMToken_Get_List(User_Id);
-            // string url = HttpContext.Current.Request.Url.Authority;
-            foreach (NotifictaionUserFCM itemData in model)
-            {
-                message.FCMToken = itemData.FCMToken;
+            if (model.Count != 0)
+                // string url = HttpContext.Current.Request.Url.Authority;
+                foreach (NotifictaionUserFCM itemData in model)
+                {
+                 message.FCMToken = itemData.FCMToken;
+                _MyLogger.Exceptions("INFO", _AppLogger, message.FCMToken, null, _AppMethod);
                 try
                 {
                     await SendPushLiveboxNotification(message, itemData.SiteUrl,User_Id);
@@ -174,7 +181,7 @@ namespace MyCortex.Notification.Firebase
                 {
 
                 }
-            }
+                }
             if (model.Count == 0)
             {
                 Id = 0;
@@ -198,6 +205,8 @@ namespace MyCortex.Notification.Firebase
 
                     SendGridApiManager mail = new SendGridApiManager();
                     var res = mail.SendComposedSMTPEmail(emailModel, alert, elList, 0, "", User_Id);
+                    string json_data = JsonConvert.SerializeObject(res);
+                    _MyLogger.Exceptions("INFO", _AppLogger, json_data, null, _AppMethod);
                 }
             }
         }
@@ -212,6 +221,8 @@ namespace MyCortex.Notification.Firebase
             model = commonrepository.AppConfigurationDetails("FIREBASE_APITOKEN", Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]));
 
             var client = new RestClient("https://fcm.googleapis.com/fcm/send");
+            string json_data1 = JsonConvert.SerializeObject(client);
+            _MyLogger.Exceptions("INFO", _AppLogger, json_data1, null, _AppMethod);
             client.Timeout = -1;
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/json");

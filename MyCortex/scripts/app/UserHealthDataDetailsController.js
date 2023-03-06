@@ -883,9 +883,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     MOBILE_NO.textContent = $scope.MobileNo;
 
                     var DOB = document.getElementById('DOB');
-                    $scope.DOB1 = moment($scope.DOB).format($scope.DateFormat.toUpperCase());
+                    //$scope.DOB1 = moment($scope.DOB).format($scope.DateFormat.toUpperCase());
                     $scope.DOB2 = moment($scope.DOB).format('DD-MMM-YYYY');
-                    DOB.textContent = $scope.DOB1;
+                    //DOB.textContent = $scope.DOB1;
 
                     var fullname = document.getElementById('fullname');
                     fullname.textContent = $scope.FullName;
