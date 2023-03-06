@@ -51,7 +51,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
          $scope.Chroniccl = false;
          $scope.Chronicsc = false;*/
         $scope.Hcp_Pat = false;
-
+        angular.element($('#telephone_Id' + 1)).prop('disabled', true);
         $scope.InstitutionViewList = [];
         $scope.IsActive = true;
         //List Page Pagination.
@@ -88,10 +88,13 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             $("#insselectpicker").attr("disabled", false);
             $scope.EditInstSub = 0;
             angular.element('#InstitutionSubscriptionCreateModal').modal('show');
+            //angular.element($('#telephone_Id' + 1)).prop('disabled', true);
+            setTimeout(() => { angular.element($('#telephone_Id' + 1)).prop('disabled', true); }, 10000);
         }
         $scope.CancelIntstitutionSubPopup = function () {
             angular.element('#InstitutionSubscriptionCreateModal').modal('hide');
-            $scope.TelePhone_User = 1;
+            //angular.element($('#telephone_Id' + 1)).prop('disabled', true);
+            $scope.TelePhone_User = 2;
             InstSub.setSubID(0);
             InstSub.setInstiID(0);
         }
@@ -135,6 +138,13 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             $scope.Id = 1;
             $location.path("/SaveInstitution_Subscription/");
         };
+        $scope.TelephoneList = [];
+        $http.get(baseUrl + '/api/InstitutionSubscription/TelephoningNameList/').success(function (data) {
+            // only active Telephone    
+            $scope.TelephoneList = data;
+            $scope.TelephoneDataList = data;
+            setTimeout(() => { angular.element($('#telephone_Id' + 1)).prop('disabled', true); }, 10000);
+        });
         $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
             $scope.TimeZoneListID = data;
         });
@@ -205,12 +215,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             // only active Language    
             $scope.LanguageList = data;
         });
-        $scope.TelephoneList = [];
-        $http.get(baseUrl + '/api/InstitutionSubscription/TelephoningNameList/').success(function (data) {
-            // only active Telephone    
-            $scope.TelephoneList = data;
-            $scope.TelephoneDataList = data;
-        });
+        
         $http.get(baseUrl + '/api/InstitutionSubscription/PaymentModule_List/').success(function (data) {
             // only active Language    
             $scope.PaymentList = data;
@@ -783,7 +788,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     $scope.Recording_Type = data.Recording_Type;
                     $scope.TelephoneList = [];
                     if (data.TelePhone_User == 0) {
-                        $scope.TelePhone_User = 1;
+                        $scope.TelePhone_User = 2;
                     } else {
                         $scope.TelePhone_User = data.TelePhone_User;
                     }
@@ -886,7 +891,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             $scope.Contract_Period_To = "";
             $scope.Subscription_Type = "1";
             $scope.Recording_Type = "1";
-            $scope.TelePhone_User = 1;
+            $scope.TelePhone_User = 2;
             $scope.InstitutionModule_List = [];
             $scope.InstitutionAddList = [];
             $scope.InstitutionAddLanguageList = [];
