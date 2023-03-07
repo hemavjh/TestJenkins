@@ -3496,7 +3496,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     toastr.warning($scope.fileexceed, "File Size");
                 }
             } 
-            else {
+            else { 
                 toastr.warning("Maximum 4 images should be allowed", "Files Count");
                 $scope.NationalUploadme = [];
             }
@@ -3589,7 +3589,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     }
                     return false;
                 }
-                else if ((typeof ($scope.GenderId) == "undefined" || $scope.GenderId == "0") && $scope.LoginType != "1" && $scope.LoginType != "3") {
+                else if ((typeof ($scope.GenderId1) == "undefined" || $scope.GenderId1 == "0") && $scope.LoginType != "1" && $scope.LoginType != "3") {
                     toastr.warning("Please select Gender", "Warning");
                     $("#chatLoaderPV").hide();
                     if ($scope.MenuTypeId == 2) {
@@ -3597,7 +3597,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     }
                     return false;
                 }
-                else if ((typeof ($scope.DepartmentId) == "undefined" || $scope.DepartmentId == "0") && $scope.LoginType != "1" && $scope.LoginType != "3") {
+                else if ((typeof ($scope.DepartmentId1) == "undefined" || $scope.DepartmentId1 == "0") && $scope.LoginType != "1" && $scope.LoginType != "3") {
                     toastr.warning("Please select Department", "Warning");
                     $("#chatLoaderPV").hide();
                     if ($scope.MenuTypeId == 2) {
@@ -3699,21 +3699,21 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.currentTab = 2;
                     return false;
                 }
-                else if (typeof ($scope.CountryId) == "undefined" || $scope.CountryId == "0") {
+                else if (typeof ($scope.CountryId1) == "undefined" || $scope.CountryId1 == "0") {
                     //alert("Please select Country under Address Info");
                     toastr.warning("Please select Country under Address Info", "warning");
                     $("#chatLoaderPV").hide();
                     $scope.currentTab = 3;
                     return false;
                 }
-                else if (typeof ($scope.StateId) == "undefined" || $scope.StateId == "0") {
+                else if (typeof ($scope.StateId1) == "undefined" || $scope.StateId1 == "0") {
                     //alert("Please select State under Address Info");
                     toastr.warning("Please select State under Address Info", "warning");
                     $("#chatLoaderPV").hide();
                     $scope.currentTab = 3;
                     return false;
                 }
-                else if (typeof ($scope.CityId) == "undefined" || $scope.CityId == "0") {
+                else if (typeof ($scope.CityId1) == "undefined" || $scope.CityId1 == "0") {
                     //alert("Please select City under Address Info");
                     toastr.warning("Please select City under Address Info", "warning");
                     $("#chatLoaderPV").hide();
@@ -3765,7 +3765,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.currentTab = 1;
                     return false;
                 }
-                else if (typeof ($scope.GenderId) == "undefined" || $scope.GenderId == "0") {
+                else if (typeof ($scope.GenderId1) == "undefined" || $scope.GenderId1 == "0") {
                     //alert("Please select Gender");
                     toastr.warning("Please select Gender", "warning");
                     $("#chatLoaderPV").hide();
@@ -3825,21 +3825,21 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.currentTab = 1;
                     return false;
                 }
-                else if (typeof ($scope.MaritalStatusId) == "undefined" || $scope.MaritalStatusId == "0") {
+                else if (typeof ($scope.MaritalStatusId1) == "undefined" || $scope.MaritalStatusId1 == "0") {
                     //alert("Please select Marital Status under Additional Info");
                     toastr.warning("Please select Marital Status under Additional Info", "warning");
                     $("#chatLoaderPV").hide();
                     $scope.currentTab = 2;
                     return false;
                 }
-                else if (typeof ($scope.BloodGroupId) == "undefined" || $scope.BloodGroupId == "0") {
+                else if (typeof ($scope.BloodGroupId1) == "undefined" || $scope.BloodGroupId1 == "0") {
                     //alert("Please select Blood Group under Additional Info");
                     toastr.warning("Please select Blood Group under Additional Info", "warning");
                     $("#chatLoaderPV").hide();
                     $scope.currentTab = 2;
                     return false;
                 }
-                else if (typeof ($scope.EthnicGroupId) == "undefined" || $scope.EthnicGroupId == "0") {
+                else if (typeof ($scope.EthnicGroupId1) == "undefined" || $scope.EthnicGroupId1 == "0") {
                     //alert("Please select Ethnic Group under Additional Info");
                     toastr.warning("Please select Ethnic Group under Additional Info", "warning");
                     $("#chatLoaderPV").hide();
@@ -3866,21 +3866,21 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.currentTab = 2;
                     return false;
                 }
-                else if (typeof ($scope.CountryId) == "undefined" || $scope.CountryId == "0") {
+                else if (typeof ($scope.CountryId1) == "undefined" || $scope.CountryId1 == "0") {
                     //alert("Please select Country under Address Info");
                     toastr.warning("Please select Country under Address Info", "warning");
                     $("#chatLoaderPV").hide();
                     $scope.currentTab = 3;
                     return false;
                 }
-                else if (typeof ($scope.StateId) == "undefined" || $scope.StateId == "0") {
+                else if (typeof ($scope.StateId1) == "undefined" || $scope.StateId1 == "0") {
                     //alert("Please select State under Address Info");
                     toastr.warning("Please select State under Address Info", "warning");
                     $("#chatLoaderPV").hide();
                     $scope.currentTab = 3;
                     return false;
                 }
-                else if (typeof ($scope.CityId) == "undefined" || $scope.CityId == "0") {
+                else if (typeof ($scope.CityId1) == "undefined" || $scope.CityId1 == "0") {
                     //alert("Please select City under Address Info");
                     toastr.warning("Please select City under Address Info", "warning");
                     $("#chatLoaderPV").hide();
@@ -5286,18 +5286,18 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.UIDLogo = [];
         $scope.User_InsertUpdate = function () {
 
-            $scope.GenderId = $("#GenderId").val();
-            $scope.DepartmentId = $("#DepartmentId").val();
-            $scope.MaritalStatusId = $("#MaritalStatusId").val();
-            $scope.BloodGroupId = $("#BloodGroupId").val();
-            $scope.EthnicGroupId = $("#EthnicGroupId").val();
-            $scope.SelectedChronicCondition = $("#SelectedChronicCondition").val();
-            $scope.CountryId = $("#CountryId").val();
-            $scope.StateId = $("#StateId").val();
-            $scope.CityId = $("#CityId").val();
-            $scope.SelectedGroup = $("#SelectedGroup").val();
-            $scope.EMERG_CONT_RELATIONSHIP_ID = $("#EMERG_CONT_RELATIONSHIP_ID").val();
-            $scope.NationalityId = $("#NationalityId").val();
+            $scope.GenderId1 = $("#GenderId").val();
+            $scope.DepartmentId1 = $("#DepartmentId").val();
+            $scope.MaritalStatusId1 = $("#MaritalStatusId").val();
+            $scope.BloodGroupId1 = $("#BloodGroupId").val();
+            $scope.EthnicGroupId1 = $("#EthnicGroupId").val();
+            $scope.SelectedChronicCondition1 = $("#SelectedChronicCondition").val();
+            $scope.CountryId1 = $("#CountryId").val();
+            $scope.StateId1 = $("#StateId").val();
+            $scope.CityId1 = $("#CityId").val();
+            $scope.SelectedGroup1 = $("#SelectedGroup").val();
+            $scope.EMERG_CONT_RELATIONSHIP_ID1 = $("#EMERG_CONT_RELATIONSHIP_ID").val();
+            $scope.NationalityId1 = $("#NationalityId").val();
                         
             // Mobile Number Validation...
             if ($scope.InputPhoneNo1 == "" || $scope.InputPhoneNo1 == undefined || $scope.InputPhoneNo1 == null) {
@@ -5430,9 +5430,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             FILE_FULLPATH: "",
                             UPLOAD_FILENAME: $scope.Resume,
 
-                            GENDER_ID: $scope.GenderId == 0 ? null : $scope.GenderId,
-                            NATIONALITY_ID: $scope.NationalityId == 0 ? null : $scope.NationalityId,
-                            ETHINICGROUP_ID: $scope.EthnicGroupId == 0 ? null : $scope.EthnicGroupId,
+                            GENDER_ID: $scope.GenderId1 == 0 ? null : $scope.GenderId1,
+                            NATIONALITY_ID: $scope.NationalityId1 == 0 ? null : $scope.NationalityId1,
+                            ETHINICGROUP_ID: $scope.EthnicGroupId1 == 0 ? null : $scope.EthnicGroupId1,
                             DOB: "",
                             HOME_AREACODE: $scope.HomeAreaCode,
                             HOME_PHONENO: $scope.Home_PhoneNo,
@@ -5442,11 +5442,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             ADDRESS1: $scope.Address1,
                             ADDRESS2: $scope.Address2,
                             ADDRESS3: $scope.Address3,
-                            COUNTRY_ID: $scope.CountryId == 0 ? null : $scope.CountryId,
-                            STATE_ID: $scope.StateId == 0 ? null : $scope.StateId,
-                            CITY_ID: $scope.CityId == 0 ? null : $scope.CityId,
-                            MARITALSTATUS_ID: $scope.MaritalStatusId == 0 ? null : $scope.MaritalStatusId,
-                            BLOODGROUP_ID: $scope.BloodGroupId == 0 ? null : $scope.BloodGroupId,
+                            COUNTRY_ID: $scope.CountryId1 == 0 ? null : $scope.CountryId1,
+                            STATE_ID: $scope.StateId1 == 0 ? null : $scope.StateId1,
+                            CITY_ID: $scope.CityId1 == 0 ? null : $scope.CityId1,
+                            MARITALSTATUS_ID: $scope.MaritalStatusId1 == 0 ? null : $scope.MaritalStatusId1,
+                            BLOODGROUP_ID: $scope.BloodGroupId1 == 0 ? null : $scope.BloodGroupId1,
                             PATIENTNO: $scope.PatientNo,
                             INSURANCEID: $scope.InsuranceId,
                             //MNR_NO: $scope.MNR_No,
@@ -5576,7 +5576,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             MiddleName: $scope.MiddleName,
                             LastName: $scope.LastName,
                             EMPLOYEMENTNO: $scope.Employee_No,
-                            DEPARTMENT_ID: $scope.DepartmentId == 0 ? null : $scope.DepartmentId,
+                            DEPARTMENT_ID: $scope.DepartmentId1 == 0 ? null : $scope.DepartmentId1,
                             EMAILID: $scope.EmailId,
                             MOBILE_NO: $scope.MobileNo_CC,
                             FileName: $scope.FileName,
@@ -5596,9 +5596,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             FILETYPE: $scope.FileType,
                             FILE_FULLPATH: "",
                             UPLOAD_FILENAME: $scope.Resume,
-                            GENDER_ID: $scope.GenderId == 0 ? null : $scope.GenderId,
-                            NATIONALITY_ID: $scope.NationalityId == 0 ? null : $scope.NationalityId,
-                            ETHINICGROUP_ID: $scope.EthnicGroupId == 0 ? null : $scope.EthnicGroupId,
+                            GENDER_ID: $scope.GenderId1 == 0 ? null : $scope.GenderId1,
+                            NATIONALITY_ID: $scope.NationalityId1 == 0 ? null : $scope.NationalityId1,
+                            ETHINICGROUP_ID: $scope.EthnicGroupId1 == 0 ? null : $scope.EthnicGroupId1,
                             DOB: moment($scope.DOB).format('DD-MMM-YYYY'),
                             HOME_AREACODE: $scope.HomeAreaCode,
                             HOME_PHONENO: $scope.Home_PhoneNo,
@@ -5608,11 +5608,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             ADDRESS1: $scope.Address1,
                             ADDRESS2: $scope.Address2,
                             ADDRESS3: $scope.Address3,
-                            COUNTRY_ID: $scope.CountryId == 0 ? null : $scope.CountryId,
-                            STATE_ID: $scope.StateId == 0 ? null : $scope.StateId,
-                            CITY_ID: $scope.CityId == 0 ? null : $scope.CityId,
-                            MARITALSTATUS_ID: $scope.MaritalStatusId == 0 ? null : $scope.MaritalStatusId,
-                            BLOODGROUP_ID: $scope.BloodGroupId == 0 ? null : $scope.BloodGroupId,
+                            COUNTRY_ID: $scope.CountryId1 == 0 ? null : $scope.CountryId1,
+                            STATE_ID: $scope.StateId1 == 0 ? null : $scope.StateId1,
+                            CITY_ID: $scope.CityId1 == 0 ? null : $scope.CityId1,
+                            MARITALSTATUS_ID: $scope.MaritalStatusId1 == 0 ? null : $scope.MaritalStatusId1,
+                            BLOODGROUP_ID: $scope.BloodGroupId1 == 0 ? null : $scope.BloodGroupId1,
                             PATIENTNO: $scope.PatientNo,
                             INSURANCEID: $scope.InsuranceId,
                             //MNR_NO: $scope.MNR_No,
