@@ -204,6 +204,7 @@ namespace MyCortex.Notification.Firebase
                     var res = mail.SendComposedSMTPEmail(emailModel, alert, elList, 0, "", User_Id);
                 }
             }
+            repository.LiveBox_UserDetails_Delete(User_Id);
             return null;
         }
         public static async Task<ActionResult> SendPushLiveboxNotification(PushNotificationMessage message, string Url, long User_Id, long Institution_Id)
