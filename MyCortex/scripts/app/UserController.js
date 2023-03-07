@@ -1661,7 +1661,44 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         };
                         request.send();
                     }
+                } else if ($scope.GenderList?.length>0 && $scope.Id == 0) {
+
+                    if (photoview == false) {
+                        var request1 = new XMLHttpRequest();
+                        request1.open('GET', picPath1, true);
+                        request1.responseType = 'blob';
+                        request1.onload = function () {
+                            var reader1 = new FileReader();
+                            reader1.readAsDataURL(request1.response);
+                            reader1.onload = function (e) {
+                                $scope.uploadmes = e.target.result;
+                                $scope.uploadme1 = $scope.uploadmes;
+                                $scope.uploadme2 = $scope.uploadmes;
+                                $scope.uploadme3 = $scope.uploadmes;
+                                $scope.$apply();
+                            };
+                        };
+                        request1.send();
+
+                        var request = new XMLHttpRequest();
+                        request.open('GET', picPath, true);
+                        request.responseType = 'blob';
+                        request.onload = function () {
+                            var reader = new FileReader();
+                            reader.readAsDataURL(request.response);
+                            reader.onload = function (e) {
+                                $scope.uploadmes = e.target.result;
+                                $scope.uploadme = $scope.uploadmes;
+                                $scope.$apply();
+                            };
+                        };
+                        request.send();
+                    }
                 }
+                //if ($scope.GenderId1 > 0) {
+                //$scope.GenderId = $scope.GenderId1;
+                //    $scope.$apply();
+                //}
                
             }          
         };
@@ -2742,11 +2779,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.CountryBasedStateFunction = function () {
             $scope.StateId = '0';
             $scope.CityId = '0';
-            $scope.LoadStateList($scope.CountryId);
+            $scope.LoadStateList($("#CountryId").val());
         }
         $scope.StateBasedCityFunction = function () {
             $scope.CityId = '0';
-            $scope.LoadCityList($scope.CountryId, $scope.StateId);
+            $scope.LoadCityList($("#CountryId").val(), $("#StateId").val());
         }
         $scope.Filter_Country_OnChange = function () {
             $scope.LoadStateList($scope.filter_CountryId);
@@ -5248,6 +5285,20 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.UID_Upload = [];
         $scope.UIDLogo = [];
         $scope.User_InsertUpdate = function () {
+
+            $scope.GenderId = $("#GenderId").val();
+            $scope.DepartmentId = $("#DepartmentId").val();
+            $scope.MaritalStatusId = $("#MaritalStatusId").val();
+            $scope.BloodGroupId = $("#BloodGroupId").val();
+            $scope.EthnicGroupId = $("#EthnicGroupId").val();
+            $scope.SelectedChronicCondition = $("#SelectedChronicCondition").val();
+            $scope.CountryId = $("#CountryId").val();
+            $scope.StateId = $("#StateId").val();
+            $scope.CityId = $("#CityId").val();
+            $scope.SelectedGroup = $("#SelectedGroup").val();
+            $scope.EMERG_CONT_RELATIONSHIP_ID = $("#EMERG_CONT_RELATIONSHIP_ID").val();
+            $scope.NationalityId = $("#NationalityId").val();
+                        
             // Mobile Number Validation...
             if ($scope.InputPhoneNo1 == "" || $scope.InputPhoneNo1 == undefined || $scope.InputPhoneNo1 == null) {
             } else {
@@ -5265,7 +5316,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     return;
                 } else {
                     document.getElementById("txthdFullNumber").value = document.getElementById("txthdCountryCode").value + "~" + document.getElementById("txtMobile").value;
-                }                  
+                }
             }
             document.getElementById("txthdFullNumber").value = document.getElementById("txthdCountryCode").value + "~" + document.getElementById("txtMobile").value;
             $scope.MobileNo_CC = document.getElementById("txthdFullNumber").value;
