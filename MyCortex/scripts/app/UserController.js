@@ -1707,6 +1707,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
                 var feMaleId = 0;
+                $scope.GenderId1 = $('#GenderId').val();
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
@@ -1719,10 +1720,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
                 var picPath = "../../Images/others.png";
                 if (typeof ($scope.Gender_Name) != "undefined")
-                    if ($scope.GenderId == feMaleId) {
+                    if ($scope.GenderId1 == feMaleId) {
                         picPath = "../../Images/Patient_Female.png";
                     }
-                    else if ($scope.GenderId == maleId) {
+                    else if ($scope.GenderId1 == maleId) {
                         picPath = "../../Images/Patient_Male.png";
                     }
 
@@ -1747,6 +1748,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
                 var feMaleId = 0;
+                $scope.GenderId1 = $('#GenderId').val();
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
@@ -1759,10 +1761,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
                 var picPath1 = "../../Images/National_Male.png";
                 if (typeof ($scope.Gender_Name) != "undefined")
-                    if ($scope.GenderId == feMaleId) {
+                    if ($scope.GenderId1 == feMaleId) {
                         picPath1 = "../../Images/National_Female.png";
                     }
-                    else if ($scope.GenderId == maleId) {
+                    else if ($scope.GenderId1 == maleId) {
                         picPath1 = "../../Images/National_Male.png";
                     }
 
@@ -1787,6 +1789,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
                 var feMaleId = 0;
+                $scope.GenderId1 = $('#GenderId').val();
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
@@ -1799,10 +1802,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
                 var picPath1 = "../../Images/National_Male.png";
                 if (typeof ($scope.Gender_Name) != "undefined")
-                    if ($scope.GenderId == feMaleId) {
+                    if ($scope.GenderId1 == feMaleId) {
                         picPath1 = "../../Images/National_Female.png";
                     }
-                    else if ($scope.GenderId == maleId) {
+                    else if ($scope.GenderId1 == maleId) {
                         picPath1 = "../../Images/National_Male.png";
                     }
                 if (photoview == false) {
@@ -1826,6 +1829,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
                 var feMaleId = 0;
+                $scope.GenderId1 = $('#GenderId').val();
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
@@ -1838,10 +1842,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
                 var picPath1 = "../../Images/National_Male.png";
                 if (typeof ($scope.Gender_Name) != "undefined")
-                    if ($scope.GenderId == feMaleId) {
+                    if ($scope.GenderId1 == feMaleId) {
                         picPath1 = "../../Images/National_Female.png";
                     }
-                    else if ($scope.GenderId == maleId) {
+                    else if ($scope.GenderId1 == maleId) {
                         picPath1 = "../../Images/National_Male.png";
                     }
                 if (photoview == false) {
@@ -2164,10 +2168,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             //alert("Inactive record cannot be edited");
             toastr.info("Inactive record cannot be edited", "info");
         }
-        $http.get(baseUrl + '/api/Common/InstitutionNameList/').then(function (response) {
-            $scope.InstitutionList = response.data;
-        }, function errorCallback(response) {
-        });
+        //$http.get(baseUrl + '/api/Common/InstitutionNameList/').then(function (response) {
+        //    $scope.InstitutionList = response.data;
+        //}, function errorCallback(response) {
+        //});
         $scope.SuperAdminDropdownsList = function () {
             if ($scope.LoginType == 1 || $scope.LoginType == 3) {
                 $http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).then(function (response) {
@@ -2779,11 +2783,14 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.CountryBasedStateFunction = function () {
             $scope.StateId = '0';
             $scope.CityId = '0';
-            $scope.LoadStateList($("#CountryId").val());
+            $scope.CountryId1 = $("#CountryId").val();
+            $scope.LoadStateList($scope.CountryId1);
         }
         $scope.StateBasedCityFunction = function () {
             $scope.CityId = '0';
-            $scope.LoadCityList($("#CountryId").val(), $("#StateId").val());
+            $scope.CountryId1 = $("#CountryId").val();
+            $scope.StateId1 = $("#StateId").val();
+            $scope.LoadCityList($scope.CountryId1, $scope.StateId1);
         }
         $scope.Filter_Country_OnChange = function () {
             $scope.LoadStateList($scope.filter_CountryId);
@@ -4482,11 +4489,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         //$scope.StateId = data.STATE_ID.toString();
                         //$scope.CityId = data.CITY_ID.toString();
 
-                        $scope.CountryDuplicateId = $scope.CountryId;
+                        $scope.CountryDuplicateId = $("#CountryId").val(); //$scope.CountryId;
                         $scope.CountryFlag = true;
-                        $scope.StateDuplicateId = $scope.StateId;
+                        $scope.StateDuplicateId = $("#StateId").val();// $scope.StateId;
                         $scope.StateFlag = true;
-                        $scope.LocationDuplicateId = $scope.CityId;
+                        $scope.LocationDuplicateId = $("#CityId").val();//$scope.CityId;
                         $scope.CityFlag = true;
                         if ($scope.DropDownListValue == 4) {
 
@@ -4568,7 +4575,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.Google_EmailId = response.data.GOOGLE_EMAILID;
                         $scope.FB_EmailId = response.data.FB_EMAILID;
                         $scope.appleUserID = response.data.appleUserID;
-                        $scope.Patient_Type = response.data.Patient_Type;
+                       
                         $scope.PATIENT_ID = response.data.PatientId;
                         $scope.Diabetic = response.data.DIABETIC.toString();
                         $scope.HyperTension = response.data.HYPERTENSION.toString();
@@ -4757,6 +4764,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         //$scope.inputPhoneNo1 = inputPhoneNo;
                         document.getElementById("txthdCountryCode").value = countrycode;
                         document.getElementById('txthdFullNumber').value = mNumberCC;
+                        $scope.Patient_Type = response.data.Patient_Type;
+                        setTimeout(() => { angular.element($('#Patient_Type' + $scope.Patient_Type)).prop('checked', true); }, 500);
                     }
                 });
                     ////}
