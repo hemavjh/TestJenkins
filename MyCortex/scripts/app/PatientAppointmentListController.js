@@ -202,13 +202,17 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                     $scope.UpComingAppointmentDetails = data.PatientAppointmentList;
                     angular.forEach($scope.UpComingAppointmentDetails, function (row, i) {
                         
-                        if (row.Appointment_Module_Id === 3 && row.Status === 5 && parseInt(row.Payment_Status_Id) === 2) {
-                            row.Payment_Status = "Waiting for Insurance Approval";
-                        } else if (row.Appointment_Module_Id === 3 && row.Status === 1 && parseInt(row.Payment_Status_Id) === 3) {
-                            row.Payment_Status = "Insurance Approved";
-                        } else if (row.Appointment_Module_Id === 3 && row.Status === 5 && parseInt(row.Payment_Status_Id) === 4) {
-                            row.Payment_Status = "Insurance Rejected";
-                        }
+                        //if (row.Appointment_Module_Id === 3 && row.Status === 5 && parseInt(row.Payment_Status_Id) === 2) {
+                        //    row.Payment_Status = "Waiting for Insurance Approval";
+                        //} else if (row.Appointment_Module_Id === 3 && row.Status === 1 && parseInt(row.Payment_Status_Id) === 3) {
+                        //    row.Payment_Status = "Insurance Approved";
+                        //} else if (row.Appointment_Module_Id === 3 && row.Status === 5 && parseInt(row.Payment_Status_Id) === 4) {
+                        //    row.Payment_Status = "Insurance Rejected";
+                        //}
+
+                        //if (row.Appointment_Module_Id === 2 && (row.Payment_Status == 0 || row.Payment_Status == '' || row.Payment_Status == null || row.Payment_Status == "UNPAID")) {
+                        //    row.Payment_Status = "UNPAID";
+                        //}
                     });
                     compareAppointmentDates();
                 });
