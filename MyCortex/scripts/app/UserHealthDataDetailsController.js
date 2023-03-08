@@ -1503,6 +1503,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                     //alert(data.Message);
                                     if (data.ReturnFlag == 1) {
                                         toastr.success(data.Message, "success");
+                                        $scope.$broadcast("appointment_list");
                                         if ($scope.AppointmoduleID1 == 3) {
                                             $scope.checkEligibility();
                                         }
