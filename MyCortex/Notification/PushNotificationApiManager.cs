@@ -17,12 +17,13 @@ using MyCortex.Repositories.EmailAlert;
 using MyCortex.Admin.Models;
 using MyCortex.Repositories.Admin;
 using MyCortex.Email.SendGrid;
+using System.Web.Mvc;
 
 namespace MyCortex.Notification.Firebase
 {
     public class PushNotificationApiManager
     {
-        static readonly ILiveBoxRepository LBrepository=new LiveBoxRepository();
+        static readonly ILiveBoxRepository LBrepository = new LiveBoxRepository();
         static readonly ISendEmailRepository repository = new SendEmailRepository();
         static readonly ICommonRepository commonrepository = new CommonRepository();
         static readonly AlertEventRepository alertrepository = new AlertEventRepository();
@@ -32,22 +33,22 @@ namespace MyCortex.Notification.Firebase
         string
             _AppLogger = string.Empty, _AppMethod = string.Empty;
 
-       
+
         /// <summary>
         /// sends Firebase Push Notification
         /// </summary>
         /// <param name="message">Notification Composed Message</param>
         /// <param name="templateId">Notification Template Id</param>
         /// <returns></returns>
-        private async static Task<IRestResponse> SendPushNotification(PushNotificationMessage message, long templateId, string Url)
+        private async static Task<IRestResponse> SendPushNotification(PushNotificationMessage message, long templateId, string Url, long Institution_Id)
         {
             string
             _AppLogger = string.Empty, _AppMethod = string.Empty;
             _AppLogger = "MyCortex.Notification.Firebase.PushNotificationApiManager";
             _AppMethod = "MoveNext";
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
-            long Institution_Id;
-            Institution_Id = long.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
+            //long Institution_Id;
+            //Institution_Id = long.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
             IList<AppConfigurationModel> model;
             //model = commonrepository.AppConfigurationDetails("FIREBASE_APITOKEN", Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]));
             model = commonrepository.AppConfigurationDetails("FIREBASE_APITOKEN", Institution_Id);
@@ -116,7 +117,7 @@ namespace MyCortex.Notification.Firebase
 
         }
 
-        public static async void sendNotification(PushNotificationMessage message, long templateId, long User_Id, long NotificationFor)
+        public static async void sendNotification(PushNotificationMessage message, long templateId, long User_Id, long Institution_Id, long NotificationFor)
         {
             List<NotifictaionUserFCM> model = new List<NotifictaionUserFCM>();
             model = repository.UserFCMToken_Get_List(User_Id);
@@ -128,7 +129,7 @@ namespace MyCortex.Notification.Firebase
                     message.FCMToken = itemData.FCMToken;
                     try
                     {
-                        await SendPushNotification(message, templateId, itemData.SiteUrl);
+                        await SendPushNotification(message, templateId, itemData.SiteUrl, Institution_Id);
                     }
                     catch
                     {
@@ -157,7 +158,7 @@ namespace MyCortex.Notification.Firebase
         //        await SendConfiguraionPushNotification(message, itemData.SiteUrl, itemData.Settings, itemData.Institution_Id);
         //    }
         //}
-        public async static void SendLiveboxNotification(PushNotificationMessage message, long User_Id, long Institution_Id)
+        public static async Task<async> SendLiveboxNotificationAsync(PushNotificationMessage message, long User_Id, long Institution_Id)
         {
             Int64 Id = 0;
             AlertEvents AlertEventReturn = new AlertEvents();
@@ -171,7 +172,7 @@ namespace MyCortex.Notification.Firebase
                 message.FCMToken = itemData.FCMToken;
                 try
                 {
-                    await SendPushLiveboxNotification(message, itemData.SiteUrl,User_Id);
+                    var l = await SendPushLiveboxNotification(message, itemData.SiteUrl, User_Id, Institution_Id);
                 }
                 catch
                 {
@@ -203,16 +204,18 @@ namespace MyCortex.Notification.Firebase
                     var res = mail.SendComposedSMTPEmail(emailModel, alert, elList, 0, "", User_Id);
                 }
             }
+            repository.LiveBox_UserDetails_Delete(User_Id);
+            return null;
         }
-        private async static Task<IRestResponse> SendPushLiveboxNotification(PushNotificationMessage message, string Url, long User_Id)
+        public static async Task<ActionResult> SendPushLiveboxNotification(PushNotificationMessage message, string Url, long User_Id, long Institution_Id)
         {
             string
             _AppLogger = string.Empty, _AppMethod = string.Empty;
             _AppLogger = "MyCortex.Notification.Firebase.PushNotificationApiManager";
             _AppMethod = "MoveNext";
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
-            long Institution_Id;
-            Institution_Id = long.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
+            //long Institution_Id;
+            //Institution_Id = long.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
             IList<AppConfigurationModel> model;
             //model = commonrepository.AppConfigurationDetails("FIREBASE_APITOKEN", Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]));
             model = commonrepository.AppConfigurationDetails("FIREBASE_APITOKEN", Institution_Id);
@@ -273,7 +276,8 @@ namespace MyCortex.Notification.Firebase
             }
             finally
             {
-                if(deliveryStatus == 1) { 
+                if (deliveryStatus == 1)
+                {
                     repository.LiveBox_UserDetails_Delete(User_Id); //returnObj.results
                 }
             }
@@ -369,5 +373,9 @@ namespace MyCortex.Notification.Firebase
         {
             throw new NotImplementedException();
         }
+    }
+
+    public class async
+    {
     }
 }

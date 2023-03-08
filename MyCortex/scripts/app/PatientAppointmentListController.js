@@ -200,6 +200,20 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                 $http.get(baseUrl + '/api/User/PatientAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
                     $scope.UpComingAppointmentDetails = [];
                     $scope.UpComingAppointmentDetails = data.PatientAppointmentList;
+                    angular.forEach($scope.UpComingAppointmentDetails, function (row, i) {
+                        
+                        //if (row.Appointment_Module_Id === 3 && row.Status === 5 && parseInt(row.Payment_Status_Id) === 2) {
+                        //    row.Payment_Status = "Waiting for Insurance Approval";
+                        //} else if (row.Appointment_Module_Id === 3 && row.Status === 1 && parseInt(row.Payment_Status_Id) === 3) {
+                        //    row.Payment_Status = "Insurance Approved";
+                        //} else if (row.Appointment_Module_Id === 3 && row.Status === 5 && parseInt(row.Payment_Status_Id) === 4) {
+                        //    row.Payment_Status = "Insurance Rejected";
+                        //}
+
+                        //if (row.Appointment_Module_Id === 2 && (row.Payment_Status == 0 || row.Payment_Status == '' || row.Payment_Status == null || row.Payment_Status == "UNPAID")) {
+                        //    row.Payment_Status = "UNPAID";
+                        //}
+                    });
                     compareAppointmentDates();
                 });
             });
@@ -372,13 +386,13 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                     userId = Row.Doctor_Id;
                 }
 
-                //var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
-                var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://meet.hive.clinic:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+                var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+               // var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://meet.hive.clinic:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
                 document.getElementById('Patient_VideoCall').innerHTML = tag;
 
                 /*Getting the Event */
-                //var GetEvent = io('https://demoserver.livebox.co.in:3030/', { transports: ['websocket'] });
-                var GetEvent = io('https://meet.hive.clinic:3030/', { transports: ['websocket'] });
+                var GetEvent = io('https://demoserver.livebox.co.in:3030/', { transports: ['websocket'] });
+               // var GetEvent = io('https://meet.hive.clinic:3030/', { transports: ['websocket'] });
 
                 /* Passing the Event */
                 GetEvent.on("endConferenceListenerData", function (conferenceData) {
@@ -451,8 +465,8 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
 
 
                 //});
-                //var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&recording=' + IsRecording + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
-                var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://meet.hive.clinic:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&recording=' + IsRecording + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+                var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&recording=' + IsRecording + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+                //var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://meet.hive.clinic:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&recording=' + IsRecording + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
                 document.getElementById('Patient_VideoCall').innerHTML = tag;
             }
             else {

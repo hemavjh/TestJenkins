@@ -723,7 +723,8 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@CreatedBy", InObj.CreatedBy));
             param.Add(new DataParameter("@MinimumSlots", InObj.MinimumSlots));
             param.Add(new DataParameter("@CANCEL_APPOINTMENT_UNPAID_MINUTES", InObj.CancelAppointmentUnPaidMinutes));
-            
+            param.Add(new DataParameter("@ELIGIBILITY_TIMEOUT", InObj.Eligibility_Timeout));
+
             var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
             _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
@@ -792,6 +793,7 @@ namespace MyCortex.Repositories.Masters
                                                          MaxScheduleDays = p.Field<int>("MaxScheduleDays"),
                                                          MinimumSlots = p.Field<int>("MinimumSlots"),
                                                          CancelAppointmentUnPaidMinutes = p.Field<int>("CancelAppointmentUnPaidMinutes"),
+                                                         Eligibility_Timeout = p.Field<int>("Eligibility_Timeout"),
                                                          Flag = p.Field<int>("Flag")
                                                      }).ToList();
                 return INS;
@@ -846,8 +848,8 @@ namespace MyCortex.Repositories.Masters
                                          MinimumSlots = p.Field<int>("MINIMUM_SLOTS"),
                                          CreatedBy = p.Field<long>("CREATED_BY"),
                                          IsActive =  p.Field<int>("ISACTIVE"),
-                                         CancelAppointmentUnPaidMinutes = p.Field<int>("CANCEL_APPOINTMENT_UNPAID")
-
+                                         CancelAppointmentUnPaidMinutes = p.Field<int>("CANCEL_APPOINTMENT_UNPAID"),
+                                         Eligibility_Timeout = p.Field<int>("ELIGIBILITY_TIMEOUT"),
                                      }).FirstOrDefault();
                 if (list != null)
                 {

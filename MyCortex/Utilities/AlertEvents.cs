@@ -116,7 +116,7 @@ namespace MyCortex.Notification
                             alert.TempBody = alert.TempBody.Replace("\n", " ");
                             message.Message = alert.TempBody;
                             /*_MyLogger.Exceptions("INFO", _AppLogger, "Notification: Title: " + message.Title + "Message: " + message.Message + "UserId: " + email.UserId, null, _AppMethod);*/
-                            PushNotificationApiManager.sendNotification(message, sendEmailModel[0].Id, email.UserId, alert.TemplateFor);
+                            PushNotificationApiManager.sendNotification(message, sendEmailModel[0].Id, email.UserId, Institution_Id, alert.TemplateFor);
                         }
                         else if (alert.TemplateType_Id == 3)  // 3 for SMS
                         {
