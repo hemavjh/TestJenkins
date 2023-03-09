@@ -4,7 +4,16 @@
             $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
        });
 </script> 
- 
+ <script>
+     $(document).keypress(
+         function (event) {
+             if (event.which == '13') {
+                 event.preventDefault();
+                 return false;
+             }
+         });
+
+ </script>
  <ul class="secondaryMenu">
      <li><a href="Home/Index#/ParameterSettings" class="secondaryMenuActive" data-menu="Settings">Standard Parameter</a></li>
      <li><a href="Home/Index#/ChatSetting/2">Chat</a></li>
