@@ -8,15 +8,14 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
     var baseUrl = $("base").first().attr("href");
     //$locationProvider.hashPrefix('');
     //$locationProvider.html5Mode(true).hashPrefix('*');
-
-    $locationProvider.html5Mode(true);
-    $locationProvider.hashPrefix('!');
+   // $locationProvider.html5Mode(true);
+    //$locationProvider.hashPrefix('!');
     
     $routeProvider.
-        when('/', {
-            templateUrl: baseUrl + 'Login/Views/Login.html',
-            controller: 'LoginController'
-        }).
+        //when('/', {
+        //    templateUrl: baseUrl + 'Login/Views/Login.html',
+        //    controller: 'LoginController'
+        //}).
         when('/login', {
             templateUrl: baseUrl + 'Login/Views/Login.html',
             controller: 'LoginController'
