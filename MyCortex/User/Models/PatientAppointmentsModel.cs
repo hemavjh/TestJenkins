@@ -144,6 +144,7 @@ namespace MyCortex.User.Model
         public string status { get; set; }
         public string recording_url { get; set; }
         public string Fileid { get; set; }
+        public Guid Conference_id { get; set; }
     }
 
     public class AppointmentDuration

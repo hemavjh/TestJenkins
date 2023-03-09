@@ -545,6 +545,7 @@ namespace MyCortex.Repositories.Uesr
                                                                 ToTime = p.Field<string>("ToTime"),
                                                                 PatientName = p.Field<string>("PatientName"),
                                                                 id = p.Field<long>("ID"),
+                                                                Conference_id = p.Field<Guid>("CONFERENCE_ID"),
                                                                 Appointment_Date = p.Field<DateTime>("APPOINTMENT_DATE"),
                                                                 MerchantOrderNo = p.Field<string>("MERCHANTORDERNO"),
                                                                 amount = p.Field<string>("AMOUNT"),

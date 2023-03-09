@@ -202,6 +202,7 @@ namespace MyCortex.Notification.Firebase
 
                     SendGridApiManager mail = new SendGridApiManager();
                     var res = mail.SendComposedSMTPEmail(emailModel, alert, elList, 0, "", User_Id);
+                    repository.LiveBox_UserDetails_Delete(User_Id);
                 }
             }
             repository.LiveBox_UserDetails_Delete(User_Id);
