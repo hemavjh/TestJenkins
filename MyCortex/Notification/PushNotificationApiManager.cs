@@ -239,7 +239,8 @@ namespace MyCortex.Notification.Firebase
                     body = message.Message,
                     click_action = Url
                 },
-                to = message.FCMToken
+                to = message.FCMToken,
+                to1 = message.conferencename
             };
 
             //Tranform it to Json object
@@ -352,6 +353,8 @@ namespace MyCortex.Notification.Firebase
         //}
         public class PushNotificationMessage
         {
+            internal string conferencename;
+
             public string FCMToken { get; set; }
             public string Title { get; set; }
             public string Message { get; set; }
