@@ -17,12 +17,13 @@ using MyCortex.Repositories.EmailAlert;
 using MyCortex.Admin.Models;
 using MyCortex.Repositories.Admin;
 using MyCortex.Email.SendGrid;
+using System.Web.Mvc;
 
 namespace MyCortex.Notification.Firebase
 {
     public class PushNotificationApiManager
     {
-        static readonly ILiveBoxRepository LBrepository=new LiveBoxRepository();
+        static readonly ILiveBoxRepository LBrepository = new LiveBoxRepository();
         static readonly ISendEmailRepository repository = new SendEmailRepository();
         static readonly ICommonRepository commonrepository = new CommonRepository();
         static readonly AlertEventRepository alertrepository = new AlertEventRepository();
@@ -32,7 +33,7 @@ namespace MyCortex.Notification.Firebase
         string
             _AppLogger = string.Empty, _AppMethod = string.Empty;
 
-       
+
         /// <summary>
         /// sends Firebase Push Notification
         /// </summary>
@@ -154,7 +155,7 @@ namespace MyCortex.Notification.Firebase
         //        await SendConfiguraionPushNotification(message, itemData.SiteUrl, itemData.Settings, itemData.Institution_Id);
         //    }
         //}
-        public async static void SendLiveboxNotification(PushNotificationMessage message, long User_Id, long Institution_Id)
+        public static async Task<async> SendLiveboxNotificationAsync(PushNotificationMessage message, long User_Id, long Institution_Id)
         {
             string
            _AppLogger = string.Empty, _AppMethod = string.Empty;
@@ -162,7 +163,7 @@ namespace MyCortex.Notification.Firebase
             _AppMethod = "MoveNext";
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             Int64 Id = 0;
-            AlertEvents AlertEventReturn = new AlertEvents();
+            AlertEvents AlertEventReturn = new AlertEvents();    
             IList<EmailListModel> EmailList;
             //AlertEventModel EmailList =new AlertEventModel();
             List<NotifictaionUserFCM> model = new List<NotifictaionUserFCM>();
@@ -171,16 +172,16 @@ namespace MyCortex.Notification.Firebase
                 // string url = HttpContext.Current.Request.Url.Authority;
                 foreach (NotifictaionUserFCM itemData in model)
                 {
-                 message.FCMToken = itemData.FCMToken;
-                _MyLogger.Exceptions("INFO", _AppLogger, message.FCMToken, null, _AppMethod);
-                try
-                {
-                    await SendPushLiveboxNotification(message, itemData.SiteUrl,User_Id);
-                }
-                catch
-                {
+                    message.FCMToken = itemData.FCMToken;
+                    _MyLogger.Exceptions("INFO", _AppLogger, message.FCMToken, null, _AppMethod);
+                    try
+                    {
+                        var l = await SendPushLiveboxNotification(message, itemData.SiteUrl, User_Id);
+                    }
+                    catch
+                    {
 
-                }
+                    }
                 }
             if (model.Count == 0)
             {
@@ -209,8 +210,10 @@ namespace MyCortex.Notification.Firebase
                     _MyLogger.Exceptions("INFO", _AppLogger, json_data, null, _AppMethod);
                 }
             }
+            repository.LiveBox_UserDetails_Delete(User_Id);
+            return null;
         }
-        private async static Task<IRestResponse> SendPushLiveboxNotification(PushNotificationMessage message, string Url, long User_Id)
+        private async static Task<ActionResult> SendPushLiveboxNotification(PushNotificationMessage message, string Url, long User_Id)
         {
             string
             _AppLogger = string.Empty, _AppMethod = string.Empty;
@@ -278,7 +281,7 @@ namespace MyCortex.Notification.Firebase
             }
             finally
             {
-                if(deliveryStatus == 1) { 
+                if (deliveryStatus == 1) {
                     repository.LiveBox_UserDetails_Delete(User_Id); //returnObj.results
                 }
             }
@@ -374,5 +377,8 @@ namespace MyCortex.Notification.Firebase
         {
             throw new NotImplementedException();
         }
+        public class async
+            {
+            }
     }
 }

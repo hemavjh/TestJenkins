@@ -1532,27 +1532,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 else if ($scope.UserTypeId1 == 4 && $scope.GenderId1 == feMaleId) {
                     picPath = "../../Images/Clinician_Female.png";
                 }
-                else {
-                    picPath = "../../Images/others.png";
-                }
-                if (photoview == false) {
-                    var request = new XMLHttpRequest();
-                    request.open('GET', picPath, true);
-                    request.responseType = 'blob';
-                    request.onload = function () {
-                        var reader = new FileReader();
-                        reader.readAsDataURL(request.response);
-                        reader.onload = function (e) {
-                            $scope.uploadmes = e.target.result;
-                            $scope.uploadme = $scope.uploadmes;
-                            $scope.uploadme1 = $scope.uploadmes;
-                            $scope.uploadme3 = $scope.uploadmes;
-                            $scope.uploadme2 = $scope.uploadmes;
-                            $scope.$apply();
-                        };
-                    };
-                    request.send();
-                } 
+                else {                    picPath = "../../Images/others.png"; }
+                {                  if (photoview == false) {                      var request = new XMLHttpRequest();                      request.open('GET', picPath, true);                      request.responseType = 'blob';                      request.onload = function () {                          var reader = new FileReader();                          reader.readAsDataURL(request.response);                          reader.onload = function (e) {                              $scope.uploadmes = e.target.result;                              $scope.uploadme = $scope.uploadmes;                              $scope.uploadme1 = $scope.uploadmes;                              $scope.uploadme3 = $scope.uploadmes;                              $scope.uploadme2 = $scope.uploadmes;                              $scope.$apply();                          };                      };                      request.send();                     }
             }
         };
         //$scope.$watch('GenderId', function () {
@@ -1694,7 +1675,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         };
                         request.send();
                     }
-                }
+                }}   
                 //if ($scope.GenderId1 > 0) {
                 //$scope.GenderId = $scope.GenderId1;
                 //    $scope.$apply();
@@ -4604,11 +4585,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         if (methodcnt == 0)
                             $scope.uploadview = true;
                         if (response.data.PhotoBlob != null) {
-                            $scope.uploadme = 'data:image/png;base64,' + response.data.PhotoBlob;
-
+                            $scope.uploadme = 'data:image/png;base64,' + response.data.PhotoBlob;1;
                         }
                         else {
-                            $scope.uploadme = null;
+                            $scope.uploadme = nul0;
                         }
 
                         if ($scope.LoginType == 2) {

@@ -233,7 +233,7 @@
                                     </tr>
                                     <tr>
 
-                                        <th>
+                                        <th style="width:300px;">
                                             Parameter <sup>
                                                 <font class='mandatory-field'>*</font>
                                             </sup>
@@ -249,7 +249,6 @@
                                         <th>Min</th>
                                         <th>Max</th>
                                         <th>Action</th>
-
                                     </tr>
                                 </thead>
 
@@ -265,9 +264,10 @@
 
                                         <td>
                                             <select ng-model="row.Parameter_Id" data-style="form-control" class="form-control" data-live-search="true" data-selectpicker data-collection-name="ParameterTypeList"
-                                                    ng-options="item.Id as item.Name for item in ParameterTypeList"
+                                                    ng-options="item.Id as item.Name for item in ParameterTypeList" 
                                                     ng-change="ParameterSettings_ViewEdit(row);">
-                                                <option value="">Select</option>
+                                                <!--<option value="">Select</option>-->
+                                                <option tabindex="0" hidden selected value style="width:500px;">Select</option>
                                             </select>
                                         </td>
 

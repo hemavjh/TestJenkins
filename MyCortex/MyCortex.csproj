@@ -1912,6 +1912,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
+      <UserProperties scripts_4bootstrap-select-1_113_19_4docs_4docs_4dist_4js_4i18n_4defaults-en_3us_1js_1map__JsonSchema="" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
