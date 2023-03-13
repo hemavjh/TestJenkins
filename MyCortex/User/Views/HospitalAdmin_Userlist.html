@@ -424,7 +424,7 @@
                     <img src="../../Images/Others.png" width="30" height="30" />
                          </div>
                         <div  ng-if="(row.PhotoBlob!=null && row.PhotoBlob!=0)" >
-                    <img src="'data:image/png;base64,' + {{row.PhotoBlob}}" width="30" height="30" />
+                    <img src="{{'data:image/png;base64,'+ row.PhotoBlob}}" width="30" height="30" />
                             </div>
                         
 
@@ -768,7 +768,7 @@
                                                                  rowspan="6">
                                                                 <img id="item-img-output" class="responsiveProfileImage mb-10" ng-src="{{uploadme}}" />
                                                             </div>
-                                                            <a class="textRight theme-btn-2 mr-10" style="max-width: 250px;" href="javascript:"
+                                                            <a class="textRight theme-btn-2 mr-10" style="max-width: 250px;" href="javascript:" 
                                                                ng-click="imageclear()" title="Clear">
                                                                 Clear
                                                             </a>
@@ -1227,9 +1227,11 @@
                                                          valign="top" rowspan="6">
                                                         <img style="width:150px;height:150px;" class="responsiveProfileImage" src="../../Images/Others.png" />
                                                     </div>
-                                                    <div ng-if="(uploadme!=null || uploadme!=0)&&uploadview ==true"
-                                                         valign="top" rowspan="6">
-                                                        <img style="width:150px;height:150px;" class="responsiveProfileImage" ng-src="{{uploadme}}" />
+                                                    <!--<div ng-if="(uploadme!=null || uploadme!=0)&&(uploadview ==true)"
+                                                         valign="top" rowspan="6">-->
+                                                    <div>
+                                                        <!--<img style="width:150px;height:150px;" class="responsiveProfileImage" ng-src="{{PhotoFullpath}}" />-->
+                                                        <img style="width:150px;height:150px;" class="responsiveProfileImage" ng-src="{{'data:image/png;base64,'+ PhotoBlob}}" />
                                                     </div>
                                                 </div>
                                             </div>
