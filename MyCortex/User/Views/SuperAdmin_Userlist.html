@@ -547,7 +547,7 @@
                                             </td>
                                             <td>
                                                 <!--<div id="divGender" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                                    <select class="form-control" data-style="form-control" ng-model="GenderId" id="GenderId" data-live-search="true" data-collection-name="GenderList" ng-required="true" ng-change="AdmingetBase64Image();" ng-disabled="Pat_UserTypeId==2">
+                                                    <select class="form-control" data-style="form-control" ng-model="GenderId" id="GenderId" data-live-search="true" data-collection-name="GenderList" ng-required="true" onchange="angular.element(this).scope().AdmingetBase64Image()" ng-disabled="Pat_UserTypeId==2">
                                                         <option value="0">Select</option>
                                                         <!--<option ng-repeat="sel in GenderList" ng-selected="GenderId==sel.Id"
                                                                 value="{{sel.Id}}">
@@ -659,7 +659,7 @@
                             </td>
                             <!--ng-if="!uploadme==0 ||!uploadme==null"-->
                             <td style="width:180px;height:180px;" valign="top" rowspan="11">
-                                <div ng-if="uploadme!=null && uploadview ==true">
+                                <!--<div ng-if="uploadme!=null && uploadview ==true">
                                     <img ng-src="{{uploadme}}" width="180" height="180" />
                                 </div>
                                 <div ng-if="(ViewGender| lowercase)=='male' && (uploadme == null)&&uploadview ==true"
@@ -673,6 +673,10 @@
                                 <div ng-if="(ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male' && (uploadme == null)&&uploadview ==true"
                                      valign="top" rowspan="6">
                                     <img class="responsiveProfileImage" ng-src="../../Images/Others.png" width="180" height="180" />
+                                </div>-->
+                                <div>
+                                    <!--<img style="width:150px;height:150px;" class="responsiveProfileImage" ng-src="{{PhotoFullpath}}" />-->
+                                    <img src="{{'data:image/png;base64,'+ PhotoBlob}}" style="width:150px;height:150px;" />
                                 </div>
                             </td>
                             <td style="width:7%">
