@@ -1768,7 +1768,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         };
                         request.send();
                     }
-                }}   
+                }   
                 //if ($scope.GenderId1 > 0) {
                 //$scope.GenderId = $scope.GenderId1;
                 //    $scope.$apply();

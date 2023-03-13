@@ -115,7 +115,7 @@ EmpApp.config(['IdleProvider', function (IdleProvider) {
 EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     var baseUrl = $("base").first().attr("href");
 
-    $locationProvider.hashPrefix('');
+    $locationProvider.hashPrefix('!');
     //$locationProvider.html5Mode(true);
     //console.log(baseUrl);
     $routeProvider.
@@ -132,7 +132,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             controller: 'SignupController'
         }).
         when('/home', {
-            templateUrl: baseUrl + 'Home/Views/HomePage.html',
+            templateUrl:'/Home/Views/HomePage.html',
             controller: 'homeController'
         }).
         when('/Googlehome', {
@@ -140,7 +140,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             controller: 'GooglehomeController'
         }).
         when('/Institution', {
-            templateUrl: baseUrl + 'Admin/Views/Institutionlist.html',
+            templateUrl: 'Admin/Views/Institutionlist.html',
             controller: 'InstitutionController'
         }).
         when('/Institution_Subscription', {
@@ -480,6 +480,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             //redirectTo: '/Googlehome'
             redirectTo: '/'
         });
+        $locationProvider.html5Mode(true);
 }])
     
 .factory('authInterceptorService', ['$q', '$location', '$window', function ($q, $location, $window) {
