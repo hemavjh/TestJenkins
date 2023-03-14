@@ -62,6 +62,7 @@ namespace MyCortex.Repositories.LiveBox
                     PushNotificationMessage message = new PushNotificationMessage();
                     message.Title = "HiveMeet Notification";
                     message.Message = messageBody; // "Waiting for meet";
+                    message.conferencename = conferencename;
                     var l = PushNotificationApiManager.SendLiveboxNotificationAsync(message, User_Id, Institution_Id);
                 }
             }

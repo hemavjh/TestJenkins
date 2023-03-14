@@ -355,6 +355,8 @@ namespace MyCortex.Notification.Firebase
         //}
         public class PushNotificationMessage
         {
+            internal string conferencename;
+
             public string FCMToken { get; set; }
             public string Title { get; set; }
             public string Message { get; set; }
