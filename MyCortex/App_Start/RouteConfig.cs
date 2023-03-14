@@ -14,7 +14,7 @@ namespace MyCortex
             routes.RouteExistingFiles = true;
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute("home", "home", new { controller = "Home", action = "Index", id = UrlParameter.Optional });
+            routes.MapRoute("home", "Home/Index#/home", new { controller = "Home", action = "Index", id = UrlParameter.Optional });
 
             routes.MapRoute(
                 name: "Default",

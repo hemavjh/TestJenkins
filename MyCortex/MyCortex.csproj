@@ -542,6 +542,7 @@
     <Content Include="scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="scripts\angucomplete-alt.js" />
     <Content Include="scripts\angular-idle.min.js" />
+    <Content Include="scripts\angular-route.js" />
     <Content Include="scripts\angular-route.min.js" />
     <Content Include="scripts\angular-sanitize.js" />
     <Content Include="scripts\angular-touch.min.js" />

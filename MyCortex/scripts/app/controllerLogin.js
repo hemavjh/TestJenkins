@@ -856,7 +856,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                 window.location.href = baseUrl + "/Home/Index#/home";
             }
             else if (data == "4" || data == "5") {
-                window.location.href = baseUrl + "/home";
+                window.location.href = baseUrl + "/Home/Index#/home";
                 //$location.path("/Home/Index/home");
             }
             else if (data == "6" || data == "10") {
