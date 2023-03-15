@@ -69,7 +69,9 @@ namespace MyCortex.Notification.Firebase
                 {
                     title = message.Title,
                     body = message.Message,
-                    click_action = Url
+                    click_action = Url,
+                    //user_id = User_Id,
+                    Conferencename = message.conferencename
                 },
                 to = message.FCMToken
             };
@@ -237,10 +239,12 @@ namespace MyCortex.Notification.Firebase
                 {
                     title = message.Title,
                     body = message.Message,
-                    click_action = Url
+                    click_action = Url,
+                    user_id = User_Id,
+                    Conferencename = message.conferencename
                 },
                 to = message.FCMToken,
-                to1 = message.conferencename
+                //conferencename = message.conferencename
             };
 
             //Tranform it to Json object
