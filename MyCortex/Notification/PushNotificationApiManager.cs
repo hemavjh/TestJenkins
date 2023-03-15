@@ -202,6 +202,7 @@ namespace MyCortex.Notification.Firebase
 
                     SendGridApiManager mail = new SendGridApiManager();
                     var res = mail.SendComposedSMTPEmail(emailModel, alert, elList, 0, "", User_Id);
+                    repository.LiveBox_UserDetails_Delete(User_Id);
                 }
             }
             repository.LiveBox_UserDetails_Delete(User_Id);
@@ -238,7 +239,8 @@ namespace MyCortex.Notification.Firebase
                     body = message.Message,
                     click_action = Url
                 },
-                to = message.FCMToken
+                to = message.FCMToken,
+                to1 = message.conferencename
             };
 
             //Tranform it to Json object
@@ -351,6 +353,8 @@ namespace MyCortex.Notification.Firebase
         //}
         public class PushNotificationMessage
         {
+            internal string conferencename;
+
             public string FCMToken { get; set; }
             public string Title { get; set; }
             public string Message { get; set; }
