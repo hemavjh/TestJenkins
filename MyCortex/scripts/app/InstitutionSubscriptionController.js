@@ -658,7 +658,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                         }
                         if ($scope.SubscriptionAndAdmin == 1) {
                             InstSub.setSubID(response.data.Institute[0].Institution_Id);
-                            window.location.href = baseUrl + "/Home/Index#/SuperAdmin_UserList/1";
+                            window.location.href = baseUrl + "/Home/Index/SuperAdmin_UserList/1";
                         }
                     }
                     $("#chatLoaderPV").hide();

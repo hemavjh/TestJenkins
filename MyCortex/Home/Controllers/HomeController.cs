@@ -102,7 +102,7 @@ namespace MyCortex.Home.Controllers
         //   [CheckSessionOut]
         [CheckSessionOutFilter]
         //[NoDirectAccess]
-        //[Route("Index")]
+        //[Route("Index")]       
         public ActionResult Index()
         {
              _AppLogger = this.GetType().FullName;

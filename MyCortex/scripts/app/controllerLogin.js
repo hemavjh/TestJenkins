@@ -856,14 +856,14 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                 window.location.href = baseUrl + "/Home/Index#/home";
             }
             else if (data == "4" || data == "5") {
-                window.location.href = baseUrl + "/Home/Index#/home";
+                window.location.href = baseUrl + "/Home/Index/home";
                 //$location.path("/Home/Index/home");
             }
             else if (data == "6" || data == "10") {
                 $window.localStorage['UserTypeId'] = $scope.UserTypeId;
                 $window.localStorage['UserId'] = $scope.UserId;
 
-                window.location.href = baseUrl + "/Home/Index#/ChangePassword/1";
+                window.location.href = baseUrl + "Home/Index/ChangePassword/1";
                 $scope.errorlist = Message;
                 toastr.error(Message, "Warning");
             }
