@@ -10,37 +10,43 @@ AppointmentApprovalController.controller("AppointmentApprovalController", ['$sco
         $scope.rowCollectionFilter = [];
         $scope.ConfigCode = "PAGINATION";
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
-            if (data[0] != undefined) {
-                $scope.page_size = parseInt(data[0].ConfigValue);
+        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).then(function (response) {
+            if (response.data[0] != undefined) {
+                $scope.page_size = parseInt(response.data[0].ConfigValue);
                 $window.localStorage['Pagesize'] = $scope.page_size;
             }
+        }, function errorCallback(response) {
+
         });
         $scope.AppointmentReasonTypeList = [];
         $scope.ReasonTypeId = 0;
         $scope.Cancelled_Remarks = "";
         $scope.Appointment_Id = 0;
-        $http.get(baseUrl + '/api/PatientAppointments/AppointmentReasonType_List/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
+        $http.get(baseUrl + '/api/PatientAppointments/AppointmentReasonType_List/?Institution_Id=' + $window.localStorage['InstitutionId']).then(function (response) {
             $scope.AppointmentReasonTypeListTemp = [];
-            $scope.AppointmentReasonTypeListTemp = data;
+            $scope.AppointmentReasonTypeListTemp = response.data;
             var obj = { "ReasonTypeId": 0, "ReasonType": "Select", "IsActive": 1 };
             $scope.AppointmentReasonTypeListTemp.splice(0, 0, obj);
             $scope.AppointmentReasonTypeList = angular.copy($scope.AppointmentReasonTypeListTemp);
+        }, function errorCallback(response) {
+
         });
         $scope.current_page = 1;
         $scope.page_size = $window.localStorage['Pagesize'];
         $scope.CG_PatientAppointmentList = function () {
             $("#chatLoaderPV").show();
             var BrowserTZ = new Date().toString().match(/\(([A-Za-z\s].*)\)/)[1];
-            $http.get(baseUrl + '/api/User/CG_PatientAppointmentList/?UserId=' + $window.localStorage['UserId'] + '&Login_Session_Id=' + $scope.LoginSessionId + '&Institution_Id=' + $window.localStorage['InstitutionId'] + '&TimeZoneName=' + BrowserTZ).success(function (data1) {
+            $http.get(baseUrl + '/api/User/CG_PatientAppointmentList/?UserId=' + $window.localStorage['UserId'] + '&Login_Session_Id=' + $scope.LoginSessionId + '&Institution_Id=' + $window.localStorage['InstitutionId'] + '&TimeZoneName=' + BrowserTZ).then(function (data1) {
                 $("#chatLoaderPV").hide();
-                $scope.rowCollectionFilter = data1.PatientAppointmentList;
-                if (data1.PatientAppointmentList.length == 0) {
+                $scope.rowCollectionFilter = data1.data.PatientAppointmentList;
+                if (data1.data.PatientAppointmentList.length == 0) {
                     $scope.flag = 0;
                 } else {
                     $scope.flag = 1;
                 }
-            }).error(function (data) { $("#chatLoaderPV").hide(); });
+            }, function errorCallback(data1){
+                $("#chatLoaderPV").hide();
+            });
         }
 
         $scope.CG_PatientAppointmentList();
@@ -65,16 +71,18 @@ AppointmentApprovalController.controller("AppointmentApprovalController", ['$sco
                         "Institution_Id": $window.localStorage['InstitutionId'],
                         "user_id": $window.localStorage['UserId']
                     }
-                    $http.post(baseUrl + '/api/User/CG_Confirm_PatientAppointments/', obj).success(function (data) {
+                    $http.post(baseUrl + '/api/User/CG_Confirm_PatientAppointments/', obj).then(function (response) {
                         $("#chatLoaderPV").hide();
-                        if (data.ReturnFlag == 1) {
+                        if (response.data.ReturnFlag == 1) {
                             $scope.CG_PatientAppointmentList();
                             //alert(data.Message);
-                            toastr.success(data.Message, "success");
+                            toastr.success(response.data.Message, "success");
                         } else {
                             //alert(data.Message);
-                            toastr.info(data.Message, "info");
+                            toastr.info(response.data.Message, "info");
                         }
+                    }, function errorCallback(response) {
+
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
@@ -94,37 +102,39 @@ AppointmentApprovalController.controller("AppointmentApprovalController", ['$sco
                     Cancelled_Remarks: $scope.Cancelled_Remarks,
                     ReasonTypeId: $scope.ReasonTypeId
                 }
-                $http.post(baseUrl + '/api/PatientAppointments/CancelPatient_Appointment/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
-                    if (data.ReturnFlag == 1) {
-                        toastr.success(data.Message, "success");
+                $http.post(baseUrl + '/api/PatientAppointments/CancelPatient_Appointment/?Login_Session_Id=' + $scope.LoginSessionId, obj).then(function (response) {
+                    if (response.data.ReturnFlag == 1) {
+                        toastr.success(response.data.Message, "success");
                     }
-                    else if (data.ReturnFlag == 0) {
-                        toastr.info(data.Message, "info");
+                    else if (response.data.ReturnFlag == 0) {
+                        toastr.info(response.data.Message, "info");
                     }
-                    if (data.AppointmentDetails.PaymentStatusId == 3 && data.ReturnFlag == 1) {
-                        $scope.refundAppointmentId = data.AppointmentDetails.Id;
-                        $scope.refundMerchantOrderNo = data.AppointmentDetails.MerchantOrderNo;
-                        $scope.refundAmount = data.AppointmentDetails.Amount;
-                        $scope.refundOrderNo = data.AppointmentDetails.OrderNo;
-                        $scope.refundInstitutionId = data.AppointmentDetails.Institution_Id;
+                    if (response.data.AppointmentDetails.PaymentStatusId == 3 && response.data.ReturnFlag == 1) {
+                        $scope.refundAppointmentId = response.data.AppointmentDetails.Id;
+                        $scope.refundMerchantOrderNo = response.data.AppointmentDetails.MerchantOrderNo;
+                        $scope.refundAmount = response.data.AppointmentDetails.Amount;
+                        $scope.refundOrderNo = response.data.AppointmentDetails.OrderNo;
+                        $scope.refundInstitutionId = response.data.AppointmentDetails.Institution_Id;
 
                         var obj = {
-                            refundAppointmentId: data.AppointmentDetails.Id,
-                            refundMerchantOrderNo: data.AppointmentDetails.MerchantOrderNo,
-                            refundAmount: data.AppointmentDetails.Amount,
-                            refundOrderNo: data.AppointmentDetails.OrderNo,
-                            refundInstitutionId: data.AppointmentDetails.Institution_Id
+                            refundAppointmentId: response.data.AppointmentDetails.Id,
+                            refundMerchantOrderNo: response.data.AppointmentDetails.MerchantOrderNo,
+                            refundAmount: response.data.AppointmentDetails.Amount,
+                            refundOrderNo: response.data.AppointmentDetails.OrderNo,
+                            refundInstitutionId: response.data.AppointmentDetails.Institution_Id
                         };
 
-                        $http.post(baseUrl + '/api/PayBy/RefundPayByCheckoutSession/', obj).success(function (data) {
-                            console.log(data);
-                        }).error(function (data) { console.log(data); });
+                        $http.post(baseUrl + '/api/PayBy/RefundPayByCheckoutSession/', obj).then(function (response) {
+                            console.log(response.data);
+                        }).error(function (response) { console.log(response.data); });
 
                     }
                     $scope.Cancel_CancelledAppointment();
-                    if (data.ReturnFlag == 1) {
+                    if (response.data.ReturnFlag == 1) {
                         $scope.CG_PatientAppointmentList();
                     }
+                }, function errorCallback(response) {
+
                 });
             }
         }

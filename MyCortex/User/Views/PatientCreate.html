@@ -358,13 +358,14 @@
                                             <font class='mandatory-field'>*</font>
                                         </sup>
                                     </label>
-                                    <!--<div id="divGender" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                    <select class="form-control" data-style="form-control" ng-model="GenderId" id="GenderId" data-live-search="true" data-selectpicker data-collection-name="GenderList" ng-required="true" ng-change="PatientgetBase64Image();" ng-disabled="Pat_UserTypeId==2">
-                                        <option value="0">Select</option>
+                                    <!--<div id="divGender" class="ng-invalid ddlValidationBorder" ng-required="true">--><!--ng-change="PatientgetBase64Image();"-->
+                                    <select class="form-control" data-style="form-control" ng-model="GenderId" id="GenderId" data-live-search="true" data-collection-name="GenderList" ng-required="true"
+                                            onchange="angular.element(this).scope().PatientgetBase64Image()" ng-disabled="Pat_UserTypeId==2">
+                                        <option value="">Select</option>
                                         <!--<option ng-repeat="sel in GenderList" ng-selected="GenderId==sel.Id"
-                                                value="{{sel.Id}}">
-                                            {{sel.Gender_Name}}
-                                        </option>-->
+                value="{{sel.Id}}">
+            {{sel.Gender_Name}}
+        </option>-->
                                     </select>
                                     <!--</div>-->
                                 </div>
@@ -477,8 +478,8 @@
 
                                 <div class="inputGroups mt-20">
                                     <label>Patient Type<sup><font class='mandatory-field'>*</font></sup></label>
-                                    <input type="radio" value="1" ng-model="Patient_Type" ng-checked="checked='true'" ng-disabled="Pat_UserTypeId==2"> Standard
-                                    <input type="radio" value="2" ng-model="Patient_Type" ng-disabled="Pat_UserTypeId==2"> Premium
+                                    <input type="radio" value="1" id="Patient_Type1" ng-model="Patient_Type" ng-checked="checked='true'" ng-disabled="Pat_UserTypeId==2"> Standard
+                                    <input type="radio" value="2" id="Patient_Type2" ng-model="Patient_Type" ng-disabled="Pat_UserTypeId==2"> Premium
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -824,7 +825,7 @@
                                         <!--</select>-->
                                         <select class="form-control" data-style="form-control" ng-model="CountryId" id="CountryId"
                                                 data-live-search="true" data-selectpicker data-collection-name="CountryNameList"
-                                                ng-change="CountryBasedStateFunction();" ng-disabled="Pat_UserTypeId==2">
+                                               onchange="angular.element(this).scope().CountryBasedStateFunction();" ng-disabled="Pat_UserTypeId==2">
                                             <option value="0">Select</option>
 
                                         </select>
@@ -876,7 +877,7 @@
                                         <select class="form-control" data-style="form-control" id="StateId"
                                                 data-live-search="true" data-selectpicker
                                                 data-collection-name="StateName_List" ng-model="StateId"
-                                                ng-change="StateBasedCityFunction();" ng-disabled="Pat_UserTypeId==2">
+                                                onchange="angular.element(this).scope().StateBasedCityFunction();" ng-disabled="Pat_UserTypeId==2">
                                             <option value="0">Select</option>
                                             <!--<option ng-repeat="sel in StateName_List"
                                                     value="{{sel.Id}}">
@@ -1159,7 +1160,6 @@
                                         </table>
                                         <a href="javascript:" ng-click="AddMedicalHistory_Insert()" ng-hide="Pat_UserTypeId==2" class="theme-btn-1 mb-15">Add</a>
                                     </td>
-
                                 </tr>
                             </table>
                             <div class="row">

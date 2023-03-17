@@ -16,12 +16,11 @@ Commoncontroller.controller("CommonController", ['$scope', '$http', '$filter', '
                     InputType: $scope.Input_Type,
                     DecryptInput: $scope.DecryptInput
                 };
-                $http.post(baseUrl + '/api/Common/EncryptDecrypt', obj).success(function (data) {
-                    $scope.DecryptResult = data;
-                })
-                    .error(function () {
-                        $scope.DecryptResult = "Invalid format";
-                    });
+                $http.post(baseUrl + '/api/Common/EncryptDecrypt', obj).then(function (response) {
+                    $scope.DecryptResult = response.data;
+                }, function errorCallback(response) {
+                    $scope.DecryptResult = "Invalid format";
+                });
             };
         } else {
             window.location.href = baseUrl + "/Home/LoginIndex";

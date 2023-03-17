@@ -106,262 +106,275 @@ EmpApp.config(['IdleProvider', function (IdleProvider) {
     // start watching when the app runs. also starts the Keepalive service by default.
     Idle.watch();
 });
+//EmpApp.controller('homeController', function ($scope, $route) {
+//});
+//EmpApp.controller('UserController', function ($scope, $route) {
+//    var p = $route.current.params;
+//    $scope.path = decodeURIComponent(p.p1);
+//});
 EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     var baseUrl = $("base").first().attr("href");
 
+    $locationProvider.hashPrefix('');
+    //$locationProvider.html5Mode(true);
+    //console.log(baseUrl);
     $routeProvider.
-    when('/login', {
-        templateUrl: baseUrl + 'Login/Views/Login.html',
-        controller: 'LoginController'
-    }).
-    when('/signup/:InstitutionCode', {
-        templateUrl: baseUrl + 'Login/Views/Signup.html',
-        controller: 'SignupController'
-    }).
-   when('/home', {
-       templateUrl: baseUrl + 'Home/Views/HomePage.html',
-       controller: 'homeController'
-   }).
-   when('/Googlehome', {
-       templateUrl: baseUrl + 'Home/Views/HomePage.html',
-       controller: 'GooglehomeController'
-   }).
-    when('/Institution', {
-	    templateUrl: baseUrl + 'Admin/Views/Institutionlist.html',
-	    controller: 'InstitutionController'
-    }).
-    when('/Institution_Subscription', {
-        templateUrl: baseUrl + 'Admin/Views/InstitutionSubscriptionlist.html',
-        controller: 'InstitutionSubscriptionController'
-    }).
-    when('/Device', {
-        templateUrl: baseUrl + 'Admin/Views/DeviceNameAdminList.html',
-        controller: 'MyHomeController'
-    }).
-    when('/SuperAdmin_UserList/:LoginUserType', {
-        templateUrl: baseUrl + 'User/Views/SuperAdmin_Userlist.html',
-        controller: 'UserController'
-    }).
-    when('/Admin_UserList/:LoginUserType', {
-        templateUrl: baseUrl + 'User/Views/SuperAdmin_Userlist.html',
-        controller: 'UserController'
-    }).
-    when('/HospitalAdmin_UserList/:LoginUserType', {
-        templateUrl: baseUrl + 'User/Views/HospitalAdmin_Userlist.html',
-        controller: 'UserController'
-    }).
-    when('/InstitutionHospitalAdmin_view', {
-        templateUrl: baseUrl + 'Admin/Views/InstitutionView.html',
-        controller: 'InstitutionHospitalAdminController'
-    }).  
+        //when('/', {
+        //    templateUrl: baseUrl + 'Home/Views/HomePage.html',
+        //    controller: 'homeController'
+        //}).
+        when('/login', {
+            templateUrl: baseUrl + 'Login/Views/Login.html',
+            controller: 'LoginController'
+        }).
+        when('/signup/:InstitutionCode', {
+            templateUrl: baseUrl + 'Login/Views/Signup.html',
+            controller: 'SignupController'
+        }).
+        when('/home', {
+            templateUrl: baseUrl + 'Home/Views/HomePage.html',
+            controller: 'homeController'
+        }).
+        when('/Googlehome', {
+            templateUrl: baseUrl + 'Home/Views/HomePage.html',
+            controller: 'GooglehomeController'
+        }).
+        when('/Institution', {
+            templateUrl: baseUrl + 'Admin/Views/Institutionlist.html',
+            controller: 'InstitutionController'
+        }).
+        when('/Institution_Subscription', {
+            templateUrl: baseUrl + 'Admin/Views/InstitutionSubscriptionlist.html',
+            controller: 'InstitutionSubscriptionController'
+        }).
+        when('/Device', {
+            templateUrl: baseUrl + 'Admin/Views/DeviceNameAdminList.html',
+            controller: 'MyHomeController'
+        }).
+        when('/SuperAdmin_UserList/:LoginUserType', {
+            templateUrl: baseUrl + 'User/Views/SuperAdmin_Userlist.html',
+            controller: 'UserController'
+        }).
+        when('/Admin_UserList/:LoginUserType', {
+            templateUrl: baseUrl + 'User/Views/SuperAdmin_Userlist.html',
+            controller: 'UserController'
+        }).
+        when('/HospitalAdmin_UserList/:LoginUserType', {
+            templateUrl: baseUrl + 'User/Views/HospitalAdmin_Userlist.html',
+            controller: 'UserController'
+        }).
+        when('/InstitutionHospitalAdmin_view', {
+            templateUrl: baseUrl + 'Admin/Views/InstitutionView.html',
+            controller: 'InstitutionHospitalAdminController'
+        }).
 
-    when('/EditInstitutionHospitalAdmin', {
-        templateUrl: baseUrl + 'Admin/Views/InstitutionDetails.html',
-        controller: 'InstitutionHospitalAdminController'
-    }).
+        when('/EditInstitutionHospitalAdmin', {
+            templateUrl: baseUrl + 'Admin/Views/InstitutionDetails.html',
+            controller: 'InstitutionHospitalAdminController'
+        }).
 
-    when('/InstitutionSubscriptionHospitalAdmin_view', {
-        templateUrl: baseUrl + 'Admin/Views/InstitutionSubscriptionView.html',
-        controller: 'InstitutionSubscriptionHospitalAdminController'
-    }).
-    when('/PatientList/:LoginUserType', {
-        templateUrl: baseUrl + 'User/Views/Patientlist.html',
-        controller: 'UserController'
-    }).
-     when('/PatientCreate/:PageParameter/:LoginUserType', {
-         templateUrl: baseUrl + 'User/Views/PatientCreate.html',
-         controller: 'UserController'
-     }).
-    when('/PatientView/:Id/:PageParameter/:LoginUserType', {
-        templateUrl: baseUrl + 'User/Views/PatientView.html',
-        controller: 'UserController'
-    }).
-    when('/PatientEdit/:Id/:PageParameter/:LoginUserType/:Editpatient', {
-        templateUrl: baseUrl + 'User/Views/PatientCreate.html',
-        controller: 'UserController'
-    }).
-      when('/PatientVitals/:Id/:PageParameter', {
-          templateUrl: baseUrl + 'User/Views/PatientVitals.html',
-          controller: 'UserHealthDataDetailsController'
-      }).
+        when('/InstitutionSubscriptionHospitalAdmin_view', {
+            templateUrl: baseUrl + 'Admin/Views/InstitutionSubscriptionView.html',
+            controller: 'InstitutionSubscriptionHospitalAdminController'
+        }).
+        when('/PatientList/:LoginUserType', {
+            templateUrl: baseUrl + 'User/Views/Patientlist.html',
+            controller: 'UserController'
+        }).
+        when('/PatientCreate/:PageParameter/:LoginUserType', {
+            templateUrl: baseUrl + 'User/Views/PatientCreate.html',
+            controller: 'UserController'
+        }).
+        when('/PatientView/:Id/:PageParameter/:LoginUserType', {
+            templateUrl: baseUrl + 'User/Views/PatientView.html',
+            controller: 'UserController'
+        }).
+        when('/PatientEdit/:Id/:PageParameter/:LoginUserType/:Editpatient', {
+            templateUrl: baseUrl + 'User/Views/PatientCreate.html',
+            controller: 'UserController'
+        }).
+        when('/PatientVitals/:Id/:PageParameter', {
+            templateUrl: baseUrl + 'User/Views/PatientVitals.html',
+            controller: 'UserHealthDataDetailsController'
+        }).
 
-    when('/Thirtydays_appointments', {
-        templateUrl: baseUrl + 'User/Views/ThirtydaysAppointments.html',
-        controller: 'PatientAppointmentController'
-    }).
-    when('/TodaysAppoint_ments', {
-        templateUrl: baseUrl + 'User/Views/TodayAppointments.html',
-        controller: 'PatientAppointmentController'
-    }).
+        when('/Thirtydays_appointments', {
+            templateUrl: baseUrl + 'User/Views/ThirtydaysAppointments.html',
+            controller: 'PatientAppointmentController'
+        }).
+        when('/TodaysAppoint_ments', {
+            templateUrl: baseUrl + 'User/Views/TodayAppointments.html',
+            controller: 'PatientAppointmentController'
+        }).
 
-      when('/UnderConstruction', {
-          templateUrl: baseUrl + 'UnderConstruction.html',
-          controller: 'UnderConstructionController'
-      }).
-    when('/PatientAppointments', {
-        templateUrl: baseUrl + 'User/Views/AllPatientList.html',
-        controller: 'AllPatientListController'
-    }).
-    when('/ParameterSettings', {
-        templateUrl: baseUrl + 'Masters/Views/ParameterSettings.html',
-        controller: 'ParameterSettingsController'
-    }).
-    when('/CarecoordinatorCompliance/:PageParameter', {
-        templateUrl: baseUrl + 'User/Views/CareCoordinator_Compliance.html',
-        controller: 'CareCoordinatorController'
-    }).
-    when('/Carecoordinator/:PageParameter', {
-        templateUrl: baseUrl + 'User/Views/CareCoordinator.html',
-        controller: 'CareCoordinatorController'
-    }).
-    when('/CareGiverAssignedPatients', {
-        templateUrl: baseUrl + 'User/Views/CareGiverAssignedPatients.html',
-        controller: 'CareGiverAssignedPatientsController'
-    }).
-    when('/ChatSetting/:Id', {
-        templateUrl: baseUrl + 'Masters/Views/ChatSettings.html',
-        controller: 'ChatSettingsController'
-    }).
-    when('/EditChatSettings/:Id', {
-        templateUrl: baseUrl + 'Masters/Views/ChatSettings.html',
-        controller: 'ChatSettingsController'
-    }).
+        when('/UnderConstruction', {
+            templateUrl: baseUrl + 'UnderConstruction.html',
+            controller: 'UnderConstructionController'
+        }).
+        when('/PatientAppointments', {
+            templateUrl: baseUrl + 'User/Views/AllPatientList.html',
+            controller: 'AllPatientListController'
+        }).
+        when('/ParameterSettings', {
+            templateUrl: baseUrl + 'Masters/Views/ParameterSettings.html',
+            controller: 'ParameterSettingsController'
+        }).
+        when('/CarecoordinatorCompliance/:PageParameter', {
+            templateUrl: baseUrl + 'User/Views/CareCoordinator_Compliance.html',
+            controller: 'CareCoordinatorController'
+        }).
+        when('/Carecoordinator/:PageParameter', {
+            templateUrl: baseUrl + 'User/Views/CareCoordinator.html',
+            controller: 'CareCoordinatorController'
+        }).
+        when('/CareGiverAssignedPatients', {
+            templateUrl: baseUrl + 'User/Views/CareGiverAssignedPatients.html',
+            controller: 'CareGiverAssignedPatientsController'
+        }).
+        when('/ChatSetting/:Id', {
+            templateUrl: baseUrl + 'Masters/Views/ChatSettings.html',
+            controller: 'ChatSettingsController'
+        }).
+        when('/EditChatSettings/:Id', {
+            templateUrl: baseUrl + 'Masters/Views/ChatSettings.html',
+            controller: 'ChatSettingsController'
+        }).
 
-    when('/ChatSetting/:Id', {
-        templateUrl: baseUrl + 'Masters/Views/ChatSettings.html',
-        controller: 'ChatSettingsController'
-    }).
-    when('/MonitoringProtocolList', {
-        templateUrl: baseUrl + 'Admin/Views/MonitoringProtocolList.html',
-        controller: 'MonitoringProtocolController'
-    }).
-  	//when('/ChangePassword', {
-  	//    templateUrl: baseUrl + 'Admin/Views/ChangePassword.html',
-  	//    controller: 'PasswordController'
-  	//}).
-    when('/ResetPassword', {
-        templateUrl: baseUrl + 'Admin/Views/ResetPassword.html',
-        controller: 'PasswordController'
-    }).
-    when('/SuperAdminResetPassword', {
-        templateUrl: baseUrl + 'Admin/Views/SuperAdminResetPassword.html',
-        controller: 'PasswordController'
-    }).
-    when('/PatientApproval', {
-        templateUrl: baseUrl + 'User/Views/PatientApproval.html',
-        controller: 'PatientApprovalController'
-    }).
-    when('/ICD10Master', {
-        templateUrl: baseUrl + 'Masters/Views/MasterICDlist.html',
-        controller: 'ICD10Controller'
-    }).
-    when('/Payor', {
-        templateUrl: baseUrl + 'Masters/Views/Payor.html',
-        controller: 'PayorMasterController'
-    }).
-    when('/Plan', {
-        templateUrl: baseUrl + 'Masters/Views/PlanMaster.html',
-        controller: 'PlanMasterController'
-    }).
-    when('/DrugDBMaster', {
-        templateUrl: baseUrl + 'Masters/Views/DrugDBlist.html',
-        controller: 'DrugDBController'
-    }).
-    when('/EmailTemplate/:PageParameter', {
-        templateUrl: baseUrl + 'Template/Views/Templatelist.html',
-        controller: 'EmailTemplateController'
-    }).
-    when('/MessagingSend/:PageParameter', {
-        templateUrl: baseUrl + 'Template/Views/Messaging.html',
-        controller: 'SendEmailController'
-    }).
-    when('/MessagingHistory/:PageParameter', {
-        templateUrl: baseUrl + 'Template/Views/MessagingHistory.html',
-        controller: 'EmailHistoryController'
-    }).
-    when('/EncryptDecryptlist', {
-        templateUrl: baseUrl + 'Admin/Views/EncryptDecrypt.html',
-        controller: 'CommonController'
-    }).
-    when('/SMSTemplate/:PageParameter', {
-        templateUrl: baseUrl + 'Template/Views/TemplatelistSMS.html',
-        controller: 'EmailTemplateController'
-    }).
-    when('/SMSSend/:PageParameter', {
-        templateUrl: baseUrl + 'Template/Views/SMSMessaging.html',
-        controller: 'SendEmailController'
-    }).
-    when('/SMSUndeliver/:PageParameter', {
-        templateUrl: baseUrl + 'Template/Views/SMSUndelivered.html',
-        controller: 'EmailUndeliveredController'
-    }).
-    when('/SMSHistory/:PageParameter', {
-        templateUrl: baseUrl + 'Template/Views/SMSHistory.html',
-        controller: 'EmailHistoryController'
-    }).
-    when('/NotificationView', {
-        templateUrl: baseUrl + 'Template/Views/NotificationView.html',
-        controller: 'NotificationViewController'
-    }).
-    when('/AuditReport', {
-        templateUrl: baseUrl + 'Report/Views/AuditReportList.html',
-        controller: 'PatientReportListController'
-    }).
-    when('/AppointmentSlot', {
-        templateUrl: baseUrl + 'User/Views/AppointmentSlot.html',
-        controller: 'AppointmentSlotController'
-    }).
-     when('/SlotTiming', {
-         templateUrl: baseUrl + 'Masters/Views/SlotTiming.html',
-         controller: 'SlotTimingController'
-     }).
-    when('/DoctorShift', {
-        templateUrl: baseUrl + 'Masters/Views/DoctorShift.html',
-        controller: 'DoctorShiftController'
-    }).
-   when('/DoctorHoliday', {
-       templateUrl: baseUrl + 'Masters/Views/AttendanceDetails.html',
-       controller: 'AttendanceDetailsController'
-   }).
-    when('/MyAppointmentSetting', {
-        templateUrl: baseUrl + 'Masters/Views/MyAppointmentSetting.html',
-        controller: 'DoctorShiftController'
-    }).
-    when('/WebConfiguration', {
-        templateUrl: baseUrl + 'Masters/Views/WebConfiguration.html',
-        controller: 'WebConfigurationController'
-    }).
-    when('/LanguageSettings', {
-        templateUrl: baseUrl + 'Masters/Views/LanguageSettings.html',
-        controller: 'LanguageSettingsController'
-    }).
-    when('/GateWaySettings', {
-        templateUrl: baseUrl + 'Masters/Views/GateWaySettings.html',
-        controller: 'GateWaySettingsController'
-    }).
-    //when('/EditParameterSettings/:Id', {
-    //    templateUrl: baseUrl + 'Masters/Views/ParameterSettings.html',
-    //    controller: 'ParameterSettingsController'
-    //}).
+        when('/ChatSetting/:Id', {
+            templateUrl: baseUrl + 'Masters/Views/ChatSettings.html',
+            controller: 'ChatSettingsController'
+        }).
+        when('/MonitoringProtocolList', {
+            templateUrl: baseUrl + 'Admin/Views/MonitoringProtocolList.html',
+            controller: 'MonitoringProtocolController'
+        }).
+        //when('/ChangePassword', {
+        //    templateUrl: baseUrl + 'Admin/Views/ChangePassword.html',
+        //    controller: 'PasswordController'
+        //}).
+        when('/ResetPassword', {
+            templateUrl: baseUrl + 'Admin/Views/ResetPassword.html',
+            controller: 'PasswordController'
+        }).
+        when('/SuperAdminResetPassword', {
+            templateUrl: baseUrl + 'Admin/Views/SuperAdminResetPassword.html',
+            controller: 'PasswordController'
+        }).
+        when('/PatientApproval', {
+            templateUrl: baseUrl + 'User/Views/PatientApproval.html',
+            controller: 'PatientApprovalController'
+        }).
+        when('/ICD10Master', {
+            templateUrl: baseUrl + 'Masters/Views/MasterICDlist.html',
+            controller: 'ICD10Controller'
+        }).
+        when('/Payor', {
+            templateUrl: baseUrl + 'Masters/Views/Payor.html',
+            controller: 'PayorMasterController'
+        }).
+        when('/Plan', {
+            templateUrl: baseUrl + 'Masters/Views/PlanMaster.html',
+            controller: 'PlanMasterController'
+        }).
+        when('/DrugDBMaster', {
+            templateUrl: baseUrl + 'Masters/Views/DrugDBlist.html',
+            controller: 'DrugDBController'
+        }).
+        when('/EmailTemplate/:PageParameter', {
+            templateUrl: baseUrl + 'Template/Views/Templatelist.html',
+            controller: 'EmailTemplateController'
+        }).
+        when('/MessagingSend/:PageParameter', {
+            templateUrl: baseUrl + 'Template/Views/Messaging.html',
+            controller: 'SendEmailController'
+        }).
+        when('/MessagingHistory/:PageParameter', {
+            templateUrl: baseUrl + 'Template/Views/MessagingHistory.html',
+            controller: 'EmailHistoryController'
+        }).
+        when('/EncryptDecryptlist', {
+            templateUrl: baseUrl + 'Admin/Views/EncryptDecrypt.html',
+            controller: 'CommonController'
+        }).
+        when('/SMSTemplate/:PageParameter', {
+            templateUrl: baseUrl + 'Template/Views/TemplatelistSMS.html',
+            controller: 'EmailTemplateController'
+        }).
+        when('/SMSSend/:PageParameter', {
+            templateUrl: baseUrl + 'Template/Views/SMSMessaging.html',
+            controller: 'SendEmailController'
+        }).
+        when('/SMSUndeliver/:PageParameter', {
+            templateUrl: baseUrl + 'Template/Views/SMSUndelivered.html',
+            controller: 'EmailUndeliveredController'
+        }).
+        when('/SMSHistory/:PageParameter', {
+            templateUrl: baseUrl + 'Template/Views/SMSHistory.html',
+            controller: 'EmailHistoryController'
+        }).
+        when('/NotificationView', {
+            templateUrl: baseUrl + 'Template/Views/NotificationView.html',
+            controller: 'NotificationViewController'
+        }).
+        when('/AuditReport', {
+            templateUrl: baseUrl + 'Report/Views/AuditReportList.html',
+            controller: 'PatientReportListController'
+        }).
+        when('/AppointmentSlot', {
+            templateUrl: baseUrl + 'User/Views/AppointmentSlot.html',
+            controller: 'AppointmentSlotController'
+        }).
+        when('/SlotTiming', {
+            templateUrl: baseUrl + 'Masters/Views/SlotTiming.html',
+            controller: 'SlotTimingController'
+        }).
+        when('/DoctorShift', {
+            templateUrl: baseUrl + 'Masters/Views/DoctorShift.html',
+            controller: 'DoctorShiftController'
+        }).
+        when('/DoctorHoliday', {
+            templateUrl: baseUrl + 'Masters/Views/AttendanceDetails.html',
+            controller: 'AttendanceDetailsController'
+        }).
+        when('/MyAppointmentSetting', {
+            templateUrl: baseUrl + 'Masters/Views/MyAppointmentSetting.html',
+            controller: 'DoctorShiftController'
+        }).
+        when('/WebConfiguration', {
+            templateUrl: baseUrl + 'Masters/Views/WebConfiguration.html',
+            controller: 'WebConfigurationController'
+        }).
+        when('/LanguageSettings', {
+            templateUrl: baseUrl + 'Masters/Views/LanguageSettings.html',
+            controller: 'LanguageSettingsController'
+        }).
+        when('/GateWaySettings', {
+            templateUrl: baseUrl + 'Masters/Views/GateWaySettings.html',
+            controller: 'GateWaySettingsController'
+        }).
+        //when('/EditParameterSettings/:Id', {
+        //    templateUrl: baseUrl + 'Masters/Views/ParameterSettings.html',
+        //    controller: 'ParameterSettingsController'
+        //}).
         /*only html*/
 
-    //when('/PatientAppointments', {
-    //    templateUrl: baseUrl + 'Admin/Views/PatientAppointments.html',
-    //    controller: 'AllPatientListController'
-    //}).
+        //when('/PatientAppointments', {
+        //    templateUrl: baseUrl + 'Admin/Views/PatientAppointments.html',
+        //    controller: 'AllPatientListController'
+        //}).
 
-          when('/Password_Policy', {
-              templateUrl: baseUrl + 'Masters/Views/PasswordPolicy.html',
-              controller: 'PasswordController'
-          }).
-          when('/EditPasswordPolicy', {
-              templateUrl: baseUrl + 'Masters/Views/PasswordPolicy.html',
-              controller: 'PasswordController'
-          }).
-         when('/MasterEmailConfigurationList', {
-             templateUrl: baseUrl + 'Masters/Views/EmailConfiguration.html',
-             controller: 'EmailConfigurationController'
-         }).
+        when('/Password_Policy', {
+            templateUrl: baseUrl + 'Masters/Views/PasswordPolicy.html',
+            controller: 'PasswordController'
+        }).
+        when('/EditPasswordPolicy', {
+            templateUrl: baseUrl + 'Masters/Views/PasswordPolicy.html',
+            controller: 'PasswordController'
+        }).
+        when('/MasterEmailConfigurationList', {
+            templateUrl: baseUrl + 'Masters/Views/EmailConfiguration.html',
+            controller: 'EmailConfigurationController'
+        }).
         when('/MasterSmsConfigurationList', {
             templateUrl: baseUrl + 'Masters/Views/SMSConfiguration.html',
             controller: 'SMSConfigurationController'
@@ -415,10 +428,10 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             templateUrl: baseUrl + 'Login/Views/Changepasswordpopup.html',
             controller: 'PasswordController'
         }).
-         when('/AllergyMaster', {
-             templateUrl: baseUrl + 'Masters/Views/AllergyMasterlist.html',
-             controller: 'AllergyMasterList'
-         }).
+        when('/AllergyMaster', {
+            templateUrl: baseUrl + 'Masters/Views/AllergyMasterlist.html',
+            controller: 'AllergyMasterList'
+        }).
         when('/DirectCall/:CallSessionId', {
             templateUrl: baseUrl + 'User/Views/DirectCall.html',
             controller: 'DirectCallController'
@@ -430,7 +443,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         when('/Hive', {
             templateUrl: baseUrl + 'Masters/Views/Myhome.html',
             controller: 'MyHomeController'
-        }). 
+        }).
         when('/DeviceList', {
             templateUrl: baseUrl + 'Masters/Views/DeviceList.html',
             controller: 'MyHomeController'
@@ -463,11 +476,13 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             templateUrl: baseUrl + 'Masters/Views/AppointmentApproval.html',
             controller: 'AppointmentApprovalController'
         }).
-    otherwise({
-        redirectTo: '/Googlehome'
-    });
-
+        otherwise({
+            //redirectTo: '/Googlehome'
+            redirectTo: '/'
+        });
+      // $locationProvider.html5Mode(true);
 }])
+    
 .factory('authInterceptorService', ['$q', '$location', '$window', function ($q, $location, $window) {
 
     var authInterceptorServiceFactory = {};

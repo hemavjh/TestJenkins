@@ -46,73 +46,78 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
         /*THIS IS FOR View FUNCTION*/
         $scope.InstitutionDetails_View = function (DropDownListValue) {
             $("#chatLoaderPV").show();
-            $http.get(baseUrl + '/api/Institution/Institution_GetPhoto/?Id=' + $scope.InstituteId).success(function (data) {
-                if (data.PhotoBlob != null) {
-                    $scope.uploadme = 'data:image/png;base64,' + data.PhotoBlob;
+            $http.get(baseUrl + '/api/Institution/Institution_GetPhoto/?Id=' + $scope.InstituteId).then(function (response) {
+                if (response.data.PhotoBlob != null) {
+                    $scope.uploadme = 'data:image/png;base64,' + response.data.PhotoBlob;
                 }
                 else {
                     $scope.uploadme = '';
                 }
-            })
-            $http.get(baseUrl + '/api/Institution/InstitutionDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                $scope.DuplicatesId = data.Id;
-                $scope.Institution_Name = data.Institution_Name;
-                $scope.INSTITUTION_SHORTNAME = data.INSTITUTION_SHORTNAME;
-                $scope.Address1 = data.Institution_Address1;
-                $scope.Address2 = data.Institution_Address2;
-                $scope.Address3 = data.Institution_Address3;
-                $scope.ZipCode = data.ZipCode;
-                $scope.Email = data.Email;
-                $scope.CountryId = data.CountryId.toString();
+            }, function errorCallback(response) {
+            });
+            $http.get(baseUrl + '/api/Institution/InstitutionDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
+                $scope.DuplicatesId = response.data.Id;
+                $scope.Institution_Name = response.data.Institution_Name;
+                $scope.INSTITUTION_SHORTNAME = response.data.INSTITUTION_SHORTNAME;
+                $scope.Address1 = response.data.Institution_Address1;
+                $scope.Address2 = response.data.Institution_Address2;
+                $scope.Address3 = response.data.Institution_Address3;
+                $scope.ZipCode = response.data.ZipCode;
+                $scope.Email = response.data.Email;
+                $scope.CountryId = response.data.CountryId.toString();
                 $scope.CountryDuplicateId = $scope.CountryId;
                 $scope.CountryFlag = true;
                 //$scope.Country_onChange();           
-                $scope.ViewCountryName = data.CountryName;
+                $scope.ViewCountryName = response.data.CountryName;
                 //   $scope.CountryBased_StateFunction();
-                $scope.StateNameId = data.StateId.toString();
+                $scope.StateNameId = response.data.StateId.toString();
                 $scope.StateDuplicateId = $scope.StateNameId;
                 $scope.StateFlag = true;
 
                 //$scope.State_onChange();
                 //  $scope.StateBased_CityFunction();
-                $scope.ViewStateName = data.StateName;
-                $scope.LocationNameId = data.CityId.toString();
+                $scope.ViewStateName = response.data.StateName;
+                $scope.LocationNameId = response.data.CityId.toString();
                 $scope.LocationDuplicateId = $scope.LocationNameId;
                 $scope.CityFlag = true;
                 if (DropDownListValue == 1) {
-                    $http.get(baseUrl + '/api/Common/CountryList/').success(function (data) {
-                        $scope.CountryNameList = data;
+                    $http.get(baseUrl + '/api/Common/CountryList/').then(function (response) {
+                        $scope.CountryNameList = response.data;
                         if ($scope.CountryFlag == true) {
                             $scope.CountryId = $scope.CountryDuplicateId;
                             $scope.CountryFlag = false;
                             $scope.loadCount = $scope.loadCount - 1;
                         }
+                    }, function errorCallback(response) {
                     });
-                    $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + data.CountryId.toString()).success(function (data) {
-                        $scope.StateName_List = data;
+                    $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + response.data.CountryId.toString()).then(function (response) {
+                        $scope.StateName_List = response.data;
                         if ($scope.StateFlag == true) {
                             $scope.StateNameId = $scope.StateDuplicateId;
                             $scope.StateFlag = false;
                             $scope.loadCount = $scope.loadCount - 1;
                         }
+                    }, function errorCallback(response) {
                     });
-                    $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + data.CountryId.toString() + '&StateId=' + data.StateId.toString()).success(function (data) {
+                    $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + response.data.CountryId.toString() + '&StateId=' + response.data.StateId.toString()).then(function (response) {
                         //$scope.LocationName_List =data ;    
-                        $scope.LocationName_List = data;
+                        $scope.LocationName_List = response.data;
                         if ($scope.CityFlag == true) {
                             $scope.LocationNameId = $scope.LocationDuplicateId;
                             $scope.CityFlag = false;
                             $scope.loadCount = $scope.loadCount - 1;
                         }
+                    }, function errorCallback(response) {
                     });
                 }
-                $scope.ViewCityName = data.CityName;
-                $scope.Photo = data.Photo;
-                $scope.InstitutionLogo = data.Photo;
+                $scope.ViewCityName = response.data.CityName;
+                $scope.Photo = response.data.Photo;
+                $scope.InstitutionLogo = response.data.Photo;
                 //$scope.uploadme = data.Photo;
-                $scope.FileName = data.FileName;
-                $scope.PhotoFullpath = data.Photo_Fullpath;
+                $scope.FileName = response.data.FileName;
+                $scope.PhotoFullpath = response.data.Photo_Fullpath;
                 $("#chatLoaderPV").hide();
+            }, function errorCallback(response) {
             });
         }
 
@@ -126,14 +131,14 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
 
         $scope.CountryBased_StateFunction = function () {
             if ($scope.loadCount == 0) {
-                $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + $scope.CountryId).success(function (data) {
-                    $scope.StateName_List = data;
+                $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + $scope.CountryId).then(function (response) {
+                    $scope.StateName_List = response.data;
                     $scope.LocationName_List = [];
                     $scope.LocationNameId = "0";
                     if ($scope.StateFlag == true) {
                         $scope.StateNameId = $scope.StateDuplicateId
                     }
-
+                }, function errorCallback(response) {
                 });
             }
         }
@@ -143,11 +148,12 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
 
         $scope.StateBased_CityFunction = function () {
             if ($scope.loadCount == 0) {
-                $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + $scope.CountryId + '&StateId=' + $scope.StateNameId).success(function (data) {
-                    $scope.LocationName_List = data;
+                $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + $scope.CountryId + '&StateId=' + $scope.StateNameId).then(function (response) {
+                    $scope.LocationName_List = response.data;
                     if ($scope.CityFlag == true) {
                         $scope.LocationNameId = $scope.LocationDuplicateId
                     }
+                }, function errorCallback(response) {
                 });
             }
         }
@@ -273,8 +279,8 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
                     Photo: $scope.InstitutionLogo,
                 };
                 $("#btnsave").attr("disabled", true);
-                $http.post(baseUrl + '/api/Institution/Institution_AddEdit/', obj).success(function (data) {
-                    var insId = data.Institute[0].Id;
+                $http.post(baseUrl + '/api/Institution/Institution_AddEdit/', obj).then(function (response) {
+                    var insId = response.data.Institute[0].Id;
 
                     if ($scope.PhotoValue == 1) {
                         var FileName = "";
@@ -307,38 +313,38 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
                                 }
                             }
                         )
-                            .success(function (response) {
+                            .then(function (response) {
                                 if ($scope.FileName == "") {
                                     $scope.InstitutionLogo = "";
                                 }
                                 else if (itemIndexLogo > -1) {
-                                    if ($scope.FileName != "" && response[itemIndexLogo] != "") {
-                                        $scope.InstitutionLogo = response[itemIndexLogo];
+                                    if ($scope.FileName != "" && response.data[itemIndexLogo] != "") {
+                                        $scope.InstitutionLogo = response.data[itemIndexLogo];
                                     }
                                 }
-                                $http.get(baseUrl + '/Home/LoginLogoDetails/').success(function (resImage) {
-                                    document.getElementById("InstLogo").src = resImage[0];
+                                $http.get(baseUrl + '/Home/LoginLogoDetails/').then(function (resImage) {
+                                    document.getElementById("InstLogo").src = resImage.data[0];
                                     //alert(data.Message);
-                                    toastr.success(data.Message, "success");
+                                    toastr.success(response.data.Message, "success");
                                     $("#btnsave").attr("disabled", false);
                                     $scope.CancelInstitutionHospitalAdmin();
-                                }).error(function (response) {
+                                }, function errorCallback(resImage) {
                                     $scope.Photo = "";
                                 });
-                            })
-                            .error(function (response) {
+                            }, function errorCallback(response) {
                                 $scope.Photo = "";
                             });
                     }
                     else {
                         //alert(data.Message);
-                        toastr.success(data.Message, "success");
+                        toastr.success(response.data.Message, "success");
                         $("#btnsave").attr("disabled", false);
                         $scope.CancelInstitutionHospitalAdmin();
                     }
                     $("#InstitutionLogo").val('');
                     $("#btnsave").attr("disabled", false);
-                })
+                }, function errorCallback(response) {
+                });
             }
         }
         $scope.PhotoUplaodSelected = function () {
@@ -394,17 +400,17 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
                     $("#runCometchat").text('Processing(0%)....');
                     $("#runCometchat").addClass('disabled');
                     let isComplete = false;
-                    $http.get(baseUrl + 'api/User/GetCometChatUserList?InstitutionId=' + $scope.InstituteId).success(function (data) {
-                        if (data.length > 0) {
-                            var usercount = data.length;
-                            angular.forEach(data, function (item, modIndex) {
-                                $http.get(baseUrl + 'api/User/DeleteCometchat_User?Id=' + item.Id + '&Institution=' + $scope.InstituteId).success(function (data) {
+                    $http.get(baseUrl + 'api/User/GetCometChatUserList?InstitutionId=' + $scope.InstituteId).then(function (response) {
+                        if (response.data.length > 0) {
+                            var usercount = response.data.length;
+                            angular.forEach(response.data, function (item, modIndex) {
+                                $http.get(baseUrl + 'api/User/DeleteCometchat_User?Id=' + item.Id + '&Institution=' + $scope.InstituteId).then(function (response) {
                                     var obj = {
                                         Id: item.Id,
                                         FullName: item.FullName,
                                         EMAILID: item.EmailId
                                     };
-                                    $http.post(baseUrl + 'api/User/CreateCometchat_User?Institution=' + $scope.InstituteId, obj).success(function (data) {
+                                    $http.post(baseUrl + 'api/User/CreateCometchat_User?Institution=' + $scope.InstituteId, obj).then(function (response) {
                                         if (parseInt(usercount) - 1 === modIndex) {
                                             isComplete = true;
                                             $("#runCometchat").text('CometChat User Configuration');
@@ -416,14 +422,14 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
                                                 $("#runCometchat").text('Processing(' + percentage + '%)....');
                                             }
                                         }
-                                    }).error(function (data) {
+                                    }, function errorCallback(response) {
 
                                     });
-                                }).error(function (data) {
+                                }, function errorCallback(response) {
                                 });
                             });
                         }
-                    }).error(function (data) {
+                    }, function errorCallback(response) {
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
@@ -482,10 +488,10 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
                 if (result.isConfirmed) {
                     $("#runConfig").text('Processing(0%)....');
                     $("#runConfig").addClass('disabled');
-                    $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=1', $scope.InstituteId).success(function (data) {
+                    $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=1', $scope.InstituteId).then(function (response) {
                         $("#runConfig").text('Processing(5%)....');
                         $scope.InstitueConfigurationStep2();
-                    }).error(function (data) {
+                    }, function errorCallback(response) {
                         //alert("Error In Step 1");
                         toastr.info("Error In Step 1", "info");
                         $("#runConfig").text('Processing(5%)....');
@@ -510,10 +516,10 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
         };
 
         $scope.InstitueConfigurationStep2 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=2', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=2', $scope.InstituteId).then(function (response) {
                 $("#runConfig").text('Processing(10%)....');
                 $scope.InstitueConfigurationStep3();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 2");
                 toastr.info("Error In Step 2", "info");
                 $("#runConfig").text('Processing(10%)....');
@@ -522,10 +528,10 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
         };
 
         $scope.InstitueConfigurationStep3 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=3', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=3', $scope.InstituteId).then(function (response) {
                 $("#runConfig").text('Processing(15%)....');
                 $scope.InstitueConfigurationStep4();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 3");
                 toastr.info("Error In Step 3", "info");
                 $("#runConfig").text('Processing(15%)....');
@@ -534,10 +540,10 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
         };
 
         $scope.InstitueConfigurationStep4 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=4', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=4', $scope.InstituteId).then(function (response) {
                 $("#runConfig").text('Processing(20%)....');
                 $scope.InstitueConfigurationStep5();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 4");
                 toastr.info("Error In Step 4", "info");
                 $("#runConfig").text('Processing(20%)....');
@@ -546,10 +552,10 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
         };
 
         $scope.InstitueConfigurationStep5 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=5', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=5', $scope.InstituteId).then(function (response) {
                 $("#runConfig").text('Processing(25%)....');
                 $scope.InstitueConfigurationStep6();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 5");
                 toastr.info("Error In Step 5", "info");
                 $("#runConfig").text('Processing(25%)....');
@@ -558,10 +564,10 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
         };
 
         $scope.InstitueConfigurationStep6 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=6', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=6', $scope.InstituteId).then(function (response) {
                 $("#runConfig").text('Processing(30%)....');
                 $scope.InstitueConfigurationStep7();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 6");
                 toastr.info("Error In Step 6", "info");
                 $("#runConfig").text('Processing(30%)....');
@@ -570,10 +576,10 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
         };
 
         $scope.InstitueConfigurationStep7 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=7', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=7', $scope.InstituteId).then(function (response) {
                 $("#runConfig").text('Processing(35%)....');
                 $scope.InstitueConfigurationStep8();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 7");
                 toastr.info("Error In Step 7", "info");
                 $("#runConfig").text('Processing(35%)....');
@@ -582,10 +588,10 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
         };
 
         $scope.InstitueConfigurationStep8 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=8', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=8', $scope.InstituteId).then(function (response) {
                 $("#runConfig").text('Processing(40%)....');
                 $scope.InstitueConfigurationStep9();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 8");
                 toastr.info("Error In Step 8", "info");
                 $("#runConfig").text('Processing(40%)....');
@@ -594,10 +600,10 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
         };
 
         $scope.InstitueConfigurationStep9 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=9', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=9', $scope.InstituteId).then(function (response) {
                 $("#runConfig").text('Processing(50%)....');
                 $scope.InstitueConfigurationStep10();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 9");
                 toastr.info("Error In Step 9", "info");
                 $("#runConfig").text('Processing(50%)....');
@@ -606,10 +612,10 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
         };
 
         $scope.InstitueConfigurationStep10 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=10', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=10', $scope.InstituteId).then(function (response) {
                 $("#runConfig").text('Processing(55%)....');
                 $scope.InstitueConfigurationStep11();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 10");
                 toastr.info("Error In Step 10", "info");
                 $("#runConfig").text('Processing(55%)....');
@@ -618,10 +624,10 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
         };
 
         $scope.InstitueConfigurationStep11 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=11', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=11', $scope.InstituteId).then(function (response) {
                 $("#runConfig").text('Processing(60%)....');
                 $scope.InstitueConfigurationStep12();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 11");
                 toastr.info("Error In Step 11", "info");
                 $("#runConfig").text('Processing(60%)....');
@@ -630,10 +636,10 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
         };
 
         $scope.InstitueConfigurationStep12 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=12', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=12', $scope.InstituteId).then(function (response) {
                 $("#runConfig").text('Processing(70%)....');
                 $scope.InstitueConfigurationStep13();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 12");
                 toastr.info("Error In Step 12", "info");
                 $("#runConfig").text('Processing(70%)....');
@@ -642,10 +648,10 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
         };
 
         $scope.InstitueConfigurationStep13 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=13', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=13', $scope.InstituteId).then(function (response) {
                 $("#runConfig").text('Processing(80%)....');
                 $scope.InstitueConfigurationStep14();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 13");
                 toastr.info("Error In Step 13", "info");
                 $("#runConfig").text('Processing(80%)....');
@@ -654,10 +660,10 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
         };
 
         $scope.InstitueConfigurationStep14 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=14', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=14', $scope.InstituteId).then(function (response) {
                 $("#runConfig").text('Processing(90%)....');
                 $scope.InstitueConfigurationStep15();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 14");
                 toastr.info("Error In Step 14", "info");
                 $("#runConfig").text('Processing(90%)....');
@@ -666,10 +672,10 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
         };
 
         $scope.InstitueConfigurationStep15 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=15', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=15', $scope.InstituteId).then(function (response) {
                 $("#runConfig").text('Processing(95%)....');
                 $scope.InstitueConfigurationStep16();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 15");
                 toastr.info("Error In Step 15", "info");
                 $("#runConfig").text('Processing(95%)....');
@@ -679,7 +685,7 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
 
         $scope.InstitueConfigurationStep16 = function () {
             /*$("#runConfig").text('Processing(98%)....');*/
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=16', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=16', $scope.InstituteId).then(function (response) {
                 $("#runConfig").text('Processing(98%)....');
                 $scope.InstitueConfigurationStep17();
                 //setTimeout(function () {
@@ -688,7 +694,7 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
                 //}, 5000);
                 //$("#runConfig").text('Re-run configuration');
                 //$("#runConfig").removeClass('disabled');
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //$("#runConfig").text('Processing(98%)....');
                 //alert("Error In Step 16");
                 toastr.info("Error In Step 16", "info");
@@ -701,7 +707,7 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
 
         $scope.InstitueConfigurationStep17 = function () {
             $("#runConfig").text('Processing(100%)....');
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=17', $scope.InstituteId).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=17', $scope.InstituteId).then(function (response) {
                 $("#runConfig").text('Processing(100%)....');
                 setTimeout(function () {
                     //alert("Configuration Steps Completed!");
@@ -710,7 +716,7 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
 
                 $("#runConfig").text('Re-run configuration');
                 $("#runConfig").removeClass('disabled');
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 $("#runConfig").text('Processing(100%)....');
                 //alert("Error In Step 16");
                 toastr.info("Error In Step 17", "info");

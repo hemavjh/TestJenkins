@@ -542,6 +542,7 @@
     <Content Include="scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="scripts\angucomplete-alt.js" />
     <Content Include="scripts\angular-idle.min.js" />
+    <Content Include="scripts\angular-route.js" />
     <Content Include="scripts\angular-route.min.js" />
     <Content Include="scripts\angular-sanitize.js" />
     <Content Include="scripts\angular-touch.min.js" />
@@ -1834,6 +1835,10 @@
     <Content Include="scripts\bootstrap-select-1.13.9\README.md" />
     <Content Include="scripts\bootstrap-select-1.13.9\sass\bootstrap-select.scss" />
     <Content Include="scripts\bootstrap-select-1.13.9\sass\variables.scss" />
+    <Content Include="scripts\angular.min.js.map" />
+    <Content Include="scripts\angular-touch.min.js.map" />
+    <Content Include="scripts\angular-route.min.js.map" />
+    <Content Include="scripts\angular-sanitize.min.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1908,6 +1913,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
+      <UserProperties scripts_4bootstrap-select-1_113_19_4docs_4docs_4dist_4js_4i18n_4defaults-en_3us_1js_1map__JsonSchema="" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

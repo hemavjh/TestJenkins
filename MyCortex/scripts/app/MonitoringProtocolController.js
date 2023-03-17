@@ -10,12 +10,14 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
     function ($scope, $http, $filter, $routeParams, $rootScope, $location, $window, $ff, toastr) {
 
         $scope.isPatientMonitornigProtocol = "";
-        $http.get(baseUrl + "/api/CommonMenu/CommonModule_List?InsId=" + $window.localStorage['InstitutionId']).success(function (response) {
-            if (response != null) {
-                if (response.length > 0) {
-                    $scope.isPatientMonitornigProtocol = $filter('filter')(response, { Module_Name: "Monitoring Protocol" })[0];
+        $http.get(baseUrl + "/api/CommonMenu/CommonModule_List?InsId=" + $window.localStorage['InstitutionId']).then(function (response) {
+            if (response.data!= null) {
+                if (response.data.length > 0) {
+                    $scope.isPatientMonitornigProtocol = $filter('filter')(response.data, { Module_Name: "Monitoring Protocol"})[0];
                 }
             }
+        }, function errorCallback(response) {
+
         });
 
         //List Page Pagination.
@@ -85,11 +87,11 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
 
                 $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
 
-                $http.get(baseUrl + 'api/Protocol/StandardProtocol_List/?IsActive=' + $scope.ActiveStatus + '&InstitutionId=' + $scope.InstituteId).success(function (data) {
+                $http.get(baseUrl + 'api/Protocol/StandardProtocol_List/?IsActive=' + $scope.ActiveStatus + '&InstitutionId=' + $scope.InstituteId).then(function (response) {
                     $("#chatLoaderPV").hide();
                     $scope.emptydata = [];
                     $scope.rowCollection = [];
-                    $scope.rowCollection = data;
+                    $scope.rowCollection = response.data;
                     $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
                     if ($scope.rowCollectionFilter.length > 0) {
                         $scope.flag = 1;
@@ -97,9 +99,9 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                     else {
                         $scope.flag = 0;
                     }
-                }).error(function (data) {
+                }, function errorCallback(response) { 
                     $("#chatLoaderPV").hide();
-                    $scope.error = "AN error has occured while Listing the records!" + data;
+                    $scope.error = "AN error has occured while Listing the records!" + response.data;
                 })
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
@@ -109,7 +111,7 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
         $scope.CloneProtocolList = [];
         $scope.CloneProtocolFunction = function () {
             $("#chatLoaderPV").show();
-            //$http.get(baseUrl + 'api/Protocol/StandardProtocol_View/?Id=' + $scope.Protocol_Names).success(function (data) {
+            //$http.get(baseUrl + 'api/Protocol/StandardProtocol_View/?Id=' + $scope.Protocol_Names).then(function (data) {
             //    $("#chatLoaderPV").hide();
             //    $scope.ParameterSettingslist = data;
             //    angular.forEach($scope.ParameterSettingslist, function (value, index) {
@@ -199,14 +201,16 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
         $scope.ParameterTypeList = [];
         $scope.MonitoringProtocolDropDownList = function () {
             $scope.ViewParamList = [];
-            $http.get(baseUrl + 'api/ParameterSettings/ViewEditProtocolParameters/?Id=' + $scope.InstituteId).success(function (data) {
-                $scope.ViewParamList = data;
+            $http.get(baseUrl + 'api/ParameterSettings/ViewEditProtocolParameters/?Id=' + $scope.InstituteId).then(function (response) {
+                $scope.ViewParamList = response.data;
+            }, function errorCallback(response) {
+
             })
 
             $scope.UnitTypeList = [];
             $scope.ParameterTypeList = [];
-            $http.get(baseUrl + '/api/Protocol/ParameterNameList/?InstitutionId=' + $scope.InstituteId).success(function (data) {
-                $scope.ParameterTypeList = data;
+            $http.get(baseUrl + '/api/Protocol/ParameterNameList/?InstitutionId=' + $scope.InstituteId).then(function (response) {
+                $scope.ParameterTypeList = response.data;
 
                 if ($scope.IsAdd == 1) {
                     if ($scope.ParameterTypeList.length == 0)
@@ -215,17 +219,22 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                 }
                 $scope.IsAdd = 0;
 
+            }, function errorCallback(response) {
+
             });
 
             $scope.DurationTypeList = [];
-            $http.get(baseUrl + '/api/Protocol/DurationTypeDetails/').success(function (data) {
-                $scope.DurationTypeList = data;
+            $http.get(baseUrl + '/api/Protocol/DurationTypeDetails/').then(function (response) {
+                $scope.DurationTypeList = response.data;
+            }, function errorCallback(response) {
+
             });
 
-            $http.get(baseUrl + '/api/ParameterSettings/ParameterMappingList/?Parameter_Id=0&Unitgroup_Type=1&Institution_Id=' + $scope.InstituteId).success(function (data) {
-                $scope.UnitTypeList = data;
-            });
+            $http.get(baseUrl + '/api/ParameterSettings/ParameterMappingList/?Parameter_Id=0&Unitgroup_Type=1&Institution_Id=' + $scope.InstituteId).then(function (response) {
+                $scope.UnitTypeList = response.data;
+            }, function errorCallback(response) {
 
+            });
         }
 
         $scope.ViewParamList1 = [];
@@ -399,12 +408,12 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
         */
         //$scope.UnitTypeList = [];
         //$scope.ParameterTypeList = [];
-        //$http.get(baseUrl + '/api/ParameterSettings/ProtocolParameterMasterList/').success(function (data) {           
+        //$http.get(baseUrl + '/api/ParameterSettings/ProtocolParameterMasterList/').then(function (data) {           
         //    $scope.ParameterTypeList = data;
         //});
 
         //$scope.ProtocolNameList = [];
-        //$http.get(baseUrl + '/api/Protocol/ProtocolNameDetails/?InstitutionId=' + $scope.InstituteId).success(function (data) {           
+        //$http.get(baseUrl + '/api/Protocol/ProtocolNameDetails/?InstitutionId=' + $scope.InstituteId).then(function (data) {           
         //    $scope.ProtocolNameList = data;
         //});
 
@@ -416,14 +425,14 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
         $scope.query = "";
         /* Filter the master list function.*/
         $scope.filterProtocolList = function () {
-            var searchstring = angular.lowercase($scope.query);
+            var searchstring = ($scope.query.toLowerCase());
             if ($scope.searchquery == "") {
                 $scope.rowCollectionFilter = [];
                 $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
             }
             else {
                 $scope.rowCollectionFilter = $ff($scope.rowCollection, function (value) {
-                    return angular.lowercase(value.ProtocolName).match(searchstring)
+                    return (value.ProtocolName.toLowerCase()).match(searchstring)
                 });
             }
         }
@@ -1449,18 +1458,18 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                     ChildModuleList: $scope.ParameterSettingslist
                 };
 
-                $http.post(baseUrl + '/api/Protocol/ProtocolMonitoring_AddEditNew/', obj1).success(function (data) {
+            $http.post(baseUrl + '/api/Protocol/ProtocolMonitoring_AddEditNew/', obj1).then(function (response) {
                     $("#chatLoaderPV").hide();
-                    //$http.post(baseUrl + '/api/StandaredProtocol/ProtocolMonitoring_AddEdit/', obj).success(function (data) {
+                    //$http.post(baseUrl + '/api/StandaredProtocol/ProtocolMonitoring_AddEdit/', obj).then(function (data) {
                     //alert(data.Message);
-                    if (data.ReturnFlag == 0) {
-                        toastr.warning(data.Message, "warning");
+                if (response.data.ReturnFlag == 0) {
+                    toastr.warning(response.data.Message, "warning");
                     }
-                    else if (data.ReturnFlag == 1) {
-                        toastr.success(data.Message, "success");
+                else if (response.data.ReturnFlag == 1) {
+                    toastr.success(response.data.Message, "success");
                     }
                     $('#btnsave').attr("disabled", false);
-                    if (data.ReturnFlag == 1) {
+                if (response.data.ReturnFlag == 1) {
                         $scope.CancelProtocol();
 
                         $scope.MonitoringProtocolDetailsListGo();
@@ -1468,7 +1477,9 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                         $scope.ProtocolClear();
                         /*$scope.CloneProtocolFunction();*/
                     }
-                });
+            }, function errorCallback(response) {
+
+            });
             //}
         }
 
@@ -1568,13 +1579,13 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                 $scope.DuplicatesId = $routeParams.Id;
             }
             $("#chatLoaderPV").show();
-            $http.get(baseUrl + 'api/Protocol/ProtocolMonitoringNewView/?Id=' + $scope.Id).success(function (data) {
+            $http.get(baseUrl + 'api/Protocol/ProtocolMonitoringNewView/?Id=' + $scope.Id).then(function (response) {
                 $("#chatLoaderPV").hide();
-                $scope.DuplicatesId = data.Id;
-                $scope.Institution_Name = data.Institution_Id;
-                $scope.ViewInstitution_Name = data.Institution_Name;
-                $scope.ProtocolName = data.Protocol_Name;
-                $scope.ParameterSettingslist = data.ChildModuleList;
+                $scope.DuplicatesId = response.data.Id;
+                $scope.Institution_Name = response.data.Institution_Id;
+                $scope.ViewInstitution_Name = response.data.Institution_Name;
+                $scope.ProtocolName = response.data.Protocol_Name;
+                $scope.ParameterSettingslist = response.data.ChildModuleList;
 
                 for (let i = 0; $scope.ParameterSettingslist[0].Comp_ParameterSettingslist.length > i; i++) {
                     var wd = [{ day: 'S', status: 0, days: 'Su' }, { day: 'M', status: 0, days: 'Mo' }, { day: 'T', status: 0, days: 'Tu' }, { day: 'W', status: 0, days: 'We' }, { day: 'T', status: 0, days: 'Th' }, { day: 'F', status: 0, days: 'Fr' }, { day: 'S', status: 0, days: 'Sa' }];
@@ -1689,6 +1700,8 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                         //$scope.ParameterSettings_ViewEdit();
                     }
                 })
+            }, function errorCallback(response) {
+
             });
         }
 
@@ -1716,12 +1729,12 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
         $scope.Institution_Delete = function () {
             var del = confirm("Do you like to deactivate the selected Institution?");
             if (del == true) {
-                $http.get(baseUrl + 'api/Institution/InstitutionDetails_Delete/?Id=' + $scope.Id).success(function (data) {
-                    //alert("Selected Institution has been deactivated Successfully");
-                    toastr.success("Selected Institution has been deactivated Successfully", "success");
+                $http.get(baseUrl + 'api/Institution/InstitutionDetails_Delete/?Id=' + $scope.Id).then(function (response) {
+                    //alert("Selected Institution has been deactivated thenfully");
+                    toastr.success("Selected Institution has been deactivated thenfully", "success");
                     $scope.InstitutionDetailsListGo();
-                }).error(function (data) {
-                    $scope.error = "AN error has occured while deleting Institution!" + data;
+                }, function errorCallback(response) { 
+                    $scope.error = "AN error has occured while deleting Institution!" + response.data;
                 });
             };
         };
@@ -1749,12 +1762,12 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    $http.get(baseUrl + 'api/Protocol/ProtocolMonitoring_Active/?Id=' + $scope.Id).success(function (data) {
-                        //alert("Selected Monitoring Protocol has been activated successfully");
-                        toastr.success("Selected Monitoring Protocol has been activated successfully", "success");
+                    $http.get(baseUrl + 'api/Protocol/ProtocolMonitoring_Active/?Id=' + $scope.Id).then(function (response) {
+                        //alert("Selected Monitoring Protocol has been activated thenfully");
+                        toastr.success("Selected Monitoring Protocol has been activated thenfully", "success");
                         $scope.MonitoringProtocolDetailsListGo();
-                    }).error(function (data) {
-                        $scope.error = "An error has occurred while ReInsert Monitoring Protocol Details" + data;
+                    }, function erresponseack(response) { 
+                        $scope.error = "An error has occurred while ReInsert Monitoring Protocol Details" + response.data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
@@ -1762,9 +1775,9 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
             })
             /* var Ins = confirm("Do you like to activate the selected Monitoring Protocol?");
              if (Ins == true) {
-                 $http.get(baseUrl + 'api/Protocol/ProtocolMonitoring_Active/?Id=' + $scope.Id).success(function (data) {
-                     //alert("Selected Monitoring Protocol has been activated successfully");
-                     toastr.success("Selected Monitoring Protocol has been activated successfully", "success");
+                 $http.get(baseUrl + 'api/Protocol/ProtocolMonitoring_Active/?Id=' + $scope.Id).then(function (data) {
+                     //alert("Selected Monitoring Protocol has been activated thenfully");
+                     toastr.then("Selected Monitoring Protocol has been activated thenfully", "then");
                      $scope.MonitoringProtocolDetailsListGo();
                  }).error(function (data) {
                      $scope.error = "An error has occurred while ReInsert Monitoring Protocol Details" + data;
@@ -1793,12 +1806,12 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    $http.get(baseUrl + 'api/Protocol/ProtocolMonitoring_InActive/?Id=' + $scope.Id).success(function (data) {
-                        //alert("Selected Monitoring Protocol has been deactivated Successfully");
-                        toastr.success("Selected Monitoring Protocol has been deactivated Successfully", "success");
+                    $http.get(baseUrl + 'api/Protocol/ProtocolMonitoring_InActive/?Id=' + $scope.Id).then(function (response) {
+                        //alert("Selected Monitoring Protocol has been deactivated thenfully");
+                        toastr.success("Selected Monitoring Protocol has been deactivated thenfully", "success");
                         $scope.MonitoringProtocolDetailsListGo();
-                    }).error(function (data) {
-                        $scope.error = "AN error has occured while deleting Monitoring Protocol!" + data;
+                    }, function errorCallback(response) {
+                        $scope.error = "AN error has occured while deleting Monitoring Protocol!" + response.data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
@@ -1806,9 +1819,9 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
             })
             /* var del = confirm("Do you like to deactivate the selected Monitoring Protocol?");
              if (del == true) {
-                 $http.get(baseUrl + 'api/Protocol/ProtocolMonitoring_InActive/?Id=' + $scope.Id).success(function (data) {
-                     //alert("Selected Monitoring Protocol has been deactivated Successfully");
-                     toastr.success("Selected Monitoring Protocol has been deactivated Successfully", "success");
+                 $http.get(baseUrl + 'api/Protocol/ProtocolMonitoring_InActive/?Id=' + $scope.Id).then(function (data) {
+                     //alert("Selected Monitoring Protocol has been deactivated thenfully");
+                     toastr.then("Selected Monitoring Protocol has been deactivated thenfully", "then");
                      $scope.MonitoringProtocolDetailsListGo();
                  }).error(function (data) {
                      $scope.error = "AN error has occured while deleting Monitoring Protocol!" + data;
@@ -1831,12 +1844,12 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
         $scope.ReInsertInstitutionDetails = function () {
             var Ins = confirm("Do you like to activate the selected Institution?");
             if (Ins == true) {
-                $http.get(baseUrl + 'api/Protocol/ProtocolMonitoring_Active/?Id=' + $scope.Id).success(function (data) {
-                    //alert("Selected Institution has been activated successfully");
-                    toastr.success("Selected Institution has been activated successfully", "success");
+                $http.get(baseUrl + 'api/Protocol/ProtocolMonitoring_Active/?Id=' + $scope.Id).then(function (response) {
+                    //alert("Selected Institution has been activated thenfully");
+                    toastr.success("Selected Institution has been activated thenfully", "success");
                     $scope.InstitutionDetailsListGo();
-                }).error(function (data) {
-                    $scope.error = "An error has occurred while ReInsertInstitutionDetails" + data;
+                }, function errorCallback(response) { 
+                    $scope.error = "An error has occurred while ReInsertInstitutionDetails" + response.data;
                 });
             };
         }
@@ -1844,9 +1857,9 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
         /*Calling api method for delete selected Skill details for the Protocol name*/
         $scope.ProtocolDetails_Delete = function (ParamId) {
 
-            $http.get(baseUrl + '/api/Protocol/ProtocolMonitoring_Delete/?Id=' + ParamId).success(function (Vitaldata) {
-            }).error(function (Vitaldata) {
-                $scope.error = "AN error has occured while deleting records" + Vitaldata;
+            $http.get(baseUrl + '/api/Protocol/ProtocolMonitoring_Delete/?Id=' + ParamId).then(function (Vitaldata) {
+            }, function errorCallback(Vitaldata) {
+                $scope.error = "AN error has occured while deleting records" + Vitaldata.data;
             });
         };
 

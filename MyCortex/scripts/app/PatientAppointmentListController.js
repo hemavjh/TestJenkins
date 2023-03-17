@@ -22,10 +22,10 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
         $scope.isVideoC = false;
 
         
-        $http.get(baseUrl + '/api/CommonMenu/CommonTelephone_List?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (response) {
-            if (response != null) {
-                if (response.length > 0) {
-                    angular.forEach(response, function (item, index) {
+        $http.get(baseUrl + '/api/CommonMenu/CommonTelephone_List?InstitutionId=' + $window.localStorage['InstitutionId']).then(function (response) {
+            if (response.data != null) {
+                if (response.data.length > 0) {
+                    angular.forEach(response.data, function (item, index) {
                         $scope.Name = item.NAME;
                         $scope.Recording = item.Recording_Type;
                         if ($scope.Name == 'CometChat') {
@@ -39,12 +39,13 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                         else if ($scope.Name == 'Hive Meet') {
                             $('#MyvideoDisable').attr("disabled", true);
                             $('#AudioDisable').attr("disabled", false);
-                            $('#videoDisable').attr("disabled", false);                            
+                            $('#videoDisable').attr("disabled", false);
                             $scope.isvideo = true;
                         }
-                    })
+                    });
                 }
             }
+        }, function errorCallback(response) {
         });
 
         intial_loading();
@@ -77,18 +78,20 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                 //console.log(element[0].scrollHeight)
                 if (Math.round(element.scrollTop() + element[0].offsetHeight) == element[0].scrollHeight) {
                     if ($scope.Patient_PerPage == 0) {
-                        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-                            $scope.Patient_PerPage = data1[0].ConfigValue;
+                        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).then(function (data1) {
+                            $scope.Patient_PerPage = data1.data[0].ConfigValue;
                             //alert($scope.Patient_PerPage)
                             $scope.PageStart = 0
                             $scope.PageEnd = $scope.Patient_PerPage
-                            $http.get(baseUrl + '/api/User/PatientAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                            $http.get(baseUrl + '/api/User/PatientAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).then(function (response) {
                                 $scope.UpComingAppointmentDetails = [];
-                                $scope.UpComingAppointmentDetails = data.PatientAppointmentList;
+                                $scope.UpComingAppointmentDetails = response.data.PatientAppointmentList;
                                 compareAppointmentDates();
+                            }, function errorCallback(response) {
                             });
                             //$scope.Input_Type = 1;
                             //$scope.SearchEncryptedQuery = $scope.searchquery;
+                        }, function errorCallback(data1) {
                         });
                     }
                     else {
@@ -96,22 +99,23 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
 
 
 
-                        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+                        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).then(function (data1) {
                             //$scope.Patient_PerPage = data1[0].ConfigValue;
                             //alert($scope.Patient_PerPage)
                             $scope.PageStart = parseInt($scope.UpComingAppointmentDetails.length) + 1
-                            $scope.PageEnd = parseInt($scope.UpComingAppointmentDetails.length) + parseInt(data1[0].ConfigValue)
+                            $scope.PageEnd = parseInt($scope.UpComingAppointmentDetails.length) + parseInt(data1.data[0].ConfigValue)
                             //if ($scope.UpComingAppointmentDetails.length < parseInt($scope.PageEnd)) {
-                            $http.get(baseUrl + '/api/User/PatientAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                            $http.get(baseUrl + '/api/User/PatientAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).then(function (response) {
                                 //$scope.UpComingAppointmentDetails = [];
-                                Array.prototype.push.apply($scope.UpComingAppointmentDetails, data.PatientAppointmentList);
+                                Array.prototype.push.apply($scope.UpComingAppointmentDetails, response.data.PatientAppointmentList);
                                 //$scope.UpComingAppointmentDetails.push(data.PatientAppointmentList);
                                 compareAppointmentDates();
-
+                            }, function errorCallback(response) {
                             });
                             //}
                             //$scope.Input_Type = 1;
                             //$scope.SearchEncryptedQuery = $scope.searchquery;
+                        }, function errorCallback(data1) {
                         });
                     }
 
@@ -138,20 +142,21 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                 $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
                 if (Math.round(element.scrollTop() + element[0].offsetHeight) == element[0].scrollHeight) {
                     if ($scope.Patient_PerPage_past == 0) {
-                        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-                            $scope.Patient_PerPage_past = data1[0].ConfigValue;
+                        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).then(function (data1) {
+                            $scope.Patient_PerPage_past = data1.data[0].ConfigValue;
                             //alert($scope.Patient_PerPage)
                             $scope.PageStart = 0
                             $scope.PageEnd = $scope.Patient_PerPage_past
-                            $http.get(baseUrl + '/api/User/PatientPreviousAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                            $http.get(baseUrl + '/api/User/PatientPreviousAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).then(function (response) {
                                 $scope.PreviousAppointmentDetails = [];
-                                $scope.PreviousAppointmentDetails = data.PatientAppointmentList;
-                                if (data.PatientAppointmentList != null && data.PatientAppointmentList != undefined) {
+                                $scope.PreviousAppointmentDetails = response.data.PatientAppointmentList;
+                                if (response.data.PatientAppointmentList != null && response.data.PatientAppointmentList != undefined) {
                                     $scope.PreviousAppointmentCount = $scope.PreviousAppointmentDetails.length;
                                 }
+                            }, function errorCallback(response) {
                             });
 
-
+                        }, function errorCallback(data1) {
                         });
                     }
                     else {
@@ -159,20 +164,21 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
 
 
 
-                        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+                        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).then(function (data1) {
                             //$scope.Patient_PerPage = data1[0].ConfigValue;
                             //alert($scope.Patient_PerPage)
                             $scope.PageStart = parseInt($scope.PreviousAppointmentDetails.length) + 1
-                            $scope.PageEnd = parseInt($scope.PreviousAppointmentDetails.length) + parseInt(data1[0].ConfigValue)
+                            $scope.PageEnd = parseInt($scope.PreviousAppointmentDetails.length) + parseInt(data1.data[0].ConfigValue)
                             //if ($scope.UpComingAppointmentDetails.length < parseInt($scope.PageEnd)) {
-                            $http.get(baseUrl + '/api/User/PatientPreviousAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                            $http.get(baseUrl + '/api/User/PatientPreviousAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).then(function (response) {
                                 Array.prototype.push.apply($scope.PreviousAppointmentDetails, data.PatientAppointmentList);
                                 //$scope.PreviousAppointmentDetails = data.PatientAppointmentList;
-                                if (data.PatientAppointmentList != null && data.PatientAppointmentList != undefined) {
+                                if (response.data.PatientAppointmentList != null && response.data.PatientAppointmentList != undefined) {
                                     $scope.PreviousAppointmentCount = $scope.PreviousAppointmentDetails.length;
                                 }
+                            }, function errorCallback(response) {
                             });
-
+                        }, function errorCallback(data1) {
                         });
                     }
 
@@ -184,8 +190,8 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
         function patientAppointmentList() {
             $scope.ConfigCode = "PATIENTPAGE_COUNT";
             $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-                $scope.Patient_PerPage = data1[0].ConfigValue;
+            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).then(function (data1) {
+                $scope.Patient_PerPage = data1.data[0].ConfigValue;
                 //alert($scope.Patient_PerPage)
                 $scope.PageStart = 0
                 $scope.PageEnd = $scope.Patient_PerPage
@@ -193,29 +199,18 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                 //$scope.SearchEncryptedQuery = $scope.searchquery;                
 
                 // get the appointment payment status from subscription settings
-                $http.get(baseUrl + '/api/User/UserDetails_View?Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                    $scope.AppointmoduleID = data.Appointment_Module_Id;
+                $http.get(baseUrl + '/api/User/UserDetails_View?Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
+                    $scope.AppointmoduleID = response.data.Appointment_Module_Id;
+                }, function errorCallback(response) {
                 });
 
-                $http.get(baseUrl + '/api/User/PatientAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                $http.get(baseUrl + '/api/User/PatientAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).then(function (response) {
                     $scope.UpComingAppointmentDetails = [];
-                    $scope.UpComingAppointmentDetails = data.PatientAppointmentList;
-                    angular.forEach($scope.UpComingAppointmentDetails, function (row, i) {
-                        
-                        //if (row.Appointment_Module_Id === 3 && row.Status === 5 && parseInt(row.Payment_Status_Id) === 2) {
-                        //    row.Payment_Status = "Waiting for Insurance Approval";
-                        //} else if (row.Appointment_Module_Id === 3 && row.Status === 1 && parseInt(row.Payment_Status_Id) === 3) {
-                        //    row.Payment_Status = "Insurance Approved";
-                        //} else if (row.Appointment_Module_Id === 3 && row.Status === 5 && parseInt(row.Payment_Status_Id) === 4) {
-                        //    row.Payment_Status = "Insurance Rejected";
-                        //}
-
-                        //if (row.Appointment_Module_Id === 2 && (row.Payment_Status == 0 || row.Payment_Status == '' || row.Payment_Status == null || row.Payment_Status == "UNPAID")) {
-                        //    row.Payment_Status = "UNPAID";
-                        //}
-                    });
+                    $scope.UpComingAppointmentDetails = response.data.PatientAppointmentList;
                     compareAppointmentDates();
+                }, function errorCallback(response) {
                 });
+            }, function errorCallback(data1) {
             });
         }
 
@@ -238,8 +233,8 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
         function checkdates() {
             $scope.ConfigCode = "PAT_APPOINTMENT_START";
             $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-                $scope.PAT_APPOINTMENT_START = data1[0].ConfigValue;
+            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).then(function (data1) {
+                $scope.PAT_APPOINTMENT_START = data1.data[0].ConfigValue;
                 var Patientstarttime = $scope.PAT_APPOINTMENT_START;
                 document.getElementsByClassName('homepadamicon phones').value = Patientstarttime;
                 var AppoinList = $scope.UpComingAppointmentDetails;
@@ -291,30 +286,34 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                 }
                 $scope.UpComingAppointmentDetails = AppoinList;
                 //$scope.$apply();
+            }, function errorCallback(data1) {
            });
         }
         function CG_PatientAppointment_List() {
-            $http.get(baseUrl + '/api/User/CG_PatientAppointmentList/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId + '&UserId=' + $window.localStorage['UserId']).success(function (data) {
-                $scope.UpComingWaitingAppointmentDetails = data.PatientAppointmentList;
+            $http.get(baseUrl + '/api/User/CG_PatientAppointmentList/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId + '&UserId=' + $window.localStorage['UserId']).then(function (response) {
+                $scope.UpComingWaitingAppointmentDetails = response.data.PatientAppointmentList;
                 if ($scope.UpComingWaitingAppointmentDetails != null) {
                     $scope.UpComingWaitingAppointmentCount = $scope.UpComingWaitingAppointmentDetails.length;
                 }
+            }, function errorCallback(response) {
             });
         }
         function getPreviousAppointmentList() {
             $scope.ConfigCode = "PATIENTPAGE_COUNT";
             $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-                $scope.Patient_PerPage_past = data1[0].ConfigValue;
+            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).then(function (data1) {
+                $scope.Patient_PerPage_past = data1.data[0].ConfigValue;
                 //alert($scope.Patient_PerPage)
                 $scope.PageStart = 0
                 $scope.PageEnd = $scope.Patient_PerPage_past
-                $http.get(baseUrl + '/api/User/PatientPreviousAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
-                    $scope.PreviousAppointmentDetails = data.PatientAppointmentList;
-                    if (data.PatientAppointmentList != null && data.PatientAppointmentList != undefined) {
+                $http.get(baseUrl + '/api/User/PatientPreviousAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).then(function (response) {
+                    $scope.PreviousAppointmentDetails = response.data.PatientAppointmentList;
+                    if (response.data.PatientAppointmentList != null && response.data.PatientAppointmentList != undefined) {
                         $scope.PreviousAppointmentCount = $scope.PreviousAppointmentDetails.length;
                     }
+                }, function errorCallback(response) {
                 });
+            }, function errorCallback(data1) {
             });
         }
         $scope.$on("appointment_list", intial_loading);
@@ -387,12 +386,12 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                 }
 
                 var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
-               // var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://meet.hive.clinic:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+               /* var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://meet.hive.clinic:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');*/
                 document.getElementById('Patient_VideoCall').innerHTML = tag;
 
                 /*Getting the Event */
                 var GetEvent = io('https://demoserver.livebox.co.in:3030/', { transports: ['websocket'] });
-               // var GetEvent = io('https://meet.hive.clinic:3030/', { transports: ['websocket'] });
+                //var GetEvent = io('https://meet.hive.clinic:3030/', { transports: ['websocket'] });
 
                 /* Passing the Event */
                 GetEvent.on("endConferenceListenerData", function (conferenceData) {

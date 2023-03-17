@@ -19,10 +19,10 @@ ChatSettingscontroller.controller("ChatSettingsController", ['$scope', '$http', 
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
         // inittialize the list object for user type
         if ($window.localStorage['UserTypeId'] == 3) {
-            $http.get(baseUrl + '/api/ChatSettings/ChatSettingsUserType_List/').success(function (data) {
+            $http.get(baseUrl + '/api/ChatSettings/ChatSettingsUserType_List/').then(function (response) {
 
-                $scope.UserGroupList = data;
-                $scope.UserGroupListtwo = data;
+                $scope.UserGroupList = response.data;
+                $scope.UserGroupListtwo = response.data;
                 $scope.firstobj = [];
                 $scope.secondobj = [];
                 angular.forEach($scope.UserGroupList, function (Ovalue, Oindex) {
@@ -31,13 +31,13 @@ ChatSettingscontroller.controller("ChatSettingsController", ['$scope', '$http', 
                         var name = Ivalue.Id.toString();
                     })
                 })
-
+            }, function errorCallback(response) {
             });
 
-            $http.get(baseUrl + '/api/ChatSettings/ChatPreferenceGet/').success(function (data) {
+            $http.get(baseUrl + '/api/ChatSettings/ChatPreferenceGet/').then(function (response) {
 
-                $scope.UserGroupList = data;
-                $scope.UserGroupListtwo = data;
+                $scope.UserGroupList = response.data;
+                $scope.UserGroupListtwo = response.data;
                 $scope.firstobj = [];
                 $scope.secondobj = [];
                 angular.forEach($scope.UserGroupList, function (Ovalue, Oindex) {
@@ -46,7 +46,7 @@ ChatSettingscontroller.controller("ChatSettingsController", ['$scope', '$http', 
                         var name = Ivalue.Id.toString();
                     })
                 })
-
+            }, function errorCallback(response) {
             });
         } else {
             window.location.href = baseUrl + "/Home/LoginIndex";
@@ -75,8 +75,8 @@ ChatSettingscontroller.controller("ChatSettingsController", ['$scope', '$http', 
             // call after binding all checkboxes
             if (idx == $scope.UserGroupList.length && parentidx == $scope.UserGroupList.length) {
                 setTimeout(function () {
-                    $http.get(baseUrl + 'api/ChatSettings/ViewEditChatSettings/?Id=' + $scope.Institution_Id).success(function (data) {
-                        $scope.ChatSettingslist = data;
+                    $http.get(baseUrl + 'api/ChatSettings/ViewEditChatSettings/?Id=' + $scope.Institution_Id).then(function (response) {
+                        $scope.ChatSettingslist = response.data;
 
                         angular.forEach($scope.UserGroupList, function (Ovalue, Oindex) {
                             angular.forEach($scope.UserGroupList, function (Ivalue, Iindex) {
@@ -100,10 +100,11 @@ ChatSettingscontroller.controller("ChatSettingsController", ['$scope', '$http', 
                                     var obj = { "OuterId": Ovalue.Id, "InnerId": Ivalue.Id, "Flag": false }
                                     $scope.checkboxObj.push(obj);
                                 }
-                            })
-                        })
+                            });
+                        });
                         $("#chatLoaderPV").hide();
-                    })
+                    }, function errorCallback(response) {
+                    });
                 }, 1500);
             }
 
@@ -153,20 +154,20 @@ ChatSettingscontroller.controller("ChatSettingsController", ['$scope', '$http', 
                     };
 
 
-                    $http.post(baseUrl + '/api/ChatSettings/ChatSettings_AddEdit/', obj).success(function (data) {
+                    $http.post(baseUrl + '/api/ChatSettings/ChatSettings_AddEdit/', obj).then(function (response) {
 
                         lpcnt = lpcnt + 1
                         if (savecnt == lpcnt) {
                             //alert(data.Message);
-                            toastr.success(data.Message, "success");
+                            toastr.success(response.data.Message, "success");
                             $('#save').attr("disabled", false);
                             $location.path("/EditChatSettings/" + $scope.Institution_Id);
                             //$scope.loading = false;
                             //$rootScope.$broadcast('hide'); 
                             $("#chatLoaderPV").hide();
                         }
-
-                    })
+                    }, function errorCallback(response) {
+                    });
 
                 })
             })
@@ -176,16 +177,18 @@ ChatSettingscontroller.controller("ChatSettingsController", ['$scope', '$http', 
         /*Store Chat Preference*/
         $scope.SaveChatPreference = function () {
             var type = $scope.Preference_Type;
-            $http.get(baseUrl + '/api/ChatSettings/ChatPreferenceSave/?institutionId=' + $window.localStorage['InstitutionId'] + '&preferenceType=' + type).success(function (data) {
-                return data;
-            })
+            $http.get(baseUrl + '/api/ChatSettings/ChatPreferenceSave/?institutionId=' + $window.localStorage['InstitutionId'] + '&preferenceType=' + type).then(function (response) {
+                return response.data;
+            }, function errorCallback(response) {
+            });
         }
 
         /*Set Chat Preference*/
         $scope.SetChatPreference = function () {
-            $http.get(baseUrl + '/api/ChatSettings/ChatPreferenceGet/?institutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
-                $scope.Preference_Type = data.PreferenceType;
-            })
+            $http.get(baseUrl + '/api/ChatSettings/ChatPreferenceGet/?institutionId=' + $window.localStorage['InstitutionId']).then(function (response) {
+                $scope.Preference_Type = response.data.PreferenceType;
+            }, function errorCallback(response) {
+            });
         }
 
         /*LIST REDIRECT FUNCTION */

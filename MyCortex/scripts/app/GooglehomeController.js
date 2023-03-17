@@ -13,21 +13,22 @@ Googlehome.controller("GooglehomeController", ['$scope', '$http', '$routeParams'
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
         $scope.page_size = 0;
         $scope.ConfigCode = "PAGINATION";
-        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
-            if (data[0] != undefined) {
-                $scope.page_size = parseInt(data[0].ConfigValue);
+        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).then(function (response) {
+            if (response.data[0] != undefined) {
+                $scope.page_size = parseInt(response.data[0].ConfigValue);
                 $window.localStorage['Pagesize'] = $scope.page_size;
             }
+        }, function errorCallback(response) {
         });
 
 
         $scope.getCredentialDetails = function () {
-            $http.get(baseUrl + '/api/Login/GoogleLogin_get_Email/').success(function (data) {
+            $http.get(baseUrl + '/api/Login/GoogleLogin_get_Email/').then(function (response) {
 
 
-                $scope.UserId = data.UserId;
-                $scope.UserTypeId = data.UserTypeId;
-                $scope.InstitutionId = data.InstitutionId;
+                $scope.UserId = response.data.UserId;
+                $scope.UserTypeId = response.data.UserTypeId;
+                $scope.InstitutionId = response.data.InstitutionId;
                 $window.localStorage['UserId'] = $scope.UserId;
                 $window.localStorage['UserTypeId'] = $scope.UserTypeId;
                 $window.localStorage['InstitutionId'] = $scope.InstitutionId;
@@ -46,6 +47,7 @@ Googlehome.controller("GooglehomeController", ['$scope', '$http', '$routeParams'
                     window.location.href = baseUrl + "/Home/Index#/Carecoordinator/1";
                 else if ($window.localStorage['UserTypeId'] == "7")
                     window.location.href = baseUrl + "/Home/Index#/TodaysAppoint_ments";
+            }, function errorCallback(response) {
             });
         }
         $scope.getCredentialDetails();

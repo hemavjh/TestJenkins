@@ -82,12 +82,14 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         //});
         if ($location.$$path == "/Hive") {
             $scope.IsMaster = 0;
-            $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + 2 + '&InstitutionId=' + $window.localStorage['InstitutionId'] + '&IS_MASTER=' + $scope.IsMaster).success(function (data) {
-                $scope.UserLists = data;
+            $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + 2 + '&InstitutionId=' + $window.localStorage['InstitutionId'] + '&IS_MASTER=' + $scope.IsMaster).then(function (response) {
+                $scope.UserLists = response.data;
+            }, function errorCallback(response) {
             });
         } else {
-            $http.get(baseUrl + '/api/User/UserDetails_List/?Id=' + 2 + '&InstitutionId=' + $window.localStorage['InstitutionId'] + '&IsActive=' + 1 + '&Login_Session_Id=' + $scope.LoginSessionId + '&UserType_Id=' + $scope.UserTypeId).success(function (data) {
-                $scope.UserLists = data;
+            $http.get(baseUrl + '/api/User/UserDetails_List/?Id=' + 2 + '&InstitutionId=' + $window.localStorage['InstitutionId'] + '&IsActive=' + 1 + '&Login_Session_Id=' + $scope.LoginSessionId + '&UserType_Id=' + $scope.UserTypeId).then(function (response) {
+                $scope.UserLists = response.data;
+            }, function errorCallback(response) {
             });
         }
 
@@ -233,8 +235,8 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $scope.rowCollectionTab = [];
             $scope.ConfigCode = "PATIENTPAGE_COUNT";
             $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-                $scope.page_size = data1[0].ConfigValue;
+            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).then(function (data1) {
+                $scope.page_size = data1.data[0].ConfigValue;
                 $scope.PageStart = (($scope.current_MyHomepage - 1) * ($scope.page_size)) + 1;
                 $scope.PageEnd = $scope.current_MyHomepage * $scope.page_size;
 
@@ -246,25 +248,25 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     $scope.ISact = 0 //all
                 }
                 $scope.HiveUsersCount = 0;
-                $http.get(baseUrl + '/api/MyHome/Tab_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd + '&HiveType=' + HiveType).success(function (data) {
-                    if (data != null && data !== undefined) {
+                $http.get(baseUrl + '/api/MyHome/Tab_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd + '&HiveType=' + HiveType).then(function (response) {
+                    if (response.data != null && response.data !== undefined) {
                         $scope.emptydataTab = [];
                         $scope.rowCollectionTab = [];
-                        $scope.rowCollectionTab = data;
+                        $scope.rowCollectionTab = response.data;
 
-                        $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                            if (data != null && data !== undefined) {
-                                $scope.Remaining_No_Of_Hive = data.Remaining_No_Of_Hive;
-                                $scope.No_Of_Hive = data.No_Of_Hive;
-                                $scope.Remaining_No_Of_Hivechart = data.Remaining_No_Of_Hivechart;
-                                $scope.No_Of_HiveChart = data.No_Of_HiveChart;
+                        $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (response1) {
+                            if (response1.data != null && response1.data !== undefined) {
+                                $scope.Remaining_No_Of_Hive = response1.data.Remaining_No_Of_Hive;
+                                $scope.No_Of_Hive = response1.data.No_Of_Hive;
+                                $scope.Remaining_No_Of_Hivechart = response1.data.Remaining_No_Of_Hivechart;
+                                $scope.No_Of_HiveChart = response1.data.No_Of_HiveChart;
 
-                                $scope.No_Of_HiveChart_User = data.No_Of_HiveChartUsers;
-                                $scope.No_Of_Hive_User = data.No_Of_HiveUsers;
+                                $scope.No_Of_HiveChart_User = response1.data.No_Of_HiveChartUsers;
+                                $scope.No_Of_Hive_User = response1.data.No_Of_HiveUsers;
                                 /*$scope.No_Of_HiveChart_Devices = data.No_Of_HiveChartDevices;
                                 $scope.No_Of_Hive_Devices = data.No_Of_HiveDevices;*/
-                                $scope.Remaining_No_Of_Hive_Users = data.Remaining_No_Of_Hive_Users;
-                                $scope.Remaining_No_Of_Hivechart_Users = data.Remaining_No_Of_Hivechart_Users;
+                                $scope.Remaining_No_Of_Hive_Users = response1.data.Remaining_No_Of_Hive_Users;
+                                $scope.Remaining_No_Of_Hivechart_Users = response1.data.Remaining_No_Of_Hivechart_Users;
                                 /* $scope.Remaining_No_Of_Hive_Devices = data.Remaining_No_Of_Hive_Devices;
                                  $scope.Remaining_No_Of_Hivechart_Devices = data.Remaining_No_Of_Hivechart_Devices;*/
                                 //if ($scope.rowCollectionTab.length > 0) {
@@ -278,7 +280,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                             } else {
                                 $("#chatLoaderPV").hide();
                             }
-
+                        }, function errorCallback(response1) {
                         });
 
                         if ($scope.rowCollectionTab.length > 0) {
@@ -287,7 +289,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                             $scope.TabDataCount = 0;
                         }
 
-                        $scope.TabData_ListFilterdata = data;
+                        $scope.TabData_ListFilterdata = response.data;
                         $scope.rowCollectionTabFilter = angular.copy($scope.rowCollectionTab);
                         if ($scope.rowCollectionTabFilter.length > 0) {
                             $scope.flag = 1;
@@ -300,27 +302,30 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     }
                     $scope.total_MyHomepage = Math.ceil(($scope.TabDataCount) / ($scope.page_size));
 
-                }).error(function (data) {
-                    $scope.error = "AN error has occured while Listing the records!" + data;
-                })
-            })
-
+                }, function errorCallback(response) {
+                    $scope.error = "AN error has occured while Listing the records!" + response.data;
+                });
+            }, function errorCallback(data1) {
+            });
         }
 
         $scope.searchquery = "";
         /* FILTER THE  MyHome  LIST FUNCTION.*/
         $scope.filterTabList = function () {
             $scope.ResultListFiltered = [];
-            var searchstring = angular.lowercase($scope.searchquery);
+            var searchstring = $scope.searchquery;
+            if (searchstring != '') {
+                searchstring = searchstring.toLowerCase();
+            }
             if ($scope.searchquery == "") {
                 $scope.rowCollectionTabFilter = angular.copy($scope.rowCollectionTab);
             }
             else {
                 $scope.rowCollectionTabFilter = $ff($scope.rowCollectionTab, function (value) {
-                    return angular.lowercase(value.RefId).match(searchstring) ||
-                        angular.lowercase(value.TabName).match(searchstring) ||
-                        angular.lowercase(value.OS).match(searchstring) ||
-                        angular.lowercase(value.Model).match(searchstring)
+                    return (value.RefId.toLowerCase()).match(searchstring) ||
+                        (value.TabName.toLowerCase()).match(searchstring) ||
+                        (value.OS.toLowerCase()).match(searchstring) ||
+                        (value.Model.toLowerCase()).match(searchstring)
                 });
                 $scope.total_MyHomepage = Math.ceil(($scope.rowCollectionTabFilter) / ($scope.page_size));
             }
@@ -402,17 +407,17 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 $scope.DuplicatesId = $routeParams.Id;
             }
 
-            $http.get(baseUrl + '/api/MyHome/Tab_ListView/?Id=' + $scope.Id).success(function (data) {
+            $http.get(baseUrl + '/api/MyHome/Tab_ListView/?Id=' + $scope.Id).then(function (response) {
                 $("#chatLoaderPV").hide();
-                $scope.DuplicatesId = data.Id;
-                $scope.TabName = data.TabName;
-                $scope.RefId = data.RefId;
-                $scope.Model = data.Model;
-                $scope.OS = data.OS;
+                $scope.DuplicatesId = response.data.Id;
+                $scope.TabName = response.data.TabName;
+                $scope.RefId = response.data.RefId;
+                $scope.Model = response.data.Model;
+                $scope.OS = response.data.OS;
                 $scope.EditSelectedUserListTab = [];
                 $scope.EditSelectedTabDevice = [];
-                $scope.AddUserParameters = data.UserList;
-                angular.forEach(data.UserList, function (value, index) {
+                $scope.AddUserParameters = response.data.UserList;
+                angular.forEach(response.data.UserList, function (value, index) {
                     $scope.EditSelectedTABUser.push(value.ID);
                     $scope.SelectedTabUser = $scope.EditSelectedTABUser;
                     $scope.EditSelectedUserListTab.push(value.UserId);
@@ -425,8 +430,8 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     $scope.MyHomeflag = 0;
                 }
 
-                $scope.AddDeviceParameters = data.SelectedTabDeviceList;
-                angular.forEach(data.SelectedTabDeviceList, function (value, index) {
+                $scope.AddDeviceParameters = response.data.SelectedTabDeviceList;
+                angular.forEach(response.data.SelectedTabDeviceList, function (value, index) {
                     $scope.EditSelectedTabDevice.push(value.DeviceId);
                 });
                 $scope.SelectedTabDevice = $scope.EditSelectedTabDevice;
@@ -443,6 +448,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 });*/
 
                 //$scope.UserPinValidation($scope.SelectedTabPIN);
+            }, function errorCallback(response) {
             });
         }
 
@@ -465,17 +471,17 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    $http.get(baseUrl + '/api/MyHome/Tab_List_Delete/?Id=' + $scope.Id).success(function (data) {
+                    $http.get(baseUrl + '/api/MyHome/Tab_List_Delete/?Id=' + $scope.Id).then(function (response) {
                         //alert("Hive details has been deactivated Successfully");
                         toastr.success(HiveChart == 1 ? "Hive deactivated Successfully" : "Hive Chart deactivated Successfully", "success");
                         $scope.TabList(HiveChart);
-                    }).error(function (data) {
-                        $scope.error = "An error has occurred while deleting Hive" + data;
+                    }, function errorCallback(response) {
+                        $scope.error = "An error has occurred while deleting Hive" + response.data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
                 }
-            })
+            });
             /*var del = confirm("Do you like to deactivate the selected Hive details?");
             if (del == true) {
                 $http.get(baseUrl + '/api/MyHome/Tab_List_Delete/?Id=' + $scope.Id).success(function (data) {
@@ -506,12 +512,12 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    $http.get(baseUrl + '/api/MyHome/Tab_List_Delete/?Id=' + $scope.Id).success(function (data) {
+                    $http.get(baseUrl + '/api/MyHome/Tab_List_Delete/?Id=' + $scope.Id).then(function (response) {
                         //alert("Hive details has been  Activated Successfully");
                         toastr.success(HiveChart == 1 ? "Hive activated successfully" : "Hive Chart activated successfully", "success");
                         $scope.TabList(HiveChart);
-                    }).error(function (data) {
-                        $scope.error = "An error has occurred while deleting Hive" + data;
+                    }).error(function (response) {
+                        $scope.error = "An error has occurred while deleting Hive" + response.data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
@@ -669,15 +675,16 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 IsTemp: 1
             }
             $("#chatLoaderPV").show();
-            $http.post(baseUrl + '/api/MyHome/Tab_User_Pin_Update/', obj).success(function (data) {
-                if (data.ReturnFlag == 1) {
+            $http.post(baseUrl + '/api/MyHome/Tab_User_Pin_Update/', obj).then(function (response) {
+                if (response.data.ReturnFlag == 1) {
                     toastr.success("User Pin Is" + "(" + $scope.PIN + ")" + "Reset Successfully", "success");
                     $("#chatLoaderPV").hide();
                 }
                 else {
-                    toastr.info(data.Message, "info");
+                    toastr.info(response.data.Message, "info");
                     $("#chatLoaderPV").hide();
                 }
+            }, function errorCallback(response) {
             });
         };
 
@@ -1079,25 +1086,24 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                         HiveType: HiveType
                     };
                     $('#savemytab').attr("disabled", true);
-                    $http.post(baseUrl + '/api/MyHome/Tab_Insert_Update/', obj).success(function (data) {
+                    $http.post(baseUrl + '/api/MyHome/Tab_Insert_Update/', obj).then(function (response) {
                         $("#chatLoaderPV").hide();
                         //alert(data.Message);
-                        if (data.ReturnFlag == 1) {
-                            toastr.success(data.Message, "success");
+                        if (response.data.ReturnFlag == 1) {
+                            toastr.success(response.data.Message, "success");
                             $scope.SelectedUserListTab = [];
                             $scope.SelectedTabDevice = [];
                         }
-                        else if (data.ReturnFlag == 0) {
-                            toastr.warning(data.Message, "warning");
+                        else if (response.data.ReturnFlag == 0) {
+                            toastr.warning(response.data.Message, "warning");
                         }
                         $('#savemytab').attr("disabled", false);
                         $scope.TabList(HiveType);
                         $scope.Cancel_MYTAB();
 
-                    }).error(function (data) {
-                        $scope.error = "An error has occurred while deleting Parameter" + data;
+                    }, function errorCallback(response) {
+                        $scope.error = "An error has occurred while deleting Parameter" + response.data;
                     });
-
                 }
             }
         }
@@ -1181,14 +1187,14 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     $scope.ISact = 0 //all
                 }
                 $http.get(baseUrl + '/api/MyHome/DeviceInstitutionList/?Institution_Id=' + $window.localStorage['InstitutionId']
-                ).success(function (data) {
+                ).then(function (response) {
                     $scope.emptydata = [];
                     $scope.rowCollection = [];
                     $scope.rowCollectionDeviceFilter = [];
                     $scope.InstitutionDeviceList = [];
-                    $scope.InstitutionDeviceList = data;
-                    $scope.emptydataDevice = data;
-                    $scope.rowCollection = data;
+                    $scope.InstitutionDeviceList = response.data;
+                    $scope.emptydataDevice = response.data;
+                    $scope.rowCollection = response.data;
                     $scope.rowCollectionDeviceFilter = angular.copy($scope.rowCollection);
                     if ($scope.rowCollectionDeviceFilter.length > 0) {
                         $scope.flag = 1;
@@ -1197,8 +1203,8 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                         $scope.flag = 0;
                     }
                     $("#chatLoaderPV").hide();
-                }).error(function (data) {
-                    $scope.error = "AN error has occured while Listing the records!" + data;
+                }, function errorCallback(response) {
+                    $scope.error = "AN error has occured while Listing the records!" + response.data;
                 })
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
@@ -1211,17 +1217,16 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         /* FILTER THE  MyHome  LIST FUNCTION.*/
         $scope.filterDeviceListed = function () {
             $scope.ResultListFiltered = [];
-            var searchstring = angular.lowercase($scope.searchquery);
+            var searchstring = ($scope.searchquery.toLowerCase());
             if ($scope.searchquery == "") {
                 $scope.rowCollectionDeviceFilter = angular.copy($scope.rowCollection);
             }
             else {
                 $scope.rowCollectionDeviceFilter = $ff($scope.rowCollection, function (value) {
-                    return angular.lowercase(value.DeviceName).match(searchstring) ||
-                        angular.lowercase(value.DeviceType).match(searchstring) ||
-                        angular.lowercase(value.Make).match(searchstring) ||
-                        angular.lowercase(value.ModelNumber).match(searchstring)
-                        
+                    return (value.DeviceName.toLowerCase()).match(searchstring) ||
+                        (value.DeviceType.toLowerCase()).match(searchstring) ||
+                        (value.Make.toLowerCase()).match(searchstring) ||
+                        (value.ModelNumber.toLowerCase()).match(searchstring)                        
                 });
             }
             $scope.emptydataDevice = $scope.rowCollectionTabFilter;
@@ -1246,9 +1251,10 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             //    $scope.AllDeviceNameList = data1.TabDeviceList;
             //});
 
-            $http.get(baseUrl + '/api/ParameterSettings/ProtocolParameterMasterList/').success(function (data1) {
+            $http.get(baseUrl + '/api/ParameterSettings/ProtocolParameterMasterList/').then(function (data1) {
                 $("#chatLoaderPV").hide();
-                $scope.ProtocolParametersList = data1;
+                $scope.ProtocolParametersList = data1.data;
+            }, function errorCallback(data1) {
             });
 
         };
@@ -1362,27 +1368,27 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 $scope.DuplicatesId = $routeParams.Id;
             }
             $scope.AllDeviceNameList = [];
-            $http.get(baseUrl + '/api/MyHome/ViewDevice_List/?Id=' + $scope.Id).success(function (data) {
+            $http.get(baseUrl + '/api/MyHome/ViewDevice_List/?Id=' + $scope.Id).then(function (response) {
                 $("#chatLoaderPV").hide();
                 //$scope.DeviceId = data.DeviceId;
-                $scope.DeviceName = data.DeviceName;
+                $scope.DeviceName = response.data.DeviceName;
 
-                if (data.DeviceType == "Medical Device") {
+                if (response.data.DeviceType == "Medical Device") {
                     $scope.DeviceType = 2;
                 }
-                if (data.DeviceType == "Wearable") {
+                if (response.data.DeviceType == "Wearable") {
                     $scope.DeviceType = 1;
                 }
                 /*if (data.DeviceName == "FORA P20") {
                     $scope.DeviceName = 1;
                 }*/
                 //$scope.DeviceType = data.DeviceTypeId;
-                $scope.DeviceMake = data.Make;
-                $scope.DeviceModel = data.ModelNumber;
-                var pname = data.ParameterList[0].ParameterName.toString();
+                $scope.DeviceMake = response.data.Make;
+                $scope.DeviceModel = response.data.ModelNumber;
+                var pname = response.data.ParameterList[0].ParameterName.toString();
 
                 if (pname.indexOf(',') > 0) {
-                    var det = data.ParameterList[0].ParameterName.split(',');
+                    var det = response.data.ParameterList[0].ParameterName.split(',');
                     if (det == 'undefined') {
                         $scope.Editselectedparam.push(parseInt(pname));
                     } else {
@@ -1394,7 +1400,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     $scope.Editselectedparam.push(parseInt(pname));
                 }
                 $scope.SelectedParamter = $scope.Editselectedparam;
-
+            }, function errorCallback(response) {
             });
         }
 
@@ -1422,13 +1428,13 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
                     $("#chatLoaderPV").show();
-                    $http.get(baseUrl + '/api/MyHome/Device_Delete/?Id=' + $scope.Id).success(function (data) {
+                    $http.get(baseUrl + '/api/MyHome/Device_Delete/?Id=' + $scope.Id).then(function (response) {
                         //alert("Selected Device has been activated successfully");
                         toastr.success("Selected Device has been activated successfully", "success");
                         $("#chatLoaderPV").hide();
                         $scope.DeviceList(HiveType);
-                    }).error(function (data) {
-                        $scope.error = "An error has occurred while ReInsertDeviceDetails" + data;
+                    }, function errorCallback(response) {
+                        $scope.error = "An error has occurred while ReInsertDeviceDetails" + response.data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
@@ -1457,13 +1463,13 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
                     $("#chatLoaderPV").show();
-                    $http.get(baseUrl + '/api/MyHome/Device_Delete/?Id=' + $scope.Id).success(function (data) {
+                    $http.get(baseUrl + '/api/MyHome/Device_Delete/?Id=' + $scope.Id).then(function (response) {
                         //alert(" Device details has been deactivated Successfully");
                         toastr.success(" Device details has been deactivated Successfully", "success");
                         $("#chatLoaderPV").hide();
                         $scope.DeviceList(HiveType);
-                    }).error(function (data) {
-                        $scope.error = "An error has occurred while deleting  Device details" + data;
+                    }, function errorCallback(response) {
+                        $scope.error = "An error has occurred while deleting  Device details" + response.data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
@@ -1489,12 +1495,12 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    $http.get(baseUrl + '/api/MyHome/DeviceName_Delete/?Id=' + $scope.Id).success(function (data) {
+                    $http.get(baseUrl + '/api/MyHome/DeviceName_Delete/?Id=' + $scope.Id).then(function (response) {
                         //alert("Selected Institution has been activated successfully");
                         toastr.success("Selected Device has been activated successfully", "success");
                         $scope.DeviceListAdmin();
-                    }).error(function (data) {
-                        $scope.error = "An error has occurred while ReInsertDevice" + data;
+                    }, function errorCallback(response) {
+                        $scope.error = "An error has occurred while ReInsertDevice" + response.data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
@@ -1518,12 +1524,12 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    $http.get(baseUrl + '/api/MyHome/DeviceName_Delete/?Id=' + $scope.Id).success(function (data) {
+                    $http.get(baseUrl + '/api/MyHome/DeviceName_Delete/?Id=' + $scope.Id).then(function (response) {
                         //alert("Selected Institution has been deactivated Successfully");
                         toastr.success("Selected Device has been deactivated Successfully", "success");
                         $scope.DeviceListAdmin();
-                    }).error(function (data) {
-                        $scope.error = "AN error has occured while deleting Device!" + data;
+                    }, function errorCallback(response) {
+                        $scope.error = "AN error has occured while deleting Device!" + response.data;
                     });
                 } else if (result.isDenied) {
                 }
@@ -1549,22 +1555,22 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 $scope.Id = $routeParams.Id;
                 $scope.DuplicatesId = $routeParams.Id;
             }
-            $http.get(baseUrl + '/api/MyHome/ViewDeviceName_List/?Id=' + $scope.Id).success(function (data) {
+            $http.get(baseUrl + '/api/MyHome/ViewDeviceName_List/?Id=' + $scope.Id).then(function (response) {
                 $("#chatLoaderPV").hide();
                 //$scope.DeviceId = data.DeviceId;
-                $scope.DeviceNameAdmin = data.DeviceName;
-                if (data.DeviceType == "Medical Device") {
+                $scope.DeviceNameAdmin = response.data.DeviceName;
+                if (response.data.DeviceType == "Medical Device") {
                     $scope.DeviceType = 2;
                 }
-                if (data.DeviceType == "Wearable") {
+                if (response.data.DeviceType == "Wearable") {
                     $scope.DeviceType = 1;
                 }
-                $scope.DeviceMake = data.Make;
-                $scope.DeviceModel = data.ModelNumber;
-                var pname = data.ParameterList[0].ParameterName.toString();
+                $scope.DeviceMake = response.data.Make;
+                $scope.DeviceModel = response.data.ModelNumber;
+                var pname = response.data.ParameterList[0].ParameterName.toString();
 
                 if (pname.indexOf(',') > 0) {
-                    var det = data.ParameterList[0].ParameterName.split(',');
+                    var det = response.data.ParameterList[0].ParameterName.split(',');
                     if (det == 'undefined') {
                         $scope.Editselectedparam.push(parseInt(pname));
                     } else {
@@ -1576,6 +1582,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     $scope.Editselectedparam.push(parseInt(pname));
                 }
                 $scope.SelectedParamter = $scope.Editselectedparam;
+            }, function errorCallback(response) {
             });
         }
         $scope.DeviceName_Validationantrols = function () {
@@ -1729,12 +1736,12 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 else if ($scope.Is_Active == false) {
                     $scope.ISact = 0 //all
                 }
-                $http.get(baseUrl + '/api/MyHome/DeviceName_Admin_List/?IsActive=' + $scope.ISact).success(function (data) {
+                $http.get(baseUrl + '/api/MyHome/DeviceName_Admin_List/?IsActive=' + $scope.ISact).then(function (response) {
                     $scope.emptydata = [];
                     $scope.rowCollection = [];
                     $scope.rowCollectionTabFilter = [];
-                    $scope.emptydataDevice = data.TabDeviceList;
-                    $scope.rowCollection = data.TabDeviceList;
+                    $scope.emptydataDevice = response.data.TabDeviceList;
+                    $scope.rowCollection = response.data.TabDeviceList;
                     $scope.rowCollectionTabFilter = angular.copy($scope.rowCollection);
                     if ($scope.rowCollectionTabFilter.length > 0) {
                         $scope.flag = 1;
@@ -1749,8 +1756,8 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     //}
                     //$scope.total_Devicepage = Math.ceil(($scope.TabDataCount) / ($scope.page_size));
                     $("#chatLoaderPV").hide();
-                }).error(function (data) {
-                    $scope.error = "AN error has occured while Listing the records!" + data;
+                }, function errorCallback(response) {
+                    $scope.error = "AN error has occured while Listing the records!" + response.data;
                 })
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
@@ -1786,21 +1793,21 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     CreatedBy: $window.localStorage['UserId']
                 };
                 $('#btnsave').attr("disabled", true);
-                $http.post(baseUrl + '/api/MyHome/AddDeviceNameInsertUpdate/', obj).success(function (data) {
+                $http.post(baseUrl + '/api/MyHome/AddDeviceNameInsertUpdate/', obj).then(function (response) {
                     $("#chatLoaderPV").hide();
                     //alert(data.Message);
-                    if (data.ReturnFlag == 0) {
-                        toastr.success(data.Message, "success");
+                    if (response.data.ReturnFlag == 0) {
+                        toastr.success(response.data.Message, "success");
                     }
-                    else if (data.ReturnFlag == 1) {
-                        toastr.success(data.Message, "success");
+                    else if (response.data.ReturnFlag == 1) {
+                        toastr.success(response.data.Message, "success");
                     }
                     $('#btnsave').attr("disabled", false);
                     $scope.DeviceListAdmin();
                     $scope.CancelDeviceList();
 
-                }).error(function (data) {
-                    $scope.error = "An error has occurred while Adding Device" + data;
+                }, function errorCallback(response) {
+                    $scope.error = "An error has occurred while Adding Device" + response.data;
                 });
 
             }
@@ -1810,17 +1817,16 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         /* FILTER THE  MyHome  LIST FUNCTION.*/
         $scope.filterDeviceNameList = function () {
             $scope.ResultListFiltered = [];
-            var searchstring = angular.lowercase($scope.searchquery);
+            var searchstring = $scope.searchquery.toLowerCase();
             if ($scope.searchquery == "") {
                 $scope.rowCollectionTabFilter = angular.copy($scope.rowCollection);
             }
             else {
                 $scope.rowCollectionTabFilter = $ff($scope.rowCollection, function (value) {
-                    return angular.lowercase(value.DeviceName).match(searchstring) ||
-                        angular.lowercase(value.DeviceType).match(searchstring) ||
-                        angular.lowercase(value.Make).match(searchstring) ||
-                        angular.lowercase(value.ModelNumber).match(searchstring);
-
+                    return (value.DeviceName.toLowerCase()).match(searchstring) ||
+                        (value.DeviceType.toLowerCase()).match(searchstring) ||
+                        (value.Make.toLowerCase()).match(searchstring) ||
+                        (value.ModelNumber.toLowerCase()).match(searchstring);
                 });
             }
             $scope.emptydataDevice = $scope.rowCollectionTabFilter;
@@ -1876,21 +1882,21 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     HiveType: HiveType
                 };
                 $('#btnsave').attr("disabled", true);
-                $http.post(baseUrl + '/api/MyHome/AddDeviceInsertUpdate/', obj).success(function (data) {
+                $http.post(baseUrl + '/api/MyHome/AddDeviceInsertUpdate/', obj).then(function (response) {
                     $("#chatLoaderPV").hide();
                     //alert(data.Message);
                     if (data.ReturnFlag == 1) {
-                        toastr.success(data.Message, "success");
+                        toastr.success(response.data.Message, "success");
                     }
-                    else if (data.ReturnFlag == 0) {
+                    else if (response.data.ReturnFlag == 0) {
                         toastr.info(data.Message, "info");
                     }
                     $('#btnsave').attr("disabled", false);
                     $scope.DeviceList(HiveType);
                     $scope.CancelDeviceList();
 
-                }).error(function (data) {
-                    $scope.error = "An error has occurred while Adding Device" + data;
+                }, function errorCallback(response) {
+                    $scope.error = "An error has occurred while Adding Device" + response.data;
                 });
             }
         }

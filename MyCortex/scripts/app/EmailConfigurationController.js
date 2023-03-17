@@ -82,9 +82,9 @@ EmailConfigurationcontroller.controller("EmailConfigurationController", ['$scope
         /* Institution Dropdown function  */
         $scope.InstitutionList = [];
         $scope.InstitutionFilterList = [];
-        $http.get(baseUrl + '/api/Institution/InstitutionDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-            if (data != null) {
-                $scope.Insitution_Name = data.Institution_Name;
+        $http.get(baseUrl + '/api/Institution/InstitutionDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
+            if (response.data != null) {
+                $scope.Insitution_Name = response.data.Institution_Name;
             }
             //$scope.Insitution_Name = data.Institution_Name;
             // $scope.InstitutionFilterList =  angular.copy($scope.InstitutionList); 
@@ -133,7 +133,7 @@ EmailConfigurationcontroller.controller("EmailConfigurationController", ['$scope
                     Created_By: $window.localStorage['UserId']
                 };
                 $('#save').attr("disabled", true);
-                $http.post(baseUrl + '/api/EmailConfiguration/EmailConfiguration_AddEdit/', obj).success(function (data) {
+            $http.post(baseUrl + '/api/EmailConfiguration/EmailConfiguration_AddEdit/', obj).then(function (response) {
                     //alert("Email setup saved successfully");
                     toastr.success("Email setup saved successfully", "success");
                     $('#save').attr("disabled", false);
@@ -141,8 +141,8 @@ EmailConfigurationcontroller.controller("EmailConfigurationController", ['$scope
                     //$scope.ClearFields();
                     //   $scope.clearInstitution();
                     $("#chatLoaderPV").hide();
-                }).error(function (data) {
-                    $scope.error = "An error has occurred while adding Email Configuration!" + data.ExceptionMessage;
+            }, function errorCallback(response) {
+                $scope.error = "An error has occurred while adding Email Configuration!" + response.data.ExceptionMessage;
                 });
             //}
         };
@@ -150,19 +150,19 @@ EmailConfigurationcontroller.controller("EmailConfigurationController", ['$scope
         $scope.EmailConfiguration_ViewEdit = function () {
             if ($window.localStorage['UserTypeId'] == 3 || $window.localStorage['UserTypeId'] == 1) {
                 $("#chatLoaderPV").show();
-                $http.get(baseUrl + 'api/EmailConfiguration/EmailConfiguration_View/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
-                    if (data != null) {
-                        $scope.Id = data.Id;
-                        $scope.Insitution_Name = data.Institution_Name;
-                        $scope.Sender_Email_Id = data.Sender_Email_Id;
-                        $scope.U_Name = data.UserName;
-                        $scope.P_word = data.Password;
-                        $scope.ServerName = data.ServerName;
-                        $scope.PortNo = data.PortNo;
-                        $scope.DisplayName = data.DisplayName;
-                        $scope.SSL_Enable = data.EConfigSSL_Enable.toString();
+                $http.get(baseUrl + 'api/EmailConfiguration/EmailConfiguration_View/?Institution_Id=' + $window.localStorage['InstitutionId']).then(function (response) {
+                    if (response.data != null) {
+                        $scope.Id = response.data.Id;
+                        $scope.Insitution_Name = response.data.Institution_Name;
+                        $scope.Sender_Email_Id = response.data.Sender_Email_Id;
+                        $scope.U_Name = response.data.UserName;
+                        $scope.P_word = response.data.Password;
+                        $scope.ServerName = response.data.ServerName;
+                        $scope.PortNo = response.data.PortNo;
+                        $scope.DisplayName = response.data.DisplayName;
+                        $scope.SSL_Enable = response.data.EConfigSSL_Enable.toString();
                         //   $scope.SSL_Enable = data.SSL_Enable.toString();
-                        $scope.Remarks = data.Remarks;
+                        $scope.Remarks = response.data.Remarks;
                     }
                     $("#chatLoaderPV").hide();
                 });
@@ -218,17 +218,19 @@ EmailConfigurationcontroller.controller("EmailConfigurationController", ['$scope
                     Created_By: $window.localStorage['UserId']
                 };
                 $("#chatLoaderPV").show();
-                $http.post(baseUrl + 'api/EmailConfiguration/CheckEmailConfiguration/', obj).success(function (data) {
-                    if (data != null) {
+                $http.post(baseUrl + 'api/EmailConfiguration/CheckEmailConfiguration/', obj).then(function (response) {
+                    if (response.data != null) {
                         //console.log(data);
-                        if (data == true) {
+                        if (response.data == true) {
                             toastr.success("Email Setup Working Properly", "Success");
                         } else {
                             toastr.warning("Email Setup Not Working Properly", "Warning");
                         }
                     }
                     $("#chatLoaderPV").hide();
-                }).error(function (data) { toastr.warning("Email Setup Server Error", "Warning"); });
+                 }, function errorCallback(response) {
+                    toastr.warning("Email Setup Server Error", "Warning");
+                });
             }
         }
 

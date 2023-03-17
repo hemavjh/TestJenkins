@@ -66,17 +66,19 @@ SendEmailcontroller.controller("SendEmailController", ['$scope', '$http', '$filt
 
         $scope.Filter_Country_onChange = function () {
             if ($scope.loadCount == 0) {
-                $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + $scope.filter_CountryId).success(function (data) {
-                    $scope.StateNameList = data;
+                $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + $scope.filter_CountryId).then(function (response) {
+                    $scope.StateNameList = response.data;
                     $scope.CityNameList = [];
                     $scope.filter_CityId = "0";
+                }, function errorCallback(response) {
                 });
             }
         }
         $scope.Filter_State_onChange = function () {
             if ($scope.loadCount == 0) {
-                $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + $scope.filter_CountryId + '&StateId=' + $scope.filter_StataId).success(function (data) {
-                    $scope.CityNameList = data;
+                $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + $scope.filter_CountryId + '&StateId=' + $scope.filter_StataId).then(function (response) {
+                    $scope.CityNameList = response.data;
+                }, function errorCallback(response) {
                 });
             }
         }
@@ -84,23 +86,28 @@ SendEmailcontroller.controller("SendEmailController", ['$scope', '$http', '$filt
         $scope.SendEmailDropdownList = function () {
             if ($scope.TabClick == false) {
                 $scope.TabClick = true;
-                $http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (data) {
-                    $scope.BloodGroupList = data;
+                $http.get(baseUrl + '/api/Common/BloodGroupList/').then(function (response) {
+                    $scope.BloodGroupList = response.data;
+                }, function errorCallback(response) {
                 });
-                $http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (data) {
-                    $scope.MaritalStatusList = data;
+                $http.get(baseUrl + '/api/Common/MaritalStatusList/').then(function (response) {
+                    $scope.MaritalStatusList = response.data;
+                }, function errorCallback(response) {
                 });
-                $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstitutionId).success(function (data) {
-                    $scope.GroupTypeList = data;
+                $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstitutionId).then(function (response) {
+                    $scope.GroupTypeList = response.data;
+                }, function errorCallback(response) {
                 });
-                $http.get(baseUrl + '/api/Common/GenderList/').success(function (data) {
-                    $scope.GenderList = data;
+                $http.get(baseUrl + '/api/Common/GenderList/').then(function (response) {
+                    $scope.GenderList = response.data;
+                }, function errorCallback(response) {
                 });
-                $http.get(baseUrl + '/api/Common/NationalityList/').success(function (data) {
-                    $scope.NationalityList = data;
+                $http.get(baseUrl + '/api/Common/NationalityList/').then(function (response) {
+                    $scope.NationalityList = response.data;
                 });
-                $http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (data) {
-                    $scope.EthnicGroupList = data;
+                $http.get(baseUrl + '/api/Common/EthnicGroupList/').then(function (response) {
+                    $scope.EthnicGroupList = response.data;
+                }, function errorCallback(response) {
                 });
                 $scope.CountryStateList();
             }
@@ -112,15 +119,17 @@ SendEmailcontroller.controller("SendEmailController", ['$scope', '$http', '$filt
         $scope.StateNameList = [];
         $scope.CityNameList = [];
 
-        $http.get(baseUrl + 'api/SMSConfiguration/SMSConfiguration_View/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
-            $scope.Source_Id = data.Source_Id;
-            $scope.UserName = data.UserName;
-            $scope.ApiId = data.ApiId;
+        $http.get(baseUrl + 'api/SMSConfiguration/SMSConfiguration_View/?Institution_Id=' + $window.localStorage['InstitutionId']).then(function (response) {
+            $scope.Source_Id = response.data.Source_Id;
+            $scope.UserName = response.data.UserName;
+            $scope.ApiId = response.data.ApiId;
+        }, function errorCallback(response) {
         });
 
         $scope.CountryStateList = function () {
-            $http.get(baseUrl + '/api/Common/CountryList/').success(function (data) {
-                $scope.CountryNameList = data;
+            $http.get(baseUrl + '/api/Common/CountryList/').then(function (response) {
+                $scope.CountryNameList = response.data;
+            }, function errorCallback(response) {
             });
         }
         //List Page Pagination.
@@ -139,11 +148,12 @@ SendEmailcontroller.controller("SendEmailController", ['$scope', '$http', '$filt
             else {
                 angular.element('#Template_PreviewModel').modal('show');
                 $scope.PrimaryKeyId = GetId;
-                $http.post(baseUrl + '/api/SendEmail/GenerateTemplate/?Id=' + $scope.PrimaryKeyId + '&Template_Id=' + $scope.Template_Id + '&Institution_Id=' + $scope.InstitutionId + '&TemplateType_Id=' + $scope.PageParameter).success(function (data) {
-                    $scope.Generated_TemplateList = data;
+                $http.post(baseUrl + '/api/SendEmail/GenerateTemplate/?Id=' + $scope.PrimaryKeyId + '&Template_Id=' + $scope.Template_Id + '&Institution_Id=' + $scope.InstitutionId + '&TemplateType_Id=' + $scope.PageParameter).then(function (response) {
+                    $scope.Generated_TemplateList = response.data;
                     $scope.EmailSubject = $scope.Generated_TemplateList.Email_Subject;
                     $scope.Generated_Template = $scope.Generated_TemplateList.Email_Body;
                     $scope.EmailId = EmailId;
+                }, function errorCallback(response) {
                 });
             }
         }
@@ -156,25 +166,28 @@ SendEmailcontroller.controller("SendEmailController", ['$scope', '$http', '$filt
             else {
                 angular.element('#Template_PreviewModel').modal('show');
                 $scope.PrimaryKeyId = GetId;
-                $http.post(baseUrl + '/api/SendEmail/GenerateTemplate/?Id=' + $scope.PrimaryKeyId + '&Template_Id=' + $scope.Template_Id + '&Institution_Id=' + $scope.InstitutionId + '&TemplateType_Id=' + $scope.PageParameter).success(function (data) {
-                    $scope.Generated_TemplateList = data;
+                $http.post(baseUrl + '/api/SendEmail/GenerateTemplate/?Id=' + $scope.PrimaryKeyId + '&Template_Id=' + $scope.Template_Id + '&Institution_Id=' + $scope.InstitutionId + '&TemplateType_Id=' + $scope.PageParameter).then(function (response) {
+                    $scope.Generated_TemplateList = response.data;
                     $scope.EmailSubject = $scope.Generated_TemplateList.Email_Subject;
                     $scope.Generated_Template = $scope.Generated_TemplateList.Email_Body;
                     $scope.MobileNO = MobileNO;
+                }, function errorCallback(response) {
                 });
             }
         }
 
         /* Get the List of User Type */
         if ($window.localStorage['UserTypeId'] == 3) {
-            $http.get(baseUrl + '/api/SendEmail/Email_UserTypeList/').success(function (data) {
-                $scope.Usertypelistdata = data;
+            $http.get(baseUrl + '/api/SendEmail/Email_UserTypeList/').then(function (response) {
+                $scope.Usertypelistdata = response.data;
+            }, function errorCallback(response) {
             });
 
 
             /*Get the List of Template */
-            $http.get(baseUrl + '/api/SendEmail/Email_TemplateTypeList/?InstitutionId=' + $scope.InstitutionId + '&TemplateType_Id=' + $scope.PageParameter).success(function (data) {
-                $scope.SentEmailTemplateList = data;
+            $http.get(baseUrl + '/api/SendEmail/Email_TemplateTypeList/?InstitutionId=' + $scope.InstitutionId + '&TemplateType_Id=' + $scope.PageParameter).then(function (response) {
+                $scope.SentEmailTemplateList = response.data;
+            }, function errorCallback(response) {
             });
         } else {
             window.location.href = baseUrl + "/Home/LoginIndex";
@@ -194,9 +207,9 @@ SendEmailcontroller.controller("SendEmailController", ['$scope', '$http', '$filt
             }
             else {
                 $("#chatLoaderPV").show();
-                $http.get(baseUrl + '/api/SendEmail/Get_SendEmail_UserList/?UserTypeId=' + $scope.UserTypeId + '&Institution_Id=' + $scope.InstitutionId + '&PATIENTNO=' + $scope.Filter_PatientNo + '&INSURANCEID=' + $scope.filter_InsuranceId + '&GENDER_ID=' + $scope.Filter_GenderId + '&NATIONALITY_ID=' + $scope.filter_NationalityId + '&ETHINICGROUP_ID=' + $scope.filter_EthinicGroupId + '&MOBILE_NO=' + $scope.filter_MOBILE_NO + '&HOME_PHONENO=' + $scope.filter_HomePhoneNo + '&EMAILID=' + $scope.filter_Email + '&MARITALSTATUS_ID=' + $scope.filter_MaritalStatus + '&COUNTRY_ID=' + $scope.filter_CountryId + '&STATE_ID=' + $scope.filter_StataId + '&CITY_ID=' + $scope.filter_CityId + '&BLOODGROUP_ID=' + $scope.filter_BloodGroupId + '&Group_Id=' + $scope.filter_GroupId).success(function (data) {
+                $http.get(baseUrl + '/api/SendEmail/Get_SendEmail_UserList/?UserTypeId=' + $scope.UserTypeId + '&Institution_Id=' + $scope.InstitutionId + '&PATIENTNO=' + $scope.Filter_PatientNo + '&INSURANCEID=' + $scope.filter_InsuranceId + '&GENDER_ID=' + $scope.Filter_GenderId + '&NATIONALITY_ID=' + $scope.filter_NationalityId + '&ETHINICGROUP_ID=' + $scope.filter_EthinicGroupId + '&MOBILE_NO=' + $scope.filter_MOBILE_NO + '&HOME_PHONENO=' + $scope.filter_HomePhoneNo + '&EMAILID=' + $scope.filter_Email + '&MARITALSTATUS_ID=' + $scope.filter_MaritalStatus + '&COUNTRY_ID=' + $scope.filter_CountryId + '&STATE_ID=' + $scope.filter_StataId + '&CITY_ID=' + $scope.filter_CityId + '&BLOODGROUP_ID=' + $scope.filter_BloodGroupId + '&Group_Id=' + $scope.filter_GroupId).then(function (response) {
                     $scope.emptydata = [];
-                    $scope.SendEmailUserList = data;
+                    $scope.SendEmailUserList = response.data;
                     $scope.Filter_SendEmailUserList = angular.copy($scope.SendEmailUserList);
                     if ($scope.Filter_SendEmailUserList.length > 0) {
                         $scope.flag = 1;
@@ -205,6 +218,7 @@ SendEmailcontroller.controller("SendEmailController", ['$scope', '$http', '$filt
                         $scope.flag = 0;
                     }
                     $("#chatLoaderPV").hide();
+                }, function errorCallback(response) {
                 });
             }
         }
@@ -212,15 +226,15 @@ SendEmailcontroller.controller("SendEmailController", ['$scope', '$http', '$filt
         /* FILTER THE LIST FUNCTION.*/
         $scope.ListFilter = function () {
             $scope.ResultListFiltered = [];
-            var searchstring = angular.lowercase($scope.searchquery);
+            var searchstring = $scope.searchquery.toLowerCase();
             if ($scope.searchquery == "") {
                 $scope.Filter_SendEmailUserList = angular.copy($scope.SendEmailUserList);
             }
             else {
                 $scope.Filter_SendEmailUserList = $ff($scope.SendEmailUserList, function (value) {
-                    return angular.lowercase(value.UserName).match(searchstring) ||
-                        angular.lowercase(value.UserType).match(searchstring) ||
-                        angular.lowercase(value.EmailId).match(searchstring);
+                    return (value.UserName.toLowerCase()).match(searchstring) ||
+                        (value.UserType.toLowerCase()).match(searchstring) ||
+                        (value.EmailId.toLowerCase()).match(searchstring);
                 });
                 if ($scope.Filter_SendEmailUserList.length > 0) {
                     $scope.flag = 1;
@@ -296,21 +310,22 @@ SendEmailcontroller.controller("SendEmailController", ['$scope', '$http', '$filt
                                     $scope.SelectedUserList.push(obj);
                                 }
                             });
-                            $http.post(baseUrl + '/api/SendEmail/SendEmail_AddEdit/', $scope.SelectedUserList).success(function (data) {
+                        $http.post(baseUrl + '/api/SendEmail/SendEmail_AddEdit/', $scope.SelectedUserList).then(function (response) {
                                 //alert(data.Message);
-                                if (data.ReturnFlag == 1) {
-                                    toastr.success(data.Message, "success");
+                            if (response.data.ReturnFlag == 1) {
+                                    toastr.success(response.data.Message, "success");
                                 }
-                                else if (data.ReturnFlag == 0) {
-                                    toastr.info(data.Message, "info");
+                            else if (response.data.ReturnFlag == 0) {
+                                toastr.info(response.data.Message, "info");
                                 }
                                 $('#btnsave').attr("disabled", false);
-                                if (data.ReturnFlag == 1) {
+                            if (response.data.ReturnFlag == 1) {
                                     $scope.ClearValues();
                                     $scope.Get_SendEmail_UserList();
                                 }
-                                $("#chatLoaderPV").hide();
-                            });
+                            $("#chatLoaderPV").hide();
+                        }, function errorCallback(response) {
+                        });
                     } else if (result.isDenied) {
                         //Swal.fire('Changes are not saved', '', 'info')
                     }

@@ -38,9 +38,10 @@ EligibilityLogs.controller("EligibilityLogsController", ['$scope', '$http', '$ro
             $('#ddlsearchfield').val('');
             $("#chatLoaderPV").show();
        
-            $http.get(baseUrl + 'api/EligibilityLogs/Eligibility_Logs_List/?InstitutionId=' + $scope.InstituteId).success(function (data) {
+            $http.get(baseUrl + 'api/EligibilityLogs/Eligibility_Logs_List/?InstitutionId=' + $scope.InstituteId).then(function (response) {
                 $("#chatLoaderPV").hide();
-                $scope.rowCollectionFilter = data;
+                $scope.rowCollectionFilter = response.data;
+            }, function errorCallback(response) {
             });
             if ($scope.rowCollectionFilter.length > 0) {
                 $scope.flag = 1;
@@ -73,9 +74,10 @@ EligibilityLogs.controller("EligibilityLogsController", ['$scope', '$http', '$ro
             
             $("#chatLoaderPV").show();
             $scope.CCCG_DetailsList = [];
-            $http.get(baseUrl + 'api/EligibilityLogs/Eligibility_Logs_With_Patient_Filters/?InstitutionId=' + $scope.InstituteId + "&Patient_Id=" + $scope.SelectedPatient + "&sDate=" + sDate + "&eDate=" + eDate + "&EligibilityStatus=" + $scope.Eligibility_Status + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            $http.get(baseUrl + 'api/EligibilityLogs/Eligibility_Logs_With_Patient_Filters/?InstitutionId=' + $scope.InstituteId + "&Patient_Id=" + $scope.SelectedPatient + "&sDate=" + sDate + "&eDate=" + eDate + "&EligibilityStatus=" + $scope.Eligibility_Status + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
                 $("#chatLoaderPV").hide();
-                $scope.rowCollectionFilter = data;
+                $scope.rowCollectionFilter = response.data;
+            }, function errorCallback(response) {
             });
             if ($scope.rowCollectionFilter.length > 0) {
                 $scope.flag = 1;
@@ -90,10 +92,10 @@ EligibilityLogs.controller("EligibilityLogsController", ['$scope', '$http', '$ro
         //select on Change load -userslist
         $scope.SearchByUserID = function () {
             $("#chatLoaderPV").show();
-            $http.get(baseUrl + '/api/UsersLog/Admin_Userslog_List/?Institution_Id=' + $scope.InstituteId + "&login_session_id=" + $scope.LoginSessionId + "&User_Id=" + $scope.SelectedCCCG).success(function (data) {
+            $http.get(baseUrl + '/api/UsersLog/Admin_Userslog_List/?Institution_Id=' + $scope.InstituteId + "&login_session_id=" + $scope.LoginSessionId + "&User_Id=" + $scope.SelectedCCCG).then(function (response) {
                 $scope.emptydata = [];
                 $scope.UserDetailsList = [];
-                $scope.UserDetailsList = data;
+                $scope.UserDetailsList = response.data;
                 $scope.rowCollectionFilter = angular.copy($scope.UserDetailsList);
                 if ($scope.rowCollectionFilter.length > 0) {
                     $scope.flag = 1;
@@ -103,19 +105,20 @@ EligibilityLogs.controller("EligibilityLogsController", ['$scope', '$http', '$ro
                     $scope.SearchMsg = "No Data Available";
                 }
                 $("#chatLoaderPV").hide();
+            }, function errorCallback(response) {
             });
         }
         /* Filter the User Log list function.*/
         $scope.filterListUserLog = function () {
-            var searchstring = angular.lowercase($scope.searchquery);
+            var searchstring = $scope.searchquery.toLowerCase();
             if ($scope.searchquery == "") {
                 $scope.rowCollectionFilter = angular.copy($scope.UserDetailsList);
             }
             else {
                 $scope.rowCollectionFilter = $ff($scope.UserDetailsList, function (value) {
-                    return angular.lowercase(value.FULLNAME).match(searchstring) ||
-                        angular.lowercase($filter('date')(value.LOGINTIME, "dd-MMM-yyyy hh:mm a")).match(searchstring) ||
-                        angular.lowercase($filter('date')(value.LOGOUTTIME, "dd-MMM-yyyy hh:mm a")).match(searchstring);
+                    return (value.FULLNAME.toLowerCase()).match(searchstring) ||
+                        ($filter('date')(value.LOGINTIME, "dd-MMM-yyyy hh:mm a")).match(searchstring) ||
+                        ($filter('date')(value.LOGOUTTIME, "dd-MMM-yyyy hh:mm a")).match(searchstring);
                 });
                 if ($scope.rowCollectionFilter.length > 0) {
                     $scope.flag = 1;
@@ -126,13 +129,13 @@ EligibilityLogs.controller("EligibilityLogsController", ['$scope', '$http', '$ro
         };
 
         $scope.All_Patient_List = function () {
-            $http.get(baseUrl + '/api/EligibilityLogs/GetPatientList/?InstitutionId=' + $scope.InstituteId).success(function (data) {
+            $http.get(baseUrl + '/api/EligibilityLogs/GetPatientList/?InstitutionId=' + $scope.InstituteId).then(function (response) {
                 $("#chatLoaderPV").hide();
                 $scope.Patientemptydata = [];
                 $scope.PatientList = [];
-                $scope.PatientList = data;
-                $scope.Patientemptydata = data;
-                
+                $scope.PatientList = response.data;
+                $scope.Patientemptydata = response.data;
+            }, function errorCallback(response) {
             });
         }
     }

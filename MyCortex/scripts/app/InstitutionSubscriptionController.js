@@ -112,6 +112,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                 $scope.Hcp_Pat = true;
                 $scope.status = 0;
                 $scope.InstitutionSubscriptionDetails_View();
+                //$scope.Id = $scope.Institution_Id;
                 $scope.Institutestatus();
                 $('#btnsave').attr("disabled", false);
                 $("#insselectpicker").attr("disabled", true);
@@ -138,101 +139,110 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             $scope.Id = 1;
             $location.path("/SaveInstitution_Subscription/");
         };
-        $scope.TelephoneList = [];
-        $http.get(baseUrl + '/api/InstitutionSubscription/TelephoningNameList/').success(function (data) {
-            // only active Telephone    
-            $scope.TelephoneList = data;
-            $scope.TelephoneDataList = data;
-            setTimeout(() => { angular.element($('#telephone_Id' + 1)).prop('disabled', true); }, 10000);
+        $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
+            $scope.TimeZoneListID = response.data;
+        }, function errorCallback(response) {
         });
-        $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-            $scope.TimeZoneListID = data;
-        });
-        $http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).success(function (data) {
-            $scope.Institution_Id = data;
+        $http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).then(function (response) {
+            $scope.Institution_Id = response.data;
+        }, function errorCallback(response) {
         });
 
         // This is for to get Institution Details List 
         $scope.Institutestatus = function () {
-                $http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).success(function (data) {
-                    $scope.InstitutiondetailsListTemp = [];
-                    $scope.InstitutiondetailsListTemp = data;
-                    var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
-                    $scope.InstitutiondetailsListTemp.splice(0, 0, obj);
-                    //$scope.InstitutiondetailsListTemp.push(obj);
-                    $scope.InstitutiondetailsList = angular.copy($scope.InstitutiondetailsListTemp);
-                    if ($scope.serviceData != undefined) {
-                        $scope.Institution_Id = $scope.serviceData.toString();
-                        var d = $scope.InstitutiondetailsList.filter(x => x.Id === parseInt($scope.Institution_Id));
-                        console.log(d);
-                        var offset = d[0].Timezone;
-                        var offset1 = offset.replace(/\\/g, "");
-                        var offset2 = JSON.parse(offset1);
-                        $scope.getoffset = offset2[0].gmtOffsetName;
-                        $scope.getoffset1 = $scope.getoffset.replace(/UTC/g, "");
-                        $scope.Zone = [];
-                        $scope.Zone = $scope.TimeZoneListID.filter(x => x.UtcOffSet === ($scope.getoffset1));
-                        $scope.TimeZoneListID = $scope.Zone;
-                    }
-                    else if ($scope.Id != '0') {
-                        $scope.Institution_Id1 = $scope.Institution_Id;
-                        var d = $scope.InstitutiondetailsListTemp.filter(x => x.Id === parseInt($scope.Institution_Id1));
-                        var offset = d[0].Timezone;
-                        var offset1 = offset.replace(/\\/g, "");
-                        var offset2 = JSON.parse(offset1);
-                        $scope.getoffset = offset2[0].gmtOffsetName;
-                        $scope.getoffset1 = $scope.getoffset.replace(/UTC/g, "");
-                        $scope.Zone = [];
-                        $scope.Zone = $scope.TimeZoneListID.filter(x => x.UtcOffSet === ($scope.getoffset1));
-                        $scope.TimeZoneListID = $scope.Zone;
-                    }
-                    else {
-                        $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                            $scope.TimeZoneListID = data;
-                        });
-                    }
+            $http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).then(function (response) {
+                $scope.InstitutiondetailsListTemp = [];
+                $scope.InstitutiondetailsListTemp = response.data;
+                var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+                $scope.InstitutiondetailsListTemp.splice(0, 0, obj);
+                //$scope.InstitutiondetailsListTemp.push(obj);
+                $scope.InstitutiondetailsList = angular.copy($scope.InstitutiondetailsListTemp);
+                if ($scope.serviceData != undefined) {
+                    $scope.Institution_Id = $scope.serviceData.toString();
+                    var d = $scope.InstitutiondetailsList.filter(x => x.Id === parseInt($scope.Institution_Id));
+                    console.log(d);
+                    var offset = d[0].Timezone;
+                    var offset1 = offset.replace(/\\/g, "");
+                    var offset2 = JSON.parse(offset1);
+                    $scope.getoffset = offset2[0].gmtOffsetName;
+                    $scope.getoffset1 = $scope.getoffset.replace(/UTC/g, "");
+                    $scope.Zone = [];
+                    $scope.Zone = $scope.TimeZoneListID.filter(x => x.UtcOffSet === ($scope.getoffset1));
+                    $scope.TimeZoneListID = $scope.Zone;
+                }
+                else if ($scope.Id != '0') {
+                    $scope.Institution_Id1 = $scope.Institution_Id;
+                    var d = $scope.InstitutiondetailsListTemp.filter(x => x.Id === parseInt($scope.Institution_Id1));
+                    var offset = d[0].Timezone;
+                    var offset1 = offset.replace(/\\/g, "");
+                    var offset2 = JSON.parse(offset1);
+                    $scope.getoffset = offset2[0].gmtOffsetName;
+                    $scope.getoffset1 = $scope.getoffset.replace(/UTC/g, "");
+                    $scope.Zone = [];
+                    $scope.Zone = $scope.TimeZoneListID.filter(x => x.UtcOffSet === ($scope.getoffset1));
+                    $scope.TimeZoneListID = $scope.Zone;
+                }
+                else {
+                    $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
+                        $scope.TimeZoneListID = response.data;
+                    }, function errorCallback(response) {
+                    });
+                }
 
-                    if ($scope.Institution_Id != "0") {
-                        $('#divInssInstitute').removeClass("ng-invalid");
-                        $('#divInssInstitute').addClass("ng-valid");
-                    }
-                    else {
-                        $('#divInssInstitute').removeClass("ng-valid");
-                        $('#divInssInstitute').addClass("ng-invalid");
-                    }
+                if ($scope.Institution_Id != "0") {
+                    $('#divInssInstitute').removeClass("ng-invalid");
+                    $('#divInssInstitute').addClass("ng-valid");
+                }
+                else {
+                    $('#divInssInstitute').removeClass("ng-valid");
+                    $('#divInssInstitute').addClass("ng-invalid");
+                }
 
-                    $scope.InstituteGetDetails();
-
-                })
+                $scope.InstituteGetDetails();
+            }, function errorCallback(response) {
+            });
         }
         // This is for to get Institution Modiule List 
-        $http.get(baseUrl + '/api/InstitutionSubscription/ModuleNameList/').success(function (data) {
+        $http.get(baseUrl + '/api/InstitutionSubscription/ModuleNameList/').then(function (response) {
             // only active Module    
-            $scope.InstitutiontypeList = data;
+            $scope.InstitutiontypeList = response.data;
+        }, function errorCallback(response) {
         });
         // This is for to get Institution Language List 
-        $http.get(baseUrl + '/api/InstitutionSubscription/LanguageNameList/').success(function (data) {
+        $http.get(baseUrl + '/api/InstitutionSubscription/LanguageNameList/').then(function (response) {
             // only active Language    
-            $scope.LanguageList = data;
+            $scope.LanguageList = response.data;
+        }, function errorCallback(response) {
         });
-        
-        $http.get(baseUrl + '/api/InstitutionSubscription/PaymentModule_List/').success(function (data) {
+        $scope.TelephoneList = [];
+        $http.get(baseUrl + '/api/InstitutionSubscription/TelephoningNameList/').then(function (response) {
+            // only active Telephone    
+            $scope.TelephoneList = response.data;
+            $scope.TelephoneDataList = response.data;
+        }, function errorCallback(response) {
+        });
+        $http.get(baseUrl + '/api/InstitutionSubscription/PaymentModule_List/').then(function (response) {
             // only active Language    
-            $scope.PaymentList = data;
+            $scope.PaymentList = response.data;
+        }, function errorCallback(response) {
         });
-        $http.get(baseUrl + '/api/Common/InstitutionInsurance/').success(function (data) {
-            $scope.InstitutionInsuranceName = data;
+        $http.get(baseUrl + '/api/Common/InstitutionInsurance/').then(function (response) {
+            $scope.InstitutionInsuranceName = response.data;
+        }, function errorCallback(response) {
         });
         $scope.AllDeviceNameList = [];
-        $http.get(baseUrl + '/api/InstitutionSubscription/DeviceName_List/').success(function (data) {
-            $scope.AllDeviceNameList = data;
+        $http.get(baseUrl + '/api/InstitutionSubscription/DeviceName_List/').then(function (response) {
+            $scope.AllDeviceNameList = response.data;
+        }, function errorCallback(response) {
         });
-        $http.get(baseUrl + '/api/Common/InstitutionPayment/').success(function (data) {
-            $scope.InstitutionPaymentMethod = data;
+        $http.get(baseUrl + '/api/Common/InstitutionPayment/').then(function (response) {
+            $scope.InstitutionPaymentMethod = response.data;
+        }, function errorCallback(response) {
         });
-        $http.get(baseUrl + '/api/DoctorShift/AppointmentModuleList/').success(function (data) {
+        $http.get(baseUrl + '/api/DoctorShift/AppointmentModuleList/').then(function (response) {
             // only active Language    
-            $scope.AppointmentModuleListID = data;
+            $scope.AppointmentModuleListID = response.data;
+        }, function errorCallback(response) {
         });
         /*This is for Auto fill Details by selected Name of the Institution */
         $scope.InstituteGetDetails = function () {
@@ -242,20 +252,20 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                 return false;
             }
 
-            $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionDetailList/?Id=' + $scope.Institution_Id).success(function (data) {
-                if (data.Email == null)
+            $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionDetailList/?Id=' + $scope.Institution_Id).then(function (response) {
+                if (response.data.Email == null)
                     $scope.Email = "";
                 else
-                    $scope.Email = data.Email;
-                $scope.Address1 = data.Institution_Address1;
-                $scope.Address2 = data.Institution_Address2;
-                $scope.Address3 = data.Institution_Address3;
-                $scope.ZipCode = data.ZipCode;
-                $scope.Country = data.CountryName;
-                $scope.State = data.StateName;
-                $scope.City = data.CityName;
-            }).error(function (data) {
-                $scope.error = "AN error has occured while Listing the records!" + data;
+                    $scope.Email = response.data.Email;
+                $scope.Address1 = response.data.Institution_Address1;
+                $scope.Address2 = response.data.Institution_Address2;
+                $scope.Address3 = response.data.Institution_Address3;
+                $scope.ZipCode = response.data.ZipCode;
+                $scope.Country = response.data.CountryName;
+                $scope.State = response.data.StateName;
+                $scope.City = response.data.CityName;
+            }, function errorCallback(response) {
+                $scope.error = "AN error has occured while Listing the records!" + response.data;
             });
             $scope.loading = false;
         }
@@ -631,17 +641,17 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                 }
                 $('#btnsave').attr("disabled", true);
                 $('#btnsave1').attr("disabled", true);
-                $http.post(baseUrl + '/api/InstitutionSubscription/InstitutionSubscription_AddEdit/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
+                $http.post(baseUrl + '/api/InstitutionSubscription/InstitutionSubscription_AddEdit/?Login_Session_Id=' + $scope.LoginSessionId, obj).then(function (response) {
                     //alert(data.Message);
-                    if (data.ReturnFlag == 0) {
-                        toastr.error(data.Message, "Warning");
+                    if (response.data.ReturnFlag == 0) {
+                        toastr.error(response.data.Message, "Warning");
                     }
-                    else if (data.ReturnFlag == 1) {
-                        toastr.success(data.Message, "success");
+                    else if (response.data.ReturnFlag == 1) {
+                        toastr.success(response.data.Message, "success");
                     }
                     $('#btnsave').attr("disabled", false);
                     $('#btnsave1').attr("disabled", false);
-                    if (data.ReturnFlag == "1") {
+                    if (response.data.ReturnFlag == "1") {
                         $scope.CancelIntstitutionSubPopup();
                         $scope.TimeZone_Id = "";
                         $scope.AppointmentModule_Id = "";
@@ -650,13 +660,13 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                             $scope.InstitutionSubscriptionDetailsListTemplate();
                         }
                         if ($scope.SubscriptionAndAdmin == 1) {
-                            InstSub.setSubID(data.Institute[0].Institution_Id);
+                            InstSub.setSubID(response.data.Institute[0].Institution_Id);
                             window.location.href = baseUrl + "/Home/Index#/SuperAdmin_UserList/1";
                         }
                     }
                     $("#chatLoaderPV").hide();
-                }).error(function (data) {
-                    $scope.error = "An error has occurred while adding InstitutionSubcription details" + data.ExceptionMessage;
+                }, function errorCallback(response) {
+                    $scope.error = "An error has occurred while adding InstitutionSubcription details" + response.data.ExceptionMessage;
                 });
             }
         }
@@ -664,16 +674,16 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
         /* Filter the master list function.*/
         $scope.filterInstitutionSubscriptionList = function () {
             $scope.ResultListFiltered = [];
-            var searchstring = angular.lowercase($scope.searchquery);
+            var searchstring = $scope.searchquery.toLowerCase();
             if ($scope.searchquery == "") {
                 $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
             }
             else {
                 $scope.rowCollectionFilter = $ff($scope.rowCollection, function (value) {
-                    return angular.lowercase(value.Institution.Institution_Name).match(searchstring) ||
-                        angular.lowercase(value.Institution.INSTITUTION_SHORTNAME).match(searchstring) ||
-                        angular.lowercase($filter('date')(value.Contract_PeriodFrom, "dd-MMM-yyyy")).match(searchstring) ||
-                        angular.lowercase($filter('date')(value.Contract_PeriodTo, "dd-MMM-yyyy")).match(searchstring);
+                    return (value.Institution.Institution_Name.toLowerCase()).match(searchstring) ||
+                        (value.Institution.INSTITUTION_SHORTNAME.toLowerCase()).match(searchstring) ||
+                        ($filter('date')(value.Contract_PeriodFrom.toLowerCase(), "dd-MMM-yyyy")).match(searchstring) ||
+                        ($filter('date')(value.Contract_PeriodTo.toLowerCase(), "dd-MMM-yyyy")).match(searchstring);
                 });
             }
         }
@@ -684,8 +694,8 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                 $("#chatLoaderPV").show();
                 $scope.rowCollectionTemplate = [];
                 $scope.Institution_Id = "0";
-                $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscription_List/Id?=' + $scope.Institution_Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                    $scope.rowCollectionTemplate = data;
+                $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscription_List/Id?=' + $scope.Institution_Id + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
+                    $scope.rowCollectionTemplate = response.data;
                     $scope.rowCollection = $ff($scope.rowCollectionTemplate, function (value) {
                         return value.Institution.IsActive == "1";
                     });
@@ -697,8 +707,8 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                         $scope.flag = 0;
                     }
                     $("#chatLoaderPV").hide();
-                }).error(function (data) {
-                    $scope.error = "AN error has occured while Listing the records!" + data;
+                }, function errorCallback(response) {
+                    $scope.error = "AN error has occured while Listing the records!" + response;
                 })
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
@@ -736,21 +746,21 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     $scope.Id = $routeParams.Id;
                     $scope.DuplicatesId = $routeParams.Id;
                 }
-                $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionDetails_View/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                    $scope.DuplicatesId = data.Id;
-                    $scope.InstitutiontypeList = data.Module_List;
-                    $scope.InstitutionChildList = data.ChildModuleList;
-                    $scope.Module_listAdd = data.ChildModuleList;
-                    $scope.LanguageList = data.Language_List;
-                    $scope.InstitutionLanguageList = data.ChildLanguageList;
-                    $scope.InstitutionLanguageName = data.ChildLanguageList;
-                    $scope.AllDeviceNameList = data.Device_list;
-                    $scope.InstitutionDeviceList = data.ChildDeviceList;
-                    $scope.InstitutionDeviceName = data.ChildDeviceList;
-                    $scope.PaymentList = data.Payment_List;
-                    $scope.InstitutionInsurnceList = data.ChildInsuranceList;
-                    $scope.InstitutionPaymentList = data.ChildPaymentList;
-                    $scope.Institution_Id = data.Institution_Id.toString();
+                $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionDetails_View/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
+                    $scope.DuplicatesId = response.data.Id;
+                    $scope.InstitutiontypeList = response.data.Module_List;
+                    $scope.InstitutionChildList = response.data.ChildModuleList;
+                    $scope.Module_listAdd = response.data.ChildModuleList;
+                    $scope.LanguageList = response.data.Language_List;
+                    $scope.InstitutionLanguageList = response.data.ChildLanguageList;
+                    $scope.InstitutionLanguageName = response.data.ChildLanguageList;
+                    $scope.AllDeviceNameList = response.data.Device_list;
+                    $scope.InstitutionDeviceList = response.data.ChildDeviceList;
+                    $scope.InstitutionDeviceName = response.data.ChildDeviceList;
+                    $scope.PaymentList = response.data.Payment_List;
+                    $scope.InstitutionInsurnceList = response.data.ChildInsuranceList;
+                    $scope.InstitutionPaymentList = response.data.ChildPaymentList;
+                    $scope.Institution_Id = response.data.Institution_Id.toString();
                     if ($scope.Institution_Id != "0") {
                         $('#divInssInstitute').removeClass("ng-invalid");
                         $('#divInssInstitute').addClass("ng-valid");
@@ -759,57 +769,62 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                         $('#divInssInstitute').removeClass("ng-valid");
                         $('#divInssInstitute').addClass("ng-invalid");
                     }
-                    $scope.ViewInstitution_Name = data.Institution.Institution_Name;
-                    $scope.Email = data.Institution.Email;
-                    $scope.Address1 = data.Institution.Institution_Address1;
-                    $scope.Address2 = data.Institution.Institution_Address2;
-                    $scope.Address3 = data.Institution.Institution_Address3;
-                    $scope.ZipCode = data.Institution.ZipCode;
-                    $scope.Country = data.Institution.CountryName;
-                    $scope.State = data.Institution.StateName;
-                    $scope.City = data.Institution.CityName;
-                    $scope.TimeZoneId = data.TimeZone_ID;
-                    $scope.TimeZone_Id = data.TimeZone_ID;
-                    $scope.AppointmentModuleId = data.Appointment_Module_Id;
-                    $scope.AppointmentModule_Id = data.Appointment_Module_Id;
+                    $scope.ViewInstitution_Name = response.data.Institution.Institution_Name;
+                    $scope.Email = response.data.Institution.Email;
+                    $scope.Address1 = response.data.Institution.Institution_Address1;
+                    $scope.Address2 = response.data.Institution.Institution_Address2;
+                    $scope.Address3 = response.data.Institution.Institution_Address3;
+                    $scope.ZipCode = response.data.Institution.ZipCode;
+                    $scope.Country = response.data.Institution.CountryName;
+                    $scope.State = response.data.Institution.StateName;
+                    $scope.City = response.data.Institution.CityName;
+                    $scope.TimeZoneId = response.data.TimeZone_ID;
+                    $scope.TimeZone_Id = response.data.TimeZone_ID;
+                    $scope.AppointmentModuleId = response.data.Appointment_Module_Id;
+                    $scope.AppointmentModule_Id = response.data.Appointment_Module_Id;
                     //$scope.Contract_Period_From = $filter('date')(data.Contract_PeriodFrom, "dd-MMM-yyyy");
-                    $scope.Contract_Period_From = DateFormatEdit($filter('date')(data.Contract_PeriodFrom, "dd-MMM-yyyy"));
-                    $scope.Health_Care_Professionals = data.Health_Care_Professionals;
-                    $scope.Patients = data.No_Of_Patients;
-                    $scope.Hive = data.No_Of_Hive;
-                    $scope.HiveChart = data.No_Of_HiveChart;
-                    $scope.Hive_Users = data.No_Of_HiveUsers;
-                    $scope.HiveChart_Users = data.No_Of_HiveChartUsers;
+                    $scope.Contract_Period_From = DateFormatEdit($filter('date')(response.data.Contract_PeriodFrom, "dd-MMM-yyyy"));
+                    $scope.Health_Care_Professionals = response.data.Health_Care_Professionals;
+                    $scope.Patients = response.data.No_Of_Patients;
+                    $scope.Hive = response.data.No_Of_Hive;
+                    $scope.HiveChart = response.data.No_Of_HiveChart;
+                    $scope.Hive_Users = response.data.No_Of_HiveUsers;
+                    $scope.HiveChart_Users = response.data.No_Of_HiveChartUsers;
                     //$scope.Hive_Devices = data.No_Of_HiveDevices;
-                    $scope.HiveChart_Devices = data.No_Of_HiveChartDevices;
+                    $scope.HiveChart_Devices = response.data.No_Of_HiveChartDevices;
                     //$scope.Contract_Period_To = $filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy");
-                    $scope.Contract_Period_To = DateFormatEdit($filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy"));
-                    $scope.Subscription_Type = data.Subscription_Type;
-                    $scope.Recording_Type = data.Recording_Type;
+                    $scope.Contract_Period_To = DateFormatEdit($filter('date')(response.data.Contract_PeriodTo, "dd-MMM-yyyy"));
+                   
+                    //if (response.data.Subscription_Type == 1) {
+                    //    $('#Subscription_Type1').attr('ng-checked', checked:true);                        
+                    //} else {
+                    //    $('#Subscription_Type2').attr('ng-checked', true);                        
+                    //}
+                   
                     $scope.TelephoneList = [];
-                    if (data.TelePhone_User == 0) {
-                        $scope.TelePhone_User = 2;
+                    if (response.data.TelePhone_User == 0) {
+                        $scope.TelePhone_User = 1;
                     } else {
-                        $scope.TelePhone_User = data.TelePhone_User;
+                        $scope.TelePhone_User = response.data.TelePhone_User;
                     }
-                    $scope.InsSub_Id = data.SubscriptionId;
+                    $scope.InsSub_Id = response.data.SubscriptionId;
                     /*$scope.Chroniccc = data.ChronicCc;
                     $scope.Chroniccg = data.ChronicCg;
                     $scope.Chroniccl = data.ChronicCl;
                     $scope.Chronicsc = data.ChronicSc;*/
                     //$scope.insSubChronicChange();
-                    $scope.Created_No_Of_Patient = data.Created_No_Of_Patient;
-                    $scope.Created_No_Of_HealthCareProf = data.Created_No_Of_HealthCareProf;
-                    $scope.Remaining_No_Of_Patient = data.Remaining_No_Of_Patient;
-                    $scope.Remaining_No_Of_HealthCareProf = data.Remaining_No_Of_HealthCareProf;
-                    $scope.Created_No_Of_Hive = data.Created_No_Of_Hive;
-                    $scope.Created_No_Of_Hivechart = data.Created_No_Of_Hivechart;
-                    $scope.Remaining_No_Of_Hive= data.Remaining_No_Of_Hive;
-                    $scope.Remaining_No_Of_Hivechart = data.Remaining_No_Of_Hivechart;
-                    $scope.Created_No_Of_Hive_Users = data.Created_No_Of_Hive_Users;
-                    $scope.Created_No_Of_Hivechart_Users = data.Created_No_Of_Hivechart_Users;
-                    $scope.Remaining_No_Of_Hive_Users = data.Remaining_No_Of_Hive_Users;
-                    $scope.Remaining_No_Of_Hivechart_Users = data.Remaining_No_Of_Hivechart_Users;
+                    $scope.Created_No_Of_Patient = response.data.Created_No_Of_Patient;
+                    $scope.Created_No_Of_HealthCareProf = response.data.Created_No_Of_HealthCareProf;
+                    $scope.Remaining_No_Of_Patient = response.data.Remaining_No_Of_Patient;
+                    $scope.Remaining_No_Of_HealthCareProf = response.data.Remaining_No_Of_HealthCareProf;
+                    $scope.Created_No_Of_Hive = response.data.Created_No_Of_Hive;
+                    $scope.Created_No_Of_Hivechart = response.data.Created_No_Of_Hivechart;
+                    $scope.Remaining_No_Of_Hive = response.data.Remaining_No_Of_Hive;
+                    $scope.Remaining_No_Of_Hivechart = response.data.Remaining_No_Of_Hivechart;
+                    $scope.Created_No_Of_Hive_Users = response.data.Created_No_Of_Hive_Users;
+                    $scope.Created_No_Of_Hivechart_Users = response.data.Created_No_Of_Hivechart_Users;
+                    $scope.Remaining_No_Of_Hive_Users = response.data.Remaining_No_Of_Hive_Users;
+                    $scope.Remaining_No_Of_Hivechart_Users = response.data.Remaining_No_Of_Hivechart_Users;
 
                     angular.forEach($scope.InstitutiontypeList, function (item, modIndex) {
 
@@ -869,8 +884,15 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                         }
                     })
                     $("#chatLoaderPV").hide();
+
                     $scope.TelephoneList = $scope.TelephoneDataList;
                     setTimeout(() => { angular.element($('#telephone_Id' + $scope.TelePhone_User)).prop('checked', true); }, 500);
+                    $scope.Subscription_Type = response.data.Subscription_Type;
+                    setTimeout(() => { angular.element($('#Subscription_Type' + $scope.Subscription_Type)).prop('checked', true); }, 500);
+                    $scope.Recording_Type = response.data.Recording_Type;
+                    setTimeout(() => { angular.element($('#Recording_Type' + $scope.Recording_Type)).prop('checked', true); }, 500);
+
+                }, function errorCallback(response) {
                 });
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
@@ -934,6 +956,5 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
         if ($scope.serviceData > 0) {
             $scope.AddIntstitutionSubPopup();
         }
-
     }
 ]);

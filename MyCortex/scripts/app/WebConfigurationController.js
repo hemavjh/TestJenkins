@@ -17,14 +17,16 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
 
         $scope.IsEdit = false;
         $scope.status = 0;
-        $http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).success(function (data) {
+        $http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).then(function (response) {
             $scope.InstitutiondetailsListTemp = [];
-            $scope.InstitutiondetailsListTemp = data;
-            $scope.InstitutiondetailsListTemp = data;
+            $scope.InstitutiondetailsList = [];
+            $scope.InstitutiondetailsListTemp = response.data;
+            //$scope.InstitutiondetailsListTemp = response.data;
             var obj = { "Id": -1, "Name": "Default", "IsActive": 1 };
             $scope.InstitutiondetailsListTemp.splice(0, 0, obj);
             //$scope.InstitutiondetailsListTemp.push(obj);
             $scope.InstitutiondetailsList = angular.copy($scope.InstitutiondetailsListTemp);
+        }, function errorCallback(response) {
         });
         $scope.WebConfigEdit = function () {
             $scope.IsEdit = true;
@@ -47,6 +49,9 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
         $scope.ChronicEdit = function () {
             var EditChronicEdit = [];
             var EditChronicId = "";
+            var ConfigListValue = "";
+            $scope.Config_value[EditChronicId] = "";
+            var SplitChronic = "";
             angular.forEach($scope.rowCollectionWebConfiguration, function (SplitChronic, Id) {
                 //if (SplitChronic["CONFIGVALUE"] != "" && SplitChronic["CONFIGCODE"] == "LIVEDATA_STARTFROM") {
                 //    if (SplitChronic["CONFIGVALUE"] > 2) {
@@ -55,9 +60,10 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                 //    }
                 //}
                 if (SplitChronic["CONFIGVALUE"] != "" && SplitChronic["CONFIGCODE"] == "CHRONIC CODE") {
-                    var ConfigListValue = $scope.Config_value[SplitChronic["ID"]];
+                    ConfigListValue = $scope.Config_value[SplitChronic["ID"]];
                     EditChronicId = SplitChronic["ID"];
-                    var SplitChronic = ConfigListValue.split(',');
+                    SplitChronic = ConfigListValue.split(',');
+                    
                     for (var a = 0; a < SplitChronic.length; a++) {
                         if (SplitChronic.length > 0) {
                             var option = SplitChronic[a];
@@ -103,16 +109,17 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
         }
 
 
-        $scope.searchqueryWebConfiguration = "";
+        $scope.searchqueryWebConfiguration = "";        
         /* Filter the master list function for Search*/
         $scope.FilterWebConfigurationList = function () {
-            var searchstring = angular.lowercase($scope.searchqueryWebConfiguration);
+            $scope.rowCollectionWebConfiguration = [];
+            var searchstring = $scope.searchqueryWebConfiguration.toLocaleLowerCase();
             if ($scope.searchqueryWebConfiguration == "") {
                 $scope.rowCollectionWebConfiguration = angular.copy($scope.rowCollectionWebConfigurationFilter);
             }
             else {
                 $scope.rowCollectionWebConfiguration = $ff($scope.rowCollectionWebConfigurationFilter, function (value, index) {
-                    return angular.lowercase(value.CONFIGCODE).match(searchstring)
+                    return (value.CONFIGCODE.toLocaleLowerCase()).match(searchstring)
                 });
             }
         };
@@ -148,10 +155,10 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                 $scope.Institution_Id = Institution_Id;
                 $("#chatLoaderPV").show();
                 $http.get(baseUrl + '/api/WebConfiguration/InsWebConfiguration_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + Institution_Id
-                ).success(function (data) {
+                ).then(function (response) {
                     $scope.emptydataWebConfiguration = [];
-                    $scope.rowCollectionWebConfiguration = [];
-                    $scope.rowCollectionWebConfiguration = data;
+                    //$scope.rowCollectionWebConfiguration = [];
+                    $scope.rowCollectionWebConfiguration = response.data;
 
                     $scope.rowCollectionWebConfigurationFilter = angular.copy($scope.rowCollectionWebConfiguration);
                     if ($scope.rowCollectionWebConfigurationFilter.length > 0) {
@@ -163,6 +170,7 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                     angular.forEach($scope.rowCollectionWebConfiguration, function (masterVal, masterInd) {
                         $scope.Config_value[masterVal.ID] = masterVal.CONFIGVALUE;
                     });
+                }, function errorCallback(response) {
                 });
                 $("#chatLoaderPV").hide();
             }
@@ -191,14 +199,15 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                 }
 
                 $http.get(baseUrl + '/api/WebConfiguration/WebConfiguration_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + inst_id
-                ).success(function (data) {
+                ).then(function (response) {
                     $scope.emptydataWebConfiguration = [];
                     $scope.rowCollectionWebConfiguration = [];
-                    $scope.rowCollectionWebConfiguration = data;
+                    $scope.rowCollectionWebConfiguration = response.data;
                     //angular.forEach(data.CHRONIC_CODE, function (value, Index) {
                     //    $scope.EditChronicList.push(value.CONFIGVALUE);
                     //});
                     //$scope.SelectedChronic = $scope.EditChronicList;
+                    $scope.rowCollectionWebConfigurationFilter = [];
                     $scope.rowCollectionWebConfigurationFilter = angular.copy($scope.rowCollectionWebConfiguration);
                     if ($scope.rowCollectionWebConfigurationFilter.length > 0) {
                         $scope.flag = 1;
@@ -210,49 +219,49 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                     angular.forEach($scope.rowCollectionWebConfiguration, function (masterVal, masterInd) {
                         $scope.Config_value[masterVal.ID] = masterVal.CONFIGVALUE;
                         if (masterVal.CONFIGCODE == "LIVEDATA_STARTFROM") {
-                            if (masterVal.CONFIGVALUE != 2 || masterVal.CONFIGVALUE==1) {
+                            if (masterVal.CONFIGVALUE != 2 || masterVal.CONFIGVALUE == 1) {
                                 //$('#livedatastartfrom1').attr('checked', 'checked');
                                 $scope.Config_value[masterVal.ID] = "1";
-                               // angular.element('#livedatastartfrom1').attr('checked', 'checked');
+                                // angular.element('#livedatastartfrom1').attr('checked', 'checked');
                             }
                         }
                         if (masterVal.CONFIGCODE == "AUTO_SIGNUP_APPROVAL") {
-                            if (masterVal.CONFIGVALUE ==null || masterVal.CONFIGVALUE =='') {
+                            if (masterVal.CONFIGVALUE == null || masterVal.CONFIGVALUE == '') {
                                 //$('#livedatastartfrom1').attr('checked', 'checked');
                                 $scope.Config_value[masterVal.ID] = 'Active';
                                 // angular.element('#livedatastartfrom1').attr('checked', 'checked');
                             }
                         }
-                       /* if (masterVal.CONFIGVALUE != "" && masterVal.CONFIGCODE == "CHRONIC CODE") {
-                            var ConfigListValue = $scope.Config_value[masterVal.ID];
-                            EditChronicId = masterVal.ID;
-                            var SplitChronic = ConfigListValue.split(',');
-                            for (var a = 0; a < SplitChronic.length; a++) {
-                                if (SplitChronic.length > 0) {
-                                    var option = SplitChronic[a];
-                                    if (option != "") {
-                                        if (option == "CL") {
-
-                                            $("#chkCL").prop("checked", 'true');                                            
-                                        }
-                                        else if (option == "CG") {
-                                            $("#chkCG").prop("checked", 'true');
-                                        }
-                                        else if (option == "CC") {                                            
-                                            $("#chkCC").prop("checked", 'true');
-                                        }
-                                        else if (option == "SC") {
-                                            $("#chkSC").prop("checked", 'true');
-                                        }
-                                    }
-                                }
-                            }
-                        }*/
-                    });                  
+                        /* if (masterVal.CONFIGVALUE != "" && masterVal.CONFIGCODE == "CHRONIC CODE") {
+                             var ConfigListValue = $scope.Config_value[masterVal.ID];
+                             EditChronicId = masterVal.ID;
+                             var SplitChronic = ConfigListValue.split(',');
+                             for (var a = 0; a < SplitChronic.length; a++) {
+                                 if (SplitChronic.length > 0) {
+                                     var option = SplitChronic[a];
+                                     if (option != "") {
+                                         if (option == "CL") {
+ 
+                                             $("#chkCL").prop("checked", 'true');                                            
+                                         }
+                                         else if (option == "CG") {
+                                             $("#chkCG").prop("checked", 'true');
+                                         }
+                                         else if (option == "CC") {                                            
+                                             $("#chkCC").prop("checked", 'true');
+                                         }
+                                         else if (option == "SC") {
+                                             $("#chkSC").prop("checked", 'true');
+                                         }
+                                     }
+                                 }
+                             }
+                         }*/
+                    });
                     $scope.ChronicEdit();
-                }).error(function (data) {
-                    $scope.error = "AN error has occured while Listing the records!" + data;
-                })
+                }, function errorCallback(response) {
+                    $scope.error = "AN error has occured while Listing the records!" + response.data;
+                });
                /* $http.get(baseUrl + '/api/WebConfiguration/ChronicCodeList/').success(function (data) {
                     $scope.ChronicCodeList = data;
                 });*/
@@ -275,15 +284,16 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                 $scope.Id = $routeParams.Id;
                 $scope.DuplicatesId = $routeParams.Id;
             }
-            $http.get(baseUrl + '/api/WebConfiguration/WebConfiguration_View/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                $scope.DuplicatesId = data.ID;
-                $scope.Institution_Id = data.INSTITUTION_ID.toString();
-                $scope.Config_Code = data.CONFIGCODE;
-                $scope.Config_Name = data.CONFIGINFO;
-                $scope.Config_Value = data.CONFIGVALUE;
-                $scope.Config_Type = data.CONFIG_TYPEDEFINITION;
-                $scope.Remarks = data.REMARKS;
+            $http.get(baseUrl + '/api/WebConfiguration/WebConfiguration_View/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
+                $scope.DuplicatesId = response.data.ID;
+                $scope.Institution_Id = response.data.INSTITUTION_ID.toString();
+                $scope.Config_Code = response.data.CONFIGCODE;
+                $scope.Config_Name = response.data.CONFIGINFO;
+                $scope.Config_Value = response.data.CONFIGVALUE;
+                $scope.Config_Type = response.data.CONFIG_TYPEDEFINITION;
+                $scope.Remarks = response.data.REMARKS;
                 $("#chatLoaderPV").hide();
+            }, function errorCallback(response) {
             });
         };
 
@@ -307,9 +317,9 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                 REMARKS: $scope.Remarks
             };
             $scope.WebConfigurationDetails.push(obj)
-            $http.post(baseUrl + '/api/WebConfiguration/WebConfiguration_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, $scope.WebConfigurationDetails).success(function (data) {
+            $http.post(baseUrl + '/api/WebConfiguration/WebConfiguration_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, $scope.WebConfigurationDetails).then(function (response) {
                 //alert(data.Message);
-                toastr.success(data.Message, "success");
+                toastr.success(response.data.Message, "success");
                 if ($window.localStorage['UserTypeId'] == 3) {
                     $scope.WebConfigurationList();
                 }
@@ -320,8 +330,8 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                 $scope.ClearWebConfigurationPopUp();
                 $scope.searchqueryWebConfiguration = "";
                 $("#chatLoaderPV").hide();
-            }).error(function (data) {
-                $scope.error = "An error has occurred while deleting Parameter" + data;
+            }, function errorCallback(response) {
+                $scope.error = "An error has occurred while deleting Parameter" + response.data;
             });
 
         };
@@ -415,7 +425,7 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                     $('#save').attr("disabled", true);
                     $scope.WebConfigurationDetails.push(obj);
                 });
-                $http.post(baseUrl + '/api/WebConfiguration/Configuration_AddEdit/', $scope.WebConfigurationDetails).success(function (data) {
+                $http.post(baseUrl + '/api/WebConfiguration/Configuration_AddEdit/', $scope.WebConfigurationDetails).then(function (response) {
                     $("#chatLoaderPV").hide();
                     //alert("Configuration Data saved successfully");
                     toastr.success("Configuration Data saved successfully", "success");
@@ -432,6 +442,7 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                     }
                     $scope.IsEdit = false;
                     //$location.path("/ParameterSettings");
+                }, function errorCallback(response) {
                 });
             }
             $("#chatLoaderPV").hide();
@@ -556,12 +567,12 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                     Modified_By: $window.localStorage['UserId']
                 }
 
-                $http.post(baseUrl + '/api/WebConfiguration/WebConfiguration_InActive/', obj).success(function (data) {
+                $http.post(baseUrl + '/api/WebConfiguration/WebConfiguration_InActive/', obj).then(function (response) {
                     //alert(data.Message);
-                    toastr.success(data.Message, "success");
+                    toastr.success(response.data.Message, "success");
                     $scope.WebConfigurationList();
-                }).error(function (data) {
-                    $scope.error = "An error has occurred while deleting Holiday" + data;
+                }, function errorCallback(response) {
+                    $scope.error = "An error has occurred while deleting Holiday" + response.data;
                 });
             };
         };
@@ -584,12 +595,12 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                     Modified_By: $window.localStorage['UserId']
                 }
 
-                $http.post(baseUrl + '/api/WebConfiguration/WebConfiguration_Active/', obj).success(function (data) {
+                $http.post(baseUrl + '/api/WebConfiguration/WebConfiguration_Active/', obj).then(function (response) {
                     ///alert(data.Message);
-                    toastr.success(data.Message, "success");
+                    toastr.success(response.data.Message, "success");
                     $scope.WebConfigurationList();
-                }).error(function (data) {
-                    $scope.error = "An error has occurred while Activating WebConfiguration" + data;
+                }, function errorCallback(response) {
+                    $scope.error = "An error has occurred while Activating WebConfiguration" + response.data;
                 });
             };
         }

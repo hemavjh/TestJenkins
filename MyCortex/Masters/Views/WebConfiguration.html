@@ -85,8 +85,9 @@
                             <select class="form-control" data-style="form-control" id="insselectpicker" data-live-search="true"
                                     data-selectpicker data-collection-name="InstitutiondetailsList" ng-model="Institution_Id"
                                     ng-change="InstituteGetDetails(Institution_Id);">
-                                    <!--<option value="0">Select</option>-->
-                                <option ng-repeat="sel in InstitutiondetailsList" value="{{sel.Id}}">{{sel.Name}}</option>
+                                <!--<option value="0">Select</option>-->
+                                <!--<option hidden disabled selected value>select</option>-->
+                                <option ng-repeat="sel in InstitutiondetailsList" value="{{sel.Id}}" tabindex="-1">{{sel.Name}}</option>
                             </select>
                         </div>
                     </div>

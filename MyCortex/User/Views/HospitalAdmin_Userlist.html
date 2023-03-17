@@ -648,13 +648,14 @@
                                                                 </sup>
                                                             </label>
                                                             <!--<div id="divGender" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                                            <select class="form-control" data-style="form-control" ng-model="GenderId" id="GenderId" data-live-search="true" data-collection-name="GenderList"
-                                                                    ng-change="getBase64Image();">
+                                                            <!--ng-change="getBase64Image();"-->
+                                                            <select class="form-control" data-style="form-control" ng-model="GenderId" id="GenderId" data-live-search="true" 
+                                                                    data-collection-name="GenderList" onchange="angular.element(this).scope().getBase64Image()">
                                                                 <option value="0">Select</option>
                                                                 <!--<option ng-repeat="sel in GenderList"
-                                        ng-selected="GenderId==sel.Id" value="{{sel.Id}}">
-                                    {{sel.Gender_Name}}
-                                </option>-->
+                ng-selected="GenderId==sel.Id" value="{{sel.Id}}">
+            {{sel.Gender_Name}}
+        </option>-->
                                                             </select>
                                                             <!--</div>-->
                                                         </div>
@@ -718,13 +719,14 @@
                                                                 </sup>
                                                             </label>
                                                             <!--<div id="divUserType" class="ng-invalid ddlValidationBorder" ng-required="true">-->
+                                                            <!--ng-change="getBase64Image();ClearGroup();"-->
                                                             <select class="form-control" data-style="form-control" ng-model="UserTypeId" id="UserTypeId" data-live-search="true" data-collection-name="UserTypeList"
-                                                                    ng-change="getBase64Image();ClearGroup();">
+                                                                    onchange="angular.element(this).scope().getBase64Image();" ng-change="ClearGroup();">
                                                                 <option value="0">Select</option>
                                                                 <!--<option ng-repeat="sel in UserTypeList"
-                                        ng-selected="UserTypeId==sel.Id" value="{{sel.Id}}">
-                                    {{sel.UserName}}
-                                </option>-->
+                ng-selected="UserTypeId==sel.Id" value="{{sel.Id}}">
+            {{sel.UserName}}
+        </option>-->
                                                             </select>
                                                             <!--</div>-->
                                                         </div>
@@ -766,7 +768,7 @@
                                                                  rowspan="6">
                                                                 <img id="item-img-output" class="responsiveProfileImage mb-10" ng-src="{{uploadme}}" />
                                                             </div>
-                                                            <a class="textRight theme-btn-2 mr-10" style="max-width: 250px;" href="javascript:"
+                                                            <a class="textRight theme-btn-2 mr-10" style="max-width: 250px;" href="javascript:" 
                                                                ng-click="imageclear()" title="Clear">
                                                                 Clear
                                                             </a>
@@ -1225,9 +1227,11 @@
                                                          valign="top" rowspan="6">
                                                         <img style="width:150px;height:150px;" class="responsiveProfileImage" src="../../Images/Others.png" />
                                                     </div>
-                                                    <div ng-if="(uploadme!=null || uploadme!=0)&&uploadview ==true"
-                                                         valign="top" rowspan="6">
-                                                        <img style="width:150px;height:150px;" class="responsiveProfileImage" ng-src="{{uploadme}}" />
+                                                    <!--<div ng-if="(uploadme!=null || uploadme!=0)&&(uploadview ==true)"
+                                                         valign="top" rowspan="6">-->
+                                                    <div>
+                                                        <!--<img style="width:150px;height:150px;" class="responsiveProfileImage" ng-src="{{PhotoFullpath}}" />-->
+                                                        <img style="width:150px;height:150px;" class="responsiveProfileImage" ng-src="{{'data:image/png;base64,'+ PhotoBlob}}" />
                                                     </div>
                                                 </div>
                                             </div>

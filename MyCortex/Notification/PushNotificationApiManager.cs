@@ -162,8 +162,13 @@ namespace MyCortex.Notification.Firebase
         //}
         public static async Task<async> SendLiveboxNotificationAsync(PushNotificationMessage message, long User_Id, long Institution_Id)
         {
+            string
+           _AppLogger = string.Empty, _AppMethod = string.Empty;
+            _AppLogger = "MyCortex.Notification.Firebase.PushNotificationApiManager";
+            _AppMethod = "MoveNext";
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             Int64 Id = 0;
-            AlertEvents AlertEventReturn = new AlertEvents();
+            AlertEvents AlertEventReturn = new AlertEvents();    
             IList<EmailListModel> EmailList;
             //AlertEventModel EmailList =new AlertEventModel();
             List<NotifictaionUserFCM> model = new List<NotifictaionUserFCM>();
@@ -179,8 +184,8 @@ namespace MyCortex.Notification.Firebase
                 catch
                 {
 
+                    }
                 }
-            }
             if (model.Count == 0)
             {
                 Id = 0;
@@ -224,6 +229,8 @@ namespace MyCortex.Notification.Firebase
             model = commonrepository.AppConfigurationDetails("FIREBASE_APITOKEN", Institution_Id);
 
             var client = new RestClient("https://fcm.googleapis.com/fcm/send");
+            string json_data1 = JsonConvert.SerializeObject(client);
+            _MyLogger.Exceptions("INFO", _AppLogger, json_data1, null, _AppMethod);
             client.Timeout = -1;
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/json");

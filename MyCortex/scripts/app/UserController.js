@@ -44,8 +44,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         //    }
         //}
         $scope.LoginLogo = function () {
-            $http.get(baseUrl + '/Home/LoginLogoDetails/').success(function (resImage) {
-                document.getElementById.toString("patient_ins").src = resImage[0];
+            $http.get(baseUrl + '/Home/LoginLogoDetails/').then(function (resImage) {
+                document.getElementById.toString("patient_ins").src = resImage.data[0];
             });
         }
         $scope.PageStart = 1;
@@ -280,11 +280,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.ServiceCategory = "0";
         $scope.ConsultationCategory = "0";
         $scope.Clinicianlist = "0";
-        $http.get(baseUrl + '/api/User/InsuranceServiceCategory/').success(function (data) {
-            $scope.ServiceCategoryList = data;
+        $http.get(baseUrl + '/api/User/InsuranceServiceCategory/').then(function (response) {
+            $scope.ServiceCategoryList = response.data;
         });
-        $http.get(baseUrl + '/api/User/InsuranceConsultationCategory/').success(function (data) {
-            $scope.ConsultationCategoryList = data;
+        $http.get(baseUrl + '/api/User/InsuranceConsultationCategory/').then(function (response) {
+            $scope.ConsultationCategoryList = response.data;
         });
         $scope.serviceCategory = "";
         $scope.usertoken = $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='];
@@ -295,9 +295,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.Today_Date = $filter('date')(new Date(), 'dd-MMM-yyyy');
         $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
         $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).
-            success(function (data) {
-                if (data[0] != undefined) {
-                    $scope.PatientMinAge = parseInt(data[0].ConfigValue);
+            then(function (response) {
+                if (response.data[0] != undefined) {
+                    $scope.PatientMinAge = parseInt(response.data[0].ConfigValue);
                     $scope.maxdateDOB = moment().subtract($scope.PatientMinAge, 'years').format("YYYY-MM-DD");
                     var MDOB = $scope.maxdateDOB;
                     angular.element(document.getElementById('maxdateDOB')).val(MDOB);
@@ -306,9 +306,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             });
 
 
-        $http.get(baseUrl + '/api/Login/GetProduct_Details/').success(function (data) {           
+        $http.get(baseUrl + '/api/Login/GetProduct_Details/').then(function (response) {           
 
-            $scope.ProductName = data[0].ProductName;
+            $scope.ProductName = response.data[0].ProductName;
             if ($scope.ProductName == 'MyCortex') {               
                 $scope.Id1 = 'Identification Number 1';
                 $scope.Id2 = 'Identification Number 2';
@@ -327,8 +327,12 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             }
         });
 
+        function changeGender() {
+            $scope.PatientgetBase64Image();
+        }
+
        //if ($window.localStorage['UserTypeId'] == 3 || $window.localStorage['UserTypeId'] == 2) {
-        $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionDetailList/?Id=' + $scope.SelectedInstitutionId).success(function (data) {
+        $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionDetailList/?Id=' + $scope.SelectedInstitutionId).then(function (response) {
 
             //this is for country code display based on settings
                 //var InitialCountry = "auto";
@@ -358,8 +362,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 //    utilsScript: "scripts/utils.js",
                 //});
 
-            }).error(function (data) {
-                $scope.error = "AN error has occured while Listing the records!" + data;
+        }, function errorCallback(response) {
+            $scope.error = "AN error has occured while Listing the records!" + response.data;
             });
         //} else {
         //    var view_name = $location.$$path.split('/')[1];
@@ -976,50 +980,50 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
         $scope.LoadDietTypeList = function () {
             if ($scope.DietTypeList.length === 0) {
-                $http.get(baseUrl + '/api/Common/DietTypeList/').success(function (resp_diet_data) {
-                    $scope.DietTypeList = resp_diet_data;
+                $http.get(baseUrl + '/api/Common/DietTypeList/').then(function (resp_diet_data) {
+                    $scope.DietTypeList = resp_diet_data.data;
                 });
             }
         };
 
         $scope.DropDownListValues = function () {
-            $http.get(baseUrl + '/api/Common/ChronicConditionList/').success(function (resp_cc_data) {
-                $scope.ChronicConditionList = resp_cc_data;
+            $http.get(baseUrl + '/api/Common/ChronicConditionList/').then(function (resp_cc_data) {
+                $scope.ChronicConditionList = resp_cc_data.data;
             });
-            $http.get(baseUrl + '/api/Common/GenderList/').success(function (resp_gender_data) {
-                $scope.GenderList = resp_gender_data;
+            $http.get(baseUrl + '/api/Common/GenderList/').then(function (resp_gender_data) {
+                $scope.GenderList = resp_gender_data.data;
             });
-            $http.get(baseUrl + '/api/User/DepartmentList/').success(function (resp_department_data) {
-                $scope.DepartmentList = resp_department_data;
+            $http.get(baseUrl + '/api/User/DepartmentList/').then(function (resp_department_data) {
+                $scope.DepartmentList = resp_department_data.data;
             });
-            $http.get(baseUrl + '/api/User/BusinessUser_UserTypeList/').success(function (resp_bu_data) {
-                $scope.UserTypeList = resp_bu_data;
+            $http.get(baseUrl + '/api/User/BusinessUser_UserTypeList/').then(function (resp_bu_data) {
+                $scope.UserTypeList = resp_bu_data.data;
             });
-            $http.get(baseUrl + '/api/Common/NationalityList/').success(function (resp_nationality_data) {
-                $scope.NationalityList = resp_nationality_data;
+            $http.get(baseUrl + '/api/Common/NationalityList/').then(function (resp_nationality_data) {
+                $scope.NationalityList = resp_nationality_data.data;
             });
-            $http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (resp_marg_data) {
+            $http.get(baseUrl + '/api/Common/MaritalStatusList/').then(function (resp_marg_data) {
                 $scope.MaritalStatusListTemp = [];
-                $scope.MaritalStatusListTemp = resp_marg_data;
+                $scope.MaritalStatusListTemp = resp_marg_data.data;
                 $scope.MaritalStatusList = angular.copy($scope.MaritalStatusListTemp);
             });
-            $http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (resp_eg_data) {
+            $http.get(baseUrl + '/api/Common/EthnicGroupList/').then(function (resp_eg_data) {
                 $scope.EthnicGroupListTemp = [];
-                $scope.EthnicGroupListTemp = resp_eg_data;
+                $scope.EthnicGroupListTemp = resp_eg_data.data;
                 $scope.EthnicGroupList = angular.copy($scope.EthnicGroupListTemp);
                 //validation checking for ethnic group
                 //$scope.PatientEthnicChange();
             });
-            $http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (resp_bg_data) {
+            $http.get(baseUrl + '/api/Common/BloodGroupList/').then(function (resp_bg_data) {
                 $scope.BloodGroupListTemp = [];
-                $scope.BloodGroupListTemp = resp_bg_data;
+                $scope.BloodGroupListTemp = resp_bg_data.data;
                 $scope.BloodGroupList = angular.copy($scope.BloodGroupListTemp);
             });
-            $http.get(baseUrl + '/api/Common/RelationshipList/').success(function (resp_relationship_data) {
-                $scope.RelationshipList = resp_relationship_data;
+            $http.get(baseUrl + '/api/Common/RelationshipList/').then(function (resp_relationship_data) {
+                $scope.RelationshipList = resp_relationship_data.data;
             });
-            $http.get(baseUrl + '/api/Common/DietTypeList/').success(function (resp_diet_data) {
-                $scope.DietTypeList = resp_diet_data;
+            $http.get(baseUrl + '/api/Common/DietTypeList/').then(function (resp_diet_data) {
+                $scope.DietTypeList = resp_diet_data.data;
             });
             //$scope.NationalityList2 = [];
             //$scope.UserTypeList2 = [];
@@ -1180,8 +1184,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.EligibilityNationalId = "";
         $scope.EligibilityPopup = function () {
             $scope.ClinicianDetailsList = [];
-            $http.get(baseUrl + '/api/User/ClinicianDetails/?INSTITUTION_ID=' + $scope.InstituteId).success(function (data) {
-                $scope.ClinicianDetailsList = data;
+            $http.get(baseUrl + '/api/User/ClinicianDetails/?INSTITUTION_ID=' + $scope.InstituteId).then(function (response) {
+                $scope.ClinicianDetailsList =response.data;
             });
             angular.element('#EligibilityModel').modal('show');
         }
@@ -1231,12 +1235,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             }
             $scope.status = 2;
             $('[data-id="selectpicker"]').prop('disabled', false);
-            $scope.SuperAdminDropdownsList();
+            
             $scope.LoadGenderList();
             $scope.LoadGroupTypeList();
             $scope.LoadDepartmentList();
             $scope.LoadNationalityList();
             $scope.LoadBusinessUser_UserTypeList();
+            $scope.SuperAdminDropdownsList();
             //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
             angular.element('#UserModal').modal('show');
         }
@@ -1429,7 +1434,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $scope.BusinessUserDropdownList();
             }
             $scope.AppConfigurationProfileImageList();
-            $scope.Admin_View($scope.MenuTypeId);
+            $scope.Admin_View($scope.MenuTypeId);           
             $scope.currentTab = "1";
             angular.element('#UserModal').modal('show');
             $('#spradminrowid').prop('disabled', true);
@@ -1486,6 +1491,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
                 var feMaleId = 0;
+                $scope.GenderId1 = $("#GenderId").val();
+                $scope.UserTypeId1 = $('#UserTypeId').val();
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
@@ -1496,38 +1503,185 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     }
                 });
 
-                var picPath = "";
-                //super clinician           
-                if ($scope.UserTypeId == 7 && $scope.GenderId == maleId) {
-                    picPath = "../../Images/Clinician_Male.png";
+                
+              
+                //super clinician  
+                if (typeof ($scope.Gender_Name) != "undefined") {
+                    if ($scope.UserTypeId1 == 7 && $scope.GenderId1 == maleId) {
+                        picPath = "../../Images/Clinician_Male.png";
+                    }
+                    else if ($scope.UserTypeId1 == 7 && $scope.GenderId1 == feMaleId) {
+                        picPath = "../../Images/Clinician_Female.png";
+                    }
+                    //care coordinator
+                    else if ($scope.UserTypeId1 == 6 && $scope.GenderId1 == maleId) {
+                        picPath = "../../Images/CC_Male.png";
+                    }
+                    else if ($scope.UserTypeId1 == 6 && $scope.GenderId1 == feMaleId) {
+                        picPath = "../../Images/CC_Female.png";
+                    }
+                    //care giver
+                    else if ($scope.UserTypeId1 == 5 && $scope.GenderId1 == maleId) {
+                        picPath = "../../Images/CG_Male.png";
+                    }
+                    else if ($scope.UserTypeId1 == 5 && $scope.GenderId1 == feMaleId) {
+                        picPath = "../../Images/CG_Female.png";
+                    }
+                    //clinician
+                    else if ($scope.UserTypeId1 == 4 && $scope.GenderId1 == maleId) {
+                        picPath = "../../Images/Clinician_Male.png";
+                    }
+                    else if ($scope.UserTypeId1 == 4 && $scope.GenderId1 == feMaleId) {
+                        picPath = "../../Images/Clinician_Female.png";
+                    }
+                    else {
+                        picPath = "../../Images/others.png";
+                    }
+                    if (photoview == false) {
+                        var request = new XMLHttpRequest();
+                        request.open('GET', picPath, true);
+                        request.responseType = 'blob';
+                        request.onload = function () {
+                            var reader = new FileReader();
+                            reader.readAsDataURL(request.response);
+                            reader.onload = function (e) {
+                                $scope.uploadmes = e.target.result;
+                                $scope.uploadme = $scope.uploadmes;
+                                $scope.uploadme1 = $scope.uploadmes;
+                                $scope.uploadme3 = $scope.uploadmes;
+                                $scope.uploadme2 = $scope.uploadmes;
+                                $scope.$apply();
+                            };
+                        };
+                        request.send();
+                    }
+                } else if ($scope.GenderList?.length == 0 && $scope.Id > 0) {
+                    var genderid = $scope.genid;
+                    $scope.Gender_Name1 = $scope.ViewGender;
+                    if ($scope.Gender_Name1.toLowerCase() == "male") {
+                        maleId = genderid.toString();
+                    }
+                    else if ($scope.Gender_Name1.toLowerCase() == "female") {
+                        feMaleId = genderid.toString();
+                    }
+                    if ($scope.UserTypeId1 == 7 && $scope.GenderId1 == maleId) {
+                        picPath = "../../Images/Clinician_Male.png";
+                    }
+                    else if ($scope.UserTypeId1 == 7 && $scope.GenderId1 == feMaleId) {
+                        picPath = "../../Images/Clinician_Female.png";
+                    }
+                    //care coordinator
+                    else if ($scope.UserTypeId1 == 6 && $scope.GenderId1 == maleId) {
+                        picPath = "../../Images/CC_Male.png";
+                    }
+                    else if ($scope.UserTypeId1 == 6 && $scope.GenderId1 == feMaleId) {
+                        picPath = "../../Images/CC_Female.png";
+                    }
+                    //care giver
+                    else if ($scope.UserTypeId1 == 5 && $scope.GenderId1 == maleId) {
+                        picPath = "../../Images/CG_Male.png";
+                    }
+                    else if ($scope.UserTypeId1 == 5 && $scope.GenderId1 == feMaleId) {
+                        picPath = "../../Images/CG_Female.png";
+                    }
+                    //clinician
+                    else if ($scope.UserTypeId1 == 4 && $scope.GenderId1 == maleId) {
+                        picPath = "../../Images/Clinician_Male.png";
+                    }
+                    else if ($scope.UserTypeId1 == 4 && $scope.GenderId1 == feMaleId) {
+                        picPath = "../../Images/Clinician_Female.png";
+                    }
+                    if ($scope.UserTypeList?.length != 0) {
+                        if (photoview == false) {
+                            var request1 = new XMLHttpRequest();
+                            request1.open('GET', picPath, true);
+                            request1.responseType = 'blob';
+                            request1.onload = function () {
+                                var reader1 = new FileReader();
+                                reader1.readAsDataURL(request1.response);
+                                reader1.onload = function (e) {
+                                    $scope.uploadmes = e.target.result;
+                                    $scope.uploadme1 = $scope.uploadmes;
+                                    $scope.uploadme2 = $scope.uploadmes;
+                                    $scope.uploadme3 = $scope.uploadmes;
+                                    $scope.$apply();
+                                };
+                            };
+                            request1.send();
+
+                            var request = new XMLHttpRequest();
+                            request.open('GET', picPath, true);
+                            request.responseType = 'blob';
+                            request.onload = function () {
+                                var reader = new FileReader();
+                                reader.readAsDataURL(request.response);
+                                reader.onload = function (e) {
+                                    $scope.uploadmes = e.target.result;
+                                    $scope.uploadme = $scope.uploadmes;
+                                    $scope.$apply();
+                                };
+                            };
+                            request.send();
+                        }
+
+                    }
+                } else if ($scope.GenderList?.length == 0 && $scope.Id == 0) {
+                    var picPath = "../../Images/others.png";
+
+                    if (photoview == false) {
+                        var request1 = new XMLHttpRequest();
+                        request1.open('GET', picPath, true);
+                        request1.responseType = 'blob';
+                        request1.onload = function () {
+                            var reader1 = new FileReader();
+                            reader1.readAsDataURL(request1.response);
+                            reader1.onload = function (e) {
+                                $scope.uploadmes = e.target.result;
+                                $scope.uploadme1 = $scope.uploadmes;
+                                $scope.uploadme2 = $scope.uploadmes;
+                                $scope.uploadme3 = $scope.uploadmes;
+                                $scope.$apply();
+                            };
+                        };
+                        request1.send();
+
+                        var request = new XMLHttpRequest();
+                        request.open('GET', picPath, true);
+                        request.responseType = 'blob';
+                        request.onload = function () {
+                            var reader = new FileReader();
+                            reader.readAsDataURL(request.response);
+                            reader.onload = function (e) {
+                                $scope.uploadmes = e.target.result;
+                                $scope.uploadme = $scope.uploadmes;
+                                $scope.$apply();
+                            };
+                        };
+                        request.send();
+                    }
                 }
-                else if ($scope.UserTypeId == 7 && $scope.GenderId == feMaleId) {
-                    picPath = "../../Images/Clinician_Female.png";
-                }
-                //care coordinator
-                else if ($scope.UserTypeId == 6 && $scope.GenderId == maleId) {
-                    picPath = "../../Images/CC_Male.png";
-                }
-                else if ($scope.UserTypeId == 6 && $scope.GenderId == feMaleId) {
-                    picPath = "../../Images/CC_Female.png";
-                }
-                //care giver
-                else if ($scope.UserTypeId == 5 && $scope.GenderId == maleId) {
-                    picPath = "../../Images/CG_Male.png";
-                }
-                else if ($scope.UserTypeId == 5 && $scope.GenderId == feMaleId) {
-                    picPath = "../../Images/CG_Female.png";
-                }
-                //clinician
-                else if ($scope.UserTypeId == 4 && $scope.GenderId == maleId) {
-                    picPath = "../../Images/Clinician_Male.png";
-                }
-                else if ($scope.UserTypeId == 4 && $scope.GenderId == feMaleId) {
-                    picPath = "../../Images/Clinician_Female.png";
-                }
-                else {
-                    picPath = "../../Images/others.png";
-                }
+            }
+        };
+        //$scope.$watch('GenderId', function () {
+        //    $scope.PatientgetBase64Image();
+        //});
+
+        $scope.getBase64Image_clear = function () {
+            if ($scope.UserPhotoValue == 0) {
+                var maleId = 0;
+                var feMaleId = 0;
+                $scope.GenderId1 = $('#GenderId').val();
+                angular.forEach($scope.GenderList, function (value, index) {
+                    $scope.Gender_Name = value.text;
+                    if ($scope.Gender_Name.toLowerCase() == "male") {
+                        maleId = value.id.toString();
+                    }
+                    else if ($scope.Gender_Name.toLowerCase() == "female") {
+                        feMaleId = value.id.toString();
+                    }
+                });
+
+                var picPath = "../../Images/others.png";
                 if (photoview == false) {
                     var request = new XMLHttpRequest();
                     request.open('GET', picPath, true);
@@ -1538,89 +1692,95 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         reader.onload = function (e) {
                             $scope.uploadmes = e.target.result;
                             $scope.uploadme = $scope.uploadmes;
-                            $scope.uploadme1 = $scope.uploadmes;
-                            $scope.uploadme3 = $scope.uploadmes;
-                            $scope.uploadme2 = $scope.uploadmes;
                             $scope.$apply();
                         };
                     };
                     request.send();
-                } 
+                }
             }
         };
 
         // patient creation
         $scope.PatientgetBase64Image = function () {
-            $scope.LoadGenderList();
             $scope.Editclearimage();
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
                 var feMaleId = 0;
+                
+                $scope.GenderId1 = $('#GenderId').val();
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
-                        maleId = value.id.toString();
+                        maleId = value.id.toString();                        
                     }
                     else if ($scope.Gender_Name.toLowerCase() == "female") {
-                        feMaleId = value.id.toString();
+                        feMaleId = value.id.toString();                       
                     }
                 });
 
-                var picPath1 = "../../Images/National_Male.png";
-                if (typeof ($scope.Gender_Name) != "undefined")
-                    if ($scope.GenderId == feMaleId) {
-                        picPath1 = "../../Images/National_Female.png";
-                    }
-                    else if ($scope.GenderId == maleId) {
-                        picPath1 = "../../Images/National_Male.png";
-                    }
+                
+                    var picPath1 = "../../Images/National_Male.png";
+                    if (typeof ($scope.Gender_Name) != "undefined")
+                        if ($scope.GenderId1 == feMaleId) {
+                            picPath1 = "../../Images/National_Female.png";
+                        }
+                        else if ($scope.GenderId1 == maleId) {
+                            picPath1 = "../../Images/National_Male.png";
+                        }
 
-                var picPath = "../../Images/others.png";
-                if (typeof ($scope.Gender_Name) != "undefined")
-                    if ($scope.GenderId == feMaleId) {
-                        picPath = "../../Images/Patient_Female.png";
-                    }
-                    else if ($scope.GenderId == maleId) {
-                        picPath = "../../Images/Patient_Male.png";
-                    }
-
-                if (photoview == false) {
-                    var request1 = new XMLHttpRequest();
-                    request1.open('GET', picPath1, true);
-                    request1.responseType = 'blob';
-                    request1.onload = function () {
-                        var reader1 = new FileReader();
-                        reader1.readAsDataURL(request1.response);
-                        reader1.onload = function (e) {
-                            $scope.uploadmes = e.target.result;
-                            $scope.uploadme1 = $scope.uploadmes;
-                            $scope.uploadme2 = $scope.uploadmes;
-                            $scope.uploadme3 = $scope.uploadmes;
-                            $scope.$apply();
+                    var picPath = "../../Images/others.png";
+                    if (typeof ($scope.Gender_Name) != "undefined")
+                        if ($scope.GenderId1 == feMaleId) {
+                            picPath = "../../Images/Patient_Female.png";
+                        }
+                        else if ($scope.GenderId1 == maleId) {
+                            picPath = "../../Images/Patient_Male.png";
+                        }
+                if (($scope.GenderList?.length == 0 && $scope.Id == 0) || ($scope.GenderList?.length > 0 && $scope.Id > 0) || ($scope.GenderList?.length > 0 && $scope.Id == 0)) {
+                    if (photoview == false) {
+                        var request1 = new XMLHttpRequest();
+                        request1.open('GET', picPath1, true);
+                        request1.responseType = 'blob';
+                        request1.onload = function () {
+                            var reader1 = new FileReader();
+                            reader1.readAsDataURL(request1.response);
+                            reader1.onload = function (e) {
+                                $scope.uploadmes = e.target.result;
+                                $scope.uploadme1 = $scope.uploadmes;
+                                $scope.uploadme2 = $scope.uploadmes;
+                                $scope.uploadme3 = $scope.uploadmes;
+                                $scope.$apply();
+                            };
                         };
-                    };
-                    request1.send();
+                        request1.send();
 
-                    var request = new XMLHttpRequest();
-                    request.open('GET', picPath, true);
-                    request.responseType = 'blob';
-                    request.onload = function () {
-                        var reader = new FileReader();
-                        reader.readAsDataURL(request.response);
-                        reader.onload = function (e) {
-                            $scope.uploadmes = e.target.result;
-                            $scope.uploadme = $scope.uploadmes;
-                            $scope.$apply();
+                        var request = new XMLHttpRequest();
+                        request.open('GET', picPath, true);
+                        request.responseType = 'blob';
+                        request.onload = function () {
+                            var reader = new FileReader();
+                            reader.readAsDataURL(request.response);
+                            reader.onload = function (e) {
+                                $scope.uploadmes = e.target.result;
+                                $scope.uploadme = $scope.uploadmes;
+                                $scope.$apply();
+                            };
                         };
-                    };
-                    request.send();
-                } 
-            }
+                        request.send();
+                    }
+                }   
+                //if ($scope.GenderId1 > 0) {
+                //$scope.GenderId = $scope.GenderId1;
+                //    $scope.$apply();
+                //}
+            }          
         };
+        
         $scope.PatientgetBase64Image_Profile = function () {
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
                 var feMaleId = 0;
+                $scope.GenderId1 = $('#GenderId').val();
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
@@ -1633,10 +1793,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
                 var picPath = "../../Images/others.png";
                 if (typeof ($scope.Gender_Name) != "undefined")
-                    if ($scope.GenderId == feMaleId) {
+                    if ($scope.GenderId1 == feMaleId) {
                         picPath = "../../Images/Patient_Female.png";
                     }
-                    else if ($scope.GenderId == maleId) {
+                    else if ($scope.GenderId1 == maleId) {
                         picPath = "../../Images/Patient_Male.png";
                     }
 
@@ -1661,6 +1821,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
                 var feMaleId = 0;
+                $scope.GenderId1 = $('#GenderId').val();
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
@@ -1673,10 +1834,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
                 var picPath1 = "../../Images/National_Male.png";
                 if (typeof ($scope.Gender_Name) != "undefined")
-                    if ($scope.GenderId == feMaleId) {
+                    if ($scope.GenderId1 == feMaleId) {
                         picPath1 = "../../Images/National_Female.png";
                     }
-                    else if ($scope.GenderId == maleId) {
+                    else if ($scope.GenderId1 == maleId) {
                         picPath1 = "../../Images/National_Male.png";
                     }
 
@@ -1701,6 +1862,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
                 var feMaleId = 0;
+                $scope.GenderId1 = $('#GenderId').val();
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
@@ -1713,10 +1875,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
                 var picPath1 = "../../Images/National_Male.png";
                 if (typeof ($scope.Gender_Name) != "undefined")
-                    if ($scope.GenderId == feMaleId) {
+                    if ($scope.GenderId1 == feMaleId) {
                         picPath1 = "../../Images/National_Female.png";
                     }
-                    else if ($scope.GenderId == maleId) {
+                    else if ($scope.GenderId1 == maleId) {
                         picPath1 = "../../Images/National_Male.png";
                     }
                 if (photoview == false) {
@@ -1740,6 +1902,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
                 var feMaleId = 0;
+                $scope.GenderId1 = $('#GenderId').val();
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
@@ -1752,10 +1915,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
                 var picPath1 = "../../Images/National_Male.png";
                 if (typeof ($scope.Gender_Name) != "undefined")
-                    if ($scope.GenderId == feMaleId) {
+                    if ($scope.GenderId1 == feMaleId) {
                         picPath1 = "../../Images/National_Female.png";
                     }
-                    else if ($scope.GenderId == maleId) {
+                    else if ($scope.GenderId1 == maleId) {
                         picPath1 = "../../Images/National_Male.png";
                     }
                 if (photoview == false) {
@@ -1782,6 +1945,105 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
                 var feMaleId = 0;
+                $scope.GenderId1 = $('#GenderId').val();
+                angular.forEach($scope.GenderList, function (value, index) {
+                    $scope.Gender_Name = value.text;
+                    if ($scope.Gender_Name.toLowerCase() == "male") {
+                        maleId = value.id.toString();
+                    }
+                    else if ($scope.Gender_Name.toLowerCase() == "female") {
+                        feMaleId = value.id.toString();
+                    }
+                });
+                //if ($scope.GenderList > 0) {
+                var picPath = "";
+                if (typeof ($scope.Gender_Name) != "undefined") {
+                    if ($scope.GenderId1 == feMaleId) {
+                        picPath = "../../Images/female.png";
+                    }
+                    else if ($scope.GenderId1 == maleId) {
+                        picPath = "../../Images/Patient_Male.png";
+                    }
+                    else {
+                        picPath = "../../Images/others.png";
+                    }
+                    if (photoview == false) {
+                        var request = new XMLHttpRequest();
+                        request.open('GET', picPath, true);
+                        request.responseType = 'blob';
+                        request.onload = function () {
+                            var reader = new FileReader();
+                            reader.readAsDataURL(request.response);
+                            reader.onload = function (e) {
+                                $scope.uploadmes = e.target.result;
+                                $scope.uploadme = $scope.uploadmes;
+                                $scope.uploadme1 = $scope.uploadmes;
+                                $scope.uploadme3 = $scope.uploadmes;
+                                $scope.uploadme2 = $scope.uploadmes;
+                                $scope.$apply();
+                            };
+                        };
+                        request.send();
+                    }
+                } else if ($scope.GenderList?.length == 0 && $scope.Id > 0) {
+                    var genderid = $scope.genid;
+                    $scope.Gender_Name1 = $scope.ViewGender;
+                    if ($scope.Gender_Name1.toLowerCase() == "male") {
+                        maleId = genderid.toString();
+                    }
+                    else if ($scope.Gender_Name1.toLowerCase() == "female") {
+                        feMaleId = genderid.toString();
+                    }
+                    if ($scope.GenderId == feMaleId) {
+                        picPath = "../../Images/female.png";
+                    }
+                    else if ($scope.GenderId == maleId) {
+                        picPath = "../../Images/Patient_Male.png";
+                    }
+                    else {
+                        picPath = "../../Images/others.png";
+                    }
+                    if ($scope.UserTypeList?.length != 0) {
+                        if (photoview == false) {
+                            var request1 = new XMLHttpRequest();
+                            request1.open('GET', picPath, true);
+                            request1.responseType = 'blob';
+                            request1.onload = function () {
+                                var reader1 = new FileReader();
+                                reader1.readAsDataURL(request1.response);
+                                reader1.onload = function (e) {
+                                    $scope.uploadmes = e.target.result;
+                                    $scope.uploadme1 = $scope.uploadmes;
+                                    $scope.uploadme2 = $scope.uploadmes;
+                                    $scope.uploadme3 = $scope.uploadmes;
+                                    $scope.$apply();
+                                };
+                            };
+                            request1.send();
+
+                            var request = new XMLHttpRequest();
+                            request.open('GET', picPath, true);
+                            request.responseType = 'blob';
+                            request.onload = function () {
+                                var reader = new FileReader();
+                                reader.readAsDataURL(request.response);
+                                reader.onload = function (e) {
+                                    $scope.uploadmes = e.target.result;
+                                    $scope.uploadme = $scope.uploadmes;
+                                    $scope.$apply();
+                                };
+                            };
+                            request.send();
+                        }
+                    }
+                }
+            }
+        };
+        $scope.AdmingetBase64Image_Clear = function () {
+            if ($scope.UserPhotoValue == 0) {
+                var maleId = 0;
+                var feMaleId = 0;
+                $scope.GenderId1 = $('#GenderId').val();
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
@@ -1792,16 +2054,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     }
                 });
 
-                var picPath = "";
-                if ($scope.GenderId == feMaleId) {
-                    picPath = "../../Images/female.png";
-                }
-                else if ($scope.GenderId == maleId) {
-                    picPath = "../../Images/Patient_Male.png";
-                }
-                else {
-                    picPath = "../../Images/others.png";
-                }
+                var picPath = "../../Images/others.png";
+
+
                 if (photoview == false) {
                     var request = new XMLHttpRequest();
                     request.open('GET', picPath, true);
@@ -1812,14 +2067,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         reader.onload = function (e) {
                             $scope.uploadmes = e.target.result;
                             $scope.uploadme = $scope.uploadmes;
-                            $scope.uploadme1 = $scope.uploadmes;
-                            $scope.uploadme3 = $scope.uploadmes;
-                            $scope.uploadme2 = $scope.uploadmes;
                             $scope.$apply();
                         };
                     };
                     request.send();
-                } 
+                }
             }
         };
         $scope.CancelPopup = function () {
@@ -1900,13 +2152,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     UserType_Id: UserTypeId,
                 };
             }
-            $http.post(baseUrl + '/api/User/InstitutionSubscriptionLicensecheck/', obj).success(function (data) {
-                if (data.ReturnFlag == 0) {
+            $http.post(baseUrl + '/api/User/InstitutionSubscriptionLicensecheck/', obj).then(function (response) {
+                if (response.data.ReturnFlag == 0) {
                     //alert(data.Message);
-                    toastr.warning(data.Message, "warning");
+                    toastr.warning(response.data.Message, "warning");
                 }
-            }).error(function (data) {
-                $scope.error = "An error has occurred InstitutionSubscriptionLicensecheck" + data;
+            }, function errorCallback(response) {
+                $scope.error = "An error has occurred InstitutionSubscriptionLicensecheck" + response.data;
             });
 
         };
@@ -2065,9 +2317,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.ConfigCode = "PROFILE_PICTURE";
             $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
             $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).
-                success(function (data) {
-                    if (data[0] != undefined) {
-                        $scope.ProfileImageSize = parseInt(data[0].ConfigValue);
+                then(function (response) {
+                    if (response.data[0] != undefined) {
+                        $scope.ProfileImageSize = parseInt(response.data[0].ConfigValue);
                     }
                 });
         }
@@ -2077,14 +2329,15 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             //alert("Inactive record cannot be edited");
             toastr.info("Inactive record cannot be edited", "info");
         }
-        $http.get(baseUrl + '/api/Common/InstitutionNameList/').success(function (data) {
-            $scope.InstitutionList = data;
-        });
+        //$http.get(baseUrl + '/api/Common/InstitutionNameList/').then(function (response) {
+        //    $scope.InstitutionList = response.data;
+        //}, function errorCallback(response) {
+        //});
         $scope.SuperAdminDropdownsList = function () {
             if ($scope.LoginType == 1 || $scope.LoginType == 3) {
-                $http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).success(function (data) {
+                $http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).then(function (response) {
                     $scope.InstitutiondetailsListTemp = [];
-                    $scope.InstitutiondetailsListTemp = data;
+                    $scope.InstitutiondetailsListTemp = response.data;
                     var obj = { "Id": 0, "Name": "Select", "IsActive": 0, "Country_ISO3": 0};
                     $scope.InstitutiondetailsListTemp.splice(0, 0, obj);
                     //$scope.InstitutiondetailsListTemp.push(obj);
@@ -2138,13 +2391,19 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $scope.InstitutiondetailsListTemp1 = $scope.InstitutionList;
                                 $scope.InsListId = $scope.InsListId1;
                                 var Inslist = $scope.InstitutiondetailsListTemp1.filter(x => x.Id === parseInt($scope.InsListId));
-                                var iso2 = Inslist[0].Country_ISO2;
+                            var iso2 = Inslist[0].Country_ISO2;
+                            if (iso2 != null) {
+                                iso2 = iso2;
+                            } else { 
+                                iso2 = 'AF';
+                            }
                                 //$scope.InstitutionId = $scope.AdminFlowdata.toString();
                                 var input = document.querySelector("#txtMobile");
                                 var inputPhoneNo = window.intlTelInput(input, {
                                     formatOnDisplay: true,
                                     separateDialCode: true,
-                                   // onlyCountries: [iso2],
+                                    initialCountry: iso2,
+                                    // onlyCountries: [iso2],
                                     geoIpLookup: function (callback) {
                                         $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
                                             var countryCode = (resp && resp.country) ? resp.country : "";
@@ -2154,6 +2413,15 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                     //preferredCountries: ["in"],
                                     utilsScript: "scripts/utils.js",
                                 });
+                            $scope.InputPhoneNo1 = inputPhoneNo;
+                            const PhoneNumber = inputPhoneNo.getNumber();
+                            var countryData = inputPhoneNo.getSelectedCountryData();
+                            var countryCode = countryData.dialCode; // using updated doc, code has been replaced with dialCode
+                            var iso2 = iso2;//countryData.iso2;
+                            var number = document.getElementById("txtMobile").value;
+                            document.getElementById("txthdCountryiso2").value = iso2;
+                            document.getElementById("txthdCountryCode").value = countryCode;
+                            document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
                            // });
                     }
 
@@ -2165,6 +2433,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $('#divInstitution').removeClass("ng-valid");
                         $('#divInstitution').addClass("ng-invalid");
                     }
+                }, function errorCallback(response) {
                 });
 
                 //$scope.txtPhoneChange = function () {
@@ -2295,22 +2564,22 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 //    $scope.Businesstab1 = $scope.Businesstab1 + 1;
                 //});
                 $scope.Businesstab1 = $scope.Businesstab1 + 1;
-                $http.get(baseUrl + '/api/User/DoctorInstitutionList/').success(function (data) {
-                    $scope.DoctorInstitutionList = data;
+                $http.get(baseUrl + '/api/User/DoctorInstitutionList/').then(function (response) {
+                    $scope.DoctorInstitutionList = response.data;
                     $scope.Businesstab1 = $scope.Businesstab1 + 1;
                 });
             }
             if ($scope.Businesstab1 == 5) {
-                $http.get(baseUrl + '/api/Common/LanguageList/').success(function (data) {
-                    $scope.LanguageList = data;
+                $http.get(baseUrl + '/api/Common/LanguageList/').then(function (response) {
+                    $scope.LanguageList = response.data;
                     $scope.Businesstab1 = $scope.Businesstab1 + 1;
                 });
             }
         });
 
         if ($scope.LoginType == 2) {
-            $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
-                $scope.GroupTypeList = data;
+            $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstituteId).then(function (response) {
+                $scope.GroupTypeList = response.data;
             });
             $scope.LoadFilterCLNationalityList();
             $scope.LoadFilterBusinessUser_UserTypeList();
@@ -2367,15 +2636,15 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             //    $scope.tab1 = $scope.tab1 + 1;
             //});
 
-            $http.get(baseUrl + '/api/PayorMaster/PayorList/?IsActive=' + 1 + '&InstitutionId=' + $scope.InstituteId + '&StartRowNumber=' + 1 + '&EndRowNumber=' + 30).success(function (data) {
-                $scope.PayorMasterList = data;
+            $http.get(baseUrl + '/api/PayorMaster/PayorList/?IsActive=' + 1 + '&InstitutionId=' + $scope.InstituteId + '&StartRowNumber=' + 1 + '&EndRowNumber=' + 30).then(function (response) {
+                $scope.PayorMasterList = response.data;
             });
 
             $scope.ConfigCode = "MRN_PREFIX";
             $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data2) {
-                if (data2.length !== 0) {
-                    $scope.PrefixMRN = data2[0].ConfigValue;
+            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).then(function (data2) {
+                if (data2.data.length !== 0) {
+                    $scope.PrefixMRN = data2.data[0].ConfigValue;
                 }
             });
         }
@@ -2459,8 +2728,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             }
 
             if ($scope.tab1 == 7) {
-                $http.get(baseUrl + '/api/Common/RelationshipList/').success(function (data) {
-                    $scope.RelationshipList = data;
+                $http.get(baseUrl + '/api/Common/RelationshipList/').then(function (response) {
+                    $scope.RelationshipList = response.data;
                     $scope.tab1 = $scope.tab1 + 1;
                 });
             }
@@ -2468,8 +2737,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $scope.ConfigCode = "PATIENTPAGE_COUNT";
                 $scope.ISact = 1;
                 $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-                    $scope.page_size = data1[0].ConfigValue;
+                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).then(function (data1) {
+                    $scope.page_size = data1.data[0].ConfigValue;
                     $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
                     $scope.PageEnd = $scope.current_page * $scope.page_size;
                     $scope.tab1 = $scope.tab1 + 1;
@@ -2483,25 +2752,25 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             }
 
             if ($scope.tab1 == 9) {
-                $http.get(baseUrl + '/api/Common/OptionTypeList/').success(function (data) {
-                    $scope.OptionTypeList = data;
+                $http.get(baseUrl + '/api/Common/OptionTypeList/').then(function (response) {
+                    $scope.OptionTypeList = response.data;
                     $scope.tab1 = $scope.tab1 + 1;
                 });
                 //$http.get(baseUrl + '/api/Common/RelationshipList/').success(function (data) {
                 //    $scope.RelationshipList = data;
                 //    $scope.tab1=$scope.tab1+1;
                 //});
-                $http.get(baseUrl + '/api/Common/DietTypeList/').success(function (data) {
-                    $scope.DietTypeList = data;
+                $http.get(baseUrl + '/api/Common/DietTypeList/').then(function (response) {
+                    $scope.DietTypeList = response.data;
                     $scope.tab1 = $scope.tab1 + 1;
                 });
-                $http.get(baseUrl + '/api/Common/ScheduleList/').success(function (data) {
-                    $scope.ScheduleList = data;
+                $http.get(baseUrl + '/api/Common/ScheduleList/').then(function (response) {
+                    $scope.ScheduleList = response.data;
                     $scope.tab1 = $scope.tab1 + 1;
                 });
 
-                $http.get(baseUrl + 'api/User/AllergyTypeList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
-                    $scope.AlergySubstanceList = data;
+                $http.get(baseUrl + 'api/User/AllergyTypeList/?Institution_Id=' + $scope.InstituteId).then(function (response) {
+                    $scope.AlergySubstanceList = response.data;
                     $scope.tab1 = $scope.tab1 + 1;
                 })
             }
@@ -2614,15 +2883,15 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     },
                     width: '100%'
                 });
-                $http.get(baseUrl + '/api/Institution/InstitutionDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                    $scope.InsCountryId = data.CountryId.toString();
-                    $scope.InsCountryName = data.CountryName;
+                $http.get(baseUrl + '/api/Institution/InstitutionDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
+                    $scope.InsCountryId = response.data.CountryId.toString();
+                    $scope.InsCountryName = response.data.CountryName;
 
-                    $scope.InsStateId = data.StateId.toString();
-                    $scope.InsStateName = data.StateName;
+                    $scope.InsStateId = response.data.StateId.toString();
+                    $scope.InsStateName = response.data.StateName;
 
-                    $scope.InsCityId = data.CityId.toString();
-                    $scope.InsCityName = data.CityName;
+                    $scope.InsCityId = response.data.CityId.toString();
+                    $scope.InsCityName = response.data.CityName;
 
                     $scope.DefaultCountryState();
                 });
@@ -2631,8 +2900,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         }
         $scope.PayorBased_PlanFunction = function (id) {
             if ($scope.SelectedPayor != "0") {
-                $http.get(baseUrl + '/api/PlanMaster/PayorBasedPlan/?Id=' + $scope.SelectedPayor).success(function (data) {
-                    $scope.PayorBasedPlanList = data;
+                $http.get(baseUrl + '/api/PlanMaster/PayorBasedPlan/?Id=' + $scope.SelectedPayor).then(function (response) {
+                    $scope.PayorBasedPlanList = response.data;
                 });
             } else {
                 $scope.PayorBasedPlanList = [];
@@ -2641,8 +2910,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
         $scope.CountryBased_StateFunction = function () {
             if ($scope.loadCount == 0) {
-                $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + $scope.CountryId).success(function (data) {
-                    $scope.StateName_List = data;
+                $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + $scope.CountryId).then(function (response) {
+                    $scope.StateName_List = response.data;
                     $scope.LocationName_List = [];
                     $scope.CityId = "0";
                 });
@@ -2650,8 +2919,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         }
         $scope.Filter_Country_onChange = function () {
             if ($scope.loadCount == 0) {
-                $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + $scope.filter_CountryId).success(function (data) {
-                    $scope.StateNameList = data;
+                $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + $scope.filter_CountryId).then(function (response) {
+                    $scope.StateNameList = response.data;
                     $scope.CityNameList = [];
                     $scope.filter_CityId = "0";
                 });
@@ -2659,15 +2928,15 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         }
         $scope.StateBased_CityFunction = function () {
             if ($scope.loadCount == 0) {
-                $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + $scope.CountryId + '&StateId=' + $scope.StateId).success(function (data) {
-                    $scope.LocationName_List = data;
+                $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + $scope.CountryId + '&StateId=' + $scope.StateId).then(function (response) {
+                    $scope.LocationName_List = response.data;
                 });
             }
         }
         $scope.Filter_State_onChange = function () {
             if ($scope.loadCount == 0) {
-                $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + $scope.filter_CountryId + '&StateId=' + $scope.filter_StataId).success(function (data) {
-                    $scope.CityNameList = data;
+                $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + $scope.filter_CountryId + '&StateId=' + $scope.filter_StataId).then(function (response) {
+                    $scope.CityNameList = response.data;
                 });
             }
         }
@@ -2675,11 +2944,14 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.CountryBasedStateFunction = function () {
             $scope.StateId = '0';
             $scope.CityId = '0';
-            $scope.LoadStateList($scope.CountryId);
+            $scope.CountryId1 = $("#CountryId").val();
+            $scope.LoadStateList($scope.CountryId1);
         }
         $scope.StateBasedCityFunction = function () {
             $scope.CityId = '0';
-            $scope.LoadCityList($scope.CountryId, $scope.StateId);
+            $scope.CountryId1 = $("#CountryId").val();
+            $scope.StateId1 = $("#StateId").val();
+            $scope.LoadCityList($scope.CountryId1, $scope.StateId1);
         }
         $scope.Filter_Country_OnChange = function () {
             $scope.LoadStateList($scope.filter_CountryId);
@@ -2695,10 +2967,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $("#chatLoaderPV").show();
                 $scope.MenuTypeId = MenuType;
                 $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
-                $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId + '&UserType_Id=' + $scope.UserTypeId).success(function (data) {
+                $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId + '&UserType_Id=' + $scope.UserTypeId).then(function (response) {
                     $scope.emptydata = [];
                     $scope.UserDetailsList = [];
-                    $scope.UserDetailsList = data;
+                    $scope.UserDetailsList = response.data;
                     $scope.rowCollectionFilter = angular.copy($scope.UserDetailsList);
                     if ($scope.rowCollectionFilter.length > 0) {
                         $scope.flag = 1;
@@ -2721,13 +2993,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $scope.MenuTypeId = MenuType;
                 $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
 
-                $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId + '&UserType_Id=' + $scope.UserTypeId).success(function (data) {
+                $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId + '&UserType_Id=' + $scope.UserTypeId).then(function (response) {
                     $scope.BusineessUseremptydata = [];
                     $scope.BusinessUserList = [];
-                    $scope.BusinessUserList = data;
-                    $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                        $scope.Remaining_No_Of_HealthCareProf = data.Remaining_No_Of_HealthCareProf;
-                        $scope.Health_Care_Professionals = data.Health_Care_Professionals;
+                    $scope.BusinessUserList = response.data;
+                    $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
+                        $scope.Remaining_No_Of_HealthCareProf = response.data.Remaining_No_Of_HealthCareProf;
+                        $scope.Health_Care_Professionals = response.data.Health_Care_Professionals;
                     });
                     $scope.BusinessUserFilter = angular.copy($scope.BusinessUserList);
                     if ($scope.BusinessUserFilter.length > 0) {
@@ -2778,8 +3050,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $scope.ConfigCode = "PATIENTPAGE_COUNT";
                 $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
 
-                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-                    $scope.page_size = data1[0].ConfigValue;
+                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).then(function (data1) {
+                    $scope.page_size = data1.data[0].ConfigValue;
                     $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
                     $scope.PageEnd = $scope.current_page * $scope.page_size;
                     $scope.Input_Type = 1;
@@ -2803,8 +3075,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
                 $scope.loadCount = 0;
                 if ($scope.LoginType == 3) {
-                    $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
-                        $scope.GroupTypeList = data;
+                    $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstituteId).then(function (response) {
+                        $scope.GroupTypeList = response.data;
                         $scope.tab1 = $scope.tab1 + 1;
                     });
                 }
@@ -2819,23 +3091,21 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $scope.filter_MOBILE_NO + '&HOME_PHONENO=' + $scope.filter_HomePhoneNo + '&EMAILID=' + $scope.filter_Email + '&MARITALSTATUS_ID=' + $scope.filter_MaritalStatus +
                 '&COUNTRY_ID=' + $scope.filter_CountryId + '&STATE_ID=' + $scope.filter_StataId + '&CITY_ID=' + $scope.filter_CityId + '&BLOODGROUP_ID=' + $scope.filter_BloodGroupId +
                 '&Group_Id=' + $scope.filter_GroupId + '&IsActive=' + $scope.ActiveStatus + '&INSTITUTION_ID=' + $window.localStorage['InstitutionId'] + '&StartRowNumber=' + $scope.PageStart +
-                '&EndRowNumber=' + $scope.PageEnd + '&SearchQuery=' + $scope.searchquery + '&SearchEncryptedQuery=' + $scope.SearchEncryptedQuery + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                '&EndRowNumber=' + $scope.PageEnd + '&SearchQuery=' + $scope.searchquery + '&SearchEncryptedQuery=' + $scope.SearchEncryptedQuery + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
                     $("#chatLoaderPV").hide();
                     $scope.Patientemptydata = [];
                     $scope.PatientList = [];
-                    $scope.PatientList = data.itemizedUserDetailsModels;
-                    $scope.Patientemptydata = data.itemizedUserDetailsModels;
-                    $scope.Patients = data.userCountDetails.Number_User;
-                    $scope.Remaining_No_Of_Patient = data.userCountDetails.Remaind_User;
-                    if (data.length == 0) {
+                    $scope.PatientList = response.data.itemizedUserDetailsModels;
+                    $scope.Patientemptydata = response.data.itemizedUserDetailsModels;
+                    $scope.Patients = response.data.userCountDetails.Number_User;
+                    $scope.Remaining_No_Of_Patient = response.data.userCountDetails.Remaind_User;
+                    if (response.data.length == 0) {
                         $scope.SearchMsg = "No Data Available";
                         $scope.PatientCount = 0;
                     } else {
                         $scope.PatientCount = $scope.PatientList[0].TotalRecord;
                     }
                     $scope.total_pages = Math.ceil(parseInt($scope.PatientCount) / ($scope.page_size));
-
-
                 });
         }
 
@@ -2851,7 +3121,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         /* Filter the master list function.*/
         $scope.filterInstitutionList = function () {
             $scope.ResultListFiltered = [];
-            var searchstring = angular.lowercase($scope.searchquery);
+            var searchstring = ($scope.searchquery.toLowerCase());
             if ($scope.searchquery == "") {
                 $scope.rowCollectionFilter = angular.copy($scope.UserDetailsList);
             }
@@ -2868,31 +3138,31 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 } else {
                     if ($scope.filter_SASearchFieldId == "1") {
                         var NotNull_User = $scope.UserDetailsList.filter(x => x.PATIENT_ID != null);
-                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.PATIENT_ID).match(searchstring));
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => (x.PATIENT_ID.toLowerCase()).match(searchstring));
                     } else if ($scope.filter_SASearchFieldId == "2") {
                         var NotNull_User = $scope.UserDetailsList.filter(x => x.NATIONALID != null);
-                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.NATIONALID).match(searchstring));
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => (x.NATIONALID.toLowerCase()).match(searchstring));
                     } else if ($scope.filter_SASearchFieldId == "3") {
                         var NotNull_User = $scope.UserDetailsList.filter(x => x.FirstName != null);
-                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.FirstName).match(searchstring));
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => (x.FirstName.toLowerCase()).match(searchstring));
                     } else if ($scope.filter_SASearchFieldId == "4") {
                         var NotNull_User = $scope.UserDetailsList.filter(x => x.LastName != null);
-                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.LastName).match(searchstring));
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => (x.LastName.toLowerCase()).match(searchstring));
                     } else if ($scope.filter_SASearchFieldId == "5") {
                         var NotNull_User = $scope.UserDetailsList.filter(x => x.INSURANCEID != null);
-                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.INSURANCEID).match(searchstring));
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => (x.INSURANCEID.toLowerCase()).match(searchstring));
                     } else if ($scope.filter_SASearchFieldId == "6") {
                         var NotNull_User = $scope.UserDetailsList.filter(x => x.EMAILID != null);
-                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.EMAILID).match(searchstring));
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => (x.EMAILID.toLowerCase()).match(searchstring));
                     } else if ($scope.filter_SASearchFieldId == "7") {
                         var NotNull_User = $scope.UserDetailsList.filter(x => x.MOBILE_NO != null);
-                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.MOBILE_NO).match(searchstring));
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => (x.MOBILE_NO.toLowerCase()).match(searchstring));
                     } else if ($scope.filter_SASearchFieldId == "8") {
                         var NotNull_User = $scope.UserDetailsList.filter(x => x.MNR_NO != null);
-                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.MNR_NO).match(searchstring));
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => (x.MNR_NO.toLowerCase()).match(searchstring));
                     } else if ($scope.filter_SASearchFieldId == "9") {
                         var NotNull_User = $scope.UserDetailsList.filter(x => x.EMPLOYEMENTNO != null);
-                        $scope.rowCollectionFilter = NotNull_User.filter(x => angular.lowercase(x.EMPLOYEMENTNO).match(searchstring));
+                        $scope.rowCollectionFilter = NotNull_User.filter(x => (x.EMPLOYEMENTNO.toLowerCase()).match(searchstring));
                     }
                     if ($scope.rowCollectionFilter.length > 0) {
                         $scope.flag = 1;
@@ -2906,7 +3176,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
         $scope.filterBusinessList = function () {
             $scope.ResultListFiltered = [];
-            var searchstring = angular.lowercase($scope.Business_Usersearchquery);
+            var searchstring = ($scope.Business_Usersearchquery.toLowerCase());
             if ($scope.Business_Usersearchquery == "") {
                 $scope.BusinessUserFilter = angular.copy($scope.BusinessUserList);
             }
@@ -2923,25 +3193,25 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     //});
                 } else if ($scope.filter_CL_SearchFieldId == "1") {
                     var NotNull_User = $scope.BusinessUserList.filter(x => x.EMPLOYEMENTNO != null);
-                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.EMPLOYEMENTNO).match(searchstring));
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => (x.EMPLOYEMENTNO.toLowerCase()).match(searchstring));
                 } else if ($scope.filter_CL_SearchFieldId == "2") {
                     var NotNull_User = $scope.BusinessUserList.filter(x => x.Department_Name != null);
-                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.Department_Name).match(searchstring));
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => (x.Department_Name.toLowerCase()).match(searchstring));
                 } else if ($scope.filter_CL_SearchFieldId == "3") {
                     var NotNull_User = $scope.BusinessUserList.filter(x => x.FirstName != null);
-                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.FirstName).match(searchstring));
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => (x.FirstName.toLowerCase()).match(searchstring));
                 } else if ($scope.filter_CL_SearchFieldId == "4") {
                     var NotNull_User = $scope.BusinessUserList.filter(x => x.LastName != null);
-                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.LastName).match(searchstring));
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => (x.LastName.toLowerCase()).match(searchstring));
                 } else if ($scope.filter_CL_SearchFieldId == "5") {
                     var NotNull_User = $scope.BusinessUserList.filter(x => x.HEALTH_LICENSE != null);
-                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.HEALTH_LICENSE).match(searchstring));
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => (x.HEALTH_LICENSE.toLowerCase()).match(searchstring));
                 } else if ($scope.filter_CL_SearchFieldId == "6") {
                     var NotNull_User = $scope.BusinessUserList.filter(x => x.EMAILID != null);
-                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.EMAILID).match(searchstring));
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => (x.EMAILID.toLowerCase()).match(searchstring));
                 } else if ($scope.filter_CL_SearchFieldId == "7") {
                     var NotNull_User = $scope.BusinessUserList.filter(x => x.MOBILE_NO != null);
-                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.MOBILE_NO).match(searchstring));
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => (x.MOBILE_NO.toLowerCase()).match(searchstring));
                 }
                 if ($scope.BusinessUserFilter.length > 0) {
                     $scope.BusinessUserflag = 1;
@@ -2952,33 +3222,35 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             }
         }
 
-        $scope.CareCoordinator_AdvanceFilter = function () {
+        $scope.CareCoordinator_AdvanceFilter = function () {            
+            $scope.filter_CL_UserType1 = $("#filter_CL_UserType").val();
+            $scope.Filter_CL_Nationality1 = $("#Filter_CL_Nationality").val();
             var ustype = [], usgroup = [], usnation = [];
-            if ($scope.filter_CL_UserType != "0" && $scope.filter_CL_Group != "" && $scope.Filter_CL_Nationality != "0") {
+            if ($scope.filter_CL_UserType1 != "0" && $scope.filter_CL_Group != "" && $scope.Filter_CL_Nationality1 != "0") {
                 var NotNull_User = $scope.BusinessUserList.filter(x => x.UserType_Id != null);
-                ustype = NotNull_User.filter(x => x.UserType_Id == parseInt($scope.filter_CL_UserType) && x.GroupName.toString().includes($scope.filter_CL_Group) && x.NATIONALITY_ID == parseInt($scope.Filter_CL_Nationality));
+                ustype = NotNull_User.filter(x => x.UserType_Id == parseInt($scope.filter_CL_UserType1) && x.GroupName.toString().includes($scope.filter_CL_Group) && x.NATIONALITY_ID == parseInt($scope.Filter_CL_Nationality1));
             }
-            else if ($scope.filter_CL_UserType != "0" && $scope.filter_CL_Group != "") {
+            else if ($scope.filter_CL_UserType1 != "0" && $scope.filter_CL_Group != "") {
                 var NotNull_User = $scope.BusinessUserList.filter(x => x.GroupName != null);
                 //usgroup = NotNull_User.filter(x => angular.lowercase(x.GroupName).match($scope.filter_CL_Group));
-                usgroup = NotNull_User.filter(x => x.UserType_Id == parseInt($scope.filter_CL_UserType) && x.GroupName.toString().includes($scope.filter_CL_Group));
+                usgroup = NotNull_User.filter(x => x.UserType_Id == parseInt($scope.filter_CL_UserType1) && x.GroupName.toString().includes($scope.filter_CL_Group));
             }
-            else if ($scope.filter_CL_UserType != "0" && $scope.Filter_CL_Nationality != "0") {
+            else if ($scope.filter_CL_UserType1 != "0" && $scope.Filter_CL_Nationality1 != "0") {
                 var NotNull_User = $scope.BusinessUserList.filter(x => x.NATIONALITY_ID != null);
-                usnation = NotNull_User.filter(x => x.UserType_Id == parseInt($scope.filter_CL_UserType) && x.NATIONALITY_ID == parseInt($scope.Filter_CL_Nationality));
+                usnation = NotNull_User.filter(x => x.UserType_Id == parseInt($scope.filter_CL_UserType1) && x.NATIONALITY_ID == parseInt($scope.Filter_CL_Nationality1));
             }
-            else if ($scope.filter_CL_UserType != "0") {
+            else if ($scope.filter_CL_UserType1 != "0") {
                 var NotNull_User = $scope.BusinessUserList.filter(x => x.UserType_Id != null);
-                ustype = NotNull_User.filter(x => x.UserType_Id == parseInt($scope.filter_CL_UserType));
+                ustype = NotNull_User.filter(x => x.UserType_Id == parseInt($scope.filter_CL_UserType1));
             }
             else if ($scope.filter_CL_Group != "") {
                 var NotNull_User = $scope.BusinessUserList.filter(x => x.GroupName != null);
                 //usgroup = NotNull_User.filter(x => angular.lowercase(x.GroupName).match($scope.filter_CL_Group));
                 usgroup = NotNull_User.filter(x => x.GroupName.toString().includes($scope.filter_CL_Group));
             }
-            else if ($scope.Filter_CL_Nationality != "0") {
+            else if ($scope.Filter_CL_Nationality1 != "0") {
                 var NotNull_User = $scope.BusinessUserList.filter(x => x.NATIONALITY_ID != null);
-                usnation = NotNull_User.filter(x => x.NATIONALITY_ID == parseInt($scope.Filter_CL_Nationality));
+                usnation = NotNull_User.filter(x => x.NATIONALITY_ID == parseInt($scope.Filter_CL_Nationality1));
             }
             var fil = [];
             $scope.BusinessUserFilter = fil.concat(ustype, usgroup, usnation);
@@ -3106,15 +3378,15 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $http.get(baseUrl + '/api/User/Search_Patient_List?IsActive=' + $scope.ActiveStatus + '&INSTITUTION_ID=' + $window.localStorage['InstitutionId'] + '&SearchQuery=' + $scope.Patientsearchquery + '&PATIENTNO=' + $scope.Filter_PatientNo2
                 + '&INSURANCEID=' + $scope.filter_InsuranceId2 + '&NATIONALITY_ID=' + $scope.filter_NationalityId2 + '&MOBILE_NO=' +
                 $scope.filter_MOBILE_NO2 + '&EMAILID=' + $scope.filter_Email2 + '&FIRSTNAME=' + $scope.Filter_FirstName2 + '&LASTNAME=' + $scope.Filter_LastName2 + '&MRNNO=' + $scope.Filter_MRN2 + '&StartRowNumber=' + $scope.PageStart +
-                '&EndRowNumber=' + $scope.PageEnd + '&AdvanceFilter=' + $scope.Patient_Search).success(function (data) {
+                '&EndRowNumber=' + $scope.PageEnd + '&AdvanceFilter=' + $scope.Patient_Search).then(function (response) {
                     $("#chatLoaderPV").hide();
-                    if (data.length == 0) {
+                    if (response.data.length == 0) {
                         $scope.SearchMsg = "No Data Available";
                     }
                     $scope.Patientemptydata = [];
                     $scope.PatientList = [];
-                    $scope.PatientList = data;
-                    $scope.Patientemptydata = data;                    
+                    $scope.PatientList = response.data;
+                    $scope.Patientemptydata = response.data;                    
                     if ($scope.PatientList.length > 0) {
                         $scope.PatientCount = $scope.PatientList[0].TotalRecord;
                         $scope.total_pages = Math.ceil(($scope.PatientCount) / ($scope.page_size));
@@ -3142,10 +3414,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $('#ddlsearchfield').val('');
             $("#chatLoaderPV").show();
             $scope.CCCG_DetailsList = [];
-            $http.get(baseUrl + 'api/EligibilityLogs/Eligibility_Logs_List_With_Patient/?InstitutionId=' + $scope.InstituteId + "&Patient_Id=" + $scope.Id).success(function (data) {
+            $http.get(baseUrl + 'api/EligibilityLogs/Eligibility_Logs_List_With_Patient/?InstitutionId=' + $scope.InstituteId + "&Patient_Id=" + $scope.Id).then(function (response) {
                 $("#chatLoaderPV").hide();
-                $scope.rowCollectionFilter = data;
-                $scope.CCCG_DetailsList = data;
+                $scope.rowCollectionFilter = response.data;
+                $scope.CCCG_DetailsList = response.data;
             });
             if ($scope.rowCollectionFilter.length > 0) {
                 $scope.flag = 1;
@@ -3171,10 +3443,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             }
             $("#chatLoaderPV").show();
             $scope.CCCG_DetailsList = [];
-            $http.get(baseUrl + 'api/EligibilityLogs/Eligibility_Logs_With_Patient_Filters/?InstitutionId=' + $scope.InstituteId + "&Patient_Id=" + $scope.Id + "&sDate=" + sDate + "&eDate=" + eDate + "&EligibilityStatus=" + $scope.Eligibility_Status + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            $http.get(baseUrl + 'api/EligibilityLogs/Eligibility_Logs_With_Patient_Filters/?InstitutionId=' + $scope.InstituteId + "&Patient_Id=" + $scope.Id + "&sDate=" + sDate + "&eDate=" + eDate + "&EligibilityStatus=" + $scope.Eligibility_Status + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
                 $("#chatLoaderPV").hide();
-                $scope.rowCollectionFilter = data;
-                $scope.CCCG_DetailsList = data;
+                $scope.rowCollectionFilter = response.data;
+                $scope.CCCG_DetailsList = response.data;
             });
             if ($scope.rowCollectionFilter.length > 0) {
                 $scope.flag = 1;
@@ -3189,10 +3461,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         //select on Change load -userslist
         $scope.SearchByUserID = function () {
             $("#chatLoaderPV").show();
-            $http.get(baseUrl + '/api/UsersLog/Admin_Userslog_List/?Institution_Id=' + $scope.InstituteId + "&login_session_id=" + $scope.LoginSessionId + "&User_Id=" + $scope.SelectedCCCG).success(function (data) {
+            $http.get(baseUrl + '/api/UsersLog/Admin_Userslog_List/?Institution_Id=' + $scope.InstituteId + "&login_session_id=" + $scope.LoginSessionId + "&User_Id=" + $scope.SelectedCCCG).then(function (response) {
                 $scope.emptydata = [];
                 $scope.UserDetailsList = [];
-                $scope.UserDetailsList = data;
+                $scope.UserDetailsList = response.data;
                 $scope.rowCollectionFilter = angular.copy($scope.UserDetailsList);
                 if ($scope.rowCollectionFilter.length > 0) {
                     $scope.flag = 1;
@@ -3243,7 +3515,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             photoview2 = false;
             $scope.uploadview = false;
             $scope.UserPhotoValue = 0;
-            $scope.AdmingetBase64Image();
+            $scope.AdmingetBase64Image_Clear();
         };
 
         $scope.Editclearimage = function () {
@@ -3270,7 +3542,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             photoview2 = false;
             $scope.uploadview = false;
             $scope.UserPhotoValue = 0;
-            $scope.getBase64Image();
+            $scope.getBase64Image_clear();
         };
 
         $scope.imageclearPatient = function () {
@@ -3392,7 +3664,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     toastr.warning($scope.fileexceed, "File Size");
                 }
             } 
-            else {
+            else { 
                 toastr.warning("Maximum 4 images should be allowed", "Files Count");
                 $scope.NationalUploadme = [];
             }
@@ -3485,7 +3757,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     }
                     return false;
                 }
-                else if ((typeof ($scope.GenderId) == "undefined" || $scope.GenderId == "0") && $scope.LoginType != "1" && $scope.LoginType != "3") {
+                else if ((typeof ($scope.GenderId1) == "undefined" || $scope.GenderId1 == "0") && $scope.LoginType != "1" && $scope.LoginType != "3") {
                     toastr.warning("Please select Gender", "Warning");
                     $("#chatLoaderPV").hide();
                     if ($scope.MenuTypeId == 2) {
@@ -3493,7 +3765,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     }
                     return false;
                 }
-                else if ((typeof ($scope.DepartmentId) == "undefined" || $scope.DepartmentId == "0") && $scope.LoginType != "1" && $scope.LoginType != "3") {
+                else if ((typeof ($scope.DepartmentId1) == "undefined" || $scope.DepartmentId1 == "0") && $scope.LoginType != "1" && $scope.LoginType != "3") {
                     toastr.warning("Please select Department", "Warning");
                     $("#chatLoaderPV").hide();
                     if ($scope.MenuTypeId == 2) {
@@ -3595,21 +3867,21 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.currentTab = 2;
                     return false;
                 }
-                else if (typeof ($scope.CountryId) == "undefined" || $scope.CountryId == "0") {
+                else if (typeof ($scope.CountryId1) == "undefined" || $scope.CountryId1 == "0") {
                     //alert("Please select Country under Address Info");
                     toastr.warning("Please select Country under Address Info", "warning");
                     $("#chatLoaderPV").hide();
                     $scope.currentTab = 3;
                     return false;
                 }
-                else if (typeof ($scope.StateId) == "undefined" || $scope.StateId == "0") {
+                else if (typeof ($scope.StateId1) == "undefined" || $scope.StateId1 == "0") {
                     //alert("Please select State under Address Info");
                     toastr.warning("Please select State under Address Info", "warning");
                     $("#chatLoaderPV").hide();
                     $scope.currentTab = 3;
                     return false;
                 }
-                else if (typeof ($scope.CityId) == "undefined" || $scope.CityId == "0") {
+                else if (typeof ($scope.CityId1) == "undefined" || $scope.CityId1 == "0") {
                     //alert("Please select City under Address Info");
                     toastr.warning("Please select City under Address Info", "warning");
                     $("#chatLoaderPV").hide();
@@ -3661,7 +3933,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.currentTab = 1;
                     return false;
                 }
-                else if (typeof ($scope.GenderId) == "undefined" || $scope.GenderId == "0") {
+                else if (typeof ($scope.GenderId1) == "undefined" || $scope.GenderId1 == "0") {
                     //alert("Please select Gender");
                     toastr.warning("Please select Gender", "warning");
                     $("#chatLoaderPV").hide();
@@ -3721,21 +3993,21 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.currentTab = 1;
                     return false;
                 }
-                else if (typeof ($scope.MaritalStatusId) == "undefined" || $scope.MaritalStatusId == "0") {
+                else if (typeof ($scope.MaritalStatusId1) == "undefined" || $scope.MaritalStatusId1 == "0") {
                     //alert("Please select Marital Status under Additional Info");
                     toastr.warning("Please select Marital Status under Additional Info", "warning");
                     $("#chatLoaderPV").hide();
                     $scope.currentTab = 2;
                     return false;
                 }
-                else if (typeof ($scope.BloodGroupId) == "undefined" || $scope.BloodGroupId == "0") {
+                else if (typeof ($scope.BloodGroupId1) == "undefined" || $scope.BloodGroupId1 == "0") {
                     //alert("Please select Blood Group under Additional Info");
                     toastr.warning("Please select Blood Group under Additional Info", "warning");
                     $("#chatLoaderPV").hide();
                     $scope.currentTab = 2;
                     return false;
                 }
-                else if (typeof ($scope.EthnicGroupId) == "undefined" || $scope.EthnicGroupId == "0") {
+                else if (typeof ($scope.EthnicGroupId1) == "undefined" || $scope.EthnicGroupId1 == "0") {
                     //alert("Please select Ethnic Group under Additional Info");
                     toastr.warning("Please select Ethnic Group under Additional Info", "warning");
                     $("#chatLoaderPV").hide();
@@ -3762,21 +4034,21 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.currentTab = 2;
                     return false;
                 }
-                else if (typeof ($scope.CountryId) == "undefined" || $scope.CountryId == "0") {
+                else if (typeof ($scope.CountryId1) == "undefined" || $scope.CountryId1 == "0") {
                     //alert("Please select Country under Address Info");
                     toastr.warning("Please select Country under Address Info", "warning");
                     $("#chatLoaderPV").hide();
                     $scope.currentTab = 3;
                     return false;
                 }
-                else if (typeof ($scope.StateId) == "undefined" || $scope.StateId == "0") {
+                else if (typeof ($scope.StateId1) == "undefined" || $scope.StateId1 == "0") {
                     //alert("Please select State under Address Info");
                     toastr.warning("Please select State under Address Info", "warning");
                     $("#chatLoaderPV").hide();
                     $scope.currentTab = 3;
                     return false;
                 }
-                else if (typeof ($scope.CityId) == "undefined" || $scope.CityId == "0") {
+                else if (typeof ($scope.CityId1) == "undefined" || $scope.CityId1 == "0") {
                     //alert("Please select City under Address Info");
                     toastr.warning("Please select City under Address Info", "warning");
                     $("#chatLoaderPV").hide();
@@ -3978,9 +4250,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             else if ($scope.MenuTypeId == 3)
                 $scope.ConfigCode = "PATIENT_MIN_AGE";
 
-            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
-                if (data[0] != undefined) {
-                    $scope.JAge = parseInt(data[0].ConfigValue);
+            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).then(function (response) {
+                if (response.data[0] != undefined) {
+                    $scope.JAge = parseInt(response.data[0].ConfigValue);
                 }
                 deferred.resolve($scope.JAge);
             });
@@ -4026,16 +4298,16 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.EditPatientChronicCondition = 0;
             $scope.EditPatientChronic = function () {
                 $scope.EditPatientChronicCondition = 1;
-                $http.get(baseUrl + '/api/Common/ChronicConditionList/').success(function (resp_cc_data) {
-                    $scope.ChronicConditionList = resp_cc_data;
+                $http.get(baseUrl + '/api/Common/ChronicConditionList/').then(function (resp_cc_data) {
+                    $scope.ChronicConditionList = resp_cc_data.data;
                 });
             }
             $scope.EditPatientGroupId = 0;
             $scope.GroupTypeList = [];
             $scope.EditPatientGroup = function () {
                 $("#chatLoaderPV").show();
-                $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
-                    $scope.GroupTypeList = data;
+                $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstituteId).then(function (response) {
+                    $scope.GroupTypeList = response.data;
                 });
                 $("#chatLoaderPV").hide();
                 $scope.EditPatientGroupId = 1;
@@ -4056,13 +4328,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     UserId: $scope.Id,
                     CreatedBy: $window.localStorage['UserId']
                 }
-                $http.post(baseUrl + '/api/User/PatientGroupEdit/?Login_Session_Id=' + $scope.LoginSessionId, obj1).success(function (data) {
+                $http.post(baseUrl + '/api/User/PatientGroupEdit/?Login_Session_Id=' + $scope.LoginSessionId, obj1).then(function (response) {
                     $("#chatLoaderPV").hide();
-                    if (data == 1) {
+                    if (response.data == 1) {
                         $scope.EditPatientGroupId = 0;
                         $scope.Admin_View($scope.PatientMenu);
                     }
-                    if (data == 0) {
+                    if (response.data == 0) {
                         alert("Nothing Happened")
                     }
                 });
@@ -4085,9 +4357,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     UserId: $scope.Id,
                     CreatedBy: $window.localStorage['UserId']
                 }
-                $http.post(baseUrl + '/api/User/PatientChronicEdit/?Login_Session_Id=' + $scope.LoginSessionId, obj1).success(function (data) {
+                $http.post(baseUrl + '/api/User/PatientChronicEdit/?Login_Session_Id=' + $scope.LoginSessionId, obj1).then(function (response) {
                     $("#chatLoaderPV").hide();
-                    if (data == 1) {
+                    if (response.data == 1) {
                         $scope.EditPatientChronicCondition = 0;
                         $scope.Admin_View($scope.PatientMenu);
                     }
@@ -4100,14 +4372,14 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             if (($scope.LoginType == 3 || $scope.LoginType == 2) && $scope.EditParameter == 4) {
                 $scope.DropDownListValue = 4;
             }
-            $http.get(baseUrl + 'api/User/AllergyTypeList/?Institution_Id=' + $scope.InstituteId).success(function (resp_allergy_data) {
-                $scope.AlergySubstanceList = resp_allergy_data;
+            $http.get(baseUrl + 'api/User/AllergyTypeList/?Institution_Id=' + $scope.InstituteId).then(function (resp_allergy_data) {
+                $scope.AlergySubstanceList = resp_allergy_data.data;
             })
-            $http.get(baseUrl + '/api/Common/ScheduleList/').success(function (resp_schedule_data) {
-                $scope.ScheduleList = resp_schedule_data;
+            $http.get(baseUrl + '/api/Common/ScheduleList/').then(function (resp_schedule_data) {
+                $scope.ScheduleList = resp_schedule_data.data;
             });
-            $http.get(baseUrl + '/api/Common/OptionTypeList/').success(function (resp_option_data) {
-                $scope.OptionTypeList = resp_option_data;
+            $http.get(baseUrl + '/api/Common/OptionTypeList/').then(function (resp_option_data) {
+                $scope.OptionTypeList = resp_option_data.data;
             });
             // $scope.DropDownListValues();
 
@@ -4208,9 +4480,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 //});
                 $scope.ConfigCode = "CHRONIC CODE";
                 $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (app_data) {
-                    if (app_data.length !== 0) {
-                        var ChronicDet = app_data[0].ConfigValue.split(',')
+                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).then(function (app_data) {
+                    if (app_data.data.length !== 0) {
+                        var ChronicDet = app_data.data[0].ConfigValue.split(',')
 
                         angular.forEach(ChronicDet, function (value, index) {
                             if (value != "") {
@@ -4250,36 +4522,36 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
                     // if ($window.localStorage['UserTypeId'] == 1 || PatientInstituteId == $window.localStorage['InstitutionId']) {
               
-                $http.get(baseUrl + '/api/User/GetUserDetails/Id?=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&Logged_User_Id=' + $window.localStorage['UserId']).success(function (data) {
-                    if (data.flag == 0) {
+                $http.get(baseUrl + '/api/User/GetUserDetails/Id?=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&Logged_User_Id=' + $window.localStorage['UserId']).then(function (response) {
+                    if (response.data.flag == 0) {
                         window.location.href = baseUrl + "/Home/LoginIndex";
                     } else {
-                        $scope.Id = data.Id;
-                        $scope.rowId = data.Id;
-                        $scope.InstitutionId = data.INSTITUTION_ID.toString();
+                        $scope.Id = response.data.Id;
+                        $scope.rowId = response.data.Id;
+                        $scope.InstitutionId = response.data.INSTITUTION_ID.toString();
                         $scope.InsListId1= $scope.InstitutionId;
-                        $scope.DepartmentId = data.DEPARTMENT_ID.toString();
-                        $scope.FirstName = data.FirstName;
-                        $scope.MiddleName = data.MiddleName;
-                        $scope.LastName = data.LastName;
-                        $scope.Employee_No = data.EMPLOYEMENTNO;
-                        $scope.EmailId = data.EMAILID;
-                        $scope.Biography = data.Clinician_Bio;
+                        $scope.DepartmentId = response.data.DEPARTMENT_ID.toString();
+                        $scope.FirstName = response.data.FirstName;
+                        $scope.MiddleName = response.data.MiddleName;
+                        $scope.LastName = response.data.LastName;
+                        $scope.Employee_No = response.data.EMPLOYEMENTNO;
+                        $scope.EmailId = response.data.EMAILID;
+                        $scope.Biography = response.data.Clinician_Bio;
 
-                        $scope.MobileNo = data.MOBILE_NO;
-                        var splitmobno = data.MOBILE_NO.includes('~');
+                        $scope.MobileNo = response.data.MOBILE_NO;
+                        var splitmobno = response.data.MOBILE_NO.includes('~');
                         if (splitmobno == true) {
-                            var mobilenoFields = data.MOBILE_NO.split('~');
+                            var mobilenoFields = response.data.MOBILE_NO.split('~');
                             var countrycode = mobilenoFields[0];
                             var mNumber = mobilenoFields[1];
                         } else {
                             var countrycode = "";
-                            var mNumber = data.MOBILE_NO;
+                            var mNumber = response.data.MOBILE_NO;
                         }
                         var mNumberCC = countrycode + mNumber;
 
                         if (countrycode == "") {
-                            var isccodeavail = data.MOBILE_NO;
+                            var isccodeavail = response.data.MOBILE_NO;
                         }
                         else {
                             var isccodeavail = mNumber;
@@ -4287,57 +4559,58 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.MobileNoView = typeof (mNumber) == "undefined" ? isccodeavail : mNumberCC; //mNumber //data.MOBILE_NO : mNumber;
                         $scope.MobileNo = typeof (mNumber) == "undefined" ? isccodeavail : mNumber; //mNumber //data.MOBILE_NO : mNumber;
 
-                        $scope.ViewDepartmentName = data.Department_Name;
-                        $scope.ViewInstitutionName = data.InstitutionName;
-                        $scope.Photo = data.Photo;
-                        $scope.UserLogo = data.Photo;
-                        $scope.FileName = data.FileName;
-                        $scope.PhotoFullpath = data.Photo_Fullpath;
+                        $scope.ViewDepartmentName = response.data.Department_Name;
+                        $scope.ViewInstitutionName = response.data.InstitutionName;
+                        $scope.Photo = response.data.Photo;
+                        $scope.UserLogo = response.data.Photo;
+                        $scope.FileName = response.data.FileName;
+                        $scope.PhotoFullpath = response.data.Photo_Fullpath;
+                        $scope.PhotoBlob = response.data.PhotoBlob;
+                        $scope.NationalPhotoFullpath = response.data.NationalPhotoFullpath;
+                        $scope.UIDPhotoFullpath = response.data.NationalPhotoFullpath;
+                        $scope.InsurancePhotoFullpath = response.data.InsurancePhotoFullpath;
+                        $scope.UserTypeId = response.data.UserType_Id.toString();
 
-                        $scope.NationalPhotoFullpath = data.NationalPhotoFullpath;
-                        $scope.UIDPhotoFullpath = data.NationalPhotoFullpath;
-                        $scope.InsurancePhotoFullpath = data.InsurancePhotoFullpath;
-                        $scope.UserTypeId = data.UserType_Id.toString();
-
-                        $scope.Health_License = data.HEALTH_LICENSE;
-                        $scope.File_Name = data.FILE_NAME;
-                        $scope.CertificateFileName = data.FILE_NAME;
-                        $scope.FileType = data.FILETYPE;
-                        $scope.Resume = data.FILE_NAME;
-                        $scope.resumedoc = data.FILE_NAME;
-                        $scope.File_FullPath = data.FILE_FULLPATH;
-                        $scope.Upload_FileName = data.UPLOAD_FILENAME;
-                        $scope.GenderId = data.GENDER_ID.toString();
+                        $scope.Health_License = response.data.HEALTH_LICENSE;
+                        $scope.File_Name = response.data.FILE_NAME;
+                        $scope.CertificateFileName = response.data.FILE_NAME;
+                        $scope.FileType = response.data.FILETYPE;
+                        $scope.Resume = response.data.FILE_NAME;
+                        $scope.resumedoc = response.data.FILE_NAME;
+                        $scope.File_FullPath = response.data.FILE_FULLPATH;
+                        $scope.Upload_FileName = response.data.UPLOAD_FILENAME;
+                        $scope.GenderId = response.data.GENDER_ID.toString();
+                        $scope.genid = response.data.GENDER_ID.toString();
                         // $scope.NationalityId = data.NATIONALITY_ID.toString();
                         $scope.LoadCountryList();
-                        $scope.LoadStateList(data.COUNTRY_ID);
-                        $scope.LoadCityList(data.COUNTRY_ID, data.STATE_ID);
+                        $scope.LoadStateList(response.data.COUNTRY_ID);
+                        $scope.LoadCityList(response.data.COUNTRY_ID, response.data.STATE_ID);
                          setTimeout(function () {
                             $("#NationalityId").select2("trigger", "select", {
-                                data: { id: data.NATIONALITY_ID.toString(), text: data.Nationality }
+                                data: { id: response.data.NATIONALITY_ID.toString(), text: response.data.Nationality }
                             });
                             $("#DepartmentId").select2("trigger", "select", {
-                                data: { id: data.DEPARTMENT_ID.toString(), text: data.Department_Name }
+                                data: { id: response.data.DEPARTMENT_ID.toString(), text: response.data.Department_Name }
                             });
                              $("#UserTypeId").select2("trigger", "select", {
-                                 data: { id: data.UserType_Id.toString(), text: data.UserName }
+                                 data: { id: response.data.UserType_Id.toString(), text: response.data.UserName }
                             });
                             $("#GenderId").select2("trigger", "select", {
-                                data: { id: data.GENDER_ID.toString(), text: data.GENDER_NAME }
+                                data: { id: response.data.GENDER_ID.toString(), text: response.data.GENDER_NAME }
                             });
                             $("#MaritalStatusId").select2("trigger", "select", {
-                                data: { id: data.MARITALSTATUS_ID.toString(), text: data.MaritalStatus }
+                                data: { id: response.data.MARITALSTATUS_ID.toString(), text: response.data.MaritalStatus }
                             });
                             $("#EthnicGroupId").select2("trigger", "select", {
-                                data: { id: data.ETHINICGROUP_ID.toString(), text: data.EthnicGroup }
+                                data: { id: response.data.ETHINICGROUP_ID.toString(), text: response.data.EthnicGroup }
                             });
                             $("#BloodGroupId").select2("trigger", "select", {
-                                data: { id: data.BLOODGROUP_ID.toString(), text: data.BLOODGROUP_NAME }
+                                data: { id: response.data.BLOODGROUP_ID.toString(), text: response.data.BLOODGROUP_NAME }
                             });
                             $("#EMERG_CONT_RELATIONSHIP_ID").select2("trigger", "select", {
-                                 data: { id: data.EMERG_CONT_RELATIONSHIP_ID.toString(), text: data.RelationShipName }
+                                data: { id: response.data.EMERG_CONT_RELATIONSHIP_ID.toString(), text: response.data.RelationShipName }
                             });
-                            angular.forEach(data.SelectedChronicConnditionList, function (value, index) {
+                             angular.forEach(response.data.SelectedChronicConnditionList, function (value, index) {
                                 $scope.EditSelectedChronicondition.push(value.Chronic_Id);
                                 $scope.SelectedChronicCondition = $scope.EditSelectedChronicondition;
                                 $scope.SelectedChronicConditionEdit = $scope.EditSelectedChronicondition;
@@ -4345,7 +4618,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                     data: { id: value.Chronic_Id.toString(), text: value.ChronicCondition }
                                 });
                             });
-                            angular.forEach(data.SelectedGroupList, function (value, index) {
+                             angular.forEach(response.data.SelectedGroupList, function (value, index) {
                                 $scope.EditSelectedGroup.push(value.Group_Id);
                                 $scope.SelectedGroup = $scope.EditSelectedGroup;
                                 $("#SelectedGroup").select2("trigger", "select", {
@@ -4353,34 +4626,34 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                 });
                             });
                             $("#CountryId").select2("trigger", "select", {
-                                data: { id: data.COUNTRY_ID.toString(), text: data.COUNTRY_NAME }
+                                data: { id: response.data.COUNTRY_ID.toString(), text: response.data.COUNTRY_NAME }
                             });
                             $("#StateId").select2("trigger", "select", {
-                                data: { id: data.STATE_ID.toString(), text: data.StateName }
+                                data: { id: response.data.STATE_ID.toString(), text: response.data.StateName }
                             });
                             $("#CityId").select2("trigger", "select", {
-                                data: { id: data.CITY_ID.toString(), text: data.LocationName }
+                                data: { id: response.data.CITY_ID.toString(), text: response.data.LocationName }
                             });
                          });
 
                         // $scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
-                        $scope.DOB = DateFormatEdit($filter('date')(data.DOB, "dd-MMM-yyyy"));
+                        $scope.DOB = DateFormatEdit($filter('date')(response.data.DOB, "dd-MMM-yyyy"));
 
-                        $scope.HomeAreaCode = data.HOME_AREACODE;
-                        $scope.Home_PhoneNo = data.HOME_PHONENO;
-                        $scope.MobileAreaCode = data.MOBIL_AREACODE;
-                        $scope.PostalZipCode = data.POSTEL_ZIPCODE;
-                        $scope.EMR_Avalability = data.EMR_AVAILABILITY;
-                        $scope.Address1 = data.ADDRESS1;
-                        $scope.Address2 = data.ADDRESS2;
-                        $scope.Address3 = data.ADDRESS3;
+                        $scope.HomeAreaCode = response.data.HOME_AREACODE;
+                        $scope.Home_PhoneNo = response.data.HOME_PHONENO;
+                        $scope.MobileAreaCode = response.data.MOBIL_AREACODE;
+                        $scope.PostalZipCode = response.data.POSTEL_ZIPCODE;
+                        $scope.EMR_Avalability = response.data.EMR_AVAILABILITY;
+                        $scope.Address1 = response.data.ADDRESS1;
+                        $scope.Address2 = response.data.ADDRESS2;
+                        $scope.Address3 = response.data.ADDRESS3;
                         //$scope.CountryId = data.COUNTRY_ID.toString();
                         //$scope.StateId = data.STATE_ID.toString();
                         //$scope.CityId = data.CITY_ID.toString();
 
                         $scope.CountryDuplicateId = $scope.CountryId;
                         $scope.CountryFlag = true;
-                        $scope.StateDuplicateId = $scope.StateId;
+                        $scope.StateDuplicateId =  $scope.StateId;
                         $scope.StateFlag = true;
                         $scope.LocationDuplicateId = $scope.CityId;
                         $scope.CityFlag = true;
@@ -4414,76 +4687,77 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         }
                         //$scope.MaritalStatusId = data.MARITALSTATUS_ID.toString();
                         //$scope.BloodGroupId = data.BLOODGROUP_ID.toString();
-                        $scope.PatientNo = data.PATIENTNO;
-                        $scope.Createdby_ShortName = data.Createdby_ShortName;
-                        $scope.InsuranceId = data.INSURANCEID;
-                        $scope.MNR_No = data.MNR_NO;
+                        $scope.PatientNo = response.data.PATIENTNO;
+                        $scope.Createdby_ShortName = response.data.Createdby_ShortName;
+                        $scope.InsuranceId = response.data.INSURANCEID;
+                        $scope.MNR_No = response.data.MNR_NO;
                         $scope.DropDownListValue = 3; 
-                        $scope.NationalId = data.NATIONALID.toString();
-                        $scope.UID = data.UID;
-                        $scope.EthnicGroup = data.EthnicGroup;
-                        $scope.ViewGender = data.GENDER_NAME;
-                        $scope.ViewNationality = data.Nationality;
-                        $scope.ViewUserName = data.UserName;
-                        $scope.ViewGroupName = data.GroupName;
-                        $scope.ViewCountryName = data.COUNTRY_NAME;
-                        $scope.ViewStateName = data.StateName;
-                        $scope.ViewLocationName = data.LocationName;
-                        $scope.Institution = data.Institution;
-                        $scope.LanguageKnown = data.LanguageKnown;
-                        $scope.MaritalStatus = data.MaritalStatus;
-                        $scope.ViewBloodGroup = data.BLOODGROUP_NAME;
-                        $scope.RelationShipName = data.RelationShipName;
-                        $scope.DietDescribe = data.DietDescribe;
-                        $scope.AlergySubstance = data.AlergySubstance;
-                        $scope.ChronicCondition = data.ChronicCondition;
-                        $scope.EXCERCISE_SCHEDULE = data.EXCERCISE_SCHEDULE;
-                        $scope.SMOKESUBSTANCE = data.SMOKESUBSTANCE;
-                        $scope.ALCOHALSUBSTANCE = data.ALCOHALSUBSTANCE;
-                        $scope.CAFFEINATED_BEVERAGES = data.CAFFEINATED_BEVERAGES;
-                        $scope.DIETDESCRIBE_ID = data.DIETDESCRIBE_ID.toString();
-                        $scope.EXCERCISE_SCHEDULEID = data.EXCERCISE_SCHEDULEID.toString();
-                        $scope.ALERGYSUBSTANCE_ID = data.ALERGYSUBSTANCE_ID.toString();
-                        $scope.SMOKESUBSTANCE_ID = data.SMOKESUBSTANCE_ID.toString();
-                        $scope.ALCOHALSUBSTANCE_ID = data.ALCOHALSUBSTANCE_ID.toString();
-                        $scope.CAFFEINATED_BEVERAGESID = data.CAFFEINATED_BEVERAGESID.toString();
-                        $scope.EMERG_CONT_RELATIONSHIP_ID = data.EMERG_CONT_RELATIONSHIP_ID.toString();
-                        $scope.CURRENTLY_TAKEMEDICINE = data.CURRENTLY_TAKEMEDICINE;
-                        $scope.PAST_MEDICALHISTORY = data.PAST_MEDICALHISTORY;
-                        $scope.FAMILYHEALTH_PROBLEMHISTORY = data.FAMILYHEALTH_PROBLEMHISTORY;
-                        $scope.VACCINATIONS = data.VACCINATIONS;
-                        $scope.EXCERCISE_TEXT = data.EXCERCISE_TEXT;
-                        $scope.ALERGYSUBSTANCE_TEXT = data.ALERGYSUBSTANCE_TEXT;
-                        $scope.SMOKESUBSTANCE_TEXT = data.SMOKESUBSTANCE_TEXT;
-                        $scope.ALCOHALSUBSTANCE_TEXT = data.ALCOHALSUBSTANCE_TEXT;
-                        $scope.CAFFEINATEDBEVERAGES_TEXT = data.CAFFEINATEDBEVERAGES_TEXT;
-                        $scope.EMERG_CONT_FIRSTNAME = data.EMERG_CONT_FIRSTNAME;
-                        $scope.EMERG_CONT_MIDDLENAME = data.EMERG_CONT_MIDDLENAME;
-                        $scope.EMERG_CONT_LASTNAME = data.EMERG_CONT_LASTNAME;
-                        $scope.Emergency_MobileNo = data.Emergency_MobileNo;
-                        $scope.Google_EmailId = data.GOOGLE_EMAILID;
-                        $scope.FB_EmailId = data.FB_EMAILID;
-                        $scope.appleUserID = data.appleUserID;
-                        $scope.Patient_Type = data.Patient_Type;
-                        $scope.PATIENT_ID = data.PatientId;
-                        $scope.Diabetic = data.DIABETIC.toString();
-                        $scope.HyperTension = data.HYPERTENSION.toString();
-                        $scope.Cholestrol = data.CHOLESTEROL.toString();
+                        $scope.NationalId = response.data.NATIONALID.toString();
+                        $scope.UID = response.data.UID;
+                        $scope.EthnicGroup = response.data.EthnicGroup;
+                        $scope.ViewGender = response.data.GENDER_NAME;
+                        $scope.ViewNationality = response.data.Nationality;
+                        $scope.ViewUserName = response.data.UserName;
+                        $scope.ViewGroupName = response.data.GroupName;
+                        $scope.ViewCountryName = response.data.COUNTRY_NAME;
+                        $scope.ViewStateName = response.data.StateName;
+                        $scope.ViewLocationName = response.data.LocationName;
+                        $scope.Institution = response.data.Institution;
+                        $scope.LanguageKnown = response.data.LanguageKnown;
+                        $scope.MaritalStatus = response.data.MaritalStatus;
+                        $scope.ViewBloodGroup = response.data.BLOODGROUP_NAME;
+                        $scope.RelationShipName = response.data.RelationShipName;
+                        $scope.DietDescribe = response.data.DietDescribe;
+                        $scope.AlergySubstance = response.data.AlergySubstance;
+                        $scope.ChronicCondition = response.data.ChronicCondition;
+                        $scope.EXCERCISE_SCHEDULE = response.data.EXCERCISE_SCHEDULE;
+                        $scope.SMOKESUBSTANCE = response.data.SMOKESUBSTANCE;
+                        $scope.ALCOHALSUBSTANCE = response.data.ALCOHALSUBSTANCE;
+                        $scope.CAFFEINATED_BEVERAGES = response.data.CAFFEINATED_BEVERAGES;
+                        $scope.DIETDESCRIBE_ID = response.data.DIETDESCRIBE_ID.toString();
+                        $scope.EXCERCISE_SCHEDULEID = response.data.EXCERCISE_SCHEDULEID.toString();
+                        $scope.ALERGYSUBSTANCE_ID = response.data.ALERGYSUBSTANCE_ID.toString();
+                        $scope.SMOKESUBSTANCE_ID = response.data.SMOKESUBSTANCE_ID.toString();
+                        $scope.ALCOHALSUBSTANCE_ID = response.data.ALCOHALSUBSTANCE_ID.toString();
+                        $scope.CAFFEINATED_BEVERAGESID = response.data.CAFFEINATED_BEVERAGESID.toString();
+                        $scope.EMERG_CONT_RELATIONSHIP_ID = response.data.EMERG_CONT_RELATIONSHIP_ID.toString();
+                        $scope.CURRENTLY_TAKEMEDICINE = response.data.CURRENTLY_TAKEMEDICINE;
+                        $scope.PAST_MEDICALHISTORY = response.data.PAST_MEDICALHISTORY;
+                        $scope.FAMILYHEALTH_PROBLEMHISTORY = response.data.FAMILYHEALTH_PROBLEMHISTORY;
+                        $scope.VACCINATIONS = response.data.VACCINATIONS;
+                        $scope.EXCERCISE_TEXT = response.data.EXCERCISE_TEXT;
+                        $scope.ALERGYSUBSTANCE_TEXT = response.data.ALERGYSUBSTANCE_TEXT;
+                        $scope.SMOKESUBSTANCE_TEXT = response.data.SMOKESUBSTANCE_TEXT;
+                        $scope.ALCOHALSUBSTANCE_TEXT = response.data.ALCOHALSUBSTANCE_TEXT;
+                        $scope.CAFFEINATEDBEVERAGES_TEXT = response.data.CAFFEINATEDBEVERAGES_TEXT;
+                        $scope.EMERG_CONT_FIRSTNAME = response.data.EMERG_CONT_FIRSTNAME;
+                        $scope.EMERG_CONT_MIDDLENAME = response.data.EMERG_CONT_MIDDLENAME;
+                        $scope.EMERG_CONT_LASTNAME = response.data.EMERG_CONT_LASTNAME;
+                        $scope.Emergency_MobileNo = response.data.Emergency_MobileNo;
+                        $scope.Google_EmailId = response.data.GOOGLE_EMAILID;
+                        $scope.FB_EmailId = response.data.FB_EMAILID;
+                        $scope.appleUserID = response.data.appleUserID;
+                       
+                        $scope.PATIENT_ID = response.data.PatientId;
+                        $scope.Diabetic = response.data.DIABETIC.toString();
+                        $scope.HyperTension = response.data.HYPERTENSION.toString();
+                        $scope.Cholestrol = response.data.CHOLESTEROL.toString();
 
-                        $scope.ViewDiabetic = data.Diabetic_Option;
-                        $scope.ViewCholestrol = data.Cholesterol_Option;
-                        $scope.ViewHyperTension = data.HyperTension_Option;
+                        $scope.ViewDiabetic = response.data.Diabetic_Option;
+                        $scope.ViewCholestrol = response.data.Cholesterol_Option;
+                        $scope.ViewHyperTension = response.data.HyperTension_Option;
 
-                        $scope.AddMedicines = data.AddMedicines;
-                        $scope.AddMedicalHistory = data.AddMedicalHistory;
-                        $scope.AddHealthProblem = data.AddHealthProblem;
-                        $scope.ApprovalFlag = data.Approval_flag;
-                        $scope.PayorName = data.PayorName;
-                        $scope.PlanName = data.PlanName;
-                        $scope.Member_ID = data.Memberid;
-                        $scope.Policy_Number = data.PolicyNumber;
-                        $scope.Reference_ID = data.RefernceId;
-                        $scope.ExpiryDate = DateFormatEdit($filter('date')(data.ExpiryDate, "dd-MMM-yyyy"));
+                        $scope.AddMedicines = response.data.AddMedicines;
+                        $scope.AddMedicalHistory = response.data.AddMedicalHistory;
+                        $scope.AddHealthProblem = response.data.AddHealthProblem;
+                        $scope.ApprovalFlag = response.data.Approval_flag;
+                        $scope.PayorName = response.data.PayorName;
+                        $scope.SelectedPayor = response.data.PayorName; 
+                        $scope.PlanName = response.data.PlanName;
+                        $scope.Member_ID = response.data.Memberid;
+                        $scope.Policy_Number = response.data.PolicyNumber;
+                        $scope.Reference_ID = response.data.RefernceId;
+                        $scope.ExpiryDate = DateFormatEdit($filter('date')(response.data.ExpiryDate, "dd-MMM-yyyy"));
                         $scope.ConfigCode = "PATIENTPAGE_COUNT";
                         $scope.ISact = 1;
                         $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
@@ -4491,23 +4765,22 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         methodcnt = methodcnt - 1;
                         if (methodcnt == 0)
                             $scope.uploadview = true;
-                        if (data.PhotoBlob != null) {
-                            $scope.uploadme = 'data:image/png;base64,' + data.PhotoBlob;
-
+                        if (response.data.PhotoBlob != null) {
+                            $scope.uploadme = 'data:image/png;base64,' + response.data.PhotoBlob;1;
                         }
                         else {
-                            $scope.uploadme = null;
+                            $scope.uploadme = nul0;
                         }
 
                         if ($scope.LoginType == 2) {
-                            if (data.CertificateBlob != null) {
-                                $scope.Editresumedoc = 'data:image/png;base64,' + data.CertificateBlob;
+                            if (response.data.CertificateBlob != null) {
+                                $scope.Editresumedoc = 'data:image/png;base64,' + response.data.CertificateBlob;
                             }
                             else {
                                 $scope.Editresumedoc = null;
                             }
                         }
-                        angular.forEach(data.ProfileDocuments, function (value, index) {
+                        angular.forEach(response.data.ProfileDocuments, function (value, index) {
                             if (value.PhotoBlob != null && value.Type == "Emirates_Id") {
                                 $scope.ProfileUpload.push('data:image/png;base64,'+ value.PhotoBlob);
                                 $scope.NationalUpload.push(value.NATIONAL_PHOTO_FILENAME);
@@ -4523,9 +4796,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         methodcnt1 = methodcnt1 - 1;
                         if (methodcnt1 == 0)
                             $scope.Nationaluploadview = true;
-                        if (data.NationalPhotoBlob != null) {
-                            if (data.Type == "Nationality_Id") {
-                                $scope.uploadme1 = 'data:image/png;base64,' + data.NationalPhotoBlob;
+                        if (response.data.NationalPhotoBlob != null) {
+                            if (response.data.Type == "Nationality_Id") {
+                                $scope.uploadme1 = 'data:image/png;base64,' + response.data.NationalPhotoBlob;
                             }
                         }
                         else {
@@ -4538,10 +4811,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         methodcnt3 = methodcnt1 - 1;
                         if (methodcnt3 == 0)
                             $scope.UIDuploadview = true;
-                        if (data.NationalPhotoBlob != null) {
+                        if (response.data.NationalPhotoBlob != null) {
 
-                            if (data.Type == "UID") {
-                                $scope.uploadme3 = 'data:image/png;base64,' + data.NationalPhotoBlob;
+                            if (response.data.Type == "UID") {
+                                $scope.uploadme3 = 'data:image/png;base64,' + response.data.NationalPhotoBlob;
                             }
 
                         }
@@ -4554,8 +4827,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         methodcnt2 = methodcnt2 - 1;
                         if (methodcnt2 == 0)
                             $scope.Insuranceuploadview = true;
-                        if (data.InsurancePhotoBlob != null) {
-                            $scope.uploadme2 = 'data:image/png;base64,' + data.InsurancePhotoBlob;
+                        if (response.data.InsurancePhotoBlob != null) {
+                            $scope.uploadme2 = 'data:image/png;base64,' + response.data.InsurancePhotoBlob;
                         }
                         else {
                             $scope.uploadme2 = '../../Images/National_Male.png';//null;
@@ -4563,27 +4836,27 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $scope.INSUploadme = uploadmee2;
                         }
                         
-                        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-                            if (data1.length != 0) {
-                                $scope.page_size = data1[0].ConfigValue;
+                        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).then(function (data1) {
+                            if (data1.data.length != 0) {
+                                $scope.page_size = data1.data[0].ConfigValue;
                             }
                             //$scope.page_size = data1[0].ConfigValue;
                             $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
                             $scope.PageEnd = $scope.current_page * $scope.page_size;
                             $http.get(baseUrl + '/api/PayorMaster/PayorList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.SelectedInstitutionId + '&StartRowNumber=' + $scope.PageStart +
-                                '&EndRowNumber=' + $scope.PageEnd).success(function (data1) {
-                                    $scope.PayorMasterList = data1;
+                                '&EndRowNumber=' + $scope.PageEnd).then(function (data1) {
+                                    $scope.PayorMasterList = data1.data;
                                     //$scope.SelectedPayor = "";
-                                    if (data.PayorId != null && data.PayorId != "") {
-                                        $scope.EditPayorId = data.PayorId;
+                                    if (response.data.PayorId != null && response.data.PayorId != "") {
+                                        $scope.EditPayorId = response.data.PayorId;
                                         //$scope.SelectedPayor.push($scope.EditPayorId);
-                                        $http.get(baseUrl + '/api/PlanMaster/PayorBasedPlan/?Id=' + data.PayorId).success(function (resp_data) {
-                                            $scope.PayorBasedPlanList = resp_data;
-                                            if (data.length != 0 && data.length != undefined) {
+                                        $http.get(baseUrl + '/api/PlanMaster/PayorBasedPlan/?Id=' + response.data.PayorId).then(function (resp_data) {
+                                            $scope.PayorBasedPlanList = resp_data.data;
+                                            if (response.data.length != 0 && response.data.length != undefined) {
                                                 //$scope.SelectedPlan = "";
                                                 $scope.EditPlanId = "";
-                                                $scope.EditPlanId = resp_data[0].Id.toString();
-                                                $scope.PlanName = resp_data[0].PlanName;
+                                                $scope.EditPlanId = resp_data.data[0].Id.toString();
+                                                $scope.PlanName = resp_data.data[0].PlanName;
                                                 //$scope.SelectedPlan.push($scope.EditPlanId);
                                                 // setTimeout(function () {
                                                     $scope.SelectedPayor = $scope.EditPayorId;
@@ -4628,15 +4901,15 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                 $scope.MedicalHistoryflag = 0;
                             }
                         }
-                        angular.forEach(data.SelectedGroupList, function (value, index) {
+                        angular.forEach(response.data.SelectedGroupList, function (value, index) {
                             $scope.EditSelectedGroup.push(value.Group_Id);
                             $scope.SelectedGroup = $scope.EditSelectedGroup;
                         });
-                        angular.forEach(data.SelectedInstitutionList, function (value, index) {
+                        angular.forEach(response.data.SelectedInstitutionList, function (value, index) {
                             $scope.EditSelectedInstitution.push(value.Institution_Id);
                             $scope.SelectedInstitution = $scope.EditSelectedInstitution;
                         });
-                        angular.forEach(data.SelectedLanguageList, function (value, index) {
+                        angular.forEach(response.data.SelectedLanguageList, function (value, index) {
                             $scope.EditSelectedLanguage.push(value.Language_Id);
                             $scope.SelectedLanguage = $scope.EditSelectedLanguage;
                         });
@@ -4652,6 +4925,23 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         //$scope.inputPhoneNo1 = inputPhoneNo;
                         document.getElementById("txthdCountryCode").value = countrycode;
                         document.getElementById('txthdFullNumber').value = mNumberCC;
+                        $scope.Patient_Type = response.data.Patient_Type;
+                        setTimeout(() => { angular.element($('#Patient_Type' + $scope.Patient_Type)).prop('checked', true); }, 500);
+                        setTimeout(() => {
+                            $("#CountryId").select2("trigger", "select", {
+                                data: { id: response.data.COUNTRY_ID.toString(), text: response.data.COUNTRY_NAME }
+                            });
+                        }, 500);
+                        setTimeout(() => {
+                            $("#StateId").select2("trigger", "select", {
+                                data: { id: response.data.STATE_ID.toString(), text: response.data.StateName }
+                            });
+                        }, 500);
+                        setTimeout(() => {
+                            $("#CityId").select2("trigger", "select", {
+                                data: { id: response.data.CITY_ID.toString(), text: response.data.LocationName }
+                            });
+                        }, 700);
                     }
                 });
                     ////}
@@ -4672,14 +4962,14 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
         $scope.CertificateView = function (Id, filetype) {
             if ($scope.editcertificate == true) {
-                $http.get(baseUrl + '/api/User/UserDetails_GetCertificate?Id=' + Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&FILETYPE=' + $scope.FileType,).success(function (data) {
+                $http.get(baseUrl + '/api/User/UserDetails_GetCertificate?Id=' + Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&FILETYPE=' + $scope.FileType,).then(function (response) {
                     //var mtype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
                     //\var url = 'data:' + mtype + ';base64,' + data.DocumentBlobData.toString();
                     /*window.open(url);*/
-                    console.log("data: " + data.FileType.toString() + "; base64, " + data.CertificateBlob.toString() + "#toolbar = 0 & navpanes=0 & scrollbar=0")
+                    console.log("response.data: " + response.data.FileType.toString() + "; base64, " + response.data.CertificateBlob.toString() + "#toolbar = 0 & navpanes=0 & scrollbar=0")
                     let pdfWindow = window.open("", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=500,width=500,height=400");
                     pdfWindow.document.write("<html><head><title>Test</title><style>body{margin: 0px;}iframe{border-width: 0px;}</style></head>");
-                    pdfWindow.document.write("<body><embed width='100%' height='100%' src='data:" + data.FileType.toString() + ";base64, " + data.CertificateBlob.toString() + "#toolbar=0&navpanes=0&scrollbar=0'></embed></body></html>");
+                    pdfWindow.document.write("<body><embed width='100%' height='100%' src='data:" + response.data.FileType.toString() + ";base64, " + response.data.CertificateBlob.toString() + "#toolbar=0&navpanes=0&scrollbar=0'></embed></body></html>");
                 });
             } else {
 
@@ -4730,10 +5020,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    $http.get(baseUrl + '/api/User/UserDetails_InActive/?Id=' + $scope.Id).success(function (data) {
-                        if (data.Status == "True") {
+                    $http.get(baseUrl + '/api/User/UserDetails_InActive/?Id=' + $scope.Id).then(function (response) {
+                        if (response.data.Status == "True") {
                             //alert(data.Message);
-                            toastr.success(data.Message, "success");
+                            toastr.success(response.data.Message, "success");
                             if ($scope.MenuTypeId == 1)
                                 $scope.User_Admin_List($scope.MenuTypeId);
                             else if ($scope.MenuTypeId == 2)
@@ -4743,10 +5033,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         }
                         else {
                             //alert(data.Message);
-                            toastr.info(data.Message, "info");
+                            toastr.info(response.data.Message, "info");
                         }
-                    }).error(function (data) {
-                        $scope.error = "An error has occurred while deleting User Details" + data;
+                    }, function errorCallback(response) {
+                        $scope.error = "An error has occurred while deleting User Details" + response.data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
@@ -4789,8 +5079,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    $http.get(baseUrl + '/api/User/UserDetails_Active/?Id=' + $scope.Id).success(function (data) {
-                        if (data.Status == "True") {
+                    $http.get(baseUrl + '/api/User/UserDetails_Active/?Id=' + $scope.Id).then(function (response) {
+                        if (response.data.Status == "True") {
                             //alert("User Details has been activated Successfully");
                             toastr.success("User Details has been activated Successfully", "success");
                             if ($scope.MenuTypeId == 1)
@@ -4802,10 +5092,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         }
                         else {
                             //alert(data.Message);
-                            toastr.info(data.Message, "info");
+                            toastr.info(response.data.Message, "info");
                         }
-                    }).error(function (data) {
-                        $scope.error = "An error has occurred while deleting User Details" + data;
+                    }, function errorCallback(response) {
+                        $scope.error = "An error has occurred while deleting User Details" + response.data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
@@ -5083,35 +5373,35 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     countrycode: $scope.countrycode
                 }
                 $('#Elibtnsave1').attr("disabled", true);
-                $http.post(baseUrl + '/api/EligibilityCheck/AddEligibilityEequest/', obj).success(function (data) {
+                $http.post(baseUrl + '/api/EligibilityCheck/AddEligibilityEequest/', obj).then(function (response) {
                     // $("#chatLoaderPV").hide();
-                    if (data != null) {
-                        if (data.status == -2 || data.status == 1) {
+                    if (response.data != null) {
+                        if (response.data.status == -2 || response.data.status == 1) {
                             var elid = 0;
-                            if (data.status == -2) {
+                            if (response.data.status == -2) {
                                 $("#chatLoaderPV").hide();
                                 $('#Elibtnsave1').attr("disabled", false);
-                                elid = data.errors[0].split('/')[data.errors[0].split('/').length - 1];
+                                elid = response.data.errors[0].split('/')[response.data.errors[0].split('/').length - 1];
                                 toastr.warning("particular patient already requested...", "warning");
-                            } else if (data.status == 1) {
-                                elid = data.data.eligibilityId;
+                            } else if (response.data.status == 1) {
+                                elid = response.data.data.eligibilityId;
                                 $scope.eligibility_Id = elid;
                                 $scope.Clinician = $scope.Clinicianlist;
                             }
 
-                            $http.get(baseUrl + '/api/PayBy/EligibilityRequestDetail?eligibilityID=' + elid + '&facilityLicense=MF2007').success(function (response_data) {
-                                if (response_data != null) {
-                                    if (response_data.data != null) {
-                                        console.log(response_data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerId);
-                                        $scope.emiratesID = response_data.data.eligibilityCheck.emiratesId;
-                                        $scope.createby = response_data.data.eligibilityCheck.payer.payerName;
-                                        $scope.orderon = response_data.data.eligibilityCheck.eligibilityCheckAnswer.authorizationEndDate;
-                                        $scope.eligibilityDate = response_data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].startDate;
-                                        $scope.cardno = response_data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].cardNumber;
-                                        $scope.package = response_data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].packageName;
-                                        $scope.clinician = response_data.data.eligibilityCheck.clinician.fullName;
-                                        $scope.speciality = response_data.data.eligibilityCheck.clinician.specialty;
-                                        $scope.serviceCategory = response_data.data.eligibilityCheck.serviceCategory.description;
+                            $http.get(baseUrl + '/api/PayBy/EligibilityRequestDetail?eligibilityID=' + elid + '&facilityLicense=MF2007').then(function (response_data) {
+                                if (response_data.data != null) {
+                                    if (response_data.data.data != null) {
+                                        console.log(response_data.data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerId);
+                                        $scope.emiratesID = response_data.data.data.eligibilityCheck.emiratesId;
+                                        $scope.createby = response_data.data.data.eligibilityCheck.payer.payerName;
+                                        $scope.orderon = response_data.data.data.eligibilityCheck.eligibilityCheckAnswer.authorizationEndDate;
+                                        $scope.eligibilityDate = response_data.data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].startDate;
+                                        $scope.cardno = response_data.data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].cardNumber;
+                                        $scope.package = response_data.data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].packageName;
+                                        $scope.clinician = response_data.data.data.eligibilityCheck.clinician.fullName;
+                                        $scope.speciality = response_data.data.data.eligibilityCheck.clinician.specialty;
+                                        $scope.serviceCategory = response_data.data.data.eligibilityCheck.serviceCategory.description;
                                     }
                                     $scope.eligibilityId = $scope.eligibility_Id
                                     var elid = $scope.eligibilityId
@@ -5126,15 +5416,15 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                         "eligibilityID": elid,
                                         "facilityLicense": 'MF2007'
                                     };
-                                    eligibility_response = response_data.data;
+                                    eligibility_response = response_data.data.data;
                                     $scope.user_id = $scope.Id;
                                     $scope.save_user_eligibility_logs($scope.eligibilityId, eligibility_request, eligibility_response, $scope.user_id);
                                 }
                             });
-                        } else if (data.status == -3 || data.status == -1) {
+                        } else if (response.data.status == -3 || response.data.status == -1) {
                             $('#Elibtnsave1').attr("disabled", false);
                             $("#chatLoaderPV").hide();
-                            toastr.warning(data.errors[0], "warning");
+                            toastr.warning(response.data.errors[0], "warning");
                         }
                     }
                     angular.element('#EligibilityModel').modal('hide');
@@ -5148,10 +5438,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 "eligibility_response": JSON.stringify(eligibility_response),
                 "eligibility_request": JSON.stringify(eligibility_request)
             }
-            $http.post(baseUrl + '/api/User/Save_User_Eligibility/?eligibility_id=' + eligibilityId + '&patient_id=' + user_id, Obj).success(function (data) {
+            $http.post(baseUrl + '/api/User/Save_User_Eligibility/?eligibility_id=' + eligibilityId + '&patient_id=' + user_id, Obj).then(function (response) {
                 $("#chatLoaderPV").hide();
                 $('#Elibtnsave1').attr("disabled", false);
-                if (data.data == 1) {
+                if (response.data.data == 1) {
                     console.log('saved logs');
                 }
             });
@@ -5169,9 +5459,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.ConfigCode = "PROFILE_PICTURE";
         $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
         $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).
-            success(function (data) {
-                if (data[0] != undefined) {
-                    $scope.ProfileImageSize = parseInt(data[0].ConfigValue);
+            then(function (response) {
+                if (response.data[0] != undefined) {
+                    $scope.ProfileImageSize = parseInt(response.data[0].ConfigValue);
                 }
             });
         $scope.NationalUploadme = [];
@@ -5180,6 +5470,21 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.UID_Upload = [];
         $scope.UIDLogo = [];
         $scope.User_InsertUpdate = function () {
+
+            $scope.GenderId1 = $("#GenderId").val();
+            $scope.UserTypeId = $('#UserTypeId').val();
+            $scope.DepartmentId1 = $("#DepartmentId").val();
+            $scope.MaritalStatusId1 = $("#MaritalStatusId").val();
+            $scope.BloodGroupId1 = $("#BloodGroupId").val();
+            $scope.EthnicGroupId1 = $("#EthnicGroupId").val();
+            $scope.SelectedChronicCondition1 = $("#SelectedChronicCondition").val();
+            $scope.CountryId1 = $("#CountryId").val();
+            $scope.StateId1 = $("#StateId").val();
+            $scope.CityId1 = $("#CityId").val();
+            $scope.SelectedGroup1 = $("#SelectedGroup").val();
+            $scope.EMERG_CONT_RELATIONSHIP_ID1 = $("#EMERG_CONT_RELATIONSHIP_ID").val();
+            $scope.NationalityId1 = $("#NationalityId").val();
+                        
             // Mobile Number Validation...
             if ($scope.InputPhoneNo1 == "" || $scope.InputPhoneNo1 == undefined || $scope.InputPhoneNo1 == null) {
             } else {
@@ -5197,7 +5502,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     return;
                 } else {
                     document.getElementById("txthdFullNumber").value = document.getElementById("txthdCountryCode").value + "~" + document.getElementById("txtMobile").value;
-                }                  
+                }
             }
             document.getElementById("txthdFullNumber").value = document.getElementById("txthdCountryCode").value + "~" + document.getElementById("txtMobile").value;
             $scope.MobileNo_CC = document.getElementById("txthdFullNumber").value;
@@ -5311,9 +5616,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             FILE_FULLPATH: "",
                             UPLOAD_FILENAME: $scope.Resume,
 
-                            GENDER_ID: $scope.GenderId == 0 ? null : $scope.GenderId,
-                            NATIONALITY_ID: $scope.NationalityId == 0 ? null : $scope.NationalityId,
-                            ETHINICGROUP_ID: $scope.EthnicGroupId == 0 ? null : $scope.EthnicGroupId,
+                            GENDER_ID: $scope.GenderId1 == 0 ? null : $scope.GenderId1,
+                            NATIONALITY_ID: $scope.NationalityId1 == 0 ? null : $scope.NationalityId1,
+                            ETHINICGROUP_ID: $scope.EthnicGroupId1 == 0 ? null : $scope.EthnicGroupId1,
                             DOB: "",
                             HOME_AREACODE: $scope.HomeAreaCode,
                             HOME_PHONENO: $scope.Home_PhoneNo,
@@ -5323,11 +5628,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             ADDRESS1: $scope.Address1,
                             ADDRESS2: $scope.Address2,
                             ADDRESS3: $scope.Address3,
-                            COUNTRY_ID: $scope.CountryId == 0 ? null : $scope.CountryId,
-                            STATE_ID: $scope.StateId == 0 ? null : $scope.StateId,
-                            CITY_ID: $scope.CityId == 0 ? null : $scope.CityId,
-                            MARITALSTATUS_ID: $scope.MaritalStatusId == 0 ? null : $scope.MaritalStatusId,
-                            BLOODGROUP_ID: $scope.BloodGroupId == 0 ? null : $scope.BloodGroupId,
+                            COUNTRY_ID: $scope.CountryId1 == 0 ? null : $scope.CountryId1,
+                            STATE_ID: $scope.StateId1 == 0 ? null : $scope.StateId1,
+                            CITY_ID: $scope.CityId1 == 0 ? null : $scope.CityId1,
+                            MARITALSTATUS_ID: $scope.MaritalStatusId1 == 0 ? null : $scope.MaritalStatusId1,
+                            BLOODGROUP_ID: $scope.BloodGroupId1 == 0 ? null : $scope.BloodGroupId1,
                             PATIENTNO: $scope.PatientNo,
                             INSURANCEID: $scope.InsuranceId,
                             //MNR_NO: $scope.MNR_No,
@@ -5457,7 +5762,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             MiddleName: $scope.MiddleName,
                             LastName: $scope.LastName,
                             EMPLOYEMENTNO: $scope.Employee_No,
-                            DEPARTMENT_ID: $scope.DepartmentId == 0 ? null : $scope.DepartmentId,
+                            DEPARTMENT_ID: $scope.DepartmentId1 == 0 ? null : $scope.DepartmentId1,
                             EMAILID: $scope.EmailId,
                             MOBILE_NO: $scope.MobileNo_CC,
                             FileName: $scope.FileName,
@@ -5477,9 +5782,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             FILETYPE: $scope.FileType,
                             FILE_FULLPATH: "",
                             UPLOAD_FILENAME: $scope.Resume,
-                            GENDER_ID: $scope.GenderId == 0 ? null : $scope.GenderId,
-                            NATIONALITY_ID: $scope.NationalityId == 0 ? null : $scope.NationalityId,
-                            ETHINICGROUP_ID: $scope.EthnicGroupId == 0 ? null : $scope.EthnicGroupId,
+                            GENDER_ID: $scope.GenderId1 == 0 ? null : $scope.GenderId1,
+                            NATIONALITY_ID: $scope.NationalityId1 == 0 ? null : $scope.NationalityId1,
+                            ETHINICGROUP_ID: $scope.EthnicGroupId1 == 0 ? null : $scope.EthnicGroupId1,
                             DOB: moment($scope.DOB).format('DD-MMM-YYYY'),
                             HOME_AREACODE: $scope.HomeAreaCode,
                             HOME_PHONENO: $scope.Home_PhoneNo,
@@ -5489,11 +5794,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             ADDRESS1: $scope.Address1,
                             ADDRESS2: $scope.Address2,
                             ADDRESS3: $scope.Address3,
-                            COUNTRY_ID: $scope.CountryId == 0 ? null : $scope.CountryId,
-                            STATE_ID: $scope.StateId == 0 ? null : $scope.StateId,
-                            CITY_ID: $scope.CityId == 0 ? null : $scope.CityId,
-                            MARITALSTATUS_ID: $scope.MaritalStatusId == 0 ? null : $scope.MaritalStatusId,
-                            BLOODGROUP_ID: $scope.BloodGroupId == 0 ? null : $scope.BloodGroupId,
+                            COUNTRY_ID: $scope.CountryId1 == 0 ? null : $scope.CountryId1,
+                            STATE_ID: $scope.StateId1 == 0 ? null : $scope.StateId1,
+                            CITY_ID: $scope.CityId1 == 0 ? null : $scope.CityId1,
+                            MARITALSTATUS_ID: $scope.MaritalStatusId1 == 0 ? null : $scope.MaritalStatusId1,
+                            BLOODGROUP_ID: $scope.BloodGroupId1 == 0 ? null : $scope.BloodGroupId1,
                             PATIENTNO: $scope.PatientNo,
                             INSURANCEID: $scope.InsuranceId,
                             //MNR_NO: $scope.MNR_No,
@@ -5616,20 +5921,27 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             //LanguageList: [{ "Name": "" }]
                         }
                     }
-                    $http.post(baseUrl + '/api/User/User_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
+                    $http.post(baseUrl + '/api/User/User_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj,
+                    //{
+                    //    transformRequest: angular.identity,
+                    //    headers: {
+                    //        'Content-Type': 'application/json' 
+                    //    }
+                        //}
+                    ).then(function (response) {
                         /*alert(data.Message);*/
-                        if (data.ReturnFlag == 0) {
-                            toastr.info(data.Message, "info");
+                        if (response.data.ReturnFlag == 0) {
+                            toastr.info(response.data.Message, "info");
                         }
-                        else if (data.ReturnFlag == 1) {
+                        else if (response.data.ReturnFlag == 1) {
                             InstSub.setSubID(0);
                             InstSub.setInstiID(0);
-                            toastr.success(data.Message, "success");
+                            toastr.success(response.data.Message, "success");
                         }
                         $('#btnsave').attr("disabled", false);
                         $('#btnsave1').attr("disabled", false);
                         $('#btnsave2').attr("disabled", false);
-                        $scope.InstitutionCreatedID = data.UserDetails.INSTITUTION_ID;
+                        $scope.InstitutionCreatedID = response.data.UserDetails.INSTITUTION_ID;
                         /*if (data.Message == "Email already exists cannot be Duplicated") {
                             alert("Email already exists, cannot be Duplicate");
                             return false;
@@ -5640,12 +5952,12 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         else if (data.Message == "User updated successfully") {
                             alert("User updated successfully");
                         }*/
-                        var userid = data.UserDetails.Id;
+                        var userid = response.data.UserDetails.Id;
 
                         $scope.UserImageAttach(userid);
                         $scope.UserImageAttach1(userid);
                         $scope.UserImageAttach2(userid);
-                        if (data.ReturnFlag == "1") {
+                        if (response.data.ReturnFlag == "1") {
                             if ($scope.AdminDefaultConfiguration == 1) {
                                 $scope.InstitueDefaultConfiguration();
                             }
@@ -5678,6 +5990,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         }
 
                         $("#chatLoaderPV").hide();
+                    }, function errorCallback(response) {
+                        toastr.error(response.data.Message, "warning");
                     });
                 }
                 else {
@@ -5689,9 +6003,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         }
 
         $scope.InstitueDefaultConfiguration = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=1', $scope.InstitutionCreatedID).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=1', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration2();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 1");
                 toastr.error("Error In Step 1", "warning");
                 $scope.InstitueDefaultConfiguration2();
@@ -5699,9 +6013,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         };
 
         $scope.InstitueDefaultConfiguration2 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=2', $scope.InstitutionCreatedID).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=2', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration3();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 2");
                 toastr.error("Error In Step 2", "warning");
                 $scope.InstitueDefaultConfiguration3();
@@ -5709,9 +6023,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         };
 
         $scope.InstitueDefaultConfiguration3 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=3', $scope.InstitutionCreatedID).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=3', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration4();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 3");
                 toastr.error("Error In Step 3", "warning");
                 $scope.InstitueDefaultConfiguration4();
@@ -5719,9 +6033,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         };
 
         $scope.InstitueDefaultConfiguration4 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=4', $scope.InstitutionCreatedID).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=4', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration5();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 4");
                 toastr.error("Error In Step 4", "warning");
                 $scope.InstitueDefaultConfiguration5();
@@ -5729,9 +6043,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         };
 
         $scope.InstitueDefaultConfiguration5 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=5', $scope.InstitutionCreatedID).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=5', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration6();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 5");
                 toastr.error("Error In Step 5", "warning");
                 $scope.InstitueDefaultConfiguration6();
@@ -5739,9 +6053,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         };
 
         $scope.InstitueDefaultConfiguration6 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=6', $scope.InstitutionCreatedID).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=6', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration7();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 6");
                 toastr.error("Error In Step 6", "warning");
                 $scope.InstitueDefaultConfiguration7();
@@ -5749,9 +6063,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         };
 
         $scope.InstitueDefaultConfiguration7 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=7', $scope.InstitutionCreatedID).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=7', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration8();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 7");
                 toastr.error("Error In Step 7", "warning");
                 $scope.InstitueDefaultConfiguration8();
@@ -5759,9 +6073,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         };
 
         $scope.InstitueDefaultConfiguration8 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=8', $scope.InstitutionCreatedID).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=8', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration9();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 8");
                 toastr.error("Error In Step 8", "warning");
                 $scope.InstitueDefaultConfiguration9();
@@ -5769,9 +6083,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         };
 
         $scope.InstitueDefaultConfiguration9 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=9', $scope.InstitutionCreatedID).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=9', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration10();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 9");
                 toastr.error("Error In Step 9", "warning");
                 $scope.InstitueDefaultConfiguration10();
@@ -5779,9 +6093,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         };
 
         $scope.InstitueDefaultConfiguration10 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=10', $scope.InstitutionCreatedID).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=10', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration11();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 10");
                 toastr.error("Error In Step 10", "warning");
                 $scope.InstitueDefaultConfiguration11();
@@ -5789,9 +6103,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         };
 
         $scope.InstitueDefaultConfiguration11 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=11', $scope.InstitutionCreatedID).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=11', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration12();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 11");
                 toastr.error("Error In Step 11", "warning");
                 $scope.InstitueDefaultConfiguration12();
@@ -5799,9 +6113,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         };
 
         $scope.InstitueDefaultConfiguration12 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=12', $scope.InstitutionCreatedID).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=12', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration13();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 12");
                 toastr.error("Error In Step 12", "warning");
                 $scope.InstitueDefaultConfiguration13();
@@ -5809,9 +6123,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         };
 
         $scope.InstitueDefaultConfiguration13 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=13', $scope.InstitutionCreatedID).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=13', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration14();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 13");
                 toastr.error("Error In Step 13", "warning");
                 $scope.InstitueDefaultConfiguration14();
@@ -5819,9 +6133,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         };
 
         $scope.InstitueDefaultConfiguration14 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=14', $scope.InstitutionCreatedID).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=14', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration15();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 14");
                 toastr.error("Error In Step 14", "warning");
                 $scope.InstitueDefaultConfiguration15();
@@ -5829,9 +6143,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         };
 
         $scope.InstitueDefaultConfiguration15 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=15', $scope.InstitutionCreatedID).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=15', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration16();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 15");
                 toastr.error("Error In Step 15", "warning");
                 $scope.InstitueDefaultConfiguration16();
@@ -5839,17 +6153,17 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         };
 
         $scope.InstitueDefaultConfiguration16 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=16', $scope.InstitutionCreatedID).success(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=16', $scope.InstitutionCreatedID).then(function (response) {
                 $scope.InstitueDefaultConfiguration17();
-            }).error(function (data) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 16");
                 toastr.error("Error In Step 16", "warning");
                 $scope.InstitueDefaultConfiguration17();
             });
         };
         $scope.InstitueDefaultConfiguration17 = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=17', $scope.InstitutionCreatedID).success(function (data) {
-            }).error(function (data) {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=17', $scope.InstitutionCreatedID).then(function (response) {
+            }, function errorCallback(response) {
                 //alert("Error In Step 17");
                 toastr.error("Error In Step 17", "warning");
             });
@@ -5900,13 +6214,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             }
                         }
                     )
-                        .success(function (response) {
+                        .then(function (response) {
                             if ($scope.FileName == "") {
                                 $scope.UserLogo = "";
                             }
                             else if (itemIndexLogo > -1) {
-                                if ($scope.FileName != "" && response[itemIndexLogo] != "") {
-                                    $scope.UserLogo = response[itemIndexLogo];
+                                if ($scope.FileName != "" && response.data[itemIndexLogo] != "") {
+                                    $scope.UserLogo = response.data[itemIndexLogo];
                                 }
                             }
                         });
@@ -5948,7 +6262,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             'Content-Type': undefined
                         }
                     }
-                ).success(function (response) {
+                ).then(function (response) {
                     $scope.Nationalityresumedoc = [];
                     $scope.NationalFileName = [];
                 })
@@ -5974,13 +6288,16 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             var fd3 = new FormData();
             var fd4 = new FormData();
 
-            if ($scope.UIDshow.length > 0) {
+            try {
                 if ($scope.UIDshow.length > 0) {
                     $scope.PhotoValue = 1;
                     for (var i = 0; i < $scope.UIDshow.length; i++) {
-                        $scope.UIDFileName = $scope.UIDshow[i]['name'];
-                        $scope.FileType = $scope.UIDshow[i]['type'];
+                        if ($scope.UIDshow[i] != null) {
+                            $scope.UIDFileName = $scope.UIDshow[i]['name'];
+                            $scope.FileType = $scope.UIDshow[i]['type'];
+                        }
                         fd3.append('file1', $scope.UIDshow[i]);
+
                     }
                     $http.post(baseUrl + '/api/User/Attach_UserDocuments/?UserId=' + userid + '&Type=UID',
                         fd3,
@@ -5990,29 +6307,224 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                 'Content-Type': undefined
                             }
                         }
-                    ).success(function (response) {
+                    ).then(function (response) {
                         $scope.UIDshow = [];
                         $scope.UIDFileName = [];
                     })
                 }
-            }
-         
 
-            if (photoview2 == false) {
-                photoview2 = true;
-                if ($scope.InsurancePhotoFullpath != undefined && $scope.InsurancePhotoFullpath != "" && $scope.InsurancePhotoFullpath != null) {
-                    InsuranceimgBlob = $scope.dataURItoBlob($scope.InsurancePhotoFullpath);
-                    InsuranceitemIndexLogo = 0;
-                    if (InsuranceitemIndexLogo != -1) {
-                        fd4.append('file', InsuranceimgBlob);
+
+                if (photoview2 == false) {
+                    photoview2 = true;
+                    if ($scope.InsurancePhotoFullpath != undefined && $scope.InsurancePhotoFullpath != "" && $scope.InsurancePhotoFullpath != null) {
+
+                        InsuranceimgBlob = $scope.dataURItoBlob($scope.InsurancePhotoFullpath);
+
+                        InsuranceitemIndexLogo = 0;
+                        if (InsuranceitemIndexLogo != -1) {
+                            fd4.append('file', InsuranceimgBlob);
+                        }
+                        /*
+                        calling the api method for read the file path 
+                        and saving the image uploaded in the local server. 
+                        */
+
+                        $http.post(baseUrl + '/api/User/AttachInsurancePhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue2 + '&CREATED_BY=' + $window.localStorage['UserId'],
+                            fd4,
+                            {
+                                transformRequest: angular.identity,
+                                headers: {
+                                    'Content-Type': undefined
+                                }
+                            }
+                        )
+                            .then(function (response) {
+                                if ($scope.InsurancePhotoFilename == "") {
+                                    $scope.InsuranceLogo = "";
+                                }
+                                else if (InsuranceitemIndexLogo > -1) {
+                                    if ($scope.InsurancePhotoFilename != "" && response.data[InsuranceitemIndexLogo] != "") {
+                                        $scope.InsuranceLogo = response.data[InsuranceitemIndexLogo];
+                                    }
+                                }
+                            });
                     }
-                    /*
-                    calling the api method for read the file path 
-                    and saving the image uploaded in the local server. 
-                    */
+                }
 
-                    $http.post(baseUrl + '/api/User/AttachInsurancePhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue2 + '&CREATED_BY=' + $window.localStorage['UserId'],
-                        fd4,
+                if ($scope.PhotoValue == 1 && photoview == false && $scope.Id == 0) {
+                    if ($scope.PhotoFullpath != undefined && $scope.PhotoFullpath != "" && $scope.PhotoFullpath != null) {
+                        if ($('#UserLogo')[0].files[0] != undefined) {
+                            FileName = $('#UserLogo')[0].files[0]['name'];
+                            imgBlob = $scope.dataURItoBlob($scope.PhotoFullpath);
+                            itemIndexLogo = 0;
+                        }
+                        if (itemIndexLogo != -1) {
+                            fd.append('file', imgBlob);
+                            /*	
+                            calling the api method for read the file path 	
+                            and saving the image uploaded in the local server. 	
+                            */
+                            $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&Certificate=' + $scope.CertificateValue + '&CREATED_BY=' + $window.localStorage['UserId'],
+                                fd,
+                                {
+                                    transformRequest: angular.identity,
+                                    headers: {
+                                        'Content-Type': undefined
+                                    }
+                                }
+                            )
+                                .then(function (response) {
+                                    if ($scope.FileName == "") {
+                                        $scope.UserLogo = "";
+                                    }
+                                    else if (itemIndexLogo > -1) {
+                                        if ($scope.FileName != "" && response.data[itemIndexLogo] != "") {
+                                            $scope.UserLogo = response.data[itemIndexLogo];
+                                        }
+                                    }
+                                });
+                        }
+                    }
+                }
+                if ($scope.PhotoValue2 == 1 && photoview2 == false && $scope.Id == 0) {
+                    if ($scope.InsurancePhotoFullpath != undefined && $scope.InsurancePhotoFullpath != "" && $scope.InsurancePhotoFullpath != null) {
+                        if ($('#InsuranceLogo')[0].files[0] != undefined) {
+                            InsurancePhotoFilename = $('#InsuranceLogo')[0].files[0]['name'];
+                            InsuranceimgBlob = $scope.dataURItoBlob($scope.InsurancePhotoFullpath);
+                            InsuranceitemIndexLogo = 0;
+                        }
+                        if (InsuranceitemIndexLogo != -1) {
+                            fd4.append('file', InsuranceimgBlob);
+
+                            /*	
+                            calling the api method for read the file path 	
+                            and saving the image uploaded in the local server. 	
+                            */
+                            $http.post(baseUrl + '/api/User/AttachInsurancePhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue2 + '&CREATED_BY=' + $window.localStorage['UserId'],
+                                fd4,
+                                {
+                                    transformRequest: angular.identity,
+                                    headers: {
+                                        'Content-Type': undefined
+                                    }
+                                }
+                            )
+                                .then(function (response) {
+                                    if ($scope.InsurancePhotoFilename == "") {
+                                        $scope.InsuranceLogo = "";
+                                    }
+                                    else if (InsuranceitemIndexLogo > -1) {
+                                        if ($scope.InsurancePhotoFilename != "" && response.data[InsuranceitemIndexLogo] != "") {
+                                            $scope.InsuranceLogo = response.data[InsuranceitemIndexLogo];
+                                        }
+                                    }
+                                });
+                        }
+                    }
+                }
+
+                if ($scope.PhotoValue == 1 && photoview == true && $scope.Id > 0) {
+                    if ($scope.PhotoFullpath != undefined && $scope.PhotoFullpath != "" && $scope.PhotoFullpath != null) {
+                        if ($('#UserLogo')[0].files[0] != undefined) {
+                            FileName = $('#UserLogo')[0].files[0]['name'];
+                            imgBlob = $scope.dataURItoBlob($scope.PhotoFullpath);
+                            itemIndexLogo = 0;
+
+                            if ($scope.MenuTypeId == 1) {
+                                document.getElementById("profileIcon").src = $scope.PhotoFullpath;
+                            }
+                        }
+                        if (itemIndexLogo != -1) {
+                            fd.append('file', imgBlob);
+
+                            /*
+                            calling the api method for read the file path 
+                            and saving the image uploaded in the local server. 
+                            */
+
+                            $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&Certificate=' + $scope.CertificateValue + '&CREATED_BY=' + $window.localStorage['UserId'],
+                                fd,
+                                {
+                                    transformRequest: angular.identity,
+                                    headers: {
+                                        'Content-Type': undefined
+                                    }
+                                }
+                            )
+                                .then(function (response) {
+                                    if ($scope.FileName == "") {
+                                        $scope.UserLogo = "";
+                                    }
+                                    else if (itemIndexLogo > -1) {
+                                        if ($scope.FileName != "" && response.data[itemIndexLogo] != "") {
+                                            $scope.UserLogo = response.data[itemIndexLogo];
+                                        }
+                                    }
+                                });
+                        }
+                    }
+                }
+
+                if ($scope.PhotoValue2 == 1 && photoview2 == true && $scope.Id > 0) {
+                    if ($scope.InsurancePhotoFullpath != undefined && $scope.InsurancePhotoFullpath != "" && $scope.InsurancePhotoFullpath != null) {
+                        if ($('#InsuranceLogo')[0].files[0] != undefined) {
+                            InsurancePhotoFilename = $('#InsuranceLogo')[0].files[0]['name'];
+                            InsuranceimgBlob = $scope.dataURItoBlob($scope.InsurancePhotoFullpath);
+                            InsuranceitemIndexLogo = 0;
+
+                            // if ($scope.MenuTypeId == 1) {
+                            // document.getElementById("profileIcon").src = $scope.PhotoFullpath;
+                            // }
+                        }
+                        if (InsuranceitemIndexLogo != -1) {
+                            fd4.append('file', InsuranceimgBlob);
+                            /*
+                            calling the api method for read the file path 
+                            and saving the image uploaded in the local server. 
+                            */
+
+                            $http.post(baseUrl + '/api/User/AttachInsurancePhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue2 + '&CREATED_BY=' + $window.localStorage['UserId'],
+                                fd4,
+                                {
+                                    transformRequest: angular.identity,
+                                    headers: {
+                                        'Content-Type': undefined
+                                    }
+                                }
+                            )
+                                .then(function (response) {
+                                    if ($scope.InsurancePhotoFilename == "") {
+                                        $scope.InsuranceLogo = "";
+                                    }
+                                    else if (InsuranceitemIndexLogo > -1) {
+                                        if ($scope.InsurancePhotoFilename != "" && response.data[InsuranceitemIndexLogo] != "") {
+                                            $scope.InsuranceLogo = response.data[InsuranceitemIndexLogo];
+                                        }
+                                    }
+                                });
+                        }
+                    }
+                }
+
+                if ($scope.CertificateValue == 1) {
+                    if ($scope.MenuTypeId == 2) {
+                        if ($('#EditDocument')[0].files[0] != undefined) {
+                            $scope.CertificateFileName = $('#EditDocument')[0].files[0]['name'];
+                            $scope.FileType = $('#EditDocument')[0].files[0]['type'];
+                            imgBlobfile = $scope.dataURItoBlob($scope.Editresumedoc);
+                            if (itemIndexLogo == -1) {
+                                itemIndexfile = 0;
+                            }
+                            else {
+                                itemIndexfile = 1;
+                            }
+                        }
+                        if (itemIndexfile != -1) {
+                            fd.append('file1', imgBlobfile);
+                        }
+                    }
+                    $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&Certificate=' + $scope.CertificateValue + '&CREATED_BY=' + $window.localStorage['UserId'],
+                        fd,
                         {
                             transformRequest: angular.identity,
                             headers: {
@@ -6020,222 +6532,29 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             }
                         }
                     )
-                        .success(function (response) {
-                            if ($scope.InsurancePhotoFilename == "") {
-                                $scope.InsuranceLogo = "";
+                        .then(function (response) {
+                            if ($scope.Resume == "") {
+                                $scope.EditDocument = "";
                             }
-                            else if (InsuranceitemIndexLogo > -1) {
-                                if ($scope.InsurancePhotoFilename != "" && response[InsuranceitemIndexLogo] != "") {
-                                    $scope.InsuranceLogo = response[InsuranceitemIndexLogo];
+                            //else if (itemIndexLogo > -1) {
+                            //    if ($scope.FileName != "" && response[itemIndexLogo] != "") {
+                            //        $scope.UserLogo = response[itemIndexLogo];
+                            //    }
+                            //}
+                            if ($scope.MenuTypeId === 2) {
+                                if ($scope.EditDocument == "") {
+                                    $scope.Resume = "";
                                 }
-                            }
-                        });
-                }
-            }
 
-            if ($scope.PhotoValue == 1 && photoview == false && $scope.Id == 0) {
-                if ($scope.PhotoFullpath != undefined && $scope.PhotoFullpath != "" && $scope.PhotoFullpath != null) {
-                    if ($('#UserLogo')[0].files[0] != undefined) {
-                        FileName = $('#UserLogo')[0].files[0]['name'];
-                        imgBlob = $scope.dataURItoBlob($scope.PhotoFullpath);
-                        itemIndexLogo = 0;
-                    }
-                    if (itemIndexLogo != -1) {
-                        fd.append('file', imgBlob);
-                        /*	
-                        calling the api method for read the file path 	
-                        and saving the image uploaded in the local server. 	
-                        */
-                        $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&Certificate=' + $scope.CertificateValue + '&CREATED_BY=' + $window.localStorage['UserId'],
-                            fd,
-                            {
-                                transformRequest: angular.identity,
-                                headers: {
-                                    'Content-Type': undefined
-                                }
-                            }
-                        )
-                            .success(function (response) {
-                                if ($scope.FileName == "") {
-                                    $scope.UserLogo = "";
-                                }
-                                else if (itemIndexLogo > -1) {
-                                    if ($scope.FileName != "" && response[itemIndexLogo] != "") {
-                                        $scope.UserLogo = response[itemIndexLogo];
+                                else if (itemIndexfile > -1) {
+                                    if ($scope.CertificateFileName != "" && response.data[itemIndexfile] != "") {
+                                        $scope.Resume = response.data[itemIndexfile];
                                     }
                                 }
-                            });
-                    }
-                }
-            }
-            if ($scope.PhotoValue2 == 1 && photoview2 == false && $scope.Id == 0) {
-                if ($scope.InsurancePhotoFullpath != undefined && $scope.InsurancePhotoFullpath != "" && $scope.InsurancePhotoFullpath != null) {
-                    if ($('#InsuranceLogo')[0].files[0] != undefined) {
-                        InsurancePhotoFilename = $('#InsuranceLogo')[0].files[0]['name'];
-                        InsuranceimgBlob = $scope.dataURItoBlob($scope.InsurancePhotoFullpath);
-                        InsuranceitemIndexLogo = 0;
-                    }
-                    if (InsuranceitemIndexLogo != -1) {
-                        fd4.append('file', InsuranceimgBlob);
-
-                        /*	
-                        calling the api method for read the file path 	
-                        and saving the image uploaded in the local server. 	
-                        */
-                        $http.post(baseUrl + '/api/User/AttachInsurancePhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue2 + '&CREATED_BY=' + $window.localStorage['UserId'],
-                            fd4,
-                            {
-                                transformRequest: angular.identity,
-                                headers: {
-                                    'Content-Type': undefined
-                                }
                             }
-                        )
-                            .success(function (response) {
-                                if ($scope.InsurancePhotoFilename == "") {
-                                    $scope.InsuranceLogo = "";
-                                }
-                                else if (InsuranceitemIndexLogo > -1) {
-                                    if ($scope.InsurancePhotoFilename != "" && response[InsuranceitemIndexLogo] != "") {
-                                        $scope.InsuranceLogo = response[InsuranceitemIndexLogo];
-                                    }
-                                }
-                            });
-                    }
+                        })
                 }
-            }
-
-            if ($scope.PhotoValue == 1 && photoview == true && $scope.Id > 0) {
-                if ($scope.PhotoFullpath != undefined && $scope.PhotoFullpath != "" && $scope.PhotoFullpath != null) {
-                    if ($('#UserLogo')[0].files[0] != undefined) {
-                        FileName = $('#UserLogo')[0].files[0]['name'];
-                        imgBlob = $scope.dataURItoBlob($scope.PhotoFullpath);
-                        itemIndexLogo = 0;
-
-                        if ($scope.MenuTypeId == 1) {
-                            document.getElementById("profileIcon").src = $scope.PhotoFullpath;
-                        }
-                    }
-                    if (itemIndexLogo != -1) {
-                        fd.append('file', imgBlob);
-
-                        /*
-                        calling the api method for read the file path 
-                        and saving the image uploaded in the local server. 
-                        */
-
-                        $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&Certificate=' + $scope.CertificateValue + '&CREATED_BY=' + $window.localStorage['UserId'],
-                            fd,
-                            {
-                                transformRequest: angular.identity,
-                                headers: {
-                                    'Content-Type': undefined
-                                }
-                            }
-                        )
-                            .success(function (response) {
-                                if ($scope.FileName == "") {
-                                    $scope.UserLogo = "";
-                                }
-                                else if (itemIndexLogo > -1) {
-                                    if ($scope.FileName != "" && response[itemIndexLogo] != "") {
-                                        $scope.UserLogo = response[itemIndexLogo];
-                                    }
-                                }
-                            });
-                    }
-                }
-            }
-
-            if ($scope.PhotoValue2 == 1 && photoview2 == true && $scope.Id > 0) {
-                if ($scope.InsurancePhotoFullpath != undefined && $scope.InsurancePhotoFullpath != "" && $scope.InsurancePhotoFullpath != null) {
-                    if ($('#InsuranceLogo')[0].files[0] != undefined) {
-                        InsurancePhotoFilename = $('#InsuranceLogo')[0].files[0]['name'];
-                        InsuranceimgBlob = $scope.dataURItoBlob($scope.InsurancePhotoFullpath);
-                        InsuranceitemIndexLogo = 0;
-
-                        // if ($scope.MenuTypeId == 1) {
-                        // document.getElementById("profileIcon").src = $scope.PhotoFullpath;
-                        // }
-                    }
-                    if (InsuranceitemIndexLogo != -1) {
-                        fd4.append('file', InsuranceimgBlob);
-                        /*
-                        calling the api method for read the file path 
-                        and saving the image uploaded in the local server. 
-                        */
-
-                        $http.post(baseUrl + '/api/User/AttachInsurancePhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue2 + '&CREATED_BY=' + $window.localStorage['UserId'],
-                            fd4,
-                            {
-                                transformRequest: angular.identity,
-                                headers: {
-                                    'Content-Type': undefined
-                                }
-                            }
-                        )
-                            .success(function (response) {
-                                if ($scope.InsurancePhotoFilename == "") {
-                                    $scope.InsuranceLogo = "";
-                                }
-                                else if (InsuranceitemIndexLogo > -1) {
-                                    if ($scope.InsurancePhotoFilename != "" && response[InsuranceitemIndexLogo] != "") {
-                                        $scope.InsuranceLogo = response[InsuranceitemIndexLogo];
-                                    }
-                                }
-                            });
-                    }
-                }
-            }
-
-            if ($scope.CertificateValue == 1) {
-                if ($scope.MenuTypeId == 2) {
-                    if ($('#EditDocument')[0].files[0] != undefined) {
-                        $scope.CertificateFileName = $('#EditDocument')[0].files[0]['name'];
-                        $scope.FileType = $('#EditDocument')[0].files[0]['type'];
-                        imgBlobfile = $scope.dataURItoBlob($scope.Editresumedoc);
-                        if (itemIndexLogo == -1) {
-                            itemIndexfile = 0;
-                        }
-                        else {
-                            itemIndexfile = 1;
-                        }
-                    }
-                    if (itemIndexfile != -1) {
-                        fd.append('file1', imgBlobfile);
-                    }
-                }
-                $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&Certificate=' + $scope.CertificateValue + '&CREATED_BY=' + $window.localStorage['UserId'],
-                    fd,
-                    {
-                        transformRequest: angular.identity,
-                        headers: {
-                            'Content-Type': undefined
-                        }
-                    }
-                )
-                    .success(function (response) {
-                        if ($scope.Resume == "") {
-                            $scope.EditDocument = "";
-                        }
-                        //else if (itemIndexLogo > -1) {
-                        //    if ($scope.FileName != "" && response[itemIndexLogo] != "") {
-                        //        $scope.UserLogo = response[itemIndexLogo];
-                        //    }
-                        //}
-                        if ($scope.MenuTypeId === 2) {
-                            if ($scope.EditDocument == "") {
-                                $scope.Resume = "";
-                            }
-
-                            else if (itemIndexfile > -1) {
-                                if ($scope.CertificateFileName != "" && response[itemIndexfile] != "") {
-                                    $scope.Resume = response[itemIndexfile];
-                                }
-                            }
-                        }
-                    })
-            }
+            } catch (e) { }
         }
 
         $scope.EmptyValueCheckingInsert = function () {
@@ -6536,8 +6855,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.AssignedGroupList.push(AssignGroupobj);
                     }
                 });
-                $http.post(baseUrl + '/api/User/AssignedGroup_Insert/', $scope.AssignedGroupList).success(function (data) {
-                    if (data == 1) {
+                $http.post(baseUrl + '/api/User/AssignedGroup_Insert/', $scope.AssignedGroupList).then(function (response) {
+                    if (response.data == 1) {
                         //alert("Group updated successfully");
                         toastr.success("Group updated successfully", "success");
                         $scope.ClearPatientGroupPopup();
@@ -6556,34 +6875,34 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.Eligiblity_pupop = function () {
             angular.element('#InsuranceModel').modal('show');
             var obj = {};
-            $http.post(baseUrl + '/api/PayBy/EligibilityRequestCall/', obj).success(function (data) {
+            $http.post(baseUrl + '/api/PayBy/EligibilityRequestCall/', obj).then(function (response) {
                 //console.log(data);
-                if (data != null) {
-                    if (data.status == -2 || data.status == 1) {
+                if (response.data != null) {
+                    if (response.data.status == -2 || response.data.status == 1) {
                         var elid = 0;
-                        if (data.status == -2) {
-                            elid = data.errors[0].split('/')[data.errors[0].split('/').length - 1];
+                        if (response.data.status == -2) {
+                            elid = response.data.errors[0].split('/')[response.data.errors[0].split('/').length - 1];
                             toastr.warning("particular patient already requested...", "warning");
-                        } else if (data.status == 1) {
-                            elid = data.data.eligibilityId;
+                        } else if (response.data.status == 1) {
+                            elid = response.data.data.eligibilityId;
                         }
-                        $http.get(baseUrl + '/api/PayBy/EligibilityRequestDetail?eligibilityID=' + elid + '&facilityLicense=MF2007').success(function (data) {
-                            if (data != null) {
-                                if (data.data != null) {
-                                    console.log(data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerId);
-                                    $scope.emiratesID = data.data.eligibilityCheck.emiratesId;
-                                    $scope.createby = data.data.eligibilityCheck.payer.payerName;
-                                    $scope.orderon = data.data.eligibilityCheck.eligibilityCheckAnswer.authorizationEndDate;
-                                    $scope.eligibilityDate = data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].startDate;
-                                    $scope.cardno = data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].cardNumber;
-                                    $scope.package = data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].packageName;
-                                    $scope.clinician = data.data.eligibilityCheck.clinician.fullName;
-                                    $scope.speciality = data.data.eligibilityCheck.clinician.specialty;
-                                    $scope.serviceCategory = data.data.eligibilityCheck.serviceCategory.description;
+                        $http.get(baseUrl + '/api/PayBy/EligibilityRequestDetail?eligibilityID=' + elid + '&facilityLicense=MF2007').then(function (response1) {
+                            if (response1.data != null) {
+                                if (response1.data.data != null) {
+                                    console.log(response1.data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerId);
+                                    $scope.emiratesID = response1.data.data.eligibilityCheck.emiratesId;
+                                    $scope.createby = response1.data.data.eligibilityCheck.payer.payerName;
+                                    $scope.orderon = response1.data.data.eligibilityCheck.eligibilityCheckAnswer.authorizationEndDate;
+                                    $scope.eligibilityDate = response1.data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].startDate;
+                                    $scope.cardno = response1.data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].cardNumber;
+                                    $scope.package = response1.data.data.eligibilityCheck.eligibilityCheckAnswer.eligibilityCheckAnswerMembers[0].packageName;
+                                    $scope.clinician = response1.data.data.eligibilityCheck.clinician.fullName;
+                                    $scope.speciality = response1.data.data.eligibilityCheck.clinician.specialty;
+                                    $scope.serviceCategory = response1.data.data.eligibilityCheck.serviceCategory.description;
                                 }
                             }
                         });
-                    } else if (data.status == -3 || data.status == -1) {
+                    } else if (response.data.status == -3 || response.data.status == -1) {
                         toastr.warning(data.errors[0], "warning");
                     }
                 }
@@ -6724,14 +7043,14 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     Institution_Id: $window.localStorage['InstitutionId'],
 
                 }
-                $http.post(baseUrl + '/api/User/GroupMaster_Insert/', Groupobj).success(function (data) {
+                $http.post(baseUrl + '/api/User/GroupMaster_Insert/', Groupobj).then(function (response) {
                     //alert(data.returnMessage);
-                    toastr.success(data.returnMessage, "success");
-                    if (data.flag == "2") // clear only if group is valid and record updated
+                    toastr.success(response.data.returnMessage, "success");
+                    if (response.data.flag == "2") // clear only if group is valid and record updated
                     {
                         $scope.CancelGroupPopup();
-                        $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
-                            $scope.GroupTypeList = data;
+                        $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstituteId).then(function (response) {
+                            $scope.GroupTypeList = response.data;
                         });
                     }
                 })
@@ -6821,8 +7140,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     Remarks: $scope.Remarks,
                     Created_By: $window.localStorage['UserId']
                 };
-                $http.post(baseUrl + '/api/PatientApproval/PatientApproval_History_Insert/', obj).success(function (data) {
-                    if (data == 1) {
+                $http.post(baseUrl + '/api/PatientApproval/PatientApproval_History_Insert/', obj).then(function (response) {
+                    if (response.data == 1) {
                         //alert("Patient Approval History Inserted Successfully");
                         //location.href = 'mailto:' + $scope.EmailId;
                         $scope.Cancel_MoreInfoPopup();
@@ -6870,9 +7189,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.AssignedGroupList.push(AssignGroupobj);
                     }
                 });
-                $http.post(baseUrl + '/api/User/AssignedGroup_Insert/', $scope.AssignedGroupList).success(function (data) {
+                $http.post(baseUrl + '/api/User/AssignedGroup_Insert/', $scope.AssignedGroupList).then(function (response) {
                     $scope.AssignedGroup = "";
-                    if (data == 1) {
+                    if (response.data == 1) {
                         //alert("Group updated successfully");
                         toastr.success("Group updated successfully", "success");
                         $scope.ClearUserGroupPopup();
@@ -6898,14 +7217,14 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     Patient_Id: $routeParams.Id
                 };
                 $scope.ApprovedPatientList.push(ApprovePatientobj);
-                $http.post(baseUrl + '/api/PatientApproval/Multiple_PatientApproval_Active/', $scope.ApprovedPatientList).success(function (data) {
+                $http.post(baseUrl + '/api/PatientApproval/Multiple_PatientApproval_Active/', $scope.ApprovedPatientList).then(function (response) {
                     //alert(data.Message);
-                    toastr.success(data.Message, "success");
-                    if (data.ReturnFlag == 1) {
+                    toastr.success(response.data.Message, "success");
+                    if (response.data.ReturnFlag == 1) {
                         $location.path("/PatientApproval");
                     }
-                }).error(function (data) {
-                    $scope.error = "AN error has occured while deleting patient approval records" + data;
+                }, function errorCallback(response) {
+                    $scope.error = "AN error has occured while deleting patient approval records" + response.data;
                 });
             }
         };

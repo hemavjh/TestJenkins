@@ -18,11 +18,12 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
         $scope.SelectedDoctorList = [];
         $scope.SelectedCCCG = [];
         $scope.ConfigCode = "PAGINATION";
-        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
-            if (data[0] != undefined) {
-                $scope.page_size = parseInt(data[0].ConfigValue);
+        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).then(function (response) {
+            if (response.data[0] != undefined) {
+                $scope.page_size = parseInt(response.data[0].ConfigValue);
                 $window.localStorage['Pagesize'] = $scope.page_size;
             }
+        }, function errorCallback(response) {
         });
         /*List Page Pagination*/
         $scope.listdata = [];
@@ -132,8 +133,9 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
         $scope.TimeSlot55 = new Date();
         $scope.TimeSlot56 = new Date();
         
-        $http.get(baseUrl + '/api/User/DepartmentListByInstitution/').success(function (data) {
-            $scope.DepartmentList = data;
+        $http.get(baseUrl + '/api/User/DepartmentListByInstitution/').then(function (response) {
+            $scope.DepartmentList = response.data;
+        }, function errorCallback(response) {
         });
         $scope.SelectedDoctor = "0";
         $scope.CCCG_DetailsList = [];
@@ -186,8 +188,9 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             }
             if (SelectedDepartmentId != "") {
                 $http.get(baseUrl + '/api/PatientAppointments/DepartmentwiseDoctorList/?DepartmentIds=' + SelectedDepartmentId + '&InstitutionId=' + $window.localStorage['InstitutionId'] +
-                    '&Date=' + today + '&Login_Session_Id=' + $scope.LoginSessionId + '&IsShift=1').success(function (data) {
-                        $scope.SelectedDoctorList = data;
+                    '&Date=' + today + '&Login_Session_Id=' + $scope.LoginSessionId + '&IsShift=1').then(function (response) {
+                        $scope.SelectedDoctorList = response.data;
+                    }, function errorCallback(response) {
                     });
             } else {
                 $scope.SelectedDoctorList = [];
@@ -199,8 +202,9 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             $("#chatLoaderPV").show();
             $scope.CCCG_DetailsList = [];
             if ($scope.SelectedDoctor != 0 || $scope.SelectedDoctor != '') {
-                $http.get(baseUrl + '/api/User/Doctor_Group_CCCG_UserType_List/?DoctorId=' + $scope.SelectedDoctor + '&IsActive=' + 1 + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                    $scope.CCCG_DetailsList = data;
+                $http.get(baseUrl + '/api/User/Doctor_Group_CCCG_UserType_List/?DoctorId=' + $scope.SelectedDoctor + '&IsActive=' + 1 + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
+                    $scope.CCCG_DetailsList = response.data;
+                }, function errorCallback(response) {
                 });
             }
             $("#chatLoaderPV").hide();
@@ -211,30 +215,30 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             if (checked == true) {
                 if (($scope.NewAppointment2 == "0" && $scope.followup2 == "0" && $scope.IntervalBt2 == "0") || ($scope.NewAppointment2.toString().trim() == "" && $scope.followup2.toString().trim() == "" && $scope.IntervalBt2.toString().trim() == "")) {
                     $("#chatLoaderPV").show();
-                    $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
+                    $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).then(function (response) {
                         $("#chatLoaderPV").hide();
-                        if (data != null && data.length != 0) {
+                        if (response.data != null && response.data.length != 0) {
                             //$scope.Days = data.MaxScheduleDays;
                             //$scope.Minutes = data.MinRescheduleMinutes;
-                            $scope.Days2 = data.MaxScheduleDays;
-                            $scope.Minutes2 = data.MinRescheduleMinutes;
-                            $scope.NewAppointment = data.NewAppointmentDuration;
-                            $scope.followup = data.FollowUpDuration;
-                            $scope.NewAppointmentPrice = data.NewAppointmentPrice;
-                            $scope.followupPrice = data.FollowUpPrice;
-                            $scope.IntervalBt = data.AppointmentInterval;
-                            $scope.NewAppointment2 = data.NewAppointmentDuration;
-                            $scope.followup2 = data.FollowUpDuration;
-                            $scope.NewAppointmentPrice2 = data.NewAppointmentPrice;
-                            $scope.followupPrice2 = data.FollowUpPrice;
-                            $scope.IntervalBt2 = data.AppointmentInterval;
-                            $scope.MakeMeLookBusy2 = data.MinRescheduleDays;
-                            $scope.MinimumSlots2 = data.MinimumSlots;
+                            $scope.Days2 = response.data.MaxScheduleDays;
+                            $scope.Minutes2 = response.data.MinRescheduleMinutes;
+                            $scope.NewAppointment = response.data.NewAppointmentDuration;
+                            $scope.followup = response.data.FollowUpDuration;
+                            $scope.NewAppointmentPrice = response.data.NewAppointmentPrice;
+                            $scope.followupPrice = response.data.FollowUpPrice;
+                            $scope.IntervalBt = response.data.AppointmentInterval;
+                            $scope.NewAppointment2 = response.data.NewAppointmentDuration;
+                            $scope.followup2 = response.data.FollowUpDuration;
+                            $scope.NewAppointmentPrice2 = response.data.NewAppointmentPrice;
+                            $scope.followupPrice2 = response.data.FollowUpPrice;
+                            $scope.IntervalBt2 = response.data.AppointmentInterval;
+                            $scope.MakeMeLookBusy2 = response.data.MinRescheduleDays;
+                            $scope.MinimumSlots2 = response.data.MinimumSlots;
                         } else {
                             $('#OrgDefaultId').prop('checked', false);
                         }
 
-                    }).error(function (data) {
+                    }, function errorCallback(response) {
                         $("#chatLoaderPV").hide();
                     });
                 } else {
@@ -258,27 +262,27 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             if (checked == true) {
                 if (($scope.Days2 == "0" && $scope.Minutes2 == "0") || ($scope.Days2.toString().trim() == "" && $scope.Minutes2.toString().trim() == "")) {
                     $("#chatLoaderPV").show();
-                    $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
+                    $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).then(function (response) {
                         $("#chatLoaderPV").hide();
-                        if (data != null && data.length != 0) {
-                            $scope.Days = data.MaxScheduleDays;
-                            $scope.Minutes = data.MinRescheduleMinutes;
-                            $scope.Days2 = data.MaxScheduleDays;
-                            $scope.Minutes2 = data.MinRescheduleMinutes;
+                        if (response.data != null && response.data.length != 0) {
+                            $scope.Days = response.data.MaxScheduleDays;
+                            $scope.Minutes = response.data.MinRescheduleMinutes;
+                            $scope.Days2 = response.data.MaxScheduleDays;
+                            $scope.Minutes2 = response.data.MinRescheduleMinutes;
                             //$scope.NewAppointment = data.NewAppointmentDuration;
                             //$scope.followup = data.FollowUpDuration;
                             //$scope.IntervalBt = data.AppointmentInterval;
-                            $scope.NewAppointment2 = data.NewAppointmentDuration;
-                            $scope.followup2 = data.FollowUpDuration;
-                            $scope.NewAppointmentPrice2 = data.NewAppointmentPrice;
-                            $scope.followupPrice2 = data.FollowUpPrice;
-                            $scope.IntervalBt2 = data.AppointmentInterval;
-                            $scope.MakeMeLookBusy2 = data.MinRescheduleDays;
-                            $scope.MinimumSlots2 = data.MinimumSlots;
+                            $scope.NewAppointment2 = response.data.NewAppointmentDuration;
+                            $scope.followup2 = response.data.FollowUpDuration;
+                            $scope.NewAppointmentPrice2 = response.data.NewAppointmentPrice;
+                            $scope.followupPrice2 = response.data.FollowUpPrice;
+                            $scope.IntervalBt2 = response.data.AppointmentInterval;
+                            $scope.MakeMeLookBusy2 = response.data.MinRescheduleDays;
+                            $scope.MinimumSlots2 = response.data.MinimumSlots;
                         } else {
                             $('#OrgBookInfoId').prop('checked', false);
                         }
-                    }).error(function (data) {
+                    }, function errorCallback(response) {
                         $("#chatLoaderPV").hide();
                     });
                 } else {
@@ -295,28 +299,28 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             if (checked == true) {
                 if (($scope.Makemelookbusy2 == "0" && $scope.MinimumSlots2 == "0") || $scope.Makemelookbusy2!='undefined' || ($scope.Makemelookbusy2.toString().trim() == "" && $scope.MinimumSlots2.toString().trim() == "")) {
                     $("#chatLoaderPV").show();
-                    $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
+                    $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).then(function (response) {
                         $("#chatLoaderPV").hide();
-                        if (data != null && data.length != 0) {
+                        if (response.data != null && response.data.length != 0) {
                             //$scope.Days = data.MaxScheduleDays;
                             //$scope.Minutes = data.MinRescheduleMinutes;
-                            $scope.Days2 = data.MaxScheduleDays;
-                            $scope.Minutes2 = data.MinRescheduleMinutes;
+                            $scope.Days2 = response.data.MaxScheduleDays;
+                            $scope.Minutes2 = response.data.MinRescheduleMinutes;
                             //$scope.NewAppointment = data.NewAppointmentDuration;
                             //$scope.followup = data.FollowUpDuration;
                             //$scope.IntervalBt = data.AppointmentInterval;
-                            $scope.MakeMeLookBusy = data.MinRescheduleDays;
-                            $scope.MinimumSlots = data.MinimumSlots;
-                            $scope.Makemelookbusy2 = data.MinRescheduleDays;
-                            $scope.MinimumSlots2 = data.MinimumSlots;
-                            $scope.followup2 = data.FollowUpDuration;
-                            $scope.NewAppointmentPrice2 = data.NewAppointmentPrice;
-                            $scope.followupPrice2 = data.FollowUpPrice;
-                            $scope.IntervalBt2 = data.AppointmentInterval;
+                            $scope.MakeMeLookBusy = response.data.MinRescheduleDays;
+                            $scope.MinimumSlots = response.data.MinimumSlots;
+                            $scope.Makemelookbusy2 = response.data.MinRescheduleDays;
+                            $scope.MinimumSlots2 = response.data.MinimumSlots;
+                            $scope.followup2 = response.data.FollowUpDuration;
+                            $scope.NewAppointmentPrice2 = response.data.NewAppointmentPrice;
+                            $scope.followupPrice2 = response.data.FollowUpPrice;
+                            $scope.IntervalBt2 = response.data.AppointmentInterval;
                         } else {
                             $('#OrgBookBusyInfoId').prop('checked', false);
                         }
-                    }).error(function (data) {
+                    }, function errorCallback(response) {
                         $("#chatLoaderPV").hide();
                     });
                 } else {
@@ -1449,19 +1453,19 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     $('#saveDoctorShift2').attr("disabled", true);
                     $('#saveDoctorShift3').attr("disabled", true);
                     $("#chatLoaderPV").show();
-                    $http.post(baseUrl + '/api/PatientAppointments/AddDoctorShiftInsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
+                    $http.post(baseUrl + '/api/PatientAppointments/AddDoctorShiftInsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).then(function (response) {
                         //alert(data.Message);
-                        if (data.ReturnFlag == 1) {
-                            toastr.success(data.Message, "success");
+                        if (response.data.ReturnFlag == 1) {
+                            toastr.success(response.data.Message, "success");
                             $('#saveDoctorShift1').attr("disabled", false);
                             $('#saveDoctorShift2').attr("disabled", false);
                             $('#saveDoctorShift3').attr("disabled", false);
                         }
-                        else if (data.ReturnFlag == 0) {
+                        else if (response.data.ReturnFlag == 0) {
                             $('#saveDoctorShift1').attr("disabled", true);
                             $('#saveDoctorShift2').attr("disabled", true);
                             $('#saveDoctorShift3').attr("disabled", true);
-                            toastr.info(data.Message, "info");
+                            toastr.info(response.data.Message, "info");
                             $scope.CancelDoctorShift();
                             $("#chatLoaderPV").hide();
                             return false;
@@ -1477,8 +1481,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                            
                         //}
 
-                    }).error(function (data) {
-                        $scope.error = "An error has occurred while Adding Docor Shift" + data;
+                    }, function errorCallback(response) {
+                        $scope.error = "An error has occurred while Adding Docor Shift" + response.data;
                     });
                 } else if (chk == 0) {
                     //alert('Please Enter Valid Timeslot!');
@@ -1679,10 +1683,10 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             return true;
         };
         $scope.OrganisationSettingsSelectedDays = function () {
-            $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
-                if (data != null) {
+            $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).then(function (response) {
+                if (response.data != null) {
                     const OrgDay = "";
-                    const OrgSelectedDate = data.DefaultWorkingDays.split(',');
+                    const OrgSelectedDate = response.data.DefaultWorkingDays.split(',');
                     //if ($scope.NewAppointmentPrice == '' || $scope.NewAppointmentPrice == 0) {
                     //    $scope.NewAppointmentPrice = data.NewAppointmentPrice;
                     //}
@@ -1791,11 +1795,12 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                         }
                     });
                 }
-                if (data == null) {
+                if (response.data == null) {
                     //alert('Please Check OrgSettings, Default Working Days Is Empty!');
                     toastr.info("Please Check OrgSettings, Default Working Days Is Empty!", "info");
                     return false;
                 }
+            }, function errorCallback(response) {
             });
 
         }
@@ -1921,8 +1926,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
         /* on click Edit, edit popup opened*/
         $scope.EditDoctorShift = function (DId, activeFlag, DoctorId, Institution_Id) {
             if (activeFlag == 1) {
-                $http.get(baseUrl + '/api/PatientAppointments/DoctorShift_Editable/?Id=' + DId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                    if (data == 0) {
+                $http.get(baseUrl + '/api/PatientAppointments/DoctorShift_Editable/?Id=' + DId + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
+                    if (response.data == 0) {
                         angular.element('#DoctorShiftModal').modal('show');
                         $('#saveDoctorShift1').attr("disabled", false);
                         $('#saveDoctorShift2').attr("disabled", false);
@@ -1931,7 +1936,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                         $scope.Id = DId;
                         $scope.DoctorShift_View(DId, DoctorId, Institution_Id);
                         $scope.EditShiftDoctor();
-                    } else if (data == -1) {
+                    } else if (response.data == -1) {
                         angular.element('#DoctorShiftModal').modal('show');
                         $('#saveDoctorShift1').attr("disabled", false);
                         $('#saveDoctorShift2').attr("disabled", false);
@@ -1946,6 +1951,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                         toastr.info("Particular Doctor Shift cannot be Editable. Please cancel all the upcoming appointments to edit the Doctor Shift", "info");
                         //Swal.fire("Please cancel all the upcoming appointments to edit the Doctor Shift","Info")
                     }
+                }, function errorCallback(response) {
                 });
             }
             else {
@@ -1966,60 +1972,63 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
         $scope.DoctorList = [];
         $scope.DoctorListActive = [];
         $scope.DoctorShiftListTemp = [];
-        $http.get(baseUrl + '/api/AppoinmentSlot/Doctors_List/?Institution_Id=' + $scope.InstituteId).success(function (data) {
+        $http.get(baseUrl + '/api/AppoinmentSlot/Doctors_List/?Institution_Id=' + $scope.InstituteId).then(function (response) {
 
             //var obj = { "Id": 0, "Name": "Select", "IsActive": 0 };
             //$scope.DoctorShiftListTemp.splice(0, 0, obj);
             ////$scope.InstitutiondetailsListTemp.push(obj);
             //$scope.DoctorList = angular.copy($scope.DoctorShiftListTemp);
-            $scope.DoctorList = data;
+            $scope.DoctorList = response.data;
             //$ff(data, { IsActive: 1 });
-            $scope.DoctorListActive = data;
+            $scope.DoctorListActive = response.data;
+        }, function errorCallback(response) {
         });
         $scope.DoctorShiftList = [];
         $scope.DoctorShiftListActive = [];
-        $http.get(baseUrl + '/api/DoctorShift/Shift_List/?Institution_Id=' + $scope.InstituteId).success(function (data) {
-            $scope.DoctorShiftList = $ff(data, { IsActive: 1 });
-            $scope.DoctorShiftListActive = data;
+        $http.get(baseUrl + '/api/DoctorShift/Shift_List/?Institution_Id=' + $scope.InstituteId).then(function (response) {
+            $scope.DoctorShiftList = $ff(response.data, { IsActive: 1 });
+            $scope.DoctorShiftListActive = response.data;
+        }, function errorCallback(response) {
         });
 
         $scope.WeekdayList = [];
         $scope.WeekdayActiveList = [];
-        $http.get(baseUrl + '/api/DoctorShift/Days_List/?Institution_Id=' + $scope.InstituteId).success(function (data) {
-            $scope.WeekdayList = data;
-            $scope.WeekdayActiveList = $ff(data, { IsActive: 1 });
+        $http.get(baseUrl + '/api/DoctorShift/Days_List/?Institution_Id=' + $scope.InstituteId).then(function (response) {
+            $scope.WeekdayList = response.data;
+            $scope.WeekdayActiveList = $ff(response.data, { IsActive: 1 });
 
-            $scope.day1 = data[0].WeekDayName;
-            $scope.day1Id = data[0].Id;
-            $scope.day2 = data[1].WeekDayName;
-            $scope.day2Id = data[1].Id;
-            $scope.day3 = data[2].WeekDayName;
-            $scope.day3Id = data[2].Id;
-            $scope.day4 = data[3].WeekDayName;
-            $scope.day4Id = data[3].Id;
-            $scope.day5 = data[4].WeekDayName;
-            $scope.day5Id = data[4].Id;
-            $scope.day6 = data[5].WeekDayName;
-            $scope.day6Id = data[5].Id;
-            $scope.day7 = data[6].WeekDayName;
-            $scope.day7Id = data[6].Id;
+            $scope.day1 = response.data[0].WeekDayName;
+            $scope.day1Id = response.data[0].Id;
+            $scope.day2 = response.data[1].WeekDayName;
+            $scope.day2Id = response.data[1].Id;
+            $scope.day3 = response.data[2].WeekDayName;
+            $scope.day3Id = response.data[2].Id;
+            $scope.day4 = response.data[3].WeekDayName;
+            $scope.day4Id = response.data[3].Id;
+            $scope.day5 = response.data[4].WeekDayName;
+            $scope.day5Id = response.data[4].Id;
+            $scope.day6 = response.data[5].WeekDayName;
+            $scope.day6Id = response.data[5].Id;
+            $scope.day7 = response.data[6].WeekDayName;
+            $scope.day7Id = response.data[6].Id;
+        }, function errorCallback(response) {
         });
 
         $scope.searchquery = "";
         /* Filter the master list function.*/
         $scope.filterDoctorShiftList = function () {
             $scope.ResultListFiltered = [];
-            var searchstring = angular.lowercase($scope.searchquery);
+            var searchstring = $scope.searchquery.toLowerCase();
             if (searchstring == "") {
                 $scope.rowCollectionFilter = [];
                 $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
             }
             else {
                 $scope.rowCollectionFilter = $ff($scope.rowCollection, function (value) {
-                    return angular.lowercase(value.Doctor_Name).match(searchstring) ||
+                    return (value.Doctor_Name.toLowerCase()).match(searchstring) ||
                         //angular.lowercase(value.ShiftName).match(searchstring) ||
-                        angular.lowercase(($filter('date')(value.FromDate, "dd-MMM-yyyy hh:mm:ss a"))).match(searchstring) ||
-                        angular.lowercase(($filter('date')(value.ToDate, "dd-MMM-yyyy hh:mm:ss a"))).match(searchstring)
+                        (($filter('date')(value.FromDate, "dd-MMM-yyyy hh:mm:ss a"))).match(searchstring) ||
+                        (($filter('date')(value.ToDate, "dd-MMM-yyyy hh:mm:ss a"))).match(searchstring)
                 });
                 if ($scope.rowCollectionFilter.length > 0) {
                     $scope.flag = 1;
@@ -2262,15 +2271,16 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     $scope.DoctorListfiltersDetails.push(obj9)
                 }
 
-                $http.post(baseUrl + '/api/DoctorShift/DoctorShift_AddEdit/', $scope.DoctorListfiltersDetails).success(function (data) {
+                $http.post(baseUrl + '/api/DoctorShift/DoctorShift_AddEdit/', $scope.DoctorListfiltersDetails).then(function (response) {
                     // $("#chatLoaderPV").hide();
-                    alert(data.Message);
-                    if (data.ReturnFlag == "1") {
+                    alert(response.data.Message);
+                    if (response.data.ReturnFlag == "1") {
                         $scope.CancelSlot();
                         $scope.DoctorShiftClear();
                         $scope.DoctorShiftListGo();
                     }
-                })
+                }, function errorCallback(response) {
+                });
                 $("#chatLoaderPV").hide();
             }
         }
@@ -2628,11 +2638,11 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     $scope.ISact = 0 //all
                 }
 
-                $http.get(baseUrl + '/api/DoctorShift/DoctorShift_List/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $http.get(baseUrl + '/api/DoctorShift/DoctorShift_List/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
 
                     $scope.emptydata = [];
                     $scope.rowCollection = [];
-                    $scope.rowCollection = data;
+                    $scope.rowCollection = response.data;
                     $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
                     if ($scope.rowCollectionFilter.length > 0) {
                         $scope.flag = 1;
@@ -2641,8 +2651,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                         $scope.flag = 0;
                     }
                     $("#chatLoaderPV").hide();
-                }).error(function (data) {
-                    $scope.error = "AN error has occured while Listing the records!" + data;
+                }, function errorCallback(response) {
+                    $scope.error = "AN error has occured while Listing the records!" + response.data;
                 })
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
@@ -2689,43 +2699,45 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             if ($routeParams.Id != undefined && $routeParams.Id > 0) {
                 $scope.Id = $routeParams.Id;
             }
-            $http.get(baseUrl + '/api/DoctorShift/DoctorShift_View/?DoctorId=' + DoctorId + '&Id=' + DId + '&Login_Session_Id=' + $scope.LoginSessionId + '&Institution_Id=' + Institution_Id).success(function (data) {
-                if (data != null) {
-                    $scope.EditSelectedDepartment.push(data.DepartmentId);
+            $http.get(baseUrl + '/api/DoctorShift/DoctorShift_View/?DoctorId=' + DoctorId + '&Id=' + DId + '&Login_Session_Id=' + $scope.LoginSessionId + '&Institution_Id=' + Institution_Id).then(function (response) {
+                if (response.data != null) {
+                    $scope.EditSelectedDepartment.push(response.data.DepartmentId);
                     $scope.SelectedDepartment = $scope.EditSelectedDepartment;
                     var today = moment(new Date()).format('DD-MMM-YYYY');
-                    $http.get(baseUrl + '/api/PatientAppointments/DepartmentwiseDoctorList/?DepartmentIds=' + data.DepartmentId.toString() + '&InstitutionId=' + $window.localStorage['InstitutionId'] +
-                        '&Date=' + today + '&Login_Session_Id=' + $scope.LoginSessionId + '&IsShift=1').success(function (response_data) {
-                            $scope.SelectedDoctorList = response_data;
-                            $scope.EditSelectedDoctor.push(data.DoctorId);
-                            $scope.SelectedDoctor = data.DoctorId.toString();
+                    $http.get(baseUrl + '/api/PatientAppointments/DepartmentwiseDoctorList/?DepartmentIds=' + response.data.DepartmentId.toString() + '&InstitutionId=' + $window.localStorage['InstitutionId'] +
+                        '&Date=' + today + '&Login_Session_Id=' + $scope.LoginSessionId + '&IsShift=1').then(function (response_data) {
+                            $scope.SelectedDoctorList = response_data.data;
+                            $scope.EditSelectedDoctor.push(response.data.DoctorId);
+                            $scope.SelectedDoctor = response.data.DoctorId.toString();
                             if ($scope.SelectedDoctor != 0 || $scope.SelectedDoctor != '') {
-                                $http.get(baseUrl + '/api/User/Doctor_Group_CCCG_UserType_List/?DoctorId=' + $scope.SelectedDoctor + '&IsActive=' + 1 + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (resp_data) {
-                                    $scope.CCCG_DetailsList = resp_data;
+                                $http.get(baseUrl + '/api/User/Doctor_Group_CCCG_UserType_List/?DoctorId=' + $scope.SelectedDoctor + '&IsActive=' + 1 + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (resp_data) {
+                                    $scope.CCCG_DetailsList = resp_data.data;
+                                }, function errorCallback(resp_data) {
                                 });
                             }
-                            angular.forEach(data.CC_CG, function (value, index) {
+                            angular.forEach(response.data.CC_CG, function (value, index) {
                                 $scope.EditSelectedCCCG.push(value.CcCg_Id);
                             });
                             $scope.SelectedCCCG = $scope.EditSelectedCCCG;
-                    });
-                    $scope.FromDate = DateFormatEdit($filter('date')(data.FromDate, "dd-MMM-yyyy"));
-                    $scope.ToDate = DateFormatEdit($filter('date')(data.ToDate, "dd-MMM-yyyy"));
+                        }, function errorCallback(response_data) {
+                        });
+                    $scope.FromDate = DateFormatEdit($filter('date')(response.data.FromDate, "dd-MMM-yyyy"));
+                    $scope.ToDate = DateFormatEdit($filter('date')(response.data.ToDate, "dd-MMM-yyyy"));
                     $scope.onDateRange();
                     $('#OrgDefaultId').prop('checked', true);
                     $('#OrgBookInfoId').prop("checked", true);
                     $('#OrgBookBusyInfoId').prop("checked", true);
-                    $scope.NewAppointment = data.NewAppointment;
-                    $scope.followup = data.FollowUp;
-                    $scope.NewAppointmentPrice = data.NewAppointmentPrice;
-                    $scope.followupPrice = data.FollowUpPrice;
-                    $scope.IntervalBt = data.Intervel;
-                    $scope.CustomSlot = data.CustomSlot;
-                    $scope.Days = data.BookingOpen;
-                    $scope.Minutes = data.BookingCancelLock;
-                    $scope.MakeMeLookBusy = data.MakeMeLookBusy;
-                    $scope.MinimumSlots = data.MinimumSlots;
-                    angular.forEach(data.SelectedDaysList, function (value, index) {
+                    $scope.NewAppointment = response.data.NewAppointment;
+                    $scope.followup = response.data.FollowUp;
+                    $scope.NewAppointmentPrice = response.data.NewAppointmentPrice;
+                    $scope.followupPrice = response.data.FollowUpPrice;
+                    $scope.IntervalBt = response.data.Intervel;
+                    $scope.CustomSlot = response.data.CustomSlot;
+                    $scope.Days = response.data.BookingOpen;
+                    $scope.Minutes = response.data.BookingCancelLock;
+                    $scope.MakeMeLookBusy = response.data.MakeMeLookBusy;
+                    $scope.MinimumSlots = response.data.MinimumSlots;
+                    angular.forEach(response.data.SelectedDaysList, function (value, index) {
                         //Day = value.Day.toString();
                         Day = DateFormatEdit($filter('date')(value.Day, "dd-MMM-yyyy")).toString();
                         if (Day.includes("Sun") == true) {
@@ -3081,7 +3093,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     var sel3 = $('#CCCG');
                     sel3.multiselect('disable');
                 }
-            })
+            }, function errorCallback(response) {
+            });
             $("#chatLoaderPV").hide();
         };
 
@@ -3112,18 +3125,18 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                         Id: $scope.Id,
                         Modified_By: $window.localStorage['UserId']
                     }
-                    $http.post(baseUrl + '/api/DoctorShift/DoctorShift_Delete/', obj).success(function (data) {
+                    $http.post(baseUrl + '/api/DoctorShift/DoctorShift_Delete/', obj).then(function (response) {
                         //alert(data.Message);
-                        if (data.ReturnFlag == 2) {
-                            toastr.success(data.Message, "success");
+                        if (response.data.ReturnFlag == 2) {
+                            toastr.success(response.data.Message, "success");
                         }
-                        else if (data.ReturnFlag == 0) {
-                            toastr.info(data.Message, "info");
+                        else if (response.data.ReturnFlag == 0) {
+                            toastr.info(response.data.Message, "info");
                         }
 
                         $scope.DoctorShiftListGo();
-                    }).error(function (data) {
-                        $scope.error = "An error has occurred while deleting  Drug DB details" + data;
+                    }, function errorCallback(response) {
+                        $scope.error = "An error has occurred while deleting  Drug DB details" + response.data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
@@ -3170,8 +3183,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             $http.get(baseUrl + '/api/DoctorShift/ActivateDoctorShift_List/?Id=' + $scope.Id
                 + '&Institution_Id=' + $window.localStorage['InstitutionId']
                 + '&Doctor_Id=' + DoctorId
-            ).success(function (data) {
-                if (data.returnval == 1) {
+            ).then(function (response) {
+                if (response.data.returnval == 1) {
                     //alert("Activate Doctor Shift is already created, Please check");
                     toastr.info("Activate Doctor Shift is already created, Please check", "info");
                 }
@@ -3193,12 +3206,12 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                                 Id: $scope.Id,
                                 Modified_By: $window.localStorage['UserId']
                             }
-                            $http.post(baseUrl + '/api/DoctorShift/DoctorShift_Active/', obj).success(function (data) {
+                            $http.post(baseUrl + '/api/DoctorShift/DoctorShift_Active/', obj).then(function (response) {
                                 //alert(data.Message);
-                                toastr.success(data.Message, "success");
+                                toastr.success(response.data.Message, "success");
                                 $scope.DoctorShiftListGo();
-                            }).error(function (data) {
-                                $scope.error = "An error has occurred while ReInsertDoctor Shift" + data;
+                            }, function errorCallback(response) {
+                                $scope.error = "An error has occurred while ReInsertDoctor Shift" + response.data;
                             });
                         } else if (result.isDenied) {
                             //Swal.fire('Changes are not saved', '', 'info')
@@ -3219,7 +3232,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                         });
                     };*/
                 }
-            })
+            }, function errorCallback(response) {
+            });
             $("#chatLoaderPV").hide();
         }
 
@@ -3314,12 +3328,12 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingDelete/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
+                    $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingDelete/?InstitutionId=' + $window.localStorage['InstitutionId']).then(function (response) {
                         //alert("AppointmentSetting  has been Reset Successfully");
                         toastr.success("AppointmentSetting  has been Reset Successfully", "success");
                         $scope.AppointmentSettings();
-                    }).error(function (data) {
-                        $scope.error = "An error has occurred while deleting  AppointmentSettings details" + data;
+                    }, function errorCallback(response) {
+                        $scope.error = "An error has occurred while deleting  AppointmentSettings details" + response.data;
                     });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
@@ -3403,8 +3417,9 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 }
             }*/
         };
-        $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/').success(function (data) {
-            $scope.TimeZoneList = data;
+        $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/').then(function (response) {
+            $scope.TimeZoneList = response.data;
+        }, function errorCallback(response) {
         });
 
         $scope.DefaultHolidayList
@@ -3431,7 +3446,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 }
             });
 
-            $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
+            $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).then(function (response) {
                 $("#chatLoaderPV").hide();
                 $scope.sunday = false;
                 $scope.monday = false;
@@ -3440,34 +3455,33 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 $scope.thursday = false;
                 $scope.friday = false;
                 $scope.saturday = false;
-                if (data != '' && data != null && data != undefined) {
-                    $scope.DuplicatesId = data.ID;
-                    $scope.InstitutionId = data.InstitutionId;
-                    $scope.MyAppConfigId = data.MyAppConfigId;
-                    $scope.NewAppointment = data.NewAppointmentDuration;
-                    $scope.followup = data.FollowUpDuration;
-                    $scope.NewAppointmentPrice = data.NewAppointmentPrice;
-                    $scope.followupPrice = data.FollowUpPrice;
-                    $scope.IntervalBt = data.AppointmentInterval;
-                    $scope.AppointmentDay = data.MaxScheduleDays;
-                    $scope.Minutest = data.MinRescheduleMinutes;
-                    $scope.CancelAppointmentUnPaidMinutes = data.CancelAppointmentUnPaidMinutes;
-                    $scope.Eligibility_Timeout = data.Eligibility_Timeout;
+                if (response.data != '' && response.data != null && response.data != undefined) {
+                    $scope.DuplicatesId = response.data.ID;
+                    $scope.InstitutionId = response.data.InstitutionId;
+                    $scope.MyAppConfigId = response.data.MyAppConfigId;
+                    $scope.NewAppointment = response.data.NewAppointmentDuration;
+                    $scope.followup = response.data.FollowUpDuration;
+                    $scope.NewAppointmentPrice = response.data.NewAppointmentPrice;
+                    $scope.followupPrice = response.data.FollowUpPrice;
+                    $scope.IntervalBt = response.data.AppointmentInterval;
+                    $scope.AppointmentDay = response.data.MaxScheduleDays;
+                    $scope.Minutest = response.data.MinRescheduleMinutes;
+                    $scope.CancelAppointmentUnPaidMinutes = response.data.CancelAppointmentUnPaidMinutes;
                     //$scope.SelectedTimeZone = data.DefautTimeZone;
-                    $scope.DefaultworkingDays = data.DefaultWorkingDays;
-                    $scope.SelectedDefaultholiday = data.DefaultHoliDays;
-                    $scope.BookEnable = data.IsAppointmentInHolidays;
-                    $scope.cc = data.IsCc;
-                    $scope.cg = data.IsCg;
-                    $scope.cl = data.IsCl;
-                    $scope.sc = data.IsSc;
-                    $scope.userpatient = data.IsPatient;
-                    $scope.confirmBook = data.IsDirectAppointment;
-                    $scope.AddReminderParameters = data.ReminderTimeInterval;
-                    $scope.AutoEnable = data.IsAutoReschedule;
-                    $scope.ReduceNumberofavailableAppointmentes = data.MinRescheduleDays;
-                    $scope.Minimumslots = data.MinimumSlots;
-                    var weekly = data.DefaultWorkingDays.split(',');
+                    $scope.DefaultworkingDays = response.data.DefaultWorkingDays;
+                    $scope.SelectedDefaultholiday = response.data.DefaultHoliDays;
+                   
+                    $scope.cc = response.data.IsCc;
+                    $scope.cg = response.data.IsCg;
+                    $scope.cl = response.data.IsCl;
+                    $scope.sc = response.data.IsSc;
+                    $scope.userpatient = response.data.IsPatient;
+                   
+                    $scope.AddReminderParameters = response.data.ReminderTimeInterval;
+                   
+                    $scope.ReduceNumberofavailableAppointmentes = response.data.MinRescheduleDays;
+                    $scope.Minimumslots = response.data.MinimumSlots;
+                    var weekly = response.data.DefaultWorkingDays.split(',');
 
                     angular.forEach(weekly, function (value, index) {
                         if ($('#sunday').val() == value) {
@@ -3493,6 +3507,30 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                         }
 
                     });
+                    $scope.BookEnable = response.data.IsAppointmentInHolidays;
+                    setTimeout(() => {
+                        if ($scope.BookEnable == true) {
+                            angular.element($('#bookenable_yes')).prop('checked', true);
+                        } else {
+                            angular.element($('#bookenable_no')).prop('checked', true);
+                        }
+                    }, 500);
+                     $scope.confirmBook = response.data.IsDirectAppointment;
+                    setTimeout(() => {
+                        if ($scope.confirmBook == true) {
+                            angular.element($('#confirmbook_yes')).prop('checked', true);
+                        } else {
+                            angular.element($('#confirmbook_no')).prop('checked', true);
+                        }
+                    }, 500);
+                    $scope.AutoEnable = response.data.IsAutoReschedule;
+                    setTimeout(() => {
+                        if ($scope.AutoEnable == true) {
+                            angular.element($('#autoenable_yes')).prop('checked', true);
+                        } else {
+                            angular.element($('#autoenable_no')).prop('checked', true);
+                        }
+                    }, 500);
                 } else {
                     $scope.sunday = true;
                     $scope.monday = true;
@@ -3508,7 +3546,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     $scope.userpatient = true;
                 }
 
-
+            }, function errorCallback(response) {
 
             });
         }
@@ -3751,19 +3789,19 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 };
                 $('#save').attr("disabled", true);
                 console.log(obj)
-                $http.post(baseUrl + '/api/DoctorShift/Org_AppointmentSettings_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
+                $http.post(baseUrl + '/api/DoctorShift/Org_AppointmentSettings_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).then(function (response) {
                     $("#chatLoaderPV").hide();
                     //alert(data.Message);
-                    if (data.ReturnFlag == 1) {
-                        toastr.success(data.Message, "success");
+                    if (response.data.ReturnFlag == 1) {
+                        toastr.success(response.data.Message, "success");
                     }
-                    else if (data.ReturnFlag == 0) {
-                        toastr.info(data.Message, "info");
+                    else if (response.data.ReturnFlag == 0) {
+                        toastr.info(response.data.Message, "info");
                     }
                     $('#save').attr("disabled", false);
                     $scope.AppointmentSettings();
-                }).error(function (data) {
-                    $scope.error = "An error has occurred while deleting Parameter" + data;
+                }, function errorCallback(response) {
+                    $scope.error = "An error has occurred while deleting Parameter" + response.data;
                 });
             }
         }
