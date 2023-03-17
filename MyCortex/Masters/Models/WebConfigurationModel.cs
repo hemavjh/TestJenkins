@@ -19,6 +19,7 @@ namespace MyCortex.Masters.Models
         public string CHRONICID { get; set; }
         public string CHRONICNAME { get; set; }
         public int IsSystemDefine { get; set; }
+        public string IS_DISPLAY { get ; set; }
     }
 
     public class WebConfigurationReturnModels
