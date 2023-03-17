@@ -167,6 +167,7 @@ namespace MyCortex.Notification.Firebase
             IList<EmailListModel> EmailList;
             //AlertEventModel EmailList =new AlertEventModel();
             List<NotifictaionUserFCM> model = new List<NotifictaionUserFCM>();
+            EmailConfigurationModel emailModel = new EmailConfigurationModel();
             model = repository.UserFCMToken_Get_List(User_Id);
             // string url = HttpContext.Current.Request.Url.Authority;
             foreach (NotifictaionUserFCM itemData in model)
@@ -174,6 +175,29 @@ namespace MyCortex.Notification.Firebase
                 message.FCMToken = itemData.FCMToken;
                 try
                 {
+                    Id = 0;
+                    //without Event Code send email.
+                    EmailList = alertrepository.UserSpecificEmailList(Institution_Id, User_Id);
+                    //EmailConfigurationModel emailModel = new EmailConfigurationModel();
+                    emailModel = emailrepository.EmailConfiguration_View(Institution_Id);
+                    if (emailModel != null)
+                    {
+                        AlertEventModel alert = new AlertEventModel();
+                        alert.Template_Id = 0;
+                        alert.TempBody = message.Message;
+                        alert.TempSubject = message.Title;
+
+                        List<EmailListModel> elList = new List<EmailListModel>();
+                        EmailListModel el = new EmailListModel();
+                        el.UserName = EmailList[0].UserName;
+                        el.EmailId = EmailList[0].EmailId;
+                        el.EmailType_Flag = EmailList[0].EmailType_Flag;
+                        elList.Add(el);
+
+                        SendGridApiManager mail = new SendGridApiManager();
+                        var res = mail.SendComposedSMTPEmail(emailModel, alert, elList, 0, "", User_Id);
+                        //repository.LiveBox_UserDetails_Delete(User_Id);
+                    }
                     var l = await SendPushLiveboxNotification(message, itemData.SiteUrl, User_Id, Institution_Id);
                 }
                 catch
@@ -183,29 +207,29 @@ namespace MyCortex.Notification.Firebase
             }
             if (model.Count == 0)
             {
-                Id = 0;
-                //without Event Code send email.
-                EmailList = alertrepository.UserSpecificEmailList(Institution_Id, User_Id);
-                EmailConfigurationModel emailModel = new EmailConfigurationModel();
-                emailModel = emailrepository.EmailConfiguration_View(Institution_Id);
-                if (emailModel != null)
-                {
-                    AlertEventModel alert = new AlertEventModel();
-                    alert.Template_Id = 0;
-                    alert.TempBody = message.Message;
-                    alert.TempSubject = message.Title;
+            Id = 0;
+            //without Event Code send email.
+            EmailList = alertrepository.UserSpecificEmailList(Institution_Id, User_Id);
+            //EmailConfigurationModel emailModel = new EmailConfigurationModel();
+            emailModel = emailrepository.EmailConfiguration_View(Institution_Id);
+            if (emailModel != null)
+            {
+                AlertEventModel alert = new AlertEventModel();
+                alert.Template_Id = 0;
+                alert.TempBody = message.Message;
+                alert.TempSubject = message.Title;
 
-                    List<EmailListModel> elList = new List<EmailListModel>();
-                    EmailListModel el = new EmailListModel();
-                    el.UserName = EmailList[0].UserName;
-                    el.EmailId = EmailList[0].EmailId;
-                    el.EmailType_Flag = EmailList[0].EmailType_Flag;
-                    elList.Add(el);
+                List<EmailListModel> elList = new List<EmailListModel>();
+                EmailListModel el = new EmailListModel();
+                el.UserName = EmailList[0].UserName;
+                el.EmailId = EmailList[0].EmailId;
+                el.EmailType_Flag = EmailList[0].EmailType_Flag;
+                elList.Add(el);
 
-                    SendGridApiManager mail = new SendGridApiManager();
-                    var res = mail.SendComposedSMTPEmail(emailModel, alert, elList, 0, "", User_Id);
-                    repository.LiveBox_UserDetails_Delete(User_Id);
-                }
+                SendGridApiManager mail = new SendGridApiManager();
+                var res = mail.SendComposedSMTPEmail(emailModel, alert, elList, 0, "", User_Id);
+                repository.LiveBox_UserDetails_Delete(User_Id);
+            }
             }
             repository.LiveBox_UserDetails_Delete(User_Id);
             return null;

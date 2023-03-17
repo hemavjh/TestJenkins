@@ -681,3 +681,116 @@ EmpApp.config(function ($httpProvider) {
 //    };
 //});
 
+EmpApp.run([ '$sce', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$interval', 'toastr',
+    function ( $sce, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $interval, toastr) {
+    const swListener = new BroadcastChannel('swListener');
+    swListener.onmessage = function (e) {
+        console.log('swListener Received', e.data);
+        var Title = e.data.notification.body;
+        let Array = e.data.data;
+        var conferencename = Object.values(Array)[1];
+        Swal.fire({
+            position: 'top',
+            title: Title,
+            showCloseButton: true,
+            showCancelButton: true,
+            focusConfirm: false,
+            confirmButtonText: 'Accept',
+            confirmButtonColor: '#008000',
+            confirmButtonClass: 'btn bg- green rounded text - white text - sm px - 3 py - 1 mx - 1',
+            cancelButtonClass: 'btn bg-green rounded text-white text-sm  px-3 py-1 mx-1',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Reject',
+            focusCancel: true,
+            allowOutsideClick: false,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                jQuery.get(baseUrl + '/api/Common/Hivemeet_popup/?ConferenceName=' + conferencename).done(function (data) {
+                    const popuplist = data.PatientAppointmentList;
+                    var PatId = popuplist[0].Patient_Id;
+                    window.location.href = baseUrl + "/Home/Index#/PatientVitals/" + PatId + "/4";
+                    setTimeout(openvideocall_popup, 5000)
+                    function openvideocall_popup() {
+                        $('#Patient_AppointmentPanel').removeClass('show');
+                        $('#Patient_AppointmentPanel').addClass('hidden');
+                        $('#Patient_VideoCall').removeClass('hidden');
+                        $('#Patient_VideoCall').addClass('show');
+                        var IsAdmin = false;
+                        var IsRecording = true;
+                        //if ($scope.Recording == 1) {
+                        //    var IsRecording = true;
+                        //} else {
+                        //    var IsRecording = false;
+                        //}
+                        if (window.localStorage["UserTypeId"] == 2) {
+                            IsAdmin = false;
+                            userId = window.localStorage["UserId"];
+                        }
+                        else if (window.localStorage["UserTypeId"] != 2) {
+                            IsAdmin = true;
+                            userId = window.localStorage["UserId"];
+                        }
+                        ConferenceId = conferencename;
+                        patientName = window.localStorage["FullName"];
+                        var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+                        //var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://meet.hive.clinic:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+                        document.getElementById('Patient_VideoCall').innerHTML = tag;
+
+                        /*Getting the Event */
+                        //var GetEvent = io('https://demoserver.livebox.co.in:3030/', { transports: ['websocket'] });
+                        var GetEvent = io('https://meet.hive.clinic:3030/', { transports: ['websocket'] });
+
+                        /* Passing the Event */
+                        GetEvent.on("endConferenceListenerData", function (conferenceData) {
+                            /* dispatch the Event */
+                            document.dispatchEvent(new CustomEvent("EndCallEvent", {
+                                detail: { conferenceData }, bubbles: true, cancelable: true, composed: false
+                            }, false));
+                        });
+                        /* addeventListener for EndcallEvent */
+                        var EndcallEventClick = document;
+                        EndcallEventClick.addEventListener("EndCallEvent", function (event) {
+                            var ConferenceData = event.detail.conferenceData;
+                            console.log("endCallEventPassed", ConferenceData);
+                            iframeConfernecename = ConferenceId;
+                            iframeUserId = userId;
+                            if (iframeConfernecename == ConferenceData.conferencename) {
+                                if (iframeUserId == ConferenceData.userid) {
+                                    setTimeout(endTiming, 3000)
+                                    function endTiming() {
+                                        var tag = $sce.trustAsHtml('');
+                                        document.getElementById('Patient_VideoCall').innerHTML = tag;
+                                        $('#Patient_AppointmentPanel').removeClass('hidden');
+                                        $('#Patient_AppointmentPanel').addClass('show');
+                                        $('#Patient_VideoCall').removeClass('show');
+                                        $('#Patient_VideoCall').addClass('hidden');
+                                    }
+                                }
+                            }
+                            else {
+                                if (iframeUserId == ConferenceData.userid) {
+                                    setTimeout(endTiming, 3000)
+                                    function endTiming() {
+                                        var tag = $sce.trustAsHtml('');
+                                        document.getElementById('Patient_VideoCall').innerHTML = tag;
+                                        $('#Patient_AppointmentPanel').removeClass('hidden');
+                                        $('#Patient_AppointmentPanel').addClass('show');
+                                        $('#Patient_VideoCall').removeClass('show');
+                                        $('#Patient_VideoCall').addClass('hidden');
+                                    }
+                                }
+                            }
+                        });
+                        //var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&recording=' + IsRecording + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+                        var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://meet.hive.clinic:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&recording=' + IsRecording + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+                        document.getElementById('Patient_VideoCall').innerHTML = tag;
+                    }
+                });
+            } else if (result.isDenied) {
+                //Swal.fire('Changes are not saved', '', 'info')
+            }
+        })
+    };
+}
+]);
