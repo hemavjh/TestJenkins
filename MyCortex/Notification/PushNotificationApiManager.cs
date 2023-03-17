@@ -69,7 +69,9 @@ namespace MyCortex.Notification.Firebase
                 {
                     title = message.Title,
                     body = message.Message,
-                    click_action = Url
+                    click_action = Url,
+                    //user_id = User_Id,
+                    Conferencename = message.conferencename
                 },
                 to = message.FCMToken
             };
@@ -202,6 +204,7 @@ namespace MyCortex.Notification.Firebase
 
                     SendGridApiManager mail = new SendGridApiManager();
                     var res = mail.SendComposedSMTPEmail(emailModel, alert, elList, 0, "", User_Id);
+                    repository.LiveBox_UserDetails_Delete(User_Id);
                 }
             }
             repository.LiveBox_UserDetails_Delete(User_Id);
@@ -236,9 +239,12 @@ namespace MyCortex.Notification.Firebase
                 {
                     title = message.Title,
                     body = message.Message,
-                    click_action = Url
+                    click_action = Url,
+                    user_id = User_Id,
+                    Conferencename = message.conferencename
                 },
-                to = message.FCMToken
+                to = message.FCMToken,
+                //conferencename = message.conferencename
             };
 
             //Tranform it to Json object
@@ -351,6 +357,8 @@ namespace MyCortex.Notification.Firebase
         //}
         public class PushNotificationMessage
         {
+            internal string conferencename;
+
             public string FCMToken { get; set; }
             public string Title { get; set; }
             public string Message { get; set; }
