@@ -428,51 +428,51 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             templateUrl: baseUrl + 'Login/Views/Changepasswordpopup.html',
             controller: 'PasswordController'
         }).
-        when('/AllergyMaster', {
+        when('/Home/Index/AllergyMaster', {
             templateUrl: baseUrl + 'Masters/Views/AllergyMasterlist.html',
             controller: 'AllergyMasterList'
         }).
-        when('/DirectCall/:CallSessionId', {
+        when('/Home/Index/DirectCall/:CallSessionId', {
             templateUrl: baseUrl + 'User/Views/DirectCall.html',
             controller: 'DirectCallController'
         }).
-        when('/DirectVideoCall/:CallSessionId', {
+        when('/Home/Index/DirectVideoCall/:CallSessionId', {
             templateUrl: baseUrl + 'User/Views/DirectVideoCall.html',
             controller: 'DirectVideoCallController'
         }).
-        when('/Hive', {
+        when('/Home/Index/Hive', {
             templateUrl: baseUrl + 'Masters/Views/Myhome.html',
             controller: 'MyHomeController'
         }).
-        when('/DeviceList', {
+        when('/Home/Index/DeviceList', {
             templateUrl: baseUrl + 'Masters/Views/DeviceList.html',
             controller: 'MyHomeController'
         }).
-        when('/HiveChart', {
+        when('/Home/Index/HiveChart', {
             templateUrl: baseUrl + 'Masters/Views/MyhomeChart.html',
             controller: 'MyHomeController'
         }).
-        when('/Recording', {
+        when('/Home/Index/Recording', {
             templateUrl: baseUrl + 'Masters/Views/Recording.html',
             controller: 'RecordController'
         }).
-        when('/DeviceListChart', {
+        when('/Home/Index/DeviceListChart', {
             templateUrl: baseUrl + 'Masters/Views/DeviceListChart.html',
             controller: 'MyHomeController'
         }).
-        when('/Admin_Userslog_List', {
+        when('/Home/Index/Admin_Userslog_List', {
             templateUrl: baseUrl + 'Admin/Views/HospitalAdmin_Userslog.html',
             controller: 'UsersLogController'
         }).
-        when('/Admin_Eligibility_Logs_List', {
+        when('/Home/Index/Admin_Eligibility_Logs_List', {
             templateUrl: baseUrl + 'Admin/Views/HospitalAdmin_Eligibility_Logs.html',
             controller: 'EligibilityLogsController'
         }).
-        when('/DoctorAppointmentDetails', {
+        when('/Home/Index/DoctorAppointmentDetails', {
             templateUrl: baseUrl + 'Masters/Views/DoctorAppointmentDetails_For_Others.html',
             controller: 'DoctorAppointmentDetailsForOthersController'
         }).
-        when('/AppointmentApproval', {
+        when('/Home/Index/AppointmentApproval', {
             templateUrl: baseUrl + 'Masters/Views/AppointmentApproval.html',
             controller: 'AppointmentApprovalController'
         }).

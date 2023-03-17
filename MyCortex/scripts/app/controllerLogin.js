@@ -8,7 +8,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
     var baseUrl = $("base").first().attr("href");
     $locationProvider.hashPrefix('');
     //$locationProvider.html5Mode(true).hashPrefix('*');
-   // $locationProvider.html5Mode(true);
+    //$locationProvider.html5Mode(true);
     //$locationProvider.hashPrefix('!');
     
     $routeProvider.
@@ -853,7 +853,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                 //$scope.errorlist = "Contract Time Exceed,contact admin";
                 //alert("Contract period expired, Please contact Admin for renewal");
                 toastr.error("Contract period expired, Please contact Admin for renewal", "Warning");
-                window.location.href = baseUrl + "/Home/Index#/home";
+                window.location.href = baseUrl + "/Home/Index/home";
             }
             else if (data == "4" || data == "5") {
                 window.location.href = baseUrl + "/Home/Index/home";
@@ -1992,7 +1992,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
         } else {
             $scope.PageParameter = 1; // dont change it
             toastr.warning("Please Contact Your Admin", "warning");
-            window.location.href = baseUrl + "/Home/Index#/home";
+            window.location.href = baseUrl + "/Home/Index/home";
         }
         //$scope.LoginSessionId = $window.localStorage['Login_Session_Id']
         $scope.Id = "0";

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -16,17 +17,14 @@ namespace MyCortex
            // routes.MapMvcAttributeRoutes();
 
             routes.MapRoute("home", "Home/Index/home/{id}", new { controller = "Home", action = "Index", id = UrlParameter.Optional });
-            //routes.MapRoute(
-            // name: "CatchAll",
-            // url: "{*any}",
-            // defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            //);
-           // routes.MapRoute(
-           //    name: "superadmin",
-           //    url: "{controller}/{action}/{id}",
-           //    defaults: new { controller = "SuperAdmin_UserList", action = "Home/Index", id = UrlParameter.Optional }
-           //);
 
+            // Route override to work with Angularjs and HTML5 routing
+            routes.MapRoute(
+                name: "HomeIndex",
+                url: "Home/{*.}",
+                defaults: new { controller = "Home", action = "Index" }
+            );
+            
             routes.MapRoute(
                 name: "Default", 
                 url: "{controller}/{action}/{id}",
