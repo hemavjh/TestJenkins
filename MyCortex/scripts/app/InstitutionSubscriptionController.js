@@ -139,6 +139,14 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             $scope.Id = 1;
             $location.path("/SaveInstitution_Subscription/");
         };
+        $scope.TelephoneList = [];
+        $http.get(baseUrl + '/api/InstitutionSubscription/TelephoningNameList/').then(function (response) {
+            // only active Telephone    
+            $scope.TelephoneList = response.data;
+            $scope.TelephoneDataList = response.data;
+            setTimeout(() => { angular.element($('#telephone_Id' + 1)).prop('disabled', true); }, 10000);
+        }, function errorCallback(response) {
+        });
         $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
             $scope.TimeZoneListID = response.data;
         }, function errorCallback(response) {

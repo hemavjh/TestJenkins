@@ -846,7 +846,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             if (response.data.MinRescheduleDays) { $scope.MakeMeLookBusy = response.data.MinRescheduleDays; }
                             if (response.data.MinimumSlots) { $scope.MinimumSlots = response.data.MinimumSlots; }
                             $scope.NewAppointmentDuration = response.data.NewAppointmentDuration;
+                            //$scope.FollowUpDuration = response.data.FollowUpDuration;
                             $scope.FollowUpDuration = response.data.FollowUpDuration;
+                            $scope.Eligibility_Timeout = response.data.Eligibility_Timeout;
                             if (response.data.MaxScheduleDays) {
                                 var futu_date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + response.data.MaxScheduleDays);
                                 var futureDate = futu_date.getFullYear() + '-' + (((futu_date.getMonth() + 1).toString().length > 1) ? ((futu_date.getMonth() + 1).toString()) : '0' + (futu_date.getMonth() + 1).toString()) + '-' + (((futu_date.getDate()).toString().length > 1) ? ((futu_date.getDate()).toString()) : '0' + (futu_date.getDate()).toString());

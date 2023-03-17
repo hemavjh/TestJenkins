@@ -3466,7 +3466,9 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     $scope.IntervalBt = response.data.AppointmentInterval;
                     $scope.AppointmentDay = response.data.MaxScheduleDays;
                     $scope.Minutest = response.data.MinRescheduleMinutes;
+                    //$scope.CancelAppointmentUnPaidMinutes = response.data.CancelAppointmentUnPaidMinutes;
                     $scope.CancelAppointmentUnPaidMinutes = response.data.CancelAppointmentUnPaidMinutes;
+                    $scope.Eligibility_Timeout = response.data.Eligibility_Timeout;
                     //$scope.SelectedTimeZone = data.DefautTimeZone;
                     $scope.DefaultworkingDays = response.data.DefaultWorkingDays;
                     $scope.SelectedDefaultholiday = response.data.DefaultHoliDays;
