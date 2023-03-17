@@ -1040,6 +1040,37 @@ namespace MyCortex.Repositories.Masters
             return configList;
         }
 
+        public IList<PatientAppointmentsModel> Hivemeet_popup(Guid ConferenceName)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@conferencename", ConferenceName));
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[HiveMeet_Popup_Detials]", param);
+                DataEncryption decrypt = new DataEncryption();
+                List<PatientAppointmentsModel> lst = (from p in dt.AsEnumerable()
+                                                      select new PatientAppointmentsModel()
+                                                      {
+                                                          Id = p.Field<long>("Id"),
+                                                          Patient_Id = p.Field<long>("PATIENT_ID"),
+                                                          Doctor_Id = p.Field<long>("DOCTOR_ID"),
+                                                          Appointment_FromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
+                                                          Appointment_ToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
+                                                          Institution_Id = p.Field<long>("INSTITUTION_ID"),
+                                                      }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
+
         public IList<UnitGroupTypeModel> UnitGroupTypeList()
         {
              _AppLogger = this.GetType().FullName;

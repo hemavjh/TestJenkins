@@ -68,10 +68,14 @@ self.addEventListener('push', event => {
 
     if (event.data) {
         data = event.data.json()
+        if (data.notification.title == 'HiveMeet Notification') {
+            const swListener = new BroadcastChannel('swListener');
+            swListener.postMessage(data);
+        }
     }
     // console.log('SW: Push received', data)
 
-    if (data.notification && data.notification != '' && data.notification != null) {
+    if (data.notification && data.notification != '' && data.notification != null && data.notification.title != 'HiveMeet Notification') {
         var noti = data.notification;
         self.registration.showNotification(noti.title, {
             body: noti.body,
@@ -81,3 +85,6 @@ self.addEventListener('push', event => {
         console.log('SW: No notification payload, not showing notification')
     }
 });
+
+
+
