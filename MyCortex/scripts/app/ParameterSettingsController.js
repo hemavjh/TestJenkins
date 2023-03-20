@@ -275,7 +275,7 @@ ParameterSettings.controller("ParameterSettingsController", ['$scope', '$http', 
         $scope.IsEdit = false;
         $scope.StandardParameterEdit = function () {
             $scope.IsEdit = true;
-            $scope.ChatSettings_ViewEdit();
+            //$scope.ChatSettings_ViewEdit();
         }
         $scope.IsEdit = false;
         $scope.StandardParameterCancel = function () {
