@@ -457,7 +457,7 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
                                     }
                                     if ($scope.InstitutionAndSubscription == 1) {
                                         InstSub.setInstiID(insId);
-                                        window.location.href = baseUrl + "/Home/Index#/Institution_Subscription";
+                                        window.location.href = baseUrl + "/Home/Index/Institution_Subscription";
                                     }
                                 }
                             }, function errorCallback(response) {
@@ -473,7 +473,7 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
                             }
                             if ($scope.InstitutionAndSubscription == 1) {
                                 InstSub.setInstiID(insId);
-                                window.location.href = baseUrl + "/Home/Index#/Institution_Subscription";
+                                window.location.href = baseUrl + "/Home/Index/Institution_Subscription";
                             }
                         }
                     }

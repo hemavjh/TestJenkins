@@ -55,7 +55,7 @@ namespace MyCortex.Admin.Controllers
             retid = patientAppointmentsRepository.PaymentProvider_Notity_Log(baseUrl + " --  domain test");
             PaySceneParams paySceneParams = new PaySceneParams
             {
-                redirectUrl = "https://" + baseUrl + "/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
+                redirectUrl = "https://" + baseUrl + "/Home/Index/PatientVitals/0/1?orderId=414768633924763654"
             };
 
             if (!string.IsNullOrEmpty(iapDeviceId) && !string.IsNullOrEmpty(appId))
@@ -427,7 +427,7 @@ namespace MyCortex.Admin.Controllers
                     paySceneCode = "PAYPAGE",
                     paySceneParams = new PaySceneParams
                     {
-                        redirectUrl = "https://" + baseUrl + "/Home/Index#/PatientVitals/" + redirectParam //+"0/1?orderId=414768633924763654"
+                        redirectUrl = "https://" + baseUrl + "/Home/Index/PatientVitals/" + redirectParam //+"0/1?orderId=414768633924763654"
                     },
                     notifyUrl = "https://" + baseUrl + "/Home/Notify/",
                     accessoryContent = new AccessoryContent

@@ -16,12 +16,12 @@ PatientAppointment.controller("PatientAppointmentController", ['$scope', '$http'
 
         $scope.ViewPatientPopUp = function (eventId) {
             $scope.Id = eventId;
-            $window.location.href = baseUrl + "/Home/Index#/PatientVitals/" + $scope.Id + "/2";
+            $window.location.href = baseUrl + "/Home/Index/PatientVitals/" + $scope.Id + "/2";
         }
 
         $scope.ViewPatientPopUp_30days = function (eventId) {
             $scope.Id = eventId;
-            $window.location.href = baseUrl + "/Home/Index#/PatientVitals/" + $scope.Id + "/3";
+            $window.location.href = baseUrl + "/Home/Index/PatientVitals/" + $scope.Id + "/3";
         }
 
         $scope.CancelAppointmentModal = function (AppointmentId, AppointmentDate) {

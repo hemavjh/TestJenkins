@@ -21,7 +21,7 @@ EmpApp.factory('authInterceptorService', ['$q', '$location', function ($q, $loca
         if (rejection.status === 401) {
             //$location.path('/login');
 
-            $window.location.href = baseUrl + "/Home/LoginIndex#/";
+            $window.location.href = baseUrl + "/Home/LoginIndex/";
         }
         return $q.reject(rejection);
     }

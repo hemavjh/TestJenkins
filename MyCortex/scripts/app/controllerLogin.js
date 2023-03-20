@@ -8,7 +8,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
     var baseUrl = $("base").first().attr("href");
     $locationProvider.hashPrefix('');
     //$locationProvider.html5Mode(true).hashPrefix('*');
-    //$locationProvider.html5Mode(true);
+    $locationProvider.html5Mode(true);
     //$locationProvider.hashPrefix('!');
     
     $routeProvider.

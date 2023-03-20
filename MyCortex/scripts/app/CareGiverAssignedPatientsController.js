@@ -312,7 +312,7 @@ CareGiverAssignedPatients.controller("CareGiverAssignedPatientsController", ['$s
         $scope.CareGiver_AssignedPatients = function (eventId) {
             //Care Giver Assigned patients
             $scope.Id = eventId;
-            $window.location.href = baseUrl + "/Home/Index#/PatientVitals/" + $scope.Id + "/7";
+            $window.location.href = baseUrl + "/Home/Index/PatientVitals/" + $scope.Id + "/7";
         }
     }
 ]);

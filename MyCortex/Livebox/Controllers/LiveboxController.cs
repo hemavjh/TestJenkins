@@ -121,7 +121,7 @@ namespace MyCortex.Livebox.Controllers
                 }
 
                 string baseUrl = System.Web.HttpContext.Current.Request.Url.Host.ToString();
-                string redirectUrl = "https://" + baseUrl + "/Home/Index#/PatientVitals/0/1";
+                string redirectUrl = "https://" + baseUrl + "/Home/Index/PatientVitals/0/1";
                 if (redirectUrl != String.Empty)
                 {
                     var controller = new PatientAppointmentsController

@@ -237,7 +237,7 @@ namespace MyCortex.Home.Controllers
 
                 returnError = "";
                 /*_MyLogger.Exceptions("Warn", _AppLogger, "LoginOut button clicked", null, _AppMethod);*/
-                return RedirectToAction("LoginIndex");
+                return RedirectToAction("LoginIndex","Home");
             }
             catch (Exception ex)
             {
@@ -863,10 +863,10 @@ namespace MyCortex.Home.Controllers
                   },
                 },
                 Mode = "payment",
-                //SuccessUrl = "http://localhost:49000/Home/Index#/PatientVitals/0/1",
-                //CancelUrl = "http://localhost:49000/Home/Index#/PatientVitals/0/1",
-                SuccessUrl = "https://mycortexdev.vjhsoftware.in/Home/Index#/PatientVitals/0/1",
-                CancelUrl = "https://mycortexdev.vjhsoftware.in/Home/Index#/PatientVitals/0/1",
+                //SuccessUrl = "http://localhost:49000/Home/Index/PatientVitals/0/1",
+                //CancelUrl = "http://localhost:49000/Home/Index/PatientVitals/0/1",
+                SuccessUrl = "https://mycortexdev.vjhsoftware.in/Home/Index/PatientVitals/0/1",
+                CancelUrl = "https://mycortexdev.vjhsoftware.in/Home/Index/PatientVitals/0/1",
             };
             var service = new SessionService();
             Session session = service.Create(options);

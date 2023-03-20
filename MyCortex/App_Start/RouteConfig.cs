@@ -14,22 +14,31 @@ namespace MyCortex
         {
             routes.RouteExistingFiles = true;
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-           // routes.MapMvcAttributeRoutes();
+            routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
 
-            routes.MapRoute("home", "Home/Index/home/{id}", new { controller = "Home", action = "Index", id = UrlParameter.Optional });
+            // routes.MapMvcAttributeRoutes();
+
+            routes.MapRoute("login", "login", new { controller = "Home", action = "LoginIndex", id = UrlParameter.Optional });
+            routes.MapRoute("signup", "signup/{id}", new { controller = "Home", action = "LoginIndex", id = UrlParameter.Optional });
+            routes.MapRoute("home", "Home/Index/home", new { controller = "Home", action = "Index", id = UrlParameter.Optional });
+           
 
             // Route override to work with Angularjs and HTML5 routing
+            //routes.MapRoute(
+            //    name: "loginIndex",
+            //    url: "{*.}",
+            //    defaults: new { controller = "Home", action = "LoginIndex" }
+            //);
             routes.MapRoute(
-                name: "HomeIndex",
-                url: "Home/{*.}",
-                defaults: new { controller = "Home", action = "Index" }
-            );
-            
+                 name: "HomeIndex",
+                 url: "Home/{*.}",
+                 defaults: new { controller = "Home", action = "Index" }
+              );
             routes.MapRoute(
                 name: "Default", 
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "LoginIndex", id = UrlParameter.Optional }
-            );
+            );           
         }
     }
 }

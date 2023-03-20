@@ -490,12 +490,12 @@ CareCoordinator.controller("CareCoordinatorController", ['$scope', '$http', '$fi
         $scope.DiagosticAlert_PatientData = function (eventId) {
             //Diagostic Alert
             $scope.Id = eventId;
-            $window.location.href = baseUrl + "/Home/Index#/PatientVitals/" + $scope.Id + "/5";
+            $window.location.href = baseUrl + "/Home/Index/PatientVitals/" + $scope.Id + "/5";
         }
         $scope.ComplianceAlert_PatientData = function (eventId) {
             //Compliance Alert
             $scope.Id = eventId;
-            $window.location.href = baseUrl + "/Home/Index#/PatientVitals/" + $scope.Id + "/6";
+            $window.location.href = baseUrl + "/Home/Index/PatientVitals/" + $scope.Id + "/6";
         }
     }
 ]);

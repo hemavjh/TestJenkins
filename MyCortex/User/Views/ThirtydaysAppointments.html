@@ -258,7 +258,7 @@
                 { id: '5', resourceId: 'f', start: '2019-12-31T04:00:00', end: '2019-12-31T04:30:00', title: 'Patient 5' }
             ],
             eventClick: function (calEvent, jsEvent, view) {
-                window.location = "../Home/Index#/Patienthome";
+                window.location = "../Home/Index/Patienthome";
 
             }
         });
@@ -314,10 +314,10 @@
 
 <ul class="secondaryMenu">
     <li>
-        <a href="Home/Index#/TodaysAppoint_ments" title="Today Appointment Page">Today's Appointment</a>
+        <a href="Home/Index/TodaysAppoint_ments" title="Today Appointment Page">Today's Appointment</a>
     </li>
     <li>
-        <a class="secondaryMenuActive" href="Home/Index#/Thirtydays_appointments"
+        <a class="secondaryMenuActive" href="Home/Index/Thirtydays_appointments"
            title="Click here to go Next 30 Days Appointment Page" data-menu="Appointment">Next 30 Days Appointments</a>
     </li>
 </ul>
@@ -325,7 +325,7 @@
     <h1 class="title1">Next 30 Days Appointments</h1>
 </div>
 <div class="col-md-2 right_text no-padding-right">
-    <a href="Home/Index#/TodaysAppoint_ments" class="theme-sch mtb-15">Scheduler</a>
+    <a href="Home/Index/TodaysAppoint_ments" class="theme-sch mtb-15">Scheduler</a>
 </div>
 <div class="lds-ripple" id="chatLoaderPV1" style="display: none;z-index:10000"><div></div><div></div></div>
 <div class="row" ng-init="DailyCalendarView();getMonthlyAppointment();">

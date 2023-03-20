@@ -509,7 +509,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
                 //if (data["Status"]) {    
                 //}
             });
-            $window.location.href = baseUrl + "/Home/LoginIndex#/";
+            $window.location.href = baseUrl + "/Home/LoginIndex/";
         }
         return $q.reject(rejection);
     };
@@ -560,7 +560,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         // to handle back button after logout
         if ($window.localStorage['UserId'] === "0")
         {
-            $window.location.href = baseUrl + "/Home/LoginIndex#/";
+            $window.location.href = baseUrl + "/Home/LoginIndex/";
         }          
     });
     var uid = window.localStorage['UserTypeId'];
@@ -616,7 +616,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
                         //}
                     });
                     clearFirebaseToken();
-                    $window.location.href = baseUrl + "/Home/LoginIndex#/";
+                    $window.location.href = baseUrl + "/Home/LoginIndex/";
                 } else {
                     if (result.dismiss) {
                         if (result.dismiss === swal.DismissReason.timer) {
@@ -629,7 +629,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
                                 //}
                             });
                             clearFirebaseToken();
-                            $window.location.href = baseUrl + "/Home/LoginIndex#/";
+                            $window.location.href = baseUrl + "/Home/LoginIndex/";
                         } else {
                             timeLeft = 60;
                             clearInterval(interval);

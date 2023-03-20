@@ -538,7 +538,7 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
         $scope.AllPatient_PatientData = function (eventId) {
             //All Patients
             $scope.Id = eventId;
-            $window.location.href = baseUrl + "/Home/Index#/PatientVitals/" + $scope.Id + "/4";
+            $window.location.href = baseUrl + "/Home/Index/PatientVitals/" + $scope.Id + "/4";
         }
         $scope.rembemberCurrentPage = function (p) {
             $scope.current_page = p

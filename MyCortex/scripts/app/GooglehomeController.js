@@ -34,19 +34,19 @@ Googlehome.controller("GooglehomeController", ['$scope', '$http', '$routeParams'
                 $window.localStorage['InstitutionId'] = $scope.InstitutionId;
 
                 if ($window.localStorage['UserTypeId'] == "1")
-                    window.location.href = baseUrl + "/Home/Index#/Institution";
+                    window.location.href = baseUrl + "/Home/Index/Institution";
                 else if ($window.localStorage['UserTypeId'] == "3")
-                    window.location.href = baseUrl + "/Home/Index#/InstitutionSubscriptionHospitalAdmin_view";
+                    window.location.href = baseUrl + "/Home/Index/InstitutionSubscriptionHospitalAdmin_view";
                 else if ($window.localStorage['UserTypeId'] == "2")
-                    window.location.href = baseUrl + "/Home/Index#/PatientVitals/0/1";
+                    window.location.href = baseUrl + "/Home/Index/PatientVitals/0/1";
                 else if ($window.localStorage['UserTypeId'] == "4")
-                    window.location.href = baseUrl + "/Home/Index#/TodaysAppoint_ments";
+                    window.location.href = baseUrl + "/Home/Index/TodaysAppoint_ments";
                 else if ($window.localStorage['UserTypeId'] == "5")
-                    window.location.href = baseUrl + "/Home/Index#/CareGiverAssignedPatients";
+                    window.location.href = baseUrl + "/Home/Index/CareGiverAssignedPatients";
                 else if ($window.localStorage['UserTypeId'] == "6")
-                    window.location.href = baseUrl + "/Home/Index#/Carecoordinator/1";
+                    window.location.href = baseUrl + "/Home/Index/Carecoordinator/1";
                 else if ($window.localStorage['UserTypeId'] == "7")
-                    window.location.href = baseUrl + "/Home/Index#/TodaysAppoint_ments";
+                    window.location.href = baseUrl + "/Home/Index/TodaysAppoint_ments";
             }, function errorCallback(response) {
             });
         }

@@ -476,7 +476,7 @@ NotificationView.controller("NotificationViewController", ['$scope', '$http', '$
                 }
             }
             $scope.closeNotification = function () {
-                window.location.href = baseUrl + "/Home/Index#/home";
+                window.location.href = baseUrl + "/Home/Index/home";
             }
             $scope.clearAllNotification = function () {
                 if ($scope.UserNotificationList_Filter.length !== 0) {

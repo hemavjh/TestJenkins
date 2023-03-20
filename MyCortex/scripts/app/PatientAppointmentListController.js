@@ -338,7 +338,7 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
 
         //window.addEventListener('EndCallEvent', function (e) {
         //    console.log("End Call");
-        //    var url = "https://mycortexdev1.vjhsoftware.in/Home/Index#/PatientVitals/0/1"; //Pass Your Url
+        //    var url = "https://mycortexdev1.vjhsoftware.in/Home/Index/PatientVitals/0/1"; //Pass Your Url
         //    window.open(url, '_self');
         //}, false);
 

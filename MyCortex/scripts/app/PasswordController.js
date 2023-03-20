@@ -807,7 +807,7 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
             //window.location.href = baseUrl + "/Home/Index#/home";
             var res = $rootScope.previousPage.split("/");
             if (res[res.length - 2].toLowerCase() == "changepassword") {
-                window.location.href = baseUrl + "/Home/Index#/home";
+                window.location.href = baseUrl + "/Home/Index/home";
             }
             else {
                 window.location.href = $rootScope.previousPage;
