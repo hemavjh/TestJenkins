@@ -139,6 +139,9 @@ InstitutionSubscriptionHAcontroller.controller("InstitutionSubscriptionHospitalA
                     //$scope.Remaining_No_Of_Hive_Devices = data.Remaining_No_Of_Hive_Devices;
                     //$scope.Remaining_No_Of_Hivechart_Devices = data.Remaining_No_Of_Hivechart_Devices;
 
+                    $scope.TelePhone_User = response.data.TelePhone_User;
+                    setTimeout(() => { angular.element($('#telephone_Id' + $scope.TelePhone_User)).prop('checked', true); }, 500);
+
                     $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).then(function (data2) {
                         $scope.TimeZoneList = data2.data;
                         for (i in data2.data) {
@@ -219,6 +222,8 @@ InstitutionSubscriptionHAcontroller.controller("InstitutionSubscriptionHospitalA
                             $scope.InstitutionAddLanguageList[modIndex] = false;
                         }
                     })
+                   
+
                 }, function errorCallback(response) {
                 });
             } else {

@@ -19,6 +19,8 @@ namespace MyCortex
             // routes.MapMvcAttributeRoutes();
 
             routes.MapRoute("login", "login", new { controller = "Home", action = "LoginIndex", id = UrlParameter.Optional });
+            routes.MapRoute("loginout", "Home/LoginOut", new { controller = "Home", action = "LoginOut", id = UrlParameter.Optional });
+            routes.MapRoute("LoginOutAllDevice", "Home/LoginOutAllDevice", new { controller = "Home", action = "LoginOutAllDevice", id = UrlParameter.Optional });
             routes.MapRoute("signup", "signup/{id}", new { controller = "Home", action = "LoginIndex", id = UrlParameter.Optional });
             routes.MapRoute("home", "Home/Index/home", new { controller = "Home", action = "Index", id = UrlParameter.Optional });
            
