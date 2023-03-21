@@ -994,7 +994,7 @@ namespace MyCortex.Home.Controllers
 
                 //PushNotificationApiManager.sendNotification(message, 0, userid, 4);
                 string baseUrl = System.Web.HttpContext.Current.Request.Url.Host.ToString();
-                string redirectUrl = "https://" + baseUrl + "/Home/Index#/PatientVitals/0/1";
+                string redirectUrl = "https://" + baseUrl + "/Home/Index/PatientVitals/0/1";
                 if (redirectUrl != String.Empty)
                 {
                     var controller = new PatientAppointmentsController
@@ -1275,7 +1275,7 @@ namespace MyCortex.Home.Controllers
                 paySceneCode = "PAYPAGE",
                 paySceneParams = new PaySceneParams
                 {
-                    redirectUrl =  "https://"+ baseUrl + "/Home/Index#/PatientVitals/"+ redirectParam //+"0/1?orderId=414768633924763654"
+                    redirectUrl =  "https://"+ baseUrl + "/Home/Index/PatientVitals/"+ redirectParam //+"0/1?orderId=414768633924763654"
                 },
                 notifyUrl = "https://"+ baseUrl +"/Home/Notify/",
                 accessoryContent = new AccessoryContent
@@ -1404,7 +1404,7 @@ namespace MyCortex.Home.Controllers
             string baseUrl = HttpContext.Request.Url.Host.ToString();
             try
             {
-                redirectUrl = "https://"+ baseUrl + "/Home/Index#/PatientVitals/0/1";
+                redirectUrl = "https://"+ baseUrl + "/Home/Index/PatientVitals/0/1";
                 long refundAppointmentId = Convert.ToInt64(form["refundAppointmentId"]);
                 string refundMerchantOrderNo = Convert.ToString(form["refundMerchantOrderNo"]);
                 double refundAmount = Convert.ToInt64(form["refundAmount"]);
