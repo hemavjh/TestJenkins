@@ -267,6 +267,11 @@ namespace MyCortex.Notification.Firebase
                     user_id = User_Id,
                     Conferencename = message.conferencename
                 },
+                data = new //android
+                {
+                    user_id = User_Id,
+                    Conference_Name = message.conferencename
+                },
                 to = message.FCMToken,
                 //conferencename = message.conferencename
             };
