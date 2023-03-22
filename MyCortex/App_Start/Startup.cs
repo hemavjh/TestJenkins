@@ -6,6 +6,9 @@ using Microsoft.Owin.Security.OAuth;
 using System.Web.Http;
 using Microsoft.Owin.Security.Infrastructure;
 using System.Threading.Tasks;
+using MyCortex.Repositories.Login;
+using MyCortex.Repositories.Masters;
+using MyCortex.Repositories;
 
 [assembly: OwinStartup(typeof(MyCortex.App_Start.Startup))]
 
@@ -52,9 +55,11 @@ namespace MyCortex.App_Start
 
     public class ApplicationRefreshTokenProvider : IAuthenticationTokenProvider
     {
+        static readonly ILoginRepository repository = new LoginRepository();
+        static readonly ICommonRepository commonrepository = new CommonRepository();
         public void Create(AuthenticationTokenCreateContext context)
         {
-            int expire = 365;
+            int expire = int.Parse(commonrepository.AppConfigurationDetails("TOKENLIFETIME", 0)[0].ConfigValue); ;
             context.Ticket.Properties.ExpiresUtc = new DateTimeOffset(DateTime.Now.AddDays(expire));
             context.SetToken(context.SerializeTicket());
         }
