@@ -4,6 +4,8 @@ using Owin;
 using MyCortex.Provider;
 using Microsoft.Owin.Security.OAuth;
 using System.Web.Http;
+using Microsoft.Owin.Security.Infrastructure;
+using System.Threading.Tasks;
 
 [assembly: OwinStartup(typeof(MyCortex.App_Start.Startup))]
 
@@ -23,8 +25,8 @@ namespace MyCortex.App_Start
                 AllowInsecureHttp=true,
                 TokenEndpointPath = new PathString("/Token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(7),
-                Provider=myProvider
-                // , RefreshTokenProvider = new ApplicationRefreshTokenProvider()
+                Provider=myProvider,
+                RefreshTokenProvider = new ApplicationRefreshTokenProvider()
             };
             //app.UseOAuthAuthorizationServer(options);
 
@@ -45,6 +47,33 @@ namespace MyCortex.App_Start
 
             HttpConfiguration config = new HttpConfiguration();
             WebApiConfig.Register(config);
+        }
+    }
+
+    public class ApplicationRefreshTokenProvider : IAuthenticationTokenProvider
+    {
+        public void Create(AuthenticationTokenCreateContext context)
+        {
+            int expire = 365;
+            context.Ticket.Properties.ExpiresUtc = new DateTimeOffset(DateTime.Now.AddDays(expire));
+            context.SetToken(context.SerializeTicket());
+        }
+
+        public Task CreateAsync(AuthenticationTokenCreateContext context)
+        {
+            Create(context);
+            return Task.CompletedTask;
+        }
+
+        public void Receive(AuthenticationTokenReceiveContext context)
+        {
+            context.DeserializeTicket(context.Token);
+        }
+
+        public Task ReceiveAsync(AuthenticationTokenReceiveContext context)
+        {
+            Receive(context);
+            return Task.CompletedTask;
         }
     }
 }
