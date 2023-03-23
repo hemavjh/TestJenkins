@@ -47,8 +47,11 @@ namespace MyCortex.Notification.Firebase
             _AppLogger = "MyCortex.Notification.Firebase.PushNotificationApiManager";
             _AppMethod = "MoveNext";
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            long Institution_Id;
+            Institution_Id = long.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
             IList<AppConfigurationModel> model;
-            model = commonrepository.AppConfigurationDetails("FIREBASE_APITOKEN", Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]));
+            //model = commonrepository.AppConfigurationDetails("FIREBASE_APITOKEN", Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]));
+            model = commonrepository.AppConfigurationDetails("FIREBASE_APITOKEN", Institution_Id);
 
             var client = new RestClient("https://fcm.googleapis.com/fcm/send");
             client.Timeout = -1;
@@ -220,8 +223,11 @@ namespace MyCortex.Notification.Firebase
             _AppLogger = "MyCortex.Notification.Firebase.PushNotificationApiManager";
             _AppMethod = "MoveNext";
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            long Institution_Id;
+            Institution_Id = long.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
             IList<AppConfigurationModel> model;
-            model = commonrepository.AppConfigurationDetails("FIREBASE_APITOKEN", Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]));
+            //model = commonrepository.AppConfigurationDetails("FIREBASE_APITOKEN", Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]));
+            model = commonrepository.AppConfigurationDetails("FIREBASE_APITOKEN", Institution_Id);
 
             var client = new RestClient("https://fcm.googleapis.com/fcm/send");
             string json_data1 = JsonConvert.SerializeObject(client);

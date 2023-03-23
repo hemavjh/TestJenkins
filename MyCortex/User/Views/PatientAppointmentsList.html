@@ -79,7 +79,7 @@
                             </p>
                             <i class="fa fa-angle-down" aria-hidden="true"></i>
                         </div>
-                        <div class="flex">
+                        <!--<div class="flex">
                             <div class="" style="width:20%">
                                 <div ng-if="(Row.ViewGenderName| lowercase)=='male' && (Row.PhotoBlob==null)" valign="top" rowspan="6">
                                     <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/Clinician_Male.png" />
@@ -94,21 +94,72 @@
                                     <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" ng-src="{{'data:image/png;base64,'+ Row.PhotoBlob}}" />
                                 </div>
                             </div>
-                            <div class="" style="width:80%" ng-if="(AppointmoduleID==1)">
+                            <div class="" style="width:80%" ng-if="(AppointmoduleID==1) && (AppointmoduleID != 2) && (AppointmoduleID != 3)">
                                 <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
                                 <p class="m-bottom-0 secondary-text1">{{Row.Doctor_DepartmentName}}</p>
                             </div>
-                            <div class="" style="width:80%" ng-if="(AppointmoduleID==2 || AppointmoduleID==3) && (Row.Payment_Status!=0 || Row.Payment_Status>0)">
+                            <div class="" style="width:80%" ng-if="(AppointmoduleID==2) && (Row.Payment_Status!=0 || Row.Payment_Status>0) && (AppointmoduleID!=1) && (AppointmoduleID!=3)">
                                 <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
                                 <p class="m-bottom-0 secondary-text1">{{Row.Doctor_DepartmentName}} / <a href="" ng-click="show_payment_history(Row)">{{Row.Payment_Status}}</a></p>
                             </div>
-                            <div class="" style="width:80%" ng-if="(AppointmoduleID==2 || AppointmoduleID==3) && (Row.Payment_Status==0 || Row.Payment_Status=='' || Row.Payment_Status==null)">
+                            <div class="" style="width:80%" ng-if="(AppointmoduleID==2) && (Row.Payment_Status==0 || Row.Payment_Status=='' || Row.Payment_Status==null) && (AppointmoduleID!=1) && (AppointmoduleID!=3)">
                                 <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
-                                <p class="m-bottom-0 secondary-text1">{{Row.Doctor_DepartmentName}} / <a href="" ng-click="show_payment_history(Row)">UNPAID</a></p>
+                                <p class="m-bottom-0 secondary-text1">{{Row.Doctor_DepartmentName}} / <a href="" ng-click="show_payment_history(Row)">{{Row.Payment_Status}}</a></p>
                             </div>
+                            <div class="" style="width:80%" ng-if="(AppointmoduleID==3) && (AppointmoduleID!=1) && (AppointmoduleID!=2)">
+                            <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
+                            <p class="m-bottom-0 secondary-text1">{{Row.Doctor_DepartmentName}} / <a href="" ng-click="show_payment_history(Row)">{{Row.Payment_Status}}</a></p>
+                        </div>
                         </div>
                         <div class="flex">
-                            <div ng-if="(Row.Status)== 5"  rowspan="6">
+                            <div ng-if=" (AppointmoduleID != 3) && (Row.Status == 5)" rowspan="6">
+                                <label>Waiting for approval</label>
+                            </div>
+                        </div>-->
+                    <div class="flex">
+                        <div class="" style="width:20%">
+                            <div ng-if="(Row.ViewGenderName| lowercase)=='male' && (Row.PhotoBlob==null)" valign="top" rowspan="6">
+                                <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/Clinician_Male.png" />
+                            </div>
+                            <div ng-if="(Row.ViewGenderName| lowercase)=='female' && (Row.PhotoBlob==null)" valign="top" rowspan="6">
+                                <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/Clinician_Female.png" />
+                            </div>
+                            <div ng-if="(Row.ViewGenderName| lowercase)!='female' && (Row.ViewGenderName| lowercase)!='male' && (Row.PhotoBlob==null)" valign="top" rowspan="6">
+                                <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="../../Images/Others.png" />
+                            </div>
+                            <div ng-if="(Row.PhotoBlob!=null && Row.PhotoBlob!='')" valign="top" rowspan="6">
+                                <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" ng-src="{{'data:image/png;base64,'+ Row.PhotoBlob}}" />
+                            </div>
+                        </div>
+                        <div class="" style="width:80%" ng-if="(Row.Appointment_Module_Id==1)">
+                            <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
+                            <p class="m-bottom-0 secondary-text1">{{Row.Doctor_DepartmentName}}</p>
+                        </div>
+                        <div class="" style="width:80%" ng-if="(Row.Appointment_Module_Id==2) && (Row.Payment_Status!=0 || Row.Payment_Status>0)">
+                            <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
+                            <p class="m-bottom-0 secondary-text1">{{Row.Doctor_DepartmentName}} / <a href="" ng-click="show_payment_history(Row)">{{Row.Payment_Status}}</a></p>
+                        </div>
+                        <div class="" style="width:80%" ng-if="(Row.Appointment_Module_Id==2) && (Row.Payment_Status==0 || Row.Payment_Status=='' || Row.Payment_Status==null)">
+                            <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
+                            <p class="m-bottom-0 secondary-text1">{{Row.Doctor_DepartmentName}} / <a href="" ng-click="show_payment_history(Row)">UNPAID</a></p>
+                        </div>
+
+                        <div class="" style="width:80%" ng-if="(Row.Appointment_Module_Id==3) && (Row.Status==5 && Row.Payment_Status_Id=='2')">
+                            <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
+                            <p class="m-bottom-0 secondary-text1">{{Row.Doctor_DepartmentName}} / <a href="" ng-click="show_payment_history(Row)">Waiting for Insurance Approval</a></p>
+                        </div>
+                        <div class="" style="width:80%" ng-if="(Row.Appointment_Module_Id==3) && (Row.Status==1 && Row.Payment_Status_Id=='3')">
+                            <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
+                            <p class="m-bottom-0 secondary-text1">{{Row.Doctor_DepartmentName}} / <a href="" ng-click="show_payment_history(Row)">Insurance Approved</a></p>
+                        </div>
+                        <div class="" style="width:80%" ng-if="(Row.Appointment_Module_Id==3) && (Row.Status==5 && Row.Payment_Status_Id=='4')">
+                            <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
+                            <p class="m-bottom-0 secondary-text1">{{Row.Doctor_DepartmentName}} / <a href="" ng-click="show_payment_history(Row)">Insurance Rejected</a></p>
+                        </div>
+
+                    </div>
+                        <div class="flex">
+                            <div ng-if="(Row.Status)== 5 && (Row.Appointment_Module_Id==1 || Row.Appointment_Module_Id==2)"  rowspan="6">
                                 <label>Waiting for approval</label>
                             </div>
                         </div>

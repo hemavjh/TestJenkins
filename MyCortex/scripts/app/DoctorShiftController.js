@@ -3248,6 +3248,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
         $scope.AppointmentDay = "";
         $scope.Minutes = "0";
         $scope.CancelAppointmentUnPaidMinutes = "0";
+        $scope.Eligibility_Timeout = "0";
         $scope.TimeZoneList = [];
         $scope.SelectedTimeZone = "";
         $scope.sunday = true;
@@ -3466,9 +3467,11 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     $scope.AppointmentDay = response.data.MaxScheduleDays;
                     $scope.Minutest = response.data.MinRescheduleMinutes;
                     $scope.CancelAppointmentUnPaidMinutes = response.data.CancelAppointmentUnPaidMinutes;
+                    $scope.Eligibility_Timeout = response.data.Eligibility_Timeout;
                     //$scope.SelectedTimeZone = data.DefautTimeZone;
                     $scope.DefaultworkingDays = response.data.DefaultWorkingDays;
                     $scope.SelectedDefaultholiday = response.data.DefaultHoliDays;
+                    $scope.BookEnable = response.data.IsAppointmentInHolidays;
                    
                     $scope.cc = response.data.IsCc;
                     $scope.cg = response.data.IsCg;
@@ -3581,7 +3584,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             $scope.ReduceNumberofavailableAppointmentes = "";
             $("#chatLoaderPV").hide();
             $scope.CancelAppointmentUnPaidMinutes = "";
-
+            $scope.Eligibility_Timeout = "";
         }
 
 
@@ -3627,6 +3630,11 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             else if (typeof ($scope.CancelAppointmentUnPaidMinutes) == "undefined" || $scope.CancelAppointmentUnPaidMinutes == "0") {
                 //alert("Please Enter Minutes");
                 toastr.warning("Please Enter Cancel Appointment UnPaid Minutes", "warning");
+                return false;
+            }
+            else if (typeof ($scope.Eligibility_Timeout) == "undefined" || $scope.Eligibility_Timeout == "0") {
+                //alert("Please Enter Minutes");
+                toastr.warning("Please Enter Eligibility Timeout Minutes", "warning");
                 return false;
             }
             if ($scope.ReduceNumberofavailableAppointmentes > 50) {
@@ -3778,7 +3786,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     IsAutoReschedule: $scope.AutoEnable,
                     MaxScheduleDays: $scope.AppointmentDay,
                     MinimumSlots: $scope.Minimumslots,
-                    CancelAppointmentUnPaidMinutes: $scope.CancelAppointmentUnPaidMinutes
+                    CancelAppointmentUnPaidMinutes: $scope.CancelAppointmentUnPaidMinutes,
+                    Eligibility_Timeout: $scope.Eligibility_Timeout
                 };
                 $('#save').attr("disabled", true);
                 console.log(obj)

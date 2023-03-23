@@ -207,6 +207,7 @@ namespace MyCortex.Masters.Models
 
         //public IList<DefaultWorkingDays> DefaultWorkingDays { get; set; }
         public int CancelAppointmentUnPaidMinutes { get; set; }
+        public int Eligibility_Timeout { get; set; }
     }
 
     public class OrgAppointmentModuleSettings

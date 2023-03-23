@@ -19,6 +19,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.AppReasonForVisit = "";
         $scope.result = "";
         $scope.facilityLicense = "";
+        $scope.Eligibility_Timeout = "";
 
         $http.get(baseUrl + "/api/CommonMenu/CommonModule_List?InsId=" + $window.localStorage['InstitutionId']).then(function (response) {
             if (response.data != null) {
@@ -1033,6 +1034,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             if (response.data.MinimumSlots) { $scope.MinimumSlots = response.data.MinimumSlots; }
                             $scope.NewAppointmentDuration = response.data.NewAppointmentDuration;
                             $scope.FollowUpDuration = response.data.FollowUpDuration;
+                            $scope.Eligibility_Timeout = data.Eligibility_Timeout;
                             if (response.data.MaxScheduleDays) {
                                 var futu_date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + response.data.MaxScheduleDays);
                                 var futureDate = futu_date.getFullYear() + '-' + (((futu_date.getMonth() + 1).toString().length > 1) ? ((futu_date.getMonth() + 1).toString()) : '0' + (futu_date.getMonth() + 1).toString()) + '-' + (((futu_date.getDate()).toString().length > 1) ? ((futu_date.getDate()).toString()) : '0' + (futu_date.getDate()).toString());
@@ -1510,7 +1512,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                 }
                                 var status = 1;
                                 if ($scope.AppointmoduleID == 3) {
-                                    status = 6
+                                    status = 5
                                 }
                                 var objectSave = {
                                     "Id": 0,
@@ -1897,7 +1899,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         }, function errorCallback(response) {
                         });
                     }
-                    
+
                     $scope.save_user_appointment_eligibility_logs = function (appointment_id, user_id, eligibilityId, eligibility_request, eligibility_response) {
                         Obj = {
                             "eligibility_response": JSON.stringify(eligibility_response),
@@ -1945,12 +1947,14 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             if (response.data === 0) {
                                 console.log('saved appointment eligibility logs');
                                 if ($scope.result === true) {
-                                    $scope.confirm_appointment(appointment_id, eligibilityId)
+                                    $scope.confirm_appointment(appointment_id, eligibilityId, 1, 3);
                                 }
 
                                 if ($scope.result === false) {
-                                    $scope.cancel_eligibility(eligibilityId);
+                                    $scope.confirm_appointment(appointment_id, eligibilityId, 5, 4);
                                 }
+                                clearInterval($scope.timer);
+                                $scope.$broadcast("appointment_list");
                             }
                         }, function errorCallback(response) {
                         });
@@ -1970,11 +1974,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         });
                     };
 
-                    $scope.confirm_appointment = function (appointment_Id, eligibilityId) {
+                    $scope.confirm_appointment = function (appointment_Id, eligibilityId, status, paymentStatus_Id) {
                         var obj = {
                             'Appointment_Id': appointment_Id,
-                            'Status': 1,
-                            'PaymentStatus_Id': 3
+                            'Status': status,
+                            'PaymentStatus_Id': paymentStatus_Id
                         }
                         $http.post(baseUrl + '/api/PatientAppointments/Patient_Appointment_Status_Update/', obj).then(function (response) {
                             if (response.data != null) {
