@@ -101,7 +101,7 @@
                     <select class="form-control" ng-model="Units_ID[row.Id]" id="Parameterid">
                         <option value="0">Select</option>
                         <option ng-repeat="sel in UnitMasterList | filter : {Parameter_ID:row.Id}: true"
-                                value="{{sel.Units_ID}}">
+                                value="{{sel.Units_ID}}" ng-selected="{{sel.Units_ID==Units_ID[row.Id]}}">
                             {{sel.Units_Name}}
                         </option>
                     </select>

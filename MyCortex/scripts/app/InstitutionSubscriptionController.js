@@ -6,8 +6,8 @@ if (baseUrl == "/") {
 }
 
 
-InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'InstSub', 'toastr',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, InstSub, toastr) {
+InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter','$log', 'filterFilter', 'InstSub', 'toastr',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $log, $ff, InstSub, toastr) {
 
         var dtToday = new Date();
 
@@ -24,7 +24,8 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
 
 
         //Declaration and initialization of Scope Variables.
-        $scope.serviceData = InstSub.getInstiID();
+        $scope.serviceData = $window.localStorage['setInstiID'];//InstSub.getInstiID();
+    
         $scope.ChildId = 0;
         $scope.Institution_Id = "0";
         $scope.TimeZone_Id = "0";
@@ -94,6 +95,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             $scope.TelePhone_User = 1;
             InstSub.setSubID(0);
             InstSub.setInstiID(0);
+            $window.localStorage['setInstiID'] = 0;
         }
         $scope.EditInstSub = 0;
         $scope.EditIntstitutionSubPopup = function (InsSubId, ActiveFlag) {
@@ -134,7 +136,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
         /* on click Add Institution Subscription tool tip in list page calling the Add New  method and Open the Institution Subscription Details Add*/
         $scope.AddInstitutionSubsciption = function () {
             $scope.Id = 1;
-            $location.path("/SaveInstitution_Subscription/");
+            $location.path("/Home/Index/SaveInstitution_Subscription/");
         };
         $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
             $scope.TimeZoneListID = response.data;

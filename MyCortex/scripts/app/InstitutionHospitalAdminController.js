@@ -125,7 +125,7 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
         $scope.EditInstitutionHospitalAdmin = function () {
             //$scope.InstitutionDetails_View();
             $scope.DropDownListValue = 1;
-            $location.path("/EditInstitutionHospitalAdmin");
+            $location.path("/Home/Index/EditInstitutionHospitalAdmin");
         };
 
 
@@ -380,7 +380,7 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
 
         /* THIS IS FUNCTION FOR CLOSE Page  */
         $scope.CancelInstitutionHospitalAdmin = function () {
-            $location.path("/InstitutionHospitalAdmin_view/");
+            $location.path("/Home/Index/InstitutionHospitalAdmin_view/");
             //$scope.ClearInstitutionPopup();
         };
 

@@ -15,6 +15,7 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
         $scope.CountryDuplicateId = "0";
         $scope.StateDuplicateId = "0";
         $scope.LocationDuplicateId = "0";
+        $window.localStorage['setInstiID'] = 0;
         $scope.Mode = $routeParams.Mode;
         //$scope.myService = myService;
         if ($routeParams.ModeType == undefined) {
@@ -453,10 +454,12 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
                                     $scope.CancelInstitution();
                                     if ($scope.InstitutionAndSubscription == 0) {
                                         InstSub.setInstiID(0);
+                                        $window.localStorage['setInstiID']=0;
                                         $scope.InstitutionDetailsListGo();
                                     }
                                     if ($scope.InstitutionAndSubscription == 1) {
                                         InstSub.setInstiID(insId);
+                                        $window.localStorage['setInstiID'] = insId;
                                         window.location.href = baseUrl + "/Home/Index/Institution_Subscription";
                                     }
                                 }
@@ -469,10 +472,12 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
                             $scope.CancelInstitution();
                             if ($scope.InstitutionAndSubscription == 0) {
                                 InstSub.setInstiID(0);
+                                $window.localStorage['setInstiID'] = 0;
                                 $scope.InstitutionDetailsListGo();
                             }
                             if ($scope.InstitutionAndSubscription == 1) {
                                 InstSub.setInstiID(insId);
+                                $window.localStorage['setInstiID'] = insId;
                                 window.location.href = baseUrl + "/Home/Index/Institution_Subscription";
                             }
                         }

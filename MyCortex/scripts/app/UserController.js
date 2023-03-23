@@ -51,7 +51,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.PageStart = 1;
         $scope.PageEnd = 20;
         $scope.SearchMsg = "No Data Available";
-        $scope.AdminFlowdata = InstSub.getSubID();
+        $scope.AdminFlowdata = $window.localStorage['setInstiID'];//InstSub.getSubID();
         $scope.currentTab = "1";
         $scope.CountryFlag = false;
         $scope.StateFlag = false;
@@ -1444,40 +1444,40 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.PatientView_Cancel = function () {
             if ($scope.PageParameter == 2) {
                 $scope.currentTab = "1";
-                $location.path("/PatientList/3");
+                $location.path("/Home/Index/PatientList/3");
                 $scope.ClearPopUp();
             }
             else if ($scope.PageParameter == 1) {
                 $window.localStorage['CurrentTabId'] = 1;
-                $location.path("/PatientVitals/0/1");
+                $location.path("/Home/Index/PatientVitals/0/1");
             }
             else if ($scope.PageParameter == 3) {
                 // Today Appointment Page
-                $location.path("/PatientVitals/" + $scope.Id + "/2");
+                $location.path("/Home/Index/PatientVitals/" + $scope.Id + "/2");
             }
             else if ($scope.PageParameter == 4) {
                 // 30days Appointment Page
-                $location.path("/PatientVitals/" + $scope.Id + "/3");
+                $location.path("/Home/Index/PatientVitals/" + $scope.Id + "/3");
             }
             else if ($scope.PageParameter == 5) {
                 // User Profile Patient Vitals
-                $location.path("/PatientVitals/" + $scope.Id + "/4");
+                $location.path("/Home/Index/PatientVitals/" + $scope.Id + "/4");
             }
             else if ($scope.PageParameter == 6) {
                 // Diagostic Alert
-                $location.path("/PatientVitals/" + $scope.Id + "/5");
+                $location.path("/Home/Index/PatientVitals/" + $scope.Id + "/5");
             }
             else if ($scope.PageParameter == 7) {
                 // Compliance Alert
-                $location.path("/PatientVitals/" + $scope.Id + "/6");
+                $location.path("/Home/Index/PatientVitals/" + $scope.Id + "/6");
             }
             else if ($scope.PageParameter == 8) {
                 // Care Giver Assigned Patients
-                $location.path("/PatientVitals/" + $scope.Id + "/7");
+                $location.path("/Home/Index/PatientVitals/" + $scope.Id + "/7");
             }
             else if ($scope.PageParameter == 0) {
                 // Patient Approval
-                $location.path("/PatientApproval");
+                $location.path("/Home/Index/PatientApproval");
             }
         };
 
@@ -2081,6 +2081,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             angular.element('#PatientViewModel').modal('hide');
             InstSub.setSubID(0);
             InstSub.setInstiID(0);
+            $window.localStorage['setInstiID'] = 0;
             $scope.ClearPopUp();
         }
 
@@ -2119,7 +2120,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             /*}
         });*/
 
-            $location.path("/PatientCreate/" + "2" + "/" + "3");
+            $location.path("/Home/Index/PatientCreate/" + "2" + "/" + "3");
         }
 
         $scope.SubscriptionValidation = function () {
@@ -2168,7 +2169,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.currentTab = "1";
             $scope.DropDownListValue = 1;
             //$scope.Admin_View($scope.MenuTypeId);
-            $location.path("/PatientView/" + $scope.Id + "/2" + "/" + "3");
+            $location.path("/Home/Index/PatientView/" + $scope.Id + "/2" + "/" + "3");
         }
         $scope.EditPatientPopUp = function (CatId) {
             $scope.Id = CatId;
@@ -2179,7 +2180,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $('#btnsave').attr("disabled", true);
             $('#btnsave2').attr("disabled", true);
             //$scope.Admin_View($scope.MenuTypeId);
-            $location.path("/PatientEdit/" + $scope.Id + "/2" + "/" + "3" + "/4");
+            $location.path("/Home/Index/PatientEdit/" + $scope.Id + "/2" + "/" + "3" + "/4");
 
         }
 
@@ -5936,6 +5937,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         else if (response.data.ReturnFlag == 1) {
                             InstSub.setSubID(0);
                             InstSub.setInstiID(0);
+                            $window.localStorage['setInstiID'] = 0;
                             toastr.success(response.data.Message, "success");
                         }
                         $('#btnsave').attr("disabled", false);
@@ -6704,7 +6706,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         }
         $scope.ListRedirect = function () {
             $scope.Patient_List($scope.MenuTypeId);
-            $location.path("/PatientList/3");
+            $location.path("/Home/Index/PatientList/3");
         };
         $scope.fileclear = function () {
             $scope.Editresumedoc = "";
@@ -7059,36 +7061,36 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.Cancel_PatientEdit = function () {
             if ($scope.PageParameter == 2) {
                 $scope.currentTab = "1";
-                $location.path("/PatientList/3");
+                $location.path("/Home/Index/PatientList/3");
                 $scope.ClearPopUp();
             }
             else if ($scope.PageParameter == 1) {
                 $scope.Id = $routeParams.Id;
                 $window.localStorage['CurrentTabId'] = $scope.currentTab;
                 //$scope.Admin_View($scope.MenuTypeId);
-                $location.path("/PatientView/" + $scope.Id + "/1" + "/3");
+                $location.path("/Home/Index/PatientView/" + $scope.Id + "/1" + "/3");
             }
             else if ($scope.PageParameter == 0) {
                 $window.localStorage['CurrentTabId'] = $scope.currentTab;
                 $scope.Id = $routeParams.Id;
-                $location.path("/PatientView/" + $scope.Id + "/0" + "/3");
+                $location.path("/Home/Index/PatientView/" + $scope.Id + "/0" + "/3");
             }
         }
         $scope.Cancel_PatientData_Edit = function () {
             $scope.Id = $routeParams.Id;
             $window.localStorage['CurrentTabId'] = $scope.currentTab;
-            $location.path("/PatientView/" + $scope.Id + "/1" + "/3");
+            $location.path("/Home/Index/PatientView/" + $scope.Id + "/1" + "/3");
         }
         $scope.Cancel_PatientAppproval_Edit = function () {
             $scope.Id = $routeParams.Id;
             $window.localStorage['CurrentTabId'] = $scope.currentTab;
-            $location.path("/PatientView/" + $scope.Id + "/0" + "/3");
+            $location.path("/Home/Index/PatientView/" + $scope.Id + "/0" + "/3");
         }
         $scope.EditPatientData = function () {
             //$scope.Admin_View($scope.MenuTypeId);
             $window.localStorage['CurrentTabId'] = $scope.currentTab;
             $scope.Id = $routeParams.Id;
-            $location.path("/PatientEdit/" + $scope.Id + "/1" + "/3/4");
+            $location.path("/Home/Index/PatientEdit/" + $scope.Id + "/1" + "/3/4");
         }
         $scope.EditCurrentTab = '1';
         if ($scope.PageParameter == 1) {
@@ -7114,7 +7116,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             //$scope.Admin_View($scope.MenuTypeId);
             $window.localStorage['CurrentTabId'] = $scope.currentTab;
             $scope.Id = $routeParams.Id;
-            $location.path("/PatientEdit/" + $scope.Id + "/0" + "/3/4");
+            $location.path("/Home/Index/PatientEdit/" + $scope.Id + "/0" + "/3/4");
         }
 
 
@@ -7145,7 +7147,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         //alert("Patient Approval History Inserted Successfully");
                         //location.href = 'mailto:' + $scope.EmailId;
                         $scope.Cancel_MoreInfoPopup();
-                        $location.path("/PatientApproval");
+                        $location.path("/Home/Index/PatientApproval");
                     }
                 });
             }
@@ -7221,7 +7223,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     //alert(data.Message);
                     toastr.success(response.data.Message, "success");
                     if (response.data.ReturnFlag == 1) {
-                        $location.path("/PatientApproval");
+                        $location.path("/Home/Index/PatientApproval");
                     }
                 }, function errorCallback(response) {
                     $scope.error = "AN error has occured while deleting patient approval records" + response.data;
