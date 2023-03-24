@@ -440,7 +440,8 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             if ($scope.SignupLogin_AddEdit_Validations() == true) {
                 // window.location.href = baseUrl + "/Home/Index#;
                 $("#chatLoaderPV").show();
-                var tokendata = "UserName=admin&Password=admin&grant_type=password"
+                //var tokendata = "UserName=admin&Password=admin&grant_type=password"
+                var tokendata = "UserName=admin&Password=admin&grant_type=password&client_id=0"
                 $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(function (response) {
                     $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.data.access_token;
 
@@ -766,13 +767,30 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                         var Password1 = $scope.Password;
                         var Password = Password1.replace(/(#|&)/g, "amp");
                         var LoginType = $scope.LoginType;
-                        var tokendata = "UserName=" + UserName + "&Password=" + Password + "&grant_type=password"
+                        var tokendata = "UserName=" + UserName + "&Password=" + Password + "&grant_type=password" + "&client_id=" + $window.localStorage['UserId']
                         $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(function (response) {
                             $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.data.access_token;
-                        }, function errorCallback(err) {
+                            $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] = response.data.refresh_token;
+                            localStorage.removeItem['refresh'];
+                            $window.localStorage['timer'] = response.data.expires_in;
+                            console.log(response);
+                        }).error(function (err) {
                             $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
+                            $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] = '';
+                            $window.localStorage['timer'] = '';
                             console.log(err);
                         });
+                        //var UserName = $scope.Username.toLowerCase();
+                        //var Password1 = $scope.Password;
+                        //var Password = Password1.replace(/(#|&)/g, "amp");
+                        //var LoginType = $scope.LoginType;
+                        //var tokendata = "UserName=" + UserName + "&Password=" + Password + "&grant_type=password"
+                        //$http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(function (response) {
+                        //    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.data.access_token;
+                        //}, function errorCallback(err) {
+                        //    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
+                        //    console.log(err);
+                        //});
                         //    .error(function (err) {
                         //    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
                         //    console.log(err);
@@ -1684,7 +1702,10 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                     $("#chatLoaderPV").show();
                     $('#submit').attr("disabled", true);
                     $scope.MobileNo_CC = document.getElementById("txthdFullNumber").value;
-                    var tokendata = "UserName=admin&Password=admin&grant_type=password"
+                    //var tokendata = "UserName=admin&Password=admin&grant_type=password"
+                    //$http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(function (response) {
+                    //    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.data.access_token;
+                    var tokendata = "UserName=admin&Password=admin&grant_type=password&client_id=0"
                     $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(function (response) {
                         $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.data.access_token;
 

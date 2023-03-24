@@ -696,6 +696,34 @@ EmpApp.config(function ($httpProvider) {
 //    };
 //});
 
+EmpApp.run(['$sce', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$interval', 'toastr',
+    function ($sce, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $interval, toastr) {
+        //document.getElementById('timer').innerHTML = window.localStorage['timer'];
+        countdown();
+        function countdown() {
+            let seconds = window.localStorage['timer'];;
+            const timer = setInterval(function () {
+                const minutesLeft = Math.floor(seconds / 60);
+                let secondsLeft = seconds % 60;
+                secondsLeft = secondsLeft < 10 ? '0' + secondsLeft : secondsLeft;
+                //console.log(`${minutesLeft}:${secondsLeft}`);
+                if (seconds < 300) {
+                    var tokendata = "grant_type=refresh_token" + "&refresh_token=" + $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] + "&client_id=" + window.localStorage['UserId'];
+                    $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
+                        $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
+                        $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] = response.refresh_token;
+                        $window.localStorage['timer'] = response.expires_in;
+                        countdown();
+                    })
+                    clearInterval(timer);
+                }
+                seconds--;
+                //console.log(seconds);
+                $window.localStorage['timer'] = seconds;
+            }, 1000);
+        }
+    }
+]);
 EmpApp.run([ '$sce', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$interval', 'toastr',
     function ( $sce, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $interval, toastr) {
     const swListener = new BroadcastChannel('swListener');

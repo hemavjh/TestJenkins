@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using MyCortex.Admin.Models;
 using System.Threading.Tasks;
+using MyCortex.Login.Model;
 
 namespace MyCortex.Repositories
 {
@@ -56,6 +57,6 @@ namespace MyCortex.Repositories
         AppointmentTimeZone getTimeZoneMasterId(string Name);
         MyAppointmentSettingsModel getMyAppointmentSettings(long Institution_Id);
         IList<PatientAppointmentsModel> Hivemeet_popup(Guid ConferenceName);
-
+        IList<LoginModel> GetInstitutionId(long ClientId);
     }
 }
