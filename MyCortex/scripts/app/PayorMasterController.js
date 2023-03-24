@@ -52,16 +52,16 @@ PayorMastercontroller.controller("PayorMasterController", ['$scope', '$http', '$
                 toastr.warning("Please enter ShortCode", "warning");
                 return false;
             }
-            else if (typeof ($scope.Description) == "undefined" || $scope.Description == "") {
-                //alert("Please enter Description");
-                toastr.warning("Please enter Description", "warning");
-                return false;
-            }
-            else if (typeof ($scope.ReferCode) == "undefined" || $scope.ReferCode == "") {
-                //alert("Please enter ReferCode");
-                toastr.warning("Please enter ReferCode", "warning");
-                return false;
-            }
+            //else if (typeof ($scope.Description) == "undefined" || $scope.Description == "") {
+            //    //alert("Please enter Description");
+            //    toastr.warning("Please enter Description", "warning");
+            //    return false;
+            //}
+            //else if (typeof ($scope.ReferCode) == "undefined" || $scope.ReferCode == "") {
+            //    //alert("Please enter ReferCode");
+            //    toastr.warning("Please enter ReferCode", "warning");
+            //    return false;
+            //}
 
             return true;
         };

@@ -87,7 +87,7 @@ Record.controller("RecordController", ['$scope', '$http', '$routeParams', '$loca
         //        SelectedDoctorId = SelectedDoctorId.toString().slice(0, -1);
         //    }
         //}
-       
+
         //$scope.VideoPlay = function (row) {
         //    console.log(row);
         //    //window.open(" <video id=myVideo controlsList=nodownload src ='row:" + row.recording_url + "#toolbar=0&navpanes=0&scrollbar=0'></video >", "_blank");
@@ -109,11 +109,11 @@ Record.controller("RecordController", ['$scope', '$http', '$routeParams', '$loca
             } else {
                 Videowindow.document.write("<html><body onpageshow='playVideo()'><video width='100%' height='100%' oncontextmenu='return false;' id='myVideo' autoPlay='autoPlay' accept='video/*' controls controlsList='nodownload'><source src='" + row.recording_url + "' type='video/mp4'></video></body><script>function playVideo(){document.getElementById('myVideo').play()}</script></html>");
             }
-            
+
         }
 
         $scope.AppointmentExport = function () {
-            var data = document.getElementById('recording');
+            var data = document.getElementById('recording1');
             var file = XLSX.utils.table_to_book(data, { sheet: "sheet1" });
             XLSX.write(file, { bookType: 'xlsx', bookSST: true, type: 'base64' });
             XLSX.writeFile(file, 'RecordingDetials.xlsx');

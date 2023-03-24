@@ -40,15 +40,15 @@ namespace MyCortex.Notification.Firebase
         /// <param name="message">Notification Composed Message</param>
         /// <param name="templateId">Notification Template Id</param>
         /// <returns></returns>
-        private async static Task<IRestResponse> SendPushNotification(PushNotificationMessage message, long templateId, string Url)
+        private async static Task<IRestResponse> SendPushNotification(PushNotificationMessage message, long templateId, string Url, long Institution_Id)
         {
             string
             _AppLogger = string.Empty, _AppMethod = string.Empty;
             _AppLogger = "MyCortex.Notification.Firebase.PushNotificationApiManager";
             _AppMethod = "MoveNext";
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
-            long Institution_Id;
-            Institution_Id = long.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
+            //long Institution_Id;
+            //Institution_Id = long.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
             IList<AppConfigurationModel> model;
             //model = commonrepository.AppConfigurationDetails("FIREBASE_APITOKEN", Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]));
             model = commonrepository.AppConfigurationDetails("FIREBASE_APITOKEN", Institution_Id);
@@ -69,7 +69,9 @@ namespace MyCortex.Notification.Firebase
                 {
                     title = message.Title,
                     body = message.Message,
-                    click_action = Url
+                    click_action = Url,
+                    //user_id = User_Id,
+                    Conferencename = message.conferencename
                 },
                 to = message.FCMToken
             };
@@ -117,7 +119,7 @@ namespace MyCortex.Notification.Firebase
 
         }
 
-        public static async void sendNotification(PushNotificationMessage message, long templateId, long User_Id, long NotificationFor)
+        public static async void sendNotification(PushNotificationMessage message, long templateId, long User_Id, long Institution_Id, long NotificationFor)
         {
             List<NotifictaionUserFCM> model = new List<NotifictaionUserFCM>();
             model = repository.UserFCMToken_Get_List(User_Id);
@@ -129,7 +131,7 @@ namespace MyCortex.Notification.Firebase
                     message.FCMToken = itemData.FCMToken;
                     try
                     {
-                        await SendPushNotification(message, templateId, itemData.SiteUrl);
+                        await SendPushNotification(message, templateId, itemData.SiteUrl, Institution_Id);
                     }
                     catch
                     {
@@ -170,61 +172,82 @@ namespace MyCortex.Notification.Firebase
             IList<EmailListModel> EmailList;
             //AlertEventModel EmailList =new AlertEventModel();
             List<NotifictaionUserFCM> model = new List<NotifictaionUserFCM>();
+            EmailConfigurationModel emailModel = new EmailConfigurationModel();
             model = repository.UserFCMToken_Get_List(User_Id);
-            if (model.Count != 0)
-                // string url = HttpContext.Current.Request.Url.Authority;
-                foreach (NotifictaionUserFCM itemData in model)
+            // string url = HttpContext.Current.Request.Url.Authority;
+            foreach (NotifictaionUserFCM itemData in model)
+            {
+                message.FCMToken = itemData.FCMToken;
+                try
                 {
-                    message.FCMToken = itemData.FCMToken;
-                    _MyLogger.Exceptions("INFO", _AppLogger, message.FCMToken, null, _AppMethod);
-                    try
+                    Id = 0;
+                    //without Event Code send email.
+                    EmailList = alertrepository.UserSpecificEmailList(Institution_Id, User_Id);
+                    //EmailConfigurationModel emailModel = new EmailConfigurationModel();
+                    emailModel = emailrepository.EmailConfiguration_View(Institution_Id);
+                    if (emailModel != null)
                     {
-                        var l = await SendPushLiveboxNotification(message, itemData.SiteUrl, User_Id);
+                        AlertEventModel alert = new AlertEventModel();
+                        alert.Template_Id = 0;
+                        alert.TempBody = message.Message;
+                        alert.TempSubject = message.Title;
+
+                        List<EmailListModel> elList = new List<EmailListModel>();
+                        EmailListModel el = new EmailListModel();
+                        el.UserName = EmailList[0].UserName;
+                        el.EmailId = EmailList[0].EmailId;
+                        el.EmailType_Flag = EmailList[0].EmailType_Flag;
+                        elList.Add(el);
+
+                        SendGridApiManager mail = new SendGridApiManager();
+                        var res = mail.SendComposedSMTPEmail(emailModel, alert, elList, 0, "", User_Id);
+                        //repository.LiveBox_UserDetails_Delete(User_Id);
                     }
-                    catch
-                    {
+                    var l = await SendPushLiveboxNotification(message, itemData.SiteUrl, User_Id, Institution_Id);
+                }
+                catch
+                {
 
                     }
                 }
             if (model.Count == 0)
             {
-                Id = 0;
-                //without Event Code send email.
-                EmailList = alertrepository.UserSpecificEmailList(Institution_Id, User_Id);
-                EmailConfigurationModel emailModel = new EmailConfigurationModel();
-                emailModel = emailrepository.EmailConfiguration_View(Institution_Id);
-                if (emailModel != null)
-                {
-                    AlertEventModel alert = new AlertEventModel();
-                    alert.Template_Id = 0;
-                    alert.TempBody = message.Message;
-                    alert.TempSubject = message.Title;
+            Id = 0;
+            //without Event Code send email.
+            EmailList = alertrepository.UserSpecificEmailList(Institution_Id, User_Id);
+            //EmailConfigurationModel emailModel = new EmailConfigurationModel();
+            emailModel = emailrepository.EmailConfiguration_View(Institution_Id);
+            if (emailModel != null)
+            {
+                AlertEventModel alert = new AlertEventModel();
+                alert.Template_Id = 0;
+                alert.TempBody = message.Message;
+                alert.TempSubject = message.Title;
 
-                    List<EmailListModel> elList = new List<EmailListModel>();
-                    EmailListModel el = new EmailListModel();
-                    el.UserName = EmailList[0].UserName;
-                    el.EmailId = EmailList[0].EmailId;
-                    el.EmailType_Flag = EmailList[0].EmailType_Flag;
-                    elList.Add(el);
+                List<EmailListModel> elList = new List<EmailListModel>();
+                EmailListModel el = new EmailListModel();
+                el.UserName = EmailList[0].UserName;
+                el.EmailId = EmailList[0].EmailId;
+                el.EmailType_Flag = EmailList[0].EmailType_Flag;
+                elList.Add(el);
 
-                    SendGridApiManager mail = new SendGridApiManager();
-                    var res = mail.SendComposedSMTPEmail(emailModel, alert, elList, 0, "", User_Id);
-                    string json_data = JsonConvert.SerializeObject(res);
-                    _MyLogger.Exceptions("INFO", _AppLogger, json_data, null, _AppMethod);
-                }
+                SendGridApiManager mail = new SendGridApiManager();
+                var res = mail.SendComposedSMTPEmail(emailModel, alert, elList, 0, "", User_Id);
+                repository.LiveBox_UserDetails_Delete(User_Id);
+            }
             }
             repository.LiveBox_UserDetails_Delete(User_Id);
             return null;
         }
-        private async static Task<ActionResult> SendPushLiveboxNotification(PushNotificationMessage message, string Url, long User_Id)
+        public static async Task<ActionResult> SendPushLiveboxNotification(PushNotificationMessage message, string Url, long User_Id, long Institution_Id)
         {
             string
             _AppLogger = string.Empty, _AppMethod = string.Empty;
             _AppLogger = "MyCortex.Notification.Firebase.PushNotificationApiManager";
             _AppMethod = "MoveNext";
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
-            long Institution_Id;
-            Institution_Id = long.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
+            //long Institution_Id;
+            //Institution_Id = long.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
             IList<AppConfigurationModel> model;
             //model = commonrepository.AppConfigurationDetails("FIREBASE_APITOKEN", Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]));
             model = commonrepository.AppConfigurationDetails("FIREBASE_APITOKEN", Institution_Id);
@@ -247,9 +270,17 @@ namespace MyCortex.Notification.Firebase
                 {
                     title = message.Title,
                     body = message.Message,
-                    click_action = Url
+                    click_action = Url,
+                    user_id = User_Id,
+                    Conferencename = message.conferencename
                 },
-                to = message.FCMToken
+                data = new //android
+                {
+                    user_id = User_Id,
+                    Conference_Name = message.conferencename
+                },
+                to = message.FCMToken,
+                //conferencename = message.conferencename
             };
 
             //Tranform it to Json object
@@ -287,7 +318,8 @@ namespace MyCortex.Notification.Firebase
             }
             finally
             {
-                if (deliveryStatus == 1) {
+                if (deliveryStatus == 1)
+                {
                     repository.LiveBox_UserDetails_Delete(User_Id); //returnObj.results
                 }
             }
@@ -385,8 +417,9 @@ namespace MyCortex.Notification.Firebase
         {
             throw new NotImplementedException();
         }
-        public class async
-            {
-            }
+    }
+
+    public class async
+    {
     }
 }

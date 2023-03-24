@@ -42,7 +42,7 @@ namespace MyCortex.Repositories.Masters
                                                   CONFIG_TYPEDEFINITION = p.Field<string>("CONFIG_TYPEDEFINITION"),
                                                   ISACTIVE = p.Field<int>("ISACTIVE"),
                                                   IsSystemDefine = p.Field<int>("IS_SYSTEMDEFINE"),
-
+                                                  IS_DISPLAY = p.Field<string>("IS_DISPLAY"),
                                               }).ToList();
                 return list;
             }

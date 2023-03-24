@@ -55,6 +55,7 @@ namespace MyCortex.Repositories
         IList<GatewayInsuranceList> InstitutionPayment();
         AppointmentTimeZone getTimeZoneMasterId(string Name);
         MyAppointmentSettingsModel getMyAppointmentSettings(long Institution_Id);
+        IList<PatientAppointmentsModel> Hivemeet_popup(Guid ConferenceName);
 
     }
 }

@@ -52,7 +52,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
          $scope.Chroniccl = false;
          $scope.Chronicsc = false;*/
         $scope.Hcp_Pat = false;
-
+        angular.element($('#telephone_Id' + 1)).prop('disabled', true);
         $scope.InstitutionViewList = [];
         $scope.IsActive = true;
         //List Page Pagination.
@@ -89,10 +89,13 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             $("#insselectpicker").attr("disabled", false);
             $scope.EditInstSub = 0;
             angular.element('#InstitutionSubscriptionCreateModal').modal('show');
+            //angular.element($('#telephone_Id' + 1)).prop('disabled', true);
+            setTimeout(() => { angular.element($('#telephone_Id' + 1)).prop('disabled', true); }, 10000);
         }
         $scope.CancelIntstitutionSubPopup = function () {
             angular.element('#InstitutionSubscriptionCreateModal').modal('hide');
-            $scope.TelePhone_User = 1;
+            //angular.element($('#telephone_Id' + 1)).prop('disabled', true);
+            $scope.TelePhone_User = 2;
             InstSub.setSubID(0);
             InstSub.setInstiID(0);
           //  $window.localStorage['setInstiID'] = 0;
@@ -138,6 +141,14 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             $scope.Id = 1;
             $location.path("/Home/Index/SaveInstitution_Subscription/");
         };
+        $scope.TelephoneList = [];
+        $http.get(baseUrl + '/api/InstitutionSubscription/TelephoningNameList/').then(function (response) {
+            // only active Telephone    
+            $scope.TelephoneList = response.data;
+            $scope.TelephoneDataList = response.data;
+            setTimeout(() => { angular.element($('#telephone_Id' + 1)).prop('disabled', true); }, 10000);
+        }, function errorCallback(response) {
+        });
         $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
             $scope.TimeZoneListID = response.data;
         }, function errorCallback(response) {
@@ -912,7 +923,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             $scope.Contract_Period_To = "";
             $scope.Subscription_Type = "1";
             $scope.Recording_Type = "1";
-            $scope.TelePhone_User = 1;
+            $scope.TelePhone_User = 2;
             $scope.InstitutionModule_List = [];
             $scope.InstitutionAddList = [];
             $scope.InstitutionAddLanguageList = [];

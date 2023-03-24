@@ -848,8 +848,10 @@ namespace MyCortex.Repositories.Masters
                                          MinimumSlots = p.Field<int>("MINIMUM_SLOTS"),
                                          CreatedBy = p.Field<long>("CREATED_BY"),
                                          IsActive =  p.Field<int>("ISACTIVE"),
-                                         CancelAppointmentUnPaidMinutes = p.Field<int>("CANCEL_APPOINTMENT_UNPAID"),
-                                         Eligibility_Timeout = p.Field<int>("ELIGIBILITY_TIMEOUT"),
+                                         CancelAppointmentUnPaidMinutes = p.IsNull("CANCEL_APPOINTMENT_UNPAID") ? 0 : p.Field<int>("CANCEL_APPOINTMENT_UNPAID"),
+                                         Eligibility_Timeout = p.IsNull("ELIGIBILITY_TIMEOUT") ? 0 : p.Field<int>("ELIGIBILITY_TIMEOUT"),
+                                         //CancelAppointmentUnPaidMinutes = p.Field<int>("CANCEL_APPOINTMENT_UNPAID"),
+                                         //Eligibility_Timeout = p.Field<int>("ELIGIBILITY_TIMEOUT"),
                                      }).FirstOrDefault();
                 if (list != null)
                 {

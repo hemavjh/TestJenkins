@@ -305,7 +305,7 @@ namespace MyCortex.Template.Controllers
                         message.Title = itemData.Email_Subject;
                         message.Message = itemData.Email_Body;
 
-                        PushNotificationApiManager.sendNotification(message, ModelData[0].Id, itemData.UserId, 4);
+                        PushNotificationApiManager.sendNotification(message, ModelData[0].Id, itemData.UserId, Institution_Id, 4);
                     }
                 }
 
@@ -480,7 +480,7 @@ namespace MyCortex.Template.Controllers
                         message.Title = itemData.Email_Subject;
                         message.Message = itemData.Email_Body;
 
-                        PushNotificationApiManager.sendNotification(message, ModelData[0].Id, ModelData[0].UserId, 4);
+                        PushNotificationApiManager.sendNotification(message, ModelData[0].Id, ModelData[0].UserId, Institution_Id, 4);
                     }
                 }
 
@@ -605,7 +605,7 @@ namespace MyCortex.Template.Controllers
                         message.Title = Emailobj.Email_Subject;
                         message.Message = Emailobj.Email_Body;
 
-                        PushNotificationApiManager.sendNotification(message, ModelData[0].Id, Emailobj.UserId, 4);
+                        PushNotificationApiManager.sendNotification(message, ModelData[0].Id, Emailobj.UserId, Institution_Id, 4);
                     }
                     else if (Emailobj.TemplateType_Id == 3) 
                     {

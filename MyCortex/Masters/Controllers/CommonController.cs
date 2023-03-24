@@ -1110,6 +1110,38 @@ namespace MyCortex.Masters.Controllers
         /// <returns>password policy configuration of a institution</returns>
         //[Authorize]
         [HttpGet]
+        //  [CheckSessionOutFilter]
+        public HttpResponseMessage Hivemeet_popup(Guid ConferenceName)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<PatientAppointmentsModel> ModelData = new List<PatientAppointmentsModel>();
+            PatientAppointmentsReturnModel model = new PatientAppointmentsReturnModel();
+            try
+            {
+
+                ModelData = repository.Hivemeet_popup(ConferenceName);
+                model.Status = "True";
+                model.Message = "Patient Appointment";
+                model.Error_Code = "";
+                model.ReturnFlag = 1;
+                model.PatientAppointmentList = ModelData;
+
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                model.Status = "False";
+                model.Message = "Error in getting Patient Appointments";
+                model.Error_Code = ex.Message;
+                model.ReturnFlag = 0;
+                model.PatientAppointmentList = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+        [HttpGet]
         public PasswordPolicyModel PasswordPolicyDetails_View(long Institution_Id)
         {
              _AppLogger = this.GetType().FullName;
