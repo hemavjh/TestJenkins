@@ -13,6 +13,9 @@ using MyCortex.Admin.Models;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using MyCortex.Utilities;
+using MyCortex.Login.Model;
+using Newtonsoft.Json.Linq;
+using Stripe;
 
 namespace MyCortex.Repositories.Masters
 {
@@ -1012,6 +1015,20 @@ namespace MyCortex.Repositories.Masters
               _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
+        }
+        public IList<LoginModel> GetInstitutionId(long ClientId)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@UserId", ClientId));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GETINSTITUTIONID]", param);
+            var list = (from p in dt.AsEnumerable()
+                        select new LoginModel()
+                        {
+                            InstitutionId = p.Field<long>("INSTITUTION_ID"),
+                        }).ToList();
+            return list;
         }
         /// <summary>
         /// to get App Configuration value of a App Configuration in a institution

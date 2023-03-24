@@ -59,8 +59,8 @@ namespace MyCortex.App_Start
         static readonly ICommonRepository commonrepository = new CommonRepository();
         public void Create(AuthenticationTokenCreateContext context)
         {
-            int expire = int.Parse(commonrepository.AppConfigurationDetails("TOKENLIFETIME", 0)[0].ConfigValue); ;
-            context.Ticket.Properties.ExpiresUtc = new DateTimeOffset(DateTime.Now.AddDays(expire));
+            //int expire = int.Parse(commonrepository.AppConfigurationDetails("TOKENLIFETIME", 0)[0].ConfigValue); ;
+            //context.Ticket.Properties.ExpiresUtc = new DateTimeOffset(DateTime.Now.AddDays(expire));
             context.SetToken(context.SerializeTicket());
         }
 
