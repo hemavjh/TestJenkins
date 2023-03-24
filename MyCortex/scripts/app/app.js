@@ -732,7 +732,7 @@ EmpApp.run([ '$sce', '$http', '$routeParams', '$location', '$rootScope', '$windo
         console.log('swListener Received', e.data);
         var Title = e.data.notification.body;
         let Array = e.data.data;
-        var conferencename = Object.values(Array)[1];
+        var conferencename = Object.values(Array)[0];
         Swal.fire({
             position: 'top',
             title: Title,
@@ -753,7 +753,9 @@ EmpApp.run([ '$sce', '$http', '$routeParams', '$location', '$rootScope', '$windo
                 jQuery.get(baseUrl + '/api/Common/Hivemeet_popup/?ConferenceName=' + conferencename).done(function (data) {
                     const popuplist = data.PatientAppointmentList;
                     var PatId = popuplist[0].Patient_Id;
-                    window.location.href = baseUrl + "/Home/Index/PatientVitals/" + PatId + "/4";
+                    //$window.location.href = baseUrl + "/Home/Index/PatientVitals/" + PatId + "/4";
+                    //window.location.replace(baseUrl + "/Home/Index/PatientVitals/" + PatId + "/4");
+                    history.pushState(null, null, (baseUrl + "/Index/PatientVitals/" + PatId + "/4"));
                     setTimeout(openvideocall_popup, 5000)
                     function openvideocall_popup() {
                         $('#Patient_AppointmentPanel').removeClass('show');

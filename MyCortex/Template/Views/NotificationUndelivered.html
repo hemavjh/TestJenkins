@@ -87,7 +87,7 @@
                 <div class="col-sm-3">
                     <div class="inputGroups">
                         <label>Advance Filter</label>
-                        <a data-toggle="collapse" data-parent="#accordion" class="btn btn-link ml-5"
+                        <!--<a data-toggle="collapse" data-parent="#accordion" class="btn btn-link ml-5"
                             href="#collapseMore"
                             ng-click="currentTab=='1'?currentTab='2':currentTab='1';MessageUndeliveredDropdownList()"
                             title="Click for Advance search">
@@ -97,7 +97,18 @@
                             <sub ng-show="currentTab=='2'">
                                 <i class="fa fa-filter" aria-hidden="true"></i>
                             </sub>
-                        </a>
+                        </a>-->
+                        <div data-toggle="collapse" data-parent="#accordion" class="btn btn-link ml-5"
+                            href="#collapseMore"
+                            ng-click="currentTab=='1'?currentTab='2':currentTab='1';MessageUndeliveredDropdownList()"
+                            title="Click for Advance search">
+                            <sub ng-show="currentTab=='1' ">
+                                <i class="fa fa-filter" aria-hidden="true"></i>
+                            </sub>
+                            <sub ng-show="currentTab=='2'">
+                                <i class="fa fa-filter" aria-hidden="true"></i>
+                            </sub>
+                        </div>
                         <button type="button" class="theme-btn-1 pull-right" ng-click="UndeliveredEmailDetailslist()"
                             title="Click to Search">Go</button>
                         <button type="button" class="theme-btn-1 pull-right mr-10" id="btnsave" ng-disabled="false" ng-click="UndeliveredEmail_Insert()"
