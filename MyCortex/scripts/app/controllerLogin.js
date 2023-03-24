@@ -2417,7 +2417,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
 
         $scope.CancelPopup = function () {
             if (confirm('Are you sure?')) {
-                window.location.href = baseUrl + "/#/login";
+                window.location.href = baseUrl + "/login";
             }
         }
         /*
@@ -2453,7 +2453,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                             toastr.success(res.data.Message, "success");
                             $scope.ClearPassword();
                             angular.element('#ChangepasswordpopupModal').modal('hide');
-                            window.location.href = baseUrl + "/#/login";
+                            window.location.href = baseUrl + "/login";
                         }
                         else if (data.ReturnFlag == "0") {
                             toastr.info(res.data.Message, "info");

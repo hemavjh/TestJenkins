@@ -3150,7 +3150,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     Id: $scope.Id,
                     Modified_By: $window.localStorage['UserId']
                 }
-                $http.post(baseUrl + '/api/DoctorShift/DoctorShift_Delete/', obj).success(function (data) {
+                $http.post(baseUrl + '/api/DoctorShift/DoctorShift_Delete/', obj).then(function (response) {
                     //alert(data.Message);
                     if (data.ReturnFlag == 2) {
                         toastr.success(data.Message, "success");
@@ -3160,7 +3160,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     }
 
                     $scope.DoctorShiftListGo();
-                }).error(function (data) {
+                }, function errorCallback(response) {
                     $scope.error = "AN error has occured while deleting Institution!" + data;
                 });
                 $("#chatLoaderPV").hide();

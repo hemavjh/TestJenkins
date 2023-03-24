@@ -114,23 +114,23 @@ namespace MyCortex.Repositories.EmailAlert
                                 {
                                     var URLConvert = "";
                                     URLConvert = dtRow[FieldName].ToString();
-                                    TagsReplaceData = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
-                                    TagsReplaceData1 = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
+                                    TagsReplaceData = "<a href =" + URLConvert + "login>" + URLConvert + "</a>";
+                                    TagsReplaceData1 = "<a href =" + URLConvert + "login>" + URLConvert + "</a>";
                                     //< a href =\" + URLConvert + " + "#/login </a>"
                                 }
                                 else if (TagName == "{Reset}")
                                 {
                                     var URLConvert = "";
                                     URLConvert = dtRow[FieldName].ToString();
-                                    TagsReplaceData = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
-                                    TagsReplaceData1 = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
+                                    TagsReplaceData = "<a href =" + URLConvert + "login>" + URLConvert + "</a>";
+                                    TagsReplaceData1 = "<a href =" + URLConvert + "login>" + URLConvert + "</a>";
                                 }
                                 else if (TagName == "{Link}")
                                 {
                                     var URLConvert = "";
                                     URLConvert = dtRow[FieldName].ToString();
-                                    TagsReplaceData = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
-                                    TagsReplaceData1 = "<a href =" + URLConvert + "#/login>" + URLConvert + "</a>";
+                                    TagsReplaceData = "<a href =" + URLConvert + "login>" + URLConvert + "</a>";
+                                    TagsReplaceData1 = "<a href =" + URLConvert + "login>" + URLConvert + "</a>";
                                 }
                                 else if (TagName == "{ Password }" || TagName == "{Password}")
                                 {

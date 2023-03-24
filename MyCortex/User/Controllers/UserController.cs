@@ -681,7 +681,7 @@ namespace MyCortex.User.Controller
                 var encryptString = Convert.ToInt64(userid) * 4;
                 string turl = HttpContext.Current.Request.Url.Host.ToString();
                 string pwd = CHANGE_URl_PASSWORD.Replace("/", "@");
-                string url = HttpContext.Current.Request.Url.Host + "/#/ChangePassword/" + text + "/" + userObj.INSTITUTION_ID.ToString() + "/" + encryptString + "/" + pwd;
+                string url = HttpContext.Current.Request.Url.Host + "/ChangePassword/" + text + "/" + userObj.INSTITUTION_ID.ToString() + "/" + encryptString + "/" + pwd;
                 // below alert for change password
                 if (userid != "0")
                 {

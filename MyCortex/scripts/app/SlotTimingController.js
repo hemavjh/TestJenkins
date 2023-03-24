@@ -17,11 +17,12 @@ SlotTiming.controller("SlotTimingController", ['$scope', '$http', '$routeParams'
 
         $scope.page_size = 0;
         $scope.ConfigCode = "PAGINATION";
-        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
-            if (data[0] != undefined) {
-                $scope.page_size = parseInt(data[0].ConfigValue);
+        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).then(function (response) {
+            if (response.data[0] != undefined) {
+                $scope.page_size = parseInt(response.data[0].ConfigValue);
                 $window.localStorage['Pagesize'] = $scope.page_size;
             }
+        }, function errorCallback(response) {
         });
         /*List Page Pagination*/
         $scope.listdata = [];
@@ -178,18 +179,18 @@ SlotTiming.controller("SlotTimingController", ['$scope', '$http', '$routeParams'
                     ShiftFromDate: moment($scope.ShiftFromDate).format('DD-MMM-YYYY'),
                     ShiftToDate: moment($scope.ShiftToDate).format('DD-MMM-YYYY'),
                 };
-                $http.post(baseUrl + '/api/ShiftTmings/ShiftTimings_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
+                $http.post(baseUrl + '/api/ShiftTmings/ShiftTimings_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).then(function (response) {
                     //alert(data.Message);
-                    if (data.ReturnFlag == 1) {
-                        toastr.success(data.Message, "success");
+                    if (response.data.ReturnFlag == 1) {
+                        toastr.success(response.data.Message, "success");
                     }
-                    else if (data.ReturnFlag == 0) {
-                        toastr.info(data.Message, "info");
+                    else if (response.data.ReturnFlag == 0) {
+                        toastr.info(response.data.Message, "info");
                     }
                     $scope.ShiftTimingList();
                     $scope.ClearShiftTimingPopUp();
-                }).error(function (data) {
-                    $scope.error = "An error has occurred while deleting Parameter" + data;
+                }, function errorCallback(response) {
+                    $scope.error = "An error has occurred while deleting Parameter" + response.data;
                 });
                 $("#chatLoaderPV").hide();
             }
@@ -229,10 +230,10 @@ SlotTiming.controller("SlotTimingController", ['$scope', '$http', '$routeParams'
                     $scope.ISact = -1 //all
                 }
 
-                $http.get(baseUrl + '/api/ShiftTmings/ShiftTimings_List/Id?=0' + '&IsActive=' + $scope.ISact + '&InstituteId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $http.get(baseUrl + '/api/ShiftTmings/ShiftTimings_List/Id?=0' + '&IsActive=' + $scope.ISact + '&InstituteId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
                     $scope.emptydataShiftTimings = [];
                     $scope.rowCollectionShiftTimings = [];
-                    $scope.rowCollectionShiftTimings = data;
+                    $scope.rowCollectionShiftTimings = response.data;
                     $scope.rowCollectionShiftTimingsFilter = angular.copy($scope.rowCollectionShiftTimings);
                     if ($scope.rowCollectionShiftTimingsFilter.length > 0) {
                         $scope.flag = 1;
@@ -241,8 +242,8 @@ SlotTiming.controller("SlotTimingController", ['$scope', '$http', '$routeParams'
                         $scope.flag = 0;
                     }
                     $("#chatLoaderPV").hide();
-                }).error(function (data) {
-                    $scope.error = "AN error has occured while Listing the records!" + data;
+                }, function errorCallback(response) {
+                    $scope.error = "AN error has occured while Listing the records!" + response.data;
                 })
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
@@ -271,16 +272,17 @@ SlotTiming.controller("SlotTimingController", ['$scope', '$http', '$routeParams'
                 $scope.Id = $routeParams.Id;
                 $scope.DuplicatesId = $routeParams.Id;
             }
-            $http.get(baseUrl + '/api/ShiftTmings/ShiftTimings_View/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                $scope.DuplicatesId = data.Id;
-                $scope.Id = data.Id;
-                $scope.ShiftName = data.ShiftName;
+            $http.get(baseUrl + '/api/ShiftTmings/ShiftTimings_View/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).then(function (response) {
+                $scope.DuplicatesId = response.data.Id;
+                $scope.Id = response.data.Id;
+                $scope.ShiftName = response.data.ShiftName;
                 var SFD = moment(data.ShiftFromDate).format('DD-MMM-YYYY');
                 $scope.ShiftFromDate = DateFormatEdit(SFD);
                 var STD = moment(data.ShiftToDate).format('DD-MMM-YYYY');
                 $scope.ShiftToDate = DateFormatEdit(STD);
                 $scope.ShiftFromTime = $filter('date')(data.ShiftFromTime, "hh:mm a");
                 $scope.ShiftEndTime = $filter('date')(data.ShiftEndTime, "hh:mm a");
+            }, function errorCallback(response) {
             });
             $("#chatLoaderPV").hide();
         };
@@ -303,12 +305,12 @@ SlotTiming.controller("SlotTimingController", ['$scope', '$http', '$routeParams'
                     Modified_By: $window.localStorage['UserId']
                 }
 
-                $http.post(baseUrl + '/api/ShiftTmings/ShiftTimings_InActive/', obj).success(function (data) {
+                $http.post(baseUrl + '/api/ShiftTmings/ShiftTimings_InActive/', obj).then(function (response) {
                     //alert(data.Message);
-                    toastr.success(data.Message, "success");
+                    toastr.success(response.data.Message, "success");
                     $scope.ShiftTimingList();
-                }).error(function (data) {
-                    $scope.error = "An error has occurred while deleting Shift Slot" + data;
+                }, function errorCallback(response) {
+                    $scope.error = "An error has occurred while deleting Shift Slot" + response.data;
                 });
             };
         };
@@ -340,12 +342,12 @@ SlotTiming.controller("SlotTimingController", ['$scope', '$http', '$routeParams'
                             Modified_By: $window.localStorage['UserId']
                         }
 
-                        $http.post(baseUrl + '/api/ShiftTmings/ShiftTimings_Active/', obj).success(function (data) {
+                        $http.post(baseUrl + '/api/ShiftTmings/ShiftTimings_Active/', obj).then(function (response) {
                             //alert(data.Message);
-                            toastr.success(data.Message, "success");
+                            toastr.success(response.data.Message, "success");
                             $scope.ShiftTimingList();
-                        }).error(function (data) {
-                            $scope.error = "An error has occurred while deleting Shift Slot" + data;
+                        }, function errorCallback(response) {
+                            $scope.error = "An error has occurred while deleting Shift Slot" + response.data;
                         });
                     };
                 }

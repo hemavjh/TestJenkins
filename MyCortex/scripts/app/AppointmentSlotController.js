@@ -77,9 +77,10 @@ AppointmentSlot.controller("AppointmentSlotController", ['$scope', '$http', '$ro
             $scope.InstituteId = $window.localStorage['InstitutionId'];
             $scope.DoctorList = [];
             $scope.DoctorListActive = [];
-            $http.get(baseUrl + '/api/AppoinmentSlot/Doctors_List/?Institution_Id=' + $scope.InstituteId).success(function (data) {
-                $scope.DoctorList = $ff(data, { IsActive: 1 });
-                $scope.DoctorListActive = data;
+            $http.get(baseUrl + '/api/AppoinmentSlot/Doctors_List/?Institution_Id=' + $scope.InstituteId).then(function (response) {
+                $scope.DoctorList = $ff(response.data, { IsActive: 1 });
+                $scope.DoctorListActive = response.data;
+            }, function errorCallback(response) {
             });
 
             $scope.searchquery = "";
@@ -195,17 +196,17 @@ AppointmentSlot.controller("AppointmentSlotController", ['$scope', '$http', '$ro
                         $scope.DoctorListDetails.push(obj1)
                     }
 
-                    $http.post(baseUrl + '/api/AppoinmentSlot/AppoinmentSlot_AddEdit/', $scope.DoctorListDetails).success(function (data) {
+                    $http.post(baseUrl + '/api/AppoinmentSlot/AppoinmentSlot_AddEdit/', $scope.DoctorListDetails).then(function (response) {
                         // $("#chatLoaderPV").hide();
                         //alert(data.Message);
 
-                        if (data.ReturnFlag == "1") {
-                            toastr.success(data.Message, "success");
+                        if (response.data.ReturnFlag == "1") {
+                            toastr.success(response.data.Message, "success");
                             $scope.CancelSlot();
                             $scope.AppoinmentSlotListGo();
                         }
-                        else if (data.ReturnFlag == "0") {
-                            toastr.info(data.Message, "info");
+                        else if (response.data.ReturnFlag == "0") {
+                            toastr.info(response.data.Message, "info");
                         }
                         $("#chatLoaderPV").hide();
                     })
@@ -240,11 +241,11 @@ AppointmentSlot.controller("AppointmentSlotController", ['$scope', '$http', '$ro
                     $scope.ISact = -1 //all
                 }
 
-                $http.get(baseUrl + '/api/AppoinmentSlot/AppoinmentSlot_List/Id?=0' + '&IsActive=' + $scope.ISact + '&Institution_Id=' + $scope.InstituteId).success(function (data) {
+                $http.get(baseUrl + '/api/AppoinmentSlot/AppoinmentSlot_List/Id?=0' + '&IsActive=' + $scope.ISact + '&Institution_Id=' + $scope.InstituteId).then(function (response) {
 
                     $scope.emptydata = [];
                     $scope.rowCollection = [];
-                    $scope.rowCollection = data;
+                    $scope.rowCollection = response.data;
                     $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
                     if ($scope.rowCollectionFilter.length > 0) {
                         $scope.flag = 1;
@@ -253,8 +254,8 @@ AppointmentSlot.controller("AppointmentSlotController", ['$scope', '$http', '$ro
                         $scope.flag = 0;
                     }
                     $("#chatLoaderPV").hide();
-                }).error(function (data) {
-                    $scope.error = "AN error has occured while Listing the records!" + data;
+                }, function errorCallback(response) {
+                    $scope.error = "AN error has occured while Listing the records!" + response.data;
                 })
             };
 
@@ -271,21 +272,22 @@ AppointmentSlot.controller("AppointmentSlotController", ['$scope', '$http', '$ro
                     $scope.DuplicatesId = $routeParams.Id;
                 }
 
-                $http.get(baseUrl + '/api/AppoinmentSlot/AppoinmentSlot_View/?Id=' + Id).success(function (data) {
-                    $scope.Id = data.Id;
-                    $scope.DuplicatesId = data.Id;
-                    $scope.Doctor_Id = data.Doctor_Id.toString();
+                $http.get(baseUrl + '/api/AppoinmentSlot/AppoinmentSlot_View/?Id=' + Id).then(function (response) {
+                    $scope.Id = response.data.Id;
+                    $scope.DuplicatesId = response.data.Id;
+                    $scope.Doctor_Id = response.data.Doctor_Id.toString();
                     $scope.SelectedDoctor1 = $scope.Doctor_Id;
-                    $scope.DepartmentName = data.Department_Name;
-                    $scope.Doctor_Name = data.Doctor_Name;
+                    $scope.DepartmentName = response.data.Department_Name;
+                    $scope.Doctor_Name = response.data.Doctor_Name;
                     //  $scope.Appoinment_Hours = data.Appoinment_Hours;
-                    $scope.Appoinment_Minutes = data.Appoinment_Minutes;
-                    $scope.FollowUp_Appoinment = data.FollowUp_Appoinment;
-                    $scope.SlotInterval = data.SlotInterval;
+                    $scope.Appoinment_Minutes = response.data.Appoinment_Minutes;
+                    $scope.FollowUp_Appoinment = response.data.FollowUp_Appoinment;
+                    $scope.SlotInterval = response.data.SlotInterval;
                     //$scope.EditSelectedDoctor.push(data.Doctor_Id);
                     //$scope.SelectedDoctor = $scope.EditSelectedDoctor;
                     //$scope.SelectedDoctorval();
                     $("#chatLoaderPV").hide();
+                }, function errorCallback(response) {
                 });
 
             }
@@ -319,12 +321,12 @@ AppointmentSlot.controller("AppointmentSlotController", ['$scope', '$http', '$ro
                         }
 
                         //  $http.post(baseUrl + '/api/MasterICD/MasterICD_AddEdit/', obj).success(function (data) {
-                        $http.post(baseUrl + '/api/AppoinmentSlot/AppoinmentSlot_Delete/', obj).success(function (data) {
+                        $http.post(baseUrl + '/api/AppoinmentSlot/AppoinmentSlot_Delete/', obj).then(function (response) {
                             //alert(data.Message);
-                            toastr.success(data.Message, "success");
+                            toastr.success(response.data.Message, "success");
                             $scope.AppoinmentSlotListGo();
-                        }).error(function (data) {
-                            $scope.error = "AN error has occured while deleting Institution!" + data;
+                        }, function errorCallback(response) {
+                            $scope.error = "AN error has occured while deleting Institution!" + response.data;
                         });
                     } else if (result.isDenied) {
                         //Swal.fire('Changes are not saved', '', 'info')
@@ -364,7 +366,7 @@ AppointmentSlot.controller("AppointmentSlotController", ['$scope', '$http', '$ro
                 $http.get(baseUrl + '/api/AppoinmentSlot/ActivateDoctorSlot_List/?Id=' + $scope.Id
                     + '&Institution_Id=' + $window.localStorage['InstitutionId']
                     + '&Doctor_Id=' + DoctorId
-                ).success(function (data) {
+                ).then(function (data) {
                     if (data.returnval == 1) {
                         //alert("Activate Doctor Appoinment Slot is already created, Please check");
                         toastr.info("Activate Doctor Appoinment Slot is already created, Please check", "info");
@@ -387,12 +389,12 @@ AppointmentSlot.controller("AppointmentSlotController", ['$scope', '$http', '$ro
                                     Id: $scope.Id,
                                     Modified_By: $window.localStorage['UserId']
                                 }
-                                $http.post(baseUrl + '/api/AppoinmentSlot/AppoinmentSlot_Active/', obj).success(function (data) {
+                                $http.post(baseUrl + '/api/AppoinmentSlot/AppoinmentSlot_Active/', obj).then(function (response) {
                                     //alert(data.Message);
-                                    toastr.success(data.Message, "success");
+                                    toastr.success(response.data.Message, "success");
                                     $scope.AppoinmentSlotListGo();
-                                }).error(function (data) {
-                                    $scope.error = "An error has occurred while ReInsertAppoinment Slot" + data;
+                                }, function errorCallback(response) {
+                                    $scope.error = "An error has occurred while ReInsertAppoinment Slot" + response.data;
                                 });
                             } else if (result.isDenied) {
                                 //Swal.fire('Changes are not saved', '', 'info')
