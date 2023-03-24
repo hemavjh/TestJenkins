@@ -774,7 +774,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                             localStorage.removeItem['refresh'];
                             $window.localStorage['timer'] = response.data.expires_in;
                             console.log(response);
-                        }).error(function (err) {
+                        }, function errorCallback(err) {
                             $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
                             $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] = '';
                             $window.localStorage['timer'] = '';
