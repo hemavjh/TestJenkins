@@ -25,7 +25,7 @@ namespace MyCortex.Provider
             var formData = await context.Request.ReadFormAsync() as IEnumerable<KeyValuePair<string, string[]>>;
             long ClientId = Convert.ToInt64(formData.FirstOrDefault(x => x.Key == "client_id").Value[0]);
             //string ClientName = formData.FirstOrDefault(x => x.Key == "UserName").Value[0];
-            if (ClientId != 0)
+            if (ClientId != 0 && ClientId != 1)
             {
                 long InsID1 = Convert.ToInt64(commonrepository.GetInstitutionId(ClientId)[0].InstitutionId);
                 InsID = InsID1;
