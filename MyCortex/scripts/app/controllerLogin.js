@@ -767,7 +767,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                         var Password1 = $scope.Password;
                         var Password = Password1.replace(/(#|&)/g, "amp");
                         var LoginType = $scope.LoginType;
-                        var tokendata = "UserName=" + UserName + "&Password=" + Password + "&grant_type=password" + "&client_id=" + $window.localStorage['UserId']
+                        var tokendata = "UserName=" + UserName + "&Password=" + Password + "&grant_type=password" + "&client_id=" + $window.localStorage['InstitutionId']
                         $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(function (response) {
                             $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.data.access_token;
                             $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] = response.data.refresh_token;

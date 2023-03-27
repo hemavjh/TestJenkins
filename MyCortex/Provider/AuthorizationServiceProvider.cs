@@ -23,15 +23,20 @@ namespace MyCortex.Provider
             context.Validated();
             long InsID = 0;
             var formData = await context.Request.ReadFormAsync() as IEnumerable<KeyValuePair<string, string[]>>;
-            long ClientId = Convert.ToInt64(formData.FirstOrDefault(x => x.Key == "client_id").Value[0]);
-            //string ClientName = formData.FirstOrDefault(x => x.Key == "UserName").Value[0];
-            if (ClientId != 0 && ClientId != 1)
+            var fieldValue = formData.FirstOrDefault(x => x.Key == "client_id").Value;
+            if (fieldValue != null)
             {
-                long InsID1 = Convert.ToInt64(commonrepository.GetInstitutionId(ClientId)[0].InstitutionId);
-                InsID = InsID1;
+                long ClientId = Convert.ToInt64(formData.FirstOrDefault(x => x.Key == "client_id").Value[0]);
+                InsID = ClientId;
             }
+            //string ClientName = formData.FirstOrDefault(x => x.Key == "UserName").Value[0];
+            //if (ClientId != 0 && ClientId != 1 )
+            //{
+            //long InsID1 = Convert.ToInt64(commonrepository.GetInstitutionId(ClientId)[0].InstitutionId);
+            //InsID = InsID1;
+            //}
             long lifeTypeValue = Convert.ToInt64(int.Parse(commonrepository.AppConfigurationDetails("TOKENLIFETIME", InsID)[0].ConfigValue));
-            context.Options.AccessTokenExpireTimeSpan = TimeSpan.FromDays(lifeTypeValue);
+            context.Options.AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(lifeTypeValue);
         }
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
