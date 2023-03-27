@@ -71,8 +71,9 @@ namespace MyCortex.Notification.Firebase
                     body = message.Message,
                     click_action = Url,
                     //user_id = User_Id,
-                    Conferencename = message.conferencename
+                    //Conferencename = message.conferencename
                 },
+                priority = "high",
                 to = message.FCMToken
             };
 
@@ -274,13 +275,13 @@ namespace MyCortex.Notification.Firebase
                     user_id = User_Id,
                     Conferencename = message.conferencename
                 },
+                priority = "high",
                 data = new //android
                 {
                     user_id = User_Id,
                     Conference_Name = message.conferencename
                 },
                 to = message.FCMToken,
-                //conferencename = message.conferencename
             };
 
             //Tranform it to Json object
