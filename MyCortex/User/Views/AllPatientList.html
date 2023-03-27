@@ -43,17 +43,20 @@
                     <div class="col-sm-3">
                         <div class="inputGroups">
                             <label>Advance Filter</label>
-                            <a data-toggle="collapse" data-parent="#accordion" class="btn btn-link"
-                               href="#collapseMore" ng-click="currentTab=='1'?currentTab='2':currentTab='1'"
-                               title="Click for Advance search">
-
-                                <sub ng-show="currentTab=='1'">
-                                    <i class="fa fa-filter" aria-hidden="true"></i>
-                                </sub>
-                                <sub ng-show="currentTab=='2'">
-                                    <i class="fa fa-filter" aria-hidden="true"></i>
-                                </sub>
-                            </a>
+                            <!--<a data-toggle="collapse" data-parent="#accordion" class="btn btn-link"
+       href="#collapseMore" ng-click="currentTab=='1'?currentTab='2':currentTab='1'"
+       title="Click for Advance search">-->
+                            <div data-toggle="collapse" data-parent="#accordion" class="btn btn-link"
+       href="#collapseMore" ng-click="currentTab=='1'?currentTab='2':currentTab='1'"
+       title="Click for Advance search">
+                            <sub ng-show="currentTab=='1'">
+                                <i class="fa fa-filter" aria-hidden="true"></i>
+                            </sub>
+                            <sub ng-show="currentTab=='2'">
+                                <i class="fa fa-filter" aria-hidden="true"></i>
+                            </sub>
+                            </div>
+                            <!--</a>-->
                         </div>
 
                     </div>

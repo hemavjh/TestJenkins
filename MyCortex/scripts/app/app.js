@@ -141,11 +141,11 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         }).
         when('/Home/Index/Institution', {
             templateUrl: '/Admin/Views/Institutionlist.html',
-            controller: 'InstitutionController'
+            controller: 'InstitutionController', reloadOnSearch: false
         }).
         when('/Home/Index/Institution_Subscription', {
             templateUrl: baseUrl + 'Admin/Views/InstitutionSubscriptionlist.html',
-            controller: 'InstitutionSubscriptionController'
+            controller: 'InstitutionSubscriptionController', reloadOnSearch: false
         }).
         when('/Home/Index/Device', {
             templateUrl: baseUrl + 'Admin/Views/DeviceNameAdminList.html',
@@ -153,7 +153,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         }).
         when('/Home/Index/SuperAdmin_UserList/:LoginUserType', {
             templateUrl: baseUrl + 'User/Views/SuperAdmin_Userlist.html',
-            controller: 'UserController'
+            controller: 'UserController', reloadOnSearch: false
         }).
         when('/Home/Index/Admin_UserList/:LoginUserType', {
             templateUrl: baseUrl + 'User/Views/SuperAdmin_Userlist.html',
@@ -709,12 +709,11 @@ EmpApp.run(['$sce', '$http', '$routeParams', '$location', '$rootScope', '$window
                 //console.log(`${minutesLeft}:${secondsLeft}`);
                 if (seconds < 300) {
                     var tokendata = "grant_type=refresh_token" + "&refresh_token=" + $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] + "&client_id=" + window.localStorage['UserId'];
-                    $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(function (response) {
-                        $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.data.access_token;
-                        $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] = response.data.refresh_token;
-                        $window.localStorage['timer'] = response.data.expires_in;
+                    $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
+                        $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
+                        $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] = response.refresh_token;
+                        $window.localStorage['timer'] = response.expires_in;
                         countdown();
-                    }, function errorCallback(response) { 
                     })
                     clearInterval(timer);
                 }
@@ -753,7 +752,8 @@ EmpApp.run([ '$sce', '$http', '$routeParams', '$location', '$rootScope', '$windo
                 jQuery.get(baseUrl + '/api/Common/Hivemeet_popup/?ConferenceName=' + conferencename).done(function (data) {
                     const popuplist = data.PatientAppointmentList;
                     var PatId = popuplist[0].Patient_Id;
-                    window.location.href = baseUrl + "/Home/Index/PatientVitals/" + PatId + "/4";
+                    //window.location.href = baseUrl + "/Home/Index/PatientVitals/" + PatId + "/4";
+                    $location.path = baseUrl + "/Home/Index/PatientVitals/" + PatId + "/4";
                     setTimeout(openvideocall_popup, 5000)
                     function openvideocall_popup() {
                         $('#Patient_AppointmentPanel').removeClass('show');
