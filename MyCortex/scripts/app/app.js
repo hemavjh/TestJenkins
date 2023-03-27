@@ -707,7 +707,7 @@ EmpApp.run(['$sce', '$http', '$routeParams', '$location', '$rootScope', '$window
                 let secondsLeft = seconds % 60;
                 secondsLeft = secondsLeft < 10 ? '0' + secondsLeft : secondsLeft;
                 //console.log(`${minutesLeft}:${secondsLeft}`);
-                if (seconds < 300) {
+                if (seconds < 60) {
                     var tokendata = "grant_type=refresh_token" + "&refresh_token=" + $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] + "&client_id=" + window.localStorage['InstitutionId'];
                     $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
                         $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;

@@ -73,7 +73,7 @@ namespace MyCortex.Notification.Firebase
                     //user_id = User_Id,
                     //Conferencename = message.conferencename
                 },
-                priority = "high",
+                //priority = "high",
                 to = message.FCMToken
             };
 
@@ -275,7 +275,7 @@ namespace MyCortex.Notification.Firebase
                     user_id = User_Id,
                     Conferencename = message.conferencename
                 },
-                priority = "high",
+                //priority = "high",
                 data = new //android
                 {
                     user_id = User_Id,
