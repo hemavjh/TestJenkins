@@ -709,12 +709,13 @@ EmpApp.run(['$sce', '$http', '$routeParams', '$location', '$rootScope', '$window
                 //console.log(`${minutesLeft}:${secondsLeft}`);
                 if (seconds < 60) {
                     var tokendata = "grant_type=refresh_token" + "&refresh_token=" + $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] + "&client_id=" + window.localStorage['InstitutionId'];
-                    $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
-                        $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
-                        $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] = response.refresh_token;
-                        $window.localStorage['timer'] = response.expires_in;
+                    $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(function (response) {
+                        $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.data.access_token;
+                        $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] = response.data.refresh_token;
+                        $window.localStorage['timer'] = response.data.expires_in;
                         countdown();
-                    })
+                    }, function errorCallback(response) {
+                    });
                     clearInterval(timer);
                 }
                 seconds--;
