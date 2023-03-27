@@ -3,19 +3,30 @@
 <div class="mt-15">
     <div class="panel panel-default patientProfileInfo">
 
-        <ul ng-if="userTypeId != 5" class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#appt">Upcoming</a></li>
-            <li><a data-toggle="tab" href="#Past">Past</a></li>
+        <ul ng-if="userTypeId != 5" class="nav nav-tabs" role="tablist">
+            <li class="active nav-item">
+            <div class="nav-link cursor-pointer" id="appt-tab" data-toggle="tab" data-target="#appt" role="tab" aria-controls="appt" aria-selected="true">Upcoming</div>
+    <!--<a data-toggle="tab" href="#appt">Upcoming</a>--></li>
+            <li class="nav-item">
+                <div class="nav-link cursor-pointer" id="Past-tab" data-toggle="tab" data-target="#Past" role="tab" aria-controls="Past" aria-selected="true">Past</div>
+                <!--<a data-toggle="tab" href="#Past">Past</a>-->
+            </li>
         </ul>
-        <ul ng-if="userTypeId == 5" class="nav nav-tabs">
+        <ul ng-if="userTypeId == 5" class="nav nav-tabs" role="tablist">
             <!--style="width:33.3% !important;"-->
-            <li class="active"><a data-toggle="tab" href="#appt">Upcoming</a></li>
-            <li><a data-toggle="tab" href="#Past">Past</a></li>
+            <li class="active nav-item">
+                <div class="nav-link cursor-pointer" id="appt-tab" data-toggle="tab" data-target="#appt" role="tab" aria-controls="appt" aria-selected="true">Upcoming</div>
+                <!--<a data-toggle="tab" href="#appt">Upcoming</a>-->
+            </li>
+            <li class="nav-item">
+                <div class="nav-link cursor-pointer" id="Past-tab" data-toggle="tab" data-target="#Past" role="tab" aria-controls="Past" aria-selected="true">Past</div>
+                <!--<a data-toggle="tab" href="#Past">Past</a>-->
+            </li>
             <!--<li style="width:33.4% !important;"><a data-toggle="tab" href="#Waiting_Appointment">Waiting</a></li>-->
         </ul>
         <div infinityscroll="NextPage('appt','apptscrol')" id="apptscrol" class="tab-content centerScroll" style="display:inherit !important; height: 212px;">
 
-            <div id="Past" class="tab-pane fade">
+            <div id="Past" class="tab-pane fade" role="tabpanel" aria-labelledby="Past-tab">
                 <div class="" ng-repeat="Row in PreviousAppointmentDetails" ng-hide="PreviousAppointmentCount == 0">
                     <div class=" upcoming-doctor">
                         <div class="flex justify-content-between align-items-center mb-4">
@@ -69,7 +80,7 @@
                 </div>
             </div>
 
-            <div id="appt" class="tab-pane fade in active">
+            <div id="appt" class="tab-pane fade in active"  role="tabpanel" aria-labelledby="appt-tab">
                 <div class="" ng-repeat="Row in UpComingAppointmentDetails" ng-hide="UpComingAppointmentCount == 0">
                     <div class=" upcoming-doctor">
                         <div class="flex justify-content-between align-items-center mb-4">

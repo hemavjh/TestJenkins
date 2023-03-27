@@ -1034,6 +1034,15 @@ li.customDropdownlast-child:hover {
         font-weight: 600;
         background: #fff !important;
     }
+    .nav-tabs > li.active > div,
+    .nav-tabs > li.active > div:focus,
+    .nav-tabs > li.active > div:hover {
+        border: 0px !important;
+        color: #000 !important;
+        font-weight: 600;
+        background: #fff !important;
+        cursor: pointer;
+    }
 
     .nav-tabs > li > a {
         background: #e6e7e8 !important;
@@ -1042,6 +1051,15 @@ li.customDropdownlast-child:hover {
         border: 0px solid transparent !important;
         border-radius: 0 !important;
         color: #8d8c8d !important;
+    }
+    .nav-tabs > li > div {
+        background: #e6e7e8 !important;
+        margin-right: 0px !important;
+        line-height: 40px !important;
+        border: 0px solid transparent !important;
+        border-radius: 0 !important;
+        color: #8d8c8d !important;
+        cursor: pointer;
     }
 
 .patientProfileInfo .nav li {
@@ -1052,8 +1070,14 @@ li.customDropdownlast-child:hover {
 .nav-tabs > li:first-child > a {
     border-bottom-right-radius: 5px !important;
 }
+.nav-tabs > li:first-child > div {
+    border-bottom-right-radius: 5px !important;
+}
 
 .nav-tabs > li:last-child > a {
+    border-bottom-left-radius: 5px !important;
+}
+.nav-tabs > li:last-child > div {
     border-bottom-left-radius: 5px !important;
 }
 

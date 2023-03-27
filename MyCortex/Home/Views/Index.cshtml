@@ -290,16 +290,18 @@
                             if ((@menu.Menu_Level == 1) && (@menu.HasChild == 0))
                             {
                                 <div class="menuList">
-                                    <button id="@menu.Menu_Name" onclick="location.href = '@menu.Menu_URL'"
-                                            type="button" aria-expanded="false">
-                                        @menu.Menu_Name
-                                    </button>
+                                    @*<a id="@menu.Menu_Name" href="@menu.Menu_URL">
+                                    @menu.Menu_Name</a>*@
+                                    <button id="@menu.Menu_Name" onclick="window.location.href = '@menu.Menu_URL'"
+                type="button" aria-expanded="false">
+            @menu.Menu_Name
+        </button>
                                 </div>
                             }
                             else if ((@menu.Menu_Level == 1) && (@menu.HasChild == 0))
                             {
                                 <div class="menuList">
-                                    <button id="@menu.Menu_Name" onclick="location.href = '@menu.Menu_URL'"
+                                    <button id="@menu.Menu_Name" onclick="window.location.href = '@menu.Menu_URL'"
                                             type="button" aria-expanded="false">
                                         @menu.Menu_Name
                                     </button>
@@ -320,7 +322,7 @@
                                             {
                                                 if (@submenu.Parent_Id == @menu.Menu_Id)
                                                 {
-                                                    <li class="customDropdownlast-child" onclick="location.href='@submenu.Menu_URL'" style="padding: 4px 16px !important;">@submenu.Menu_Name</li>
+                                                    <li class="customDropdownlast-child" onclick="window.location.href='@submenu.Menu_URL'" style="padding: 4px 16px !important;">@submenu.Menu_Name</li>
                                                 }
                                             }
                                         </ul>
