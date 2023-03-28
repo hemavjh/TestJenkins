@@ -1896,6 +1896,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                     }, 15000);
                                 } else if (response.data.status == -3 || response.data.status == -1) {
                                     toastr.warning(response.data.errors[0], "warning");
+                                    if (response.data.status == -1) {
+                                        $scope.confirm_appointment($scope.Appointment_Id, "", 5, 4);
+                                    }
                                 }
                             }
                         }, function errorCallback(response) {
@@ -1986,7 +1989,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             if (response.data != null) {
                                 if (response.data.ReturnFlag === 1) {
                                     toastr.success(response.data.Message, "success");
-                                    $scope.cancel_eligibility(eligibilityId);
+                                    if (eligibilityId != "") {
+                                        $scope.cancel_eligibility(eligibilityId);
+                                    }
                                 }
                             }
                         }, function errorCallback(response) {
