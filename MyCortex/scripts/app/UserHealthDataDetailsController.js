@@ -2209,7 +2209,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                          }*/
                     }
                     $scope.AppointmentPayment = function (Row) {
-                        $scope.RedirectParam = $window.location.hash.replace('/PatientVitals/', '');
+                        var param1 = $routeParams.Id;
+                        var param2 = $routeParams.PageParameter;
+                        $scope.RedirectParam = param1 + "/" + param2; //$window.location.hash.replace('/PatientVitals/', '');
                         $scope.paymentappointmentId = Row.Id;
                         $scope.paymentdepartmentId = Row.DoctorDepartmentId;
                         $scope.paymentInstitutionId = Row.Institution_Id;
