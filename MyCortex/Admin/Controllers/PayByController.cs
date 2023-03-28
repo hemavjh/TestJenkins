@@ -427,7 +427,7 @@ namespace MyCortex.Admin.Controllers
                     paySceneCode = "PAYPAGE",
                     paySceneParams = new PaySceneParams
                     {
-                        redirectUrl = redirectParam  //"https://" + baseUrl + "/Home/Index/PatientVitals/" + redirectParam //+"0/1?orderId=414768633924763654"
+                        redirectUrl = "https://" + baseUrl + "/Home/Index/PatientVitals/" + redirectParam //+"0/1?orderId=414768633924763654"
                     },
                     notifyUrl = "https://" + baseUrl + "/Home/Notify/",
                     accessoryContent = new AccessoryContent
