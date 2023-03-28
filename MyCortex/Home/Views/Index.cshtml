@@ -8,7 +8,8 @@
     $(document).ready(function () {
         User_id = window.localStorage['UserTypeId'];
 
-        $('.menuList button').removeClass('activeButton');
+        //$('.menuList button').removeClass('activeButton');
+        $('.menuList a').removeClass('activeButton');
 
         document.getElementById("UnreadCountIcon").title = "Unread Notifications: " + CountList[0];
         var NotificationCount = document.getElementById('notificationCount');
@@ -290,22 +291,23 @@
                             if ((@menu.Menu_Level == 1) && (@menu.HasChild == 0))
                             {
                                 <div class="menuList">
-                                    @*<a id="@menu.Menu_Name" href="@menu.Menu_URL">
-                                    @menu.Menu_Name</a>*@
-                                    <button id="@menu.Menu_Name" onclick="window.location.href = '@menu.Menu_URL'"
+                                    <!-- Page has refreshed instead of route change. So changed the button to <a> -->
+                                    <a id="@menu.Menu_Name" href="@menu.Menu_URL" aria-expanded="false">&nbsp;@menu.Menu_Name </a> &nbsp;
+                                    @*<button id="@menu.Menu_Name" onclick="window.location.href = '@menu.Menu_URL'"
                 type="button" aria-expanded="false">
             @menu.Menu_Name
-        </button>
+        </button>*@
                                 </div>
                             }
                             else if ((@menu.Menu_Level == 1) && (@menu.HasChild == 0))
                             {
-                                <div class="menuList">
-                                    <button id="@menu.Menu_Name" onclick="window.location.href = '@menu.Menu_URL'"
-                                            type="button" aria-expanded="false">
-                                        @menu.Menu_Name
-                                    </button>
-                                </div>
+                    <div class="menuList">
+                        <a id="@menu.Menu_Name" href="@menu.Menu_URL" aria-expanded="false">&nbsp;@menu.Menu_Name </a> &nbsp;
+                        @*<button id="@menu.Menu_Name" onclick="window.location.href = '@menu.Menu_URL'"
+                type="button" aria-expanded="false">
+            @menu.Menu_Name
+        </button>*@
+                    </div>
                             }
                             else
                             {
@@ -335,7 +337,7 @@
                 </div>
                 <div class="themeLogo" id="divPatientType" style="display: none; margin-left: 20px;">
                     <img src="images/Premium.svg" id="imgPatientType">
-                </div>
+                </div> 
                 <div class="themeRight">
                     <div id="User_id" class="patientShortInfo">
                         <div id="patient_profile" class="patientHeaderProfile" style="display: none;">

@@ -638,12 +638,47 @@ ul.periods {
         transition: 0.2s ease-in-out;
     }
 
+.menuList a {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: inherit;
+    margin-right: 10px;
+    margin-left: 5px;
+    position: relative;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+    .menuList a:hover::after {
+        width: 100%;
+        text-decoration: none;
+    }
+
+    .menuList a::after {
+        content: "";
+        left: 0px;
+        right: 0px;
+        bottom: -9px;
+        height: 5px;
+        background: var(--Menu_Underline) !important;
+        position: absolute;
+        width: 0px;
+        margin: 0 auto;
+        transition: 0.2s ease-in-out;
+        text-decoration: none;
+    }
+
 .activeButton {
     color: var(--Menu_Underline) !important;
 }
 
 button.activeButton::after {
     width: 100%;
+}
+a.activeButton::after {
+    width: 100%;
+    text-decoration:none;
 }
 
 .boldtxt {

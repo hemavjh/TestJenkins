@@ -474,7 +474,7 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                 var attime = moment(startdate1).subtract($scope.PAT_APPOINTMENT_START, 'minutes').format('hh.mm A');
                 
                 if (Row.TimeDifference!=0) {
-                    Swal.fire('You can join the call only ' + $scope.PAT_APPOINTMENT_START + " Minute(s) before at " + attime, '', 'info')
+                    Swal.fire('You can join the call only ' + $scope.PAT_APPOINTMENT_START + " Minute(s) before from " + attime, '', 'info')
                 }
             }
         }

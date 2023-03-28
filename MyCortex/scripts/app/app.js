@@ -754,6 +754,8 @@ EmpApp.run([ '$sce', '$http', '$routeParams', '$location', '$rootScope', '$windo
                     const popuplist = data.PatientAppointmentList;
                     var PatId = popuplist[0].Patient_Id;
                     window.location.href = baseUrl + "/Home/Index/PatientVitals/" + PatId + "/4";
+                   // var tag1 = $sce.trustAsHtml('<a id="pushnotification_redirecturl" href="Home/Index/PatientVitals/"' + PatId + "/4" + 'style="display:none;" >click</a>');
+                   // $('#pushnotification_redirecturl')[0].click();
                    // $location.path = baseUrl + "/Home/Index/PatientVitals/" + PatId + "/4";
                     setTimeout(openvideocall_popup, 5000)
                     function openvideocall_popup() {
@@ -783,8 +785,8 @@ EmpApp.run([ '$sce', '$http', '$routeParams', '$location', '$rootScope', '$windo
                         document.getElementById('Patient_VideoCall').innerHTML = tag;
 
                         /*Getting the Event */
-                        //var GetEvent = io('https://demoserver.livebox.co.in:3030/', { transports: ['websocket'] });
-                        var GetEvent = io('https://meet.hive.clinic:3030/', { transports: ['websocket'] });
+                        var GetEvent = io('https://demoserver.livebox.co.in:3030/', { transports: ['websocket'] });
+                        //var GetEvent = io('https://meet.hive.clinic:3030/', { transports: ['websocket'] });
 
                         /* Passing the Event */
                         GetEvent.on("endConferenceListenerData", function (conferenceData) {
@@ -827,8 +829,8 @@ EmpApp.run([ '$sce', '$http', '$routeParams', '$location', '$rootScope', '$windo
                                 }
                             }
                         });
-                        //var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&recording=' + IsRecording + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
-                        var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://meet.hive.clinic:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&recording=' + IsRecording + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+                        var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&recording=' + IsRecording + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+                       // var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://meet.hive.clinic:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&recording=' + IsRecording + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
                         document.getElementById('Patient_VideoCall').innerHTML = tag;
                     }
                 });
