@@ -1898,6 +1898,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                     toastr.warning(response.data.errors[0], "warning");
                                     if (response.data.status == -1) {
                                         $scope.confirm_appointment($scope.Appointment_Id, "", 5, 4);
+                                        $scope.$broadcast("appointment_list");
                                     }
                                 }
                             }
