@@ -24,6 +24,7 @@ namespace MyCortex
             routes.MapRoute("LoginOutAllDevice", "Home/LoginOutAllDevice", new { controller = "Home", action = "LoginOutAllDevice", id = UrlParameter.Optional });
             routes.MapRoute("signup", "signup/{id}", new { controller = "Home", action = "LoginIndex", id = UrlParameter.Optional });
             routes.MapRoute("home", "Home/Index/home", new { controller = "Home", action = "Index", id = UrlParameter.Optional });
+            routes.MapRoute("homenotify", "Home/Notify/", new { controller = "Home", action = "Notify", id = UrlParameter.Optional });
            
 
             // Route override to work with Angularjs and HTML5 routing
@@ -34,7 +35,7 @@ namespace MyCortex
             //);
             routes.MapRoute(
                  name: "HomeIndex",
-                 url: "{*url}",
+                 url: "Home/{*url}",
                  defaults: new { controller = "Home", action = "Index" }
               );
             routes.MapRoute(

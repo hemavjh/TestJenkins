@@ -4753,7 +4753,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.AddHealthProblem = response.data.AddHealthProblem;
                         $scope.ApprovalFlag = response.data.Approval_flag;
                         $scope.PayorName = response.data.PayorName;
-                        $scope.SelectedPayor = response.data.PayorName; 
+                        $scope.SelectedPayor = response.data.PayorId; //response.data.PayorName; 
                         $scope.PlanName = response.data.PlanName;
                         $scope.Member_ID = response.data.Memberid;
                         $scope.Policy_Number = response.data.PolicyNumber;
@@ -4770,7 +4770,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $scope.uploadme = 'data:image/png;base64,' + response.data.PhotoBlob;1;
                         }
                         else {
-                            $scope.uploadme = nul0;
+                            $scope.uploadme = null;
                         }
 
                         if ($scope.LoginType == 2) {
@@ -4868,7 +4868,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                     }
                                 });
                         });
-
+                        $scope.SelectedPayor = response.data.PayorId; //response.data.PayorName; 
                         methodcnt = methodcnt - 1;
                         if (methodcnt == 0)
                             $scope.uploadview = true;
