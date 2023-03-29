@@ -771,9 +771,12 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                         $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(function (response) {
                             $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.data.access_token;
                             $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] = response.data.refresh_token;
-                            localStorage.removeItem['refresh'];
-                            $window.localStorage['timer'] = response.data.expires_in;
-                            console.log(response);
+                            //localStorage.removeItem['refresh'];
+                            var expire = new Date();
+                            expire.setSeconds(response.data.expires_in);
+                            console.log(expire);
+                            $window.localStorage['timer1'] = expire;
+                            //$window.localStorage['timer'] = response.data.expires_in;
                         }, function errorCallback(err) {
                             $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
                             $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] = '';

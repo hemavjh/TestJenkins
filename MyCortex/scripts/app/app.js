@@ -489,7 +489,25 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
 
     var _request = function (config) {
         config.headers = config.headers || {};
-
+        //var seconds = $window.localStorage['timer'];
+        const newdate = new Date();
+        const expirydate = $window.localStorage['timer1'];
+        const expdate = new Date(expirydate);
+        var seconds = Math.floor((expdate.getTime() - newdate.getTime()) / 1000);
+        if (seconds < 60 && seconds != 0) {
+            var tokendata = "grant_type=refresh_token" + "&refresh_token=" + $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] + "&client_id=" + window.localStorage['InstitutionId'];
+            jQuery.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).done(function (response) {
+                console.log(response);
+                $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
+                $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] = response.refresh_token;
+                //$window.localStorage['timer'] = response.expires_in;
+                var expire = new Date();
+                expire.setSeconds(response.expires_in);
+                $window.localStorage['timer1'] = expire;
+                //timer();
+            });
+            //cleartimer();
+        }
         //var authData = localStorageService.get('authorizationData');
         var token = '';
         token = $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='];
@@ -696,35 +714,35 @@ EmpApp.config(function ($httpProvider) {
 //    };
 //});
 
-EmpApp.run(['$sce', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$interval', 'toastr',
-    function ($sce, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $interval, toastr) {
-        //document.getElementById('timer').innerHTML = window.localStorage['timer'];
-        countdown();
-        function countdown() {
-            let seconds = window.localStorage['timer'];;
-            const timer = setInterval(function () {
-                const minutesLeft = Math.floor(seconds / 60);
-                let secondsLeft = seconds % 60;
-                secondsLeft = secondsLeft < 10 ? '0' + secondsLeft : secondsLeft;
-                //console.log(`${minutesLeft}:${secondsLeft}`);
-                if (seconds < 60) {
-                    var tokendata = "grant_type=refresh_token" + "&refresh_token=" + $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] + "&client_id=" + window.localStorage['InstitutionId'];
-                    $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(function (response) {
-                        $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.data.access_token;
-                        $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] = response.data.refresh_token;
-                        $window.localStorage['timer'] = response.data.expires_in;
-                        countdown();
-                    }, function errorCallback(response) {
-                    });
-                    clearInterval(timer);
-                }
-                seconds--;
-                //console.log(seconds);
-                $window.localStorage['timer'] = seconds;
-            }, 1000);
-        }
-    }
-]);
+//EmpApp.run(['$sce', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$interval', 'toastr',
+//    function ($sce, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $interval, toastr) {
+//        //document.getElementById('timer').innerHTML = window.localStorage['timer'];
+//        countdown();
+//        function countdown() {
+//            let seconds = window.localStorage['timer'];;
+//            const timer = setInterval(function () {
+//                const minutesLeft = Math.floor(seconds / 60);
+//                let secondsLeft = seconds % 60;
+//                secondsLeft = secondsLeft < 10 ? '0' + secondsLeft : secondsLeft;
+//                //console.log(`${minutesLeft}:${secondsLeft}`);
+//                if (seconds < 60) {
+//                    var tokendata = "grant_type=refresh_token" + "&refresh_token=" + $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] + "&client_id=" + window.localStorage['InstitutionId'];
+//                    $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(function (response) {
+//                        $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.data.access_token;
+//                        $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] = response.data.refresh_token;
+//                        $window.localStorage['timer'] = response.data.expires_in;
+//                        countdown();
+//                    }, function errorCallback(response) {
+//                    });
+//                    clearInterval(timer);
+//                }
+//                seconds--;
+//                //console.log(seconds);
+//                $window.localStorage['timer'] = seconds;
+//            }, 1000);
+//        }
+//    }
+//]);
 EmpApp.run([ '$sce', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$interval', 'toastr',
     function ( $sce, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $interval, toastr) {
     const swListener = new BroadcastChannel('swListener');
@@ -757,6 +775,7 @@ EmpApp.run([ '$sce', '$http', '$routeParams', '$location', '$rootScope', '$windo
                    // var tag1 = $sce.trustAsHtml('<a id="pushnotification_redirecturl" href="Home/Index/PatientVitals/"' + PatId + "/4" + 'style="display:none;" >click</a>');
                    // $('#pushnotification_redirecturl')[0].click();
                    // $location.path = baseUrl + "/Home/Index/PatientVitals/" + PatId + "/4";
+                    //-------------------This part is very important dont change it ----------------------------------------
                     var a = document.createElement('a');
                     // Create the text node for anchor element.
                     var link = document.createTextNode("Click");
@@ -772,6 +791,7 @@ EmpApp.run([ '$sce', '$http', '$routeParams', '$location', '$rootScope', '$windo
                     document.body.appendChild(a);
                    // a.click();
                     $("#pushnotification_redirecturl").trigger("click");
+                    //---------------------------------------------------------------------------------------------------/
 
                     setTimeout(openvideocall_popup, 5000)
                     function openvideocall_popup() {
