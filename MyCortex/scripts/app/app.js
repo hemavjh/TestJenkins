@@ -753,10 +753,26 @@ EmpApp.run([ '$sce', '$http', '$routeParams', '$location', '$rootScope', '$windo
                 jQuery.get(baseUrl + '/api/Common/Hivemeet_popup/?ConferenceName=' + conferencename).done(function (data) {
                     const popuplist = data.PatientAppointmentList;
                     var PatId = popuplist[0].Patient_Id;
-                    window.location.href = baseUrl + "/Home/Index/PatientVitals/" + PatId + "/4";
+                   // window.location.href = baseUrl + "/Home/Index/PatientVitals/" + PatId + "/4";
                    // var tag1 = $sce.trustAsHtml('<a id="pushnotification_redirecturl" href="Home/Index/PatientVitals/"' + PatId + "/4" + 'style="display:none;" >click</a>');
                    // $('#pushnotification_redirecturl')[0].click();
                    // $location.path = baseUrl + "/Home/Index/PatientVitals/" + PatId + "/4";
+                    var a = document.createElement('a');
+                    // Create the text node for anchor element.
+                    var link = document.createTextNode("Click");
+                    // Append the text node to anchor element.
+                    a.appendChild(link);
+                    // Set the title.
+                    a.title = "Click";
+                    a.id = "pushnotification_redirecturl";
+                    // Set the href property.
+                    a.href = 'Home/Index/PatientVitals/' + PatId + '/4';
+                    a.style = "display:none;";
+                    // Append the anchor element to the body.
+                    document.body.appendChild(a);
+                   // a.click();
+                    $("#pushnotification_redirecturl").trigger("click");
+
                     setTimeout(openvideocall_popup, 5000)
                     function openvideocall_popup() {
                         $('#Patient_AppointmentPanel').removeClass('show');
