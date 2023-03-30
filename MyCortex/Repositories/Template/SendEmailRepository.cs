@@ -582,7 +582,7 @@ namespace MyCortex.Repositories.Template
                 param.Add(new DataParameter("@USER_ID", objDetail.User_Id));
                 param.Add(new DataParameter("@FCMTOKEN", objDetail.FCMToken));
                 param.Add(new DataParameter("@DEVICETYPE", objDetail.DeviceType));
-                param.Add(new DataParameter("@SESSIONID", objDetail.Login_Session_Id));
+                //param.Add(new DataParameter("@SESSIONID", objDetail.Login_Session_Id));
 
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].USER_FCMTOKEN_SP_INSERTUPDATE", param);
 
@@ -592,7 +592,7 @@ namespace MyCortex.Repositories.Template
                                                User_Id = p.Field<long>("USER_ID"),
                                                FCMToken = p.Field<string>("FCMTOKEN"),
                                                DeviceType = p.Field<string>("DEVICETYPE"),
-                                               Login_Session_Id = p.Field<Guid>("SESSIONID")
+                                               //Login_Session_Id = p.Field<Guid>("SESSIONID")
                                            }).FirstOrDefault();
                 return lst;
             }
