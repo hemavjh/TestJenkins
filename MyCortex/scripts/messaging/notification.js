@@ -61,7 +61,8 @@ jQuery.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=FIREBASE_C
                 var obj = {
                     User_Id: window.localStorage['UserId'],
                     FCMToken: token,
-                    DeviceType: "web"
+                    DeviceType: "web",
+                    Login_Session_Id: window.localStorage['Login_Session_Id']
                 };
 
 
@@ -90,7 +91,8 @@ jQuery.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=FIREBASE_C
                 var obj = {
                     User_Id: window.localStorage['UserId'],
                     FCMToken: refreshedToken,
-                    DeviceType: "web"
+                    DeviceType: "web",
+                    Login_Session_Id: window.localStorage['Login_Session_Id']
                 };
 
                 var usertoken = '';
