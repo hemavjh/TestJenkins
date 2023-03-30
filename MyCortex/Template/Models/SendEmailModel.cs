@@ -60,7 +60,7 @@ namespace MyCortex.Template.Models
         public string DeviceType { get; set; }
         public string SiteUrl { get; set; }
         public int flag { get; set; }
-        public Guid Login_Session_Id { get; set; }
+        //public Guid Login_Session_Id { get; set; }
     }
 
     public class FCMUserDetails
