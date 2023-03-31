@@ -1001,7 +1001,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
                     //alert(moment(new Date()).format('DD-MMM-YYYY'));
                     $scope.ByDateDeptList = function () {
-                        var AppDate = document.getElementById('dateee').value; //$scope.AppoimDate;
+                        var AppDate = document.getElementById('datee').value; //$scope.AppoimDate;
                         var res = convert(AppDate);
                         $scope.DepartmentList1 = [];
                         $http.get(baseUrl + '/api/DoctorShift/ByDateDept_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Filter_Date=' + res + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).then(function (response) {
@@ -2050,6 +2050,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.OldAppointmentID = null;
                     $scope.RescheduleDocAppointment = function (Row) {
                         $scope.OldAppointmentID = Row.Id;
+                        $scope.AppoimDate = new Date(DatetimepickermaxDate);
+                        $scope.ByDateDeptList();
                         angular.element('#BookAppointmentModal').modal('show');
                     }
                     $scope.CancelDocAppointment = function (Row) {
@@ -5755,6 +5757,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         /* This is for MonitoringProtocolHistoryListCancelPopUp */
         $scope.MonitoringProtocolHistoryListCancelPopUp = function () {
             angular.element('#MonitoringProtocolHistoryPopup').modal('hide');
+            $scope.searchquery = "";
         }
 
         //For ICD10
