@@ -221,7 +221,7 @@
                                                             <div class="centerallign">
                                                                 <label>Device</label>
                                                             </div>
-                                                            <div class="col-md-4" ng-repeat="(key,value) in AllDeviceNameList">
+                                                            <div class="col-md-4" style="word-break:break-all;" ng-repeat="(key,value) in AllDeviceNameList">
                                                                 <input type="checkbox" ng-model="InstitutionAddDeviceName[$index]" id="Id{{value.Id}}" ng-click="DevicelistChange('Id'+value.Id,value);" />{{value.DeviceName}}
                                                             </div>
                                                         </div>

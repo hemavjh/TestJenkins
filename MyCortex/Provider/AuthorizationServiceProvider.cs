@@ -36,7 +36,7 @@ namespace MyCortex.Provider
             //InsID = InsID1;
             //}
             long lifeTypeValue = Convert.ToInt64(int.Parse(commonrepository.AppConfigurationDetails("TOKENLIFETIME", InsID)[0].ConfigValue));
-            context.Options.AccessTokenExpireTimeSpan = TimeSpan.FromDays(lifeTypeValue);
+            context.Options.AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(lifeTypeValue);
         }
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
