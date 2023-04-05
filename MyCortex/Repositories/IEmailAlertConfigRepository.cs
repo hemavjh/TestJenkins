@@ -18,5 +18,6 @@ namespace MyCortex.Repositories
         IList<EventModel> DefaultAlertEvent_List(int Institution_Id);
         IList<EmailAlertmodel> Template_List(int TemplateType_Id, int Institution_Id);
         IList<EmailAlertmodel> EventTo_List(long EventId);
+        EventAlertConfiguration Get_Alert_Event_Configuration_Template(string event_code, long Institution_Id);
     }
 }

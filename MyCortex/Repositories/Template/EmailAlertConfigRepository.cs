@@ -377,7 +377,34 @@ namespace MyCortex.Repositories.EmailAlert
                 return null;
             }
         }
-
+        public EventAlertConfiguration Get_Alert_Event_Configuration_Template(string event_code, long Institution_Id)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            List<DataParameter> param = new List<DataParameter>();
+            var senddata = new JavaScriptSerializer().Serialize(param.Select(x => new { x.ParameterName, x.Value }));
+            _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
+            try
+            {
+                param.Add(new DataParameter("@Institution_Id", Institution_Id));
+                param.Add(new DataParameter("@EVENT_CODE", event_code));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_ALERTCONFIGURATION]", param);
+                EventAlertConfiguration lst = (from p in dt.AsEnumerable()
+                                               select new EventAlertConfiguration()
+                                               {
+                                                   Id = p.Field<int>("ID"),
+                                                   Event_Type_Id = p.Field<int>("EVENTTYPE_ID"),
+                                                   Event_Name = p.Field<string>("EVENTNAME"),
+                                                   Email_Template_Id = p.Field<long>("EMAILTEMPLATE_ID")
+                                               }).FirstOrDefault();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                return null;
+            }
+        }
 
     }
 }
