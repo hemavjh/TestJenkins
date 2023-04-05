@@ -386,14 +386,14 @@ namespace MyCortex.Repositories.EmailAlert
             _MyLogger.Exceptions("INFO", _AppLogger, senddata, null, _AppMethod);
             try
             {
-                param.Add(new DataParameter("@Institution_Id", Institution_Id));
+                param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
                 param.Add(new DataParameter("@EVENT_CODE", event_code));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_ALERTCONFIGURATION]", param);
                 EventAlertConfiguration lst = (from p in dt.AsEnumerable()
                                                select new EventAlertConfiguration()
                                                {
-                                                   Id = p.Field<int>("ID"),
-                                                   Event_Type_Id = p.Field<int>("EVENTTYPE_ID"),
+                                                   Id = p.Field<long>("ID"),
+                                                   Event_Type_Id = p.Field<long>("EVENTTYPE_ID"),
                                                    Event_Name = p.Field<string>("EVENTNAME"),
                                                    Email_Template_Id = p.Field<long>("EMAILTEMPLATE_ID")
                                                }).FirstOrDefault();
