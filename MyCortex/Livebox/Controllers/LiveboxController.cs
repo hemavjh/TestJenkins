@@ -44,6 +44,7 @@ using MyCortex.Notification;
 using MyCortexDB;
 using static MyCortex.Notification.Firebase.PushNotificationApiManager;
 using System.Data;
+using MyCortex.Repositories.Masters;
 
 namespace MyCortex.Livebox.Controllers
 {
@@ -57,6 +58,7 @@ namespace MyCortex.Livebox.Controllers
         //static readonly IPatientAppointmentsRepository patientAppointmentsRepository = new PatientAppointmentRepository();
         static readonly AlertEventRepository alertrepository = new AlertEventRepository();
         static readonly ILiveBoxRepository liveBoxRepository = new LiveBoxRepository();
+        static readonly ICommonRepository commonrepository = new CommonRepository();
         //private LoginRepository login = new LoginRepository();
         private UserRepository repository = new UserRepository();
 
@@ -238,6 +240,8 @@ namespace MyCortex.Livebox.Controllers
                 if (json.Contains("WaitingUserStatus"))
                 {                   
                     userID = JObject.Parse(json)["userid"].ToString();
+                    long ClientId = Convert.ToInt64(userID);
+                    InstitutionId = commonrepository.GetInstitutionId(ClientId)[0].InstitutionId;
                     messageBody = JObject.Parse(json)["WaitingUserStatus"].ToString();
                     retid = liveBoxRepository.LiveBox_Notify_UPDATE(ConferenceId, InstitutionId, userID, messageBody);                   
                 }

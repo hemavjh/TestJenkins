@@ -80,7 +80,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         //$http.get(baseUrl + '/api/Common/UserList/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
         //    $scope.UserLists = data;
         //});
-        if ($location.$$path == "/Hive") {
+        if ($location.$$path == "/Home/Index/Hive") {
             $scope.IsMaster = 0;
             $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + 2 + '&InstitutionId=' + $window.localStorage['InstitutionId'] + '&IS_MASTER=' + $scope.IsMaster).then(function (response) {
                 $scope.UserLists = response.data;

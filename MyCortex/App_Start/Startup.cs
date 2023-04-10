@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using MyCortex.Repositories.Login;
 using MyCortex.Repositories.Masters;
 using MyCortex.Repositories;
+using MyCortex.Home.Models;
 
 [assembly: OwinStartup(typeof(MyCortex.App_Start.Startup))]
 
@@ -61,6 +62,11 @@ namespace MyCortex.App_Start
         {
             //int expire = int.Parse(commonrepository.AppConfigurationDetails("TOKENLIFETIME", 0)[0].ConfigValue); ;
             //context.Ticket.Properties.ExpiresUtc = new DateTimeOffset(DateTime.Now.AddDays(expire));
+            var expirydate = context.Ticket.Properties.ExpiresUtc;
+            var issudate = context.Ticket.Properties.IssuedUtc;
+            TimeSpan interval = (TimeSpan)(expirydate - issudate);
+            double Hours = interval.TotalMinutes;
+            context.Ticket.Properties.ExpiresUtc = new DateTimeOffset(DateTime.Now.AddMinutes(Hours + 1));
             context.SetToken(context.SerializeTicket());
         }
 
