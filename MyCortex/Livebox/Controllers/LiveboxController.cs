@@ -19,6 +19,7 @@ using MyCortex.Repositories.Menu;
 using MyCortex.User.Model;
 using MyCortex.Repositories.Uesr;
 using MyCortex.Masters.Models;
+using MyCortex.EmailAlert.Models;
 using MyCortex.Notification.Model;
 //using MyCortex.Repositories.Admin;
 using MyCortex.Provider;
@@ -44,6 +45,8 @@ using MyCortex.Notification;
 using MyCortexDB;
 using static MyCortex.Notification.Firebase.PushNotificationApiManager;
 using System.Data;
+using MyCortex.Repositories.Template;
+using MyCortex.Template.Models;
 using MyCortex.Repositories.Masters;
 
 namespace MyCortex.Livebox.Controllers
@@ -61,9 +64,11 @@ namespace MyCortex.Livebox.Controllers
         static readonly ICommonRepository commonrepository = new CommonRepository();
         //private LoginRepository login = new LoginRepository();
         private UserRepository repository = new UserRepository();
+        static readonly ISendEmailRepository sendemail_repository = new SendEmailRepository();
+        static readonly IEmailAlertConfigRepository alert_email_repository = new EmailAlertConfigRepository();
 
         //private InstitutionRepository Insrepository = new InstitutionRepository();
- 
+
 
         private MyCortexLogger _MyLogger = new MyCortexLogger();
         string
@@ -240,9 +245,17 @@ namespace MyCortex.Livebox.Controllers
                 if (json.Contains("WaitingUserStatus"))
                 {                   
                     userID = JObject.Parse(json)["userid"].ToString();
-                    long ClientId = Convert.ToInt64(userID);
-                    InstitutionId = commonrepository.GetInstitutionId(ClientId)[0].InstitutionId;
-                    messageBody = JObject.Parse(json)["WaitingUserStatus"].ToString();
+                    string username = JObject.Parse(json)["username"].ToString();
+                    //messageBody = JObject.Parse(json)["WaitingUserStatus"].ToString();
+
+                    string Event_Code = "HIVE_MEET_EMAIL_NOTIFICATION";
+                    EventAlertConfiguration alert_config = new EventAlertConfiguration();
+                    alert_config = alert_email_repository.Get_Alert_Event_Configuration_Template(Event_Code, InstitutionId);
+            
+                    SendEmailModel send_email = new SendEmailModel();
+                    send_email = sendemail_repository.GenerateTemplate((long)Convert.ToDouble(userID), alert_config.Email_Template_Id, InstitutionId, alert_config.Event_Type_Id);
+                    messageBody = send_email.Email_Body.Replace("<p>", "").Replace("</p>", "");
+                    messageBody = send_email.Email_Body.Replace("{Full Name}", username);
                     retid = liveBoxRepository.LiveBox_Notify_UPDATE(ConferenceId, InstitutionId, userID, messageBody);                   
                 }
                 return Content("SUCCESS");

@@ -75,4 +75,12 @@ namespace MyCortex.EmailAlert.Models
         public string Description { get; set; }
         public int IsActive { get; set; }
     }
+
+    public class EventAlertConfiguration
+    {
+        public long Id { get; set; }
+        public long Event_Type_Id { get; set; }
+        public string Event_Name { get; set; }
+        public long Email_Template_Id { get; set; }
+    }
 }
