@@ -5704,8 +5704,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         /* This is for MonitoringHistoryListPopUP */
         $scope.MonitoringHistoryListPopUP = function () {
             $scope.MonitoringProtocolHistoryList();
-            angular.element('#MonitoringProtocolHistoryPopup').modal('show');
             $scope.searchquery = "";
+            angular.element('#MonitoringProtocolHistoryPopup').modal('show');          
         }
 
 
