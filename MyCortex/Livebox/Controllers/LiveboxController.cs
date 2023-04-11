@@ -234,18 +234,24 @@ namespace MyCortex.Livebox.Controllers
             try
             {
                 int retid = 0;
+                int retInsid = 0;
                 Stream req = Request.InputStream;
                 req.Seek(0, System.IO.SeekOrigin.Begin);
                 string json = new StreamReader(req).ReadToEnd();
                 retid = liveBoxRepository.LiveBox_Notify_Log(json);
                 string ConferenceId = JObject.Parse(json)["conferencename"].ToString();
                 string userID = "";
-                string messageBody = "";                
+                string EmailmessageBody = "";                
+                string WebmessageBody = "";                
 
                 if (json.Contains("WaitingUserStatus"))
                 {                   
                     userID = JObject.Parse(json)["userid"].ToString();
                     string username = JObject.Parse(json)["username"].ToString();
+
+                    // get the institution id by User id.
+                    retInsid = liveBoxRepository.LiveBox_Get_Institute(userID);
+                    InstitutionId = retInsid;
                     //messageBody = JObject.Parse(json)["WaitingUserStatus"].ToString();
 
                     string Event_Code = "HIVE_MEET_EMAIL_NOTIFICATION";
@@ -254,9 +260,14 @@ namespace MyCortex.Livebox.Controllers
             
                     SendEmailModel send_email = new SendEmailModel();
                     send_email = sendemail_repository.GenerateTemplate((long)Convert.ToDouble(userID), alert_config.Email_Template_Id, InstitutionId, alert_config.Event_Type_Id);
-                    messageBody = send_email.Email_Body.Replace("<p>", "").Replace("</p>", "");
-                    messageBody = send_email.Email_Body.Replace("{Full Name}", username);
-                    retid = liveBoxRepository.LiveBox_Notify_UPDATE(ConferenceId, InstitutionId, userID, messageBody);                   
+                    EmailmessageBody = send_email.Email_Body.Replace("<p>", "").Replace("</p>", "");
+                    EmailmessageBody = send_email.Email_Body.Replace("{Full Name}", username);
+                    
+                    SendEmailModel send_web = new SendEmailModel();
+                    send_web = sendemail_repository.GenerateTemplate((long)Convert.ToDouble(userID), alert_config.Web_Template_Id, InstitutionId, alert_config.Event_Type_Id);
+                    WebmessageBody = send_web.Email_Body.Replace("<p>", "").Replace("</p>", "");
+                    WebmessageBody = send_web.Email_Body.Replace("{Full Name}", username);
+                    retid = liveBoxRepository.LiveBox_Notify_UPDATE(ConferenceId, InstitutionId, userID, EmailmessageBody, WebmessageBody);                   
                 }
                 return Content("SUCCESS");
             }

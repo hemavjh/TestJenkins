@@ -82,5 +82,6 @@ namespace MyCortex.EmailAlert.Models
         public long Event_Type_Id { get; set; }
         public string Event_Name { get; set; }
         public long Email_Template_Id { get; set; }
+        public long Web_Template_Id { get; set; }
     }
 }

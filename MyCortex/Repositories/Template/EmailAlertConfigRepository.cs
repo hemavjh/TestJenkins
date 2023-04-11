@@ -395,7 +395,8 @@ namespace MyCortex.Repositories.EmailAlert
                                                    Id = p.Field<long>("ID"),
                                                    Event_Type_Id = p.Field<long>("EVENTTYPE_ID"),
                                                    Event_Name = p.Field<string>("EVENTNAME"),
-                                                   Email_Template_Id = p.Field<long>("EMAILTEMPLATE_ID")
+                                                   Email_Template_Id = p.Field<long>("EMAILTEMPLATE_ID"),
+                                                   Web_Template_Id = p.Field<long>("WEBTEMPLATE_ID")
                                                }).FirstOrDefault();
                 return lst;
             }

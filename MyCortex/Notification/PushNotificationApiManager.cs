@@ -161,7 +161,7 @@ namespace MyCortex.Notification.Firebase
         //        await SendConfiguraionPushNotification(message, itemData.SiteUrl, itemData.Settings, itemData.Institution_Id);
         //    }
         //}
-        public static async Task<async> SendLiveboxNotificationAsync(PushNotificationMessage message, long User_Id, long Institution_Id)
+        public static async Task<async> SendLiveboxNotificationAsync(PushNotificationMessage message, long User_Id, long Institution_Id, PushNotificationMessage Webmessage)
         {
             string
            _AppLogger = string.Empty, _AppMethod = string.Empty;
@@ -179,6 +179,7 @@ namespace MyCortex.Notification.Firebase
             foreach (NotifictaionUserFCM itemData in model)
             {
                 message.FCMToken = itemData.FCMToken;
+                Webmessage.FCMToken = itemData.FCMToken;
                 try
                 {
                     Id = 0;
@@ -204,7 +205,7 @@ namespace MyCortex.Notification.Firebase
                         var res = mail.SendComposedSMTPEmail(emailModel, alert, elList, 0, "", User_Id);
                         //repository.LiveBox_UserDetails_Delete(User_Id);
                     }
-                    var l = await SendPushLiveboxNotification(message, itemData.SiteUrl, User_Id, Institution_Id);
+                    var l = await SendPushLiveboxNotification(message, itemData.SiteUrl, User_Id, Institution_Id, Webmessage);
                 }
                 catch
                 {
@@ -240,7 +241,7 @@ namespace MyCortex.Notification.Firebase
             repository.LiveBox_UserDetails_Delete(User_Id);
             return null;
         }
-        public static async Task<ActionResult> SendPushLiveboxNotification(PushNotificationMessage message, string Url, long User_Id, long Institution_Id)
+        public static async Task<ActionResult> SendPushLiveboxNotification(PushNotificationMessage message, string Url, long User_Id, long Institution_Id, PushNotificationMessage Webmessage)
         {
             string
             _AppLogger = string.Empty, _AppMethod = string.Empty;
@@ -261,7 +262,7 @@ namespace MyCortex.Notification.Firebase
             request.AddHeader("Content-Type", "application/json");
             request.AddHeader("Authorization", "key=" + model[0].ConfigValue);
 
-            message.Message = message.Message.Replace("\n\n", Environment.NewLine);
+            Webmessage.Message = Webmessage.Message.Replace("\n\n", Environment.NewLine);
 
             // HttpContext.Current.Request.Url.Host;
             // localhost
@@ -269,19 +270,19 @@ namespace MyCortex.Notification.Firebase
             {
                 notification = new
                 {
-                    title = message.Title,
-                    body = message.Message,
+                    title = Webmessage.Title,
+                    body = Webmessage.Message,
                     //click_action = Url,
                     user_id = User_Id,
-                    Conferencename = message.conferencename
+                    Conferencename = Webmessage.conferencename
                 },
                 //priority = "high",
                 data = new //android
                 {
                     user_id = User_Id,
-                    Conference_Name = message.conferencename
+                    Conference_Name = Webmessage.conferencename
                 },
-                to = message.FCMToken,
+                to = Webmessage.FCMToken,
             };
 
             //Tranform it to Json object

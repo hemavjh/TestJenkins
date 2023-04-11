@@ -195,6 +195,8 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                     $scope.SectionType = "APPOINTMENT,DOCTOR_SHIFT";
                 else if (EmailSectionType == "Payment Failure")
                     $scope.SectionType = "APPOINTMENT,DOCTOR_SHIFT";
+                else if (EmailSectionType == "Hive Meet Reminder")
+                    $scope.SectionType = "BASIC";
             }
             else if (Mode == 1) {
                 if (TagType == "1") {
