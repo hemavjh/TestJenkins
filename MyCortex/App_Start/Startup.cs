@@ -65,8 +65,8 @@ namespace MyCortex.App_Start
             var expirydate = context.Ticket.Properties.ExpiresUtc;
             var issudate = context.Ticket.Properties.IssuedUtc;
             TimeSpan interval = (TimeSpan)(expirydate - issudate);
-            double Hours = interval.TotalMinutes;
-            context.Ticket.Properties.ExpiresUtc = new DateTimeOffset(DateTime.Now.AddMinutes(Hours + 1));
+            double Hours = interval.TotalDays;
+            context.Ticket.Properties.ExpiresUtc = new DateTimeOffset(DateTime.Now.AddDays(Hours + 1));
             context.SetToken(context.SerializeTicket());
         }
 

@@ -494,7 +494,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         const expirydate = $window.localStorage['timer1'];
         const expdate = new Date(expirydate);
         var seconds = Math.floor((expdate.getTime() - newdate.getTime()) / 1000);
-        if (seconds < 60 && seconds != 0) {
+        if (seconds < 300 && seconds != 0) {
             var tokendata = "grant_type=refresh_token" + "&refresh_token=" + $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] + "&client_id=" + window.localStorage['InstitutionId'];
             jQuery.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).done(function (response) {
                 console.log(response);
