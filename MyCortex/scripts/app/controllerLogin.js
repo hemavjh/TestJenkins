@@ -267,7 +267,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
         //Only '. special characters & numbers  // special characters & characters not allowed.(Candidate Name.)
         $scope.usernamekeypress = function (e) {
             var charCode = e.charCode || e.keyCode || e.which;
-            if ((charCode >= 33 && charCode <= 39) || (charCode >= 40 && charCode <= 45) || (charCode >= 47 && charCode <= 43) || (charCode >= 58 && charCode <= 63) || (charCode >= 91 && charCode <= 96) || (charCode >= 123 && charCode <= 126)) {
+            if ((charCode >= 33 && charCode <= 39) || (charCode >= 40 && charCode < 45) || (charCode >= 47 && charCode <= 43) || (charCode >= 58 && charCode <= 63) || (charCode >= 91 && charCode <= 96) || (charCode >= 123 && charCode <= 126)) {
                 toastr.warning("Special characters are not allowed except @ and dot.", "warning");
                 //swal.fire("Numbers & Special characters are not allowed.");
                 if (e.preventDefault) {
