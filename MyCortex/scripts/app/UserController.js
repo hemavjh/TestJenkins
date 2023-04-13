@@ -1191,6 +1191,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         }
         $scope.Businessuesrclickcount = 1;
         $scope.AddUserPopUP = function () {
+            $scope.ClearPopUp();
             if ($scope.LoginType == '1') {
                 $('#divInstitution').addClass("ng-invalid");
                 $('#divInstitution').removeClass("ng-valid");
@@ -2971,6 +2972,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId + '&UserType_Id=' + $scope.UserTypeId).then(function (response) {
                     $scope.emptydata = [];
                     $scope.UserDetailsList = [];
+                    $scope.emptydata = response.data;
                     $scope.UserDetailsList = response.data;
                     $scope.rowCollectionFilter = angular.copy($scope.UserDetailsList);
                     if ($scope.rowCollectionFilter.length > 0) {
