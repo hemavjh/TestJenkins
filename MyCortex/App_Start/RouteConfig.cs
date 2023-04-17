@@ -27,6 +27,7 @@ namespace MyCortex
             routes.MapRoute("homenotify", "Home/Notify/", new { controller = "Home", action = "Notify", id = UrlParameter.Optional });
             routes.MapRoute("LiveBoxNotify", "Home/LiveBoxNotify/", new { controller = "Home", action = "LiveBoxNotify", id = UrlParameter.Optional });
             routes.MapRoute("SMSNotify", "Home/SMSNotify/", new { controller = "Home", action = "SMSNotify", id = UrlParameter.Optional });
+            routes.MapRoute("superadmin", "Home/Index/SuperAdmin_UserList/{LoginUserType}", new { controller = "Home", action = "Index", id = UrlParameter.Optional });
 
             
             // Route override to work with Angularjs and HTML5 routing

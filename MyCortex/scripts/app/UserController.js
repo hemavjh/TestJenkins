@@ -1237,12 +1237,12 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.status = 2;
             $('[data-id="selectpicker"]').prop('disabled', false);
             
-            //$scope.LoadGenderList();
-            //$scope.LoadGroupTypeList();
-            //$scope.LoadDepartmentList();
-            //$scope.LoadNationalityList();
-            //$scope.LoadBusinessUser_UserTypeList();
-            //$scope.SuperAdminDropdownsList();
+            $scope.LoadGenderList();
+            $scope.LoadGroupTypeList();
+            $scope.LoadDepartmentList();
+            $scope.LoadNationalityList();
+            $scope.LoadBusinessUser_UserTypeList();
+            $scope.SuperAdminDropdownsList();
            
             angular.element('#UserModal').modal('show');
         }
