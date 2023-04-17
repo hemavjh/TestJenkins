@@ -141,11 +141,11 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         }).
         when('/Home/Index/Institution', {
             templateUrl: '/Admin/Views/Institutionlist.html',
-            controller: 'InstitutionController', reloadOnSearch: false
+            controller: 'InstitutionController'
         }).
         when('/Home/Index/Institution_Subscription', {
             templateUrl: baseUrl + 'Admin/Views/InstitutionSubscriptionlist.html',
-            controller: 'InstitutionSubscriptionController', reloadOnSearch: false
+            controller: 'InstitutionSubscriptionController'
         }).
         when('/Home/Index/Device', {
             templateUrl: baseUrl + 'Admin/Views/DeviceNameAdminList.html',
@@ -153,7 +153,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         }).
         when('/Home/Index/SuperAdmin_UserList/:LoginUserType', {
             templateUrl: baseUrl + 'User/Views/SuperAdmin_Userlist.html',
-            controller: 'UserController', reloadOnSearch: false
+            controller: 'UserController'
         }).
         when('/Home/Index/Admin_UserList/:LoginUserType', {
             templateUrl: baseUrl + 'User/Views/SuperAdmin_Userlist.html',
