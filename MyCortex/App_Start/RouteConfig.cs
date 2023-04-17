@@ -28,7 +28,7 @@ namespace MyCortex
             routes.MapRoute("LiveBoxNotify", "Home/LiveBoxNotify/", new { controller = "Home", action = "LiveBoxNotify", id = UrlParameter.Optional });
             routes.MapRoute("SMSNotify", "Home/SMSNotify/", new { controller = "Home", action = "SMSNotify", id = UrlParameter.Optional });
             routes.MapRoute("Index", "Home/Index/SuperAdmin_UserList/{id}", new { controller = "Home", action = "Index", id = UrlParameter.Optional });
-            
+
 
             // Route override to work with Angularjs and HTML5 routing
             //routes.MapRoute(
@@ -36,12 +36,12 @@ namespace MyCortex
             //    url: "{*.}",
             //    defaults: new { controller = "Home", action = "LoginIndex" }
             //);
-            //routes.MapRoute(
-            //     name: "HomeIndex",
-            //    // url: "Home/{*url}",
-            //     url: "{*url}",
-            //     defaults: new { controller = "Home", action = "Index" }
-            //  );
+            routes.MapRoute(
+                 name: "HomeIndex",
+                 // url: "Home/{*url}",
+                 url: "Home/Index/{*url}",
+                 defaults: new { controller = "Home", action = "Index" }
+              );
             routes.MapRoute(
                 name: "Default", 
                 url: "{controller}/{action}/{id}",
