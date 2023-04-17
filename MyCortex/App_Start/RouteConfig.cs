@@ -36,17 +36,17 @@ namespace MyCortex
             //    url: "{*.}",
             //    defaults: new { controller = "Home", action = "LoginIndex" }
             //);
-            routes.MapRoute(
-                 name: "HomeIndex",
-                // url: "Home/{*url}",
-                 url: "{*url}",
-                 defaults: new { controller = "Home", action = "LoginIndex" }
-              );
             //routes.MapRoute(
-            //    name: "Default", 
-            //    url: "{controller}/{action}/{id}",
-            //    defaults: new { controller = "Home", action = "LoginIndex", id = UrlParameter.Optional }
-            //);           
+            //     name: "HomeIndex",
+            //    // url: "Home/{*url}",
+            //     url: "{*url}",
+            //     defaults: new { controller = "Home", action = "Index" }
+            //  );
+            routes.MapRoute(
+                name: "Default", 
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Home", action = "LoginIndex", id = UrlParameter.Optional }
+            );           
         }
     }
 }
