@@ -39,7 +39,7 @@ namespace MyCortex
             routes.MapRoute(
                  name: "HomeIndex",
                 // url: "Home/{*url}",
-                 url: "Home/{*url}",
+                 url: "{*url}",
                  defaults: new { controller = "Home", action = "Index" }
               );
             routes.MapRoute(
