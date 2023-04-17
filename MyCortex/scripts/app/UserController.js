@@ -2323,6 +2323,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     if (response.data[0] != undefined) {
                         $scope.ProfileImageSize = parseInt(response.data[0].ConfigValue);
                     }
+                }, function errorCallback(response) {
                 });
         }
 
@@ -2338,12 +2339,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.SuperAdminDropdownsList = function () {
             if ($scope.LoginType == 1 || $scope.LoginType == 3) {
                 $http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).then(function (response) {
-                    $scope.InstitutiondetailsListTemp = [];
-                    $scope.InstitutiondetailsListTemp = response.data;
-                    var obj = { "Id": 0, "Name": "Select", "IsActive": 0, "Country_ISO3": 0};
-                    $scope.InstitutiondetailsListTemp.splice(0, 0, obj);
-                    //$scope.InstitutiondetailsListTemp.push(obj);
-                    $scope.InstitutionList = angular.copy($scope.InstitutiondetailsListTemp);
+                    if (response.data != null) {
+                        $scope.InstitutiondetailsListTemp = [];
+                        $scope.InstitutiondetailsListTemp = response.data;
+                        var obj = { "Id": 0, "Name": "Select", "IsActive": 0, "Country_ISO3": 0 };
+                        $scope.InstitutiondetailsListTemp.splice(0, 0, obj);
+                        //$scope.InstitutiondetailsListTemp.push(obj);
+                        $scope.InstitutionList = angular.copy($scope.InstitutiondetailsListTemp);
                         if ($scope.AdminFlowdata != undefined) {
                             $scope.InstitutionId = $scope.AdminFlowdata.toString();
                             var d = $scope.InstitutionList.filter(x => x.Id === parseInt($scope.InstitutionId));
@@ -2389,32 +2391,32 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             });
                         } else {
                             //$http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).success(function (data) {
-                                $scope.InstitutiondetailsListTemp1 = [];
+                            $scope.InstitutiondetailsListTemp1 = [];
                             $scope.InstitutiondetailsListTemp1 = $scope.InstitutionList;
-                                $scope.InsListId = $scope.InsListId1;
-                                var Inslist = $scope.InstitutiondetailsListTemp1.filter(x => x.Id === parseInt($scope.InsListId));
+                            $scope.InsListId = $scope.InsListId1;
+                            var Inslist = $scope.InstitutiondetailsListTemp1.filter(x => x.Id === parseInt($scope.InsListId));
                             var iso2 = Inslist[0].Country_ISO2;
                             if (iso2 != null) {
                                 iso2 = iso2;
-                            } else { 
+                            } else {
                                 iso2 = 'AF';
                             }
-                                //$scope.InstitutionId = $scope.AdminFlowdata.toString();
-                                var input = document.querySelector("#txtMobile");
-                                var inputPhoneNo = window.intlTelInput(input, {
-                                    formatOnDisplay: true,
-                                    separateDialCode: true,
-                                    initialCountry: iso2,
-                                    // onlyCountries: [iso2],
-                                    geoIpLookup: function (callback) {
-                                        $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
-                                            var countryCode = (resp && resp.country) ? resp.country : "";
-                                            callback(countryCode);
-                                        });
-                                    },
-                                    //preferredCountries: ["in"],
-                                    utilsScript: "scripts/utils.js",
-                                });
+                            //$scope.InstitutionId = $scope.AdminFlowdata.toString();
+                            var input = document.querySelector("#txtMobile");
+                            var inputPhoneNo = window.intlTelInput(input, {
+                                formatOnDisplay: true,
+                                separateDialCode: true,
+                                initialCountry: iso2,
+                                // onlyCountries: [iso2],
+                                geoIpLookup: function (callback) {
+                                    $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
+                                        var countryCode = (resp && resp.country) ? resp.country : "";
+                                        callback(countryCode);
+                                    });
+                                },
+                                //preferredCountries: ["in"],
+                                utilsScript: "scripts/utils.js",
+                            });
                             $scope.InputPhoneNo1 = inputPhoneNo;
                             const PhoneNumber = inputPhoneNo.getNumber();
                             var countryData = inputPhoneNo.getSelectedCountryData();
@@ -2424,7 +2426,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             document.getElementById("txthdCountryiso2").value = iso2;
                             document.getElementById("txthdCountryCode").value = countryCode;
                             document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
-                           // });
+                            // });
+                        }
                     }
 
                     if ($scope.InstitutionId != "0") {

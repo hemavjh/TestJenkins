@@ -67,7 +67,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
         $scope.update = function (str) {
             $scope.myService.setValue(str);
         }*/
-
+        $scope.status = 1;
         $scope.AddIntstitutionSubPopup = function () {
             $('#divInssInstitute').addClass("ng-invalid");
             $('#divInssTimeZone').addClass("ng-invalid");
