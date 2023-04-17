@@ -1230,10 +1230,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             //$scope.InstitutionSubscriptionLicensecheck(UserTypeId);
             $scope.AppConfigurationProfileImageList();
             $scope.DropDownListValue = 1;
-            if ($scope.Businessuesrclickcount == 1) {
-                // $scope.BusinessUserDropdownList();
-                $scope.LoadBusinessUser_UserTypeList();
-            }
+            //if ($scope.Businessuesrclickcount == 1) {
+            //    // $scope.BusinessUserDropdownList();
+            //    $scope.LoadBusinessUser_UserTypeList();
+            //}
             $scope.status = 2;
             $('[data-id="selectpicker"]').prop('disabled', false);
             
