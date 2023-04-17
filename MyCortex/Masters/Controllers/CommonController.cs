@@ -1060,7 +1060,7 @@ namespace MyCortex.Masters.Controllers
         /// <returns>affiliation name list</returns>
         [Authorize]
         [HttpGet]
-        [Route("api/Common/InstitutionNameList/")]
+        //[Route("api/Common/InstitutionNameList/")]
         public IList<ddItemList> InstitutionNameList(long status)
         {
             IList<ddItemList> model;
