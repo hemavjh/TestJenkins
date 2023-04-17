@@ -40,7 +40,7 @@ namespace MyCortex
                  name: "HomeIndex",
                 // url: "Home/{*url}",
                  url: "{*url}",
-                 defaults: new { controller = "Home", action = "Index" }
+                 defaults: new { controller = "Home", action = "LoginIndex" }
               );
             //routes.MapRoute(
             //    name: "Default", 
