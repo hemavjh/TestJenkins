@@ -17,7 +17,7 @@ namespace MyCortex
             routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
 
             // routes.MapMvcAttributeRoutes();
-
+            routes.MapRoute("home", "Home/Index/home", new { controller = "Home", action = "Index", id = UrlParameter.Optional });
             routes.MapRoute("login", "login", new { controller = "Home", action = "LoginIndex", id = UrlParameter.Optional });
             routes.MapRoute("loginout", "Home/LoginOut", new { controller = "Home", action = "LoginOut", id = UrlParameter.Optional });
             routes.MapRoute("LoginIndex", "Home/LoginIndex", new { controller = "Home", action = "LoginIndex", id = UrlParameter.Optional });
@@ -28,7 +28,7 @@ namespace MyCortex
             routes.MapRoute("LiveBoxNotify", "Home/LiveBoxNotify/", new { controller = "Home", action = "LiveBoxNotify", id = UrlParameter.Optional });
             routes.MapRoute("SMSNotify", "Home/SMSNotify/", new { controller = "Home", action = "SMSNotify", id = UrlParameter.Optional });
             routes.MapRoute("Index", "Home/Index/SuperAdmin_UserList/{id}", new { controller = "Home", action = "Index", id = UrlParameter.Optional });
-            routes.MapRoute("home", "Home/Index/home", new { controller = "Home", action = "Index", id = UrlParameter.Optional });
+            
 
             // Route override to work with Angularjs and HTML5 routing
             //routes.MapRoute(
@@ -42,11 +42,11 @@ namespace MyCortex
                  url: "{*url}",
                  defaults: new { controller = "Home", action = "Index" }
               );
-            routes.MapRoute(
-                name: "Default", 
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "LoginIndex", id = UrlParameter.Optional }
-            );           
+            //routes.MapRoute(
+            //    name: "Default", 
+            //    url: "{controller}/{action}/{id}",
+            //    defaults: new { controller = "Home", action = "LoginIndex", id = UrlParameter.Optional }
+            //);           
         }
     }
 }
