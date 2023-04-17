@@ -328,7 +328,8 @@
                         <img src="../../Images/Others.png" width="30" height="30" />
                     </div>
                     <div ng-if="(row.PhotoBlob!=null && row.PhotoBlob!=0)">
-                        <img src="{{'data:image/png;base64,'+ row.PhotoBlob}}" width="30" height="30" />
+                        <img src="" width="30" height="30" />
+                        <!-- {{'data:image/png;base64,'+ row.PhotoBlob}} -->
                     </div>
                     {{ row.FullName.length > 25 ? row.FullName.substring(0,25)+"..." : row.FullName }}
                 </div>
