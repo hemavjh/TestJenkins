@@ -70,7 +70,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.editcertificate = "";
         $scope.EmailId = "";
         $scope.MobileNo = "";
-        $scope.MobileNo_CC = ""; 
+        $scope.MobileNo_CC = "";
         $scope.DepartmentId = "0";
         $scope.UserTypeId = "0";
         $scope.GenderId = "0";
@@ -306,20 +306,20 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             });
 
 
-        $http.get(baseUrl + '/api/Login/GetProduct_Details/').then(function (response) {           
+        $http.get(baseUrl + '/api/Login/GetProduct_Details/').then(function (response) {
 
             $scope.ProductName = response.data[0].ProductName;
-            if ($scope.ProductName == 'MyCortex') {               
+            if ($scope.ProductName == 'MyCortex') {
                 $scope.Id1 = 'Identification Number 1';
                 $scope.Id2 = 'Identification Number 2';
                 $scope.Id3 = 'Identification Number 3';
                 $scope.mandatory = '';
-            } else if ($scope.ProductName == 'MyHealth') {               
+            } else if ($scope.ProductName == 'MyHealth') {
                 $scope.Id1 = 'Emirates Id';
                 $scope.Id2 = 'UID';
                 $scope.Id3 = 'Insurance ID';
                 $scope.mandatory = '<sup><font class="mandatory-field">*</font></sup>';
-            } else {                
+            } else {
                 $scope.Id1 = 'Identification Number 1';
                 $scope.Id2 = 'Identification Number 2';
                 $scope.Id3 = 'Identification Number 3';
@@ -331,40 +331,40 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.PatientgetBase64Image();
         }
 
-       //if ($window.localStorage['UserTypeId'] == 3 || $window.localStorage['UserTypeId'] == 2) {
+        //if ($window.localStorage['UserTypeId'] == 3 || $window.localStorage['UserTypeId'] == 2) {
         $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionDetailList/?Id=' + $scope.SelectedInstitutionId).then(function (response) {
 
             //this is for country code display based on settings
-                //var InitialCountry = "auto";
-                //if (data != null) {
-                //    if (data.CountryName == null || data.CountryName == undefined) {
-                //        $scope.CountryISO2 = "";
-                //        InitialCountry = "auto";
-                //    } else {
-                //        $scope.CountryISO2 = data.CountryISO2;
-                //        InitialCountry = $scope.CountryISO2;
-                //    }
-                //}
+            //var InitialCountry = "auto";
+            //if (data != null) {
+            //    if (data.CountryName == null || data.CountryName == undefined) {
+            //        $scope.CountryISO2 = "";
+            //        InitialCountry = "auto";
+            //    } else {
+            //        $scope.CountryISO2 = data.CountryISO2;
+            //        InitialCountry = $scope.CountryISO2;
+            //    }
+            //}
 
-                //var input = document.querySelector("#txtMobile");
-                //var inputPhoneNo = window.intlTelInput(input, {
-                //    formatOnDisplay: true,
-                //    separateDialCode: true,
-                //    initialCountry: InitialCountry,
+            //var input = document.querySelector("#txtMobile");
+            //var inputPhoneNo = window.intlTelInput(input, {
+            //    formatOnDisplay: true,
+            //    separateDialCode: true,
+            //    initialCountry: InitialCountry,
 
-                //    geoIpLookup: function (callback) {
-                //        $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
-                //            var countryCode = (resp && resp.country) ? resp.country : "";
-                //            callback(countryCode);
-                //        });
-                //    },
-                //    //preferredCountries: ["in"],
-                //    utilsScript: "scripts/utils.js",
-                //});
+            //    geoIpLookup: function (callback) {
+            //        $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
+            //            var countryCode = (resp && resp.country) ? resp.country : "";
+            //            callback(countryCode);
+            //        });
+            //    },
+            //    //preferredCountries: ["in"],
+            //    utilsScript: "scripts/utils.js",
+            //});
 
         }, function errorCallback(response) {
             $scope.error = "AN error has occured while Listing the records!" + response.data;
-            });
+        });
         //} else {
         //    var view_name = $location.$$path.split('/')[1];
         //    if (view_name != "PatientView") {
@@ -931,7 +931,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                 text: state.StateName
                             });
                         });
-                        
+
                         return {
                             results: results
                         };
@@ -967,7 +967,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                 text: city.LocationName
                             });
                         });
-                        
+
                         return {
                             results: results
                         };
@@ -1185,13 +1185,12 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.EligibilityPopup = function () {
             $scope.ClinicianDetailsList = [];
             $http.get(baseUrl + '/api/User/ClinicianDetails/?INSTITUTION_ID=' + $scope.InstituteId).then(function (response) {
-                $scope.ClinicianDetailsList =response.data;
+                $scope.ClinicianDetailsList = response.data;
             });
             angular.element('#EligibilityModel').modal('show');
         }
         $scope.Businessuesrclickcount = 1;
         $scope.AddUserPopUP = function () {
-            $scope.ClearPopUp();
             if ($scope.LoginType == '1') {
                 $('#divInstitution').addClass("ng-invalid");
                 $('#divInstitution').removeClass("ng-valid");
@@ -1230,20 +1229,20 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             //$scope.InstitutionSubscriptionLicensecheck(UserTypeId);
             $scope.AppConfigurationProfileImageList();
             $scope.DropDownListValue = 1;
-            //if ($scope.Businessuesrclickcount == 1) {
-            //    // $scope.BusinessUserDropdownList();
-            //    $scope.LoadBusinessUser_UserTypeList();
-            //}
+            if ($scope.Businessuesrclickcount == 1) {
+                // $scope.BusinessUserDropdownList();
+                $scope.LoadBusinessUser_UserTypeList();
+            }
             $scope.status = 2;
             $('[data-id="selectpicker"]').prop('disabled', false);
-            
+
             $scope.LoadGenderList();
             $scope.LoadGroupTypeList();
             $scope.LoadDepartmentList();
             $scope.LoadNationalityList();
             $scope.LoadBusinessUser_UserTypeList();
             $scope.SuperAdminDropdownsList();
-           
+            //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
             angular.element('#UserModal').modal('show');
         }
 
@@ -1435,7 +1434,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $scope.BusinessUserDropdownList();
             }
             $scope.AppConfigurationProfileImageList();
-            $scope.Admin_View($scope.MenuTypeId);           
+            $scope.Admin_View($scope.MenuTypeId);
             $scope.currentTab = "1";
             angular.element('#UserModal').modal('show');
             $('#spradminrowid').prop('disabled', true);
@@ -1504,8 +1503,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     }
                 });
 
-                
-              
+
+
                 //super clinician  
                 if (typeof ($scope.Gender_Name) != "undefined") {
                     if ($scope.UserTypeId1 == 7 && $scope.GenderId1 == maleId) {
@@ -1707,36 +1706,36 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
                 var feMaleId = 0;
-                
+
                 $scope.GenderId1 = $('#GenderId').val();
                 angular.forEach($scope.GenderList, function (value, index) {
                     $scope.Gender_Name = value.text;
                     if ($scope.Gender_Name.toLowerCase() == "male") {
-                        maleId = value.id.toString();                        
+                        maleId = value.id.toString();
                     }
                     else if ($scope.Gender_Name.toLowerCase() == "female") {
-                        feMaleId = value.id.toString();                       
+                        feMaleId = value.id.toString();
                     }
                 });
 
-                
-                    var picPath1 = "../../Images/National_Male.png";
-                    if (typeof ($scope.Gender_Name) != "undefined")
-                        if ($scope.GenderId1 == feMaleId) {
-                            picPath1 = "../../Images/National_Female.png";
-                        }
-                        else if ($scope.GenderId1 == maleId) {
-                            picPath1 = "../../Images/National_Male.png";
-                        }
 
-                    var picPath = "../../Images/others.png";
-                    if (typeof ($scope.Gender_Name) != "undefined")
-                        if ($scope.GenderId1 == feMaleId) {
-                            picPath = "../../Images/Patient_Female.png";
-                        }
-                        else if ($scope.GenderId1 == maleId) {
-                            picPath = "../../Images/Patient_Male.png";
-                        }
+                var picPath1 = "../../Images/National_Male.png";
+                if (typeof ($scope.Gender_Name) != "undefined")
+                    if ($scope.GenderId1 == feMaleId) {
+                        picPath1 = "../../Images/National_Female.png";
+                    }
+                    else if ($scope.GenderId1 == maleId) {
+                        picPath1 = "../../Images/National_Male.png";
+                    }
+
+                var picPath = "../../Images/others.png";
+                if (typeof ($scope.Gender_Name) != "undefined")
+                    if ($scope.GenderId1 == feMaleId) {
+                        picPath = "../../Images/Patient_Female.png";
+                    }
+                    else if ($scope.GenderId1 == maleId) {
+                        picPath = "../../Images/Patient_Male.png";
+                    }
                 if (($scope.GenderList?.length == 0 && $scope.Id == 0) || ($scope.GenderList?.length > 0 && $scope.Id > 0) || ($scope.GenderList?.length > 0 && $scope.Id == 0)) {
                     if (photoview == false) {
                         var request1 = new XMLHttpRequest();
@@ -1769,14 +1768,14 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         };
                         request.send();
                     }
-                }   
+                }
                 //if ($scope.GenderId1 > 0) {
                 //$scope.GenderId = $scope.GenderId1;
                 //    $scope.$apply();
                 //}
-            }          
+            }
         };
-        
+
         $scope.PatientgetBase64Image_Profile = function () {
             if ($scope.UserPhotoValue == 0) {
                 var maleId = 0;
@@ -2315,7 +2314,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         // editable time value from app settings	
 
         $scope.AppConfigurationProfileImageList = function () {
-           $scope.ProfileImageSize = "5242880";    // 5 MB
+            $scope.ProfileImageSize = "5242880";    // 5 MB
             $scope.ConfigCode = "PROFILE_PICTURE";
             $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
             $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).
@@ -2323,7 +2322,6 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     if (response.data[0] != undefined) {
                         $scope.ProfileImageSize = parseInt(response.data[0].ConfigValue);
                     }
-                }, function errorCallback(response) {
                 });
         }
 
@@ -2339,95 +2337,93 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.SuperAdminDropdownsList = function () {
             if ($scope.LoginType == 1 || $scope.LoginType == 3) {
                 $http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).then(function (response) {
-                    if (response.data != null) {
-                        $scope.InstitutiondetailsListTemp = [];
-                        $scope.InstitutiondetailsListTemp = response.data;
-                        var obj = { "Id": 0, "Name": "Select", "IsActive": 0, "Country_ISO3": 0 };
-                        $scope.InstitutiondetailsListTemp.splice(0, 0, obj);
-                        //$scope.InstitutiondetailsListTemp.push(obj);
-                        $scope.InstitutionList = angular.copy($scope.InstitutiondetailsListTemp);
-                        if ($scope.AdminFlowdata != undefined) {
-                            $scope.InstitutionId = $scope.AdminFlowdata.toString();
-                            var d = $scope.InstitutionList.filter(x => x.Id === parseInt($scope.InstitutionId));
-                            var iso2 = d[0].Country_ISO2;
-                            var countryCode = d[0].CountryCode;
-                            var input = document.querySelector("#txtMobile");
-                            var inputPhoneNo = window.intlTelInput(input, {
-                                formatOnDisplay: true,
-                                separateDialCode: true,
-                                initialCountry: iso2,
-                                //onlyCountries: [iso2],
-                                geoIpLookup: function (callback) {
-                                    $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
-                                        var countryCode = (resp && resp.country) ? resp.country : "";
-                                        callback(countryCode);
-                                    });
-                                },
-                                //preferredCountries: ["in"],
-                                utilsScript: "scripts/utils.js",
-                            });
-                            $scope.InputPhoneNo1 = inputPhoneNo;
-                            const PhoneNumber = inputPhoneNo.getNumber();
-                            var countryData = inputPhoneNo.getSelectedCountryData();
-                            var countryCode = countryData.dialCode; // using updated doc, code has been replaced with dialCode
-                            var iso2 = iso2;//countryData.iso2;
-                            var number = document.getElementById("txtMobile").value;
-                            document.getElementById("txthdCountryiso2").value = iso2;
-                            document.getElementById("txthdCountryCode").value = countryCode;
-                            document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
-                        } else if ($scope.Id == '0') {
-                            var input = document.querySelector("#txtMobile");
-                            var inputPhoneNo = window.intlTelInput(input, {
-                                formatOnDisplay: true,
-                                separateDialCode: true,
-                                geoIpLookup: function (callback) {
-                                    $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
-                                        var countryCode = (resp && resp.country) ? resp.country : "";
-                                        callback(countryCode);
-                                    });
-                                },
-                                //preferredCountries: ["in"],
-                                utilsScript: "scripts/utils.js",
-                            });
+                    $scope.InstitutiondetailsListTemp = [];
+                    $scope.InstitutiondetailsListTemp = response.data;
+                    var obj = { "Id": 0, "Name": "Select", "IsActive": 0, "Country_ISO3": 0 };
+                    $scope.InstitutiondetailsListTemp.splice(0, 0, obj);
+                    //$scope.InstitutiondetailsListTemp.push(obj);
+                    $scope.InstitutionList = angular.copy($scope.InstitutiondetailsListTemp);
+                    if ($scope.AdminFlowdata != undefined) {
+                        $scope.InstitutionId = $scope.AdminFlowdata.toString();
+                        var d = $scope.InstitutionList.filter(x => x.Id === parseInt($scope.InstitutionId));
+                        var iso2 = d[0].Country_ISO2;
+                        var countryCode = d[0].CountryCode;
+                        var input = document.querySelector("#txtMobile");
+                        var inputPhoneNo = window.intlTelInput(input, {
+                            formatOnDisplay: true,
+                            separateDialCode: true,
+                            initialCountry: iso2,
+                            //onlyCountries: [iso2],
+                            geoIpLookup: function (callback) {
+                                $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
+                                    var countryCode = (resp && resp.country) ? resp.country : "";
+                                    callback(countryCode);
+                                });
+                            },
+                            //preferredCountries: ["in"],
+                            utilsScript: "scripts/utils.js",
+                        });
+                        $scope.InputPhoneNo1 = inputPhoneNo;
+                        const PhoneNumber = inputPhoneNo.getNumber();
+                        var countryData = inputPhoneNo.getSelectedCountryData();
+                        var countryCode = countryData.dialCode; // using updated doc, code has been replaced with dialCode
+                        var iso2 = iso2;//countryData.iso2;
+                        var number = document.getElementById("txtMobile").value;
+                        document.getElementById("txthdCountryiso2").value = iso2;
+                        document.getElementById("txthdCountryCode").value = countryCode;
+                        document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
+                    } else if ($scope.Id == '0') {
+                        var input = document.querySelector("#txtMobile");
+                        var inputPhoneNo = window.intlTelInput(input, {
+                            formatOnDisplay: true,
+                            separateDialCode: true,
+                            geoIpLookup: function (callback) {
+                                $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
+                                    var countryCode = (resp && resp.country) ? resp.country : "";
+                                    callback(countryCode);
+                                });
+                            },
+                            //preferredCountries: ["in"],
+                            utilsScript: "scripts/utils.js",
+                        });
+                    } else {
+                        //$http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).success(function (data) {
+                        $scope.InstitutiondetailsListTemp1 = [];
+                        $scope.InstitutiondetailsListTemp1 = $scope.InstitutionList;
+                        $scope.InsListId = $scope.InsListId1;
+                        var Inslist = $scope.InstitutiondetailsListTemp1.filter(x => x.Id === parseInt($scope.InsListId));
+                        var iso2 = Inslist[0].Country_ISO2;
+                        if (iso2 != null) {
+                            iso2 = iso2;
                         } else {
-                            //$http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).success(function (data) {
-                            $scope.InstitutiondetailsListTemp1 = [];
-                            $scope.InstitutiondetailsListTemp1 = $scope.InstitutionList;
-                            $scope.InsListId = $scope.InsListId1;
-                            var Inslist = $scope.InstitutiondetailsListTemp1.filter(x => x.Id === parseInt($scope.InsListId));
-                            var iso2 = Inslist[0].Country_ISO2;
-                            if (iso2 != null) {
-                                iso2 = iso2;
-                            } else {
-                                iso2 = 'AF';
-                            }
-                            //$scope.InstitutionId = $scope.AdminFlowdata.toString();
-                            var input = document.querySelector("#txtMobile");
-                            var inputPhoneNo = window.intlTelInput(input, {
-                                formatOnDisplay: true,
-                                separateDialCode: true,
-                                initialCountry: iso2,
-                                // onlyCountries: [iso2],
-                                geoIpLookup: function (callback) {
-                                    $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
-                                        var countryCode = (resp && resp.country) ? resp.country : "";
-                                        callback(countryCode);
-                                    });
-                                },
-                                //preferredCountries: ["in"],
-                                utilsScript: "scripts/utils.js",
-                            });
-                            $scope.InputPhoneNo1 = inputPhoneNo;
-                            const PhoneNumber = inputPhoneNo.getNumber();
-                            var countryData = inputPhoneNo.getSelectedCountryData();
-                            var countryCode = countryData.dialCode; // using updated doc, code has been replaced with dialCode
-                            var iso2 = iso2;//countryData.iso2;
-                            var number = document.getElementById("txtMobile").value;
-                            document.getElementById("txthdCountryiso2").value = iso2;
-                            document.getElementById("txthdCountryCode").value = countryCode;
-                            document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
-                            // });
+                            iso2 = 'AF';
                         }
+                        //$scope.InstitutionId = $scope.AdminFlowdata.toString();
+                        var input = document.querySelector("#txtMobile");
+                        var inputPhoneNo = window.intlTelInput(input, {
+                            formatOnDisplay: true,
+                            separateDialCode: true,
+                            initialCountry: iso2,
+                            // onlyCountries: [iso2],
+                            geoIpLookup: function (callback) {
+                                $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
+                                    var countryCode = (resp && resp.country) ? resp.country : "";
+                                    callback(countryCode);
+                                });
+                            },
+                            //preferredCountries: ["in"],
+                            utilsScript: "scripts/utils.js",
+                        });
+                        $scope.InputPhoneNo1 = inputPhoneNo;
+                        const PhoneNumber = inputPhoneNo.getNumber();
+                        var countryData = inputPhoneNo.getSelectedCountryData();
+                        var countryCode = countryData.dialCode; // using updated doc, code has been replaced with dialCode
+                        var iso2 = iso2;//countryData.iso2;
+                        var number = document.getElementById("txtMobile").value;
+                        document.getElementById("txthdCountryiso2").value = iso2;
+                        document.getElementById("txthdCountryCode").value = countryCode;
+                        document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
+                        // });
                     }
 
                     if ($scope.InstitutionId != "0") {
@@ -2975,7 +2971,6 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId + '&UserType_Id=' + $scope.UserTypeId).then(function (response) {
                     $scope.emptydata = [];
                     $scope.UserDetailsList = [];
-                    $scope.emptydata = response.data;
                     $scope.UserDetailsList = response.data;
                     $scope.rowCollectionFilter = angular.copy($scope.UserDetailsList);
                     if ($scope.rowCollectionFilter.length > 0) {
@@ -3228,7 +3223,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             }
         }
 
-        $scope.CareCoordinator_AdvanceFilter = function () {            
+        $scope.CareCoordinator_AdvanceFilter = function () {
             $scope.filter_CL_UserType1 = $("#filter_CL_UserType").val();
             $scope.Filter_CL_Nationality1 = $("#Filter_CL_Nationality").val();
             var ustype = [], usgroup = [], usnation = [];
@@ -3392,12 +3387,12 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.Patientemptydata = [];
                     $scope.PatientList = [];
                     $scope.PatientList = response.data;
-                    $scope.Patientemptydata = response.data;                    
+                    $scope.Patientemptydata = response.data;
                     if ($scope.PatientList.length > 0) {
                         $scope.PatientCount = $scope.PatientList[0].TotalRecord;
                         $scope.total_pages = Math.ceil(($scope.PatientCount) / ($scope.page_size));
                     } else {
-                        $scope.PatientCount =0;
+                        $scope.PatientCount = 0;
                         $scope.total_pages = 0;
                     }
                 });
@@ -3569,7 +3564,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.NationalPhoto = "";
             $scope.NationalPhotoFilename = "";
             $scope.uploadme1 = "";
-            $scope.NationalFileName = []; 
+            $scope.NationalFileName = [];
             $scope.Nationalityresumedoc = [];
             $scope.NationalUploadme = [];
             $('#NationalLogo').val('');
@@ -3623,42 +3618,42 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         }
 
         /*This is for getting a file url for uploading the url into the database*/
-            $scope.dataURItoBlob = function (dataURI) {
-                var binary = atob(dataURI.split(',')[1]);
-                var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-                var array = [];
-                for (var i = 0; i < binary.length; i++) {
-                    array.push(binary.charCodeAt(i));
-                }
-                return new Blob([new Uint8Array(array)], {
-                    type: mimeString
-                });
+        $scope.dataURItoBlob = function (dataURI) {
+            var binary = atob(dataURI.split(',')[1]);
+            var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+            var array = [];
+            for (var i = 0; i < binary.length; i++) {
+                array.push(binary.charCodeAt(i));
+            }
+            return new Blob([new Uint8Array(array)], {
+                type: mimeString
+            });
         }
 
         $scope.files = [];
         /* Read file name for the  National Photo and file */
         $scope.NationalphotoChange = function (e) {
             if (e.files.length <= 4) {
-                let maxSize = (2  * 1024) * 1024;
-                let fileSize = 0; 
+                let maxSize = (2 * 1024) * 1024;
+                let fileSize = 0;
                 let filesizewarn = 0;
                 $scope.Nationalityresumedoc = [];
                 $scope.NationalPhoto = "";
-            $scope.uploadme1 = "";
-            $('#NationalLogo').val('');
-            photoview = false;
-            photoview1 = false;
-            photoview3 = false;
-            photoview2 = false;
-            $scope.Nationaluploadview = false;
-            $scope.NationalPhotoValue = 0;
+                $scope.uploadme1 = "";
+                $('#NationalLogo').val('');
+                photoview = false;
+                photoview1 = false;
+                photoview3 = false;
+                photoview2 = false;
+                $scope.Nationaluploadview = false;
+                $scope.NationalPhotoValue = 0;
                 photoview1 = false;
                 for (var i = 0; i < e.files.length; i++) {
-                    fileSize = e.files[i].size; 
+                    fileSize = e.files[i].size;
                     if (fileSize >= maxSize) {
-                        $scope.fileexceed = "Each Image size exceeds 2 MB";               
+                        $scope.fileexceed = "Each Image size exceeds 2 MB";
                         filesizewarn = 1;
-                    }                   
+                    }
                 }
                 if (filesizewarn == 0) {
                     for (var i = 0; i < e.files.length; i++) {
@@ -3669,12 +3664,12 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 } else {
                     toastr.warning($scope.fileexceed, "File Size");
                 }
-            } 
-            else { 
+            }
+            else {
                 toastr.warning("Maximum 4 images should be allowed", "Files Count");
                 $scope.NationalUploadme = [];
             }
-           
+
         }
         $scope.UIDfileChange = function (e) {
             if (e.files.length <= 4) {
@@ -3846,13 +3841,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.currentTab = 2;
                     return false;
                 }
-                else if (typeof ($scope.NationalityId) == "undefined" || $scope.NationalityId == "0") {
-                    //alert("Please select Nationality under Additional Info");
-                    toastr.warning("Please select Nationality under Additional Info", "warning");
-                    $("#chatLoaderPV").hide();
-                    $scope.currentTab = 2;
-                    return false;
-                }
+                //else if (typeof ($scope.NationalityId) == "undefined" || $scope.NationalityId == "0") {
+                //    //alert("Please select Nationality under Additional Info");
+                //    toastr.warning("Please select Nationality under Additional Info", "warning");
+                //    $("#chatLoaderPV").hide();
+                //    $scope.currentTab = 2;
+                //    return false;
+                //}
                 else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "" || $scope.DOB == 'yyyy-mm-dd') {
                     //alert("Please select Date of Birth under Additional info");
                     toastr.warning("Please select Date of Birth under Additional info", "warning");
@@ -4074,7 +4069,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.currentTab = 7;
                     return false;
                 }
-                
+
                 if ($scope.CURRENTLY_TAKEMEDICINE == 1) {
                     if (($ff($scope.AddMedicines, { Status: 1 }).length == 0)) {
                         //alert("Please add atleast one row for Currrently Take Medicine under Medical Info");
@@ -4389,7 +4384,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             });
             // $scope.DropDownListValues();
 
-     
+
             //Load Patient Dropdown lists
             $scope.LoadGenderList();
             $scope.LoadNationalityList();
@@ -4401,7 +4396,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.LoadBusinessUser_UserTypeList();
             $scope.LoadDepartmentList();
             $scope.LoadGroupTypeList();
-            
+
             $scope.loadCount = 3;
             $("#chatLoaderPV").show();
             photoview = true;
@@ -4526,8 +4521,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 //    $("#chatLoaderPV").hide();
                 //    var PatientInstituteId = data[0].Institution_Id;
 
-                    // if ($window.localStorage['UserTypeId'] == 1 || PatientInstituteId == $window.localStorage['InstitutionId']) {
-              
+                // if ($window.localStorage['UserTypeId'] == 1 || PatientInstituteId == $window.localStorage['InstitutionId']) {
+
                 $http.get(baseUrl + '/api/User/GetUserDetails/Id?=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&Logged_User_Id=' + $window.localStorage['UserId']).then(function (response) {
                     if (response.data.flag == 0) {
                         window.location.href = baseUrl + "/Home/LoginIndex";
@@ -4535,7 +4530,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.Id = response.data.Id;
                         $scope.rowId = response.data.Id;
                         $scope.InstitutionId = response.data.INSTITUTION_ID.toString();
-                        $scope.InsListId1= $scope.InstitutionId;
+                        $scope.InsListId1 = $scope.InstitutionId;
                         $scope.DepartmentId = response.data.DEPARTMENT_ID.toString();
                         $scope.FirstName = response.data.FirstName;
                         $scope.MiddleName = response.data.MiddleName;
@@ -4591,15 +4586,15 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.LoadCountryList();
                         $scope.LoadStateList(response.data.COUNTRY_ID);
                         $scope.LoadCityList(response.data.COUNTRY_ID, response.data.STATE_ID);
-                         setTimeout(function () {
+                        setTimeout(function () {
                             $("#NationalityId").select2("trigger", "select", {
                                 data: { id: response.data.NATIONALITY_ID.toString(), text: response.data.Nationality }
                             });
                             $("#DepartmentId").select2("trigger", "select", {
                                 data: { id: response.data.DEPARTMENT_ID.toString(), text: response.data.Department_Name }
                             });
-                             $("#UserTypeId").select2("trigger", "select", {
-                                 data: { id: response.data.UserType_Id.toString(), text: response.data.UserName }
+                            $("#UserTypeId").select2("trigger", "select", {
+                                data: { id: response.data.UserType_Id.toString(), text: response.data.UserName }
                             });
                             $("#GenderId").select2("trigger", "select", {
                                 data: { id: response.data.GENDER_ID.toString(), text: response.data.GENDER_NAME }
@@ -4616,7 +4611,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $("#EMERG_CONT_RELATIONSHIP_ID").select2("trigger", "select", {
                                 data: { id: response.data.EMERG_CONT_RELATIONSHIP_ID.toString(), text: response.data.RelationShipName }
                             });
-                             angular.forEach(response.data.SelectedChronicConnditionList, function (value, index) {
+                            angular.forEach(response.data.SelectedChronicConnditionList, function (value, index) {
                                 $scope.EditSelectedChronicondition.push(value.Chronic_Id);
                                 $scope.SelectedChronicCondition = $scope.EditSelectedChronicondition;
                                 $scope.SelectedChronicConditionEdit = $scope.EditSelectedChronicondition;
@@ -4624,7 +4619,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                     data: { id: value.Chronic_Id.toString(), text: value.ChronicCondition }
                                 });
                             });
-                             angular.forEach(response.data.SelectedGroupList, function (value, index) {
+                            angular.forEach(response.data.SelectedGroupList, function (value, index) {
                                 $scope.EditSelectedGroup.push(value.Group_Id);
                                 $scope.SelectedGroup = $scope.EditSelectedGroup;
                                 $("#SelectedGroup").select2("trigger", "select", {
@@ -4640,7 +4635,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $("#CityId").select2("trigger", "select", {
                                 data: { id: response.data.CITY_ID.toString(), text: response.data.LocationName }
                             });
-                         });
+                        });
 
                         // $scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
                         $scope.DOB = DateFormatEdit($filter('date')(response.data.DOB, "dd-MMM-yyyy"));
@@ -4659,14 +4654,14 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
                         $scope.CountryDuplicateId = $scope.CountryId;
                         $scope.CountryFlag = true;
-                        $scope.StateDuplicateId =  $scope.StateId;
+                        $scope.StateDuplicateId = $scope.StateId;
                         $scope.StateFlag = true;
                         $scope.LocationDuplicateId = $scope.CityId;
                         $scope.CityFlag = true;
                         if ($scope.DropDownListValue == 4) {
 
                             // $http.get(baseUrl + '/api/Common/CountryList/').success(function (country_data) {
-                                //$scope.CountryNameList = country_data;
+                            //$scope.CountryNameList = country_data;
                             if ($scope.CountryFlag == true) {
                                 $scope.CountryId = $scope.CountryDuplicateId;
                                 $scope.CountryFlag = false;
@@ -4674,7 +4669,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             }
                             // });
                             // $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + data.COUNTRY_ID.toString()).success(function (state_data) {
-                                // $scope.StateName_List = state_data;
+                            // $scope.StateName_List = state_data;
                             if ($scope.StateFlag == true) {
                                 $scope.StateId = $scope.StateDuplicateId;
                                 $scope.StateFlag = false;
@@ -4682,8 +4677,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             }
                             // });
                             // $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + data.COUNTRY_ID.toString() + '&StateId=' + data.STATE_ID.toString()).success(function (city_data) {
-                                //$scope.LocationName_List =data ;    
-                                // $scope.LocationName_List = city_data;
+                            //$scope.LocationName_List =data ;    
+                            // $scope.LocationName_List = city_data;
                             if ($scope.CityFlag == true) {
                                 $scope.CityId = $scope.LocationDuplicateId;
                                 $scope.CityFlag = false;
@@ -4697,7 +4692,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.Createdby_ShortName = response.data.Createdby_ShortName;
                         $scope.InsuranceId = response.data.INSURANCEID;
                         $scope.MNR_No = response.data.MNR_NO;
-                        $scope.DropDownListValue = 3; 
+                        $scope.DropDownListValue = 3;
                         $scope.NationalId = response.data.NATIONALID.toString();
                         $scope.UID = response.data.UID;
                         $scope.EthnicGroup = response.data.EthnicGroup;
@@ -4743,7 +4738,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.Google_EmailId = response.data.GOOGLE_EMAILID;
                         $scope.FB_EmailId = response.data.FB_EMAILID;
                         $scope.appleUserID = response.data.appleUserID;
-                       
+
                         $scope.PATIENT_ID = response.data.PatientId;
                         $scope.Diabetic = response.data.DIABETIC.toString();
                         $scope.HyperTension = response.data.HYPERTENSION.toString();
@@ -4758,7 +4753,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.AddHealthProblem = response.data.AddHealthProblem;
                         $scope.ApprovalFlag = response.data.Approval_flag;
                         $scope.PayorName = response.data.PayorName;
-                        $scope.SelectedPayor = response.data.PayorId; //response.data.PayorName; 
+                        $scope.SelectedPayor = response.data.PayorId; //response.data.PayorName;
                         $scope.PlanName = response.data.PlanName;
                         $scope.Member_ID = response.data.Memberid;
                         $scope.Policy_Number = response.data.PolicyNumber;
@@ -4772,10 +4767,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         if (methodcnt == 0)
                             $scope.uploadview = true;
                         if (response.data.PhotoBlob != null) {
-                            $scope.uploadme = 'data:image/png;base64,' + response.data.PhotoBlob;1;
+                            $scope.uploadme = 'data:image/png;base64,' + response.data.PhotoBlob; 1;
                         }
                         else {
-                            $scope.uploadme = null;
+                            $scope.uploadme = nul0;
                         }
 
                         if ($scope.LoginType == 2) {
@@ -4788,10 +4783,10 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         }
                         angular.forEach(response.data.ProfileDocuments, function (value, index) {
                             if (value.PhotoBlob != null && value.Type == "Emirates_Id") {
-                                $scope.ProfileUpload.push('data:image/png;base64,'+ value.PhotoBlob);
+                                $scope.ProfileUpload.push('data:image/png;base64,' + value.PhotoBlob);
                                 $scope.NationalUpload.push(value.NATIONAL_PHOTO_FILENAME);
                             } else {
-                                $scope.UIDUpload.push('data:image/png;base64,' +value.PhotoBlob);
+                                $scope.UIDUpload.push('data:image/png;base64,' + value.PhotoBlob);
                                 $scope.UID_Upload.push(value.NATIONAL_PHOTO_FILENAME);
                                 $scope.UIDLogo = $scope.UIDUpload;
                                 $scope.UIDshow = $scope.UID_Upload;
@@ -4808,11 +4803,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             }
                         }
                         else {
-                                $scope.uploadme1 = '../../Images/National_Male.png';//null;
-                                var uploadmee1 = $scope.uploadme1;
-                                $scope.NatUploadme = uploadmee1;
+                            $scope.uploadme1 = '../../Images/National_Male.png';//null;
+                            var uploadmee1 = $scope.uploadme1;
+                            $scope.NatUploadme = uploadmee1;
                         }
-                        
+
 
                         methodcnt3 = methodcnt1 - 1;
                         if (methodcnt3 == 0)
@@ -4841,7 +4836,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             var uploadmee2 = $scope.uploadme2;
                             $scope.INSUploadme = uploadmee2;
                         }
-                        
+
                         $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).then(function (data1) {
                             if (data1.data.length != 0) {
                                 $scope.page_size = data1.data[0].ConfigValue;
@@ -4865,15 +4860,15 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                                 $scope.PlanName = resp_data.data[0].PlanName;
                                                 //$scope.SelectedPlan.push($scope.EditPlanId);
                                                 // setTimeout(function () {
-                                                    $scope.SelectedPayor = $scope.EditPayorId;
-                                                    $scope.SelectedPlan = $scope.EditPlanId;
+                                                $scope.SelectedPayor = $scope.EditPayorId;
+                                                $scope.SelectedPlan = $scope.EditPlanId;
                                                 // }, 1000);
                                             }
                                         });
                                     }
                                 });
                         });
-                        $scope.SelectedPayor = response.data.PayorId; //response.data.PayorName; 
+
                         methodcnt = methodcnt - 1;
                         if (methodcnt == 0)
                             $scope.uploadview = true;
@@ -4950,11 +4945,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         }, 700);
                     }
                 });
-                    ////}
-                    //else {
-                    //    window.location.href = baseUrl + "/Home/LoginIndex";
-                    //}
-               // });
+                ////}
+                //else {
+                //    window.location.href = baseUrl + "/Home/LoginIndex";
+                //}
+                // });
             }
             else {
                 $("#chatLoaderPV").hide();
@@ -5365,7 +5360,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 document.getElementById("txthdFullNumber").value = document.getElementById("txtMobile").value
 
             }
-            
+
             $scope.MobileNo_CC = document.getElementById("txthdFullNumber").value;
             if ($scope.Validationcontrols() == true) {
                 $("#chatLoaderPV").show();
@@ -5490,7 +5485,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.SelectedGroup1 = $("#SelectedGroup").val();
             $scope.EMERG_CONT_RELATIONSHIP_ID1 = $("#EMERG_CONT_RELATIONSHIP_ID").val();
             $scope.NationalityId1 = $("#NationalityId").val();
-                        
+
             // Mobile Number Validation...
             if ($scope.InputPhoneNo1 == "" || $scope.InputPhoneNo1 == undefined || $scope.InputPhoneNo1 == null) {
             } else {
@@ -5928,11 +5923,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         }
                     }
                     $http.post(baseUrl + '/api/User/User_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj,
-                    //{
-                    //    transformRequest: angular.identity,
-                    //    headers: {
-                    //        'Content-Type': 'application/json' 
-                    //    }
+                        //{
+                        //    transformRequest: angular.identity,
+                        //    headers: {
+                        //        'Content-Type': 'application/json' 
+                        //    }
                         //}
                     ).then(function (response) {
                         /*alert(data.Message);*/
