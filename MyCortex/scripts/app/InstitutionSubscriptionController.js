@@ -671,7 +671,22 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                         }
                         if ($scope.SubscriptionAndAdmin == 1) {
                             InstSub.setSubID(response.data.Institute[0].Institution_Id);
-                            window.location.href = baseUrl + "/Home/Index/SuperAdmin_UserList/1";
+                            //window.location.href = baseUrl + "/Home/Index/SuperAdmin_UserList/1";
+                            var a = document.createElement('a');
+                            // Create the text node for anchor element.
+                            var link = document.createTextNode("Click");
+                            // Append the text node to anchor element.
+                            a.appendChild(link);
+                            // Set the title.
+                            a.title = "Click";
+                            a.id = "SuperAdmin_redirecturl";
+                            // Set the href property.
+                            a.href = '/Home/Index/SuperAdmin_UserList/1';
+                            a.style = "display:none;";
+                            // Append the anchor element to the body.
+                            document.body.appendChild(a);
+                            // a.click();
+                            $("#SuperAdmin_redirecturl").trigger("click");
                         }
                     }
                     $("#chatLoaderPV").hide();

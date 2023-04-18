@@ -992,6 +992,7 @@ namespace MyCortex.Repositories.Uesr
                                     select new ItemizedUserDetailsModel()
                                     {
                                         Id = p.Field<long>("Id"),
+                                        UserId = p.Field<long>("Id"),
                                         INSTITUTION_ID = p.Field<long?>("INSTITUTION_ID"),
                                         FirstName = p.Field<string>("FirstName"),
                                         MiddleName = p.Field<string>("MiddleName"),

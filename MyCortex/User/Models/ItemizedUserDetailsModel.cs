@@ -11,6 +11,7 @@ namespace MyCortex.User.Model
     {
 
         public string TotalRecord { get; set; } 
+        public long UserId { get; set; }
         public long Id { get; set; }
         public long PatientId { get; set; }
         public long? INSTITUTION_ID { get; set; }

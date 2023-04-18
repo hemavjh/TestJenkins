@@ -460,7 +460,22 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
                                     if ($scope.InstitutionAndSubscription == 1) {
                                         InstSub.setInstiID(insId);
                                         $window.localStorage['setInstiID'] = insId;
-                                        window.location.href = baseUrl + "/Home/Index/Institution_Subscription";
+                                        //window.location.href = baseUrl + "/Home/Index/Institution_Subscription";
+                                        var a = document.createElement('a');
+                                        // Create the text node for anchor element.
+                                        var link = document.createTextNode("Click");
+                                        // Append the text node to anchor element.
+                                        a.appendChild(link);
+                                        // Set the title.
+                                        a.title = "Click";
+                                        a.id = "subcription_redirecturl";
+                                        // Set the href property.
+                                        a.href = '/Home/Index/Institution_Subscription';
+                                        a.style = "display:none;";
+                                        // Append the anchor element to the body.
+                                        document.body.appendChild(a);
+                                        // a.click();
+                                        $("#subcription_redirecturl").trigger("click");
                                     }
                                 }
                             }, function errorCallback(response) {
