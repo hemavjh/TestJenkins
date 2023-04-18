@@ -115,7 +115,7 @@ EmpApp.config(['IdleProvider', function (IdleProvider) {
 EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     var baseUrl = $("base").first().attr("href");
 
-    $locationProvider.hashPrefix('');
+    $locationProvider.hashPrefix('!');
     $locationProvider.html5Mode(true);
     //console.log(baseUrl);
     $routeProvider.
@@ -132,7 +132,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             controller: 'SignupController'
         }).
         when('/Home/Index/home', {
-            templateUrl: baseUrl + 'Home/Views/HomePage.html',
+            templateUrl: '/Home/Views/HomePage.html',
             controller: 'homeController'
         }).
         when('/Home/Index/Googlehome', {
@@ -140,7 +140,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             controller: 'GooglehomeController'
         }).
         when('/Home/Index/Institution', {
-            templateUrl: baseUrl + 'Admin/Views/Institutionlist.html',
+            templateUrl: '/Admin/Views/Institutionlist.html',
             controller: 'InstitutionController'
         }).
         when('/Home/Index/Institution_Subscription', {
@@ -383,7 +383,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             templateUrl: baseUrl + 'Masters/Views/EmailConfiguration.html',
             controller: 'EmailConfigurationController'
         }).
-        //when('/Home/Index/AdminEmailConfigurationList/:LoginUserType', {
+        //when('/AdminEmailConfigurationList/:LoginUserType', {
         //    templateUrl: baseUrl + 'Masters/Views/AdminEmailConfiguration.html',
         //    controller: 'EmailConfigurationController'
         //}).
@@ -489,7 +489,25 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
 
         var _request = function (config) {
             config.headers = config.headers || {};
-
+            //var seconds = $window.localStorage['timer'];
+            const newdate = new Date();
+            const expirydate = $window.localStorage['timer1'];
+            const expdate = new Date(expirydate);
+            var seconds = Math.floor((expdate.getTime() - newdate.getTime()) / 1000);
+            if (seconds < 300 && seconds != 0) {
+                var tokendata = "grant_type=refresh_token" + "&refresh_token=" + $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] + "&client_id=" + window.localStorage['InstitutionId'];
+                jQuery.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).done(function (response) {
+                    console.log(response);
+                    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
+                    $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] = response.refresh_token;
+                    //$window.localStorage['timer'] = response.expires_in;
+                    var expire = new Date();
+                    expire.setSeconds(response.expires_in);
+                    $window.localStorage['timer1'] = expire;
+                    //timer();
+                });
+                //cleartimer();
+            }
             //var authData = localStorageService.get('authorizationData');
             var token = '';
             token = $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='];
@@ -644,7 +662,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
                 //console.log('IdleTimeout');
 
 
-                //$window.location.href = baseUrl + "/Home/LoginIndex/";
+                //$window.location.href = baseUrl + "/Home/LoginIndex#/";
                 // the user has timed out, let log them out
             });
             $rootScope.$on('IdleEnd', function () {
@@ -693,4 +711,168 @@ EmpApp.config(function ($httpProvider) {
 //        getDetails: getDetails,
 //        setDetails: setDetails,
 //    };
-//})
+//});
+
+//EmpApp.run(['$sce', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$interval', 'toastr',
+//    function ($sce, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $interval, toastr) {
+//        //document.getElementById('timer').innerHTML = window.localStorage['timer'];
+//        countdown();
+//        function countdown() {
+//            let seconds = window.localStorage['timer'];;
+//            const timer = setInterval(function () {
+//                const minutesLeft = Math.floor(seconds / 60);
+//                let secondsLeft = seconds % 60;
+//                secondsLeft = secondsLeft < 10 ? '0' + secondsLeft : secondsLeft;
+//                //console.log(`${minutesLeft}:${secondsLeft}`);
+//                if (seconds < 60) {
+//                    var tokendata = "grant_type=refresh_token" + "&refresh_token=" + $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] + "&client_id=" + window.localStorage['InstitutionId'];
+//                    $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(function (response) {
+//                        $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.data.access_token;
+//                        $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] = response.data.refresh_token;
+//                        $window.localStorage['timer'] = response.data.expires_in;
+//                        countdown();
+//                    }, function errorCallback(response) {
+//                    });
+//                    clearInterval(timer);
+//                }
+//                seconds--;
+//                //console.log(seconds);
+//                $window.localStorage['timer'] = seconds;
+//            }, 1000);
+//        }
+//    }
+//]);
+EmpApp.run(['$sce', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$interval', 'toastr',
+    function ($sce, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $interval, toastr) {
+        const swListener = new BroadcastChannel('swListener');
+        swListener.onmessage = function (e) {
+            console.log('swListener Received', e.data);
+            var Title = e.data.notification.body;
+            let Array = e.data.data;
+            var conferencename = Object.values(Array)[0];
+            Swal.fire({
+                position: 'top',
+                title: Title,
+                showCloseButton: true,
+                showCancelButton: true,
+                focusConfirm: false,
+                confirmButtonText: 'Accept',
+                confirmButtonColor: '#008000',
+                confirmButtonClass: 'btn bg- green rounded text - white text - sm px - 3 py - 1 mx - 1',
+                cancelButtonClass: 'btn bg-green rounded text-white text-sm  px-3 py-1 mx-1',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Reject',
+                focusCancel: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    jQuery.get(baseUrl + '/api/Common/Hivemeet_popup/?ConferenceName=' + conferencename).done(function (data) {
+                        const popuplist = data.PatientAppointmentList;
+                        var PatId = popuplist[0].Patient_Id;
+                        // window.location.href = baseUrl + "/Home/Index/PatientVitals/" + PatId + "/4";
+                        // var tag1 = $sce.trustAsHtml('<a id="pushnotification_redirecturl" href="Home/Index/PatientVitals/"' + PatId + "/4" + 'style="display:none;" >click</a>');
+                        // $('#pushnotification_redirecturl')[0].click();
+                        // $location.path = baseUrl + "/Home/Index/PatientVitals/" + PatId + "/4";
+                        //-------------------This part is very important dont change it ----------------------------------------
+                        var a = document.createElement('a');
+                        // Create the text node for anchor element.
+                        var link = document.createTextNode("Click");
+                        // Append the text node to anchor element.
+                        a.appendChild(link);
+                        // Set the title.
+                        a.title = "Click";
+                        a.id = "pushnotification_redirecturl";
+                        // Set the href property.
+                        a.href = 'Home/Index/PatientVitals/' + PatId + '/4';
+                        a.style = "display:none;";
+                        // Append the anchor element to the body.
+                        document.body.appendChild(a);
+                        // a.click();
+                        $("#pushnotification_redirecturl").trigger("click");
+                        //---------------------------------------------------------------------------------------------------/
+
+                        setTimeout(openvideocall_popup, 5000)
+                        function openvideocall_popup() {
+                            $('#Patient_AppointmentPanel').removeClass('show');
+                            $('#Patient_AppointmentPanel').addClass('hidden');
+                            $('#Patient_VideoCall').removeClass('hidden');
+                            $('#Patient_VideoCall').addClass('show');
+                            var IsAdmin = false;
+                            var IsRecording = true;
+                            //if ($scope.Recording == 1) {
+                            //    var IsRecording = true;
+                            //} else {
+                            //    var IsRecording = false;
+                            //}
+                            if (window.localStorage["UserTypeId"] == 2) {
+                                IsAdmin = false;
+                                userId = window.localStorage["UserId"];
+                            }
+                            else if (window.localStorage["UserTypeId"] != 2) {
+                                IsAdmin = true;
+                                userId = window.localStorage["UserId"];
+                            }
+                            ConferenceId = conferencename;
+                            patientName = window.localStorage["FullName"];
+                            var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&userid=' + userId + '&videorecording=true&audiorecording=false' + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+                            //var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://meet.hive.clinic:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+                            document.getElementById('Patient_VideoCall').innerHTML = tag;
+
+                            /*Getting the Event */
+                            var GetEvent = io('https://demoserver.livebox.co.in:3030/', { transports: ['websocket'] });
+                            //var GetEvent = io('https://meet.hive.clinic:3030/', { transports: ['websocket'] });
+
+                            /* Passing the Event */
+                            GetEvent.on("endConferenceListenerData", function (conferenceData) {
+                                /* dispatch the Event */
+                                document.dispatchEvent(new CustomEvent("EndCallEvent", {
+                                    detail: { conferenceData }, bubbles: true, cancelable: true, composed: false
+                                }, false));
+                            });
+                            /* addeventListener for EndcallEvent */
+                            var EndcallEventClick = document;
+                            EndcallEventClick.addEventListener("EndCallEvent", function (event) {
+                                var ConferenceData = event.detail.conferenceData;
+                                console.log("endCallEventPassed", ConferenceData);
+                                iframeConfernecename = ConferenceId;
+                                iframeUserId = userId;
+                                if (iframeConfernecename == ConferenceData.conferencename) {
+                                    if (iframeUserId == ConferenceData.userid) {
+                                        setTimeout(endTiming, 3000)
+                                        function endTiming() {
+                                            var tag = $sce.trustAsHtml('');
+                                            document.getElementById('Patient_VideoCall').innerHTML = tag;
+                                            $('#Patient_AppointmentPanel').removeClass('hidden');
+                                            $('#Patient_AppointmentPanel').addClass('show');
+                                            $('#Patient_VideoCall').removeClass('show');
+                                            $('#Patient_VideoCall').addClass('hidden');
+                                        }
+                                    }
+                                }
+                                else {
+                                    if (iframeUserId == ConferenceData.userid) {
+                                        setTimeout(endTiming, 3000)
+                                        function endTiming() {
+                                            var tag = $sce.trustAsHtml('');
+                                            document.getElementById('Patient_VideoCall').innerHTML = tag;
+                                            $('#Patient_AppointmentPanel').removeClass('hidden');
+                                            $('#Patient_AppointmentPanel').addClass('show');
+                                            $('#Patient_VideoCall').removeClass('show');
+                                            $('#Patient_VideoCall').addClass('hidden');
+                                        }
+                                    }
+                                }
+                            });
+                            var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&recording=' + IsRecording + '&userid=' + userId + '&videorecording=true&audiorecording=false' + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+                            // var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://meet.hive.clinic:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&recording=' + IsRecording + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+                            document.getElementById('Patient_VideoCall').innerHTML = tag;
+                        }
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+        };
+    }
+]);
