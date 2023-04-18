@@ -97,15 +97,15 @@ EmpApp.config(['IdleProvider', function (IdleProvider) {
     // configure Idle settings
     //console.log('KeepaliveProvider')
     IdleProvider.idle(window.localStorage['IdleDays']);
-   // IdleProvider.idle(60*10);
+    // IdleProvider.idle(60*10);
     IdleProvider.timeout(60);
     //KeepaliveProvider.interval(10);
     IdleProvider.interrupt('keydown wheel mousedown touchstart touchmove scroll');
 }])
-.run(function (Idle) {
-    // start watching when the app runs. also starts the Keepalive service by default.
-    Idle.watch();
-});
+    .run(function (Idle) {
+        // start watching when the app runs. also starts the Keepalive service by default.
+        Idle.watch();
+    });
 //EmpApp.controller('homeController', function ($scope, $route) {
 //});
 //EmpApp.controller('UserController', function ($scope, $route) {
@@ -115,7 +115,7 @@ EmpApp.config(['IdleProvider', function (IdleProvider) {
 EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     var baseUrl = $("base").first().attr("href");
 
-    $locationProvider.hashPrefix('!');
+    $locationProvider.hashPrefix('');
     $locationProvider.html5Mode(true);
     //console.log(baseUrl);
     $routeProvider.
@@ -132,7 +132,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             controller: 'SignupController'
         }).
         when('/Home/Index/home', {
-            templateUrl: '/Home/Views/HomePage.html',
+            templateUrl: baseUrl + 'Home/Views/HomePage.html',
             controller: 'homeController'
         }).
         when('/Home/Index/Googlehome', {
@@ -140,7 +140,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             controller: 'GooglehomeController'
         }).
         when('/Home/Index/Institution', {
-            templateUrl: '/Admin/Views/Institutionlist.html',
+            templateUrl: baseUrl + 'Admin/Views/Institutionlist.html',
             controller: 'InstitutionController'
         }).
         when('/Home/Index/Institution_Subscription', {
@@ -383,7 +383,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             templateUrl: baseUrl + 'Masters/Views/EmailConfiguration.html',
             controller: 'EmailConfigurationController'
         }).
-        //when('/AdminEmailConfigurationList/:LoginUserType', {
+        //when('/Home/Index/AdminEmailConfigurationList/:LoginUserType', {
         //    templateUrl: baseUrl + 'Masters/Views/AdminEmailConfiguration.html',
         //    controller: 'EmailConfigurationController'
         //}).
@@ -480,198 +480,179 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             //redirectTo: '/Googlehome'
             redirectTo: '/'
         });
-      // $locationProvider.html5Mode(true);
+    // $locationProvider.html5Mode(true);
 }])
-    
-.factory('authInterceptorService', ['$q', '$location', '$window', function ($q, $location, $window) {
 
-    var authInterceptorServiceFactory = {};
+    .factory('authInterceptorService', ['$q', '$location', '$window', function ($q, $location, $window) {
 
-    var _request = function (config) {
-        config.headers = config.headers || {};
-        //var seconds = $window.localStorage['timer'];
-        const newdate = new Date();
-        const expirydate = $window.localStorage['timer1'];
-        const expdate = new Date(expirydate);
-        var seconds = Math.floor((expdate.getTime() - newdate.getTime()) / 1000);
-        if (seconds < 300 && seconds != 0) {
-            var tokendata = "grant_type=refresh_token" + "&refresh_token=" + $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] + "&client_id=" + window.localStorage['InstitutionId'];
-            jQuery.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).done(function (response) {
-                console.log(response);
-                $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
-                $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] = response.refresh_token;
-                //$window.localStorage['timer'] = response.expires_in;
-                var expire = new Date();
-                expire.setSeconds(response.expires_in);
-                $window.localStorage['timer1'] = expire;
-                //timer();
+        var authInterceptorServiceFactory = {};
+
+        var _request = function (config) {
+            config.headers = config.headers || {};
+
+            //var authData = localStorageService.get('authorizationData');
+            var token = '';
+            token = $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='];
+            if (token !== '') {
+                config.headers.Authorization = 'Bearer ' + token;//authData.token;
+            }
+            return config;
+        };
+
+        var _responseError = function (rejection) {
+            if (rejection.status === 401) {
+                //$location.path('/login');
+                var UserId = $window.localStorage['UserId'];
+                var SessionId = $window.localStorage['Login_Session_Id'];
+                $.get(baseUrl + "/api/Login/User_Logout?UserId=" + UserId + "&Login_Session_Id=" + SessionId, function (data, Status) {
+                    console.log(data);
+                    //if (data["Status"]) {    
+                    //}
+                });
+                $window.location.href = baseUrl + "/Home/LoginIndex/";
+            }
+            return $q.reject(rejection);
+        };
+
+        authInterceptorServiceFactory.request = _request;
+        authInterceptorServiceFactory.responseError = _responseError;
+        $(document).ready(function () {
+            User_id = window.localStorage['UserTypeId'];
+
+            $('#logout').on('click', function () {
+                sessionStorage.clear();
             });
-            //cleartimer();
-        }
-        //var authData = localStorageService.get('authorizationData');
-        var token = '';
-        token = $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='];
-        if (token !== '') {
-            config.headers.Authorization = 'Bearer ' + token;//authData.token;
-        }
-        return config;
-    };
-
-    var _responseError = function (rejection) {
-        if (rejection.status === 401) {
-            //$location.path('/login');
-            var UserId = $window.localStorage['UserId'];
-            var SessionId = $window.localStorage['Login_Session_Id'];
-            $.get(baseUrl + "/api/Login/User_Logout?UserId=" + UserId + "&Login_Session_Id=" + SessionId, function (data, Status) {
-                console.log(data);
-                //if (data["Status"]) {    
-                //}
+            $('#logoutalldevice').on('click', function () {
+                sessionStorage.clear();
             });
-            $window.location.href = baseUrl + "/Home/LoginIndex/";
-        }
-        return $q.reject(rejection);
-    };
 
-    authInterceptorServiceFactory.request = _request;
-    authInterceptorServiceFactory.responseError = _responseError;
-    $(document).ready(function () {
-        User_id = window.localStorage['UserTypeId'];
-
-        $('#logout').on('click', function () {
-            sessionStorage.clear();
         });
-        $('#logoutalldevice').on('click', function () {
-            sessionStorage.clear();
+        $(document).click(function (e) { //Here is when you click in your entire document
+            if ($(e.target).closest('.jinglebelllow').length == 0) { // If click is not paragraph
+                $('.jinglebelllow').removeClass('active');
+                $('.jinglebelllow i').removeClass('fas fa-bell myhighBell');
+                $('.jinglebelllow i').addClass('fa fa-bell-o myhighBell'); //It removes this class existed from any paragraph
+            }
+            if ($(e.target).closest('.jinglebellmedium').length == 0) { // If click is not paragraph
+                $('.jinglebellmedium').removeClass('active');
+                $('.jinglebellmedium i').removeClass('fas fa-bell mymediumBell');
+                $('.jinglebellmedium i').addClass('fa fa-bell-o mymediumBell'); //It removes this class existed from any paragraph
+            }
+            if ($(e.target).closest('.jinglebellhigh').length == 0) { // If click is not paragraph
+                $('.jinglebellhigh').removeClass('active');
+                $('.jinglebellhigh i').removeClass('fas fa-bell mylowBell');
+                $('.jinglebellhigh i').addClass('fa fa-bell-o mylowBell'); //It removes this class existed from any paragraph
+            }
+        })
+
+        return authInterceptorServiceFactory;
+    }])
+    .run(['$rootScope', 'Idle', '$window', function ($rootScope, Idle, $window) {
+        $rootScope.$on('$locationChangeSuccess', function (e, newLocation, oldLocation) {
+            if (oldLocation.includes("PatientVitals")) {
+                // alert("Yes");
+                $('#User_id').hide();
+                $('#patient_profile').hide();
+                $('#chronic').hide();
+            }
+            $('#divPatientType').attr('style', 'display : none');
+            $rootScope.previousPage = oldLocation;
+            // to handle back button after logout
+            if ($window.localStorage['UserId'] === "0") {
+                $window.location.href = baseUrl + "/Home/LoginIndex/";
+            }
         });
-
-    });
-    $(document).click(function (e) { //Here is when you click in your entire document
-        if ($(e.target).closest('.jinglebelllow').length == 0) { // If click is not paragraph
-            $('.jinglebelllow').removeClass('active');
-            $('.jinglebelllow i').removeClass('fas fa-bell myhighBell');
-            $('.jinglebelllow i').addClass('fa fa-bell-o myhighBell'); //It removes this class existed from any paragraph
-        }
-        if ($(e.target).closest('.jinglebellmedium').length == 0) { // If click is not paragraph
-            $('.jinglebellmedium').removeClass('active');
-            $('.jinglebellmedium i').removeClass('fas fa-bell mymediumBell');
-            $('.jinglebellmedium i').addClass('fa fa-bell-o mymediumBell'); //It removes this class existed from any paragraph
-        }
-        if ($(e.target).closest('.jinglebellhigh').length == 0) { // If click is not paragraph
-            $('.jinglebellhigh').removeClass('active');
-            $('.jinglebellhigh i').removeClass('fas fa-bell mylowBell');
-            $('.jinglebellhigh i').addClass('fa fa-bell-o mylowBell'); //It removes this class existed from any paragraph
-        }
-    })
-
-    return authInterceptorServiceFactory;
-}])
-.run(['$rootScope', 'Idle', '$window', function ($rootScope, Idle, $window) {
-    $rootScope.$on('$locationChangeSuccess', function (e, newLocation, oldLocation) {
-        if (oldLocation.includes("PatientVitals")) {
-            // alert("Yes");
-            $('#User_id').hide();
-            $('#patient_profile').hide();
-            $('#chronic').hide();
-        }
-        $('#divPatientType').attr('style', 'display : none');
-        $rootScope.previousPage = oldLocation;
-        // to handle back button after logout
-        if ($window.localStorage['UserId'] === "0")
-        {
-            $window.location.href = baseUrl + "/Home/LoginIndex/";
-        }          
-    });
-    var uid = window.localStorage['UserTypeId'];
-    if (uid != "1") {
-        $rootScope.$on('IdleStart', function () {
-            console.log('IdleStart');
-            var interval;
-            var timeLeft = 60;
-            Swal.fire({
-                position: 'top',
-                title: '<h6 class="text-lg" style="color: var(--bg-green);">Your session is about to expire due to inactivity</h6>',
-                html: 'MyCortex will logout in <b>60</b> seconds.',
-                timer: timeLeft * 1000,
-                showCloseButton: true,
-                showCancelButton: true,
-                focusConfirm: false,
-                confirmButtonText: 'Logout',
-                confirmButtonColor: '#d33',
-                confirmButtonClass: 'btn bg-green rounded text-white text-sm  px-3 py-1 mx-1',
-                cancelButtonClass: 'btn bg-green rounded text-white text-sm px-3 py-1 mx-1',
-                cancelButtonColor: '#008000',
-                cancelButtonText: 'Stay',
-                focusCancel: true,
-                allowOutsideClick: false,
-                didOpen: () => {
-                    interval = setInterval(() => {
-                        if (timeLeft > 0) {
-                            timeLeft--;
-                        } else {
-                            timeLeft = 60;
-                        }
-                        const content = swal.getContent();
-                        if (content) {
-                            const b = content.querySelector('b');
-                            if (b) {
-                                b.textContent = timeLeft.toString();
+        var uid = window.localStorage['UserTypeId'];
+        if (uid != "1") {
+            $rootScope.$on('IdleStart', function () {
+                console.log('IdleStart');
+                var interval;
+                var timeLeft = 60;
+                Swal.fire({
+                    position: 'top',
+                    title: '<h6 class="text-lg" style="color: var(--bg-green);">Your session is about to expire due to inactivity</h6>',
+                    html: 'MyCortex will logout in <b>60</b> seconds.',
+                    timer: timeLeft * 1000,
+                    showCloseButton: true,
+                    showCancelButton: true,
+                    focusConfirm: false,
+                    confirmButtonText: 'Logout',
+                    confirmButtonColor: '#d33',
+                    confirmButtonClass: 'btn bg-green rounded text-white text-sm  px-3 py-1 mx-1',
+                    cancelButtonClass: 'btn bg-green rounded text-white text-sm px-3 py-1 mx-1',
+                    cancelButtonColor: '#008000',
+                    cancelButtonText: 'Stay',
+                    focusCancel: true,
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        interval = setInterval(() => {
+                            if (timeLeft > 0) {
+                                timeLeft--;
+                            } else {
+                                timeLeft = 60;
+                            }
+                            const content = swal.getContent();
+                            if (content) {
+                                const b = content.querySelector('b');
+                                if (b) {
+                                    b.textContent = timeLeft.toString();
+                                }
+                            }
+                        }, 1000);
+                    },
+                    willClose: () => {
+                        timeLeft = 60;
+                        clearInterval(interval);
+                    }
+                }).then((result) => {
+                    if (result.value) {
+                        $window.localStorage['inactivity_logout'] = 1;
+                        var UserId = $window.localStorage['UserId'];
+                        var SessionId = $window.localStorage['Login_Session_Id'];
+                        $.get(baseUrl + "/api/Login/User_Logout?UserId=" + UserId + "&Login_Session_Id=" + SessionId, function (data, Status) {
+                            console.log(data);
+                            //if (data["Status"]) {
+                            //}
+                        });
+                        clearFirebaseToken();
+                        $window.location.href = baseUrl + "/Home/LoginIndex/";
+                    } else {
+                        if (result.dismiss) {
+                            if (result.dismiss === swal.DismissReason.timer) {
+                                $window.localStorage['inactivity_logout'] = 1;
+                                var UserId = $window.localStorage['UserId'];
+                                var SessionId = $window.localStorage['Login_Session_Id'];
+                                $.get(baseUrl + "/api/Login/User_Logout?UserId=" + UserId + "&Login_Session_Id=" + SessionId, function (data, Status) {
+                                    console.log(data);
+                                    //if (data["Status"]) {;
+                                    //}
+                                });
+                                clearFirebaseToken();
+                                $window.location.href = baseUrl + "/Home/LoginIndex/";
+                            } else {
+                                timeLeft = 60;
+                                clearInterval(interval);
+                                Idle.resetTimer();
+                                //IdleProvider.resetTimer();
                             }
                         }
-                    }, 1000);
-                },
-                willClose: () => {
-                    timeLeft = 60;
-                    clearInterval(interval);
-                }
-            }).then((result) => {
-                if (result.value) {
-                    $window.localStorage['inactivity_logout'] = 1;
-                    var UserId = $window.localStorage['UserId'];
-                    var SessionId = $window.localStorage['Login_Session_Id'];
-                    $.get(baseUrl + "/api/Login/User_Logout?UserId=" + UserId + "&Login_Session_Id=" + SessionId, function (data, Status) {
-                        console.log(data);
-                        //if (data["Status"]) {
-                        //}
-                    });
-                    clearFirebaseToken();
-                    $window.location.href = baseUrl + "/Home/LoginIndex/";
-                } else {
-                    if (result.dismiss) {
-                        if (result.dismiss === swal.DismissReason.timer) {
-                            $window.localStorage['inactivity_logout'] = 1;
-                            var UserId = $window.localStorage['UserId'];
-                            var SessionId = $window.localStorage['Login_Session_Id'];
-                            $.get(baseUrl + "/api/Login/User_Logout?UserId=" + UserId + "&Login_Session_Id=" + SessionId, function (data, Status) {
-                                console.log(data);
-                                //if (data["Status"]) {;
-                                //}
-                            });
-                            clearFirebaseToken();
-                            $window.location.href = baseUrl + "/Home/LoginIndex/";
-                        } else {
-                            timeLeft = 60;
-                            clearInterval(interval);
-                            Idle.resetTimer();
-                            //IdleProvider.resetTimer();
-                        }
                     }
-                }
+                });
+                // the user appears to have gone idle
             });
-            // the user appears to have gone idle
-        });
-        $rootScope.$on('IdleTimeout', function () {
-            //console.log('IdleTimeout');
+            $rootScope.$on('IdleTimeout', function () {
+                //console.log('IdleTimeout');
 
 
-            //$window.location.href = baseUrl + "/Home/LoginIndex#/";
-            // the user has timed out, let log them out
-        });
-        $rootScope.$on('IdleEnd', function () {
-            //console.log('IdleEnd');
-            // the user has come back from AFK and is doing stuff
-        });
-    }
-}]);
+                //$window.location.href = baseUrl + "/Home/LoginIndex/";
+                // the user has timed out, let log them out
+            });
+            $rootScope.$on('IdleEnd', function () {
+                //console.log('IdleEnd');
+                // the user has come back from AFK and is doing stuff
+            });
+        }
+    }]);
 
 function clearFirebaseToken() {
     var msgSenderId = window.localStorage.getItem('fcmsgid');
@@ -712,168 +693,4 @@ EmpApp.config(function ($httpProvider) {
 //        getDetails: getDetails,
 //        setDetails: setDetails,
 //    };
-//});
-
-//EmpApp.run(['$sce', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$interval', 'toastr',
-//    function ($sce, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $interval, toastr) {
-//        //document.getElementById('timer').innerHTML = window.localStorage['timer'];
-//        countdown();
-//        function countdown() {
-//            let seconds = window.localStorage['timer'];;
-//            const timer = setInterval(function () {
-//                const minutesLeft = Math.floor(seconds / 60);
-//                let secondsLeft = seconds % 60;
-//                secondsLeft = secondsLeft < 10 ? '0' + secondsLeft : secondsLeft;
-//                //console.log(`${minutesLeft}:${secondsLeft}`);
-//                if (seconds < 60) {
-//                    var tokendata = "grant_type=refresh_token" + "&refresh_token=" + $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] + "&client_id=" + window.localStorage['InstitutionId'];
-//                    $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(function (response) {
-//                        $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.data.access_token;
-//                        $window.localStorage['RfhNcOpcvbERFHxx65+==0qs'] = response.data.refresh_token;
-//                        $window.localStorage['timer'] = response.data.expires_in;
-//                        countdown();
-//                    }, function errorCallback(response) {
-//                    });
-//                    clearInterval(timer);
-//                }
-//                seconds--;
-//                //console.log(seconds);
-//                $window.localStorage['timer'] = seconds;
-//            }, 1000);
-//        }
-//    }
-//]);
-EmpApp.run([ '$sce', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$interval', 'toastr',
-    function ( $sce, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $interval, toastr) {
-    const swListener = new BroadcastChannel('swListener');
-    swListener.onmessage = function (e) {
-        console.log('swListener Received', e.data);
-        var Title = e.data.notification.body;
-        let Array = e.data.data;
-        var conferencename = Object.values(Array)[0];
-        Swal.fire({
-            position: 'top',
-            title: Title,
-            showCloseButton: true,
-            showCancelButton: true,
-            focusConfirm: false,
-            confirmButtonText: 'Accept',
-            confirmButtonColor: '#008000',
-            confirmButtonClass: 'btn bg- green rounded text - white text - sm px - 3 py - 1 mx - 1',
-            cancelButtonClass: 'btn bg-green rounded text-white text-sm  px-3 py-1 mx-1',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Reject',
-            focusCancel: true,
-            allowOutsideClick: false,
-        }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-                jQuery.get(baseUrl + '/api/Common/Hivemeet_popup/?ConferenceName=' + conferencename).done(function (data) {
-                    const popuplist = data.PatientAppointmentList;
-                    var PatId = popuplist[0].Patient_Id;
-                   // window.location.href = baseUrl + "/Home/Index/PatientVitals/" + PatId + "/4";
-                   // var tag1 = $sce.trustAsHtml('<a id="pushnotification_redirecturl" href="Home/Index/PatientVitals/"' + PatId + "/4" + 'style="display:none;" >click</a>');
-                   // $('#pushnotification_redirecturl')[0].click();
-                   // $location.path = baseUrl + "/Home/Index/PatientVitals/" + PatId + "/4";
-                    //-------------------This part is very important dont change it ----------------------------------------
-                    var a = document.createElement('a');
-                    // Create the text node for anchor element.
-                    var link = document.createTextNode("Click");
-                    // Append the text node to anchor element.
-                    a.appendChild(link);
-                    // Set the title.
-                    a.title = "Click";
-                    a.id = "pushnotification_redirecturl";
-                    // Set the href property.
-                    a.href = 'Home/Index/PatientVitals/' + PatId + '/4';
-                    a.style = "display:none;";
-                    // Append the anchor element to the body.
-                    document.body.appendChild(a);
-                   // a.click();
-                    $("#pushnotification_redirecturl").trigger("click");
-                    //---------------------------------------------------------------------------------------------------/
-
-                    setTimeout(openvideocall_popup, 5000)
-                    function openvideocall_popup() {
-                        $('#Patient_AppointmentPanel').removeClass('show');
-                        $('#Patient_AppointmentPanel').addClass('hidden');
-                        $('#Patient_VideoCall').removeClass('hidden');
-                        $('#Patient_VideoCall').addClass('show');
-                        var IsAdmin = false;
-                        var IsRecording = true;
-                        //if ($scope.Recording == 1) {
-                        //    var IsRecording = true;
-                        //} else {
-                        //    var IsRecording = false;
-                        //}
-                        if (window.localStorage["UserTypeId"] == 2) {
-                            IsAdmin = false;
-                            userId = window.localStorage["UserId"];
-                        }
-                        else if (window.localStorage["UserTypeId"] != 2) {
-                            IsAdmin = true;
-                            userId = window.localStorage["UserId"];
-                        }
-                        ConferenceId = conferencename;
-                        patientName = window.localStorage["FullName"];
-                        var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&userid=' + userId + '&videorecording=true&audiorecording=false' + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
-                        //var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://meet.hive.clinic:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
-                        document.getElementById('Patient_VideoCall').innerHTML = tag;
-
-                        /*Getting the Event */
-                        var GetEvent = io('https://demoserver.livebox.co.in:3030/', { transports: ['websocket'] });
-                        //var GetEvent = io('https://meet.hive.clinic:3030/', { transports: ['websocket'] });
-
-                        /* Passing the Event */
-                        GetEvent.on("endConferenceListenerData", function (conferenceData) {
-                            /* dispatch the Event */
-                            document.dispatchEvent(new CustomEvent("EndCallEvent", {
-                                detail: { conferenceData }, bubbles: true, cancelable: true, composed: false
-                            }, false));
-                        });
-                        /* addeventListener for EndcallEvent */
-                        var EndcallEventClick = document;
-                        EndcallEventClick.addEventListener("EndCallEvent", function (event) {
-                            var ConferenceData = event.detail.conferenceData;
-                            console.log("endCallEventPassed", ConferenceData);
-                            iframeConfernecename = ConferenceId;
-                            iframeUserId = userId;
-                            if (iframeConfernecename == ConferenceData.conferencename) {
-                                if (iframeUserId == ConferenceData.userid) {
-                                    setTimeout(endTiming, 3000)
-                                    function endTiming() {
-                                        var tag = $sce.trustAsHtml('');
-                                        document.getElementById('Patient_VideoCall').innerHTML = tag;
-                                        $('#Patient_AppointmentPanel').removeClass('hidden');
-                                        $('#Patient_AppointmentPanel').addClass('show');
-                                        $('#Patient_VideoCall').removeClass('show');
-                                        $('#Patient_VideoCall').addClass('hidden');
-                                    }
-                                }
-                            }
-                            else {
-                                if (iframeUserId == ConferenceData.userid) {
-                                    setTimeout(endTiming, 3000)
-                                    function endTiming() {
-                                        var tag = $sce.trustAsHtml('');
-                                        document.getElementById('Patient_VideoCall').innerHTML = tag;
-                                        $('#Patient_AppointmentPanel').removeClass('hidden');
-                                        $('#Patient_AppointmentPanel').addClass('show');
-                                        $('#Patient_VideoCall').removeClass('show');
-                                        $('#Patient_VideoCall').addClass('hidden');
-                                    }
-                                }
-                            }
-                        });
-                        var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&recording=' + IsRecording + '&userid=' + userId + '&videorecording=true&audiorecording=false' + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
-                       // var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://meet.hive.clinic:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&recording=' + IsRecording + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
-                        document.getElementById('Patient_VideoCall').innerHTML = tag;
-                    }
-                });
-            } else if (result.isDenied) {
-                //Swal.fire('Changes are not saved', '', 'info')
-            }
-        })
-    };
-}
-]);
+//})
