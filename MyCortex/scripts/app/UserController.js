@@ -332,6 +332,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         }
 
         //if ($window.localStorage['UserTypeId'] == 3 || $window.localStorage['UserTypeId'] == 2) {
+        $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
         $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionDetailList/?Id=' + $scope.SelectedInstitutionId).then(function (response) {
 
             //this is for country code display based on settings
@@ -2968,7 +2969,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $("#chatLoaderPV").show();
                 $scope.MenuTypeId = MenuType;
                 $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
-                $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId + '&UserType_Id=' + $scope.UserTypeId).then(function (response) {
+                $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/?Id=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId + '&UserType_Id=' + $scope.UserTypeId).then(function (response) {
                     $scope.emptydata = [];
                     $scope.UserDetailsList = [];
                     $scope.UserDetailsList = response.data;
@@ -2994,7 +2995,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $scope.MenuTypeId = MenuType;
                 $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
 
-                $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId + '&UserType_Id=' + $scope.UserTypeId).then(function (response) {
+                $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/?Id=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId + '&UserType_Id=' + $scope.UserTypeId).then(function (response) {
                     $scope.BusineessUseremptydata = [];
                     $scope.BusinessUserList = [];
                     $scope.BusinessUserList = response.data;
