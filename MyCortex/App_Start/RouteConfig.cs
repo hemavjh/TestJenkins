@@ -36,10 +36,15 @@ namespace MyCortex
             //    url: "{*.}",
             //    defaults: new { controller = "Home", action = "LoginIndex" }
             //);
+            //routes.MapRoute(
+            //     name: "HomeIndex",
+            //     // url: "Home/{*url}",
+            //     url: "Home/Index/{*url}",
+            //     defaults: new { controller = "Home", action = "Index" }
+            //  );
             routes.MapRoute(
                  name: "HomeIndex",
-                 // url: "Home/{*url}",
-                 url: "Home/Index/{*url}",
+                 url: "Home/{*.}",
                  defaults: new { controller = "Home", action = "Index" }
               );
             routes.MapRoute(
