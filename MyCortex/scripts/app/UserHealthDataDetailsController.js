@@ -1875,12 +1875,12 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             countrycode: $scope.countrycode,
                             facilityLicense: $scope.facilityLicense
                         }
-                        $http.post(baseUrl + '/api/EligibilityCheck/AddEligibilityEequest/', obj).success(function (data) {
-                            if (data != null) {
-                                if (data.status == -2) {
+                        $http.post(baseUrl + '/api/EligibilityCheck/AddEligibilityEequest/', obj).then(function (response) {
+                            if (response.data != null) {
+                                if (response.data.status == -2) {
                                     toastr.warning("particular patient already requested...", "warning");
-                                } else if (data.status == 1) {
-                                    $scope.eligibility_Id = data.data.eligibilityId;
+                                } else if (response.data.status == 1) {
+                                    $scope.eligibility_Id = response.data.data.eligibilityId;
 
                                     $scope.countDown = $scope.Eligibility_Timeout;
                                     $scope.timer = setInterval(function () {
@@ -1891,8 +1891,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                             clearInterval($scope.timer);
                                     }, 60 * 1000);
 
-                                } else if (data.status == -3 || data.status == -1) {
-                                    toastr.warning(data.errors[0], "warning");
+                                } else if (response.data.status == -3 || response.data.status == -1) {
+                                    toastr.warning(response.data.errors[0], "warning");
                                 }
                             }
                         });
