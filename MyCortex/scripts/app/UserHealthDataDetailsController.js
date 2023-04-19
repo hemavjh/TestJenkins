@@ -1899,12 +1899,12 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     }
 
                     $scope.getEligibilityDetails = function () {
-                        $http.get(baseUrl + '/api/PayBy/EligibilityRequestDetail?eligibilityID=' + $scope.eligibility_Id + '&facilityLicense=' + $scope.facilityLicense).success(function (response_data) {
-                            if (response_data != null) {
-                                if (response_data.data != null) {
-                                    result = response_data.data.eligibilityCheck.result;
-                                    $scope.result = response_data.data.eligibilityCheck.result;
-                                    $scope.eligibility_response = response_data.data;
+                        $http.get(baseUrl + '/api/PayBy/EligibilityRequestDetail?eligibilityID=' + $scope.eligibility_Id + '&facilityLicense=' + $scope.facilityLicense).then(function (response_data) {
+                            if (response_data.data != null) {
+                                if (response_data.data.data != null) {
+                                    result = response_data.data.data.eligibilityCheck.result;
+                                    $scope.result = response_data.data.data.eligibilityCheck.result;
+                                    $scope.eligibility_response = response_data.data.data;
                                     $scope.save_user_appointment_eligibility_logs($scope.Appointment_Id, $scope.user_id, $scope.eligibility_Id, $scope.eligibility_response, $scope.eligibility_response);
                                 } else {
                                     toastr.warning("Request for eligibility failed...", "warning");
