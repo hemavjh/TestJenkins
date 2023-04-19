@@ -965,15 +965,56 @@ namespace MyCortex.Home.Controllers
                         Console.WriteLine(err.Message);
                     }
                 }
+                if (json.Contains("recordedaudioURL"))
+                {
+                    string conference_name = JObject.Parse(json)["conferencename"].ToString();
+                    string Recordingaudiourl = JObject.Parse(json)["recordedaudioURL"].ToString();
+
+                    string Url = System.Web.HttpContext.Current.Request.Url.Host.ToString();
+                    string source_path = System.Web.HttpContext.Current.Server.MapPath("~/Images");
+                    string pathToNewFolder = System.IO.Path.Combine(source_path, "Audio");
+                    DirectoryInfo directory = Directory.CreateDirectory(pathToNewFolder);
+                    try
+                    {
+                        var httpRequest = System.Web.HttpContext.Current.Request;
+                        var postedFile = httpRequest.Files[Recordingaudiourl];
+                        var fileid = System.Guid.NewGuid() + ".mp3";
+                        string returnPath = System.IO.Path.Combine(pathToNewFolder, fileid);
+                        ServicePointManager.Expect100Continue = true;
+                        ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                        string url = Recordingaudiourl;
+                        string savePath = returnPath;
+                        WebClient client = new WebClient();
+                        client.DownloadFile(url, savePath);
+
+                        FileStream fs = new FileStream(returnPath, FileMode.OpenOrCreate);
+                        StreamWriter str = new StreamWriter(fs);
+                        str.BaseStream.Seek(0, SeekOrigin.End);
+                        str.Write(Recordingaudiourl);
+                        str.Flush();
+                        str.Close();
+                        fs.Close();
+                        int response = repository.VideoCall_Recording_Logs(conference_name, fileid, Recordingaudiourl);
+                    }
+                    catch (Exception err)
+                    {
+                        Console.WriteLine(err.Message);
+                    }
+                }
                 dynamic data = JsonConvert.DeserializeObject(json);
                 string conferencename = data.conferencename;
                 string recording_url = data.recordedvideoURL;
+                string recordingaudio_url = data.recordedaudioURL;
                 if (json.Contains("recordedvideoURL"))
                 {
                     retid = liveBoxRepository.LiveBox_Recording_url(conferencename, recording_url);
                 }
+                if (json.Contains("recordedaudioURL"))
+                {
+                    retid = liveBoxRepository.LiveBox_Recording_url(conferencename, recordingaudio_url);
+                }
                 //retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename, InstitutionId,userID);
-                
+
                 //PushNotificationMessage message = new PushNotificationMessage();
                 //message.Title = "Notification For Call";
                 //message.Message = "call end";
@@ -1075,6 +1116,43 @@ namespace MyCortex.Home.Controllers
                         str.Close();
                         fs.Close();
                         int response = repository.Save_Video_Call_Recording_Logs(conference_name, returnPath, Recordingurl);
+                    }
+                    catch (Exception err)
+                    {
+                        Console.WriteLine(err.Message);
+                    }
+                }
+                if (json.Contains("recordedaudioURL"))
+                {
+                    string conference_name = JObject.Parse(json)["conferencename"].ToString();
+                    string recordingaudio_url = JObject.Parse(json)["recordedaudioURL"].ToString();
+                    string Recordingaudiourl = JObject.Parse(json)["recordedaudioURL"].ToString();
+
+                    string baseUrl = System.Web.HttpContext.Current.Request.Url.Host.ToString();
+                    string source_path = System.Web.HttpContext.Current.Server.MapPath("~/Images");
+                    string pathToNewFolder = System.IO.Path.Combine(source_path, "Audio");
+                    DirectoryInfo directory = Directory.CreateDirectory(pathToNewFolder);
+                    try
+                    {
+                        var httpRequest = System.Web.HttpContext.Current.Request;
+                        var postedFile = httpRequest.Files[recordingaudio_url];
+                        var fileid = System.Guid.NewGuid() + ".txt";
+                        string returnPath = System.IO.Path.Combine(pathToNewFolder, fileid);
+                        //ServicePointManager.Expect100Continue = true;
+                        //ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                        //string url = Recordingurl;
+                        //string savePath = returnPath;
+                        //WebClient client = new WebClient();
+                        //client.DownloadFile(url, savePath);
+
+                        FileStream fs = new FileStream(returnPath, FileMode.OpenOrCreate);
+                        StreamWriter str = new StreamWriter(fs);
+                        str.BaseStream.Seek(0, SeekOrigin.End);
+                        str.Write(recordingaudio_url);
+                        str.Flush();
+                        str.Close();
+                        fs.Close();
+                        int response = repository.Save_Video_Call_Recording_Logs(conference_name, returnPath, Recordingaudiourl);
                     }
                     catch (Exception err)
                     {
