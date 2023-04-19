@@ -1688,18 +1688,20 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                                 $scope.$broadcast("appointment_list");
                                             }
                                             $scope.appdocfilename = "";
-                                            if ($scope.AppointmoduleID == 3) {
-                                                $scope.Appointment_Id = response.data.PatientAppointmentList[0].Id;
-                                                var eligibility_url = baseUrl + '/api/PayBy/EligibilityRequestDetail?eligibilityID=' + $scope.eligibility_Id + '&facilityLicense=' + $scope.facilityLicense
-                                                var eligibility_request = {
-                                                    "url": eligibility_url,
-                                                    "eligibilityID": $scope.eligibility_Id,
-                                                    "facilityLicense": $scope.facilityLicense
-                                                };
-                                                eligibility_response = $scope.eligibility_response;
-                                                $scope.user_id = $window.localStorage['UserId'];
-                                                // $scope.save_user_appointment_eligibility_logs($scope.Appointment_Id, $scope.user_id, $scope.eligibility_Id, eligibility_request, eligibility_response);
-                                            }
+                                            $scope.Appointment_Id = response.data.PatientAppointmentList[0].Id;
+                                            $scope.user_id = $window.localStorage['UserId'];
+                                            //if ($scope.AppointmoduleID == 3) {
+                                            //    $scope.Appointment_Id = response.data.PatientAppointmentList[0].Id;
+                                            //    var eligibility_url = baseUrl + '/api/PayBy/EligibilityRequestDetail?eligibilityID=' + $scope.eligibility_Id + '&facilityLicense=' + $scope.facilityLicense
+                                            //    var eligibility_request = {
+                                            //        "url": eligibility_url,
+                                            //        "eligibilityID": $scope.eligibility_Id,
+                                            //        "facilityLicense": $scope.facilityLicense
+                                            //    };
+                                            //    eligibility_response = $scope.eligibility_response;
+                                            //    $scope.user_id = $window.localStorage['UserId'];
+                                            //    // $scope.save_user_appointment_eligibility_logs($scope.Appointment_Id, $scope.user_id, $scope.eligibility_Id, eligibility_request, eligibility_response);
+                                            //}
                                         }
                                     } else { $("#appoint_waveLoader").hide(); }
                                 }, function errorCallback(response) {
