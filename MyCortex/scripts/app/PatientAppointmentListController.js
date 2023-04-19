@@ -362,7 +362,7 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                 var IsRecording = true;
                 isVideoRecording = false;
                 isAudioRecording = true;
-            } else {                         // No
+            } else { // No
                 var IsRecording = false;
                 isVideoRecording = false;
                 isAudioRecording = false;

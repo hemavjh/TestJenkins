@@ -1895,6 +1895,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
                                 } else if (response.data.status == -3 || response.data.status == -1) {
                                     toastr.warning(response.data.errors[0], "warning");
+                                    if (response.data.status == -1) {
+                                        $scope.confirm_appointment($scope.Appointment_Id, "", 5, 4);
+                                    }
                                 }
                             }
                         });
@@ -1915,6 +1918,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             } else {
                                 if ($scope.countDown === 0) {
                                     $scope.confirm_appointment($scope.Appointment_Id, $scope.eligibility_Id, 5, 4);
+                                    $scope.$broadcast("appointment_list");
                                 }
                             }
                         });
