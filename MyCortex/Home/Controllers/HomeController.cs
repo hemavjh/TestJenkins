@@ -920,15 +920,18 @@ namespace MyCortex.Home.Controllers
         [HttpPost]
         public ActionResult LiveBoxNotify()
         {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 int retid = 0;
                 string userID = "";
-
+               
                 Stream req = Request.InputStream;
                 req.Seek(0, System.IO.SeekOrigin.Begin);
                 string json = new StreamReader(req).ReadToEnd();
                 retid = liveBoxRepository.LiveBox_Notify_Log(json);
+                _MyLogger.Exceptions("Warn", _AppLogger, "Home/Livebox notify"+ json, null, _AppMethod);
                 if (json.Contains("recordedvideoURL"))
                 {
                     string conference_name = JObject.Parse(json)["conferencename"].ToString();
