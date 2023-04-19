@@ -766,11 +766,12 @@ EmpApp.run([ '$sce', '$http', '$routeParams', '$location', '$rootScope', '$windo
             focusCancel: true,
             allowOutsideClick: false,
         }).then((result) => {
+            var Recording;
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
                 jQuery.get(baseUrl + '/api/CommonMenu/CommonTelephone_List?InstitutionId=' + $window.localStorage['InstitutionId']).done(function (data) {
                    // angular.forEach(data, function (item, index) {
-                    var Recording = data[0].Recording_Type;
+                    Recording = data[0].Recording_Type;
                    // });                   
                 });
 
