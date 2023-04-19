@@ -232,20 +232,22 @@
                                                 <tr>
                                                     <td>
                                                         <div class="row">
-                                                            <div class="col-md-3" ng-repeat="sel in TelephoneList">
+                                                            <div class="col-md-2" ng-repeat="sel in TelephoneList">
                                                                 <input type="radio" id="telephone_Id{{sel.Id}}" ng-selected="{{TelePhone_User == sel.Id}}" ng-model="TelePhone_User" ng-click="TelePhoneChange('telephone_Id'+sel.Id,sel);"
                                                                        value={{sel.Id}} name="TelePhone" />
                                                                 {{sel.Name}}
-                                                            </div>   
-                                                            
-                                                            <div class="col-sm-3">
-                                                                <label>Hive Meet Recording<sup><font class='mandatory-field'>*</font></sup></label>
-                                                            </div>
-                                                            <div class="col-sm-2">                                                               
-                                                                <input type="radio" value="1" id="Recording_Type1" ng-model="Recording_Type" ng-checked="checked='true'"> Active
                                                             </div>
                                                             <div class="col-sm-2">
-                                                                <input type="radio" value="2" id="Recording_Type2" ng-model="Recording_Type"> Deactive                                                                
+                                                                <label>Hive Meet Recording<sup><font class='mandatory-field'>*</font></sup></label>
+                                                            </div>
+                                                            <div class="col-sm-2">
+                                                                <input type="radio" value="1" id="Recording_Type1" ng-model="Recording_Type" ng-checked="checked='true'"> Audio & Video
+                                                            </div>
+                                                            <div class="col-sm-2">
+                                                                <input type="radio" value="0" id="Recording_Type0" ng-model="Recording_Type" > Audio Only
+                                                            </div>
+                                                            <div class="col-sm-2">
+                                                                <input type="radio" value="2" id="Recording_Type2" ng-model="Recording_Type"> No
                                                             </div>
                                                         </div>
                                                     </td>

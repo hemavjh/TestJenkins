@@ -1860,7 +1860,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
                                 }, function errorCallback(response) {
                                     $("#appoint_waveLoader").hide();
-                                });;
+                                });
                             }
                         }
                     }
@@ -1875,37 +1875,46 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             countrycode: $scope.countrycode,
                             facilityLicense: $scope.facilityLicense
                         }
-                        $http.post(baseUrl + '/api/EligibilityCheck/AddEligibilityEequest/', obj).then(function (response) {
-                            if (response.data != null) {
-                                if (response.data.status == -2) {
+                        $http.post(baseUrl + '/api/EligibilityCheck/AddEligibilityEequest/', obj).success(function (data) {
+                            if (data != null) {
+                                if (data.status == -2) {
                                     toastr.warning("particular patient already requested...", "warning");
-                                } else if (response.data.status == 1) {
-                                    setTimeout(function () {
-                                        $scope.eligibility_Id = response.data.data.eligibilityId;
-                                        $http.get(baseUrl + '/api/PayBy/EligibilityRequestDetail?eligibilityID=' + $scope.eligibility_Id + '&facilityLicense=' + $scope.facilityLicense).then(function (response_data) {
-                                            if (response_data.data != null) {
-                                                if (response_data.data.data != null) {
-                                                    result = response_data.data.data.eligibilityCheck.result;
-                                                    $scope.result = response_data.data.data.eligibilityCheck.result;
-                                                    $scope.eligibility_response = response_data.data.data;
-                                                    $scope.save_user_appointment_eligibility_logs($scope.Appointment_Id, $scope.user_id, $scope.eligibility_Id, $scope.eligibility_response, $scope.eligibility_response);
-                                                } else {
-                                                    toastr.warning("Request for eligibility failed...", "warning");
-                                                    $scope.cancel_eligibility($scope.eligibility_Id);
-                                                }
-                                            }
-                                        }, function errorCallback(response) {
-                                        });
-                                    }, 15000);
-                                } else if (response.data.status == -3 || response.data.status == -1) {
-                                    toastr.warning(response.data.errors[0], "warning");
-                                    if (response.data.status == -1) {
-                                        $scope.confirm_appointment($scope.Appointment_Id, "", 5, 4);
-                                        $scope.$broadcast("appointment_list");
-                                    }
+                                } else if (data.status == 1) {
+                                    $scope.eligibility_Id = data.data.eligibilityId;
+
+                                    $scope.countDown = $scope.Eligibility_Timeout;
+                                    $scope.timer = setInterval(function () {
+                                        $scope.countDown--;
+                                        console.log($scope.countDown);
+                                        $scope.getEligibilityDetails();
+                                        if ($scope.countDown === 0)
+                                            clearInterval($scope.timer);
+                                    }, 60 * 1000);
+
+                                } else if (data.status == -3 || data.status == -1) {
+                                    toastr.warning(data.errors[0], "warning");
                                 }
                             }
-                        }, function errorCallback(response) {
+                        });
+                    }
+
+                    $scope.getEligibilityDetails = function () {
+                        $http.get(baseUrl + '/api/PayBy/EligibilityRequestDetail?eligibilityID=' + $scope.eligibility_Id + '&facilityLicense=' + $scope.facilityLicense).success(function (response_data) {
+                            if (response_data != null) {
+                                if (response_data.data != null) {
+                                    result = response_data.data.eligibilityCheck.result;
+                                    $scope.result = response_data.data.eligibilityCheck.result;
+                                    $scope.eligibility_response = response_data.data;
+                                    $scope.save_user_appointment_eligibility_logs($scope.Appointment_Id, $scope.user_id, $scope.eligibility_Id, $scope.eligibility_response, $scope.eligibility_response);
+                                } else {
+                                    toastr.warning("Request for eligibility failed...", "warning");
+                                    $scope.cancel_eligibility($scope.eligibility_Id);
+                                }
+                            } else {
+                                if ($scope.countDown === 0) {
+                                    $scope.confirm_appointment($scope.Appointment_Id, $scope.eligibility_Id, 5, 4);
+                                }
+                            }
                         });
                     }
 

@@ -343,6 +343,9 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
         //}, false);
 
         $scope.openvideocall = function (patientName, ConferenceId, Row) {
+            var isVideoRecording;
+            var isAudioRecording;
+
             var startdate1 = moment(new Date(Row.Appointment_FromTime + 'Z'));
             var Todate1 = moment(new Date(Row.Appointment_ToTime + 'Z'));
             var enddate1 = moment(new Date());
@@ -350,10 +353,19 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
             var TextIcon = Math.floor(diffTime / (60 * 1000));
             $scope.TextIconB = TextIcon;
             $scope.EndCall = Row;
-            if ($scope.Recording == 1) {
+            
+            if ($scope.Recording == 1) { //Audio and Video Only
                 var IsRecording = true;
-            } else {
+                isVideoRecording = true;
+                isAudioRecording = false;
+            } else if ($scope.Recording == 0) {  // Audio only.
+                var IsRecording = true;
+                isVideoRecording = false;
+                isAudioRecording = true;
+            } else {                         // No
                 var IsRecording = false;
+                isVideoRecording = false;
+                isAudioRecording = false;
             }
             var fullname = $window.localStorage['FullName'];
             patientName = fullname;
@@ -385,13 +397,13 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
                     userId = Row.Doctor_Id;
                 }
 
-               // var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&userid=' + userId + '&videorecording=true&audiorecording=false' +'" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
-                var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://meet.hive.clinic:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+                var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&userid=' + userId + '&videorecording=' + isVideoRecording + '&audiorecording=' + isAudioRecording + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+               // var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://meet.hive.clinic:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
                 document.getElementById('Patient_VideoCall').innerHTML = tag;
 
                 /*Getting the Event */
-                //var GetEvent = io('https://demoserver.livebox.co.in:3030/', { transports: ['websocket'] });
-                var GetEvent = io('https://meet.hive.clinic:3030/', { transports: ['websocket'] });
+                var GetEvent = io('https://demoserver.livebox.co.in:3030/', { transports: ['websocket'] });
+                //var GetEvent = io('https://meet.hive.clinic:3030/', { transports: ['websocket'] });
 
                 /* Passing the Event */
                 GetEvent.on("endConferenceListenerData", function (conferenceData) {
@@ -464,8 +476,8 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
 
 
                 //});
-                //var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&recording=' + IsRecording + '&userid=' + userId + '&videorecording=true&audiorecording=false' +'" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
-                var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://meet.hive.clinic:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&recording=' + IsRecording + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+                var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&recording=' + IsRecording + '&userid=' + userId + '&videorecording=' + isVideoRecording + '&audiorecording=' + isAudioRecording + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+                //var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://meet.hive.clinic:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&recording=' + IsRecording + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
                 document.getElementById('Patient_VideoCall').innerHTML = tag;
             }
             else {
