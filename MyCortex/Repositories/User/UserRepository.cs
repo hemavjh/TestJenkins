@@ -5635,13 +5635,14 @@ namespace MyCortex.Repositories.Uesr
             return response;
         }
 
-        public int VideoCall_Recording_Logs(string conference_id, string fileid, string Recordingurl)
+        public int VideoCall_Recording_Logs(string conference_id, string fileid, string Recordingurl,string FileType)
         {
             int response = 0;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@CONFERENCE_ID", conference_id));
             param.Add(new DataParameter("@RECORDING_URL", Recordingurl));
             param.Add(new DataParameter("@FILEID", fileid));
+            param.Add(new DataParameter("@FILETYPE", FileType));
             response = ClsDataBase.Insert("[MYCORTEX].[VIDEOCALL_RECORDING_FILE]", param, true);
             return response;
         }

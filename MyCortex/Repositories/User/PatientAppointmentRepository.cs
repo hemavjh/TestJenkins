@@ -551,7 +551,8 @@ namespace MyCortex.Repositories.Uesr
                                                                 amount = p.Field<string>("AMOUNT"),
                                                                 status = p.Field<string>("STATUS"),
                                                                 recording_url = p.Field<string>("RECORDINGURL"),
-                                                                Fileid = p.Field<string>("FILEID")
+                                                                Fileid = p.Field<string>("FILEID"),
+                                                                FileType = p.Field<string>("FILETYPE")
                                                             }).ToList();
                 return lst;
             }

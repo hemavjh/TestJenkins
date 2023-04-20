@@ -961,7 +961,7 @@ namespace MyCortex.Home.Controllers
                         str.Flush();
                         str.Close();
                         fs.Close();
-                        int response = repository.VideoCall_Recording_Logs(conference_name, fileid, Recordingurl);
+                        int response = repository.VideoCall_Recording_Logs(conference_name, fileid, Recordingurl, "Video");
                     }
                     catch (Exception err)
                     {
@@ -997,7 +997,8 @@ namespace MyCortex.Home.Controllers
                         str.Flush();
                         str.Close();
                         fs.Close();
-                        int response = repository.VideoCall_Recording_Logs(conference_name, fileid, Recordingaudiourl);
+                        _MyLogger.Exceptions("Warn", _AppLogger, "file name" + fileid, null, _AppMethod);
+                        int response = repository.VideoCall_Recording_Logs(conference_name, fileid, Recordingaudiourl, "Audio");
                     }
                     catch (Exception err)
                     {
@@ -1006,14 +1007,16 @@ namespace MyCortex.Home.Controllers
                 }
                 dynamic data = JsonConvert.DeserializeObject(json);
                 string conferencename = data.conferencename;
-                string recording_url = data.recordedvideoURL;
-                string recordingaudio_url = data.recordedaudioURL;
+              
+                
                 if (json.Contains("recordedvideoURL"))
                 {
+                    string recording_url = data.recordedvideoURL;
                     retid = liveBoxRepository.LiveBox_Recording_url(conferencename, recording_url);
                 }
                 if (json.Contains("recordedaudioURL"))
                 {
+                    string recordingaudio_url = data.recordedaudioURL;
                     retid = liveBoxRepository.LiveBox_Recording_url(conferencename, recordingaudio_url);
                 }
                 //retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename, InstitutionId,userID);

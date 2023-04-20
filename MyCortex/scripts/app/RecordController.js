@@ -101,15 +101,21 @@ Record.controller("RecordController", ['$scope', '$http', '$routeParams', '$loca
         $scope.VideoPlay = function (row) {
             console.log(row);
             var url = row.recording_url;
+            var filetype = row.filetype;
             //var url1 = url.replace('F:\\MyCortex_Latest\\MyCortex\\Images\\Video\\', '');
             var url1 = row.Fileid;
             let Videowindow = window.open("", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes");
-            if (url1 != undefined || url1 != null) {
-                Videowindow.document.write("<html><body><video width='100%' height='100%' controls  controlsList='nodownload'><source src='../Images/Video/" + url1 + "' type='video/mp4'></video></body></html>");
-            } else {
-                Videowindow.document.write("<html><body onpageshow='playVideo()'><video width='100%' height='100%' oncontextmenu='return false;' id='myVideo' autoPlay='autoPlay' accept='video/*' controls controlsList='nodownload'><source src='" + row.recording_url + "' type='video/mp4'></video></body><script>function playVideo(){document.getElementById('myVideo').play()}</script></html>");
+            if (filetype == 'Video') {
+                if (url1 != undefined || url1 != null) {
+                    Videowindow.document.write("<html><body><video width='100%' height='100%' controls  controlsList='nodownload'><source src='../Images/Video/" + url1 + "' type='video/mp4'></video></body></html>");
+                } else {
+                    Videowindow.document.write("<html><body onpageshow='playVideo()'><video width='100%' height='100%' oncontextmenu='return false;' id='myVideo' autoPlay='autoPlay' accept='video/*' controls controlsList='nodownload'><source src='" + row.recording_url + "' type='video/mp4'></video></body><script>function playVideo(){document.getElementById('myVideo').play()}</script></html>");
+                }
+            } else if (filetype == 'Audio') {
+                if (url1 != undefined || url1 != null) {
+                    Videowindow.document.write("<html><body> <audio src=" + url1 + " controls ></audio> </body></html>");
+                }               
             }
-
         }
 
         $scope.AppointmentExport = function () {
