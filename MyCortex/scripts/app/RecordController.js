@@ -101,7 +101,7 @@ Record.controller("RecordController", ['$scope', '$http', '$routeParams', '$loca
         $scope.VideoPlay = function (row) {
             console.log(row);
             var url = row.recording_url;
-            var filetype = row.filetype;
+            var filetype = row.FileType;
             //var url1 = url.replace('F:\\MyCortex_Latest\\MyCortex\\Images\\Video\\', '');
             var url1 = row.Fileid;
             let Videowindow = window.open("", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes");
