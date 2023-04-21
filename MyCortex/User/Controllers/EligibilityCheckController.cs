@@ -96,8 +96,8 @@ namespace MyCortex.User.Controllers
                     HttpClient client = new HttpClient();
                     var content = new StringContent(loadobj.ToString());
                     content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                    // client.BaseAddress = new Uri(BaseUrl); //("http://localhost:49000/"); // if we check in local, please change the base url
-                    client.BaseAddress = new Uri("http://localhost:49000/"); // if we check in local, please change the base url
+                     client.BaseAddress = new Uri(BaseUrl); //("http://localhost:49000/"); // if we check in local, please change the base url
+                    //client.BaseAddress = new Uri("http://localhost:49000/"); // if we check in local, please change the base url
                     var response1 = await client.PostAsync("/api/EligibilityCheck/AddEligibilityEequest/", content);
                     var responseContent = await response1.Content.ReadAsStringAsync();
                     if (responseContent != null)
@@ -216,8 +216,8 @@ namespace MyCortex.User.Controllers
         public async Task PatientAppointmentStatusUpdate(long AppointmentId, int Status, int PaymentStatusId)
         {
             HttpClient client = new HttpClient();
-            // client.BaseAddress = new Uri(BaseUrl); 
-            client.BaseAddress = new Uri("http://localhost:49000/"); // if we check in local, please change the base url
+            client.BaseAddress = new Uri(BaseUrl); 
+            //client.BaseAddress = new Uri("http://localhost:49000/"); // if we check in local, please change the base url
 
             UpdateAppointment jobj1 = new UpdateAppointment();
             jobj1.Appointment_Id = AppointmentId;
@@ -234,8 +234,8 @@ namespace MyCortex.User.Controllers
         public async Task CancelEligibility(long eligibility_Id)
         {           
                 HttpClient client = new HttpClient();
-                // client.BaseAddress = new Uri(BaseUrl); //("http://localhost:49000/"); // if we check in local, please change the base url
-                client.BaseAddress = new Uri("http://localhost:49000/"); // if we check in local, please change the base url
+                 client.BaseAddress = new Uri(BaseUrl); //("http://localhost:49000/"); // if we check in local, please change the base url
+                //client.BaseAddress = new Uri("http://localhost:49000/"); // if we check in local, please change the base url
 
                 FalseEligibility jobj = new FalseEligibility();
                 jobj.eligibilityId = eligibility_Id;
