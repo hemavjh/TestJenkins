@@ -26,6 +26,8 @@ using MyCortex.Admin.Controllers;
 using MyCortex.User.Model;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Threading;
+using System.Web.Helpers;
 
 namespace MyCortex.User.Controllers
 {
@@ -43,11 +45,11 @@ namespace MyCortex.User.Controllers
 
 
         [HttpGet]
-        [Authorize]        
+        [Authorize]
         public async Task<HttpResponseMessage> CheckEligibility(long? AppointmentId)
         {
             _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;           
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<EligibilityParamModel> ModelData = new List<EligibilityParamModel>();
             EligibilityParamReturnModel model = new EligibilityParamReturnModel();
 
@@ -56,7 +58,7 @@ namespace MyCortex.User.Controllers
                 model.Status = "False";
                 model.Message = "Invalid data";
                 model.Error_Code = "";
-                model.ReturnFlag = 0;               
+                model.ReturnFlag = 0;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
             string messagestr = "";
@@ -64,7 +66,7 @@ namespace MyCortex.User.Controllers
             try
             {
                 ModelData = Prepository.Get_DetailsByAppointment(AppointmentId);
-                if (ModelData.Count>0)
+                if (ModelData.Count > 0)
                 {
                     var CountryCode = ModelData[0].MOBILE_NO.Split('~')[0];
                     var MobileNumber = ModelData[0].MOBILE_NO.Split('~')[1];
@@ -72,7 +74,7 @@ namespace MyCortex.User.Controllers
                     {
                         CountryCode = "+971";
                     }
-                    var PayerId= ModelData[0].PayorId;
+                    var PayerId = ModelData[0].PayorId;
                     EligibilityParamModel re = new EligibilityParamModel();
                     re.NATIONALITY_ID = ModelData[0].NATIONALITY_ID;
                     re.Clinicianlist = ModelData[0].Clinicianlist;
@@ -94,8 +96,8 @@ namespace MyCortex.User.Controllers
                     HttpClient client = new HttpClient();
                     var content = new StringContent(loadobj.ToString());
                     content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                    client.BaseAddress = new Uri(BaseUrl); //("http://localhost:49000/"); // if we check in local, please change the base url
-                   // client.BaseAddress = new Uri("http://localhost:49000/"); // if we check in local, please change the base url
+                    // client.BaseAddress = new Uri(BaseUrl); //("http://localhost:49000/"); // if we check in local, please change the base url
+                    client.BaseAddress = new Uri("http://localhost:49000/"); // if we check in local, please change the base url
                     var response1 = await client.PostAsync("/api/EligibilityCheck/AddEligibilityEequest/", content);
                     var responseContent = await response1.Content.ReadAsStringAsync();
                     if (responseContent != null)
@@ -118,30 +120,11 @@ namespace MyCortex.User.Controllers
                             {
                                 if (j == Eligibility_Timeout)
                                 {
-                                    UpdateAppointment jobj1 = new UpdateAppointment();
-                                    jobj1.Appointment_Id = Id;
-                                    jobj1.Status = 5;
-                                    jobj1.PaymentStatus_Id = 4;
-
-                                    var json31 = JsonConvert.SerializeObject(jobj1, Newtonsoft.Json.Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-                                    var jObject41 = JObject.Parse(json31);
-                                    var loadobj51 = JsonConvert.DeserializeObject<JObject>(jObject41.ToString());
-                                    var content21 = new StringContent(loadobj51.ToString());
-                                    content21.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                                    var responseupd1 = await client.PostAsync("/api/PatientAppointments/Patient_Appointment_Status_Update/", content21);
-                                    var responseUpdateContent1 = await responseupd1.Content.ReadAsStringAsync();
-
+                                    // Patient appointment status update
+                                    await PatientAppointmentStatusUpdate(Id, 5, 4);
                                     // cancel the eligibility id
-                                    FalseEligibility jobj = new FalseEligibility();
-                                    jobj.eligibilityId = eligibility_Id;
+                                    await CancelEligibility(eligibility_Id);
 
-                                    var json3 = JsonConvert.SerializeObject(jobj, Newtonsoft.Json.Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-                                    var jObject4 = JObject.Parse(json3);
-                                    var loadobj5 = JsonConvert.DeserializeObject<JObject>(jObject4.ToString());
-                                    var content2 = new StringContent(loadobj5.ToString());
-                                    content2.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                                    var responseCan = await client.PostAsync("/api/EligibilityCheck/CancelEligibilityEequest/", content2);
-                                    var responseCancelContent = await responseCan.Content.ReadAsStringAsync();
                                     messagestr = "Insurance Rejected";
                                     LanguageKey = "insurancerejected";
                                     model.ReturnFlag = 1;
@@ -160,40 +143,22 @@ namespace MyCortex.User.Controllers
                                         var loadobj4 = JsonConvert.DeserializeObject<eligibilityCheck>(responseDetContent.Result.ToString());
                                         var result = loadobj4.result;
 
-                                        FalseEligibility jobj = new FalseEligibility();
-                                        jobj.eligibilityId = eligibility_Id;
+                                        await CancelEligibility(eligibility_Id);
 
-                                        var json3 = JsonConvert.SerializeObject(jobj, Newtonsoft.Json.Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-                                        var jObject4 = JObject.Parse(json3);
-                                        var loadobj5 = JsonConvert.DeserializeObject<JObject>(jObject4.ToString());
-                                        var content2 = new StringContent(loadobj5.ToString());
-                                        content2.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                                        var responseCan = await client.PostAsync("/api/EligibilityCheck/CancelEligibilityEequest/", content2);
-                                        var responseCancelContent = await responseCan.Content.ReadAsStringAsync();
-                                        UpdateAppointment jobj1 = new UpdateAppointment();
                                         if (result == false)
                                         {
-                                            jobj1.Appointment_Id = Id;
-                                            jobj1.Status = 5;
-                                            jobj1.PaymentStatus_Id = 4;
+                                          await PatientAppointmentStatusUpdate(Id, 5, 4);
+
                                             messagestr = "Insurance Rejected";
                                             LanguageKey = "insurancerejected";
                                         }
                                         else
                                         {
-                                            jobj1.Appointment_Id = Id;
-                                            jobj1.Status = 1;
-                                            jobj1.PaymentStatus_Id = 3;
+                                           await PatientAppointmentStatusUpdate(Id, 1, 3); 
+
                                             messagestr = "Insurance Approved";
                                             LanguageKey = "insuranceapproved";
-                                        }
-                                        var json31 = JsonConvert.SerializeObject(jobj1, Newtonsoft.Json.Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-                                        var jObject41 = JObject.Parse(json31);
-                                        var loadobj51 = JsonConvert.DeserializeObject<JObject>(jObject41.ToString());
-                                        var content21 = new StringContent(loadobj51.ToString());
-                                        content21.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                                        var responseupd1 = await client.PostAsync("/api/PatientAppointments/Patient_Appointment_Status_Update/", content21);
-                                        var responseUpdateContent1 = await responseupd1.Content.ReadAsStringAsync();
+                                        }                                        
                                         model.ReturnFlag = 1;
 
                                         break;
@@ -210,31 +175,20 @@ namespace MyCortex.User.Controllers
                         {
                             messagestr = "particular patient already requested...";
                             LanguageKey = "patientalreadyrequested";
-                            model.Status = "False";                            
+                            model.Status = "False";
                         }
                         else if (loadobj2.status == -3 || loadobj2.status == -1)
                         {
                             if (loadobj2.status == -1)
-                            {
-                                UpdateAppointment jobj1 = new UpdateAppointment();
-                                jobj1.Appointment_Id = Id;
-                                jobj1.Status = 5;
-                                jobj1.PaymentStatus_Id = 4;
-                                var json31 = JsonConvert.SerializeObject(jobj1, Newtonsoft.Json.Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-                                var jObject41 = JObject.Parse(json31);
-                                var loadobj51 = JsonConvert.DeserializeObject<JObject>(jObject41.ToString());
-                                var content21 = new StringContent(loadobj51.ToString());
-                                content21.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                                var responseupd1 = await client.PostAsync("/api/PatientAppointments/Patient_Appointment_Status_Update/", content21);
-                                var responseUpdateContent1 = await responseupd1.Content.ReadAsStringAsync();
+                            {                               
+                                await PatientAppointmentStatusUpdate(Id, 5, 4);
                             }
-
                             model.ReturnFlag = 1;
                             messagestr = loadobj2.errors;
                             LanguageKey = "";
                             model.Status = "False";
                         }
-                    }                                      
+                    }
                 }
                 else
                 {
@@ -257,7 +211,43 @@ namespace MyCortex.User.Controllers
                 model.ReturnFlag = 0;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
-        }        
+        }
+
+        public async Task PatientAppointmentStatusUpdate(long AppointmentId, int Status, int PaymentStatusId)
+        {
+            HttpClient client = new HttpClient();
+            // client.BaseAddress = new Uri(BaseUrl); 
+            client.BaseAddress = new Uri("http://localhost:49000/"); // if we check in local, please change the base url
+
+            UpdateAppointment jobj1 = new UpdateAppointment();
+            jobj1.Appointment_Id = AppointmentId;
+            jobj1.Status = Status;
+            jobj1.PaymentStatus_Id = PaymentStatusId;
+            var json31 = JsonConvert.SerializeObject(jobj1, Newtonsoft.Json.Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore});
+            var jObject41 = JObject.Parse(json31);
+            var loadobj51 = JsonConvert.DeserializeObject<JObject>(jObject41.ToString());
+            var content21 = new StringContent(loadobj51.ToString());
+            content21.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var responseupd1 = await client.PostAsync("/api/PatientAppointments/Patient_Appointment_Status_Update/", content21);
+            var responseUpdateContent1 = await responseupd1.Content.ReadAsStringAsync();
+        }
+        public async Task CancelEligibility(long eligibility_Id)
+        {           
+                HttpClient client = new HttpClient();
+                // client.BaseAddress = new Uri(BaseUrl); //("http://localhost:49000/"); // if we check in local, please change the base url
+                client.BaseAddress = new Uri("http://localhost:49000/"); // if we check in local, please change the base url
+
+                FalseEligibility jobj = new FalseEligibility();
+                jobj.eligibilityId = eligibility_Id;
+                var json3 = JsonConvert.SerializeObject(jobj, Newtonsoft.Json.Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                var jObject4 = JObject.Parse(json3);
+                var loadobj5 = JsonConvert.DeserializeObject<JObject>(jObject4.ToString());
+                var content2 = new StringContent(loadobj5.ToString());
+                content2.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                var responseCan = await client.PostAsync("/api/EligibilityCheck/CancelEligibilityEequest/", content2);
+                var responseCancelContent = await responseCan.Content.ReadAsStringAsync();    //   .content.ReadAsStringAsync();
+        }
+
 
         [HttpPost]
         //[Authorize]
