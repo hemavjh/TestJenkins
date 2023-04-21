@@ -114,7 +114,7 @@ namespace MyCortex.User.Controllers
                             var content1 = new StringContent("");
                             content1.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-                            for (int j = 1; j <= Eligibility_Timeout; j++)
+                            for (int j = 0; j < Eligibility_Timeout; j++)
                             {
                                 if (j == Eligibility_Timeout)
                                 {
@@ -130,6 +130,21 @@ namespace MyCortex.User.Controllers
                                     content21.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                                     var responseupd1 = await client.PostAsync("/api/PatientAppointments/Patient_Appointment_Status_Update/", content21);
                                     var responseUpdateContent1 = await responseupd1.Content.ReadAsStringAsync();
+
+                                    // cancel the eligibility id
+                                    FalseEligibility jobj = new FalseEligibility();
+                                    jobj.eligibilityId = eligibility_Id;
+
+                                    var json3 = JsonConvert.SerializeObject(jobj, Newtonsoft.Json.Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                                    var jObject4 = JObject.Parse(json3);
+                                    var loadobj5 = JsonConvert.DeserializeObject<JObject>(jObject4.ToString());
+                                    var content2 = new StringContent(loadobj5.ToString());
+                                    content2.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                                    var responseCan = await client.PostAsync("/api/EligibilityCheck/CancelEligibilityEequest/", content2);
+                                    var responseCancelContent = await responseCan.Content.ReadAsStringAsync();
+                                    messagestr = "Insurance Rejected";
+                                    LanguageKey = "insurancerejected";
+                                    model.ReturnFlag = 1;
                                     break;
                                 }
                                 else
@@ -242,7 +257,7 @@ namespace MyCortex.User.Controllers
                 model.ReturnFlag = 0;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
-        }
+        }        
 
         [HttpPost]
         //[Authorize]
