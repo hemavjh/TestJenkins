@@ -113,7 +113,7 @@ Record.controller("RecordController", ['$scope', '$http', '$routeParams', '$loca
                 }
             } else if (filetype == 'Audio') {
                 if (url1 != undefined || url1 != null) {                    
-                    Videowindow.document.write("<html><body><audio controls><source src=" + url1 + " type='audio/mpeg'></audio></body></html>");
+                    Videowindow.document.write("<html><body><audio controls><source src=../Images/Audio/" + url1 + " type='audio/mpeg'></audio></body></html>");
                 }               
             }
         }
