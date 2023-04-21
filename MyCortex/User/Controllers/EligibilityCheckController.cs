@@ -85,6 +85,7 @@ namespace MyCortex.User.Controllers
                     var Appconfig_Value = ModelData[0].facilityLicense;
                     var Eligibility_Timeout = ModelData[0].Eligibility_Timeout;
                     var Id = ModelData[0].AppointmentId;
+                    var BaseUrl = ModelData[0].BaseUrl;
 
                     var json = JsonConvert.SerializeObject(re, Newtonsoft.Json.Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
                     var jObject = JObject.Parse(json);
@@ -93,8 +94,8 @@ namespace MyCortex.User.Controllers
                     HttpClient client = new HttpClient();
                     var content = new StringContent(loadobj.ToString());
                     content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                    //client.BaseAddress = new Uri(BaseUrl); //("http://localhost:49000/"); // if we check in local, please change the base url
-                    client.BaseAddress = new Uri("http://localhost:49000/"); // if we check in local, please change the base url
+                    client.BaseAddress = new Uri(BaseUrl); //("http://localhost:49000/"); // if we check in local, please change the base url
+                   // client.BaseAddress = new Uri("http://localhost:49000/"); // if we check in local, please change the base url
                     var response1 = await client.PostAsync("/api/EligibilityCheck/AddEligibilityEequest/", content);
                     var responseContent = await response1.Content.ReadAsStringAsync();
                     if (responseContent != null)
