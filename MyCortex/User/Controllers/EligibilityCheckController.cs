@@ -121,9 +121,9 @@ namespace MyCortex.User.Controllers
                                 if (j == Eligibility_Timeout)
                                 {
                                     // Patient appointment status update
-                                    await PatientAppointmentStatusUpdate(Id, 5, 4);
+                                    await PatientAppointmentStatusUpdate(Id, 5, 4, BaseUrl);
                                     // cancel the eligibility id
-                                    await CancelEligibility(eligibility_Id);
+                                    await CancelEligibility(eligibility_Id, BaseUrl);
 
                                     messagestr = "Insurance Rejected";
                                     LanguageKey = "insurancerejected";
@@ -143,18 +143,18 @@ namespace MyCortex.User.Controllers
                                         var loadobj4 = JsonConvert.DeserializeObject<eligibilityCheck>(responseDetContent.Result.ToString());
                                         var result = loadobj4.result;
 
-                                        await CancelEligibility(eligibility_Id);
+                                        await CancelEligibility(eligibility_Id, BaseUrl);
 
                                         if (result == false)
                                         {
-                                          await PatientAppointmentStatusUpdate(Id, 5, 4);
+                                          await PatientAppointmentStatusUpdate(Id, 5, 4, BaseUrl);
 
                                             messagestr = "Insurance Rejected";
                                             LanguageKey = "insurancerejected";
                                         }
                                         else
                                         {
-                                           await PatientAppointmentStatusUpdate(Id, 1, 3); 
+                                           await PatientAppointmentStatusUpdate(Id, 1, 3, BaseUrl); 
 
                                             messagestr = "Insurance Approved";
                                             LanguageKey = "insuranceapproved";
@@ -181,7 +181,7 @@ namespace MyCortex.User.Controllers
                         {
                             if (loadobj2.status == -1)
                             {                               
-                                await PatientAppointmentStatusUpdate(Id, 5, 4);
+                                await PatientAppointmentStatusUpdate(Id, 5, 4, BaseUrl);
                             }
                             model.ReturnFlag = 1;
                             messagestr = loadobj2.errors;
@@ -213,7 +213,7 @@ namespace MyCortex.User.Controllers
             }
         }
 
-        public async Task PatientAppointmentStatusUpdate(long AppointmentId, int Status, int PaymentStatusId)
+        public async Task PatientAppointmentStatusUpdate(long AppointmentId, int Status, int PaymentStatusId, string BaseUrl)
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(BaseUrl); 
@@ -231,7 +231,7 @@ namespace MyCortex.User.Controllers
             var responseupd1 = await client.PostAsync("/api/PatientAppointments/Patient_Appointment_Status_Update/", content21);
             var responseUpdateContent1 = await responseupd1.Content.ReadAsStringAsync();
         }
-        public async Task CancelEligibility(long eligibility_Id)
+        public async Task CancelEligibility(long eligibility_Id, string BaseUrl)
         {           
                 HttpClient client = new HttpClient();
                  client.BaseAddress = new Uri(BaseUrl); //("http://localhost:49000/"); // if we check in local, please change the base url
