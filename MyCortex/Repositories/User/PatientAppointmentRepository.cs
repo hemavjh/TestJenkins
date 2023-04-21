@@ -174,6 +174,35 @@ namespace MyCortex.Repositories.Uesr
         
         }
 
+        public IList<EligibilityParamModel> Get_DetailsByAppointment(long? AppointmentId)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@APPOINTMENTID", AppointmentId));           
+
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].GET_APPOINTMENTDETAILS", param);
+
+            IList<EligibilityParamModel> INS = (from p in dt.AsEnumerable()
+                                                   select
+                                                   new EligibilityParamModel()
+                                                   {
+                                                       Institution_id = p.Field<long>("INSTITUTEID"),
+                                                       //Doctor_id = p.Field<long>("DOCTORID"),
+                                                       //Patient_id = p.Field<long>("PATIENTID"),
+                                                       AppointmentId = p.Field<long>("APPOINTMENTID"),
+                                                       PayorId =p.Field<string>("PAYORID"),
+                                                       MOBILE_NO = p.Field<string>("MOBILE_NO"),
+                                                       NATIONALITY_ID=p.Field<string>("NATIONALITYID"),
+                                                       facilityLicense= p.Field<string>("FACILITYLICENSE"),
+                                                       //countrycode = p.Field<string>("COUNTRYCODE"),
+                                                       Clinicianlist = p.Field<string>("CLINICIANLIST"),        
+                                                       BaseUrl = p.Field<string>("BASEURL"),
+                                                       Eligibility_Timeout = p.Field<int>("ELIGIBILITY_TIMEOUT")           
+                                                   }).ToList();
+            return INS;
+
+
+        }
+
         /// <summary>
         /// to update a patient appointment
         /// </summary>

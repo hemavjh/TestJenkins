@@ -112,8 +112,8 @@ Record.controller("RecordController", ['$scope', '$http', '$routeParams', '$loca
                     Videowindow.document.write("<html><body onpageshow='playVideo()'><video width='100%' height='100%' oncontextmenu='return false;' id='myVideo' autoPlay='autoPlay' accept='video/*' controls controlsList='nodownload'><source src='" + row.recording_url + "' type='video/mp4'></video></body><script>function playVideo(){document.getElementById('myVideo').play()}</script></html>");
                 }
             } else if (filetype == 'Audio') {
-                if (url1 != undefined || url1 != null) {
-                    Videowindow.document.write("<html><body> <audio src=" + url1 + " controls ></audio></body></html>");
+                if (url1 != undefined || url1 != null) {                    
+                    Videowindow.document.write("<html><body><audio controls><source src=" + url1 + " type='audio/mpeg'></audio></body></html>");
                 }               
             }
         }

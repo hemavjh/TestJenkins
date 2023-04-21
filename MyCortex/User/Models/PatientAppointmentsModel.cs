@@ -76,6 +76,34 @@ namespace MyCortex.User.Model
         public IList<PatientAppointmentsModel> PatientAppointmentList { get; set; }
     }
 
+    public class EligibilityParamModel
+    {
+        public string NATIONALITY_ID { get; set; }
+        public string Clinicianlist { get; set; }
+        public int ConsultationCategory { get; set; }
+        public string countrycode { get; set; }
+        public string MOBILE_NO { get; set; }
+        public string PayorId { get; set; }
+        public string referralLetterRefNo { get; set; }
+        public int ServiceCategory { get; set; }
+        public string facilityLicense { get; set; }
+        public long AppointmentId { get; set; }
+        public long Doctor_id { get; set; }
+        public long Patient_id { get; set; }
+        public long Institution_id { get; set; }      
+        public string BaseUrl { get; set; }
+        public int Eligibility_Timeout { get; set; }
+
+    }
+    public class EligibilityParamReturnModel
+    {
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public string Error_Code { get; set; }
+        public int ReturnFlag { get; set; }
+        public string LanguageKey { get; set; }
+    }
+
     public class AppointmentPaymentHistory
     {
         public long SNO { get; set; }

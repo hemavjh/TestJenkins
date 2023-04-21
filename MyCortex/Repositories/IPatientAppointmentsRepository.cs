@@ -12,6 +12,7 @@ namespace MyCortex.Repositories
         IList<PatientAppointmentsModel> DoctorAppointmentList(long Doctor_Id, int flag, DateTime? ViewDate, Guid Login_Session_Id);
         PatientAppointmentsModel Update_CancelledAppointment(Guid Login_Session_Id, PatientAppointmentsModel obj);
         IList<PatientAppointmentsModel> PatientAppointment_InsertUpdate(Guid Login_Session_Id,PatientAppointmentsModel insobj);
+        IList<EligibilityParamModel> Get_DetailsByAppointment(long? AppointmentId);
         IList<PatientAppointmentsModel> AppointmentReSchedule_InsertUpdate(Guid Login_Session_Id, PatientAppointmentsModel obj);
         IList<PatientAppointmentsModel> PatientBasedGroupBasedClinicianList(long Patient_Id);
         IList<PatientAppointmentsModel> DepartmentwiseDoctorList(string DepartmentIds, long InstitutionId, DateTime Date,Int32 IsShift,Int32 Language_Id);
