@@ -1870,6 +1870,8 @@
     <Folder Include="Admin\Views\WebConfiguration\" />
     <Folder Include="App_Data\" />
     <Folder Include="Documents\" />
+    <Folder Include="Images\Audio\" />
+    <Folder Include="Images\Video\" />
     <Folder Include="Livebox\Models\" />
     <Folder Include="Livebox\Views\" />
     <Folder Include="Repositories\Repositories\" />
