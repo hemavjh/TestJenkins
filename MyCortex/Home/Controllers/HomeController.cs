@@ -975,6 +975,7 @@ namespace MyCortex.Home.Controllers
 
                     string Url = System.Web.HttpContext.Current.Request.Url.Host.ToString();
                     string source_path = System.Web.HttpContext.Current.Server.MapPath("~/Images");
+                    _MyLogger.Exceptions("Warn", _AppLogger, "Source Path " + source_path, null, _AppMethod);
                     string pathToNewFolder = System.IO.Path.Combine(source_path, "Audio");
                     DirectoryInfo directory = Directory.CreateDirectory(pathToNewFolder);
                     try
