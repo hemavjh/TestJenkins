@@ -59,6 +59,7 @@ namespace MyCortex.User.Controllers
                 model.Message = "Invalid data";
                 model.Error_Code = "";
                 model.ReturnFlag = 0;
+                model.LanguageKey = "invaliddata";
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
             string messagestr = "";
@@ -207,6 +208,7 @@ namespace MyCortex.User.Controllers
                 _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 model.Status = "False";
                 model.Message = "Error in eligibility checking in appointment";
+                model.LanguageKey = "errorineligibilitycheckinappointment";
                 model.Error_Code = ex.Message;
                 model.ReturnFlag = 0;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
