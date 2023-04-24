@@ -90,12 +90,13 @@ namespace MyCortex.Repositories.LiveBox
 
             return retid;
         }
-        public int LiveBox_Recording_url(string conferencename, string recording_url) 
+        public int LiveBox_Recording_url(string conferencename, string recording_url, string FileType) 
             {
             int retid = 0;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@conferencename", conferencename));
             param.Add(new DataParameter("@recording_url", recording_url));
+            param.Add(new DataParameter("@FILETYPE", FileType));
             retid = ClsDataBase.Insert("[MYCORTEX].[GET_RECORDING_URL]", param, true);
             return retid;
         }

@@ -1013,12 +1013,12 @@ namespace MyCortex.Home.Controllers
                 if (json.Contains("recordedvideoURL"))
                 {
                     string recording_url = data.recordedvideoURL;
-                    retid = liveBoxRepository.LiveBox_Recording_url(conferencename, recording_url);
+                    retid = liveBoxRepository.LiveBox_Recording_url(conferencename, recording_url,"Video");
                 }
                 if (json.Contains("recordedaudioURL"))
                 {
                     string recordingaudio_url = data.recordedaudioURL;
-                    retid = liveBoxRepository.LiveBox_Recording_url(conferencename, recordingaudio_url);
+                    retid = liveBoxRepository.LiveBox_Recording_url(conferencename, recordingaudio_url,"Audio");
                 }
                 //retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename, InstitutionId,userID);
 
