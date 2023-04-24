@@ -101,15 +101,21 @@ namespace MyCortex.Livebox.Controllers
                 retid = liveBoxRepository.LiveBox_Notify_Log(json);
                 dynamic data = JsonConvert.DeserializeObject(json);
                 string conferencename = data.conferencename;
-                string recording_url = data.recordedvideoURL;
-                string recordingaudio_url = data.recordedaudioURL;
-                if (recording_url != "" || recording_url != String.Empty)
+
+
+                //if (recording_url != "" || recording_url != String.Empty)
+                //{
+                if (json.Contains("recordedvideoURL"))
                 {
-                    retid = liveBoxRepository.LiveBox_Recording_url(conferencename, recording_url);
+                    string recording_url = data.recordedvideoURL;
+                    retid = liveBoxRepository.LiveBox_Recording_url(conferencename, recording_url,"Video");
                 }
-                if (recordingaudio_url != "" || recordingaudio_url != String.Empty)
+                //if (recordingaudio_url != "" || recordingaudio_url != String.Empty)
+                //{
+                if (json.Contains("recordedaudioURL"))
                 {
-                    retid = liveBoxRepository.LiveBox_Recording_url(conferencename, recordingaudio_url);
+                    string recordingaudio_url = data.recordedaudioURL;
+                    retid = liveBoxRepository.LiveBox_Recording_url(conferencename, recordingaudio_url,"Audio");
                 }
                 //retid = liveBoxRepository.LiveBox_Notify_UPDATE(conferencename, InstitutionId,userID);
                 //PushNotificationMessage message = new PushNotificationMessage();
