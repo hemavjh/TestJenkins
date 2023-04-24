@@ -114,7 +114,9 @@ Record.controller("RecordController", ['$scope', '$http', '$routeParams', '$loca
             } else if (filetype == 'Audio') {
                 if (url1 != undefined || url1 != null) {                    
                     Videowindow.document.write("<html><body><audio controls><source src=../Images/Audio/" + url1 + " type='audio/mp3'></audio></body></html>");
-                }               
+                }             else {
+                    Videowindow.document.write("<html><body onpageshow='playVideo()'><audio width='100%' height='100%' oncontextmenu='return false;' id='myaudio' autoPlay='autoPlay' accept='audio/*' controls controlsList='nodownload'><source src='" + row.recording_url + "' type='video/mp3'></audio></body><script>function playVideo(){document.getElementById('myaudio').play()}</script></html>");
+            }          
             }
         }
 
