@@ -180,10 +180,10 @@
                         </button>
                     </div>
                     <div ng-hide="(row.recording_url == '' || row.recording_url == null || row.status == 'UNPAID' || row.FileType=='Video' || row.FileType=='' || row.FileType==null)">
-                        <!--<button id="myVideo" type="button" class="theme-btn-1 mt-10 mr-10" ng-click="VideoPlay(row)" target="_blank" controls controlsList="nodownload">
+                        <button id="myVideo" type="button" class="theme-btn-1 mt-10 mr-10" ng-click="VideoPlay(row)" target="_blank" controls controlsList="nodownload">
         Play Audio
-    </button>-->
-                        <audio controls><source src='../Images/Audio/{{row.Fileid}}' type='audio/mp3'></audio>
+    </button>
+                        <!--<audio controls><source src='../Images/Audio/{{row.Fileid}}' type='audio/mp3'></audio>-->
                     </div>
                 </td>
             </tr>
