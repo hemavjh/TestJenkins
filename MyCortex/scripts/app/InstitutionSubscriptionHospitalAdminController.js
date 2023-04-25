@@ -138,7 +138,14 @@ InstitutionSubscriptionHAcontroller.controller("InstitutionSubscriptionHospitalA
                     //$scope.Created_No_Of_Hivechart_Devices = data.Created_No_Of_Hivechart_Devices;
                     //$scope.Remaining_No_Of_Hive_Devices = data.Remaining_No_Of_Hive_Devices;
                     //$scope.Remaining_No_Of_Hivechart_Devices = data.Remaining_No_Of_Hivechart_Devices;
-
+                    
+                    if ($scope.Recording_Type == 0) {
+                        $scope.RecordingType = 'Audio Only';
+                    } else if ($scope.Recording_Type == 1) {
+                        $scope.RecordingType = 'Audio & Video';
+                    } else if ($scope.Recording_Type == 2) {
+                        $scope.RecordingType = 'No';
+                    }
                     $scope.TelePhone_User = response.data.TelePhone_User;
                     setTimeout(() => { angular.element($('#telephone_Id' + $scope.TelePhone_User)).prop('checked', true); }, 500);
 

@@ -605,7 +605,7 @@
                                             {{ViewInstitution_Name}}
                                         </td>
                                         <td rowspan="9" valign="top">
-                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 100%;">
                                                 <tr>
                                                     <td>
                                                         <div class="row">
@@ -616,7 +616,7 @@
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 100%;">
                                                 <tr>
                                                     <td>
                                                         <div class="row">
@@ -627,7 +627,7 @@
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 100%;">
                                                 <tr>
                                                     <td>
                                                         <div class="row">
@@ -641,7 +641,7 @@
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 100%;">
                                                 <tr>
                                                     <td>
                                                         <div class="row">
@@ -655,7 +655,7 @@
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 100%;">
                                                 <tr>
                                                     <td>
                                                         <div class="row">
@@ -669,18 +669,24 @@
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 100%;">
                                                 <tr>
                                                     <td>
                                                         <div class="row">
-                                                            <div class="col-md-4" ng-repeat="sel in TelephoneList">
+                                                            <div class="col-md-3" ng-repeat="sel in TelephoneList">
                                                                 <input type="radio" id="telephone_Id{{sel.Id}}" disabled="disabled" ng-selected="{{TelePhone_User == sel.Id}}" ng-model="TelePhone_User" ng-click="TelePhoneChange('telephone_Id'+sel.Id,sel);"
                                                                        value={{sel.Id}} name="TelePhone" />
                                                                 {{sel.Name}}
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                                        <!--</div>-->
+                                                    <!--</td>
+                                                    <td>-->
+                                                        <div class="row">
+                                                            <div class="col-md-5">
+                                                            <label>Hive Meet Recording : </label> {{RecordingType}}
+                                                            </div>
+                                                            </div>
+</td>                                                                                                
                                             </table>
                                             <table cellpadding="0" cellspacing="0" border="0" width="90%" class="formControlGroup">
                                                 <tr>
@@ -766,21 +772,7 @@
                                                             </tr>
                                                         </table>
                                                     </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label>Recording Type</label>
-                                                    </td>
-                                                    <td class="nopadding">
-                                                        <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
-                                                            <tr>
-                                                                <td>
-                                                                    {{Recording_Type==1 ? "Active" : "Deactive"}}
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                    </td>
-                                                </tr>
+                                                </tr>                                               
                                                 <!-- <tr>
         <td>
             <label>Chronic Edit<sup><font class='mandatory-field'>*</font></sup></label>

@@ -916,6 +916,13 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     setTimeout(() => { angular.element($('#Subscription_Type' + $scope.Subscription_Type)).prop('checked', true); }, 500);
                     $scope.Recording_Type = response.data.Recording_Type;
                     setTimeout(() => { angular.element($('#Recording_Type' + $scope.Recording_Type)).prop('checked', true); }, 500);
+                    if ($scope.Recording_Type == 0) {
+                        $scope.RecordingType = 'Audio Only';
+                    } else if ($scope.Recording_Type == 1) {
+                        $scope.RecordingType = 'Audio & Video';
+                    } else if ($scope.Recording_Type == 2) {
+                        $scope.RecordingType = 'No';
+                    }
 
                 }, function errorCallback(response) {
                 });

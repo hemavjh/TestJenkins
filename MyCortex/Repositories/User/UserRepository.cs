@@ -2582,7 +2582,7 @@ namespace MyCortex.Repositories.Uesr
                                                           Amount=p.Field<string>("AMOUNT"),
                                                           ReasonForVisit=p.Field<string>("REASONFORVISIT"),
                                                           Appointment_Module_Id=p.Field<long?>("APPOINTMENT_MODULE_ID"),
-                                                          Payment_Status_Id = p.Field<string>("PAYMENT_STATUS_ID")
+                                                          Payment_Status_Id = (p.IsNull("PAYMENT_STATUS_ID") ? "" : p.Field<string>("PAYMENT_STATUS_ID"))
                                                       }).ToList();
                 return lst;
             }
