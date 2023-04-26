@@ -1930,7 +1930,7 @@ namespace MyCortex.User.Controller
 
         [HttpGet]
         //[CheckSessionOutFilter]
-        public HttpResponseMessage PatientPreviousAppointmentList(long Patient_Id, Guid Login_Session_Id, int StartRowNumber = 0, int EndRowNumber = 0, Int32 Language_Id =1)
+        public HttpResponseMessage PatientPreviousAppointmentList(long Patient_Id, Guid Login_Session_Id, int StartRowNumber = 0, int EndRowNumber = 20, Int32 Language_Id =1)
         {
              _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
