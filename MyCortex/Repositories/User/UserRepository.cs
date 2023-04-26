@@ -976,7 +976,7 @@ namespace MyCortex.Repositories.Uesr
         /// </summary>          
         /// <returns> user list of a institution</returns>
         //  [CheckSessionOut]
-        public IList<ItemizedUserDetailsModel> UserDetails_List(long Id, long InstitutionId, int? IsActive, Guid Login_Session_Id, int UserType_Id)
+        public IList<ItemizedUserDetailsModel> UserDetails_List(long Id, long InstitutionId, int IsActive, Guid Login_Session_Id, int UserType_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             //List<ItemizedUserDetailsModel> products = new List<ItemizedUserDetailsModel>();
