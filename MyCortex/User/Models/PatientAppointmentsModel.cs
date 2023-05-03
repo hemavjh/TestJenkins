@@ -63,6 +63,7 @@ namespace MyCortex.User.Model
         public string OrderNo { get; set; }
         public string ConferenceId { get; set; }
         public string Payment_Status_Id { get; set; }
+        public string BaseUrl { get; set; }
     }
     public class PatientAppointmentsReturnModel
     {
@@ -75,7 +76,14 @@ namespace MyCortex.User.Model
         public PatientAppointmentsModel AppointmentDetails { get; set; }
         public IList<PatientAppointmentsModel> PatientAppointmentList { get; set; }
     }
-
+    public class RefundPaybyModel
+    {
+        public int refundAppointmentId {get;set;}
+        public string refundMerchantOrderNo { get; set; }
+        public string refundAmount { get; set; }
+        public string refundOrderNo {get;set;}
+        public long  refundInstitutionId {get;set;}
+    }
     public class EligibilityParamModel
     {
         public string NATIONALITY_ID { get; set; }

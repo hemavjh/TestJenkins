@@ -17,6 +17,10 @@ using MyCortex.Notification.Models;
 using MyCortex.Provider;
 using System.Text;
 using System.Text.RegularExpressions;
+using MyCortex.Admin.Controllers;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
 
 namespace MyCortex.User.Controller
 {
@@ -88,7 +92,42 @@ namespace MyCortex.User.Controller
                     messagestr = "Appointment Cancelled Successfully";
                     model.ReturnFlag = 1;
                     model.Status = "True";
-                }
+
+                    if (ModelData.PaymentStatusId == 3 && ModelData.Appointment_Module_Id == 2)
+                    {
+                        RefundPaybyModel payobj = new RefundPaybyModel();
+
+                        payobj.refundAppointmentId = ModelData.id;
+                        payobj.refundMerchantOrderNo = ModelData.MerchantOrderNo;
+                        payobj.refundAmount = ModelData.Amount;
+                        payobj.refundOrderNo = ModelData.OrderNo;
+                        payobj.refundInstitutionId = ModelData.Institution_Id;
+
+                        var BaseUrl = ModelData.BaseUrl;
+
+                        var json = JsonConvert.SerializeObject(payobj, Newtonsoft.Json.Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                        var jObject = JObject.Parse(json);
+                        var loadobj = JsonConvert.DeserializeObject<JObject>(jObject.ToString());
+                        var content = new StringContent(loadobj.ToString());
+                        content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                        using (var client = new HttpClient())
+                        {
+                            client.BaseAddress = new Uri(BaseUrl); //("http://localhost:49000/"); // if we check in local, please change the base url
+                           //client.BaseAddress = new Uri("http://localhost:49000/"); // if we check in local, please change the base url
+                           
+                            //HTTP POST
+                            var postTask = client.PostAsync("/api/PayBy/RefundPayByCheckoutSession/", content);
+                            postTask.Wait();
+
+                            var result = postTask.Result;
+                            if (result.IsSuccessStatusCode)
+                            {
+                                messagestr = "Appointment Cancelled Successfully";
+                            }
+                        }
+
+                    }                                               
+                 }
                 else if ((ModelData.flag == 3) == true)
                 {
                     messagestr = "Appointment Can't Be Cancelled, Cancelation Time Is End!";
@@ -356,6 +395,80 @@ namespace MyCortex.User.Controller
             }
         }
 
+        [HttpPost]
+        [Authorize]
+        [CheckSessionOutFilter]
+        public HttpResponseMessage AppointmentReSchedule_withallprocess(Guid Login_Session_Id, [FromBody] PatientAppointmentsModel insobj)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<PatientAppointmentsModel> ModelData = new List<PatientAppointmentsModel>();
+            PatientAppointmentsReturnModel model = new PatientAppointmentsReturnModel();
+            if (!ModelState.IsValid)
+            {
+                model.Status = "False";
+                model.Message = "Invalid data";
+                model.PatientAppointmentList = ModelData;
+                model.ReturnFlag = 0;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.AppointmentReSchedule_InsertUpdate(Login_Session_Id, insobj);
+                if (ModelData.Any(item => item.flag == 1) == true)
+                {
+                    model.ReturnFlag = 1;
+                    messagestr = "Patient Appointment ReScheduled Successfully";
+
+                    // call cancel appointment API for retrieve the data of payment for Refund process.
+                    PatientAppointmentsModel Obj = new PatientAppointmentsModel();
+                    Obj.Id = insobj.Id;
+                    Obj.CancelledBy_Id = insobj.CancelledBy_Id;
+                    Obj.Cancelled_Remarks = insobj.Cancelled_Remarks;
+                    Obj.ReasonTypeId = 1;
+                    Obj.Appointment_Module_Id = ModelData[0].Appointment_Module_Id;
+                    CancelPatient_Appointment(Login_Session_Id, Obj);
+                }
+                else if (ModelData.Any(item => item.flag == 2) == true)
+                {
+                    model.ReturnFlag = 0;
+                    messagestr = "Patient Appointment Cannot be ReScheduled, ReScheduled Time Is End!";
+                }
+                else if (ModelData.Any(item => item.flag == 3) == true)
+                {
+                    model.ReturnFlag = 0;
+                    messagestr = "Patient Appointment already created by CareGiver, cannot be created";
+                }
+                model.PatientAppointmentList = ModelData;
+                model.Message = messagestr;// "User created successfully";
+                model.Status = "True";
+
+                if (ModelData.Any(item => item.flag == 1) == true)
+                {
+                    //string Event_Code = "";
+                    //Event_Code = "PAT_APPOINTMENT_CREATION";
+
+                    //AlertEvents AlertEventReturn = new AlertEvents();
+                    //IList<EmailListModel> EmailList;
+                    //EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)ModelData[0].Id, (long)insobj.Institution_Id);
+
+                    //AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, ModelData[0].Id, (long)insobj.Institution_Id, EmailList);
+                }
+
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                model.Status = "False";
+                model.Message = "Error in creating Subscription";
+                model.PatientAppointmentList = ModelData;
+                model.ReturnFlag = 0;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
         /// <summary>
         /// Doctor name list based on selected patient's group
         /// </summary>

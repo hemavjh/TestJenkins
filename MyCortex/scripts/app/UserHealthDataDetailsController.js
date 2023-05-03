@@ -1733,9 +1733,10 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                     "Page_Type": "0",
                                     "TimeZone_Id": $scope.TimeZoneID,
                                     "Appointment_Price": $scope.AppoiPrice
-                                }
-                                $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-                                $http.post(baseUrl + '/api/PatientAppointments/AppointmentReSchedule_InsertUpdate?Login_Session_Id=' + $scope.LoginSessionId, objectReshedule).then(function (response) {
+                                } 
+                                $scope.LoginSessionId = $window.localStorage['Login_Session_Id']; 
+                                //$http.post(baseUrl + '/api/PatientAppointments/AppointmentReSchedule_InsertUpdate?Login_Session_Id=' + $scope.LoginSessionId, objectReshedule).then(function (response) {
+                                $http.post(baseUrl + '/api/PatientAppointments/AppointmentReSchedule_withallprocess?Login_Session_Id=' + $scope.LoginSessionId, objectReshedule).then(function (response) {
                                     //alert(data.Message);
                                     if (response.data.ReturnFlag == 1) {
                                         toastr.success(response.data.Message, "success");
@@ -1806,58 +1807,59 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                         $scope.AppoiToTime = [];
                                         $scope.AppoiPrice = 0;
                                         $scope.IsNew = 1;
-                                        var objectCancel = {
-                                            "Id": $scope.OldAppointmentID,
-                                            "CancelledBy_Id": $window.localStorage['UserId'],
-                                            "Cancel_Remarks": "Test",
-                                            "ReasonTypeId": "1",
-                                            "SESSION_ID": $scope.LoginSessionId
+                                        //var objectCancel = {
+                                        //    "Id": $scope.OldAppointmentID,
+                                        //    "CancelledBy_Id": $window.localStorage['UserId'],
+                                        //    "Cancel_Remarks": "Test",
+                                        //    "ReasonTypeId": "1",
+                                        //    "SESSION_ID": $scope.LoginSessionId
+                                        //}
+                                        //$http.post(baseUrl + '/api/PatientAppointments/CancelPatient_Appointment/?Login_Session_Id=' + $scope.LoginSessionId, objectCancel).then(function (response) {
+                                        //    //alert(data.Message);
+                                        //    if (response.data.ReturnFlag == 1) {
+                                        //        toastr.success(response.data.Message, "success");
+                                        //    }
+                                        //    else if (response.data.ReturnFlag == 0) {
+                                        //        toastr.info(response.data.Message, "info");
+                                        //    }
+                                        //    if (response.data.AppointmentDetails.PaymentStatusId == 3 && response.data.ReturnFlag == 1) {
+                                        //        $scope.refundAppointmentId = response.data.AppointmentDetails.Id;
+                                        //        $scope.refundMerchantOrderNo = response.data.AppointmentDetails.MerchantOrderNo;
+                                        //        $scope.refundAmount = response.data.AppointmentDetails.Amount;
+                                        //        $scope.refundOrderNo = response.data.AppointmentDetails.OrderNo;
+                                        //        $scope.refundInstitutionId = response.data.AppointmentDetails.Institution_Id;
+
+                                        //        //setTimeout(function () { document.getElementById('but_paybyrefund').click(); }, 100);
+
+                                        //        var obj = {
+                                        //            refundAppointmentId: response.data.AppointmentDetails.Id,
+                                        //            refundMerchantOrderNo: response.data.AppointmentDetails.MerchantOrderNo,
+                                        //            refundAmount: response.data.AppointmentDetails.Amount,
+                                        //            refundOrderNo: response.data.AppointmentDetails.OrderNo,
+                                        //            refundInstitutionId: response.data.AppointmentDetails.Institution_Id
+                                        //        };
+
+                                        //        $http.post(baseUrl + '/api/PayBy/RefundPayByCheckoutSession/', obj).then(function (response) {
+                                        //            console.log(response.data);
+                                        //            $scope.$broadcast("appointment_list");
+                                        //        }, function errorCallback(response) {
+                                        //            console.log(response.data);
+                                        //        });
+
+                                        //    }
+                                        //    //if (data.ReturnFlag == 1) {
+                                        //    //    $scope.$broadcast("appointment_list");
+                                        //    //}
+
+                                        //}, function errorCallback(response) {
+                                        //});
+                                        if ($scope.AppointmoduleID1 == 2 && $window.localStorage["UserTypeId"] == 2) {
+                                            $scope.OldAppointmentID = null;
+                                            //setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
+                                            paybyCheck();
+                                        } else {
+                                            $scope.$broadcast("appointment_list");
                                         }
-                                        $http.post(baseUrl + '/api/PatientAppointments/CancelPatient_Appointment/?Login_Session_Id=' + $scope.LoginSessionId, objectCancel).then(function (response) {
-                                            //alert(data.Message);
-                                            if (response.data.ReturnFlag == 1) {
-                                                toastr.success(response.data.Message, "success");
-                                            }
-                                            else if (response.data.ReturnFlag == 0) {
-                                                toastr.info(response.data.Message, "info");
-                                            }
-                                            if (response.data.AppointmentDetails.PaymentStatusId == 3 && response.data.ReturnFlag == 1) {
-                                                $scope.refundAppointmentId = response.data.AppointmentDetails.Id;
-                                                $scope.refundMerchantOrderNo = response.data.AppointmentDetails.MerchantOrderNo;
-                                                $scope.refundAmount = response.data.AppointmentDetails.Amount;
-                                                $scope.refundOrderNo = response.data.AppointmentDetails.OrderNo;
-                                                $scope.refundInstitutionId = response.data.AppointmentDetails.Institution_Id;
-
-                                                //setTimeout(function () { document.getElementById('but_paybyrefund').click(); }, 100);
-
-                                                var obj = {
-                                                    refundAppointmentId: response.data.AppointmentDetails.Id,
-                                                    refundMerchantOrderNo: response.data.AppointmentDetails.MerchantOrderNo,
-                                                    refundAmount: response.data.AppointmentDetails.Amount,
-                                                    refundOrderNo: response.data.AppointmentDetails.OrderNo,
-                                                    refundInstitutionId: response.data.AppointmentDetails.Institution_Id
-                                                };
-
-                                                $http.post(baseUrl + '/api/PayBy/RefundPayByCheckoutSession/', obj).then(function (response) {
-                                                    console.log(response.data);
-                                                    $scope.$broadcast("appointment_list");
-                                                }, function errorCallback(response) {
-                                                    console.log(response.data);
-                                                });
-
-                                            }
-                                            //if (data.ReturnFlag == 1) {
-                                            //    $scope.$broadcast("appointment_list");
-                                            //}
-                                            if ($scope.AppointmoduleID1 == 2 && $window.localStorage["UserTypeId"] == 2) {
-                                                $scope.OldAppointmentID = null;
-                                                //setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
-                                                paybyCheck();
-                                            } else {
-                                                $scope.$broadcast("appointment_list");
-                                            }
-                                        }, function errorCallback(response) {
-                                        });
                                     } else { $("#appoint_waveLoader").hide(); }
 
                                 }, function errorCallback(response) {

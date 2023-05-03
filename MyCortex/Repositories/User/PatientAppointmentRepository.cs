@@ -104,6 +104,8 @@ namespace MyCortex.Repositories.Uesr
                                                    MerchantOrderNo = p.Field<string>("MERCHANTORDERNO"),
                                                    Amount = p.Field<string>("AMOUNT"),
                                                    OrderNo = p.Field<string>("ORDERNO"),
+                                                   BaseUrl=p.Field<string>("BaseUrl"),
+                                                   Appointment_Module_Id=p.Field<long?>("AppointmentModuleId")
                                                }).FirstOrDefault();
             return insert;
         }
@@ -300,7 +302,8 @@ namespace MyCortex.Repositories.Uesr
                                                        Cancelled_Remarks = p.Field<string>("CANCEL_REMARKS"),
                                                        Cancelled_Date = p.Field<DateTime>("CANCELED_DATE"),
                                                        Institution_Id = p.Field<long>("INSTITUTION_ID"),
-                                                       NewAppointmentId = p.Field<long>("NewAppointmentId")
+                                                       NewAppointmentId = p.Field<long>("NewAppointmentId"),
+                                                       Appointment_Module_Id = p.Field<long>("AppointmentModuleId")
                                                    }).ToList();
             return INS;
         }
