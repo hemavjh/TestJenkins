@@ -297,7 +297,7 @@ namespace MyCortex.Admin.Controllers
                     },
                     operatorName = "zxy",
                     reason = "refund",
-                    notifyUrl = "https://" + baseUrl + "/api/Home/RefundNotify?id=" + refundAppointmentId + "&merchantorderno=" + refundMerchantOrderNo + "",
+                    notifyUrl = "https://" + baseUrl + "/api/PayBy/RefundNotify?id=" + refundAppointmentId + "&merchantorderno=" + refundMerchantOrderNo + "",
                     //notifyUrl = "http://localhost:49000/api/PayBy/RefundNotify?id=" + refundAppointmentId + "&merchantorderno=" + refundMerchantOrderNo + "",
                 };
                 DateTime unixRef = new DateTime(1970, 1, 1, 0, 0, 0);
@@ -305,8 +305,8 @@ namespace MyCortex.Admin.Controllers
                 payByCreateReq.bizContent = bizContent;
                 try
                 {
-                    string url = PaybyUrl;
-                        //"https://uat.test2pay.com/sgs/api/acquire2/refund/placeOrder";
+                    string url = "https://uat.test2pay.com/sgs/api/acquire2/refund/placeOrder";//PaybyUrl;
+                                                                                               //"https://uat.test2pay.com/sgs/api/acquire2/refund/placeOrder";
                     HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
                     req.Method = "POST";
                     req.ContentType = "application/json";
