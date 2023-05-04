@@ -223,6 +223,12 @@ namespace MyCortex.Admin.Controllers
                     string refundMerchantOrderNo = merchantorderno;
                     retid = patientAppointmentsRepository.PaymentStatus_Update(refundAppointmentId, "Refund Settled", refundMerchantOrderNo);
                 }
+                else
+                {
+                    long refundAppointmentId = id;
+                    string refundMerchantOrderNo = merchantorderno;
+                    retid = patientAppointmentsRepository.PaymentStatus_Update(refundAppointmentId, status, refundMerchantOrderNo);
+                }
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
             catch (Exception ex)
@@ -292,6 +298,7 @@ namespace MyCortex.Admin.Controllers
                     operatorName = "zxy",
                     reason = "refund",
                     notifyUrl = "https://" + baseUrl + "/api/PayBy/RefundNotify?id=" + refundAppointmentId + "&merchantorderno=" + refundMerchantOrderNo + "",
+                    //notifyUrl = "http://localhost:49000/api/PayBy/RefundNotify?id=" + refundAppointmentId + "&merchantorderno=" + refundMerchantOrderNo + "",
                 };
                 DateTime unixRef = new DateTime(1970, 1, 1, 0, 0, 0);
                 payByCreateReq.requestTime = (DateTime.UtcNow.Ticks - unixRef.Ticks) / 10000;

@@ -3696,6 +3696,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             //document.getElementById("main-box").style = "";
             //document.getElementById("box").style = "display:none";
             //$scope.SendSMS();
+            $scope.OldAppointmentID = null;
             $scope.showMainBox = true;
             //$http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
             // $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {

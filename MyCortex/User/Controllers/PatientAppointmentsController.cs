@@ -97,7 +97,7 @@ namespace MyCortex.User.Controller
                     {
                         RefundPaybyModel payobj = new RefundPaybyModel();
 
-                        payobj.refundAppointmentId = ModelData.id;
+                        payobj.refundAppointmentId = Convert.ToInt32(ModelData.Id);
                         payobj.refundMerchantOrderNo = ModelData.MerchantOrderNo;
                         payobj.refundAmount = ModelData.Amount;
                         payobj.refundOrderNo = ModelData.OrderNo;
