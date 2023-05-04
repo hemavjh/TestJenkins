@@ -1735,8 +1735,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                     "Appointment_Price": $scope.AppoiPrice
                                 } 
                                 $scope.LoginSessionId = $window.localStorage['Login_Session_Id']; 
-                                //$http.post(baseUrl + '/api/PatientAppointments/AppointmentReSchedule_InsertUpdate?Login_Session_Id=' + $scope.LoginSessionId, objectReshedule).then(function (response) {
-                                $http.post(baseUrl + '/api/PatientAppointments/AppointmentReSchedule_withallprocess?Login_Session_Id=' + $scope.LoginSessionId, objectReshedule).then(function (response) {
+                                $http.post(baseUrl + '/api/PatientAppointments/AppointmentReSchedule_InsertUpdate?Login_Session_Id=' + $scope.LoginSessionId, objectReshedule).then(function (response) {
+                                //$http.post(baseUrl + '/api/PatientAppointments/AppointmentReSchedule_withallprocess?Login_Session_Id=' + $scope.LoginSessionId, objectReshedule).then(function (response) {
                                     //alert(data.Message);
                                     if (response.data.ReturnFlag == 1) {
                                         toastr.success(response.data.Message, "success");

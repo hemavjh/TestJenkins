@@ -329,76 +329,76 @@ namespace MyCortex.User.Controller
             }
         }
 
+        //[HttpPost]
+        //[Authorize]
+        //[CheckSessionOutFilter]
+        //public HttpResponseMessage AppointmentReSchedule_InsertUpdate(Guid Login_Session_Id, [FromBody] PatientAppointmentsModel insobj)
+        //{
+        //     _AppLogger = this.GetType().FullName;
+        //    _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+        //    IList<PatientAppointmentsModel> ModelData = new List<PatientAppointmentsModel>();
+        //    PatientAppointmentsReturnModel model = new PatientAppointmentsReturnModel();
+        //    if (!ModelState.IsValid)
+        //    {
+        //        model.Status = "False";
+        //        model.Message = "Invalid data";
+        //        model.PatientAppointmentList = ModelData;
+        //        model.ReturnFlag = 0;
+        //        return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+        //    }
+        //    string messagestr = "";
+        //    try
+        //    {
+        //        ModelData = repository.AppointmentReSchedule_InsertUpdate(Login_Session_Id, insobj);
+        //        if (ModelData.Any(item => item.flag == 1) == true)
+        //        {
+        //            model.ReturnFlag = 1;
+        //            messagestr = "Patient Appointment ReScheduled Successfully";
+        //        }
+        //        else if (ModelData.Any(item => item.flag == 2) == true)
+        //        {
+        //            model.ReturnFlag = 0;
+        //            messagestr = "Patient Appointment Cannot be ReScheduled, ReScheduled Time Is End!";
+        //        }
+        //        else if (ModelData.Any(item => item.flag == 3) == true)
+        //        {
+        //            model.ReturnFlag = 0;
+        //            messagestr = "Patient Appointment already created by CareGiver, cannot be created";
+        //        }
+        //        model.PatientAppointmentList = ModelData;
+        //        model.Message = messagestr;// "User created successfully";
+        //        model.Status = "True";
+
+        //        if (ModelData.Any(item => item.flag == 1) == true)
+        //        {
+        //            //string Event_Code = "";
+        //            //Event_Code = "PAT_APPOINTMENT_CREATION";
+
+        //            //AlertEvents AlertEventReturn = new AlertEvents();
+        //            //IList<EmailListModel> EmailList;
+        //            //EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)ModelData[0].Id, (long)insobj.Institution_Id);
+
+        //            //AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, ModelData[0].Id, (long)insobj.Institution_Id, EmailList);
+        //        }
+
+        //        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+        //        return response;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //      _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+        //        model.Status = "False";
+        //        model.Message = "Error in creating Subscription";
+        //        model.PatientAppointmentList = ModelData;
+        //        model.ReturnFlag = 0;
+        //        return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+        //    }
+        //}
+
         [HttpPost]
         [Authorize]
         [CheckSessionOutFilter]
         public HttpResponseMessage AppointmentReSchedule_InsertUpdate(Guid Login_Session_Id, [FromBody] PatientAppointmentsModel insobj)
-        {
-             _AppLogger = this.GetType().FullName;
-            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
-            IList<PatientAppointmentsModel> ModelData = new List<PatientAppointmentsModel>();
-            PatientAppointmentsReturnModel model = new PatientAppointmentsReturnModel();
-            if (!ModelState.IsValid)
-            {
-                model.Status = "False";
-                model.Message = "Invalid data";
-                model.PatientAppointmentList = ModelData;
-                model.ReturnFlag = 0;
-                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
-            }
-            string messagestr = "";
-            try
-            {
-                ModelData = repository.AppointmentReSchedule_InsertUpdate(Login_Session_Id, insobj);
-                if (ModelData.Any(item => item.flag == 1) == true)
-                {
-                    model.ReturnFlag = 1;
-                    messagestr = "Patient Appointment ReScheduled Successfully";
-                }
-                else if (ModelData.Any(item => item.flag == 2) == true)
-                {
-                    model.ReturnFlag = 0;
-                    messagestr = "Patient Appointment Cannot be ReScheduled, ReScheduled Time Is End!";
-                }
-                else if (ModelData.Any(item => item.flag == 3) == true)
-                {
-                    model.ReturnFlag = 0;
-                    messagestr = "Patient Appointment already created by CareGiver, cannot be created";
-                }
-                model.PatientAppointmentList = ModelData;
-                model.Message = messagestr;// "User created successfully";
-                model.Status = "True";
-
-                if (ModelData.Any(item => item.flag == 1) == true)
-                {
-                    //string Event_Code = "";
-                    //Event_Code = "PAT_APPOINTMENT_CREATION";
-
-                    //AlertEvents AlertEventReturn = new AlertEvents();
-                    //IList<EmailListModel> EmailList;
-                    //EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)ModelData[0].Id, (long)insobj.Institution_Id);
-
-                    //AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, ModelData[0].Id, (long)insobj.Institution_Id, EmailList);
-                }
-
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
-                return response;
-            }
-            catch (Exception ex)
-            {
-              _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
-                model.Status = "False";
-                model.Message = "Error in creating Subscription";
-                model.PatientAppointmentList = ModelData;
-                model.ReturnFlag = 0;
-                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
-            }
-        }
-
-        [HttpPost]
-        [Authorize]
-        [CheckSessionOutFilter]
-        public HttpResponseMessage AppointmentReSchedule_withallprocess(Guid Login_Session_Id, [FromBody] PatientAppointmentsModel insobj)
         {
             _AppLogger = this.GetType().FullName;
             _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
