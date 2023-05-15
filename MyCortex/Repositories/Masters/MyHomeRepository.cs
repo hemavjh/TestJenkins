@@ -805,6 +805,10 @@ namespace MyCortex.Repositories.Masters
                                                           Payment_Status = (p.IsNull("PAYMENT_STATUS") ? "" : p.Field<string>("PAYMENT_STATUS")),
                                                           ConferenceId = p.Field<string>("CONFERENCE_ID"),
                                                           Amount= p.Field<string>("AMOUNT"),
+                                                          Status = p.Field<int>("STATUS"),                                                          
+                                                          ReasonForVisit = p.Field<string>("REASONFORVISIT"),
+                                                          Appointment_Module_Id = p.Field<long?>("APPOINTMENT_MODULE_ID"),
+                                                          Payment_Status_Id = (p.IsNull("PAYMENT_STATUS_ID") ? "" : p.Field<string>("PAYMENT_STATUS_ID"))
                                                       }).ToList();
                 return lst;
             }

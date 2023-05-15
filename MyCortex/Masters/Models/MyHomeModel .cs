@@ -383,6 +383,8 @@ namespace MyCortex.Masters.Models
 
         public long Appointment_Type { get; set; }
         public string ReasonForVisit { get; set; }
+        public long? Appointment_Module_Id { get; set; }
+        public string Payment_Status_Id { get; set; }
         public string Remarks { get; set; }
         public long Status { get; set; }
         public long Created_By { get; set; }
