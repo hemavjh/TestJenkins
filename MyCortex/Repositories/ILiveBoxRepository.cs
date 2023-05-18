@@ -12,6 +12,7 @@ namespace MyCortex.Repositories
         int LiveBox_Notify_Log(string LogText);
         int LiveBox_Get_Institute(string UserId);
         int LiveBox_RemainingTime(string Conference_Id,string Remaning_Time);
+        //int LiveBox_Notify_UPDATE(string conferencename,long Institution_Id, string userID,string messageBody,string WebmessageBody,string SMSmessageBody);
         int LiveBox_Notify_UPDATE(string conferencename,long Institution_Id, string userID,string messageBody,string WebmessageBody);
         int LiveBox_Recording_url(string conferencename, string recording_url,string FileType);
         IList<LiveboxModel> Get_AppointmentDuration(string Conference_ID);

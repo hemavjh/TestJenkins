@@ -21,6 +21,7 @@ using MyCortex.Admin.Controllers;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
+//using MyCortex.Masters.Models;
 
 namespace MyCortex.User.Controller
 {
@@ -167,6 +168,56 @@ namespace MyCortex.User.Controller
                 model.Error_Code = ex.Message;
                 model.ReturnFlag = 0;
                 model.AppointmentDetails = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+        /// <summary>
+        /// to insert a Patient Instant Call
+        /// </summary>
+        /// <param name="insobj"></param>
+        /// <returns>inserted Call Details</returns>
+        [CheckSessionOutFilter]
+        [HttpPost]
+        [Authorize]
+
+        public HttpResponseMessage PatientInstant_CallMaking(Guid Login_Session_Id, [FromBody] PatientCallModel insobj)
+        {
+            _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            IList<PatientCallModel> ModelData = new List<PatientCallModel>();
+            PatientCallReturnModel model = new PatientCallReturnModel();
+            if (!ModelState.IsValid)
+            {
+                model.Status = "False";
+                model.Message = "Invalid data";
+                model.LanguageKey = "invaliddata";
+                model.PatientCallsList = ModelData;
+                model.ReturnFlag = 0;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+            try
+            {
+                ModelData = repository.PatientInstant_CallMaking(Login_Session_Id, insobj);
+                if (ModelData.Any(item => item.flag == 1) == true)
+                {
+                    model.Status = "True";
+                    model.ReturnFlag = 1;
+                    //messagestr = "Patient Appointment created Successfully";
+                    //LanguageKey = "patientappointmentcreatesuccess";
+                }
+                model.PatientCallsList = ModelData;
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
+                model.Status = "False";
+                model.Message = "Error in creating Subscription";
+                model.PatientCallsList = ModelData;
+                model.ReturnFlag = 0;
+                model.LanguageKey = "errorcreatesubscription";
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
@@ -327,6 +378,16 @@ namespace MyCortex.User.Controller
                 model.ReturnFlag = 0;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
+        }
+
+        //get the login history for selected patient
+        [HttpGet]
+        [Authorize]
+        public IList<GetPatientHistory> get_patient_loginhistory(long PatientId)
+        {
+            IList<GetPatientHistory> model;
+            model = repository.get_patient_loginhistory(PatientId);
+            return model;
         }
 
         //[HttpPost]

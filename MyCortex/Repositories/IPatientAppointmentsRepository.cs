@@ -12,6 +12,7 @@ namespace MyCortex.Repositories
         IList<PatientAppointmentsModel> DoctorAppointmentList(long Doctor_Id, int flag, DateTime? ViewDate, Guid Login_Session_Id);
         PatientAppointmentsModel Update_CancelledAppointment(Guid Login_Session_Id, PatientAppointmentsModel obj);
         IList<PatientAppointmentsModel> PatientAppointment_InsertUpdate(Guid Login_Session_Id,PatientAppointmentsModel insobj);
+        IList<PatientCallModel> PatientInstant_CallMaking(Guid Login_Session_Id,PatientCallModel insobj);
         IList<EligibilityParamModel> Get_DetailsByAppointment(long? AppointmentId);
         IList<PatientAppointmentsModel> AppointmentReSchedule_InsertUpdate(Guid Login_Session_Id, PatientAppointmentsModel obj);
         IList<PatientAppointmentsModel> PatientBasedGroupBasedClinicianList(long Patient_Id);
@@ -32,6 +33,7 @@ namespace MyCortex.Repositories
         int PaymentRefundStatusInfo_Insert(string merchantOrderNo, string originMerchantOrderNo, string amount, string OrderNo, string status, string notifyId, long notifyTimeStamp);
         int DoctorShift_Editable(long Id);
         IList<AppointmentsData_For_ICSFile> GetAppointmentDetails_For_ICSFile(long? Id);
+        IList<GetPatientHistory> get_patient_loginhistory(long PatientId);
         AppointmentPaymentStatus PatientAppointment_Status_Update(AppointmentPaymentStatus obj);
     }   
 }

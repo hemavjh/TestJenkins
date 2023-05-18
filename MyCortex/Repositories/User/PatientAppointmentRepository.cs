@@ -8,6 +8,7 @@ using System.Data;
 using MyCortex.User.Model;
 using MyCortexDB;
 using MyCortex.Utilities;
+//using MyCortex.Masters.Models;
 
 namespace MyCortex.Repositories.Uesr
 {
@@ -109,6 +110,49 @@ namespace MyCortex.Repositories.Uesr
                                                }).FirstOrDefault();
             return insert;
         }
+
+        /// <summary>
+        /// to insert a new patient appointment
+        /// </summary>
+        /// <param name="insobj"></param>
+        /// <returns>inserted patient appointment</returns>
+        public IList<PatientCallModel> PatientInstant_CallMaking(Guid Login_Session_Id, PatientCallModel obj)
+        {
+            string call_Date = obj.CallMake_Date.Year.ToString() + "-" + obj.CallMake_Date.Month.ToString() + "-" + obj.CallMake_Date.Day.ToString();
+            string call_FromTime = obj.CallMake_Date.Year.ToString() + "-" + obj.CallMake_Date.Month.ToString() + "-" + obj.CallMake_Date.Day.ToString() + " " + obj.callMakeFromTime.TimeOfDay.ToString();
+            string call_ToTime = obj.CallMake_Date.Year.ToString() + "-" + obj.CallMake_Date.Month.ToString() + "-" + obj.CallMake_Date.Day.ToString() + " " + obj.callMakeToTime.TimeOfDay.ToString();
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Id", obj.Id));
+            //param.Add(new DataParameter("@INSTITUTION_ID", obj.Institution_Id));
+            param.Add(new DataParameter("@DOCTOR_ID", obj.Doctor_Id));
+            param.Add(new DataParameter("@PATIENT_ID", obj.Patient_Id));
+            //param.Add(new DataParameter("@CALLDATE", call_Date));
+            //param.Add(new DataParameter("@CALL_FROMTIME", call_FromTime));
+            //param.Add(new DataParameter("@CALL_TOTIME", call_ToTime));           
+            param.Add(new DataParameter("@CREATED_BY", obj.Created_By));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@TIMEZONE_ID", obj.TimeZone_Id));
+  
+
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENTCALL_SP_INSERTUPDATE]", param);
+
+            IList<PatientCallModel> INS = (from p in dt.AsEnumerable()
+                                                   select
+                                                   new PatientCallModel()
+                                                   {
+                                                       Id = p.Field<long?>("Id"),
+                                                       Doctor_Id = p.Field<long>("DOCTOR_ID"),
+                                                       Patient_Id = p.Field<long>("PATIENT_ID"),
+                                                       //CallMake_Date = p.Field<DateTime>("APPOINTMENT_DATE"),
+                                                       //callMakeFromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
+                                                       //callMakeToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
+                                                       //Created_By = p.Field<int>("CREATED_BY"),
+                                                       flag = p.Field<int>("flag"),
+                                                       ConferenceId = p.Field<string>("CONFERENCE_ID")                                                    
+                                                   }).ToList();
+            return INS;
+        }
+
         /// <summary>
         /// to insert a new patient appointment
         /// </summary>
@@ -225,7 +269,6 @@ namespace MyCortex.Repositories.Uesr
                                                }).FirstOrDefault();
             return insert;
         }
-
         public IList<AppointmentPaymentHistory> AppointmentPaymentHistory(long appointmentId, Guid Login_Session_Id, long Institution_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
@@ -935,6 +978,23 @@ namespace MyCortex.Repositories.Uesr
                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
+        }
+        public IList<GetPatientHistory> get_patient_loginhistory(long PatientId)
+        {
+
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@PATIENT_ID", PatientId));
+
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_PATIENT_LOGINHISTORY]", param);
+            var loginList = (from p in dt.AsEnumerable()
+                             select new GetPatientHistory()
+                             {
+                                 LoginId = p.Field<long>("LOGINID"),
+                                 UserId = p.Field<long>("USERID"),
+                                 LoginTime = p.IsNull("LOGINTIME") ? (DateTime?)null : p.Field<DateTime>("LOGINTIME"),
+                                 LogoutTime = p.IsNull("LOGOUTTIME") ? (DateTime?)null : p.Field<DateTime>("LOGOUTTIME"),
+                             }).ToList();
+            return loginList;
         }
     }
 }

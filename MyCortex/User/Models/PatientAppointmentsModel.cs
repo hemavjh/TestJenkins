@@ -6,6 +6,33 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyCortex.User.Model
 {
+    public class PatientCallModel
+    {
+        public long? Id { get; set; }
+        public long Institution_Id { get; set; }
+        public DateTime CallMake_Date { get; set; }
+        public DateTime callMakeFromTime { get; set; }
+        public DateTime callMakeToTime { get; set; }
+        public long Doctor_Id { get; set; }
+        public long Patient_Id { get; set; }
+        public int Created_By { get; set; }
+        public DateTime Created_Dt { get; set; }
+        public long TimeZone_Id { get; set; }
+        public string ConferenceId { get; set; }
+        public int flag { get; set; }
+    }
+    public class PatientCallReturnModel
+    {
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public string Error_Code { get; set; }
+
+        public int ReturnFlag { get; set; }
+        public string LanguageKey { get; set; }
+        public PatientCallModel CallsDetails { get; set; }
+        public IList<PatientCallModel> PatientCallsList { get; set; }
+    }
+
     public class PatientAppointmentsModel
     {
         public long? Id { get; set; }
@@ -133,6 +160,14 @@ namespace MyCortex.User.Model
         public int Status { get; set; }
         public int PaymentStatus_Id { get; set; }
         public int Flag { get; set; }
+    }
+
+    public class GetPatientHistory
+    {
+        public long LoginId { get; set; }
+        public long UserId { get; set; }
+        public DateTime? LoginTime { get; set; }
+        public DateTime? LogoutTime { get; set; }
     }
 
     public class PatientAppointmentsStatusReturnModel

@@ -246,6 +246,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             });
         }
 
+       
         // editable time value from app settings
         $scope.PATIENTDATA_EDITTIME = 0;
         $scope.ConfigCode = "PATIENTDATA_EDITTIME";
@@ -281,6 +282,18 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             $scope.SelectedPatientId = $routeParams.Id;
         }
         $window.localStorage['SelectedPatientId'] = $scope.SelectedPatientId;
+
+        $scope.isOnline = false;
+
+        if ($window.localStorage['UserTypeId'] == 4 || $window.localStorage['UserTypeId'] == 5 || $window.localStorage['UserTypeId'] == 6 || $window.localStorage['UserTypeId'] == 7) {
+            $http.get(baseUrl + '/api/PatientAppointments/get_patient_loginhistory/?PatientId=' + $window.localStorage['SelectedPatientId']).then(function (data1) {
+                $scope.LogoutTime = data1.data[0].LogoutTime;
+                if ($scope.LogoutTime == null) {
+                    $scope.isOnline = true;
+                }
+            }, function errorCallback(response) {
+            });
+        }
 
         $scope.PatientToTrans_CancelPopup = function () {
             //For Today Appointment Page
@@ -367,7 +380,152 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
             });
         };
+        $http.get(baseUrl + '/api/CommonMenu/CommonTelephone_List?InstitutionId=' + $window.localStorage['InstitutionId']).then(function (response) {
+            if (response.data != null) {
+                if (response.data.length > 0) {
+                    angular.forEach(response.data, function (item, index) {
+                        $scope.Name = item.NAME;
+                        $scope.Recording = item.Recording_Type;                       
+                    });
+                }
+            }
+        }, function errorCallback(response) {
+        });
 
+        $scope.instantvideocall = function () {
+            var isVideoRecording;
+            var isAudioRecording;
+
+            //var startdate1 = moment(new Date(Row.Appointment_FromTime + 'Z'));
+            //var Todate1 = moment(new Date(Row.Appointment_ToTime + 'Z'));
+            //var enddate1 = moment(new Date());
+            //var diffTime = Math.abs(enddate1 - startdate1);
+            //var TextIcon = Math.floor(diffTime / (60 * 1000));
+            //$scope.TextIconB = TextIcon;
+            //$scope.EndCall = Row;
+
+            if ($scope.Recording == 1) { //Audio and Video Only
+                var IsRecording = true;
+                isVideoRecording = true;
+                isAudioRecording = false;
+            } else if ($scope.Recording == 0) {  // Audio only.
+                var IsRecording = true;
+                isVideoRecording = false;
+                isAudioRecording = true;
+            } else {
+                var IsRecording = false;
+                isVideoRecording = false;
+                isAudioRecording = false;
+            }
+            var fullname = $window.localStorage['FullName'];
+            patientName = fullname;
+
+            //// get the slot minutes
+            //dtime = Math.abs(startdate1 - Todate1);
+            //var TIcon = Math.floor(dtime / (60 * 1000));
+            //$scope.TIcon = TIcon;
+
+            //// get the value from appointment end time - current time
+            //dtime1 = Math.abs(Todate1 - enddate1);
+            //var TIcona = Math.floor(dtime1 / (60 * 1000));
+            //$scope.TIcona = TIcona;
+
+            //if ($scope.TextIconB < $scope.PAT_APPOINTMENT_START || TIcon > TIcona) {
+            // if (Row.TimeDifference == 0) {
+            // var emp = JSON.parse(JSON.parse(window.localStorage["18792f60bb2dbf1:common_store/user"]));
+            $('#Patient_AppointmentPanel').removeClass('show');
+            $('#Patient_AppointmentPanel').addClass('hidden');
+            $('#Patient_VideoCall').removeClass('hidden');
+            $('#Patient_VideoCall').addClass('show');
+            var IsAdmin = false;
+            if ($window.localStorage["UserTypeId"] == 2) {
+                IsAdmin = false;
+                userId = $window.localStorage["SelectedPatientId"];
+            }
+            else if ($window.localStorage["UserTypeId"] != 2) {
+                IsAdmin = true;
+                userId = $window.localStorage["UserId"];
+            }
+
+            $scope.cdate = new Date();
+            $scope.callStartTime = new Date();
+            var objectSave = {
+                "Id": 0,
+                "Institution_Id": $window.localStorage["InstitutionId"],
+                "Doctor_Id": $window.localStorage["UserId"],
+                "Patient_Id": $window.localStorage["SelectedPatientId"],
+                "CallMake_Date": $scope.cdate,
+                "callMakeFromTime": $scope.callStartTime,
+                "TimeZone_Id": $scope.TimeZoneID,
+                "Created_By": $window.localStorage['UserId']
+            }
+            $('#shown').attr("disabled", true);
+            $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+            var ConferenceId = '';
+            $http.post(baseUrl + '/api/PatientAppointments/PatientInstant_CallMaking/?Login_Session_Id=' + $scope.LoginSessionId, objectSave).then(function (response) {
+                //alert(data.Message);
+                if (response.data.ReturnFlag == 1) {
+                    ConferenceId = response.data.PatientCallsList[0].ConferenceId;
+                    //toastr.success(response.data.Message, "success");
+                }
+            
+            if (ConferenceId != '') {
+                var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&userid=' + userId + '&videorecording=' + isVideoRecording + '&audiorecording=' + isAudioRecording + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+                //var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://meet.hive.clinic:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+                document.getElementById('Patient_VideoCall').innerHTML = tag;
+
+                /*Getting the Event */
+                var GetEvent = io('https://demoserver.livebox.co.in:3030/', { transports: ['websocket'] });
+                // var GetEvent = io('https://meet.hive.clinic:3030/', { transports: ['websocket'] });
+
+                /* Passing the Event */
+                GetEvent.on("endConferenceListenerData", function (conferenceData) {
+                    /* dispatch the Event */
+                    document.dispatchEvent(new CustomEvent("EndCallEvent", {
+                        detail: { conferenceData }, bubbles: true, cancelable: true, composed: false
+                    }, false));
+                });
+                /* addeventListener for EndcallEvent */
+                var EndcallEventClick = document;
+                EndcallEventClick.addEventListener("EndCallEvent", function (event) {
+                    var ConferenceData = event.detail.conferenceData;
+                    console.log("endCallEventPassed", ConferenceData);
+                    iframeConfernecename = ConferenceId;
+                    iframeUserId = userId;
+                    if (iframeConfernecename == ConferenceData.conferencename) {
+                        if (iframeUserId == ConferenceData.userid) {
+                            setTimeout(endTiming, 3000)
+                            function endTiming() {
+                                var tag = $sce.trustAsHtml('');
+                                document.getElementById('Patient_VideoCall').innerHTML = tag;
+                                $('#Patient_AppointmentPanel').removeClass('hidden');
+                                $('#Patient_AppointmentPanel').addClass('show');
+                                $('#Patient_VideoCall').removeClass('show');
+                                $('#Patient_VideoCall').addClass('hidden');
+                            }
+                        }
+                    }
+                    else {
+                        if (iframeUserId == ConferenceData.userid) {
+                            setTimeout(endTiming, 3000)
+                            function endTiming() {
+                                var tag = $sce.trustAsHtml('');
+                                document.getElementById('Patient_VideoCall').innerHTML = tag;
+                                $('#Patient_AppointmentPanel').removeClass('hidden');
+                                $('#Patient_AppointmentPanel').addClass('show');
+                                $('#Patient_VideoCall').removeClass('show');
+                                $('#Patient_VideoCall').addClass('hidden');
+                            }
+                        }
+                    }
+                });
+
+                var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://demoserver.livebox.co.in:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&recording=' + IsRecording + '&userid=' + userId + '&videorecording=' + isVideoRecording + '&audiorecording=' + isAudioRecording + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+                // var tag = $sce.trustAsHtml('<iframe allow="camera; microphone; display-capture" scrolling="" src = "https://meet.hive.clinic:3030/?conferencename=' + ConferenceId + '&isadmin=' + IsAdmin + '&displayname=' + patientName + '&recording=' + IsRecording + '&userid=' + userId + '" width = "600" height = "600" allowfullscreen = "" webkitallowfullscreen = "" mozallowfullscreen = "" oallowfullscreen = "" msallowfullscreen = "" ></iframe >');
+                document.getElementById('Patient_VideoCall').innerHTML = tag;
+                }
+            });
+        }
 
         $scope.ProtocolDetails_View = function () {
             if ($scope.assignedProtocolId == "" || typeof ($scope.assignedProtocolId) == undefined) {

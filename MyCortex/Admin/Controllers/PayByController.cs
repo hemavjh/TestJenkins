@@ -305,8 +305,8 @@ namespace MyCortex.Admin.Controllers
                 payByCreateReq.bizContent = bizContent;
                 try
                 {
-                    string url = PaybyUrl;
-                        //"https://uat.test2pay.com/sgs/api/acquire2/refund/placeOrder";
+                    string url = "https://uat.test2pay.com/sgs/api/acquire2/refund/placeOrder";//PaybyUrl;
+                    //"https://uat.test2pay.com/sgs/api/acquire2/refund/placeOrder";
                     HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
                     req.Method = "POST";
                     req.ContentType = "application/json";
