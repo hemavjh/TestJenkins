@@ -51,10 +51,13 @@ namespace MyCortex.Repositories.LiveBox
             retFlag = ClsDataBase.Insert("[MYCORTEX].[LIVEBOX_REMAININGTIME_LOG]", param, true);
             return retFlag;
         }
+        //public int LiveBox_Notify_UPDATE(string conferencename,long Institution_Id, string userID,string messageBody,string WebmessageBody,string SMSmessageBody)
         public int LiveBox_Notify_UPDATE(string conferencename,long Institution_Id, string userID,string messageBody,string WebmessageBody)
         {
             int retid = 0;
             long User_Id;
+            string MobileNo="";
+            long appointmentId;
 
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@conferencename", conferencename));
@@ -72,7 +75,17 @@ namespace MyCortex.Repositories.LiveBox
                 {                    
                     //Id = long.Parse(dr["Id"].ToString());
                     Institution_Id = long.Parse(dr["INSTITUTION_ID"].ToString());
-                    User_Id = long.Parse(dr["Doctor_Id"].ToString());
+                    appointmentId= long.Parse(dr["APPOINTMENT_ID"].ToString());
+                    if (appointmentId == 0)
+                    {
+                        User_Id = long.Parse(dr["PATIENT_ID"].ToString());
+                    }
+                    else
+                    {
+                        User_Id = long.Parse(dr["DOCTOR_ID"].ToString());
+                    }
+                    
+                    MobileNo = dr["MOBILE_NO"].ToString();
                     //  Patient_Id = dr["Patient_Id"].ToString();
                     PushNotificationMessage Emailmessage = new PushNotificationMessage();
                     Emailmessage.Title = "HiveMeet Notification";
@@ -83,7 +96,19 @@ namespace MyCortex.Repositories.LiveBox
                     Webmessage.Title = "HiveMeet Notification";
                     Webmessage.Message = WebmessageBody; // "Waiting for meet";
                     Webmessage.conferencename = conferencename;
+
+                    //PushNotificationMessage SMSMessage = new PushNotificationMessage();
+                    //SMSMessage.Title = "HiveMeet Notification";
+                    //SMSMessage.Message = SMSmessageBody; // "Waiting for meet";
+                    //SMSMessage.conferencename = conferencename;
+
+                    ////PushNotificationInputModel Inputval=new PushNotificationInputModel();
+                    ////Inputval.Institution_Id = Institution_Id;
+                    ////Inputval.User_Id = User_Id;
+                    ////Inputval.MobileNo = MobileNo;
+
                     //PushNotificationApiManager.SendLiveboxNotification(message, User_Id, Institution_Id);
+                    //var y = PushNotificationApiManager.SendLiveboxNotificationAsync(Emailmessage, User_Id, Institution_Id, Webmessage, MobileNo,SMSMessage);
                     var y = PushNotificationApiManager.SendLiveboxNotificationAsync(Emailmessage, User_Id, Institution_Id, Webmessage);
                 }
             }
