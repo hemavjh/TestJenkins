@@ -342,7 +342,8 @@ namespace MyCortex.Notification.Firebase
             repository.LiveBox_UserDetails_Delete(User_Id);
             return null;
         }
-        public static async Task<ActionResult> SendPushLiveboxNotification(PushNotificationMessage message, string Url, long User_Id, long Institution_Id, PushNotificationMessage Webmessage,PushNotificationMessage SMSMessage)
+        //public static async Task<ActionResult> SendPushLiveboxNotification(PushNotificationMessage message, string Url, long User_Id, long Institution_Id, PushNotificationMessage Webmessage,PushNotificationMessage SMSMessage)
+        public static async Task<ActionResult> SendPushLiveboxNotification(PushNotificationMessage message, string Url, long User_Id, long Institution_Id, PushNotificationMessage Webmessage)
         {
             string
             _AppLogger = string.Empty, _AppMethod = string.Empty;
