@@ -284,6 +284,7 @@ namespace MyCortex.Livebox.Controllers
                 string userID = "";
                 string EmailmessageBody = "";                
                 string WebmessageBody = "";                
+               // string SMSmessageBody = "";                
 
                 if (json.Contains("WaitingUserStatus"))
                 {                   
@@ -308,6 +309,13 @@ namespace MyCortex.Livebox.Controllers
                     send_web = sendemail_repository.GenerateTemplate((long)Convert.ToDouble(userID), alert_config.Web_Template_Id, InstitutionId, alert_config.Event_Type_Id);
                     WebmessageBody = send_web.Email_Body.Replace("<p>", "").Replace("</p>", "");
                     WebmessageBody = send_web.Email_Body.Replace("{Full Name}", username);
+
+                    //SendEmailModel send_SMS = new SendEmailModel();
+                    //send_SMS = sendemail_repository.GenerateTemplate((long)Convert.ToDouble(userID), alert_config.Web_Template_Id, InstitutionId, alert_config.Event_Type_Id);
+                    //SMSmessageBody = send_SMS.Email_Body.Replace("<p>", "").Replace("</p>", "");
+                    //SMSmessageBody = send_SMS.Email_Body.Replace("{Full Name}", username);
+
+                    //retid = liveBoxRepository.LiveBox_Notify_UPDATE(ConferenceId, InstitutionId, userID, EmailmessageBody, WebmessageBody, SMSmessageBody);
                     retid = liveBoxRepository.LiveBox_Notify_UPDATE(ConferenceId, InstitutionId, userID, EmailmessageBody, WebmessageBody);                   
                 }
                 return Content("SUCCESS");
