@@ -25,7 +25,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             if (response.data != null) {
                 if (response.data.length > 0) {
                     $scope.isMypillbox = $filter('filter')(response.data, { Module_Name: "PillBox" })[0];
-                    $scope.isICD10 = $filter('filter')(response.data, { Module_Name: 'ICD9' })[0];
+                    $scope.isICD10 = $filter('filter')(response.data, { Module_Name: 'ICD10' })[0];
                     $scope.isAllergies = $filter('filter')(response.data, { Module_Name: 'Allergies' })[0];
                     $scope.isClinicalNotes = $filter('filter')(response.data, { Module_Name: 'Clinical notes' })[0];
                     $scope.isMedicalPatientVitals = $filter('filter')(response.data, { Module_Name: "Medical data - Patient" })[0];
