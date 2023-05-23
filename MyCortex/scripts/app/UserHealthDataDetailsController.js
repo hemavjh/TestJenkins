@@ -239,7 +239,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         function AllParameterMappingList() {
             $http.get(baseUrl + '/api/ParameterSettings/AllParameterMappingList/').then(function (response) {
                 $scope.ParameterMappingList = response.data;
-                for (let i = 0; i < $scope.AddVitalParameters.length; i++) {
+                for (let i = 0; i < $scope.AddVitalParameters?.length; i++) {
                     $scope.AddVitalParameters[i].All_UnitLists = response.data;
                 }
             }, function errorCallback(response) {
@@ -283,13 +283,17 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         }
         $window.localStorage['SelectedPatientId'] = $scope.SelectedPatientId;
 
-        $scope.isOnline = false;
+        
 
         if ($window.localStorage['UserTypeId'] == 4 || $window.localStorage['UserTypeId'] == 5 || $window.localStorage['UserTypeId'] == 6 || $window.localStorage['UserTypeId'] == 7) {
+            $scope.isOnline = false;
+            $('#onlineoffline').style('display', 'none');
             $http.get(baseUrl + '/api/PatientAppointments/get_patient_loginhistory/?PatientId=' + $window.localStorage['SelectedPatientId']).then(function (data1) {
                 $scope.LogoutTime = data1.data[0].LogoutTime;
                 if ($scope.LogoutTime == null) {
                     $scope.isOnline = true;
+                } else {
+                    $scope.isOnline = false;
                 }
             }, function errorCallback(response) {
             });
