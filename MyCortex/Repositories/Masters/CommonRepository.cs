@@ -1075,8 +1075,8 @@ namespace MyCortex.Repositories.Masters
                                                           Id = p.Field<long>("Id"),
                                                           Patient_Id = p.Field<long>("PATIENT_ID"),
                                                           Doctor_Id = p.Field<long>("DOCTOR_ID"),
-                                                          Appointment_FromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
-                                                          Appointment_ToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
+                                                          //Appointment_FromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
+                                                          //Appointment_ToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
                                                           Institution_Id = p.Field<long>("INSTITUTION_ID"),
                                                       }).ToList();
                 return lst;
