@@ -107,14 +107,14 @@ Record.controller("RecordController", ['$scope', '$http', '$routeParams', '$loca
             let Videowindow = window.open("", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes");
             if (filetype == 'Video') {
                 if (url1 != undefined || url1 != null) {
-                    Videowindow.document.write("<html><body><video width='100%' height='100%' controls  controlsList='nodownload'><source src='../Images/Video/" + url1 + "' type='video/mp4'></video></body></html>");
+                    Videowindow.document.write("<html><body><video width='100%' height='100%' controls  controlsList='nodownload'><source src='../../Images/Video/" + url1 + "' type='video/mp4'></video></body></html>");
                 } else {
                     Videowindow.document.write("<html><body onpageshow='playVideo()'><video width='100%' height='100%' oncontextmenu='return false;' id='myVideo' autoPlay='autoPlay' accept='video/*' controls controlsList='nodownload'><source src='" + row.recording_url + "' type='video/mp4'></video></body><script>function playVideo(){document.getElementById('myVideo').play()}</script></html>");
                 }
             } else if (filetype == 'Audio') {
                 if (url1 != undefined || url1 != null) {                    
-                    Videowindow.document.write("<html><body><audio controls><source src=../Images/Audio/" + url1 + " type='audio/mp3'></audio></body></html>");
-                }             else {
+                    Videowindow.document.write("<html><body><audio controls><source src=../../Images/Audio/" + url1 + " type='audio/mp3'></audio></body></html>");
+                } else {
                     Videowindow.document.write("<html><body onpageshow='playVideo()'><audio width='100%' height='100%' oncontextmenu='return false;' id='myaudio' autoPlay='autoPlay' accept='audio/*' controls controlsList='nodownload'><source src='" + row.recording_url + "' type='audio/mp3'></audio></body><script>function playVideo(){document.getElementById('myaudio').play()}</script></html>");
             }          
             }

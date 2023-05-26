@@ -281,13 +281,12 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         else {
             $scope.SelectedPatientId = $routeParams.Id;
         }
-        $window.localStorage['SelectedPatientId'] = $scope.SelectedPatientId;
+        $window.localStorage['SelectedPatientId'] = $scope.SelectedPatientId;        
 
-        
-
+        $('#onlineoffline').css('display', 'none');
         if ($window.localStorage['UserTypeId'] == 4 || $window.localStorage['UserTypeId'] == 5 || $window.localStorage['UserTypeId'] == 6 || $window.localStorage['UserTypeId'] == 7) {
             $scope.isOnline = false;
-            $('#onlineoffline').style('display', 'none');
+            $('#onlineoffline').css('display', 'block');
             $http.get(baseUrl + '/api/PatientAppointments/get_patient_loginhistory/?PatientId=' + $window.localStorage['SelectedPatientId']).then(function (data1) {
                 $scope.LogoutTime = data1.data[0].LogoutTime;
                 if ($scope.LogoutTime == null) {
