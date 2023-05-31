@@ -126,7 +126,6 @@ namespace MyCortex.Home.Controllers
             }
             catch (Exception ex)
             {
- 
                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
